@@ -1,0 +1,36 @@
+name: 系统管理
+icon: appstore-o
+path: system
+children:
+  -
+    name: 帐号管理
+    path: adminUserManage
+    tabs: true
+    children:
+      -
+        name: 人员管理
+        path: adminUser
+        isTableView: true
+        api:
+          key: admin
+        limit:
+          limitsConf:
+            name: 角色设置
+            api: [edit]
+      -
+        name: 角色管理
+        path: adminRoles
+        isTableView: true
+        api:
+          key: role
+        limit:
+          limitsConf:
+            name: 权限设置
+            api: [edit]
+        children:
+          -
+            name: 权限设置
+            path: limitsConf
+            isHideInMenu: true
+            isExtraPath: true
+            component: system/adminUserManage/limitsConf

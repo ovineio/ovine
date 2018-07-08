@@ -1,0 +1,107 @@
+{
+  "name": "rt-admin",
+  "version": "0.0.1",
+  "description": "An excellent admin system.",
+  "private": true,
+  "scripts": {
+    "start": "cross-env ESLINT=none ENV=local PORT=8020 roadhog dev",
+    "start:mock": "cross-env MOCK=true ESLINT=none ENV=local PORT=8020 roadhog dev",
+    "build": "cross-env ESLINT=none roadhog build",
+    "analyze": "cross-env ANALYZE=true roadhog build",
+    "lint:style": "stylelint \"src/**/*.less\" --syntax less",
+    "lint:ts": "tslint src/**/*.{ts,tsx}",
+    "lint:js": "eslint src/**/*.{js,jsx}",
+    "lint": "npm run lint:ts && npm run lint:js && npm run lint:style",
+    "lint:fix": "eslint --fix {src,mock,test}/**/*.{js,jsx} && tslint --fix src/**/*.{ts,tsx}",
+    "lint-staged": "lint-staged",
+    "test": "roadhog test",
+    "test:component": "roadhog test ./src/component",
+    "test:all": "node ./test/run-test.js"
+  },
+  "keywords": [
+    "admin",
+    "react",
+    "ant-design",
+    "typescript",
+    "antd-pro"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tinymce/tinymce-react": "^2.2.5",
+    "antd": "^3.6.4",
+    "bizcharts": "^3.1.10",
+    "classnames": "^2.2.6",
+    "dva": "^2.3.1",
+    "dva-loading": "^2.0.3",
+    "enquire-js": "^0.2.1",
+    "lodash": "^4.17.10",
+    "lodash-decorators": "^5.0.1",
+    "moment": "^2.22.2",
+    "path-to-regexp": "^2.2.1",
+    "prop-types": "^15.6.1",
+    "qs": "^6.5.2",
+    "rc-drawer-menu": "^1.1.0",
+    "react": "^16.4.1",
+    "react-container-query": "^0.11.0",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^16.4.1",
+    "react-grid-layout": "^0.16.6",
+    "react-monaco-editor": "^0.17.2",
+    "store": "^2.0.12",
+    "superstruct": "^0.5.4",
+    "tui-editor": "^1.2.4",
+    "url-polyfill": "^1.0.13"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.0.0-beta.51",
+    "@types/antd": "^1.0.0",
+    "@types/lodash": "^4.14.109",
+    "@types/react": "^16.3.18",
+    "@types/react-dom": "^16.0.6",
+    "babel-eslint": "^8.2.3",
+    "babel-plugin-dva-hmr": "^0.4.1",
+    "babel-plugin-import": "^1.8.0",
+    "babel-runtime": "^6.26.0",
+    "chance": "^1.0.16",
+    "cross-env": "^5.2.0",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-compat": "^2.4.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.9.1",
+    "husky": "^1.0.0-rc.6",
+    "json-loader": "^0.5.7",
+    "lint-staged": "^7.2.0",
+    "monaco-editor-webpack-plugin": "^1.4.0",
+    "redbox-react": "^1.6.0",
+    "redux-logger": "^3.0.6",
+    "regenerator-runtime": "^0.11.1",
+    "roadhog": "2.2.0",
+    "stylelint": "^9.3.0",
+    "stylelint-config-standard": "^18.2.0",
+    "tslint-eslint-rules": "^5.3.1",
+    "tslint-react": "^3.6.0",
+    "why-did-you-update": "^0.1.1",
+    "yaml-loader": "^0.5.0"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": "npm run lint:ts",
+    "**/*.{js,jsx}": "npm run lint:js",
+    "**/*.less": "npm run lint:style"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
+  "engines": {
+    "node": ">=7.10.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
+}

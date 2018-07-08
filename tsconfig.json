@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "esNext",
+    "moduleResolution": "Node",
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "allowJs": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "target": "es6",
+    "lib": [
+      "dom",
+      "es7"
+    ],
+    "declaration": true,
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.js",
+    "**/*.jsx"
+  ]
+}

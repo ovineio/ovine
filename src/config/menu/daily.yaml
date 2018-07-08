@@ -1,0 +1,32 @@
+name: 日常运营
+icon: calendar
+path: daily
+children:
+  -
+    name: 公告通知
+    path: publicNotice
+    children:
+      -
+        name: 图片海报
+        path: poster
+        tabs: true
+        api:
+          key: poster
+        children:
+          -
+            name: 网站海报
+            path: pcwebPoster
+            isTableView: true
+          -
+            name: 安卓海报
+            path: androidPoster
+      -
+        name: 文字公告
+        path: notice
+        tabs: true
+        api:
+          key: notice
+        children:
+          -
+            name: 全部公告
+            path: textNotice

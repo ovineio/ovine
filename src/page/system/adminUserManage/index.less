@@ -1,0 +1,35 @@
+:global {
+  .limits-config-page {
+    .tree-limit-panel {
+      li {
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.actionPanel {
+  padding: 15px 0 10px;
+  position: relative;
+  :global {
+    .user-info span {
+      &:first-child {
+        padding-left: 0;
+      }
+      font-weight: bold;
+      padding-left: 20px;
+    }
+    .action-list {
+      position: absolute;
+      top: 15px;
+      right: 0;
+      .ant-btn {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+.limitsConfigPage {
+  padding: 5px 20px 20px;
+  background: #fff;
+}

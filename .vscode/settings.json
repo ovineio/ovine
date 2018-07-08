@@ -1,0 +1,8 @@
+{
+  "tslint.exclude": [
+    "node_modules",
+    "**/*.{js,jsx}"
+  ],
+  "javascript.implicitProjectConfig.experimentalDecorators": true,
+  "tslint.autoFixOnSave": true
+}

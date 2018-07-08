@@ -1,0 +1,40 @@
+-
+  path: demo
+  children:
+    -
+      path: code
+      component: demo/code
+    -
+      path: rich
+      component: demo/rich
+    -
+      path: rich
+      component: demo/rich
+    -
+      path: date
+      component: demo/date
+
+-
+  path: dashboard
+  name: Dashboard
+  icon: dashboard
+  component: dashboard/index
+-
+  path: user
+  children:
+    -
+      path: login
+      model: [user]
+      component: user/login
+-
+  path: exception
+  children:
+    -
+      path: 403
+      component: exception/index
+    -
+      path: 404
+      component: exception/index
+    -
+      path: 500
+      component: exception/index

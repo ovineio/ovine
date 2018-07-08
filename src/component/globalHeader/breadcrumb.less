@@ -1,0 +1,65 @@
+@import '~antd/lib/style/themes/default.less';
+
+.breadcrumbwrap {
+  display: inline-block;
+
+  .breadcrumb {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: @screen-xl) {
+  .breadcrumb {
+    .extraContent {
+      margin-left: 44px;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-lg) {
+  .breadcrumb {
+    .extraContent {
+      margin-left: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-md) {
+  .breadcrumb {
+    .row {
+      display: block;
+    }
+
+    .action,
+    .extraContent {
+      margin-left: 0;
+      text-align: left;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-sm) {
+  .breadcrumb {
+    .detail {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: @screen-xs) {
+  .breadcrumb {
+    .action {
+      :global {
+        .ant-btn-group,
+        .ant-btn {
+          display: block;
+          margin-bottom: 8px;
+        }
+        .ant-btn-group > .ant-btn {
+          display: inline-block;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
