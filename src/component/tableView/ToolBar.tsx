@@ -12,7 +12,7 @@ const tools = {
   //   icon: 'arrows-alt',
   //   tip: '全屏显示',
   // },
-  // shrink: {
+  // shrink:   {
   //   icon: 'shrink',
   //   tip: '正常',
   // },

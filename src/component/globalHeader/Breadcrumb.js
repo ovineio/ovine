@@ -21,7 +21,7 @@ export default class Mbreadcrumb extends PureComponent {
       breadcrumbNameMap: this.props.breadcrumbNameMap,
     };
   };
-  // Generated according to props
+  // Generated according to  props
   conversionFromProps = () => {
     const {
       breadcrumbList,
