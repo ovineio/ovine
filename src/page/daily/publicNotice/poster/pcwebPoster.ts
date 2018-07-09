@@ -129,7 +129,7 @@ const config: TableConfig = {
     _id: {
       title: 'ID',
       width: 60,
-      componentType: 'Text',
+      componentType: 'Number.Int',
     },
     title: {
       title: '标题',
@@ -183,6 +183,9 @@ const config: TableConfig = {
         _id: {
           label: 'ID',
           componentType: 'Text',
+          componentProps: {
+            isNumber: true,
+          },
           help: '不填写将自动生成',
         },
         title: {

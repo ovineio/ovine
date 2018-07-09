@@ -17,6 +17,9 @@ const config: TableConfig = {
       actionkey: 'edit',
       api: 'edit',
       formkey: 'edit',
+      requestOptions: {
+        updateSyncType: 'edit',
+      },
     },
     limitsConf: {
       text: '权限设置',
@@ -33,8 +36,8 @@ const config: TableConfig = {
       text: '删除',
       actionkey: 'del',
       api: 'del',
-      beforeClick: ({ source = {} }) => {
-        return { _id: source._id };
+      requestOptions: {
+        updateSyncType: 'del',
       },
       modal: {
         modalType: 'confirm',
@@ -49,7 +52,7 @@ const config: TableConfig = {
     _id: {
       title: 'ID',
       width: 60,
-      componentType: 'Text',
+      componentType: 'Number.Int',
     },
     name: {
       title: '角色名',

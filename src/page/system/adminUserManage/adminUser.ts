@@ -71,6 +71,9 @@ const config: TableConfig = {
       _id: {
         label: 'ID',
         componentType: 'Text',
+        componentProps: {
+          isNumber: true,
+        },
       },
       name: {
         label: '登录名',
@@ -82,7 +85,7 @@ const config: TableConfig = {
     _id: {
       title: 'ID',
       width: 60,
-      componentType: 'Text',
+      componentType: 'Number.Int',
     },
     name: {
       title: '登录名',
