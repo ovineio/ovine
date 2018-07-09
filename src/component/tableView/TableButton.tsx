@@ -7,7 +7,7 @@ import { ButtonClickArgs } from '../actionButton';
 import Wrapper, { WrapperProps } from '../wrapper';
 
 import BaseButton, { BaseButtonClickProps } from './baseButton';
-import { ComfirmModalProps, TableLoadType, BaseButtonClickArgs, FormMdalConfig } from './index';
+import { ComfirmModalProps, TableLoadType, BaseButtonClickArgs, FormMdalConfig } from '.';
 
 export interface TableButtonProps extends BaseButtonClickProps, WrapperProps {
   actionkey: string;
@@ -131,7 +131,7 @@ export default class TableButton extends React.PureComponent<TableButtonProps> {
     }
 
     if (requestOptions) { // 请求数据
-      requestOptions.data = { // 自动合并 values 请求参数
+      requestOptions.data = { // 自动合并 values   请求参数
         ...requestOptions.data,
         ...values,
       };

@@ -6,7 +6,7 @@ import { getRouteMenuData } from '../../route/menu';
 import check from '../authorized/checkPermissions';
 import Wrapper, { WrapperProps } from '../wrapper';
 import TableButton, { TableButtonProps } from './tableButton';
-import { ButtonListConfigType, ActionListConfigType } from './index';
+import { ButtonListConfigType, ActionListConfigType } from '.';
 
 export interface ButtonListProps extends WrapperProps {
   dropdown?: {
@@ -65,7 +65,7 @@ const ButtonList = (args: ButtonListProps): JSX.Element => {
 /**
  * 根据不同配置类型，获取对应按钮列表
  * @param list 按钮配置列表
- * @param actionList 定义所有的操作列表
+ * @param actionList   定义所有的操作列表
  * @returns buttonList  获取所有定义好的列表
  */
 export const getButtonList = (

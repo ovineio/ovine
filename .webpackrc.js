@@ -41,8 +41,7 @@ const config = {
 
 const proxy = {
   '/api/*': {
-    // target: 'http://dev.admin.memeyule.com/api',
-    target: 'https://test-admin.memeyule.com/api',
+    target: 'http://dev.rt-admin.com/api',
     changeOrigin: true,
     pathRewrite: {
       '^/api': '',

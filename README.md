@@ -19,7 +19,6 @@ rt-admin管理后台系统基于[ant-design-pro](https://github.com/ant-design/a
 ```bash
 yarn install
 yarn run start:mock # 开启mock服务
-yarn run start # 默认开始项目
 ```
 
 ### 主要功能
