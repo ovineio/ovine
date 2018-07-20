@@ -8,6 +8,7 @@ import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import { enquireScreen } from 'enquire-js';
 import { Location } from 'history';
+import config from 'config';
 
 import GlobalHeader from '../component/globalHeader';
 import SiderMenu from '../component/siderMenu';
@@ -17,13 +18,11 @@ import getRoute from '../route/getRoute';
 import { formatteredMenuData } from '../route/menu';
 import Authorized from '../util/authorized';
 import { getUserInfo } from '../util/storage';
-import config from '../config/env';
-import { Config } from '../config/env/type';
 
 import logo from '../asset/image/logo.png';
 import defAvatar from '../asset/image/def-avator.jpeg';
 
-const { appTitle } = config as Config;
+const { appTitle } = config;
 const { nick_name = '', avatar = defAvatar } = getUserInfo() || {};
 const { Content, Header } = Layout;
 const { AuthorizedRoute } = Authorized;

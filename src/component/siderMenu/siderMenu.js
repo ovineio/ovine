@@ -2,9 +2,10 @@ import React, { PureComponent } from 'react';
 import { Layout, Menu, Icon } from 'antd';
 import pathToRegexp from 'path-to-regexp';
 import { Link } from 'dva/router';
+import config from 'config';
+
 import styles from './index.less';
 import { urlToList } from '../util/pathTools';
-import config from '../../config/env';
 
 const { appTitle } = config;
 const { Sider } = Layout;

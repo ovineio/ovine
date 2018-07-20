@@ -1,9 +1,9 @@
+import config from 'config';
 import moment from 'moment';
 import { stringify } from 'qs';
 import { template, get, isArray, pick, isNaN, isFinite, trim } from 'lodash';
 
 import { IS_URL } from '../constant/reg';
-import config from '../config/env';
 
 export function isUrl(path) {
   return IS_URL.test(path);

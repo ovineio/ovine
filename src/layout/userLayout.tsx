@@ -2,16 +2,15 @@ import * as React from 'react';
 import { Link, Redirect, Switch, Route } from 'dva/router';
 import DocumentTitle from 'react-document-title';
 import { Location } from 'history';
+import config from 'config';
 
 import logo from '../asset/image/logo.png';
-import config from '../config/env';
-import { Config } from '../config/env/type';
 import getRoute from '../route/getRoute';
 
 import styles from './userLayout.less';
 import { RouterData } from '../route/router';
 
-const { appTitle, description } = config as Config;
+const { appTitle, description } = config;
 
 interface UserLayoutProps {
   routerData: RouterData;

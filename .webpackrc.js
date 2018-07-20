@@ -1,8 +1,12 @@
-const ENV = process.env.ENV || 'local';
-const IS_MOCK = !!process.env.MOCK;
+const path = require('path');
+
+const API_ENV = process.env.API_ENV || 'local';
 
 const config = {
   entry: 'src/index.ts',
+  alias: {
+    config: path.resolve(__dirname, `src/config/env/${API_ENV}.ts`),
+  },
   devtool: 'eval',
   extraBabelPlugins: [
     [ 'import', {
@@ -18,11 +22,6 @@ const config = {
       }, 'lodash'
     ],
   ],
-  define: {
-    'ENV': ENV,
-    'IS_MOCK': IS_MOCK,
-    'process.env.NODE_ENV': ENV === 'local' ? 'development' : 'production',
-  },
   env: {
     development: {
       extraBabelPlugins: ['dva-hmr'],
@@ -49,6 +48,6 @@ const proxy = {
   },
 };
 
-config.proxy = IS_MOCK ? {} : proxy;
+config.proxy = API_ENV === 'local' ? {} : proxy;
 
 export default config;
