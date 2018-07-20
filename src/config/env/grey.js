@@ -1,5 +1,5 @@
 module.exports = {
   domain: {
-    api: 'http://grey-admin.heiya.com/api',
+    api: 'http://grey-rtadmin.com/api',
   },
 };

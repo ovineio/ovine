@@ -1,7 +1,11 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = (config) => {
-  config.plugins.push(new MonacoWebpackPlugin());
+  config.plugins.push(new MonacoWebpackPlugin({
+    output: 'code_editor',
+    languages: ['json', 'yaml'],
+    features: ['format', 'hover', 'smartSelect'],
+  }));
   config.module.rules.unshift(
     {
       test: /\.yaml$/,

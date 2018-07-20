@@ -1,5 +1,5 @@
 module.exports = {
   domain: {
-    api: 'http://dev-admin.heiya.com/api',
+    api: 'http://dev-rtadmin.com/api',
   },
 };
