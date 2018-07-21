@@ -1,3 +1,7 @@
+/**
+ * Image component
+ */
+
 import React from 'react';
 import { Popover } from 'antd';
 

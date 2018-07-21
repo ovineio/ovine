@@ -1,3 +1,7 @@
+/**
+ * set auth
+ */
+
 import * as React from 'react';
 import { map, values, flatten, flattenDepth } from 'lodash';
 import { Tree, Tabs, Button } from 'antd';

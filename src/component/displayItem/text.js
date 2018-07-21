@@ -1,3 +1,6 @@
+/**
+ * text component
+ */
 import React from 'react';
 import AntEllipsis from '../ellipsis';
 
@@ -10,7 +13,6 @@ const TextField = ({
   ...restProps
 }) => {
   let text = value;
-
   if (length) {
     text = <AntEllipsis title={value} text={value} length={length} tooltip={tooltip} />;
   }

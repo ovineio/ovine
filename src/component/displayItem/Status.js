@@ -1,3 +1,7 @@
+/**
+ * status tag component
+ */
+
 import React from 'react';
 import { get } from 'lodash';
 // import { Input } from 'antd';
