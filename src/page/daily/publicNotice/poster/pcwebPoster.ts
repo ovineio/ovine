@@ -17,6 +17,11 @@ const config: TableConfig = {
       actionkey: 'add',
       api: 'add',
       formkey: 'add',
+      requestOptions: {
+        data: {
+          status: false,
+        }
+      },
     },
     edit: {
       text: '编辑',
@@ -34,15 +39,14 @@ const config: TableConfig = {
       requestOptions: {
         updateSyncType: 'edit',
       },
-      beforeRender({ source = {} }) {
+      beforeRender({ source }) {
         if (source && source.status) {
           return false;
         }
       },
-      beforeClick({ source = {} }) {
+      beforeClick({ source }) {
         return {
           _id: source._id,
-          _uuid: source._uuid,
           status: true,
         };
       },
@@ -59,10 +63,9 @@ const config: TableConfig = {
           return false;
         }
       },
-      beforeClick({ source = {} }) {
+      beforeClick({ source }) {
         return {
           _id: source._id,
-          _uuid: source._uuid,
           status: false
         };
       }
@@ -74,8 +77,8 @@ const config: TableConfig = {
       requestOptions: {
         updateSyncType: 'edit',
       },
-      beforeClick: ({ source = {} }) => {
-        const { order = 0, _id, _uuid } = source;
+      beforeClick: ({ source }) => {
+        const { order = 0, _id } = source;
         const newOrder: number = parseInt(order, 10) - 1;
         if (newOrder < 0) {
           message.warn('排序不能为负数值');
@@ -83,7 +86,6 @@ const config: TableConfig = {
         }
         return {
           _id,
-          _uuid,
           order: newOrder,
         };
       },
@@ -95,13 +97,12 @@ const config: TableConfig = {
       requestOptions: {
         updateSyncType: 'edit',
       },
-      beforeClick: ({ source = {} }) => {
-        const { order = 0, _id, _uuid } = source;
+      beforeClick: ({ source }) => {
+        const { order = 0, _id } = source;
         const newOrder: number = parseInt(order, 10) + 1;
 
         return {
           _id,
-          _uuid,
           order: newOrder,
         };
       },
@@ -113,7 +114,7 @@ const config: TableConfig = {
       requestOptions: {
         updateSyncType: 'del',
       },
-      beforeClick: ({ source = {} }) => {
+      beforeClick: ({ source }) => {
         return { _id: source._id };
       },
       modal: {
@@ -179,14 +180,15 @@ const config: TableConfig = {
   form: {
     add: {
       title: '添加网站海报',
+      omitItems: ['_id'],
       item: {
         _id: {
           label: 'ID',
           componentType: 'Text',
           componentProps: {
             isNumber: true,
+            disabled: true
           },
-          help: '不填写将自动生成',
         },
         title: {
           label: '标题',
@@ -246,16 +248,8 @@ const config: TableConfig = {
           label: '图片',
           componentType: 'Text',
         },
-        pck: {
-          label: '对应包名',
-          componentType: 'Text',
-        },
         qd_name: {
           label: '对应渠道名',
-          componentType: 'Text',
-        },
-        time: {
-          label: '开始时间',
           componentType: 'Text',
         },
       }

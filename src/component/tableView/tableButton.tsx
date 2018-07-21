@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { defaultsDeep, omit, set } from 'lodash';
+import { omit, set } from 'lodash';
 import { TableRequstOptions } from '../../service/api';
 import { ModalProps }  from '../modal/modal';
 import { ButtonClickArgs } from '../actionButton';
@@ -38,7 +38,7 @@ export default class TableButton extends React.PureComponent<TableButtonProps> {
     };
 
     if (ext) {
-      formProps = defaultsDeep(formProps, formConfig[ext]);
+      formProps = Object.assign({}, formProps, formConfig[ext]);
     }
 
     if (setItemMap) {

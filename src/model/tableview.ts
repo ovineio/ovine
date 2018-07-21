@@ -106,10 +106,12 @@ const tableViewModel: TableViewModal = {
     saveActionSource(state, { payload }) {
       let { listSource, pagination } = state;
       const { updateSyncType, args = {}, source = {} } = payload;
-      const { _uuid } = args;
+      const { _uuid, _id, id } = args;
 
-      if (updateSyncType && _uuid) { // 同步参数数据到 数据源
-        const index = findIndex(listSource, { _uuid });
+      const uid: any = _uuid ? { _uuid } : _id ? { _id } : id ? { id } : null;
+      if (updateSyncType && uid) { // 同步参数数据到 数据源
+        const index = findIndex(listSource, uid);
+        const uKey = Object.keys(uid)[0];
         switch (updateSyncType) {
           case 'edit':
             listSource[index] = {
@@ -118,7 +120,7 @@ const tableViewModel: TableViewModal = {
             };
             break;
           case 'del':
-            listSource = listSource.filter((i: any) => i._uuid !== _uuid);
+            listSource = listSource.filter((i: any) => i[uKey] !== uid[uKey]);
             --pagination.total;
             break;
           default:

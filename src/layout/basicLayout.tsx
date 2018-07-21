@@ -23,7 +23,6 @@ import logo from '../asset/image/logo.png';
 import defAvatar from '../asset/image/def-avator.jpeg';
 
 const { appTitle } = config;
-const { nick_name = '', avatar = defAvatar } = getUserInfo() || {};
 const { Content, Header } = Layout;
 const { AuthorizedRoute } = Authorized;
 
@@ -180,6 +179,8 @@ export default class BasicLayout extends React.PureComponent<BasicLayoutProps, B
   }
   render() {
     const { collapsed, routerData, match, location } = this.props;
+    const { nick_name = '', avatar = defAvatar } = getUserInfo() || {};
+
     const currentUser = {
       avatar,
       name: nick_name,

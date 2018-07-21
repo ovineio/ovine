@@ -4,6 +4,7 @@ const _ = require('lodash');
 const prefix = 'mock';
 
 const utils = _.pick(_, ['times', 'uniqueId']);
+
 const methods = {
   add: 'PUT',
   edit: 'POST',
@@ -11,7 +12,7 @@ const methods = {
   list: 'GET',
 };
 
-utils.crud = ({ idKey, apiType, source, req, res }) => {
+utils.crud = ({ idKey, apiType, source, req, res, orderBy }) => {
   let input = source || [];
   if (!_.isArray(input)) {
     input = [input];
@@ -58,6 +59,10 @@ utils.crud = ({ idKey, apiType, source, req, res }) => {
       data = _.filter(input, req.query = {});
   }
 
+  if (orderBy) {
+    data = _.orderBy(data, orderBy[0], orderBy[1]);
+  }
+
   result = { data };
 
   if (apiType === 'list' && page && size) {
@@ -70,7 +75,7 @@ utils.crud = ({ idKey, apiType, source, req, res }) => {
   ));
 };
 
-utils.renderCrudApi = ({ idKey = 'id', key, source, omitKeys = [], isRestful = false }) => {
+utils.renderCrudApi = ({ idKey = 'id', key, source, omitKeys = [], isRestful = false, orderBy }) => {
   const result = {};
 
   const apiTpess = _.omit(methods, omitKeys);
@@ -78,7 +83,8 @@ utils.renderCrudApi = ({ idKey = 'id', key, source, omitKeys = [], isRestful = f
     const apiPath = `/${apiType}`;
     const baseMethod = !isRestful && apiType === 'list' ? 'GET' : 'POST';
     const pathKey = `${isRestful ? method : baseMethod} /${prefix}/${key}${isRestful ? '' : apiPath}`;
-    result[pathKey] = (req, res) => utils.crud({ idKey, apiType, req, res, isRestful, source });
+    result[pathKey] = (req, res) => utils.crud({
+      idKey, apiType, req, res, isRestful, source, orderBy });
   });
 
   return result;

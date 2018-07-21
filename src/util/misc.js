@@ -1,3 +1,7 @@
+/**
+ * 工具方法
+ */
+
 import config from 'config';
 import moment from 'moment';
 import { stringify } from 'qs';

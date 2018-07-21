@@ -1,3 +1,4 @@
+/** 本地环境配置 */
 import common from './default';
 import { Config } from 'config';
 
