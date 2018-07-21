@@ -46,6 +46,15 @@ type TableContextProps = {
   config: TableConfig;
 };
 
+const showTotal = (total: number, range: number[]) => {
+  return (
+    <div>
+      <ToolBar />
+      <span>当前展示{range[0]}-{range[1]}条数据，共{total}条 </span>
+    </div>
+  );
+};
+
 const pagination = {
   pageSizeOptions: ['50', '100', '200'],
   size: 'small',
@@ -54,14 +63,7 @@ const pagination = {
   hideOnSinglePage: false,
   showQuickJumper: true,
   showSizeChanger: true,
-  showTotal: (total: number, range: number[]) => {
-    return (
-      <div>
-        <ToolBar />
-        <span>当前展示{range[0]}-{range[1]}条数据，共{total}条 </span>
-      </div>
-    );
-  },
+  showTotal,
 };
 
 @connect((args: any) => {
@@ -100,37 +102,9 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
   private columns: ColumnProps<any>[] = [];
   private dataSource: any[] = [];
 
-  componentWillMount() {
-    const { column, actionList } = this.context.config;
-    this.columns = getColmun({ column, actionList });
-
-    // 设置默认排序
-    const sortKey = findKey(column, (i: ColumnProps<any>) => !!i.defaultSortOrder);
-    if (sortKey) {
-      this.setState({
-        sort: {
-          field: sortKey,
-          order: column[sortKey].defaultSortOrder
-        }
-      });
-    }
-  }
-
   componentDidMount() {
-    const $antTableBody: HTMLDivElement | null = document.querySelector('.ant-table-body');
-    const $tableFilter: HTMLDivElement | null = document.querySelector('.tableview-filter');
-    if (!$antTableBody) {
-      return;
-    }
-    const filterHeight =  $tableFilter ?  $tableFilter.offsetHeight : -10;
-    const tableHeight = window.innerHeight - 64 - 10 - 70 - filterHeight - 38 - 56 - 15;
-
-    this.setState({
-      scroll: {
-        x: false,
-        y: tableHeight,
-      },
-    });
+    this.setTableOffset();
+    this.setTableProps();
   }
 
   componentWillReceiveProps(nextProps: Required<TableProps>) {
@@ -153,6 +127,39 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
       loadTableByType(TableLoadType.NULL);
     } else {
       this.setState({ tableLoadType: TableLoadType.NULL });
+    }
+  }
+
+  setTableOffset = () => {
+    const $antTableBody: HTMLDivElement | null = document.querySelector('.ant-table-body');
+    const $tableFilter: HTMLDivElement | null = document.querySelector('.tableview-filter');
+    if (!$antTableBody) {
+      return;
+    }
+    const filterHeight =  $tableFilter ?  $tableFilter.offsetHeight : -10;
+    const tableHeight = window.innerHeight - 64 - 10 - 70 - filterHeight - 38 - 56 - 15;
+
+    this.setState({
+      scroll: {
+        x: false,
+        y: tableHeight,
+      },
+    });
+  }
+
+  setTableProps = () => {
+    const { column, actionList } = this.context.config;
+    this.columns = getColmun({ column, actionList });
+
+    // 设置默认排序
+    const sortKey = findKey(column, (i: ColumnProps<any>) => !!i.defaultSortOrder);
+    if (sortKey) {
+      this.setState({
+        sort: {
+          field: sortKey,
+          order: column[sortKey].defaultSortOrder
+        }
+      });
     }
   }
 
@@ -234,26 +241,26 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
 
     return (
       <div className={classNames(className, styles.tableWrapper)}>
-          <Filter
-            tableLoadType={tableLoadType}
-            tableParams={tableParams}
-            filter={filter}
-            location={location}
-            load={actionList.load}
-          />
-          {info && renderInfo()}
-          <AntdTable
-            bordered
-            size="small"
-            rowKey="_uuid"
-            className={styles.table}
-            loading={loading}
-            dataSource={dataSource}
-            columns={columns}
-            scroll={scroll}
-            pagination={pagination} // 这里存在性能问题
-            onChange={onTableChange}
-          />
+        <Filter
+          tableLoadType={tableLoadType}
+          tableParams={tableParams}
+          filter={filter}
+          location={location}
+          load={actionList.load}
+        />
+        {info && renderInfo()}
+        <AntdTable
+          bordered
+          size="small"
+          rowKey="_uuid"
+          className={styles.table}
+          loading={loading}
+          dataSource={dataSource}
+          columns={columns}
+          scroll={scroll}
+          pagination={pagination} // 这里存在性能问题
+          onChange={onTableChange}
+        />
       </div>
     );
   }

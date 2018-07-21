@@ -9,6 +9,7 @@ export default (props?: any): JSX.Element => {
   const type = typeof props === 'string' ? props : location.pathname.split('/').pop();
   const goback = typeof props === 'string' ? undefined :
     <Button onClick={props.history.goBack} type="primary">返回上一页</Button>;
+
   return (
     <Exception
       type={type as ExceptionType}

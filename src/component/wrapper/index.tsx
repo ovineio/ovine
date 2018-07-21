@@ -11,7 +11,7 @@ class Wrapper extends React.Component<WrapperProps> {
   componentDidMount() {
     const { afterRender } = this.props;
     if (typeof afterRender === 'function') {
-      return afterRender(this.props);
+      afterRender(this.props);
     }
   }
 

@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "cross-env ESLINT=none ENV=local PORT=8020 API_ENV=local roadhog dev",
-    "build": "cross-env ESLINT=none roadhog build",
+    "build": "cross-env ESLINT=none NODE_ENV=production roadhog build",
+    "build:demo": "cross-env ESLINT=none API_ENV=local NODE_ENV=production roadhog build",
     "analyze": "cross-env ANALYZE=true roadhog build",
     "lint:style": "stylelint \"src/**/*.less\" --syntax less",
     "lint:ts": "tslint src/**/*.{ts,tsx}",
@@ -31,6 +32,7 @@
     "antd": "^3.6.4",
     "bizcharts": "^3.1.10",
     "classnames": "^2.2.6",
+    "codemirror": "^5.39.2",
     "dva": "^2.3.1",
     "dva-loading": "^2.0.3",
     "enquire-js": "^0.2.1",
@@ -46,10 +48,9 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
     "react-grid-layout": "^0.16.6",
-    "react-monaco-editor": "^0.17.2",
+    "simplemde": "^1.11.2",
     "store": "^2.0.12",
     "superstruct": "^0.5.4",
-    "tui-editor": "^1.2.4",
     "url-polyfill": "^1.0.13"
   },
   "devDependencies": {
@@ -73,7 +74,6 @@
     "husky": "^1.0.0-rc.6",
     "json-loader": "^0.5.7",
     "lint-staged": "^7.2.0",
-    "monaco-editor-webpack-plugin": "^1.4.0",
     "redbox-react": "^1.6.0",
     "redux-logger": "^3.0.6",
     "regenerator-runtime": "^0.11.1",

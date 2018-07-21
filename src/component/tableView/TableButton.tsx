@@ -80,7 +80,6 @@ export default class TableButton extends React.PureComponent<TableButtonProps> {
     };
 
     if (typeof tableLoadType !== 'undefined') {
-      console.info('----');
       formProps.okButton.afterClick = () => loadTableByType(tableLoadType);
     }
 

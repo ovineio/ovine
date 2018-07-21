@@ -6,7 +6,7 @@ import { TableRequstOptions } from '../../service/api';
 import { getStore } from '../../index';
 import Modal from '../modal';
 import { ModalProps }  from '../modal/modal';
-import {   ComfirmModalProps, TableLoadType } from './type';
+import { ComfirmModalProps, TableLoadType } from './type';
 
 const store = getStore();
 

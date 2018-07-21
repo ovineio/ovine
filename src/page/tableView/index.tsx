@@ -1,21 +1,26 @@
 import * as React from 'react';
 import classNames from 'classnames';
-import { Location } from 'history';
+import { Location, History } from 'history';
 import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
+
+import { flatedMenuData, FlatedMenuConfig } from '../../route/menu';
 import TableView, { TableConfig } from '../../component/tableView';
 import renderHandler from '../../component/tableView/handler';
-import { linkTo } from '../../component/tableView/utils';
-import { flatedMenuData, FlatedMenuConfig } from '../../route/menu';
 import styles from '../../component/tableView/index.less';
 
 import renderExceptionPage from '../exception';
 
 export interface TablePageProps {
   location: Location;
+  history: History;
 }
 
-export default class TablePage extends React.PureComponent<TablePageProps, {}> {
+interface TablePageState {
+  path: string;
+}
+
+export default class TablePage extends React.PureComponent<TablePageProps, TablePageState> {
   static childContextTypes = {
     config: PropTypes.object,
   };
@@ -28,6 +33,10 @@ export default class TablePage extends React.PureComponent<TablePageProps, {}> {
     location: PropTypes.object,
   };
 
+  state = {
+    path: '',
+  };
+
   private config: TableConfig | null = null;
   private routeConfig: FlatedMenuConfig = flatedMenuData[location.pathname];
 
@@ -37,14 +46,8 @@ export default class TablePage extends React.PureComponent<TablePageProps, {}> {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setConfig(this.props.location.pathname);
-  }
-
-  componentWillReceiveProps(nextprops: TablePageProps) {
-    if (nextprops.location.pathname !== this.props.location.pathname) {
-      this.setConfig(nextprops.location.pathname);
-    }
   }
 
   setConfig = (path: string): void => {
@@ -57,6 +60,7 @@ export default class TablePage extends React.PureComponent<TablePageProps, {}> {
     try {
       this.routeConfig = flatedMenuData[path];
       this.config = require(`../${confpath}.ts`).default;
+      this.setState({ path });
     } catch (e) {
       this.config = null;
     }
@@ -82,6 +86,10 @@ export default class TablePage extends React.PureComponent<TablePageProps, {}> {
     return tables;
   }
 
+  onTabClick = (path: string) => {
+    this.props.history.push(path);
+  }
+
   render() {
     if (!this.config) {
       return renderExceptionPage('404');
@@ -91,11 +99,11 @@ export default class TablePage extends React.PureComponent<TablePageProps, {}> {
     const { handler, actionList } = this.config;
 
     return (
-      <div className={classNames(`tableview`, styles.tableview)}>
+      <div className={classNames('tableview', styles.tableview)}>
         <Tabs
           animated={false}
           defaultActiveKey={path}
-          onTabClick={(tabkey: string) => linkTo(tabkey)}
+          onTabClick={this.onTabClick}
           tabBarExtraContent={handler && renderHandler({ handler, actionList })}
         >
           {this.renderTabs()}

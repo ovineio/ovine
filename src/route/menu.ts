@@ -1,7 +1,7 @@
 import { isUrl, Extend } from '../util/misc';
 import { omit, map } from 'lodash';
 import { Pathname } from 'history';
-import { MenuData, MenuConfig, LimitConfig, ApiConfig } from '../config/menu/type';
+import { MenuData, MenuConfig, LimitConfig, ApiConfig } from '../config/menu';
 import menuData from '../config/menu';
 import { ACTION_DEF_NAME } from '../constant/misc';
 

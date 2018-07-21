@@ -1,13 +1,13 @@
 const path = require('path');
 
 const API_ENV = process.env.API_ENV || 'local';
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 const config = {
   entry: 'src/index.ts',
   alias: {
     config: path.resolve(__dirname, `src/config/env/${API_ENV}.ts`),
   },
-  devtool: 'eval',
   extraBabelPlugins: [
     [ 'import', {
         libraryName: 'antd',
@@ -47,6 +47,10 @@ const proxy = {
     },
   },
 };
+
+if (NODE_ENV === 'development') {
+  config.devtool = 'development';
+}
 
 config.proxy = API_ENV === 'local' ? {} : proxy;
 

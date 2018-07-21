@@ -23,7 +23,7 @@ export interface SideMenuConfig {
 
 export interface BaseMenuConfig {
   path: string; // 路径 key
-  name?: string;
+  name?: string; // 当前打开路径的 页面名称
   component?: string | true; // 组件路径
   model?: string[]; // z组件需要的model
   icon?: string; // 侧边栏
@@ -34,3 +34,6 @@ export interface MenuConfig extends SideMenuConfig, BaseMenuConfig {
 }
 
 export type MenuData = MenuConfig[];
+
+declare const menuData: MenuData;
+export default menuData;

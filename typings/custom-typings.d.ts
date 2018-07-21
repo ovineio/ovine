@@ -4,7 +4,6 @@
 
 declare module '*.less';
 declare module '*.json';
-declare module '*.yaml';
 declare module '*.png';
 declare module '*.jpg';
 declare module '*.jpeg';

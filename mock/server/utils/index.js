@@ -25,7 +25,8 @@ utils.crud = ({ idKey, apiType, source, req, res }) => {
     body = JSON.parse(body);
   }
 
-  const { page, size, ...restQueryKey } = query;
+  const { page, size } = query;
+  const restQueryKey = _.omit(query, ['page', 'size']);
 
   const index = _.findIndex(input, { [idKey]: String(_.get(body, idKey)) });
 
