@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Tabs } from 'antd';
 
 import { flatedMenuData, FlatedMenuConfig } from '../../route/menu';
+import check from '../../component/authorized/checkPermissions';
 import TableView, { TableConfig } from '../../component/tableView';
 import renderHandler from '../../component/tableView/handler';
 import styles from '../../component/tableView/index.less';
@@ -74,9 +75,15 @@ export default class TablePage extends React.PureComponent<TablePageProps, Table
     }
     tabs.forEach((tabPath: any = {}) => {
       const { isHideInMenu = false, isTableView = true, path, name } = flatedMenuData[tabPath];
+
       if (isHideInMenu || !isTableView) {
         return;
       }
+
+      if (!check(path, true, false)) {
+        return;
+      }
+
       tables.push(
         <Tabs.TabPane key={path} tab={name} >
           <TableView />

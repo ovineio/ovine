@@ -56,6 +56,7 @@ export default class TableButton extends React.PureComponent<TableButtonProps> {
   // 表单按钮执行 操作
   onFormBtnClick = (args: BaseButtonClickArgs) => {
     const { requestOptions, tableLoadType, source = {} } = this.props;
+
     const formProps = this.getFormProps();
 
     if (typeof formProps === 'undefined') {

@@ -46,7 +46,9 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
     if (this.props.location.hash !== nexprops.location.hash) {
       this.setHashQuery(nexprops.location.hash);
     }
+
     this.buttonKey = nexprops.tableLoadType ? unqid() : '';
+    console.info('----', nexprops.tableLoadType);
 
     if (this.props.location.pathname !== nexprops.location.pathname) {
       this.newProps = this.getProps();

@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { TableConfig } from '../../../../component/tableView';
+import { TableConfig, TableLoadType } from '../../../../component/tableView';
 
 const config: TableConfig = {
   actionList: {
@@ -17,6 +17,7 @@ const config: TableConfig = {
       actionkey: 'add',
       api: 'add',
       formkey: 'add',
+      tableLoadType: TableLoadType.LOAD,
       requestOptions: {
         data: {
           status: false,

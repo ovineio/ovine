@@ -1,8 +1,9 @@
-import { TableConfig } from '../../../component/tableView';
+import { TableConfig, TableLoadType } from '../../../component/tableView';
 import request from '../../../service/request';
 
 let roleData: any[] = [];
-let getRoleOptions = () => {
+
+const getRoleOptions = () => {
   const result: any = {};
   roleData.map((i: any) => {
     const { name, _id } = i;
@@ -11,29 +12,32 @@ let getRoleOptions = () => {
   return result;
 };
 
+const LoadSuccessHandler = async (adminSource: any) => {
+  const roleSource: any = await request({ api: 'role/list', data: { is_all: true } });
+  roleData = roleSource.data;
+  adminSource.data.map((i: any) => {
+    const temp = roleData.find((j: any) => j._id === i.role) || {};
+    i.role = temp.name;
+    return i;
+  });
+  return adminSource;
+};
+
 const config: TableConfig = {
   actionList: {
     load: {
       actionkey: 'list',
       api: 'list',
       requestOptions: {
-        successHandler: async (adminSource: any) => {
-          const roleSource: any = await request({ api: 'role/list', data: { is_all: true } });
-          roleData = roleSource.data;
-          adminSource.data.map((i: any) => {
-            const temp = roleData.find((j: any) => j._id === i.role) || {};
-            i.role = temp.name;
-            return i;
-          });
-          return adminSource;
-        }
-      }
+        successHandler: LoadSuccessHandler
+      },
     },
     add: {
       text: '添加人员',
       actionkey: 'add',
       api: 'add',
       formkey: 'add',
+      tableLoadType: TableLoadType.LOAD,
     },
     edit: {
       text: '编辑',
@@ -62,8 +66,8 @@ const config: TableConfig = {
         modalProps: {
           title: '提示信息',
           content: '是否确认删除当前项',
-        }
-      }
+        },
+      },
     },
   },
   filter: {
@@ -163,7 +167,7 @@ const config: TableConfig = {
           },
         },
       },
-    }
+    },
   },
 };
 

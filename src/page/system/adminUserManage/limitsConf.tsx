@@ -3,7 +3,7 @@
  */
 
 import * as React from 'react';
-import { map, values, flattenDepth, uniq } from 'lodash';
+import { map, values, flattenDepth, indexOf, uniq, get } from 'lodash';
 import { Tree, Tabs, Button } from 'antd';
 import classNames from 'classnames';
 
@@ -37,24 +37,25 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
   saveLimitKeys = () => {
     const modules = flattenDepth(values(this.checkedMapKeys));
     const menus = flattenDepth(values(this.apiMapKeys), 2).filter((i: any) => i);
-    map(this.apiMapKeys, (v: string[], k: string) => {
+
+    map(this.checkedMapKeys, (v: string[], k: string) => {
       if (v.length) {
         modules.push(k);
       }
     });
+
     const { requestOptions, source } = this.props.history.location.state;
     requestOptions.data = {
       _id: source._id,
+      menus: uniq(menus),
       modules,
-      menus,
     };
     request(requestOptions);
   }
 
   onCheck = (key: string, e: any) => {
-    this.checkedMapKeys[key] = uniq(e.checkedNodes.map((i: any) => i.key).concat(e.halfCheckedKeys));
+    this.checkedMapKeys[key] = e.halfCheckedKeys.concat(`${key}/_`, e.checkedNodes.map((i: any) => i.key));
     this.apiMapKeys[key] = e.checkedNodes.map((i: any) => i.props['data-api']).filter((i: string ) => i);
-    console.info('this.checkedMapKeys->', this.checkedMapKeys);
   }
 
   getSubTree = (item: any = {}) => {
@@ -65,12 +66,22 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
         <Tree.TreeNode className="tree-limit-panel" key={path} title={name} >
           {
             map(limit, (action: any = {}, actionKey: string) => {
-              const { name: actionName = '', api = [] } = action;
-              if (actionKey !== 'list') {
-                return (
-                  <Tree.TreeNode data-api={api} key={`${path}/${actionKey}`} title={actionName} />
-                );
+              if (actionKey === 'list') {
+                return null;
               }
+
+              const { name: actionName = '', api = [] } = action;
+              const nodeApi = api.concat(get(limit, 'list.api'));
+              const nodeKey = `${path}/${actionKey}`;
+              const mapKey = `/${path.split('/')[1]}`;
+
+              if (this.checkedMapKeys[mapKey].find((i: string) => i === nodeKey)) {
+                this.apiMapKeys[mapKey] = this.apiMapKeys[mapKey].concat(nodeApi);
+              }
+
+              return (
+                <Tree.TreeNode data-api={nodeApi} key={nodeKey} title={actionName} />
+              );
             })}
         </Tree.TreeNode>
       );
@@ -113,14 +124,15 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
             <Button onClick={this.props.history.goBack}>返回</Button>
           </p>
         </div>
-        <Tabs
-          animated={false}
-        >
+        <Tabs animated={false} >
         {
           formaterMenuData.filter((item: any) => item.name && !item.isHide && item.children)
             .map((item: any) => {
               const { name: itemName = '', children = [], path = unqid() } = item || {};
-              const defCheckedKeys = modules.filter((i: string) => i.indexOf(path) > -1);
+              const defCheckedKeys = modules.filter((i: string) => (path !== i && i.indexOf(path) > -1));
+              const defkeys = defCheckedKeys.slice(indexOf(defCheckedKeys, `${path}/_`) + 1, defCheckedKeys.length);
+              this.checkedMapKeys[path] = defCheckedKeys;
+              this.apiMapKeys[path] = [];
               return (
                 <Tabs.TabPane key={path} tab={itemName} >
                   {children.length &&
@@ -130,7 +142,7 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
                       selectable={false}
                       defaultExpandAll={isExpandAll}
                       onCheck={(...args: any[]) => this.onCheck(path, args[1])}
-                      defaultCheckedKeys={defCheckedKeys}
+                      defaultCheckedKeys={defkeys}
                     >
                       {this.getNavTree(children)}
                     </Tree>

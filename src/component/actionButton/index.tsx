@@ -82,7 +82,6 @@ export default class ActionButton extends React.Component<ActionButtonProps, {}>
       }
 
       if (typeof afterClick === 'function') {
-        console.info('zzz----');
         values = values === undefined ? source : values;
         await afterClick({ source, values, form });
       }

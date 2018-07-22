@@ -1,4 +1,4 @@
-import { TableConfig } from '../../../component/TableView';
+import { TableConfig, TableLoadType } from '../../../component/tableView';
 
 const config: TableConfig = {
   actionList: {
@@ -11,6 +11,7 @@ const config: TableConfig = {
       actionkey: 'add',
       api: 'add',
       formkey: 'add',
+      tableLoadType: TableLoadType.LOAD,
     },
     edit: {
       text: '编辑',

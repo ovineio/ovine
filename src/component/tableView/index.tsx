@@ -15,12 +15,13 @@ import renderInfo from './info';
 import getColmun from './column';
 import Filter from './filter';
 import { loadTableByType } from './utils';
-import styles from './index.less';
 import { TableLoadType, PageSizeOptions, TableConfig } from './type';
 import ToolBar from './toolBar';
 
 import { TableParmas } from './type';
 import { TableButtonProps } from './tableButton';
+
+import styles from './index.less';
 
 export interface TableProps {
   tableview?: TableViewModelState;
@@ -112,22 +113,26 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
 
     const { tableview, location } = this.props as Required<TableProps>;
 
-    if (!isEqual(tableview, nextProps.tableview) ) { // 表格数据修改 重新获取 列数据
-      this.dataSource = this.getDataSource(listSource, this.context.config.column);
+    console.info('tableLoadType->', tableLoadType);
+    if (tableLoadType) { // 根据刷新类型 刷新表格数据
+      this.setState({ tableLoadType });
+      loadTableByType(TableLoadType.NULL);
       return;
+    } else {
+      this.setState({ tableLoadType: TableLoadType.NULL });
     }
 
-    if (location.hash !== nextProps.location.hash) { // hash修改 刷新表格
+    const hash = nextProps.location.hash;
+    if (hash && location.hash !== hash) { // hash修改 刷新表格
       this.setState({ tableLoadType: TableLoadType.INIT });
       return;
     }
 
-    if (tableLoadType) { // 根据刷新类型 刷新表格数据
-      this.setState({ tableLoadType });
-      loadTableByType(TableLoadType.NULL);
-    } else {
-      this.setState({ tableLoadType: TableLoadType.NULL });
+    if (!isEqual(tableview, nextProps.tableview)) { // 表格数据修改 重新获取 列数据
+      this.dataSource = this.getDataSource(listSource, this.context.config.column);
+      return;
     }
+
   }
 
   setTableOffset = () => {

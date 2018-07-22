@@ -3,6 +3,7 @@ import { stringify } from 'qs';
 import { get, findIndex } from 'lodash';
 import { tableRequst, dispLoadResource } from '../service/api';
 import { TableLoadType, PageSizeOptions } from '../component/tableView';
+
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
 
@@ -91,7 +92,7 @@ const tableViewModel: TableViewModal = {
     saveLoadType(state, { payload }) {
       return {
         ...state,
-        tablLoadType: payload,
+        tableLoadType: payload,
       };
     },
     saveListSource(state, { payload = {} }) {

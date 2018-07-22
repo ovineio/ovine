@@ -31,15 +31,20 @@ utils.crud = ({ idKey, apiType, source, req, res, orderBy }) => {
 
   const index = _.findIndex(input, { [idKey]: String(_.get(body, idKey)) });
 
+  const commonKeys = {
+    timestamp: Date.now(),
+  };
+
   switch (apiType) {
     case 'add':
       body[idKey] = _.uniqueId();
+      body = Object.assign({}, commonKeys, body);
       input.push(body);
       data = body;
       break;
 
     case 'edit':
-      data = _.assign({}, input[index], body);
+      data = _.assign({}, commonKeys, input[index], body);
       _.set(input, index, data);
       break;
 
@@ -75,7 +80,9 @@ utils.crud = ({ idKey, apiType, source, req, res, orderBy }) => {
   ));
 };
 
-utils.renderCrudApi = ({ idKey = 'id', key, source, omitKeys = [], isRestful = false, orderBy }) => {
+utils.renderCrudApi = ({
+  idKey = 'id', key, source, omitKeys = [], isRestful = false, orderBy,
+}) => {
   const result = {};
 
   const apiTpess = _.omit(methods, omitKeys);
