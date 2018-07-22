@@ -25,20 +25,21 @@ yarn run start # 开启mock服务
 
 ### TO DO LIST
 
-- [] 表格常用工具功能
+- 表格常用工具功能
 - 添加公共组件
-  - [] 富文本编辑器
-  - [] markdown编辑器
-  - [] json代码编辑器
-  - [] 日期选择
-- [] dashboard展示
-- [] 解决现存BUG
+  - 富文本编辑器
+  - markdown编辑器
+  - json代码编辑器
+  - 日期选择
+- dashboard展示
+- 解决现存BUG
 
 ### 添加新的`表格功能`分为四个步骤
 1. 添加 `mock api`
 2. 添加 路由`yaml`配置
 3. 添加 表格`json`配置
 4. 测试新功能，修改配置
+5. 对接真实后端 api
 
 
 ### 简单使用例子讲解`图片海报`表
@@ -116,7 +117,7 @@ import { TableConfig } from '../../../../component/tableView';
 
 // ts会进行类型检查与提示，可安全编写配置
 // 实现TableConfig配置
-// 该文件为普通ts文件，最终返回为json格式数据，可拆分文多文件，抽离公用部分
+// 该文件为普通ts文件，最终返回为json格式数据，可拆分文多文件，抽离公用部分
 const config: TableConfig = {
   actionList: { // 配置 后端请求接口与权限设置
     load: { // 该项是必须传， 为读取表格数据接口
@@ -167,81 +168,7 @@ const config: TableConfig = {
         };
       },
     },
-    off: {
-      text: '下线',
-      actionkey: 'edit',
-      api: 'edit',
-      requestOptions: {
-        updateSyncType: 'edit',
-      },
-      beforeRender({ source }) {
-        if (source && !source.status) {
-          return false;
-        }
-      },
-      beforeClick({ source }) {
-        return {
-          _id: source._id,
-          status: false
-        };
-      }
-    },
-    up: {
-      text: '上移',
-      actionkey: 'edit',
-      api: 'edit',
-      requestOptions: {
-        updateSyncType: 'edit',
-      },
-      beforeClick: ({ source }) => {
-        const { order = 0, _id, _uuid } = source;
-        const newOrder: number = parseInt(order, 10) - 1;
-        if (newOrder < 0) {
-          message.warn('排序不能为负数值');
-          return false;
-        }
-        return {
-          _id,
-          _uuid,
-          order: newOrder,
-        };
-      },
-    },
-    down: {
-      text: '下移',
-      actionkey: 'edit',
-      api: 'edit',
-      requestOptions: {
-        updateSyncType: 'edit',
-      },
-      beforeClick: ({ source }) => {
-        const { order = 0, _id } = source;
-        const newOrder: number = parseInt(order, 10) + 1;
-
-        return {
-          _id,
-          order: newOrder,
-        };
-      },
-    },
-    del: {
-      text: '删除',
-      actionkey: 'del',
-      api: 'del',
-      requestOptions: {
-        updateSyncType: 'del',
-      },
-      beforeClick: ({ source }) => {
-        return { _id: source._id };
-      },
-      modal: {
-        modalType: 'confirm',
-        modalProps: {
-          title: '提示信息',
-          content: '是否确认删除当前项',
-        }
-      }
-    },
+    ...restAction // 剩余操作配置类似
   },
   column: { // 表格 标题设置，兼容antd table column 其他配置
     _id: {
@@ -257,37 +184,7 @@ const config: TableConfig = {
         length: 25,
       },
     },
-    click_url: {
-      title: '链接',
-      width: 150,
-      componentType: 'Text',
-      componentProps: {
-        isLink: true,
-        length: 25,
-      },
-    },
-    pic_url: {
-      title: '图片',
-      sorter: false,
-      componentType: 'Image',
-    },
-    order: {
-      title: '排序',
-      width: 50,
-      defaultSortOrder: 'ascend',
-      componentType: 'Number.Int',
-    },
-    status: {
-      title: '状态',
-      componentType: 'Status.YesNo',
-      componentProps: {
-        text: ['已下线', '已上线'],
-      },
-    },
-    timestamp: {
-      title: '添加时间',
-      componentType: 'Date',
-    },
+    ...someColumn, // 其他列配置类似
     handler: { // 表格行操作设置 【这里是 actionlist配置中 key】
       componentType: 'Action.List',
       list: ['edit', 'on', 'off', 'up', 'down', 'del'],
@@ -311,59 +208,7 @@ const config: TableConfig = {
           componentType: 'Text',
           required: true,
         },
-        click_url: {
-          label: '链接',
-          componentType: 'Text',
-          help: '请输入完整url链接 http://'
-        },
-        type: {
-          label: '跳转类型',
-          componentType: 'Select',
-          componentProps: {
-            options: {
-              1: '链接地址',
-              3: '标签ID',
-              4: '外跳'
-            },
-          },
-          layout: { // 布局设置
-            itemCol: {
-              span: 12,
-            },
-            labelCol: {
-              span: 10,
-            },
-            wrapperCol: {
-              span: 14,
-            }
-          }
-        },
-        order: {
-          label: '排序',
-          componentType: 'Text',
-          componentProps: {
-            isNumber: true,
-          },
-          layout: {
-            itemCol: {
-              span: 12,
-            },
-            labelCol: {
-              span: 10,
-            },
-            wrapperCol: {
-              span: 10,
-            }
-          }
-        },
-        click_val: {
-          label: '跳转值',
-          componentType: 'Text',
-        },
-        pic_url: {
-          label: '图片',
-          componentType: 'Text',
-        },
+        ...restInput // 其他form item配置类似
       }
     },
     edit: { // 编辑弹窗 继承 add 弹窗配置， 仅修改了 标题

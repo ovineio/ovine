@@ -37,21 +37,21 @@ const config = {
   hash: true,
 };
 
-
-const proxy = {
-  '/api/*': {
-    target: 'http://dev.rt-admin.com/api',
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api': '',
-    },
-  },
-};
-
 if (NODE_ENV === 'development') {
-  config.devtool = 'development';
-}
+  config.devtool = 'cheap-module-eval-source-map';
 
-config.proxy = API_ENV === 'local' ? {} : proxy;
+  const apiProxyConfig = { // env server map
+    local: 'http://localhost:8021',
+    develop: 'http://dev-rtadmin.com',
+    production: 'http://rtadmin.com',
+  };
+
+  config.proxy = {
+    '/api/*': {
+      target: apiProxyConfig[API_ENV] || `http://${API_ENV}-rtadmin.com`,
+      changeOrigin: true,
+    },
+  };
+}
 
 export default config;

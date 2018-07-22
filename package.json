@@ -4,8 +4,8 @@
   "description": "An excellent admin system.",
   "private": true,
   "scripts": {
-    "start": "cross-env ESLINT=none ENV=local PORT=8020 API_ENV=local roadhog dev",
-    "build": "cross-env ESLINT=none NODE_ENV=production roadhog build",
+    "start": "cross-env ESLINT=none PORT=8020 roadhog dev",
+    "build": "cross-env ESLINT=none  API_ENV=production NODE_ENV=production roadhog build",
     "build:demo": "cross-env ESLINT=none API_ENV=local NODE_ENV=production roadhog build",
     "analyze": "cross-env ANALYZE=true roadhog build",
     "lint:style": "stylelint \"src/**/*.less\" --syntax less",

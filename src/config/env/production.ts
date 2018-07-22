@@ -6,6 +6,6 @@ export default <Config> {
   ...common,
   env: 'production',
   domain: {
-    api: 'http://production-rtadmin.com/api',
+    api: 'http://rtadmin.com/api',
   },
 };
