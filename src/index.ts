@@ -5,8 +5,8 @@ import dva, { DvaOption, DvaInstance, Model } from 'dva';
 import createLoading from 'dva-loading';
 
 import createHistory from 'history/createBrowserHistory';
-import { createLogger } from 'redux-logger';
-import  config from 'config';
+// import { createLogger } from 'redux-logger';
+// import  config from 'config';
 
 import { Extend } from './util/misc';
 
@@ -14,9 +14,9 @@ const initConfig: DvaOption = {
   history: createHistory(),
 };
 
-if (config.env === 'local') {
-  initConfig.onAction = createLogger();
-}
+// if (config.env === 'local') {
+//   initConfig.onAction = createLogger();
+// }
 
 export type ReduxSotre = {
   getState(arg: any): any;
