@@ -1,12 +1,12 @@
 # RT-admin
 
-rt-admin管理后台系统基于[ant-design-pro](https://github.com/ant-design/ant-design-pro)的ts重构版本，针对中小型公司内部业务的一体化解决方案。主要目的是应用于强运营性业务，超多表格的管理系统。[live demo](http://rt-admin.uk.to:8020)
+rt-admin管理后台系统基于[ant-design-pro](https://github.com/ant-design/ant-design-pro)的ts重构版本，针对中小型公司内部业务的一体化解决方案。主要目的是应用于强运营性业务，100+表格业务的管理系统。同时也完全兼容自定义页面。[live demo](http://rt-admin.uk.to:8020)
 
 ## 开发
 
 ```bash
-yarn install
-yarn run start # 开启mock服务
+npm install
+npm start # 默认开启mock服务
 ```
 
 ### 当前主要功能
@@ -33,13 +33,14 @@ yarn run start # 开启mock服务
   - 日期选择
 - dashboard展示
 - 解决现存BUG
+- 代码拆包异步加载优化
 
-### 添加新的`表格功能`分为四个步骤
+### 添加新的`表格功能`简化为一下几步骤
 1. 添加 `mock api`
 2. 添加 路由`yaml`配置
 3. 添加 表格`json`配置
 4. 测试新功能，修改配置
-5. 对接真实后端 api
+5. 对接真实后端 `api server`
 
 
 ### 简单使用例子讲解`图片海报`表

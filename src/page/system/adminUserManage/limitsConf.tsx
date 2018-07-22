@@ -1,14 +1,14 @@
 /**
- * set auth
+ * set auth page
  */
 
 import * as React from 'react';
-import { map, values, flatten, flattenDepth } from 'lodash';
+import { map, values, flattenDepth, uniq } from 'lodash';
 import { Tree, Tabs, Button } from 'antd';
 import classNames from 'classnames';
 
 import request from '../../../service/request';
-import { formatteredMenuData, flatedMenuData } from '../../../route/menu';
+import { formaterMenuData, flatedMenuData } from '../../../route/menu';
 import { unqid } from '../../../util/misc';
 
 import styles from './index.less';
@@ -27,15 +27,15 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
     isExpandAll: true,
   };
 
-  apiMapKeys: { [key: string]: string[][] } = {};
-  checkedMapKeys: { [key: string]: string[] } = {};
+  private apiMapKeys: { [key: string]: string[][] } = {};
+  private checkedMapKeys: { [key: string]: string[] } = {};
 
   toggleExpandAll = (toggle: boolean) => {
     this.setState({ isExpandAll: toggle });
   }
 
   saveLimitKeys = () => {
-    const modules = flatten(values(this.checkedMapKeys));
+    const modules = flattenDepth(values(this.checkedMapKeys));
     const menus = flattenDepth(values(this.apiMapKeys), 2).filter((i: any) => i);
     map(this.apiMapKeys, (v: string[], k: string) => {
       if (v.length) {
@@ -52,25 +52,19 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
   }
 
   onCheck = (key: string, e: any) => {
-    this.checkedMapKeys[key] = e.checkedNodes.map((i: any) => i.key);
+    this.checkedMapKeys[key] = uniq(e.checkedNodes.map((i: any) => i.key).concat(e.halfCheckedKeys));
     this.apiMapKeys[key] = e.checkedNodes.map((i: any) => i.props['data-api']).filter((i: string ) => i);
+    console.info('this.checkedMapKeys->', this.checkedMapKeys);
   }
 
   getSubTree = (item: any = {}) => {
     const { children, name, path = unqid() } = item;
-    if (children && children.some((child: any) => child.name)) {
-      return (
-        <Tree.TreeNode key={path} title={name} >
-          {this.getNavTree(children)}
-        </Tree.TreeNode>
-      );
-    } else {
-      const { limit = undefined } = flatedMenuData[path] || {};
-
+    const { limit = undefined } = flatedMenuData[path] || {};
+    if (limit) {
       return (
         <Tree.TreeNode className="tree-limit-panel" key={path} title={name} >
           {
-            limit && map(limit, (action: any = {}, actionKey: string) => {
+            map(limit, (action: any = {}, actionKey: string) => {
               const { name: actionName = '', api = [] } = action;
               if (actionKey !== 'list') {
                 return (
@@ -81,14 +75,20 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
         </Tree.TreeNode>
       );
     }
+    if (children && children.some((child: any) => child.name)) {
+      return (
+        <Tree.TreeNode key={path} title={name} >
+          {this.getNavTree(children)}
+        </Tree.TreeNode>
+      );
+    }
   }
 
   getNavTree = (menu: any) => {
     if (!menu) {
       return [];
     }
-    return menu.filter((item: any) => item.name && !item.isHide)
-      .map((item: any) => this.getSubTree(item));
+    return menu.filter((item: any) => item.name).map((item: any) => this.getSubTree(item));
   }
 
   render() {
@@ -117,7 +117,7 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
           animated={false}
         >
         {
-          formatteredMenuData.filter((item: any) => item.name && !item.isHide && item.children)
+          formaterMenuData.filter((item: any) => item.name && !item.isHide && item.children)
             .map((item: any) => {
               const { name: itemName = '', children = [], path = unqid() } = item || {};
               const defCheckedKeys = modules.filter((i: string) => i.indexOf(path) > -1);

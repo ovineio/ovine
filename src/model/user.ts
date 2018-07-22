@@ -60,7 +60,11 @@ const userModel: UserModal = {
       }
     },
     * login({ payload }, { put }) {
-      const { data, code } = yield request({ api: 'login', ...payload }) || {};
+      const { data, code } = yield request({
+        api: 'POST login',
+        disableCommonSuccessHandler: true,
+        ...payload
+      }) || {};
 
       yield put({
         type: 'changeLoginStatus',

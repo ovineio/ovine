@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 const prefix = 'mock';
 
-const utils = _.pick(_, ['times', 'uniqueId']);
+const utils = { };
 
 const methods = {
   add: 'PUT',
@@ -93,8 +93,10 @@ utils.renderCrudApi = ({ idKey = 'id', key, source, omitKeys = [], isRestful = f
 utils.renderApi = (apis) => {
   const result = {};
 
-  _.map(apis, (val, api) => {
-    result[`/${prefix}/${api}`] = val;
+  _.map(apis, (val, url) => {
+    const method = _.trim(_.get(_.trim(url).match(/^.* /), 0)) || 'GET';
+    const api = url.replace(/^.* /, '');
+    result[`${method} /${prefix}/${api}`] = val;
   });
 
   return result;

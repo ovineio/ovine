@@ -30,7 +30,6 @@ function formatter(data: MenuData, parentPath: string = '/'): FormatteredMenuCon
   });
 }
 
-// ToDo 仔细优化这里 垃圾冗余配置
 export function getMenuAction(limit: Partial<LimitConfig> = {}, api: Partial<ApiConfig> = {} ): LimitConfig  {
   const omitKey: any = limit.omitKey || ['key', 'omitKey'];
 
@@ -133,9 +132,9 @@ export function getRouteMenuData(): FlatedMenuConfig {
   return flatedMenuData[location.pathname];
 }
 
-export const formatteredMenuData = formatter(menuData);
+export const formaterMenuData = formatter(menuData);
 
-getFlatMenuData(formatteredMenuData);
+getFlatMenuData(formaterMenuData);
 
-console.info('formatteredMenuData->', formatteredMenuData);
+console.info('formaterMenuData->', formaterMenuData);
 console.info('flatedMenuData->', flatedMenuData);

@@ -56,7 +56,7 @@ const config: TableConfig = {
     },
     name: {
       title: '角色名',
-      width: 150,
+      width: 100,
       componentType: 'Text',
       componentProps: {
         length: 25,
@@ -64,10 +64,10 @@ const config: TableConfig = {
     },
     remark: {
       title: '备注',
-      width: 150,
+      width: 300,
       componentType: 'Text',
       componentProps: {
-        length: 25,
+        length: 100,
       },
     },
     timestamp: {

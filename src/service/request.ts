@@ -27,12 +27,12 @@ export interface ResponseData {
 
 export default function request<T>(options: RequestOptions): Promise<T> {
   const { api: requestApi = '', data } = options;
-  const apiMethod: any = get(trim(requestApi).match(/^.* /), 0) || 'GET';
+  const apiMethod: any = trim(get(trim(requestApi).match(/^.* /), 0)) || 'GET';
   const api: string = requestApi.replace(/^.* /, '');
 
   const newOptions: any = {
     credentials: 'include',
-    method: trim(apiMethod),
+    method: apiMethod,
     ...options
   };
 

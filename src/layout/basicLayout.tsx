@@ -15,7 +15,7 @@ import SiderMenu from '../component/siderMenu';
 import NotFound from '../page/exception';
 
 import getRoute from '../route/getRoute';
-import { formatteredMenuData } from '../route/menu';
+import { formaterMenuData } from '../route/menu';
 import Authorized from '../util/authorized';
 import { getUserInfo } from '../util/storage';
 
@@ -44,7 +44,7 @@ const getRedirect = (item: any) => {
   }
 };
 
-formatteredMenuData.forEach(getRedirect);
+formaterMenuData.forEach(getRedirect);
 
 const query: any = {
   'screen-xs': {
@@ -179,11 +179,11 @@ export default class BasicLayout extends React.PureComponent<BasicLayoutProps, B
   }
   render() {
     const { collapsed, routerData, match, location } = this.props;
-    const { nick_name = '', avatar = defAvatar } = getUserInfo() || {};
+    const { real_name = '', avatar = defAvatar } = getUserInfo() || {};
 
     const currentUser = {
       avatar,
-      name: nick_name,
+      name: real_name,
     };
     const bashRedirect = this.getBashRedirect();
     const layout = (
@@ -194,7 +194,7 @@ export default class BasicLayout extends React.PureComponent<BasicLayoutProps, B
           // If you do not have the Authorized parameter
           // you will be forced to jump to the 403 interface without permission
           Authorized={Authorized}
-          menuData={formatteredMenuData}
+          menuData={formaterMenuData}
           collapsed={collapsed}
           location={location}
           isMobile={this.state.isMobile}

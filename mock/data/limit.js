@@ -45,6 +45,7 @@ module.exports.modules = [
   '/system/adminUserManage/adminUser',
   '/system/adminUserManage/adminUser/add',
   '/system/adminUserManage/adminUser/edit',
+  '/system/adminUserManage/adminUser/limitsConf',
   '/system/adminUserManage/adminUser/del',
   '/system/adminUserManage/adminRoles',
   '/system/adminUserManage/adminRoles/add',

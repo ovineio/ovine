@@ -1,9 +1,9 @@
 const Chance = require('chance');
-const utils = require('../utils');
+const _ = require('lodash');
 
 const c = new Chance();
 
-const sourceList = utils.times(120, (index => ({
+const sourceList = _.times(120, (index => ({
   _id: String(index + 200),
   title: c.word({ word: 6 }),
   click_url: c.url({
@@ -17,9 +17,9 @@ const sourceList = utils.times(120, (index => ({
   remark: c.sentence({ words: 4 }),
 })));
 
-module.exports = utils.renderCrudApi({
+module.exports = {
   idKey: '_id',
   key: 'poster',
   orderBy: [['status', 'order'], ['desc', 'asc']],
   source: sourceList,
-});
+};

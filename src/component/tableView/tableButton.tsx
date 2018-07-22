@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { omit, set } from 'lodash';
+import { omit, set, cloneDeep } from 'lodash';
 import { TableRequstOptions } from '../../service/api';
 import { ModalProps }  from '../modal/modal';
 import { ButtonClickArgs } from '../actionButton';
@@ -25,21 +25,22 @@ export default class TableButton extends React.PureComponent<TableButtonProps> {
   };
 
   getFormProps = (): ModalProps | undefined => {
-    const { form, formkey, source } = this.props;
+    const { form = {}, formkey, source } = this.props;
     const formConfig = this.context.config.form;
     const formConfigProps: FormMdalConfig = formkey && formConfig[formkey] || { };
-    const { extends: ext, omitItems, setItemMap, ...restFormConfig } = formConfigProps;
+    const { extends: ext = '', item, omitItems, setItemMap, ...restFormConfig } = formConfigProps;
+    const extConfig = formConfig[ext] || {};
 
-    let formProps: ModalProps = {
-      item: {},
+    let formProps: ModalProps = cloneDeep({
+      ...extConfig,
       ...restFormConfig,
       ...form,
+      item: {
+        ...extConfig.item,
+        ...item
+      },
       itemSource: source
-    };
-
-    if (ext) {
-      formProps = Object.assign({}, formProps, formConfig[ext]);
-    }
+    });
 
     if (setItemMap) {
       Object.keys(setItemMap).forEach(key => set(formProps.item, key, setItemMap[key]));

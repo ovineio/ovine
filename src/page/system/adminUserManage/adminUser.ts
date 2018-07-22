@@ -95,22 +95,22 @@ const config: TableConfig = {
         length: 25,
       },
     },
-    nick_name: {
-      title: '昵称',
+    real_name: {
+      title: '名字',
       width: 150,
       componentType: 'Text',
       componentProps: {
         length: 25,
       },
     },
+    role: {
+      title: '角色',
+      width: 80,
+      componentType: 'Text',
+    },
     timestamp: {
       title: '时间',
       componentType: 'Date',
-    },
-    role: {
-      title: '角色',
-      width: 50,
-      componentType: 'Text',
     },
     handler: {
       componentType: 'Action.List',
@@ -127,8 +127,8 @@ const config: TableConfig = {
           componentType: 'Text',
           required: true,
         },
-        nick_name: {
-          label: '昵称',
+        real_name: {
+          label: '名字',
           componentType: 'Text',
           required: true,
         },
@@ -142,15 +142,18 @@ const config: TableConfig = {
     edit: {
       extends: 'add',
       title: '编辑人员',
+      setItemMap: {
+        'password.required': false,
+        'password.help': '不填为不修改密码',
+      },
     },
     limit: {
       extends: 'add',
       title: '角色设置',
       setItemMap: {
-        'name.componentProps.disabled': true,
-        'nick_name.componentProps.disabled': true,
+        'real_name.componentProps.disabled': true,
       },
-      itemKeys: ['name', 'nick_name', 'role'],
+      itemKeys: ['real_name', 'role'],
       item: {
         role: {
           label: '角色',

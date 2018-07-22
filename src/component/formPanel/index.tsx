@@ -18,7 +18,7 @@ export interface FormPanelOptionProps extends FormProps {
   onChange?: (args?: any) => any;
   isModalForm?: boolean;
   children?: any;
-  itemKeys?: string[];
+  itemKeys?: string[]; // form 表单排序数组
 }
 export interface FormPanelProps extends FormPanelOptionProps {
   item: FormItemType;

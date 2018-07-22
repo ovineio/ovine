@@ -6,11 +6,12 @@ const poster = require('./api/poster');
 
 global.mockData = {};
 
+const { renderApi, renderCrudApi } = utils;
 const apis = Object.assign(
-  utils.renderApi(user),
-  adminList,
-  adminRole,
-  poster
+  renderApi(user),
+  renderCrudApi(adminList),
+  renderCrudApi(adminRole),
+  renderCrudApi(poster),
 );
 
 module.exports = apis;

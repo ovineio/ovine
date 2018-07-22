@@ -49,8 +49,8 @@ export interface FilterConfig extends ActionButtonProps, ModalProps {
 
 export interface FormMdalConfig extends ActionButtonProps, FormPanelOptionProps {
   extends?: string;
-  omitItems?: string[];
-  setItemMap?: { [key: string]: any };
+  omitItems?: string[]; // 需要忽略的表单项配置
+  setItemMap?: { [key: string]: any }; // 设置具体表单项配置
   item?: FormItemType;
 }
 
