@@ -4,7 +4,7 @@ import { Config } from 'config';
 
 export default <Config> {
   ...common,
-  isMock: false, // mock server
+  isMock: true, // mock server
   env: 'local',
   domain: {
     // local api server
