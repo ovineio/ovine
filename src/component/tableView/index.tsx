@@ -113,7 +113,6 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
 
     const { tableview, location } = this.props as Required<TableProps>;
 
-    console.info('tableLoadType->', tableLoadType);
     if (tableLoadType) { // 根据刷新类型 刷新表格数据
       this.setState({ tableLoadType });
       loadTableByType(TableLoadType.NULL);

@@ -134,7 +134,12 @@ export default class SiderMenu extends PureComponent {
         </SubMenu>
       );
     } else {
-      const path = item.tabs && item.children ? `${item.path}/${item.children[0].key}` : item.path;
+      let { path } = item;
+      if (item.tabs && item.children) { // checkPermission for tabs
+        const temp = item.children.filter(i => this.checkPermissionItem(i.path, true, false))[0];
+        path = temp ? temp.path : path;
+      }
+
       return (
         <Menu.Item key={item.path} >
           {this.getMenuItemPath(item, path)}
@@ -142,6 +147,7 @@ export default class SiderMenu extends PureComponent {
       );
     }
   }
+
   /**
    * 获得菜单子节点
    * @memberof SiderMenu
@@ -151,13 +157,10 @@ export default class SiderMenu extends PureComponent {
       return [];
     }
     return menusData
-      .filter(item => item.name && !item.isHide)
-      .map((item) => {
+      .filter(item => item.name && !item.isHideInMenu).map((item) => {
         // make dom
         const ItemDom = this.getSubMenuOrItem(item);
-        const itemPath = String(this.conversionPath(item.path));
-
-        return this.checkPermissionItem(itemPath, ItemDom);
+        return this.checkPermissionItem(ItemDom.key, ItemDom);
       });
   }
   // Get the currently selected menu
@@ -177,10 +180,10 @@ export default class SiderMenu extends PureComponent {
     }
   }
   // permission to check
-  checkPermissionItem = (authority, ItemDom) => {
+  checkPermissionItem = (authority, ItemDom, exception) => {
     if (this.props.Authorized && this.props.Authorized.check) {
       const { check } = this.props.Authorized;
-      return check(authority, ItemDom);
+      return check(authority, ItemDom, exception);
     }
     return ItemDom;
   }

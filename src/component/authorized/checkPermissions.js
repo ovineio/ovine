@@ -16,7 +16,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
     return target;
   }
 
-  let pathKey = authority;
+  let pathKey = String(authority);
   if (pathKey.indexOf('/') === 0) {
     pathKey = String(pathKey).substr(1, pathKey.length - 1);
   }
