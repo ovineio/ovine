@@ -1,6 +1,6 @@
 import * as React from 'react';
-import MdEditor from '../../component/editor/md';
-export default class DemoCodeEditor extends React.PureComponent {
+import MdEditor from '../../component/mdEditor';
+export default class DemoMdEditor extends React.PureComponent {
   render() {
     return (
       <div>

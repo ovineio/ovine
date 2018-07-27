@@ -1,5 +1,5 @@
 import * as React from 'react';
-import codemirror from 'codemirror';
+import CodeMirror from 'codemirror';
 import jsyaml from 'js-yaml';
 
 import 'codemirror/lib/codemirror.css';
@@ -55,16 +55,16 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
     isFocused: false,
   };
 
-  private cm: any;
+  private codemirror: any;
   private $textArea: React.RefObject<HTMLTextAreaElement> = React.createRef();
 
   componentDidMount() {
-    this.cm = codemirror.fromTextArea(this.$textArea.current, this.getOptions());
-    this.cm.on('change', this.onChange);
+    this.codemirror = CodeMirror.fromTextArea(this.$textArea.current, this.getOptions());
+    this.codemirror.on('change', this.onChange);
   }
 
   componentWillUnmount() {
-    this.cm.toTextArea();
+    this.codemirror.toTextArea();
   }
 
   onChange = (doc: any, change: any) => {

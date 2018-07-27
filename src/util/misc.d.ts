@@ -17,3 +17,5 @@ type UrlOptions = {
   module?: 'api';
   json?: boolean;
 };
+
+export function loadScript(url: string, callback?: () => void): void;

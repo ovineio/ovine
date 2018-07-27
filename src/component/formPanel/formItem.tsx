@@ -6,7 +6,7 @@ import { FormItemProps as AntdFormItemProps } from 'antd/lib/form';
 import { GetFieldDecoratorOptions, ValidationRule } from 'antd/lib/form/Form';
 import { ColProps } from 'antd/lib/col';
 
-import { FormPanelContext } from './index';
+import { FormPanelContext } from '.';
 import getInputItem from '../inputItem';
 
 const FormItem = Form.Item;

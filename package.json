@@ -48,9 +48,6 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.4.1",
     "react-grid-layout": "^0.16.6",
-    "store": "^2.0.12",
-    "superstruct": "^0.5.4",
-    "tui-editor": "^1.2.6",
     "url-polyfill": "^1.0.13"
   },
   "devDependencies": {
@@ -88,9 +85,9 @@
     "yaml-loader": "^0.5.0"
   },
   "lint-staged": {
-    "**/*.{ts,tsx}": "npm run lint:ts",
-    "**/*.{js,jsx}": "npm run lint:js",
-    "**/*.less": "npm run lint:style"
+    "src/**/*.{ts,tsx}": "npm run lint:ts",
+    "{src,mock}/**/*.{js,jsx}": "npm run lint:js",
+    "src/**/*.less": "npm run lint:style"
   },
   "husky": {
     "hooks": {

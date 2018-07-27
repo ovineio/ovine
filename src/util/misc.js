@@ -152,3 +152,18 @@ export function formatStringByType(type, source, opts = {}) {
 
   return String(result);
 }
+
+// 异步加载JS
+export function loadScript(url, callback) {
+  const script = document.createElement('script');
+  const s = document.getElementsByTagName('script')[0];
+  script.type = 'text/javascript';
+  script.async = true;
+  script.src = url;
+  script.onload = () => {
+    if (callback) {
+      callback();
+    }
+  };
+  s.parentNode.insertBefore(script, s);
+}
