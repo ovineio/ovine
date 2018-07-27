@@ -1,9 +1,11 @@
 import * as React from 'react';
-
-export default class CodeEditor extends React.PureComponent {
+import CodeEditor from '../../component/editor/code';
+export default class DemoCodeEditor extends React.PureComponent {
   render() {
     return (
-      <div>123</div>
+      <div>
+        <CodeEditor mode="json" name="test" />
+      </div>
     );
   }
 }

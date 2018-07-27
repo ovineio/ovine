@@ -6,8 +6,8 @@
       path: code
       component: demo/code
     -
-      path: rich
-      component: demo/rich
+      path: md
+      component: demo/md
     -
       path: rich
       component: demo/rich

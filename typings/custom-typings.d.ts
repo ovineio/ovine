@@ -17,6 +17,8 @@ declare module 'dva/router';
 declare module 'dva/fetch';
 declare module 'dva/dynamic';
 declare module 'qs';
+declare module 'codemirror';
+declare module 'js-yaml';
 
 declare module 'config' {
   export type EnvType = 'local' | 'develop' | 'test' | 'grey' | 'production';
