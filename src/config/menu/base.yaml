@@ -1,15 +1,19 @@
 # 该文件为基础页面配置
 -
   path: demo
+  name: 组件demo展示
   children:
     -
       path: code
+      name: 代码编辑器
       component: demo/code
     -
       path: md
+      name: md编辑器
       component: demo/md
     -
       path: rich
+      name: 富文本编辑器
       component: demo/rich
     -
       path: date

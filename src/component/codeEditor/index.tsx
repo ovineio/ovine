@@ -1,99 +1,103 @@
 import * as React from 'react';
-import CodeMirror from 'codemirror';
-import jsyaml from 'js-yaml';
+import classNames from 'classnames';
+import { set } from 'lodash';
+// import jsyaml from 'js-yaml';
+import { Spin } from 'antd';
 
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/addon/lint/lint.css';
-import 'codemirror/addon/lint/lint';
+import { loadFiles } from '../../util/misc';
+import monacoConfig from './config';
 
-import 'script-loader!jsonlint';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/addon/lint/json-lint';
-
-import 'codemirror/mode/yaml/yaml';
-import 'codemirror/addon/lint/yaml-lint';
+import styes from './index.less';
 
 interface CodeEditorProps {
   name: string;
-  mode: 'json' | 'yaml';
+  theme?: 'vs' | 'vs-dark' | 'hc-black';
+  language?: 'javascript' | 'json' | 'yaml';
   disabled?: boolean;
   defaultValue?: string;
-  onChange?: (value: any, changeObj: any) => string;
   value?: string;
+  onChange?: (value: any) => void;
 }
 
 type CodeEditorState = {
-  isFocused: boolean;
+  isLoading: boolean;
 };
-
-const defaultOptions = {
-  tabSize: 2,
-  indentWithTabs: true,
-  smartIndent: true,
-  lineNumbers: true,
-  gutters: ['CodeMirror-lint-markers'],
-  theme: 'material',
-  lint: true
-};
-
-const modes = {
-  json: 'application/json',
-  yaml: 'text/yaml',
-};
-
-// 校验 yml 格式文件
-(window as any).jsyaml = jsyaml;
 
 export default class CodeEditor extends React.PureComponent<CodeEditorProps, CodeEditorState> {
   static defaultProps = {
-    mode: 'json',
-    disabled: false,
+    language: 'javascript',
+    theme: 'vs-dark',
   };
 
   state = {
-    isFocused: false,
+    isLoading: true,
   };
 
-  private codemirror: any;
-  private $textArea: React.RefObject<HTMLTextAreaElement> = React.createRef();
+  private monaco: any;
+  private $div: React.RefObject<HTMLDivElement> = React.createRef();
 
-  componentDidMount() {
-    this.codemirror = CodeMirror.fromTextArea(this.$textArea.current, this.getOptions());
-    this.codemirror.on('change', this.onChange);
-  }
-
-  componentWillUnmount() {
-    this.codemirror.toTextArea();
-  }
-
-  onChange = (doc: any, change: any) => {
-    if (this.props.onChange && change.origin !== 'setValue') {
-      this.props.onChange(doc.getValue(), change);
+  async componentDidMount() {
+    if ((window as any).monaco) {
+      this.initMonaco();
+    } else {
+      await this.loadMonaco();
+      setTimeout(this.initMonaco, 100);
     }
   }
 
-  getOptions = () => {
-    const { mode, disabled } = this.props;
-    const options: any = Object.assign({}, defaultOptions, {
-      mode: modes[mode],
-      readOnly: disabled
-    });
+  componentWillUnmount() {
+    this.monaco.dispose();
+    this.monaco = null;
+  }
 
-    return options;
+  loadMonaco = async () => {
+    set(window, 'require.paths.vs', monacoConfig.sourcePath);
+    set((window as any).require, 'vs/nls', {
+      availableLanguages: { '*': monacoConfig.lang },
+      locale: monacoConfig.lang,
+    });
+    await loadFiles([
+      `${monacoConfig.sourcePath}/editor/editor.main.css`,
+      `${monacoConfig.sourcePath}/loader.js`,
+      `${monacoConfig.sourcePath}/editor/editor.main.nls.js`,
+      `${monacoConfig.sourcePath}/editor/editor.main.js`,
+    ]);
+  }
+
+  initMonaco = () => {
+    const { defaultValue, value, language, theme } = this.props;
+
+    this.monaco = (window as any).monaco.editor.create(
+      this.$div.current, {
+        language,
+        theme,
+        value: value || defaultValue || '',
+      }
+    );
+
+    this.setState({ isLoading: false });
+    this.monaco.onDidChangeContent = this.onChange;
+  }
+
+  onChange = () => {
+    const onChange = this.props.onChange;
+    if (onChange) {
+      onChange(this.monaco.getValue());
+    }
   }
 
   render() {
-    const { name, defaultValue } = this.props;
+    const { isLoading } = this.state;
     return (
-      <div>
-        <textarea
-          ref={this.$textArea}
-          name={name}
-          defaultValue={defaultValue}
-          autoComplete="off"
+      <Spin spinning={isLoading} >
+        <div
+          className={classNames({
+            'transparent': isLoading },
+            styes.monacoEditor)
+          }
+          ref={this.$div}
         />
-      </div>
+      </Spin>
     );
   }
 }

@@ -60,7 +60,7 @@ export default {
   images_dataimg_filter: () => {
 
   },
-  images_upload_handler: (data, success, failure, progress) => {
+  images_upload_handler: (data: any, success: any, failure: any, progress: (num: number) => void) => {
     console.info('blob upload [started]', 'id:', data.id(), 'filename:', data.filename());
     progress(0);
 

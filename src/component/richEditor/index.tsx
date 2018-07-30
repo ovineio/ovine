@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { loadScript, unqid } from '../../util/misc';
+import classNames from 'classnames';
+import { Spin } from 'antd';
+import { loadFile, unqid } from '../../util/misc';
 
-import editorConfig from './config';
+import tinymceConfig from './config';
 
 interface RichEditorProps {
   name: string;
@@ -14,7 +16,7 @@ interface RichEditorProps {
 }
 
 type RichEditorState = {
-  isFullscreen: boolean;
+  isLoading: boolean;
 };
 
 export default class MdEditor extends React.PureComponent<RichEditorProps, RichEditorState> {
@@ -24,45 +26,48 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
   };
 
   state = {
-    isFullscreen: false,
+    isLoading: true,
   };
 
   private id: string = `rich-${unqid()}`;
   private tinymce: any;
 
-  componentDidMount() {
+  async componentDidMount() {
     if ((window as any).tinymce) {
       this.initTinymce();
     } else {
-      loadScript(`${window.location.origin}/public/tinymce4.8.0/tinymce.min.js`, () => {
-        this.initTinymce();
-      });
+      await loadFile('tinymce-4.8.0/tinymce.min.js');
+      this.initTinymce();
     }
   }
 
   componentWillUnmount() {
-    this.getTinymce().destroy();
+    this.tinymce.destroy();
+    this.tinymce = null;
   }
 
-  getTinymce = (): any => {
-    return (window as any).tinymce.get(this.id);
+  initInstanceCallback = (editor: any): void => {
+    const { value, defaultValue } = this.props;
+    const val = value || defaultValue;
+
+    if (val) {
+      editor.setContent(val);
+    }
+    this.setState({ isLoading: false });
+    this.tinymce = (window as any).tinymce.get(this.id);
+    editor.on('NodeChange Change KeyUp SetContent', () => {
+      this.onChange(editor.getContent());
+    });
   }
 
   initTinymce = () => {
-    const { height, menubar, value, defaultValue } = this.props;
-    const val = value || defaultValue;
-    this.tinymce = (window as any).tinymce.init(Object.assign({}, editorConfig, {
+    const { height, menubar } = this.props;
+
+    (window as any).tinymce.init(Object.assign({}, tinymceConfig, {
       height,
       menubar,
       selector: `#${this.id}`,
-      init_instance_callback: (editor: any) => {
-        if (val) {
-          editor.setContent(val);
-        }
-        editor.on('NodeChange Change KeyUp SetContent', () => {
-          this.onChange(editor.getContent());
-        });
-      },
+      init_instance_callback: this.initInstanceCallback,
     }));
   }
 
@@ -73,12 +78,15 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
   }
 
   render() {
+    const { isLoading } = this.state;
     return (
-      <div className="tinymce-container editor-container">
-        <textarea
-          className="tinymce-textarea"
-          id={this.id}
-        />
+      <div>
+        <Spin spinning={isLoading} >
+          <textarea
+            id={this.id}
+            className={classNames({ 'transparent': isLoading })}
+          />
+        </Spin>
       </div>
     );
   }

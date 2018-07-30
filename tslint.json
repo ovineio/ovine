@@ -139,6 +139,7 @@
   },
   "exclude": [
     "node_modules",
+    "public",
     "**/*.js",
     "**/*.jsx"
   ]

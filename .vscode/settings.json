@@ -1,7 +1,9 @@
 {
   "tslint.exclude": [
+    "public",
     "node_modules",
-    "**/*.{js,jsx}"
+    "**/*.{js,jsx}",
+    "**/*/monaco.d.ts"
   ],
   "javascript.implicitProjectConfig.experimentalDecorators": true,
   "tslint.autoFixOnSave": true

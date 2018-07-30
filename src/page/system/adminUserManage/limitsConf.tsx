@@ -86,6 +86,7 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
         </Tree.TreeNode>
       );
     }
+
     if (children && children.some((child: any) => child.name)) {
       return (
         <Tree.TreeNode key={path} title={name} >
@@ -93,6 +94,11 @@ export default class LimitConf extends React.PureComponent<LimitConfProps, Limit
         </Tree.TreeNode>
       );
     }
+
+    // 无limit配置时默认
+    return (
+      <Tree.TreeNode key={path} title={name} />
+    );
   }
 
   getNavTree = (menu: any) => {

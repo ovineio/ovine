@@ -2,3 +2,23 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+.fix {
+  zoom: 1;
+}
+
+.fix::after {
+  display: block;
+  clear: both;
+  content: "";
+  visibility: hidden;
+  height: 0;
+}
+
+.hide {
+  display: none;
+}
+
+.transparent {
+  opacity: 0;
+}

@@ -153,17 +153,47 @@ export function formatStringByType(type, source, opts = {}) {
   return String(result);
 }
 
-// 异步加载JS
-export function loadScript(url, callback) {
-  const script = document.createElement('script');
-  const s = document.getElementsByTagName('script')[0];
-  script.type = 'text/javascript';
-  script.async = true;
-  script.src = url;
-  script.onload = () => {
-    if (callback) {
-      callback();
+// 异步加载js,css 文件
+export function loadFile(fileUrl) {
+  let url = fileUrl;
+  if (fileUrl.indexOf('http') === -1) {
+    url = `${location.origin}/public/${url}`;
+  }
+
+  return new Promise((resolve, reject) => {
+    try {
+      let file;
+      let $node;
+      if (url.indexOf('.js') > -1) {
+        file = document.createElement('script');
+        [$node] = document.getElementsByTagName('script');
+        file.type = 'text/javascript';
+        file.async = true;
+        file.src = url;
+      } else if (url.indexOf('.css') > -1) {
+        file = document.createElement('link');
+        [$node] = document.getElementsByTagName('link');
+        file.rel = 'stylesheet';
+        file.type = 'text/css';
+        file.href = url;
+      }
+
+      if (!file || !$node) {
+        reject(new Error('no files'));
+        return;
+      }
+
+      file.onload = () => {
+        resolve();
+      };
+
+      $node.parentNode.insertBefore(file, $node);
+    } catch (err) {
+      reject(err);
     }
-  };
-  s.parentNode.insertBefore(script, s);
+  });
+}
+
+export function loadFiles(urls) {
+  return Promise.all(urls.map(url => loadFile(url)));
 }

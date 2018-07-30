@@ -20,19 +20,10 @@ body {
 
 // temp fix for https://github.com/ant-design/ant-design/commit/a1fafb5b727b62cb0be29ce6e9eca8f579d4f8b7
 :global {
+  @import url('./common.less');
+
   #root {
     height: 100%;
-  }
-  .fix {
-    zoom: 1;
-  }
-
-  .fix::after {
-    display: block;
-    clear: both;
-    content: "";
-    visibility: hidden;
-    height: 0;
   }
 
   .ant-spin-container {

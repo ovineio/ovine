@@ -2,18 +2,18 @@ import * as React from 'react';
 import { Spin } from 'antd';
 import { loadFiles } from '../../util/misc';
 
-interface MdEditorProps {
+interface VideoPlayerProps {
   name: string;
   disabled?: boolean;
   defaultValue?: string;
   onChange?: (value: any) => string;
   value?: string;
 }
-type MdEditorState = {
+type VideoPlayerState = {
   isLoading: boolean;
 };
 
-export default class MdEditor extends React.PureComponent<MdEditorProps, MdEditorState> {
+export default class VideoPlayer extends React.PureComponent<VideoPlayerProps, VideoPlayerState> {
 
   state = {
     isLoading: true,
@@ -27,10 +27,10 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
       this.initTuiEditor();
     } else {
       await loadFiles([
-        'tui-editor-1.2.6/index.css',
-        'tui-editor-1.2.6/index.js'
+        'video-7.20.0/video-js.min.css',
+        'video-7.20.0/video.min.js'
       ]);
-      setTimeout(this.initTuiEditor, 100);
+      this.initTuiEditor();
     }
   }
 
