@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Spin } from 'antd';
 import { loadFiles } from '../../util/misc';
+import tuiConfig from './config';
 
 interface MdEditorProps {
   name: string;
@@ -9,6 +10,7 @@ interface MdEditorProps {
   onChange?: (value: any) => string;
   value?: string;
 }
+
 type MdEditorState = {
   isLoading: boolean;
 };
@@ -28,7 +30,8 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
     } else {
       await loadFiles([
         'tui-editor-1.2.6/index.css',
-        'tui-editor-1.2.6/index.js'
+        'tui-editor-1.2.6/highlight.pack.js',
+        'tui-editor-1.2.6/index.js',
       ]);
       setTimeout(this.initTuiEditor, 100);
     }
@@ -38,18 +41,14 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
     const { value, defaultValue } = this.props;
     const val = value || defaultValue;
 
-    this.tuimd = new (window as any).tui.Editor({
-      el: this.$div.current,
-      initialValue: val,
-      language: 'zh',
-      initialEditType: 'markdown',
-      previewStyle: 'vertical',
-      usageStatistics: false,
-      hideModeSwitch: true,
-      events: {
-        change: this.onChange
-      }
-    });
+    this.tuimd = new (window as any).tui.Editor(
+      Object.assign({}, tuiConfig, {
+        el: this.$div.current,
+        initialValue: val,
+        events: {
+          change: this.onChange
+        }
+      }));
     this.setState({ isLoading: false });
   }
 

@@ -2,6 +2,7 @@
 -
   path: demo
   name: 组件demo展示
+  icon: dropbox
   children:
     -
       path: code

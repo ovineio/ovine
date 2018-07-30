@@ -52,4 +52,9 @@ module.exports.modules = [
   '/system/adminUserManage/adminRoles/edit',
   '/system/adminUserManage/adminRoles/del',
   '/system/adminUserManage/adminRoles/limitsConf',
+  '/demo/_',
+  '/demo',
+  '/demo/code',
+  '/demo/md',
+  '/demo/rich',
 ];

@@ -166,17 +166,19 @@ export function loadFile(fileUrl) {
       let $node;
       if (url.indexOf('.js') > -1) {
         file = document.createElement('script');
-        [$node] = document.getElementsByTagName('script');
+        $node = document.getElementsByTagName('script');
         file.type = 'text/javascript';
         file.async = true;
         file.src = url;
       } else if (url.indexOf('.css') > -1) {
         file = document.createElement('link');
-        [$node] = document.getElementsByTagName('link');
+        $node = document.getElementsByTagName('link');
         file.rel = 'stylesheet';
         file.type = 'text/css';
         file.href = url;
       }
+
+      $node = $node[$node.length - 1] || $node[0];
 
       if (!file || !$node) {
         reject(new Error('no files'));
