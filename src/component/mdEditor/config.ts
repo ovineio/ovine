@@ -17,5 +17,32 @@ export default  {
     'uml',
     'mark',
     'table'
-  ]
+  ],
+  toolbarItems: [
+    'heading',
+    'bold',
+    'italic',
+    'strike',
+    'divider',
+    'hr',
+    'quote',
+    'divider',
+    'ul',
+    'ol',
+    'task',
+    'indent',
+    'outdent',
+    'divider',
+    'table',
+    'image',
+    'link', {
+      type: 'button',
+      options: {
+        className: 'tui-full-screen-icon',
+        name: 'full',
+        tooltip: '全屏',
+        event: 'full'
+      }
+    },
+  ],
 };

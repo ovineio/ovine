@@ -21,6 +21,7 @@ interface CodeEditorProps {
 
 type CodeEditorState = {
   isLoading: boolean;
+  isFullScreen: boolean;
 };
 
 export default class CodeEditor extends React.PureComponent<CodeEditorProps, CodeEditorState> {
@@ -31,6 +32,7 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
 
   state = {
     isLoading: true,
+    isFullScreen: false,
   };
 
   private monaco: any;
@@ -75,8 +77,41 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
       }
     );
 
+    console.info('this.monaco->', this.monaco);
+
     this.setState({ isLoading: false });
     this.monaco.onDidChangeContent = this.onChange;
+    console.info('this.monaco->', this.monaco.getSupportedActions());
+    this.monaco.onContextMenu((...arg: any[]) => {
+      // const isFullScreen = this.state.isFullScreen;
+
+      return false;
+    });
+
+    this.monaco.addAction({
+      id: 'full-screen',
+      label: '全屏',
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: () => {
+        this.setState({ isFullScreen: true });
+      }
+    });
+
+    this.monaco.addAction({
+      id: 'edit-full-screen',
+      label: '退出全屏',
+      precondition: null,
+      keybindingContext: null,
+      contextMenuGroupId: 'navigation',
+      contextMenuOrder: 1.5,
+      run: () => {
+        this.setState({ isFullScreen: false });
+      }
+    });
+
   }
 
   onChange = () => {
@@ -87,12 +122,14 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, isFullScreen } = this.state;
     return (
       <Spin spinning={isLoading} >
         <div
           className={classNames({
-            'transparent': isLoading },
+              'transparent': isLoading,
+              'editor-full-screen': isFullScreen
+            },
             styes.monacoEditor)
           }
           ref={this.$div}

@@ -1,3 +1,20 @@
+.tui-full-screen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 998;
+  width: 100%;
+  height: 100% !important;
+}
+.tui-full-screen-icon {
+  background-position: -130px -26px !important;
+}
+.tui-full-screen .tui-full-screen-icon{
+  background-position: -130px -4px !important;
+  background-color: #aeaeae;
+}
 /* BASICS */
 
 .CodeMirror {

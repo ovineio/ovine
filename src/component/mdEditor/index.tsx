@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classNames from 'classnames';
 import { Spin } from 'antd';
 import { loadFiles } from '../../util/misc';
 import tuiConfig from './config';
@@ -13,12 +14,14 @@ interface MdEditorProps {
 
 type MdEditorState = {
   isLoading: boolean;
+  isFullScreen: boolean;
 };
 
 export default class MdEditor extends React.PureComponent<MdEditorProps, MdEditorState> {
 
   state = {
     isLoading: true,
+    isFullScreen: false,
   };
 
   private $div: React.RefObject<HTMLDivElement> = React.createRef();
@@ -50,6 +53,13 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
         }
       }));
     this.setState({ isLoading: false });
+
+    this.tuimd.eventManager.addEventType('full');
+    this.tuimd.eventManager.listen('full', () => {
+      this.setState((preState) => ({
+        isFullScreen: !preState.isFullScreen
+      }));
+    });
   }
 
   onChange = () => {
@@ -59,11 +69,15 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, isFullScreen } = this.state;
     return (
       <Spin spinning={isLoading}>
         <div
           ref={this.$div}
+          className={classNames({
+            'transparent': isLoading,
+            'tui-full-screen': isFullScreen,
+          })}
         />
       </Spin>
     );
