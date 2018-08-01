@@ -22,18 +22,23 @@ npm start # 默认开启mock服务
   - 表列数据渲染
   - 表格增、删、改操作
   - 表格弹框编辑
-
-### TO DO LIST
-
-- 表格常用工具功能
-- 添加公共组件
+- 常用公共组件
   - 富文本编辑器
   - markdown编辑器
   - json代码编辑器
+
+### TO DO LIST
+
+- 表格常用工具功能 [doing]
+- 封装上传文件功能
+- 添加公共组件
   - 日期选择
+  - 视频播放器
 - dashboard展示
 - 解决现存BUG
-- 代码拆包异步加载优化
+- 整理组件代码，将非TS组件，逐步转化为TS组件
+- 部署项目文档
+- 代码性能优化、js文件拆包异步加载优化
 
 ### 添加新的`表格功能`简化为一下几步骤
 1. 添加 `mock api`
@@ -49,33 +54,31 @@ npm start # 默认开启mock服务
 
 ```js
 const Chance = require('chance'); // 生成随机数据
-const utils = require('../utils'); // 工具方法，可自定义扩充
+const _ = require('lodash');
 
 const c = new Chance();
 
 // 生成120条数据， 按照 固定格式
-const sourceList = utils.times(120, (index => ({
+const sourceList = _.times(120, (index => ({
   _id: String(index + 200),
   title: c.word({ word: 6 }),
   click_url: c.url({
     path: 'qwe/er/123',
-    domain: 'asdf',
+    domain: 'niasd',
   }),
-  pic_url: 'http://pic2.qiyipic.com/image/20150313/76/b7/a_100010961_m_601_m1_180_236.jpg',
+  pic_url: 'http://image78.360doc.com/DownloadImg/2014/08/2509/44580952_2.jpg',
   order: c.integer({ max: 1000, min: 0 }),
   status: c.bool(),
   timestamp: c.date({ year: 2018 }),
   remark: c.sentence({ words: 4 }),
 })));
 
-// 自动生成 增删改查 接口
-module.exports = utils.renderCrudApi({
+module.exports = {
   idKey: '_id', // 唯一标示key值
-  key: 'poster',
-  source: sourceList, // 源数据
+  key: 'poster', // 接口名
   orderBy: [['status', 'order'], ['desc', 'asc']], // 排序
-});
-
+  source: sourceList, // 源数据
+};
 ```
 
 2. 添加路由配置 `src/config/menu/daily.yaml`

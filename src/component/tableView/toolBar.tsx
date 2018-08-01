@@ -8,14 +8,6 @@ import Wrapper from '../wrapper';
 import styles from './index.less';
 
 const tools = {
-  // expend: {
-  //   icon: 'arrows-alt',
-  //   tip: '全屏显示',
-  // },
-  // shrink:   {
-  //   icon: 'shrink',
-  //   tip: '正常',
-  // },
   rest: {
     icon: 'filter',
     tip: '重置检索框',
