@@ -73,6 +73,7 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
       this.$div.current, {
         language,
         theme,
+        automaticLayout: true,
         value: value || defaultValue || '',
       }
     );
@@ -95,6 +96,7 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
       contextMenuGroupId: 'navigation',
       contextMenuOrder: 1.5,
       run: () => {
+        this.monaco.layout();
         this.setState({ isFullScreen: true });
       }
     });

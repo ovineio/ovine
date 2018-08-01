@@ -20,7 +20,7 @@ type RichEditorState = {
   isFullScreen: boolean;
 };
 
-export default class MdEditor extends React.PureComponent<RichEditorProps, RichEditorState> {
+export default class RichEditor extends React.PureComponent<RichEditorProps, RichEditorState> {
   static defaultProps = {
     menubar: ['file', 'edit', 'insert', 'view', 'format', 'table'],
     height: 400,

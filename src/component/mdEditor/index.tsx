@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { Spin } from 'antd';
 import { loadFiles } from '../../util/misc';
 import tuiConfig from './config';
+import { defineFlowExtension } from './flowExt';
 
 interface MdEditorProps {
   name: string;
@@ -35,6 +36,7 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
         'tui-editor-1.2.6/index.css',
         'tui-editor-1.2.6/highlight.pack.js',
         'tui-editor-1.2.6/index.js',
+        'tui-editor-1.2.6/flowchart.min.js',
       ]);
       setTimeout(this.initTuiEditor, 100);
     }
@@ -43,6 +45,8 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
   initTuiEditor = () => {
     const { value, defaultValue } = this.props;
     const val = value || defaultValue;
+
+    defineFlowExtension((window as any).tui.Editor, (window as any).flowchart);
 
     this.tuimd = new (window as any).tui.Editor(
       Object.assign({}, tuiConfig, {

@@ -5,18 +5,20 @@ export default  {
   previewStyle: 'vertical',
   usageStatistics: false,
   hideModeSwitch: true,
+  height: 600,
   exts: [{
       name: 'chart',
-      minWidth: 100,
-      maxWidth: 600,
-      minHeight: 100,
-      maxHeight: 300
+      // minWidth: 100,
+      // maxWidth: 600,
+      // minHeight: 100,
+      // maxHeight: 300
     },
     'scrollSync',
     'colorSyntax',
     'uml',
     'mark',
-    'table'
+    'table',
+    'flow',
   ],
   toolbarItems: [
     'heading',
