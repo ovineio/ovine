@@ -4,40 +4,20 @@ export default  {
   initialEditType: 'markdown',
   previewStyle: 'vertical',
   usageStatistics: false,
-  hideModeSwitch: true,
   height: 600,
-  exts: [{
+  exts: [
+    'scrollSync', 'colorSyntax', 'uml', 'mark', 'table', 'flow', {
       name: 'chart',
-      // minWidth: 100,
-      // maxWidth: 600,
-      // minHeight: 100,
-      // maxHeight: 300
-    },
-    'scrollSync',
-    'colorSyntax',
-    'uml',
-    'mark',
-    'table',
-    'flow',
+      minWidth: 100,
+      maxWidth: 600,
+      minHeight: 100,
+      maxHeight: 300
+    }
   ],
   toolbarItems: [
-    'heading',
-    'bold',
-    'italic',
-    'strike',
-    'divider',
-    'hr',
-    'quote',
-    'divider',
-    'ul',
-    'ol',
-    'task',
-    'indent',
-    'outdent',
-    'divider',
-    'table',
-    'image',
-    'link', {
+    'heading', 'bold', 'italic', 'strike', 'divider', 'hr',
+    'quote', 'divider', 'ul', 'ol', 'task', 'indent', 'outdent', 'divider',
+    'table', 'image', 'link', {
       type: 'button',
       options: {
         className: 'tui-full-screen-icon',
@@ -45,6 +25,14 @@ export default  {
         tooltip: '全屏',
         event: 'full'
       }
-    },
+    }, {
+      type: 'button',
+      options: {
+        className: 'tui-chmode-icon',
+        name: 'chmode',
+        tooltip: '切换模式',
+        event: 'chmode'
+      }
+    }
   ],
 };

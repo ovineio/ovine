@@ -16,6 +16,7 @@ interface MdEditorProps {
 type MdEditorState = {
   isLoading: boolean;
   isFullScreen: boolean;
+  previewStyle: string;
 };
 
 export default class MdEditor extends React.PureComponent<MdEditorProps, MdEditorState> {
@@ -23,6 +24,7 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
   state = {
     isLoading: true,
     isFullScreen: false,
+    previewStyle: 'vertical',
   };
 
   private $div: React.RefObject<HTMLDivElement> = React.createRef();
@@ -64,6 +66,13 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
         isFullScreen: !preState.isFullScreen
       }));
     });
+
+    this.tuimd.eventManager.addEventType('chmode');
+    this.tuimd.eventManager.listen('chmode', () => {
+      const previewStyle =  this.state.previewStyle === 'tab' ? 'vertical' : 'tab';
+      this.tuimd.layout.changePreviewStyle(previewStyle);
+      this.setState({ previewStyle });
+    });
   }
 
   onChange = () => {
@@ -73,12 +82,13 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
   }
 
   render() {
-    const { isLoading, isFullScreen } = this.state;
+    const { isLoading, isFullScreen, previewStyle } = this.state;
     return (
       <Spin spinning={isLoading}>
         <div
           ref={this.$div}
-          className={classNames({
+          className={classNames(
+            `editor-preview-${previewStyle}-style`, {
             'transparent': isLoading,
             'editor-full-screen': isFullScreen,
           })}

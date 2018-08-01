@@ -263,13 +263,13 @@ export const mdVal = [
   'y.suffix: $',
   '```',
   '```flow',
-  'st=>start: Start|past:>http://www.google.com[blank]',
-  'e=>end: End:>http://www.google.com',
-  'op1=>operation: My Operation|past',
+  'st=>start: Start|past:>https://github.com/CareyToboo/rt-admin',
+  'e=>end: End:>https://github.com/CareyToboo/rt-admin',
+  'op1=>operation: My Operation',
   'op2=>operation: Stuff|current',
   'sub1=>subroutine: My Subroutine|invalid',
   'cond=>condition: Yes',
-  'or No?|approved:>http://www.google.com',
+  'or No?|approved:>https://github.com/CareyToboo/rt-admin',
   'c2=>condition: Good idea|rejected',
   'io=>inputoutput: catch something...|request',
   'para=>parallel: parallel tasks',
@@ -284,12 +284,12 @@ export const mdVal = [
   'para(path2, right)->op2->e',
 
   // tslint:disable-next-line:max-line-length
-  'st@>op1({"stroke":"Red"})@>cond({"stroke":"Red","stroke-width":6,"arrow-end":"classic-wide-long"})@>c2({"stroke":"Red"})@>op2({"stroke":"Red"})@>e({"stroke":"Red"})',
+  'st>op1>cond>c2>op2>e',
   '```'
 ].join('\n');
 
 export const richVal = `
-<p><span style="font-size: 18pt;">rt-admin 目的是构建一个中小型企业开箱即用的，基于table操作集合的解决admin系统集成方案。</span></p>
+<p><span style="font-size: 18pt;">rt-admin 目的是构建一个中小型企业开箱即用的，基于table操作集合的admin系统解决方案。</span></p>
 <p><span style="font-size: 12pt;">是ant-pro源码的ts重构版，支持TS，ES6同时编写代码。拥有antd-pro,antd,ract，
 typescrtipt 组件和代码类型检查的优势。</span></p>
 <p><span style="font-size: 12pt; color: #333399;">Table View 为该项目核心功组件</span></p>

@@ -1,10 +1,23 @@
 .tui-full-screen-icon {
   background-position: -130px -26px !important;
 }
+.tui-chmode-icon {
+  background-position: -130px -26px !important;
+}
+.editor-preview-tab-style .tui-chmode-icon {
+  background-color: red;
+}
+.editor-preview-vertical-style .tui-chmode-icon {
+  background-color: #aeaeae;
+}
 .editor-full-screen .tui-full-screen-icon{
   background-position: -130px -4px !important;
   background-color: #aeaeae;
 }
+.editor-preview-tab-style .te-markdown-tab-section {
+  display: block !important;
+}
+
 /* BASICS */
 
 .CodeMirror {
