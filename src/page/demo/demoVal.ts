@@ -303,6 +303,7 @@ typescrtipt 组件和代码类型检查的优势。</span></p>
 <li><span style="font-size: 12pt;">tinymce富文本编辑器【页面富文本展示页功能】</span></li>
 <li><span style="font-size: 12pt;">tui-edior markdwon编辑器【文档编辑功能】</span></li>
 <li><span style="font-size: 12pt;">monaco 代码编辑器【配置管理等功能】</span></li>
+<li><span style="font-size: 12pt;">vodejs 视频播放器【各种格式的视频文件预览】<span style="color: #ff9900;">【doing】</span></span></li>
 <li><span style="font-size: 12pt;">集成七牛文件上传<span style="color: #ff9900;">【to-do】</span></span></li>
 <li><span style="font-size: 12pt;">集成自定义文件上传<span style="color: #ff9900;">【to-do】</span></span></li>
 </ul>
