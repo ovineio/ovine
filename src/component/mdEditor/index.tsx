@@ -76,7 +76,7 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
           ref={this.$div}
           className={classNames({
             'transparent': isLoading,
-            'tui-full-screen': isFullScreen,
+            'editor-full-screen': isFullScreen,
           })}
         />
       </Spin>

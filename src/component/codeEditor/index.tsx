@@ -77,13 +77,12 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
       }
     );
 
-    console.info('this.monaco->', this.monaco);
+    // console.info('this.monaco->', this.monaco);
 
     this.setState({ isLoading: false });
     this.monaco.onDidChangeContent = this.onChange;
-    console.info('this.monaco->', this.monaco.getSupportedActions());
     this.monaco.onContextMenu((...arg: any[]) => {
-      // const isFullScreen = this.state.isFullScreen;
+    // const isFullScreen = this.state.isFullScreen;
 
       return false;
     });

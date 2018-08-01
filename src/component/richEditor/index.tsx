@@ -17,6 +17,7 @@ interface RichEditorProps {
 
 type RichEditorState = {
   isLoading: boolean;
+  isFullScreen: boolean;
 };
 
 export default class MdEditor extends React.PureComponent<RichEditorProps, RichEditorState> {
@@ -27,6 +28,7 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
 
   state = {
     isLoading: true,
+    isFullScreen: false,
   };
 
   private id: string = `rich-${unqid()}`;
@@ -58,6 +60,11 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
     editor.on('NodeChange Change KeyUp SetContent', () => {
       this.onChange(editor.getContent());
     });
+    editor.on('FullscreenStateChanged', () => {
+      this.setState(prevState => ({
+        isFullScreen: !prevState.isFullScreen,
+      }));
+    });
   }
 
   initTinymce = () => {
@@ -72,9 +79,12 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
   }
 
   onChange = (value: any) => {
-    if (this.props.onChange) {
-      this.props.onChange(value);
+    const { onChange } = this.props;
+    if (!onChange) {
+      return;
     }
+
+    onChange(value);
   }
 
   render() {
@@ -84,7 +94,9 @@ export default class MdEditor extends React.PureComponent<RichEditorProps, RichE
         <Spin spinning={isLoading} >
           <textarea
             id={this.id}
-            className={classNames({ 'transparent': isLoading })}
+            className={classNames({
+              'transparent': isLoading,
+            })}
           />
         </Spin>
       </div>
