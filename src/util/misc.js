@@ -199,3 +199,15 @@ export function loadFile(fileUrl) {
 export function loadFiles(urls) {
   return Promise.all(urls.map(url => loadFile(url)));
 }
+
+// 表格导出csv
+export function export2csv(table) {
+  let data = '\ufeff';
+  for (let i = 0, row; row = table.rows[i]; i++) { // eslint-disable-line
+    for (let j = 0, col; col = row.cells[j]; j++) { // eslint-disable-line
+      data = `data${j ? ',' : ''} \t"${col.replace(/"/g, '""')}"`;
+    }
+    data = `${data}\r\n`;
+  }
+  return data;
+}

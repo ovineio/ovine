@@ -1,6 +1,7 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
 import { get, findIndex } from 'lodash';
+import { unqid } from '../util/misc';
 import { tableRequst, dispLoadResource } from '../service/api';
 import { TableLoadType, PageSizeOptions } from '../component/tableView';
 
@@ -16,6 +17,7 @@ export type TableViewModelState = {
     current: number; // 当前页
     pageSize: PageSizeOptions // 每页条数
   };
+  fitlerKey: string; // 刷新filter
 };
 
 export type TableViewModal = {
@@ -30,6 +32,7 @@ export type TableViewModal = {
     saveLoadType: Reducer<any>; // 保存加载类型
     saveListSource: Reducer<any>; // 保存表格数据
     saveActionSource: Reducer<any>; // 保存其他请求数据
+    resetFilter: Reducer<any>; // 保存其他请求数据
   };
 };
 
@@ -45,6 +48,7 @@ const tableViewModel: TableViewModal = {
       current: 1,
       pageSize: 50,
     },
+    fitlerKey: '',
   },
 
   effects: {
@@ -135,6 +139,12 @@ const tableViewModel: TableViewModal = {
         storeSource: source,
       };
     },
+    resetFilter(state) {
+      return {
+        ...state,
+        fitlerKey: unqid(),
+      };
+    }
   },
 };
 

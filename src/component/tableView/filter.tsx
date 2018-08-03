@@ -1,7 +1,8 @@
 ﻿import * as React from 'react';
 import { Form } from 'antd';
 import { parse } from 'qs';
-import { map, isEmpty, omitBy, isEqual, cloneDeep } from 'lodash';
+import { map, isEmpty, omitBy, isEqual, cloneDeep, pick } from 'lodash';
+import { WrappedFormUtils } from 'antd/lib/form/Form';
 
 import { getRouteMenuData } from '../../route/menu';
 import { unqid } from '../../util/misc';
@@ -19,9 +20,10 @@ const style = {
 export interface FilterPorps {
   tableParams: TableParmas;
   tableLoadType: TableLoadType;
-  filter?: FilterConfig;
   load: TableButtonProps;
   location: Location;
+  filterKey: string;
+  filter?: FilterConfig;
 }
 
 declare interface FilterStates {
@@ -36,6 +38,7 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
   private buttonKey: string = 'filter';
   private hashQuery: any = false;
   private newProps: any = {};
+  private form: WrappedFormUtils | undefined;
 
   componentWillMount() {
     this.setHashQuery(this.props.location.hash);
@@ -43,19 +46,26 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
   }
 
   componentWillReceiveProps(nexprops: FilterPorps) {
-    if (this.props.location.hash !== nexprops.location.hash) {
+    const { location, tableParams, filterKey } = this.props;
+
+    if (filterKey !== nexprops.filterKey && this.form) {
+      return this.setFormFileds(true);
+    }
+
+    if (location.hash !== nexprops.location.hash) {
       this.setHashQuery(nexprops.location.hash);
     }
 
     this.buttonKey = nexprops.tableLoadType ? unqid() : '';
 
-    if (this.props.location.pathname !== nexprops.location.pathname) {
+    if (location.pathname !== nexprops.location.pathname) {
       this.newProps = this.getProps();
     }
 
-    if (!isEqual(this.props.tableParams, nexprops.tableParams)) {
+    if (!isEqual(tableParams, nexprops.tableParams)) {
       this.hashQuery = false;
     }
+
   }
 
   setHashQuery = (hash: string) => {
@@ -71,12 +81,16 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
       ...data,
       ...query,
     };
+    // console.info('hashQuery->', this.hashQuery);
+
     this.hashQuery = data;
   }
 
   onFilter = (btnArgs: BaseButtonClickArgs) => {
-    const { tableParams, filter, load, tableLoadType } = this.props;
+    const { tableParams, load, tableLoadType } = this.props;
     const { values = {}, form } = btnArgs;
+    this.form = form;
+
     const {
         api: loadApiKey = 'list',
         data: requestParams = {},
@@ -84,35 +98,26 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
     } = load.requestOptions || {};
 
     const { api: apiList } = getRouteMenuData();
-    let source: any = values;
+    let source: any = Object.assign({}, values);
 
     if (tableLoadType === TableLoadType.REFRESH) {
-      if (form) {
-        form.resetFields();
-      }
-      source = {};
-      if (filter && filter.item) {
-        map(filter.item, (options, key: string) => {
-          source[key] = options.defaultValue;
-        });
-      }
+      source = this.setFormFileds(true);
+      source.page = 1;
+      this.hashQuery = false;
     }
 
-    let data = {
-      ...tableParams,
-      ...requestParams,
-      ...source,
-    };
+    let data = Object.assign({}, tableParams, requestParams, source);
 
     if (!this.buttonKey) {
       data.page = 1;
       this.hashQuery = false;
     }
 
-    data = {
-      ...data,
-      ...this.hashQuery,
-    };
+    if (this.hashQuery) {
+      data = this.hashQuery;
+      this.setFormFileds(false, data);
+    }
+
     const result = {
       data: omitBy(data, i => i === undefined || i === ''),
       api: apiList[loadApiKey],
@@ -120,6 +125,26 @@ export default class Filter extends React.PureComponent<FilterPorps, FilterState
     };
 
     loadTableData(result);
+  }
+
+  getInitValue = (): any => {
+    const initValue: any = {};
+    const { filter } = this.props;
+    if (filter && filter.item) {
+      map(filter.item, (options, key: string) => {
+        initValue[key] = options.defaultValue;
+      });
+    }
+    return initValue;
+  }
+
+  setFormFileds = (isRest: boolean, data?: any): any => {
+    const form = this.form;
+    const d = isRest ? this.getInitValue() : data;
+    if (form) {
+      form.setFieldsValue(pick(d, Object.keys(form.getFieldsValue())));
+    }
+    return d;
   }
 
   getFormItems = (item: FormItemType): FormItemType  => {

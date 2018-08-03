@@ -246,6 +246,7 @@ export default class Table extends React.PureComponent<TableProps, TableState> {
     return (
       <div className={classNames(className, styles.tableWrapper)}>
         <Filter
+          filterKey={tableview.fitlerKey}
           tableLoadType={tableLoadType}
           tableParams={tableParams}
           filter={filter}

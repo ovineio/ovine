@@ -34,6 +34,11 @@ export const tableRequest = async (args: TableRequstOptions): Promise<void> => {
   });
 };
 
+// 重置 fitler 为默认值
+export const resetFilter = (): void => {
+  store.dispatch({ type: 'tableview/resetFilter' });
+};
+
 // 跳转页
 export const linkTo = (location: LocationDescriptorObject | Path, state?: LocationState): void => {
   store.dispatch(routerRedux.push(location, state));
