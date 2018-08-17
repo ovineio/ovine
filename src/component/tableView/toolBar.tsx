@@ -2,31 +2,27 @@ import * as React from 'react';
 import classNames from 'classnames';
 import { map } from 'lodash';
 import { Button } from 'antd';
-import { TooltipPlacement } from 'antd/lib/tooltip';
 
-import ActionButton, { ActionButtonProps } from '../actionButton';
+import ActionButton from '../actionButton';
 import Wrapper from '../wrapper';
 import styles from './index.less';
 
-import { loadTableByType, resetFilter } from './utils';
-import { TableLoadType } from './type';
-
-type ToolItem = {
-  icon: string,
-  tip: string,
-  click?: (...args: any[]) => any;
-};
-
-const tools: { [key: string]: ToolItem } = {
-  restFilter: {
+const tools = {
+  // expend: {
+  //   icon: 'arrows-alt',
+  //   tip: '全屏显示',
+  // },
+  // shrink:   {
+  //   icon: 'shrink',
+  //   tip: '正常',
+  // },
+  rest: {
     icon: 'filter',
     tip: '重置检索框',
-    click: resetFilter
   },
-  refreshTable: {
+  refresh: {
     icon: 'reload',
     tip: '刷新表格',
-    click: () => loadTableByType(TableLoadType.REFRESH),
   },
   exportCurrt: {
     icon: 'download',
@@ -34,7 +30,7 @@ const tools: { [key: string]: ToolItem } = {
   },
   exportTotal: {
     icon: 'cloud-download',
-    tip: '导出所有数据',
+    tip: '全量导出',
   },
   help: {
     icon: 'info-circle-o',
@@ -52,20 +48,16 @@ export default ({ className = '', ...restProps }) => {
           map(tools, (tool, key) => {
             // if (hideAction.filter(i => i === key).length) return;
             // if (toolbar[key] === false) return;
-            const { icon, tip, click } = tool;
-            const props: ActionButtonProps = {
-              click,
-              buttonProps: { icon },
-              tooltip: {
-                placement: 'top' as TooltipPlacement,
-                title: tip,
-              }
-            };
+            const { icon, tip } = tool;
 
             return (
               <ActionButton
                 key={key}
-                {...props}
+                tooltip={{
+                  placement: 'top',
+                  title: tip,
+                }}
+                buttonProps={{ icon }}
               />
             );
           })
