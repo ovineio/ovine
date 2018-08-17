@@ -10,7 +10,7 @@ const sourceList = _.times(120, (index => ({
     path: 'qwe/er/123',
     domain: 'niasd',
   }),
-  pic_url: 'http://image78.360doc.com/DownloadImg/2014/08/2509/44580952_2.jpg',
+  pic_url: 'https://avatars0.githubusercontent.com/u/15522313?s=460&v=4',
   order: c.integer({ max: 1000, min: 0 }),
   status: c.bool(),
   timestamp: c.date({ year: 2018 }),
