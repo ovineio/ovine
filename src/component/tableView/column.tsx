@@ -13,7 +13,7 @@ const getHandlerItem = (
   item = {
     ...item,
     width: 80,
-    title: '操作',
+    title: <span className="no-export-cell">操作</span>,
     sorter: false,
   };
 
@@ -38,6 +38,7 @@ const getHandlerItem = (
     };
     return (
       <ButtonList
+        className="no-export-cell"
         dropdown={dropdown}
         source={args[1]._source}
         buttonList={authedActions}

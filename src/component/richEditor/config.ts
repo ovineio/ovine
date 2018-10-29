@@ -1,3 +1,5 @@
+import { upload } from '../../service/upload';
+import api from '../../constant/api';
 // Any plugins you want to use has to be imported
 // Detail plugins list see https://www.tinymce.com/docs/plugins/
 // Custom builds see https://www.tinymce.com/download/custom-builds/
@@ -51,23 +53,27 @@ export default {
   automatic_uploads: false,
   images_reuse_filename: true,
   paste_data_images: true,
-  imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
-  // image_title: true,
-  // images_upload_url: 'postAcceptor.php',
-  // file_picker_callback (callback, value, meta) {
-  // callback('https://www.google.com/logos/google.jpg', { alt: 'My alt text' });
-  // },
   images_dataimg_filter: () => {
 
   },
-  images_upload_handler: (data: any, success: any, failure: any, progress: (num: number) => void) => {
-    console.info('blob upload [started]', 'id:', data.id(), 'filename:', data.filename());
-    progress(0);
+  images_upload_handler: async (data: any, success: any, failure: any, progress: (num: number) => void) => {
+    // console.info('blob upload [started]', 'id:', data.id(), 'filename:', data.filename());
 
-    setTimeout(function () {
-      console.info('blob upload [ended]', data.id());
-      success(data.id() + '.png');
+    try {
+      progress(0);
+
+      const body = new FormData();
+      body.append('file', data.blob());
+      const source: any = await upload({
+        body,
+        api: api.upload,
+      });
+
       progress(100);
-    }, 1000);
+      success(source.data.url);
+    } catch (e) {
+      progress(100);
+      failure();
+    }
   },
 };

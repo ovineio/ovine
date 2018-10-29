@@ -19,7 +19,7 @@ const ImgFiled = ({
           <img className={styles.imgNormal} src={value} alt="图片" />
         }
       >
-        <a href={value} target="_blank">
+        <a href={value} target="_blank" data-export={value}>
           <img className={styles.imgThumb} src={value} alt="图片" />
         </a>
       </Popover>

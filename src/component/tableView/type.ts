@@ -85,6 +85,4 @@ export interface BaseConfig {
   info?: any;
 }
 
-export interface TableConfig extends BaseConfig, WrapperProps {
-
-}
+export interface TableConfig extends BaseConfig { }

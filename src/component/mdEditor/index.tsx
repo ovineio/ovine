@@ -48,6 +48,7 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
     const { value, defaultValue } = this.props;
     const val = value || defaultValue;
 
+    // 定义 flowchart 扩展
     defineFlowExtension((window as any).tui.Editor, (window as any).flowchart);
 
     this.tuimd = new (window as any).tui.Editor(
@@ -55,11 +56,17 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
         el: this.$div.current,
         initialValue: val,
         events: {
-          change: this.onChange
-        }
+          change: this.onChange,
+          stateChange: () => {
+            console.info(123);
+          },
+          load: () => {
+            this.setState({ isLoading: false });
+          }
+        },
       }));
-    this.setState({ isLoading: false });
 
+    // 切换 全屏
     this.tuimd.eventManager.addEventType('full');
     this.tuimd.eventManager.listen('full', () => {
       this.setState((preState) => ({
@@ -67,6 +74,7 @@ export default class MdEditor extends React.PureComponent<MdEditorProps, MdEdito
       }));
     });
 
+    // 切换 编辑器模式
     this.tuimd.eventManager.addEventType('chmode');
     this.tuimd.eventManager.listen('chmode', () => {
       const previewStyle =  this.state.previewStyle === 'tab' ? 'vertical' : 'tab';

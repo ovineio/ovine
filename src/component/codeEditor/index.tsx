@@ -78,37 +78,36 @@ export default class CodeEditor extends React.PureComponent<CodeEditorProps, Cod
       }
     );
 
-    // console.info('this.monaco->', this.monaco);
-
     this.setState({ isLoading: false });
     this.monaco.onDidChangeContent = this.onChange;
-    this.monaco.onContextMenu((...arg: any[]) => {
-    // const isFullScreen = this.state.isFullScreen;
 
-      return false;
-    });
+    const entryFullCondition = this.monaco.createContextKey('entryFullCondition', true);
+    const exitFullCondition = this.monaco.createContextKey('exitFullCondition', false);
 
     this.monaco.addAction({
-      id: 'full-screen',
+      id: 'editor.action.entryFullCondition',
       label: '全屏',
-      precondition: null,
+      precondition: 'entryFullCondition',
       keybindingContext: null,
-      contextMenuGroupId: 'navigation',
-      contextMenuOrder: 1.5,
+      contextMenuGroupId: '9_cutcopypaste',
+      contextMenuOrder: 0,
       run: () => {
-        this.monaco.layout();
+        entryFullCondition.set(false);
+        exitFullCondition.set(true);
         this.setState({ isFullScreen: true });
       }
     });
 
     this.monaco.addAction({
-      id: 'edit-full-screen',
+      id: 'editor.action.exitFullCondition',
       label: '退出全屏',
-      precondition: null,
+      precondition: 'exitFullCondition',
       keybindingContext: null,
-      contextMenuGroupId: 'navigation',
-      contextMenuOrder: 1.5,
+      contextMenuGroupId: '9_cutcopypaste',
+      contextMenuOrder: 0,
       run: () => {
+        entryFullCondition.set(true);
+        exitFullCondition.set(false);
         this.setState({ isFullScreen: false });
       }
     });

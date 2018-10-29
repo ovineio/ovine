@@ -31,7 +31,7 @@ export function getUrl(api, params = {}, options = {}) {
   if (!api) return;
   const { method = 'get', module = 'api', json = false } = options;
 
-  let url = '';
+  let url = api;
 
   if (api.indexOf('http') !== 0) {
     const host = config.isMock ? '/mock' : config.domain[module];
@@ -198,16 +198,4 @@ export function loadFile(fileUrl) {
 
 export function loadFiles(urls) {
   return Promise.all(urls.map(url => loadFile(url)));
-}
-
-// 表格导出csv
-export function export2csv(table) {
-  let data = '\ufeff';
-  for (let i = 0, row; row = table.rows[i]; i++) { // eslint-disable-line
-    for (let j = 0, col; col = row.cells[j]; j++) { // eslint-disable-line
-      data = `data${j ? ',' : ''} \t"${col.replace(/"/g, '""')}"`;
-    }
-    data = `${data}\r\n`;
-  }
-  return data;
 }

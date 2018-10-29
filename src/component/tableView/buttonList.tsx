@@ -9,6 +9,7 @@ import TableButton, { TableButtonProps } from './tableButton';
 import { ButtonListConfigType, ActionListConfigType } from '.';
 
 export interface ButtonListProps extends WrapperProps {
+  className?: string;
   dropdown?: {
     text?: string | React.ReactNode;
     showIcon?: boolean;
@@ -43,21 +44,23 @@ const renderActions = (args: ButtonListProps) => {
 };
 
 const ButtonList = (args: ButtonListProps): JSX.Element => {
-  const { dropdown, children, beforeRender, render, afterRender, ...restProps } = args;
+  const { className, dropdown, children, ...restProps } = args;
 
   return (
     <Wrapper {...args}>
-      { !dropdown ? renderActions({ dropdown, ...restProps }) :
-        <Dropdown
-          overlay={renderActions({ dropdown, ...restProps })}
-        >
-          { children || (
-            <a className="ant-dropdown-link" href="javascript:;">
-              <span>{dropdown.text}</span>
-              {dropdown.showIcon && <Icon type="down" />}
-            </a>
-          )}
-        </Dropdown>}
+      <div className={className}>
+        { !dropdown ? renderActions({ dropdown, ...restProps }) :
+          <Dropdown
+            overlay={renderActions({ dropdown, ...restProps })}
+          >
+            { children || (
+              <a className="ant-dropdown-link" href="javascript:;">
+                <span>{dropdown.text}</span>
+                {dropdown.showIcon && <Icon type="down" />}
+              </a>
+            )}
+          </Dropdown>}
+      </div>
     </Wrapper>
   );
 };

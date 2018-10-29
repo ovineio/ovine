@@ -3,7 +3,7 @@ import request, { RequestOptions } from './request';
 
 export interface TableRequstOptions extends RequestOptions {
   updateSyncType?: 'edit' | 'del'; // 更新 前端数据同步
-  getTableSource?: (source: any, args: TableRequstOptions) => TableResource;   /* 加载表格后 默认dispLoadResource处理 请求值  */
+  getTableSource?: (source: any, args: TableRequstOptions) => TableResource; /* 加载表格后 默认dispLoadResource处理 请求值  */
   getDataSrouce?: (source: any, args: TableRequstOptions) => any;
 }
 

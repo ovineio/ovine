@@ -1,3 +1,6 @@
+import { upload } from '../../service/upload';
+import api from '../../constant/api';
+
 export default  {
   autofocus: false,
   language: 'zh',
@@ -35,4 +38,21 @@ export default  {
       }
     }
   ],
+  hooks: {
+    addImageBlobHook: async (blob: Blob, callbak: (url: string, desc?: string) => void) => {
+      try {
+        const body = new FormData();
+        body.append('file', blob);
+        const source: any = await upload({
+          body,
+          api: api.upload,
+        });
+
+        callbak(source.data.url, '图片');
+      } catch (e) {
+        callbak('', '图片错误');
+      }
+
+    }
+  }
 };
