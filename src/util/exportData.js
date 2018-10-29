@@ -1,7 +1,6 @@
 
 // 表格导出csv
 export function getTableCsvData($headerRow, $bodyRow) {
-
   if (!$headerRow || !$bodyRow) {
     return '';
   }
