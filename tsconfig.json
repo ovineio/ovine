@@ -13,7 +13,6 @@
       "dom",
       "es7"
     ],
-    "declaration": true,
   },
   "exclude": [
     "public",
