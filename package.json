@@ -9,7 +9,7 @@
     "build": "cross-env PORT=7050 API_ENV=production ENV=production webpack --config build/webpack.prod.conf.js",
     "build:analyzer": "cross-env API_ENV=production ENV=production ENABLE_ANALYZER=true webpack --config build/webpack.prod.conf.js",
     "lint:ts": "tslint src/**/*.{ts,tsx}",
-    "lint:fix": "eslint --fix {src,mock,test}/**/*.{js,jsx} && tslint --fix src/**/*.{ts,tsx}",
+    "lint:ts:fix": "yarn run lint:ts --fix",
     "lint-staged": "lint-staged",
     "clean": "rimraf ./dist/*"
   },
@@ -68,11 +68,11 @@
     "webpack-merge": "^4.2.1"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "npm run lint:ts"
+    "src/**/*.{ts,tsx}": "yarn lint:ts:fix && git add --all"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint-staged"
+      "pre-commit": "yarn lint-staged"
     }
   },
   "engines": {
