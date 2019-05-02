@@ -1,23 +1,39 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "module": "esNext",
-    "moduleResolution": "Node",
+    "target": "es5",
+    "module": "esnext",
+    "lib": ["es6", "dom"],
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
     "experimentalDecorators": true,
-    "jsx": "preserve",
-    "allowJs": true,
-    "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
-    "target": "es6",
-    "lib": [
-      "dom",
-      "es7"
-    ],
+    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strict": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "outDir": "dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@config": ["config/index"],
+      "@constants": ["constants/index"],
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@components/*": ["components/*"],
+      "@widgets/*": ["widgets/*"],
+      "@core/*": ["core/*"],
+      "@hooks/*": ["hooks/*"],
+      "@routes/*": ["routes/*"],
+      "@assets/*": ["assets/*"]
+    },
+    "types": ["@types/react", "styled-components"],
+    "typeRoots": ["./types"]
   },
-  "exclude": [
-    "public",
-    "node_modules",
-    "**/*.js",
-    "**/*.jsx",
-  ]
+  "compileOnSave": false,
+  "exclude": ["./node_modules", "./coverage", "./document", "./dist", "__test__"]
 }

@@ -1,10 +1,4 @@
 {
-  "tslint.exclude": [
-    "public",
-    "node_modules",
-    "**/*.{js,jsx}",
-    "**/*/monaco.d.ts"
-  ],
-  "javascript.implicitProjectConfig.experimentalDecorators": true,
-  "tslint.autoFixOnSave": true
+  "editor.formatOnSave": true,
+  "liveServer.settings.root": "/dist"
 }

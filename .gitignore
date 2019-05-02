@@ -1,10 +1,10 @@
 /lib
 /node_modules/
-build/
-dist/
+/dist
 .DS_Store
 .tmp
 yarn.lock
 npm-debug.log
 package-lock.json
 yarn.lock
+yarn-error.log
