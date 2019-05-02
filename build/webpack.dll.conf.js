@@ -8,6 +8,7 @@ const { rootDir, manifestPath, dllVendorJsPath, manifestAssetsName } = utils
 const { DllPlugin } = webpack
 
 const dellWebpackConfig = {
+  mode: 'production',
   entry: {
     dll_vendor: [
       'react',

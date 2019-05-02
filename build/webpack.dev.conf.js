@@ -5,6 +5,7 @@ const utils = require('./utils')
 const { PORT } = utils
 
 const devWebpackConfig = merge(webpackConfig, {
+  mode: 'development',
   devtool: 'source-map',
   module: {
     rules: [

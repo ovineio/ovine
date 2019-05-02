@@ -10,6 +10,7 @@ const { BundleAnalyzerPlugin } = analyzer
 const { isProd, enableAnalyzer, ANALYZER_PORT } = utils
 
 const prodWebpackConfig = merge(webpackConfig, {
+  mode: 'production',
   devtool: false,
   module: {
     rules: [
