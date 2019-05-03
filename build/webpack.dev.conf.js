@@ -3,16 +3,27 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
-const { PORT } = utils
+const { PORT, srcDir } = utils
 
 const devWebpackConfig = merge(webpackConfig, {
   mode: 'development',
+  entry: ['react-hot-loader/patch', srcDir('index.tsx')],
   devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.js|jsx$/,
+        use: ['react-hot-loader/webpack', 'babel-loader'],
+        include: srcDir(),
+      },
+      {
+        test: /\.ts|tsx$/,
+        use: ['react-hot-loader/webpack', 'babel-loader', 'ts-loader'],
+        exclude: srcDir(),
       },
     ],
   },
@@ -39,6 +50,7 @@ const devWebpackConfig = merge(webpackConfig, {
       modules: true,
       maxModules: 0,
       errors: true,
+      colors: true,
       warnings: true,
       // our additional options
       moduleTrace: true,

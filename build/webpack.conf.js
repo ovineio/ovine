@@ -11,7 +11,6 @@ const { ENV, API_ENV, srcDir, distDir, rootDir, isProd, dllVendorJs } = utils
 const webpackConfig = {
   mode: ENV,
   bail: true,
-  entry: srcDir('index.tsx'),
   output: {
     path: distDir(),
     filename: 'index_[hash:6].js',

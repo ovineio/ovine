@@ -51,5 +51,10 @@ export const StyledAppHeader = styled.div`
       left: 9px;
       color: #6f6f70;
     }
+
+    .layui-form-select dl {
+      top: 36px;
+      background-color: rgba(255, 255, 255, 0.9);
+    }
   }
 `

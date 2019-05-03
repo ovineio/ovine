@@ -9,11 +9,12 @@ const utils = require('./utils')
 
 const { DllReferencePlugin } = webpack
 const { BundleAnalyzerPlugin } = analyzer
-const { isProd, enableAnalyzer, manifestPath, ANALYZER_PORT } = utils
+const { ANALYZER_PORT, isProd, enableAnalyzer, manifestPath, srcDir } = utils
 
 const prodWebpackConfig = merge(webpackConfig, {
   mode: 'production',
   devtool: false,
+  entry: srcDir('index.tsx'),
   module: {
     rules: [
       {

@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { StyledAppHeader } from './styled'
 
 export const SearchInput = () => {
-  useEffect(() => {
-    layui.use('form', () => {
-      //
-    })
-  }, [])
-
   return (
-    <div className="layui-form " lay-filter="LAY-site-header-component">
+    <div className="layui-form" lay-filter="LAY-site-header-component">
       <i className="layui-icon layui-icon-search" />
       <select lay-search="" lay-filter="component">
         <option value="">搜索组件或模块</option>
@@ -58,7 +52,7 @@ export const SearchInput = () => {
       </select>
       <div className="layui-form-select layui-form-selected">
         <div className="layui-select-title">
-          <input type="text" placeholder="搜1索asd组件或模块" value="" className="layui-input" />
+          <input type="text" placeholder="搜索组件或模块" value="" className="layui-input" />
         </div>
         <dl className="layui-anim layui-anim-upbit">
           <dd lay-value="" className="layui-select-tips layui-this">
