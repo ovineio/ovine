@@ -7,7 +7,8 @@ declare module '*.jpg'
 declare module '*.jpeg'
 
 declare module 'react-dom'
-declare module 'rt-admin-lib'
+declare module 'react-router-dom'
+declare module 'react-router-config'
 
 declare const process: {
   env: any

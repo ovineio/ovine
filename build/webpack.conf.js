@@ -32,7 +32,6 @@ const webpackConfig = {
       },
       {
         test: /\.(png|jpg|gif|ttf|woff|woff2|eot|svg)$/,
-        exclude: /node_modules/,
         use: [
           {
             loader: 'url-loader',

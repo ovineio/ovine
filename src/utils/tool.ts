@@ -641,3 +641,23 @@ export function padString(
 
   return `${sourceStr}${padStr}`
 }
+
+// 树得深度遍历 https://www.cnblogs.com/wuguanglin/p/DPSandBPS.html
+export function deepTraversal<T extends object>(
+  node: any[],
+  iterator: (item: T) => any,
+  iterateKey = 'children'
+): T {
+  const iterate = (element: any): any => {
+    element.map((e: any) => {
+      const children = e[iterateKey]
+      if (children) {
+        e = iterator(children)
+        return iterate(children)
+      }
+      return iterator(e)
+    })
+    return element
+  }
+  return iterate(node)
+}
