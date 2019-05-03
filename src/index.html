@@ -10,10 +10,12 @@
     <link rel="apple-touch-icon-precomposed" href="<%=htmlWebpackPlugin.options.faviconPng%>" />
     <link rel="apple-touch-icon" href="<%=htmlWebpackPlugin.options.faviconPng%>" />
     <link rel="apple-touch-startup-image" href="<%=htmlWebpackPlugin.options.faviconPng%>">
+    <link rel="stylesheet" href="<%=htmlWebpackPlugin.options.layuiCss%>">
 </head>
 
 <body ontouchstart="">
     <div id="app-root"></div>
+    <script src="<%=htmlWebpackPlugin.options.layuiJs%>"></script>
     <% if (htmlWebpackPlugin.options.dllVendorJs) {%>
     <script src="<%=htmlWebpackPlugin.options.dllVendorJs%>"></script>
     <%}%>

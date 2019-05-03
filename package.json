@@ -7,6 +7,7 @@
     "dll": "webpack -p --progress --config build/webpack.dll.conf.js",
     "dev": "cross-env PORT=7050 API_ENV=localhost webpack-dev-server --config build/webpack.dev.conf.js",
     "build": "cross-env PORT=7050 API_ENV=production ENV=production webpack --config build/webpack.prod.conf.js",
+    "build:all": "yarn dll && yarn build",
     "build:analyzer": "cross-env API_ENV=production ENV=production ENABLE_ANALYZER=true webpack --config build/webpack.prod.conf.js",
     "lint:ts": "tslint src/**/*.{ts,tsx}",
     "lint:ts:fix": "yarn run lint:ts --fix",

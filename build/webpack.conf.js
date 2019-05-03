@@ -5,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const package = require('../package.json')
 const utils = require('./utils')
 
-const { EnvironmentPlugin, DllReferencePlugin } = webpack
+const { EnvironmentPlugin } = webpack
 const { ENV, API_ENV, srcDir, distDir, rootDir, isProd, dllVendorJs } = utils
 
 const webpackConfig = {
@@ -88,7 +88,10 @@ const webpackConfig = {
   },
   plugins: [
     new CleanPlugin(),
-    new CopyPlugin([{ from: rootDir('static'), to: distDir('static'), ignore: ['.*'] }]),
+    new CopyPlugin([
+      { from: rootDir('static'), to: distDir('static'), ignore: ['.*'] },
+      { from: rootDir('node_modules/rt-admin-lib/layui'), to: distDir('static/layui') },
+    ]),
     new EnvironmentPlugin({
       API_ENV,
       ENV,
@@ -101,6 +104,8 @@ const webpackConfig = {
       filename: distDir('index.html'),
       version: package.version,
       dllVendorJs: isProd ? dllVendorJs() : '',
+      layuiCss: '/static/layui/css/layui.css',
+      layuiJs: '/static/layui/layui.js',
     }),
   ],
 }

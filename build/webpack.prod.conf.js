@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const merge = require('webpack-merge')
 const analyzer = require('webpack-bundle-analyzer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -6,8 +7,9 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
+const { DllReferencePlugin } = webpack
 const { BundleAnalyzerPlugin } = analyzer
-const { isProd, enableAnalyzer, ANALYZER_PORT } = utils
+const { isProd, enableAnalyzer, manifestPath, ANALYZER_PORT } = utils
 
 const prodWebpackConfig = merge(webpackConfig, {
   mode: 'production',
@@ -41,6 +43,10 @@ const prodWebpackConfig = merge(webpackConfig, {
 prodWebpackConfig.plugins.push(
   new DllReferencePlugin({
     manifest: manifestPath,
+  }),
+  new MiniCssExtractPlugin({
+    filename: '[name]_[hash:6].css',
+    chunkFilename: 'chunk/[id]_[hash:6].css',
   })
 )
 

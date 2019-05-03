@@ -1,4 +1,5 @@
 const merge = require('webpack-merge')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
@@ -45,5 +46,12 @@ const devWebpackConfig = merge(webpackConfig, {
     },
   },
 })
+
+devWebpackConfig.plugins.push(
+  new MiniCssExtractPlugin({
+    filename: '[name].css',
+    chunkFilename: '[id].css',
+  })
+)
 
 module.exports = devWebpackConfig

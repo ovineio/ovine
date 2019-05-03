@@ -9,8 +9,15 @@ export type RouteConfig = {
 const routesConfig: RouteConfig[] = [
   {
     path: '/',
-    title: 'home',
-    componentPath: 'home',
+    title: 'demo',
+    componentPath: 'demo',
+    // routes: [
+    //   {
+    //     path: '/demo',
+    //     title: 'demo测试页面',
+    //     componentPath: 'demo',
+    //   },
+    // ],
   },
 ]
 
