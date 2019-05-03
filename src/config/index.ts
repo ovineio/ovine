@@ -1,47 +1,35 @@
-/**
- * 应用环境配置
- */
-type EnvConfig = {
-  isProd: boolean
-  isLocal: boolean
-  isMock: boolean
-  debug: string
-  envMode: string
-  baseUrl: CustomTypes.ObjectOf<string>
+import { presetEnvConfig, AppConfig, getConfig } from './env'
+
+export type UrlMode = 'api' | 'admin'
+
+export type EnvMode = 'localhost' | 'test' | 'production'
+
+type Config = AppConfig & {
+  envMode: EnvMode
+  baseUrl: { [key in UrlMode]?: string }
 }
 
-type AppConfig = EnvConfig & {
-  mockUrl: string
-}
-
-const defaultConfig: AppConfig = {
-  isProd: false,
+presetEnvConfig<EnvMode, Partial<Config>>('localhost', {
+  mockUrl: 'https://easy-mock.com/mock/5ccb7476e632d85da4a24269/api/',
   isLocal: true,
-  isMock: false,
-  debug: 'dev:*',
-  envMode: 'localhost',
-  mockUrl: '',
+  debug: '.*',
+})
+
+presetEnvConfig<EnvMode, Partial<Config>>('test', {
+  debug: 'app:*',
   baseUrl: {
-    api: '',
+    api: 'https://test-rt-admin/api/',
   },
-}
+})
 
-const configs: CustomTypes.ObjectOf<AppConfig> = {
-  localhost: defaultConfig,
-}
+presetEnvConfig<EnvMode, Partial<Config>>('production', {
+  isProd: true,
+  debug: '',
+  baseUrl: {
+    api: 'https://rt-admin/api/',
+  },
+})
 
-let envMode = 'localhost'
+const config = getConfig<EnvMode>(process.env.API_ENV || 'localhost')
 
-export function setCurrentEnv(mode: string): void {
-  envMode = mode
-}
-
-export function presetEnvConfig(mode: string, conf: Partial<AppConfig>): void {
-  const fullConfig: AppConfig = { ...defaultConfig, ...conf }
-  if (conf.baseUrl) {
-    fullConfig.baseUrl = conf.baseUrl
-  }
-  configs[mode] = fullConfig
-}
-
-export const config = configs[envMode] as Required<AppConfig>
+export default config as Config

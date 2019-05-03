@@ -11,6 +11,7 @@
     "lint:ts": "tslint src/**/*.{ts,tsx}",
     "lint:ts:fix": "yarn run lint:ts --fix",
     "lint-staged": "lint-staged",
+    "pretty": "prettier --loglevel warn --write \"*.{js,md,yml,json,yaml}\" \"docs/**/*.md\" \"src/**/*.{css}\" ",
     "clean": "rimraf ./dist/*"
   },
   "keywords": [
@@ -69,11 +70,12 @@
     "webpack-merge": "^4.2.1"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "yarn lint:ts:fix"
+    "*.{js,json,md,yml,yaml}|docs/**/*.md|src/**/*.{css}": "yarn pretty",
+    "src/**/*.{ts,tsx}": "yarn lint:ts:fix && yarn lint:style:fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint-staged"
+      "pre-commit": "yarn lint-staged && git add --all"
     }
   },
   "engines": {

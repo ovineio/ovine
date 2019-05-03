@@ -17,11 +17,11 @@
     "forceConsistentCasingInFileNames": true,
     "jsx": "react",
     "outDir": "dist",
-    "rootDir": "./src",
+    "rootDir": ".",
     "baseUrl": "./src",
     "paths": {
       "@config": ["config/index"],
-      "@constants": ["constants/index"],
+      "@constants/*": ["constants/*"],
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
       "@components/*": ["components/*"],
