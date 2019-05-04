@@ -3,11 +3,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
-const { PORT, srcDir } = utils
+const { PORT, srcDir, rootDir } = utils
 
 const devWebpackConfig = merge(webpackConfig, {
   mode: 'development',
-  entry: ['react-hot-loader/patch', srcDir('index.tsx')],
+  entry: srcDir('index.tsx'),
   devtool: 'source-map',
   module: {
     rules: [
@@ -17,13 +17,32 @@ const devWebpackConfig = merge(webpackConfig, {
       },
       {
         test: /\.js|jsx$/,
-        use: ['react-hot-loader/webpack', 'babel-loader'],
+        use: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: rootDir('.cache'),
+            },
+          },
+          'babel-loader',
+        ],
         include: srcDir(),
+        exclude: /node_modules|packages/,
       },
       {
         test: /\.ts|tsx$/,
-        use: ['react-hot-loader/webpack', 'babel-loader', 'ts-loader'],
+        use: [
+          {
+            loader: 'cache-loader',
+            options: {
+              cacheDirectory: rootDir('.cache'),
+            },
+          },
+          'babel-loader',
+          'ts-loader',
+        ],
         exclude: srcDir(),
+        exclude: /node_modules|packages/,
       },
     ],
   },

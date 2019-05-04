@@ -20,16 +20,6 @@ const webpackConfig = {
   module: {
     rules: [
       {
-        test: /\.js|jsx$/,
-        use: ['babel-loader'],
-        exclude: /node_modules|packages/,
-      },
-      {
-        test: /\.ts|tsx$/,
-        use: ['babel-loader', 'ts-loader'],
-        exclude: /node_modules|packages/,
-      },
-      {
         test: /\.(png|jpg|gif|ttf|woff|woff2|eot|svg)$/,
         use: [
           {

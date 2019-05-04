@@ -1,13 +1,20 @@
 import React from 'react'
+import { StyledAppSide } from './styled'
 
 export default () => {
   return (
-    <div className="layui-side layui-bg-black">
+    <StyledAppSide className="layui-side layui-bg-black">
+      <div className="layui-logo">
+        <img src="/static/logo.png" />
+        <p>RT-ADMIN</p>
+      </div>
       <div className="layui-side-scroll">
         <ul className="layui-nav layui-nav-tree" lay-filter="test">
           <li className="layui-nav-item layui-nav-itemed">
-            <a className="" href="javascript:;">
-              所有商品
+            <a href="javascript:;" lay-tips="主页" lay-direction="2">
+              <i className="layui-icon layui-icon-home" />
+              <cite>主页</cite>
+              <span className="layui-nav-more" />
             </a>
             <dl className="layui-nav-child">
               <dd>
@@ -46,6 +53,6 @@ export default () => {
           </li>
         </ul>
       </div>
-    </div>
+    </StyledAppSide>
   )
 }

@@ -6,6 +6,7 @@
   "scripts": {
     "dll": "webpack -p --progress --config build/webpack.dll.conf.js",
     "dev": "cross-env PORT=7050 API_ENV=localhost webpack-dev-server --config build/webpack.dev.conf.js",
+    "dev:force": "yarn clean && yarn dev",
     "build": "cross-env PORT=7050 API_ENV=production ENV=production webpack --config build/webpack.prod.conf.js",
     "build:all": "yarn dll && yarn build",
     "build:analyzer": "cross-env API_ENV=production ENV=production ENABLE_ANALYZER=true webpack --config build/webpack.prod.conf.js",
@@ -13,7 +14,7 @@
     "lint:ts:fix": "yarn run lint:ts --fix",
     "lint-staged": "lint-staged",
     "pretty": "prettier --loglevel warn --write \"*.{js,md,yml,json,yaml}\" \"docs/**/*.md\" \"src/**/*.{css}\" ",
-    "clean": "rimraf ./dist/*"
+    "clean": "rimraf ./dist/* ./.cache"
   },
   "keywords": [
     "admin",
@@ -42,6 +43,7 @@
     "@types/styled-components": "^4.1.14",
     "assets-webpack-plugin": "^3.9.10",
     "babel-loader": "^8.0.5",
+    "cache-loader": "^3.0.0",
     "clean-webpack-plugin": "^2.0.1",
     "copy-webpack-plugin": "^5.0.3",
     "cross-env": "^5.2.0",

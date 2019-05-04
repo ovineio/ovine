@@ -21,6 +21,16 @@ const prodWebpackConfig = merge(webpackConfig, {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
+      {
+        test: /\.js|jsx$/,
+        use: ['babel-loader'],
+        exclude: /node_modules|packages/,
+      },
+      {
+        test: /\.ts|tsx$/,
+        use: ['babel-loader', 'ts-loader'],
+        exclude: /node_modules|packages/,
+      },
     ],
   },
   optimization: {
