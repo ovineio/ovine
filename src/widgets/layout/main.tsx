@@ -19,7 +19,6 @@ export default (props: any) => {
       <div className="layui-body">
         <div>{renderRoutes(props.route.routes)}</div>
       </div>
-      <div className="layui-footer">2019 © RT-Admin</div>
     </StyledLayout>
   )
 }

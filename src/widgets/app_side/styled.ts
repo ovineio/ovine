@@ -10,7 +10,8 @@ export const StyledAppSide = styled.div`
   }
 
   .layui-side-scroll {
-    top: 50px;
+    box-sizing: border-box;
+    padding-top: 50px;
   }
 
   .layui-nav-tree {

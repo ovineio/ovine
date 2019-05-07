@@ -8,7 +8,6 @@ export const StyledRouteTabs = styled.div`
   z-index: 999;
   height: 40px;
   line-height: 40px;
-  padding: 0 80px 0 40px;
   background-color: #fff;
   box-sizing: border-box;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
@@ -43,6 +42,7 @@ export const StyledRouteTabs = styled.div`
   .layui-tab {
     margin: 0;
     overflow: hidden;
+    cursor: pointer;
   }
 
   .layui-tab-title {
@@ -53,16 +53,11 @@ export const StyledRouteTabs = styled.div`
       color: #000;
       &:after {
         border: 0;
+        width: 100%;
       }
     }
 
     li {
-      &:first-child {
-        padding-right: 15px;
-        .layui-tab-close {
-          display: none;
-        }
-      }
       min-width: 0;
       line-height: 40px;
       max-width: 160px;
@@ -71,6 +66,27 @@ export const StyledRouteTabs = styled.div`
       overflow: hidden;
       border-right: 1px solid #f6f6f6;
       vertical-align: top;
+      &:first-child {
+        padding-right: 15px;
+        .layui-tab-close {
+          display: none;
+        }
+      }
+      &:hover:after {
+        width: 100%;
+      }
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        border-radius: 0;
+        background-color: #292b34;
+        transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+      }
     }
 
     .layui-tab-close {
