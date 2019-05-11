@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledAppHeader } from './styled'
+import { ids } from '@constants/layui'
 
 export const SearchInput = () => {
   return (
@@ -63,9 +64,9 @@ export default () => {
   return (
     <StyledAppHeader className="layui-header">
       <ul className="layui-nav layui-layout-left">
-        <li className="layui-nav-item layadmin-flexible" lay-unselect="">
-          <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
-            <i className="layui-icon layui-icon-shrink-right" id="LAY_app_flexible" />
+        <li className="layui-nav-item rtadmin-flexible" lay-unselect="">
+          <a href="javascript:;" rtadmin-event="flexible" title="侧边伸缩">
+            <i className="layui-icon layui-icon-shrink-right" id={ids.app_flexible} />
           </a>
         </li>
         <li className="layui-nav-item layui-hide-xs" lay-unselect="">
@@ -74,7 +75,7 @@ export default () => {
           </a>
         </li>
         <li className="layui-nav-item" lay-unselect="">
-          <a href="javascript:;" layadmin-event="refresh" title="刷新">
+          <a href="javascript:;" rtadmin-event="refresh" title="刷新">
             <i className="layui-icon layui-icon-refresh-3" />
           </a>
         </li>

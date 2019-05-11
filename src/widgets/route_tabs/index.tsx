@@ -1,56 +1,62 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { filters, ids, classes } from '@constants/layui'
 import { StyledRouteTabs } from './styled'
 
-export default () => {
+const changeTab = ({ element, $, $dom }: any) => {
+  const pathname = $dom.attr('lay-id')
+  if (!pathname) {
+    return
+  }
+  const layId = `lay-id="${pathname}"`
+  const $item = $(`#${ids.routes_nav_tabs_header} li[${layId}]`)
+  const $tabsContent: any = $(`#${ids.app_body}`)
+  const tabsContentSelector = `.${classes.app_tabs_items}[${layId}]`
+  if ($item.length) {
+    element.tabChange(filters.routes_nav_tabs.id, pathname)
+    $tabsContent
+      .find(tabsContentSelector)
+      .addClass(classes.show)
+      .siblings()
+      .removeClass(classes.show)
+    return
+  }
+  element.tabAdd(filters.routes_nav_tabs.id, {
+    id: pathname,
+    title: $dom.attr('data-title'),
+  })
+  element.tabChange(filters.routes_nav_tabs.id, pathname)
+  $tabsContent.append(`<div class="${classes.app_tabs_items}" ${layId}></div>`)
+}
+
+export default (props: { link: any }) => {
+  useEffect(() => {
+    layui.use('element', () => {
+      if (location.pathname !== '/') {
+        const $activeItem: any = layui.$(`#${ids.app_side} .layui-this`)
+        changeTab({ ...layui, $dom: $activeItem.find('a') })
+      }
+      layui.element.on(filters.app_side_nav.nav, ($dom: any) => {
+        setTimeout(() => changeTab({ ...layui, $dom: layui.$($dom) }), 100)
+      })
+      layui.element.on(filters.routes_nav_tabs.tabs, ($dom: any) => {
+        props.link(
+          layui
+            .$(`#${ids.routes_nav_tabs_header} li`)
+            .eq($dom.index)
+            .attr('lay-id')
+        )
+      })
+    })
+  }, [])
+
   return (
-    <StyledRouteTabs id="LAY_app_tabs">
-      <div className="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage" />
-      <div
-        className="layui-icon layadmin-tabs-control layui-icon-next"
-        layadmin-event="rightPage"
-      />
-      <div className="layui-icon layadmin-tabs-control layui-icon-down">
-        <ul className="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
-          <li className="layui-nav-item" lay-unselect="">
-            <a href="javascript:;">
-              <span className="layui-nav-more" />
-            </a>
-            <dl className="layui-nav-child layui-anim-fadein layui-anim layui-anim-upbit">
-              <dd layadmin-event="closeThisTabs">
-                <a href="javascript:;">关闭当前标签页</a>
-              </dd>
-              <dd layadmin-event="closeOtherTabs">
-                <a href="javascript:;">关闭其它标签页</a>
-              </dd>
-              <dd layadmin-event="closeAllTabs">
-                <a href="javascript:;">关闭全部标签页</a>
-              </dd>
-            </dl>
-          </li>
-        </ul>
-      </div>
-      <div
-        className="layui-tab"
-        lay-unauto=""
-        lay-allowclose="true"
-        lay-filter="layadmin-layout-tabs"
-      >
-        <ul className="layui-tab-title" id="LAY_app_tabsheader">
-          <li lay-id="home/console.html" lay-attr="home/console.html">
+    <StyledRouteTabs id={ids.routes_nav_tabs}>
+      <div className="layui-icon rtadmin-tabs-control layui-icon-prev" rtadmin-event="leftPage" />
+      <div className="layui-icon rtadmin-tabs-control layui-icon-next" rtadmin-event="rightPage" />
+      <div className="layui-tab" lay-allowclose="true" lay-filter={filters.routes_nav_tabs.id}>
+        <ul className="layui-tab-title" id={ids.routes_nav_tabs_header}>
+          <li className="layui-this" lay-id="/">
             <i className="layui-icon layui-icon-home" />
-            <i className="layui-icon layui-unselect layui-tab-close">ဆ</i>
-          </li>
-          <li
-            lay-id="component/grid/mobile.html"
-            lay-attr="component/grid/mobile.html"
-            className="layui-this"
-          >
-            <span>按移动端排列</span>
-            <i className="layui-icon layui-unselect layui-tab-close">ဆ</i>
-          </li>
-          <li lay-id="component/grid/mobile.html" lay-attr="component/grid/mobile.html">
-            <span>按移动端排列</span>
-            <i className="layui-icon layui-unselect layui-tab-close">ဆ</i>
           </li>
         </ul>
       </div>

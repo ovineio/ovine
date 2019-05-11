@@ -8,6 +8,7 @@ export const StyledRouteTabs = styled.div`
   z-index: 999;
   height: 40px;
   line-height: 40px;
+  padding-left: 40px;
   background-color: #fff;
   box-sizing: border-box;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
@@ -19,14 +20,10 @@ export const StyledRouteTabs = styled.div`
   }
 
   .layui-icon-next {
-    right: 40px;
-  }
-
-  .layui-icon-down {
     right: 0;
   }
 
-  .layadmin-tabs-control {
+  .rtadmin-tabs-control {
     position: absolute;
     top: 0;
     width: 40px;

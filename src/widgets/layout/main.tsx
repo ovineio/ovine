@@ -2,11 +2,11 @@ import React, { useEffect } from 'react'
 import { renderRoutes } from 'react-router-config'
 import AppHeader from '@widgets/app_header'
 import AppSide from '@widgets/app_side'
-import { StyledLayout } from './styled'
 import RouteTabs from '@widgets/route_tabs'
+import { ids } from '@constants/layui'
+import { StyledLayout } from './styled'
 
 export default (props: any) => {
-  // console.log('layoutProps:', props)
   useEffect(() => {
     layui.use('element')
   }, [])
@@ -15,9 +15,9 @@ export default (props: any) => {
     <StyledLayout className="layui-layout layui-layout-admin">
       <AppHeader />
       <AppSide />
-      <RouteTabs />
-      <div className="layui-body">
-        <div>{renderRoutes(props.route.routes)}</div>
+      <RouteTabs link={(path: string) => props.history.push(path)} />
+      <div className="layui-body" id={ids.app_body}>
+        {renderRoutes(props.route.routes)}
       </div>
     </StyledLayout>
   )

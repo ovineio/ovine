@@ -11,9 +11,8 @@ declare module 'react-router-dom'
 declare module 'react-router-config'
 
 declare const layui: any
-
+declare const $: any
 declare function require(path: string): string
-
 declare const process: {
   env: any
 }

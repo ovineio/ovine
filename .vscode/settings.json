@@ -1,5 +1,5 @@
 {
   "editor.formatOnSave": true,
   "liveServer.settings.root": "/dist",
-  "cSpell.ignoreWords": ["layui"]
+  "cSpell.ignoreWords": ["layui", "rtadmin"]
 }
