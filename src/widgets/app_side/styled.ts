@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import { inline, wh } from '@utils/styled'
 
 export const StyledAppSide = styled.div`
@@ -16,6 +17,10 @@ export const StyledAppSide = styled.div`
 
   .layui-nav-tree {
     width: 220px;
+  }
+
+  a.layui-nav-itemed:after {
+    display: block;
   }
 
   .layui-logo {

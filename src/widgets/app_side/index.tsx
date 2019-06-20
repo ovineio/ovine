@@ -11,11 +11,11 @@ const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) 
     const { title, path, routes } = route
     const routePath = `${parentPath}${path}`
     return (
-      <dl className="layui-nav-child">
+      <dl key={routePath} className="layui-nav-child">
         {!routes ? (
           <dd className={getHashPath() === routePath ? cls.this : ''}>
             <a
-              className="layui-nav-item layui-nav-itemed"
+              className="layui-nav-item layui-nav-itemed ripple "
               href="javascript:;"
               lay-id={routePath}
               lay-tips={title}
@@ -26,7 +26,7 @@ const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) 
           </dd>
         ) : (
           <>
-            <a href="javascript:;" lay-tips={title}>
+            <a className="ripple" href="javascript:;" lay-tips={title}>
               {title}
             </a>
             {renderLayNavItemChild(routes, routePath)}
@@ -45,13 +45,13 @@ const LayNavItem = routesConfig.map((route: RouteConfig) => {
       className={`layui-nav-item layui-nav-itemed ${getHashPath() === path ? cls.this : ''}`}
     >
       {!routes ? (
-        <a href="javascript:;" lay-tips={title} lay-id={path} data-title={title}>
+        <a className="ripple" href="javascript:;" lay-tips={title} lay-id={path} data-title={title}>
           {icon && <i className="layui-icon layui-icon-home" />}
           <cite>{title}</cite>
         </a>
       ) : (
         <>
-          <a href="javascript:;" lay-tips={title}>
+          <a className="ripple" href="javascript:;" lay-tips={title}>
             {icon && <i className="layui-icon layui-icon-home" />}
             <cite>{title}</cite>
           </a>
