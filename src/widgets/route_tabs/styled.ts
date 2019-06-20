@@ -93,7 +93,7 @@ export const StyledRouteTabs = styled.div`
       margin: -7px 0 0;
       width: 16px;
       height: 16px;
-      line-height: 16px;
+      line-height: 18px;
       border-radius: 50%;
       font-size: 12px;
       &:hover {

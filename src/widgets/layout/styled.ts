@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { cls } from '@constants/layui'
+
 export const StyledLayout = styled.div`
   .layui-body {
     top: 90px;
@@ -11,5 +13,9 @@ export const StyledLayout = styled.div`
 
   .layui-footer {
     left: 220px;
+  }
+
+  .${cls.app_tabs_items} {
+    display: none;
   }
 `

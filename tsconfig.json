@@ -28,6 +28,7 @@
       "@widgets/*": ["widgets/*"],
       "@core/*": ["core/*"],
       "@hooks/*": ["hooks/*"],
+      "@routes": ["routes/index"],
       "@routes/*": ["routes/*"],
       "@assets/*": ["assets/*"]
     },

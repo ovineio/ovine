@@ -1,4 +1,4 @@
-import { presetEnvConfig, AppConfig, getConfig } from './env'
+import { getConfig, presetEnvConfig, AppConfig } from './env'
 
 export type UrlMode = 'api' | 'admin'
 

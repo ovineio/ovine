@@ -1,12 +1,13 @@
-import { setConfig } from 'react-hot-loader'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { setHotElementComparator } from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
+import { setConfig } from 'react-hot-loader'
 import { hot } from 'react-hot-loader/root'
+import { BrowserRouter } from 'react-router-dom'
+
 import config from '@config'
-import routes from '@routes/index'
-import { queryStringParse } from '@utils/tool'
+import { browserRoutes } from '@routes/index'
 import logger from '@utils/logger'
+import { queryStringParse } from '@utils/tool'
 
 const debugStr = queryStringParse('logger_debug') || config.debug
 
@@ -24,10 +25,6 @@ logger.setConfig({
 
 logger.getLogger('app:config').log(config)
 
-const App = () => (
-  <BrowserRouter>
-    <Suspense fallback="">{routes}</Suspense>
-  </BrowserRouter>
-)
+const App = () => <BrowserRouter>{browserRoutes}</BrowserRouter>
 
 export default hot(App)

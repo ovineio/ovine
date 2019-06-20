@@ -1,6 +1,9 @@
 import React from 'react'
+
+import { cls, filters, ids } from '@constants/layui'
+import { getHashPath } from '@routes'
 import routesConfig, { RouteConfig } from '@routes/config'
-import { filters, ids } from '@constants/layui'
+
 import { StyledAppSide } from './styled'
 
 const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) => {
@@ -10,11 +13,9 @@ const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) 
     return (
       <dl className="layui-nav-child">
         {!routes ? (
-          <dd>
+          <dd className={getHashPath() === routePath ? cls.this : ''}>
             <a
-              className={`layui-nav-item layui-nav-itemed ${
-                location.pathname === routePath ? 'layui-this' : ''
-              }`}
+              className="layui-nav-item layui-nav-itemed"
               href="javascript:;"
               lay-id={routePath}
               lay-tips={title}
@@ -41,9 +42,7 @@ const LayNavItem = routesConfig.map((route: RouteConfig) => {
   return (
     <li
       key={path}
-      className={`layui-nav-item layui-nav-itemed ${
-        location.pathname === path ? 'layui-this' : ''
-      }`}
+      className={`layui-nav-item layui-nav-itemed ${getHashPath() === path ? cls.this : ''}`}
     >
       {!routes ? (
         <a href="javascript:;" lay-tips={title} lay-id={path} data-title={title}>

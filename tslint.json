@@ -4,7 +4,6 @@
   "rules": {
     "prettier": [true, null, { "editorconfig": false }],
     "no-implicit-dependencies": false,
-    "ordered-imports": false,
     "object-literal-sort-keys": false,
     "no-namespace": false,
     "interface-over-type-literal": false,
@@ -12,7 +11,37 @@
     "no-submodule-imports": false,
     "no-string-literal": false,
     "no-var-requires": false,
-    "no-reference": false
+    "no-reference": false,
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-first",
+        "named-imports-order": "lowercase-first",
+        "grouped-imports": true,
+        "groups": [
+          {
+            "name": "第三方模块",
+            "match": "^[a-z].*",
+            "order": 10
+          },
+          {
+            "name": "项目内模块",
+            "match": "^@.*",
+            "order": 20
+          },
+          {
+            "name": "上两级文件模块",
+            "match": "^\\.\\.",
+            "order": 30
+          },
+          {
+            "name": "上级文件模块",
+            "match": "^\\.",
+            "order": 40
+          }
+        ]
+      }
+    ]
   },
   "linterOptions": {
     "exclude": ["node_modules"]

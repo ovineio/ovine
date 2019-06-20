@@ -14,7 +14,6 @@ const dellWebpackConfig = {
       'react',
       'immer',
       'hash.js',
-      'react-router-config',
       'react-router-dom',
       'styled-components',
       'whatwg-fetch',

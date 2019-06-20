@@ -1,8 +1,8 @@
 import config, { UrlMode } from '@config'
-import { templateReplace, filterNullKeys, queryStringify } from '@utils/tool'
-import { ApiRequest } from '@utils/request'
 import { UserTokenCheckError } from '@constants/error'
 import logger from '@utils/logger'
+import { ApiRequest } from '@utils/request'
+import { filterNullKeys, queryStringify, templateReplace } from '@utils/tool'
 
 import { getToken } from './user'
 
