@@ -1,6 +1,7 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy } from 'react'
 import { Route } from 'react-router-dom'
 
+import BlankLayout from '@widgets/layout/blank'
 import MainLayout from '@widgets/layout/main'
 
 // const mapComponent = (configRoutes: RouteConfig[]): any[] => {
@@ -42,9 +43,8 @@ export const hashRoutes: CustomTypes.ObjectOf<React.LazyExoticComponent<() => JS
   '/yyy/xxx': lazy(() => import('@pages/home')),
 }
 
-export const browserRoutes = (
-  <Suspense fallback="">
-    <Route path="/" exact component={MainLayout} />
-    <Route path="/login" exact component={lazy(() => import('@pages/home'))} />
-  </Suspense>
+export const MainLayoutRoutes = <Route path="/" exact component={MainLayout} />
+
+export const BlankLayoutRoutes = (
+  <Route path="/login" component={lazy(() => import('@pages/login'))} />
 )

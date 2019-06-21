@@ -3,67 +3,109 @@ import { render } from 'react-dom'
 
 import { progressJs } from '@assets/scripts/progress.js'
 import { cls, filters, getLayId, ids, layId } from '@constants/layui'
-import { hashRoutes } from '@routes'
+import { getHashPath, hashRoutes } from '@routes'
 
 const pageTabClass = `${cls.show} fadeInUp`
+const tabsId = filters.routes_nav_tabs.id
+let progressBar: any
 
-export const changeTab = ({ $, tabIndex, pathName }: any) => {
-  const $tab = $(`#${ids.routes_nav_tabs_header} li`).eq(tabIndex)
-  const pathNameStr = pathName ? pathName : $tab.attr(layId)
+type TabItemType = {
+  index: number
+  id: string
+  title: string
+}
+export function onTabsInit() {
+  layui.use('element', () => {
+    const { $, element } = layui
 
-  // if (!$tab.hasClass('ripple')) {
-  //   $tab.addClass('ripple')
-  // }
+    // 第一次初始化  tabs
+    const $initNav = $(`#${ids.app_side} .${cls.this}`).find('a')
+    const tabData: TabItemType = {
+      id: $initNav.attr(layId),
+      title: $initNav.data('title'),
+      index: -1,
+    }
 
-  if (!pathNameStr) {
-    return
-  }
+    fireTabChange({ $, element, tabData })
+    changeTab({ $, element, tabData })
 
-  progressJs()
-    .start()
-    .autoIncrease(20, 500)
-  setTimeout(() => {
-    progressJs().end()
-  }, 1000)
+    // 点击 左边栏 导航
+    element.on(filters.app_side_nav.nav, ($activeNav: any) => {
+      tabData.id = $activeNav.attr(layId)
+      if (!tabData.id || getHashPath() === tabData.id) {
+        return
+      }
+      tabData.title = $activeNav.data('title')
+      tabData.index = -1
+      fireTabChange({ $, element, tabData })
+    })
 
-  $(`#${ids.app_body} .${cls.app_tabs_items}${getLayId(pathNameStr, true)}`)
-    .addClass(pageTabClass)
-    .siblings()
-    .removeClass(pageTabClass)
-
-  location.hash = pathNameStr
+    // tabs 增加/删除/切换都调用该方法 且 参数一致
+    element.on(filters.routes_nav_tabs.tabs, (tabs: any) => {
+      tabData.index = tabs.index
+      changeTab({ $, element, tabData })
+    })
+  })
 }
 
-export const fireTabChange = ({ element, $, $dom, isInit }: any) => {
-  const pathName = $dom.attr(layId)
+function fireTabChange({ $, element, tabData }: ChangeTabOption) {
+  const { title, id } = tabData
+
+  const isTabExist = $(`#${ids.routes_nav_tabs_header} li${getLayId(id, true)}`).length
+  if (!isTabExist) {
+    element.tabAdd(tabsId, { title, id })
+  }
+  element.tabChange(tabsId, id)
+}
+
+type ChangeTabOption = {
+  $: any
+  element: any
+  tabData: TabItemType
+}
+export const changeTab = ({ $, tabData }: ChangeTabOption) => {
+  const { index, id } = tabData
+  const pathName =
+    index === -1
+      ? id
+      : $(`#${ids.routes_nav_tabs_header} li`)
+          .eq(index)
+          .attr(layId)
 
   if (!pathName) {
     return
   }
 
+  location.hash = pathName
+
   const layIdStr = getLayId(pathName)
   const $tabsContent: any = $(`#${ids.app_body}`)
   const tabsContentSelector = `.${cls.app_tabs_items}[${layIdStr}]`
-  const isTabExist = $tabsContent.find(tabsContentSelector).length
+  const $currContent = $tabsContent.find(tabsContentSelector)
 
-  if (isTabExist) {
-    element.tabChange(filters.routes_nav_tabs.id, pathName)
+  if ($currContent.length) {
+    if (!$currContent.hasClass(cls.show)) {
+      $currContent
+        .addClass(pageTabClass)
+        .siblings()
+        .removeClass(pageTabClass)
+    }
     return
   }
 
-  if (pathName !== '/') {
-    element.tabAdd(filters.routes_nav_tabs.id, {
-      id: pathName,
-      title: $dom.attr('data-title'),
-    })
-  }
+  $tabsContent.find(`.${cls.show}`).removeClass(pageTabClass)
+  $tabsContent.append(
+    `<div class="animated fast ${cls.app_tabs_items} ${pageTabClass}" ${layIdStr}></div>`
+  )
 
-  // $tabsContent.find(`.${cls.show}`).removeClass(pageTabClass)
-  $tabsContent.append(`<div class="animated fast ${cls.app_tabs_items}" ${layIdStr}></div>`)
-  element.tabChange(filters.routes_nav_tabs.id, pathName)
-
-  if (isInit) {
-    changeTab({ $, element, pathName })
+  if (!progressBar) {
+    progressBar = progressJs()
+      .start()
+      .autoIncrease(20, 500)
+    setTimeout(() => {
+      progressJs().end()
+      progressBar = undefined
+    }, 1000)
   }
 
   const PageComponent = hashRoutes[pathName]

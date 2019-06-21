@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { setHotElementComparator } from 'react-dom'
 import { setConfig } from 'react-hot-loader'
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter } from 'react-router-dom'
 
 import config from '@config'
-import { browserRoutes } from '@routes/index'
+import { MainLayoutRoutes } from '@routes'
 import logger from '@utils/logger'
 import { queryStringParse } from '@utils/tool'
 
@@ -25,6 +25,10 @@ logger.setConfig({
 
 logger.getLogger('app:config').log(config)
 
-const App = () => <BrowserRouter>{browserRoutes}</BrowserRouter>
+const App = () => (
+  <BrowserRouter>
+    <Suspense fallback="">{MainLayoutRoutes} </Suspense>
+  </BrowserRouter>
+)
 
 export default hot(App)
