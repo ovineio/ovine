@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TsCheckerPlugin = require('fork-ts-checker-webpack-plugin')
 const CleanPlugin = require('clean-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const package = require('../package.json')
@@ -13,6 +14,7 @@ const webpackConfig = {
   bail: true,
   output: {
     path: distDir(),
+    pathinfo: false,
     filename: 'index_[hash:6].js',
     publicPath: '/',
     chunkFilename: 'chunk/[id]_[hash:6].js',
@@ -76,6 +78,16 @@ const webpackConfig = {
     },
   },
   plugins: [
+    // https://github.com/Realytics/fork-ts-checker-webpack-plugin
+    new TsCheckerPlugin({
+      tsconfig: rootDir('tsconfig.json'),
+      tslint: rootDir('tslint.json'),
+      memoryLimit: 4096,
+      workers: TsCheckerPlugin.TWO_CPUS_FREE,
+      useTypescriptIncrementalApi: false,
+      silent: true,
+      measureCompilationTime: false,
+    }),
     new CleanPlugin(),
     new CopyPlugin([
       { from: rootDir('static'), to: distDir('static'), ignore: ['.*'] },

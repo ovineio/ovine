@@ -39,7 +39,12 @@ const devWebpackConfig = merge(webpackConfig, {
             },
           },
           'babel-loader',
-          'ts-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            },
+          },
         ],
         exclude: srcDir(),
         exclude: /node_modules|packages/,
@@ -66,8 +71,6 @@ const devWebpackConfig = merge(webpackConfig, {
     stats: {
       all: false,
       timings: true,
-      modules: true,
-      maxModules: 0,
       errors: true,
       colors: true,
       warnings: true,

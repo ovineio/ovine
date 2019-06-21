@@ -1,6 +1,8 @@
 import React from 'react'
-import { StyledAppHeader } from './styled'
+
 import { ids } from '@constants/layui'
+
+import { StyledAppHeader } from './styled'
 
 export const SearchInput = () => {
   return (
@@ -8,7 +10,7 @@ export const SearchInput = () => {
       <i className="layui-icon layui-icon-search" />
       <select lay-search="" lay-filter="component">
         <option value="">搜索组件或模块</option>
-        <option value="element/layout.html">grid 栅格布局</option>
+        <option value="element/layout.html">grid 栅x格布局</option>
         <option value="element/layout.html#admin">admin 后台布局</option>
         <option value="element/color.html">color 颜色</option>
         <option value="element/icon.html">iconfont 字体图标</option>

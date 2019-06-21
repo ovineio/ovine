@@ -28,7 +28,7 @@ declare namespace Debug {
   /**
    * 此处使用了 const 关键字，可以将 枚举变量映射为JS一个正是可引用的对象，而不是仅仅是类型校验。
    */
-  const enum Level {
+  enum Level {
     LOG = 'log',
     INFO = 'info',
     WARN = 'warn',

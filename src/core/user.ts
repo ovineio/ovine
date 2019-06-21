@@ -1,5 +1,5 @@
 export function getToken(): string | undefined {
-  return ''
+  return 'asasdasdd'
 }
 
 export function isLogin(): boolean {

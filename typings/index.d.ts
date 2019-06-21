@@ -1,5 +1,6 @@
 /// <reference path="custom_typings.d.ts" />
 /// <reference path="./request.d.ts" />
+/// <reference path="./logger.d.ts" />
 
 declare module '*.json'
 declare module '*.png'

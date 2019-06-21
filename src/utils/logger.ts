@@ -1,5 +1,3 @@
-/// <reference path="./logger.d.ts" />
-
 /**
  * logger日志打印模块
  */
@@ -56,9 +54,16 @@ const logTemplate = {
   common: '%c [{timeStr} {OnlyStr} {level} %c{moduleName}%c ]',
 }
 
+export const levels: CustomTypes.Map<'log' | 'info' | 'warn' | 'error', Debug.Level> = {
+  log: 'log' as any,
+  info: 'info' as any,
+  warn: 'warn' as any,
+  error: 'error' as any,
+}
+
 // 默认所有日志均显示
 let debugConfig: Debug.Config = {
-  level: Debug.Level.LOG,
+  level: levels.info,
   moduleName: '.*',
   onlyLevel: false,
   enable: true,
@@ -67,7 +72,7 @@ let debugConfig: Debug.Config = {
     moduleName: 'app',
     showTime: true,
     onlySelf: false,
-    level: Debug.Level.LOG,
+    level: levels.log,
   },
 }
 
@@ -92,14 +97,14 @@ const filterLog = (option: Required<Pick<Debug.Option, 'level' | 'moduleName'>>)
   } else {
     // ERROR > WARN > INFO > LOG
     switch (level) {
-      case Debug.Level.LOG:
-        allowedLevel.push(Debug.Level.LOG)
-      case Debug.Level.INFO:
-        allowedLevel.push(Debug.Level.INFO)
-      case Debug.Level.WARN:
-        allowedLevel.push(Debug.Level.WARN)
-      case Debug.Level.ERROR:
-        allowedLevel.push(Debug.Level.ERROR)
+      case levels.log:
+        allowedLevel.push(levels.log)
+      case levels.info:
+        allowedLevel.push(levels.info)
+      case levels.warn:
+        allowedLevel.push(levels.warn)
+      case levels.error:
+        allowedLevel.push(levels.error)
     }
   }
 
@@ -127,10 +132,10 @@ export const logger: Debug.IDebug = {
     const debugOption: Debug.Option = { ...option, moduleName }
 
     return {
-      log: (...logDetail: any[]) => this.signedLogger(Debug.Level.LOG, debugOption, logDetail),
-      info: (...logDetail: any[]) => this.signedLogger(Debug.Level.INFO, debugOption, logDetail),
-      warn: (...logDetail: any[]) => this.signedLogger(Debug.Level.WARN, debugOption, logDetail),
-      error: (...logDetail: any[]) => this.signedLogger(Debug.Level.ERROR, debugOption, logDetail),
+      log: (...logDetail: any[]) => this.signedLogger(levels.log, debugOption, logDetail),
+      info: (...logDetail: any[]) => this.signedLogger(levels.info, debugOption, logDetail),
+      warn: (...logDetail: any[]) => this.signedLogger(levels.warn, debugOption, logDetail),
+      error: (...logDetail: any[]) => this.signedLogger(levels.error, debugOption, logDetail),
     }
   },
   setConfig(conf: Partial<Debug.Config>): void {
@@ -193,16 +198,16 @@ export const logger: Debug.IDebug = {
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
   },
   log(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: Debug.Level.LOG, moduleName }, loggerDetail)
+    this.debugLogger({ level: levels.log, moduleName }, loggerDetail)
   },
   info(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: Debug.Level.INFO, moduleName }, loggerDetail)
+    this.debugLogger({ level: levels.info, moduleName }, loggerDetail)
   },
   warn(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: Debug.Level.WARN, moduleName }, loggerDetail)
+    this.debugLogger({ level: levels.warn, moduleName }, loggerDetail)
   },
   error(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: Debug.Level.INFO, moduleName }, loggerDetail)
+    this.debugLogger({ level: levels.info, moduleName }, loggerDetail)
   },
   signedLogger(level: Debug.Level, option: Debug.Option, loggerDetail: any[]) {
     this.debugLogger.call(null, { ...option, level }, loggerDetail)

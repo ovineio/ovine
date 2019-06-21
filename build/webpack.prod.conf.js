@@ -4,12 +4,15 @@ const analyzer = require('webpack-bundle-analyzer')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const threadLoader = require('thread-loader')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
 const { DllReferencePlugin } = webpack
 const { BundleAnalyzerPlugin } = analyzer
 const { ANALYZER_PORT, isProd, enableAnalyzer, manifestPath, srcDir } = utils
+
+threadLoader.warmup({}, ['babel-loader', 'ts-loader'])
 
 const prodWebpackConfig = merge(webpackConfig, {
   mode: 'production',
@@ -28,7 +31,28 @@ const prodWebpackConfig = merge(webpackConfig, {
       },
       {
         test: /\.ts|tsx$/,
-        use: ['babel-loader', 'ts-loader'],
+        use: [
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 2,
+            },
+          },
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 2,
+            },
+          },
+          'babel-loader',
+          {
+            loader: 'ts-loader',
+            options: {
+              happyPackMode: true,
+              transpileOnly: true,
+            },
+          },
+        ],
         exclude: /node_modules|packages/,
       },
     ],
@@ -48,6 +72,10 @@ const prodWebpackConfig = merge(webpackConfig, {
   performance: {
     maxEntrypointSize: 600 * 1000, // 入口包大小超过600k报警
     maxAssetSize: 400 * 1000, // 单个包大小超过400k报警
+  },
+  stats: {
+    chunkModules: false,
+    assets: false,
   },
 })
 

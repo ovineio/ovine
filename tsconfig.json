@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "noImplicitAny": true,
+    "incremental": true,
     "allowSyntheticDefaultImports": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -33,8 +34,9 @@
       "@assets/*": ["assets/*"]
     },
     "types": ["@types/react", "styled-components"],
-    "typeRoots": ["./types"]
+    "typeRoots": ["./typings/"]
   },
   "compileOnSave": false,
+  "include": ["./src", "./typings"],
   "exclude": ["./node_modules", "./coverage", "./document", "./dist", "__test__"]
 }
