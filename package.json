@@ -27,6 +27,7 @@
     "@hot-loader/react-dom": "^16.8.6",
     "hash.js": "^1.1.7",
     "immer": "^3.1.1",
+    "jquery": "^3.4.1",
     "react": "^16.8.6",
     "react-router-dom": "^5.0.0",
     "rt-admin-lib": "^0.0.1",

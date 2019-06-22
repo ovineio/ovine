@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
 import { Route } from 'react-router-dom'
 
-import BlankLayout from '@widgets/layout/blank'
+// import BlankLayout from '@widgets/layout/blank'
 import MainLayout from '@widgets/layout/main'
 
 // const mapComponent = (configRoutes: RouteConfig[]): any[] => {

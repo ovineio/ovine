@@ -37,9 +37,13 @@ export const StyledRouteTabs = styled.div`
   }
 
   .layui-tab {
-    margin: 0;
+    margin: 0 40px 0 0;
     overflow: hidden;
-    cursor: pointer;
+    cursor: default;
+    li {
+      user-select: none;
+      cursor: pointer;
+    }
   }
 
   .layui-tab-title {

@@ -1,6 +1,7 @@
 {
   "editor.formatOnSave": true,
   "prettier.tslintIntegration": true,
+  "cSpell.ignoreWords": ["layui", "rtadmin"],
   "liveServer.settings.root": "/dist",
-  "cSpell.ignoreWords": ["layui", "rtadmin"]
+  "liveServer.settings.file": "/index.html"
 }

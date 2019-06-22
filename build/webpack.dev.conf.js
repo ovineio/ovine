@@ -1,9 +1,10 @@
 const merge = require('webpack-merge')
+const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpackConfig = require('./webpack.conf')
 const utils = require('./utils')
 
-const { PORT, srcDir, rootDir } = utils
+const { PORT, srcDir, rootDir, distDir } = utils
 
 const devWebpackConfig = merge(webpackConfig, {
   mode: 'development',
@@ -82,6 +83,11 @@ const devWebpackConfig = merge(webpackConfig, {
 })
 
 devWebpackConfig.plugins.push(
+  new CopyPlugin([
+    { from: rootDir('static'), to: distDir('static'), ignore: ['.*'] },
+    // 本地开发使用 本地包
+    { from: rootDir('../rt-admin-lib/source/layui/src'), to: distDir('static/layui') },
+  ]),
   new MiniCssExtractPlugin({
     filename: '[name].css',
     chunkFilename: '[id].css',

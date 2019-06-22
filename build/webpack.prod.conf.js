@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const analyzer = require('webpack-bundle-analyzer')
+const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -10,7 +11,7 @@ const utils = require('./utils')
 
 const { DllReferencePlugin } = webpack
 const { BundleAnalyzerPlugin } = analyzer
-const { ANALYZER_PORT, isProd, enableAnalyzer, manifestPath, srcDir } = utils
+const { ANALYZER_PORT, isProd, enableAnalyzer, manifestPath, srcDir, distDir } = utils
 
 threadLoader.warmup({}, ['babel-loader', 'ts-loader'])
 
@@ -80,6 +81,10 @@ const prodWebpackConfig = merge(webpackConfig, {
 })
 
 prodWebpackConfig.plugins.push(
+  new CopyPlugin([
+    { from: rootDir('static'), to: distDir('static'), ignore: ['.*'] },
+    { from: rootDir('node_modules/rt-admin-lib/layui'), to: distDir('static/layui') },
+  ]),
   new DllReferencePlugin({
     manifest: manifestPath,
   }),

@@ -13,6 +13,7 @@ const dellWebpackConfig = {
     dll_vendor: [
       'react',
       'immer',
+      'jquery',
       'hash.js',
       'react-router-dom',
       'styled-components',
@@ -25,6 +26,7 @@ const dellWebpackConfig = {
     },
   },
   output: {
+    pathinfo: false,
     path: rootDir(dllVendorJsPath),
     filename: '[name]_[hash:6].js',
     library: '[name]_[hash:6]',
@@ -44,6 +46,9 @@ const dellWebpackConfig = {
       path: './',
     }),
   ],
+  performance: {
+    maxEntrypointSize: 1000000,
+  },
   optimization: {
     minimizer: [new TerserPlugin()],
   },

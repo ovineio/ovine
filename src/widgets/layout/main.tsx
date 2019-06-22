@@ -16,8 +16,9 @@ const MainLayout = () => {
     <StyledLayout className="layui-layout layui-layout-admin">
       <AppHeader />
       <AppSide />
-      <RouteTabs />
-      <div className="layui-body" id={ids.app_body} />
+      <div className="layui-body" id={ids.app_body}>
+        <RouteTabs />
+      </div>
     </StyledLayout>
   )
 }

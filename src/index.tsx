@@ -3,6 +3,7 @@ import App from '@pages/app'
 import React from 'react'
 import { render } from 'react-dom'
 
+import '@assets/styles/context_menu.css'
 import '@assets/styles/main.css'
 import '@assets/styles/progress.css'
 import '@assets/styles/ripple.css'

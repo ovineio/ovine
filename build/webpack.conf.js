@@ -89,10 +89,7 @@ const webpackConfig = {
       measureCompilationTime: false,
     }),
     new CleanPlugin(),
-    new CopyPlugin([
-      { from: rootDir('static'), to: distDir('static'), ignore: ['.*'] },
-      { from: rootDir('node_modules/rt-admin-lib/layui'), to: distDir('static/layui') },
-    ]),
+    new CopyPlugin([{ from: rootDir('static'), to: distDir('static'), ignore: ['.*'] }]),
     new EnvironmentPlugin({
       API_ENV,
       ENV,
