@@ -2,17 +2,17 @@ import React from 'react'
 
 import { cls, filters, ids } from '@constants/layui'
 import { getHashPath } from '@routes'
-import routesConfig, { RouteConfig } from '@routes/config'
+import { routesConfig, RouteConfig } from '@routes/config'
 
 import { StyledAppSide } from './styled'
 
 const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) => {
   return parentRoutes.map((route) => {
-    const { title, path, routes } = route
+    const { title, path, children } = route
     const routePath = `${parentPath}${path}`
     return (
       <dl key={routePath} className="layui-nav-child">
-        {!routes ? (
+        {!children ? (
           <dd className={getHashPath() === routePath ? cls.this : ''}>
             <a
               className="layui-nav-item layui-nav-itemed ripple "
@@ -29,7 +29,7 @@ const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) 
             <a className="ripple" href="javascript:;" lay-tips={title}>
               {title}
             </a>
-            {renderLayNavItemChild(routes, routePath)}
+            {renderLayNavItemChild(children, routePath)}
           </>
         )}
       </dl>
@@ -38,13 +38,13 @@ const renderLayNavItemChild = (parentRoutes: RouteConfig[], parentPath: string) 
 }
 
 const LayNavItem = routesConfig.map((route: RouteConfig) => {
-  const { icon, title, path, routes } = route
+  const { icon, title, path, children } = route
   return (
     <li
       key={path}
       className={`layui-nav-item layui-nav-itemed ${getHashPath() === path ? cls.this : ''}`}
     >
-      {!routes ? (
+      {!children ? (
         <a className="ripple" href="javascript:;" lay-tips={title} lay-id={path} data-title={title}>
           {icon && <i className="layui-icon layui-icon-home" />}
           <cite>{title}</cite>
@@ -55,7 +55,7 @@ const LayNavItem = routesConfig.map((route: RouteConfig) => {
             {icon && <i className="layui-icon layui-icon-home" />}
             <cite>{title}</cite>
           </a>
-          {renderLayNavItemChild(routes, path)}
+          {renderLayNavItemChild(children, path)}
         </>
       )}
     </li>

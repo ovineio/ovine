@@ -641,3 +641,28 @@ export function padString(
 
   return `${sourceStr}${padStr}`
 }
+
+export function deepTraversal(node: any[], childKey: string = 'children'): any[] {
+  const nodes: any[] = []
+  if (node == null) {
+    return []
+  }
+  const stack = [] // 同来存放将来要访问的节点
+  stack.push(...node)
+  while (stack.length !== 0) {
+    const item = stack.pop() // 正在访问的节点
+    const children: any = item[childKey]
+    if (children) {
+      for (let i = children.length - 1; i >= 0; i--) {
+        stack.push(children[i])
+      }
+    } else {
+      nodes.push(item)
+    }
+  }
+  return nodes
+}
+
+export function deepClone<T>(source: T): T {
+  return JSON.parse(JSON.stringify(source))
+}

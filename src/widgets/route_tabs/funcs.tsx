@@ -5,7 +5,7 @@ import '@assets/scripts/context_menu.js'
 import '@assets/scripts/context_menu_ui.js'
 import { progressJs } from '@assets/scripts/progress.js'
 import { cls, filters, getLayId, ids, layId } from '@constants/layui'
-import { getHashPath, hashRoutes } from '@routes'
+import { getHashPath, hashRoutesMap } from '@routes'
 
 const pageTabClass = `${cls.show} fadeInUp`
 const tabsId = filters.routes_nav_tabs.id
@@ -32,7 +32,7 @@ export function onTabsInit() {
     const tabData: TabItemType = {
       id: $initNav.attr(layId),
       title: $initNav.data('title'),
-      type: '',
+      type: 'init',
       index: -1,
     }
 
@@ -47,6 +47,7 @@ export function onTabsInit() {
       }
       tabData.title = $activeNav.data('title')
       tabData.index = -1
+      tabData.type = 'change'
       fireTabChange({ element, tabData })
     })
 
@@ -60,9 +61,15 @@ export function onTabsInit() {
 }
 
 function fireTabChange({ element, tabData }: ChangeTabOption) {
-  const { title, id } = tabData
+  const { title, id, type } = tabData
 
   const isTabExist = $(`#${ids.routes_nav_tabs_header} li${getLayId(id, true)}`).length
+
+  if (type === 'init') {
+    setTimeout(() => element.tabChange(tabsId, id), 100)
+    return
+  }
+
   if (isTabExist) {
     element.tabChange(tabsId, id)
     return
@@ -127,7 +134,7 @@ export const changeTab = ({ tabData }: ChangeTabOption) => {
 
   renderProgressBar()
 
-  const PageComponent = hashRoutes[pathName]
+  const PageComponent = hashRoutesMap[pathName]
   render(
     <Suspense fallback="">
       <PageComponent />

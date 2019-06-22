@@ -1,47 +1,28 @@
 import React, { lazy } from 'react'
 import { Route } from 'react-router-dom'
 
-// import BlankLayout from '@widgets/layout/blank'
+import logger from '@utils/logger'
 import MainLayout from '@widgets/layout/main'
 
-// const mapComponent = (configRoutes: RouteConfig[]): any[] => {
-//   return configRoutes.map((route: RouteConfig) => {
-//     const { path, componentPath } = route
+import { flatRoutesConfig } from './config'
 
-//     if (componentPath) {
-//       route.component = lazy(() => import(`@pages/${componentPath}/index.tsx`))
-//     }
-//     if (route.routes) {
-//       if (route.component) {
-//         return mapComponent(route.routes)
-//       } else {
-//         return route.routes.map((item) => {
-//           item.path = `${path}${item.path}`
-//           if (item.componentPath) {
-//             item.component = lazy(() => import(`@pages/${item.componentPath}/index.tsx`))
-//           }
-//           return item
-//         })
-//       }
-//     }
-//     return route
-//   })
-// }
-
-// export function mathHashPath() {
-//   const hashPath = location.hash.replace('#', '')
-
-// }
+// import BlankLayout from '@widgets/layout/blank'
 
 export function getHashPath() {
   return location.hash.replace('#', '') || '/'
 }
 
-export const hashRoutes: CustomTypes.ObjectOf<React.LazyExoticComponent<() => JSX.Element>> = {
-  '/': lazy(() => import('@pages/home')),
-  '/xxx': lazy(() => import('@pages/demo')),
-  '/yyy/xxx': lazy(() => import('@pages/home')),
+export function getHashPageMap() {
+  const pageMap: CustomTypes.ObjectOf<React.LazyExoticComponent<() => JSX.Element>> = {}
+  flatRoutesConfig.map((route) => {
+    const { path, componentPath } = route
+    pageMap[path] = lazy(() => import(`@pages/${componentPath}/index.tsx`))
+  })
+  return pageMap
 }
+
+export const hashRoutesMap = getHashPageMap()
+logger.getLogger('app:route').log('hashRoutesMap', hashRoutesMap)
 
 export const MainLayoutRoutes = <Route path="/" exact component={MainLayout} />
 

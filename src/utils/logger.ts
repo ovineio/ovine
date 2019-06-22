@@ -1,44 +1,10 @@
+import config from '@config'
+
 /**
  * logger日志打印模块
  */
 
-const templateReplace = (template: string, data: CustomTypes.ObjectOf<any>) => {
-  const replaceTplReg = /\{(\w*[:]*[=]*\w+)\}(?!})/g
-  return template.replace(replaceTplReg, (...args) => {
-    return data[args[1]] || ''
-  })
-}
-
-const dateFormatter = (formatter: string, date?: string | Date) => {
-  const dateObj = !date ? new Date() : date instanceof Date ? date : new Date(date)
-
-  const transObj: any = {
-    'M+': dateObj.getMonth() + 1, // 月份
-    'd+': dateObj.getDate(), // 日
-    'h+': dateObj.getHours(), // 小时
-    'm+': dateObj.getMinutes(), // 分
-    's+': dateObj.getSeconds(), // 秒
-    'q+': Math.floor((dateObj.getMonth() + 3) / 3), // 季度
-    S: dateObj.getMilliseconds(), // 毫秒
-  }
-
-  let fmt = formatter
-
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (dateObj.getFullYear() + '').substr(4 - RegExp.$1.length))
-  }
-
-  for (const k in transObj) {
-    if (new RegExp(`(${k})`).test(fmt)) {
-      fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? transObj[k] : `00${transObj[k]}`.substr(`${transObj[k]}`.length)
-      )
-    }
-  }
-
-  return fmt
-}
+import { dateFormatter, queryStringParse, templateReplace } from './tool'
 
 /* tslint:disable: no-console */
 
@@ -156,12 +122,10 @@ export const logger: Debug.IDebug = {
     if (isRelease()) {
       return
     }
-
     const debugOption = { ...debugConfig.defaultDebugOption, ...option }
     const { timeFormatter, moduleName, showTime, level, onlySelf } = debugOption
 
     onlySelfFlag = null
-
     // onlySelf 为 bool值时 设置 onlySelfFlag
     if (typeof onlySelf === 'boolean') {
       onlySelfFlag = onlySelf
@@ -213,7 +177,22 @@ export const logger: Debug.IDebug = {
     this.debugLogger.call(null, { ...option, level }, loggerDetail)
   },
 }
+
+function initLogger() {
+  const debugStr = queryStringParse('logger_debug') || config.debug
+
+  logger.setConfig({
+    moduleName: debugStr,
+    enable: !!debugStr,
+    level: levels.log,
+  })
+
+  logger.getLogger('app:config').log(config)
+
+  return logger
+}
+
 // 全局化日志打印无须 import
-export default logger
+export default initLogger()
 
 // TODO: 添加 timestamp 打印耗时统计 功能
