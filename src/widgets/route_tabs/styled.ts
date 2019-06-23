@@ -5,7 +5,6 @@ export const StyledRouteTabs = styled.div`
   top: 50px;
   right: 0;
   left: 220px;
-  z-index: 999;
   height: 40px;
   line-height: 40px;
   padding-left: 40px;

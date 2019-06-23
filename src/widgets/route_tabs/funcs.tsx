@@ -5,7 +5,8 @@ import '@assets/scripts/context_menu.js'
 import '@assets/scripts/context_menu_ui.js'
 import { progressJs } from '@assets/scripts/progress.js'
 import { cls, filters, getLayId, ids, layId } from '@constants/layui'
-import { getHashPath, hashRoutesMap } from '@routes'
+import { hashRoutesMap } from '@routes'
+import { getHashPath } from '@routes/func'
 
 const pageTabClass = `${cls.show} fadeInUp`
 const tabsId = filters.routes_nav_tabs.id
@@ -13,10 +14,14 @@ let progressBar: any
 
 type TabItemType = {
   index: number
-  type: '' | 'init' | 'delete' | 'change'
+  type: '' | 'init' | 'delete' | 'change' | 'navChange'
   id: string
   title: string
 }
+
+/**
+ * TODO 添加 session 存储 已经打开的tabs
+ */
 export function onTabsInit() {
   layui.use('element', () => {
     const { element } = layui
@@ -28,16 +33,16 @@ export function onTabsInit() {
     })
 
     // 第一次初始化  tabs
-    const $initNav = $(`#${ids.app_side} .${cls.this}`).find('a')
+    const pathName = getHashPath()
+    const $initNav = $(`#${ids.app_side} ${getLayId(pathName, true)}`)
     const tabData: TabItemType = {
-      id: $initNav.attr(layId),
+      id: pathName,
       title: $initNav.data('title'),
       type: 'init',
       index: -1,
     }
 
-    fireTabChange({ element, tabData })
-    // changeTab({ element, tabData })
+    setTimeout(() => fireTabChange({ element, tabData }), 100)
 
     // 点击 左边栏 导航
     element.on(filters.app_side_nav.nav, ($activeNav: any) => {
@@ -47,7 +52,7 @@ export function onTabsInit() {
       }
       tabData.title = $activeNav.data('title')
       tabData.index = -1
-      tabData.type = 'change'
+      tabData.type = 'navChange'
       fireTabChange({ element, tabData })
     })
 
@@ -61,14 +66,9 @@ export function onTabsInit() {
 }
 
 function fireTabChange({ element, tabData }: ChangeTabOption) {
-  const { title, id, type } = tabData
+  const { title, id } = tabData
 
   const isTabExist = $(`#${ids.routes_nav_tabs_header} li${getLayId(id, true)}`).length
-
-  if (type === 'init') {
-    setTimeout(() => element.tabChange(tabsId, id), 100)
-    return
-  }
 
   if (isTabExist) {
     element.tabChange(tabsId, id)
@@ -83,7 +83,7 @@ type ChangeTabOption = {
   element: any
   tabData: TabItemType
 }
-export const changeTab = ({ tabData }: ChangeTabOption) => {
+function changeTab({ tabData }: ChangeTabOption) {
   const { index, id, type } = tabData
 
   const pathName =
@@ -104,17 +104,12 @@ export const changeTab = ({ tabData }: ChangeTabOption) => {
   const tabsContentSelector = `.${cls.app_tabs_items}[${layIdStr}]`
   const $currContent = $tabsContent.find(tabsContentSelector)
 
+  renderSideNav(pathName, type !== 'navChange')
+
+  // 删除时 更新 tabContentItem
   if (type === 'delete') {
     const prevId = $(`#${ids.routes_nav_tabs_header} .${cls.this}`).attr(layId)
     $tabsContent.find(`.${cls.app_tabs_items}${getLayId(prevId, true)}`).remove()
-  }
-
-  const $activeNav = $(`#${ids.app_side} .${cls.this}`)
-  if ($activeNav.find('a').attr(layId) !== pathName) {
-    $activeNav.removeClass(cls.this)
-    $(`#${ids.app_side} a[${layIdStr}]`)
-      .parent()
-      .addClass(cls.this)
   }
 
   if ($currContent.length) {
@@ -141,6 +136,35 @@ export const changeTab = ({ tabData }: ChangeTabOption) => {
     </Suspense>,
     $tabsContent.find(tabsContentSelector)[0]
   )
+}
+
+function renderSideNav(pathName: string, isUpdateShrink: boolean = false) {
+  const $side = $(`#${ids.app_side}`)
+  const $activeNav = $side.find(`.${cls.this}`)
+
+  if (isUpdateShrink) {
+    const itemedCls = '.layui-nav-itemed'
+    const $allItems = $side.find(itemedCls)
+    $allItems.each((...args: any[]) => {
+      const $item = $(args[1])
+      if (!$item.find(`a${getLayId(pathName, true)}`).length) {
+        $item.removeClass('layui-nav-itemed')
+      }
+    })
+  }
+
+  if ($activeNav.find('a').attr(layId) === pathName) {
+    return
+  }
+
+  $activeNav.removeClass(cls.this)
+
+  $side
+    .find(`a${getLayId(pathName, true)}`)
+    .parent()
+    .addClass(cls.this)
+    .parents('.layui-nav-child,.layui-nav-item')
+    .addClass('layui-nav-itemed')
 }
 
 function renderProgressBar() {
@@ -175,6 +199,7 @@ function renderTabsMenu({ element }: any) {
   }
   $.contextMenu({
     selector: `#${ids.routes_nav_tabs_header}`,
+    zIndex: 1001,
     // animation: `{duration: 250, show: 'fadeIn', hide: 'fadeOut'}`,
     events: {
       preShow(...args: any[]) {

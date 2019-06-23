@@ -4,16 +4,17 @@
 
 const globalData: any = {}
 
+export type SessionKey = 'ROUTES_NAV_TABS'
+
 /**
  * TODO:
  * 1. 添加缓存过期时间
- * 2. 增加cookie选项，与向下cookie兼容
  */
 export function setStorage<K extends string>(key: K, value: any): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getStorage<K extends string, T>(key: K): T | CustomTypes.NullValue {
+export function getStorage<K extends string, T>(key: K): T | undefined {
   let value = localStorage.getItem(key)
 
   if (value) {
@@ -23,11 +24,11 @@ export function getStorage<K extends string, T>(key: K): T | CustomTypes.NullVal
   return value as any
 }
 
-export function setSessionStorage(key: string, value: any): void {
+export function setSessionStorage(key: SessionKey, value: any): void {
   sessionStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getSessionStorage<K extends string, T>(key: K): T | CustomTypes.NullValue {
+export function getSessionStorage<T>(key: SessionKey): T | undefined {
   let value = sessionStorage.getItem(key)
 
   if (value) {
@@ -41,7 +42,7 @@ export function setGlobal(key: string, value: any): void {
   globalData[key] = value
 }
 
-export function getGlobal<K extends string, T>(key: K): T | CustomTypes.NullValue {
+export function getGlobal<K extends string, T>(key: K): T | undefined {
   const value = globalData[key]
 
   return value

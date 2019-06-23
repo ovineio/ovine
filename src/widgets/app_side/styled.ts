@@ -10,19 +10,6 @@ export const StyledAppSide = styled.div`
     position: fixed;
   }
 
-  .layui-side-scroll {
-    box-sizing: border-box;
-    padding-top: 50px;
-  }
-
-  .layui-nav-tree {
-    width: 220px;
-  }
-
-  a.layui-nav-itemed:after {
-    display: block;
-  }
-
   .layui-logo {
     cursor: pointer;
     background-color: #23262e;
@@ -38,5 +25,49 @@ export const StyledAppSide = styled.div`
       margin-left: 5px;
       ${inline()};
     }
+  }
+
+  .layui-side-scroll {
+    box-sizing: border-box;
+    padding-top: 50px;
+  }
+
+  .layui-nav-tree {
+    width: 220px;
+  }
+
+  .layui-nav-item > a {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    .layui-icon {
+      position: absolute;
+      left: 20px;
+    }
+  }
+
+  /* .layui-nav-itemed {
+    &.layui-nav-child {
+      height: fit-content !important;
+    }
+    & > .layui-nav-child {
+      height: 100%;
+    }
+  } */
+
+  .layui-nav-child {
+    /* display: block !important;
+    height: 0;
+    overflow: hidden;
+    transition: height 5s ease-in-out;
+    padding: 0; */
+    .layui-nav-child a {
+      padding-left: 60px;
+    }
+  }
+  .layui-nav-item a {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 45px;
+    padding-right: 30px;
   }
 `

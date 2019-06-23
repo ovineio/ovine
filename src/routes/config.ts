@@ -1,6 +1,3 @@
-import logger from '@utils/logger'
-import { deepClone, deepTraversal } from '@utils/tool'
-
 export type RouteConfig = {
   icon?: string
   title: string
@@ -13,41 +10,49 @@ export type RouteConfig = {
 export const routesConfig: RouteConfig[] = [
   {
     path: '/',
-    title: 'home',
-    icon: '',
-    componentPath: 'home',
+    title: '首页',
+    icon: 'home',
+    componentPath: '/home',
   },
   {
-    path: '/xxx',
-    icon: '',
-    title: 'demo测试页面',
-    componentPath: 'demo',
+    path: '/demo',
+    icon: 'home',
+    title: '测试页面',
+    componentPath: '/demo',
   },
   {
-    path: '/yyy',
-    icon: '',
-    title: 'yyy',
+    path: '/grade',
+    icon: 'home',
+    title: '多级测试',
     children: [
       {
-        path: '/xxx',
+        path: '/grade1',
+        title: '二级菜单',
+        children: [
+          {
+            path: '/grade2',
+            title: '三级菜单',
+            componentPath: '/home',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: '/system',
+    icon: 'home',
+    title: '系统管理',
+    children: [
+      {
+        path: '/admin_user',
         icon: '',
-        title: 'xxx',
-        componentPath: 'home',
+        title: '系统用户',
+      },
+      {
+        path: '/limits',
+        icon: '',
+        title: '权限设置',
       },
     ],
   },
 ]
-
-const parseRoutesConfig = (configRoutes: RouteConfig[], parentPath: string = ''): any[] => {
-  return configRoutes.map((route: RouteConfig) => {
-    if (route.children) {
-      route.children = parseRoutesConfig(route.children, route.path)
-    } else {
-      route.path = `${parentPath}${route.path}`
-    }
-    return route
-  })
-}
-
-export const flatRoutesConfig = deepTraversal(parseRoutesConfig(deepClone(routesConfig)))
-logger.getLogger('app:route:config').log({ routesConfig, flatRoutesConfig })
