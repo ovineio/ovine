@@ -21,24 +21,6 @@ export const routesConfig: RouteConfig[] = [
     componentPath: '/demo',
   },
   {
-    path: '/grade',
-    icon: 'home',
-    title: '多级测试',
-    children: [
-      {
-        path: '/grade1',
-        title: '二级菜单',
-        children: [
-          {
-            path: '/grade2',
-            title: '三级菜单',
-            componentPath: '/home',
-          },
-        ],
-      },
-    ],
-  },
-  {
     path: '/system',
     icon: 'home',
     title: '系统管理',
@@ -54,5 +36,83 @@ export const routesConfig: RouteConfig[] = [
         title: '权限设置',
       },
     ],
+  },
+  {
+    path: '/grade',
+    icon: 'home',
+    title: '多级测试',
+    children: [
+      {
+        path: '/grade1',
+        title: '二级菜单',
+        children: [
+          {
+            path: '/grade2',
+            title: '三级菜单',
+            children: [
+              {
+                path: '/grade3',
+                title: '四级菜单',
+                componentPath: '/home',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: '/test1',
+    icon: 'home',
+    title: '测试',
+    componentPath: '/home',
+  },
+  {
+    path: '/test2',
+    icon: 'home',
+    title: '测试1',
+    componentPath: '/home',
+  },
+  {
+    path: '/test3',
+    icon: 'home',
+    title: '测试2',
+    componentPath: '/home',
+  },
+  {
+    path: '/test4',
+    icon: 'home',
+    title: '测试3',
+    componentPath: '/home',
+  },
+  {
+    path: '/test5',
+    icon: 'home',
+    title: '测试5',
+    componentPath: '/home',
+  },
+  {
+    path: '/test6',
+    icon: 'home',
+    title: '测试6',
+    componentPath: '/home',
+  },
+  {
+    path: '/test7',
+    icon: 'home',
+    title: '测试7',
+    componentPath: '/home',
+  },
+  {
+    path: '/test8',
+    icon: 'home',
+    title: '测试8',
+    componentPath: '/home',
+  },
+  {
+    path: '/test9',
+    icon: 'home',
+    title: '测试8',
+    componentPath: '/home',
   },
 ]

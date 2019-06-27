@@ -116,11 +116,11 @@ declare namespace HttpRequest {
 
   type RequestMap = { [key: string]: RequestOption }
 
-  class Request {
+  interface Request {
     getUrlString(option: RequestOption): string
     getUrlOptByApi(option: RequestOption): UrlOption
-    cacheRequestCtrl(type: 'get' | 'set', options?: UnionOption, source?: any): any
     userTokenCtrl(options: UnionOption): UnionOption
+    cacheRequestCtrl(type: 'get' | 'set', options?: UnionOption, source?: any): any
     getFetchOption(option: RequestOption): FetchOption
     errorHandle(error?: Error, source?: ApiSource<any>, unionOption?: UnionOption): void
     request(option: RequestOption): Promise<any>

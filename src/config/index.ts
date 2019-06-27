@@ -10,7 +10,7 @@ type Config = AppConfig & {
 }
 
 presetEnvConfig<EnvMode, Partial<Config>>('localhost', {
-  mockUrl: 'https://easy-mock.com/mock/5ccb7476e632d85da4a24269/api/',
+  mockUrl: 'https://easy-mock.com/mock/5ccb7476e632d85da4a24269/api/v1',
   isLocal: true,
   debug: '.*',
 })
@@ -18,7 +18,7 @@ presetEnvConfig<EnvMode, Partial<Config>>('localhost', {
 presetEnvConfig<EnvMode, Partial<Config>>('test', {
   debug: 'app:*',
   baseUrl: {
-    api: 'https://test-rt-admin/api/',
+    api: 'https://test-rt-admin/api',
   },
 })
 
@@ -26,7 +26,7 @@ presetEnvConfig<EnvMode, Partial<Config>>('production', {
   isProd: true,
   debug: '',
   baseUrl: {
-    api: 'https://rt-admin/api/',
+    api: 'https://rt-admin/api',
   },
 })
 

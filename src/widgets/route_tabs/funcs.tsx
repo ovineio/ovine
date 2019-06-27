@@ -13,7 +13,6 @@ const tabsId = filters.routes_nav_tabs.id
 let progressBar: any
 
 type TabItemType = {
-  index: number
   type: '' | 'init' | 'delete' | 'change' | 'navChange'
   id: string
   title: string
@@ -27,11 +26,6 @@ export function onTabsInit() {
     const { element } = layui
     renderTabsMenu({ element })
 
-    element.tab({
-      headerElem: '',
-      bodyElem: '',
-    })
-
     // 第一次初始化  tabs
     const pathName = getHashPath()
     const $initNav = $(`#${ids.app_side} ${getLayId(pathName, true)}`)
@@ -39,7 +33,6 @@ export function onTabsInit() {
       id: pathName,
       title: $initNav.data('title'),
       type: 'init',
-      index: -1,
     }
 
     setTimeout(() => fireTabChange({ element, tabData }), 100)
@@ -51,16 +44,19 @@ export function onTabsInit() {
         return
       }
       tabData.title = $activeNav.data('title')
-      tabData.index = -1
       tabData.type = 'navChange'
       fireTabChange({ element, tabData })
     })
 
-    // tabs 增加/删除/切换都调用该方法 且 参数一致
+    // tabs 删除/切换 都调用该方法 且 参数一致
     element.on(filters.routes_nav_tabs.tabs, (tabs: any) => {
-      tabData.index = tabs.index
+      tabData.id = tabs.id
       tabData.type = tabs.eventType
       changeTab({ element, tabData })
+    })
+
+    element.on(filters.routes_nav_tabs.tabDelete, (tabs: any) => {
+      $(`#${ids.app_body} .${cls.app_tabs_items}${getLayId(tabs.id, true)}`).remove()
     })
   })
 }
@@ -84,14 +80,7 @@ type ChangeTabOption = {
   tabData: TabItemType
 }
 function changeTab({ tabData }: ChangeTabOption) {
-  const { index, id, type } = tabData
-
-  const pathName =
-    index === -1
-      ? id
-      : $(`#${ids.routes_nav_tabs_header} li`)
-          .eq(index)
-          .attr(layId)
+  const { id: pathName, type } = tabData
 
   if (!pathName) {
     return
@@ -105,12 +94,6 @@ function changeTab({ tabData }: ChangeTabOption) {
   const $currContent = $tabsContent.find(tabsContentSelector)
 
   renderSideNav(pathName, type !== 'navChange')
-
-  // 删除时 更新 tabContentItem
-  if (type === 'delete') {
-    const prevId = $(`#${ids.routes_nav_tabs_header} .${cls.this}`).attr(layId)
-    $tabsContent.find(`.${cls.app_tabs_items}${getLayId(prevId, true)}`).remove()
-  }
 
   if ($currContent.length) {
     if (!$currContent.hasClass(cls.show)) {

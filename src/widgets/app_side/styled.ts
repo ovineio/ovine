@@ -28,12 +28,14 @@ export const StyledAppSide = styled.div`
   }
 
   .layui-side-scroll {
+    width: 235px;
     box-sizing: border-box;
     padding-top: 50px;
   }
 
   .layui-nav-tree {
     width: 220px;
+    cursor: pointer;
   }
 
   .layui-nav-item > a {
@@ -45,25 +47,17 @@ export const StyledAppSide = styled.div`
     }
   }
 
-  /* .layui-nav-itemed {
-    &.layui-nav-child {
-      height: fit-content !important;
-    }
-    & > .layui-nav-child {
-      height: 100%;
-    }
-  } */
-
   .layui-nav-child {
-    /* display: block !important;
-    height: 0;
-    overflow: hidden;
-    transition: height 5s ease-in-out;
-    padding: 0; */
-    .layui-nav-child a {
-      padding-left: 60px;
+    .layui-nav-child {
+      a {
+        padding-left: 60px;
+      }
+      .layui-nav-child a {
+        padding-left: 80px;
+      }
     }
   }
+
   .layui-nav-item a {
     height: 40px;
     line-height: 40px;

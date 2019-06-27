@@ -11,6 +11,7 @@ export const filters = {
   routes_nav_tabs: {
     id: `${prefix}routes-nav`,
     tabs: `tab(${prefix}routes-nav)`,
+    tabDelete: `tabDelete(${prefix}routes-nav)`,
   },
   app_side_nav: {
     id: `${prefix}app-side`,

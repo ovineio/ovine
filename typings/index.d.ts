@@ -21,6 +21,14 @@ declare module 'react-router-dom' {
   export const Redirect: any
   export const Switch: any
 }
+declare module 'json-form' {
+  const Form: any
+  export default Form
+}
+declare module 'rt-admin-lib/jsonschema-form' {
+  const Form: any
+  export default Form
+}
 
 declare const layui: any
 declare const $: any

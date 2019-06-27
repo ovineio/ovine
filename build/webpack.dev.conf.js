@@ -27,7 +27,6 @@ const devWebpackConfig = merge(webpackConfig, {
           },
           'babel-loader',
         ],
-        include: srcDir(),
         exclude: /node_modules|packages/,
       },
       {
@@ -51,6 +50,12 @@ const devWebpackConfig = merge(webpackConfig, {
         exclude: /node_modules|packages/,
       },
     ],
+  },
+  resolve: {
+    alias: {
+      // 本地开发使用 本地包
+      'json-form': rootDir('../rt-admin-lib/source/react-jsonschema-form/lib'),
+    },
   },
   devServer: {
     port: PORT,

@@ -39,17 +39,10 @@ const prodWebpackConfig = merge(webpackConfig, {
               workers: 2,
             },
           },
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: 2,
-            },
-          },
           'babel-loader',
           {
             loader: 'ts-loader',
             options: {
-              happyPackMode: true,
               transpileOnly: true,
             },
           },
@@ -57,6 +50,11 @@ const prodWebpackConfig = merge(webpackConfig, {
         exclude: /node_modules|packages/,
       },
     ],
+  },
+  resolve: {
+    alias: {
+      'json-form': 'node_modules/rt-admin-lib/react-jsonschema-form',
+    },
   },
   optimization: {
     minimizer: [
