@@ -1,10 +1,37 @@
+const { ENV = 'development' } = process.env
+
+const importPlugin = (moduleName, dirName = '') => [
+  'babel-plugin-import',
+  {
+    libraryName: moduleName,
+    libraryDirectory: '',
+    camel2DashComponentName: false,
+  },
+  dirName,
+]
+
+const styledComponents = {
+  development: {
+    displayName: true,
+  },
+  production: {
+    minify: true,
+    pure: true,
+    displayName: false,
+  },
+}
+
+const macrosConfig = {
+  styledComponents: styledComponents[ENV] || styledComponents.development,
+}
+
 // babel 配置列表选项 https://babeljs.io/docs/en/options#sourcetype
 module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: ['@babel/plugin-syntax-dynamic-import'],
-  env: {
-    development: {
-      plugins: ['react-hot-loader/babel'],
-    },
-  },
+  plugins: [
+    ['macros', macrosConfig],
+    'react-hot-loader/babel',
+    '@babel/plugin-syntax-dynamic-import',
+    importPlugin('lodash'),
+  ],
 }

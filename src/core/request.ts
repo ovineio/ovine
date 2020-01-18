@@ -1,10 +1,10 @@
 import hash from 'hash.js'
 
-import config, { UrlMode } from '@config'
-import { UserTokenCheckError } from '@constants/error'
-import logger from '@utils/logger'
-import { getSessionStorage, setSessionStorage } from '@utils/store'
-import { filterNullKeys, getByPath, isExpired, queryStringify, templateReplace } from '@utils/tool'
+import config, { UrlMode } from '~/config'
+import { UserTokenCheckError } from '~/constants'
+import logger from '~/utils/logger'
+import { getSessionStorage, setSessionStorage } from '~/utils/store'
+import { filterNullKeys, getByPath, isExpired, queryStringify, templateReplace } from '~/utils/tool'
 
 import { getToken } from './user'
 

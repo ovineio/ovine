@@ -1,24 +1,8 @@
-import jquery from 'jquery'
-import React, { Suspense } from 'react'
-// import { setHotElementComparator } from 'react-dom'
-// import { setConfig } from 'react-hot-loader'
-// import { hot } from 'react-hot-loader/root'
-import { BrowserRouter } from 'react-router-dom'
+import React from 'react'
+import { hot } from 'react-hot-loader/root'
 
-import { MainLayoutRoutes } from '@routes'
-;(window as any).$ = jquery
+const App = () => {
+  return <div>123</div>
+}
 
-// setConfig({
-//   ignoreSFC: !!setHotElementComparator,
-//   pureSFC: true,
-//   pureRender: true,
-//   logLevel: 'debug',
-// })
-
-const App = () => (
-  <BrowserRouter>
-    <Suspense fallback="">{MainLayoutRoutes} </Suspense>
-  </BrowserRouter>
-)
-
-export default App // hot(App)
+export default hot(App)

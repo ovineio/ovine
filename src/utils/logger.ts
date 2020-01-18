@@ -1,8 +1,8 @@
-import config from '@config'
-
 /**
  * logger日志打印模块
  */
+
+import config from '~/config'
 
 import { dateFormatter, queryStringParse, templateReplace } from './tool'
 

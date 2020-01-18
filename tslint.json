@@ -20,22 +20,22 @@
         "grouped-imports": true,
         "groups": [
           {
-            "name": "第三方模块",
-            "match": "^[a-z].*",
+            "name": "third party modules",
+            "match": "^[@a-z].*",
             "order": 10
           },
           {
-            "name": "项目内模块",
-            "match": "^@.*",
+            "name": "app modules",
+            "match": "^~/.*",
             "order": 20
           },
           {
-            "name": "上两级文件模块",
+            "name": "relate up modules",
             "match": "^\\.\\.",
             "order": 30
           },
           {
-            "name": "上级文件模块",
+            "name": "relate modules",
             "match": "^\\.",
             "order": 40
           }
@@ -44,6 +44,6 @@
     ]
   },
   "linterOptions": {
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
   }
 }

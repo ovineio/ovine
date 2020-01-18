@@ -19,21 +19,11 @@
     "jsx": "react",
     "outDir": "dist",
     "rootDir": ".",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@config": ["config/index"],
-      "@constants/*": ["constants/*"],
-      "@pages/*": ["pages/*"],
-      "@utils/*": ["utils/*"],
-      "@components/*": ["components/*"],
-      "@widgets/*": ["widgets/*"],
-      "@core/*": ["core/*"],
-      "@hooks/*": ["hooks/*"],
-      "@routes": ["routes/index"],
-      "@routes/*": ["routes/*"],
-      "@assets/*": ["assets/*"]
+      "~/*": ["./src/*"]
     },
-    "types": ["@types/react", "styled-components"],
+    "types": ["@types/react", "styled-components", "@types/lodash", "amis/lib"],
     "typeRoots": ["./typings/"]
   },
   "compileOnSave": false,

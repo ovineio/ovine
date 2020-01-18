@@ -1,11 +1,7 @@
-import App from '@pages/app'
-// tslint:disable-next-line: ordered-imports
 import React from 'react'
 import { render } from 'react-dom'
+import 'react-hot-loader'
 
-import '@assets/styles/context_menu.css'
-import '@assets/styles/main.css'
-import '@assets/styles/progress.css'
-import '@assets/styles/ripple.css'
+import App from '~/pages/app'
 
 render(<App />, document.getElementById('app-root'))
