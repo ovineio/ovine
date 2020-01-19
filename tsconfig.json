@@ -28,5 +28,5 @@
   },
   "compileOnSave": false,
   "include": ["./src", "./typings"],
-  "exclude": ["./node_modules", "./coverage", "./document", "./dist", "__test__"]
+  "exclude": ["node_modules", "coverage", "document", "dist", "__test__"]
 }

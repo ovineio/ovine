@@ -1,6 +1,8 @@
 {
-  "editor.formatOnSave": true,
   "cSpell.ignoreWords": ["rtadmin"],
-  "liveServer.settings.root": "/dist",
-  "liveServer.settings.file": "/index.html"
+  "editor.tabSize": 2,
+  "tslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.tslint": true
+  }
 }

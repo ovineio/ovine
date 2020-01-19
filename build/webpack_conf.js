@@ -23,7 +23,7 @@ const webpackConfig = {
     path: distDir(),
     filename: 'index_[hash:6].js',
     publicPath: '/',
-    chunkFilename: 'chunk/[name]_[chunckhash:6].js',
+    chunkFilename: 'chunk/[name]_[chunkhash:6].js',
     pathinfo: false,
   },
   module: {

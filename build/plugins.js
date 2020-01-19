@@ -12,7 +12,17 @@ const utils = require('./utils')
 
 const { EnvironmentPlugin, DllReferencePlugin } = webpack
 const { BundleAnalyzerPlugin } = analyzer
-const { API_ENV, ENV, ANALYZER_PORT, dllPaths, rootDir, srcDir, distDir, enableAnalyzer } = utils
+const {
+  API_ENV,
+  ENV,
+  ANALYZER_PORT,
+  dllPaths,
+  isProd,
+  rootDir,
+  srcDir,
+  distDir,
+  enableAnalyzer,
+} = utils
 
 const plugins = [
   new CleanPlugin(),

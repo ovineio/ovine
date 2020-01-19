@@ -13,15 +13,7 @@ const dllName = '[name]_[hash:6]'
 const dellWebpackConfig = {
   mode: 'production',
   entry: {
-    dll_vendor: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'immer',
-      'hash.js',
-      'styled-components',
-      'whatwg-fetch',
-    ],
+    dll_vendor: ['react', 'react-dom', 'react-router-dom', 'immer', 'styled-components', 'amis'],
   },
   resolve: {
     alias: {

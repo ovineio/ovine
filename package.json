@@ -17,6 +17,7 @@
     "clean": "rimraf ./dist/* ./.cache"
   },
   "keywords": [
+    "aims",
     "admin",
     "react",
     "typescript"
@@ -26,14 +27,11 @@
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
     "amis": "^1.0.8",
-    "hash.js": "^1.1.7",
     "immer": "5.3.2",
-    "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-router-dom": "5.1.2",
     "rt-admin-lib": "^0.0.1",
-    "styled-components": "5.0.0",
-    "whatwg-fetch": "^3.0.0"
+    "styled-components": "5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
