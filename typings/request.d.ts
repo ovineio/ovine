@@ -85,7 +85,7 @@ declare namespace HttpRequest {
      * @param error 当前请求的错误
      * @param source 请求携带的返回数据。可能为 undefined
      * @param unionOption 当前请求时的各种参数选项
-     * @return `CustomTypes.FalseValue` 当返回一个类false值，不进行公共错误处理
+     * @return `Types.FalseValue` 当返回一个类false值，不进行公共错误处理
      */
     errorHandle?(
       error?: any,

@@ -7,7 +7,7 @@ type EnvConfig = {
   isMock: boolean
   debug: string
   envMode: string
-  baseUrl: CustomTypes.ObjectOf<string>
+  baseUrl: Types.ObjectOf<string>
 }
 
 export type AppConfig = EnvConfig & {
@@ -26,7 +26,7 @@ const defaultConfig: AppConfig = {
   },
 }
 
-const configs: CustomTypes.ObjectOf<AppConfig> = {
+const configs: Types.ObjectOf<AppConfig> = {
   localhost: defaultConfig,
 }
 

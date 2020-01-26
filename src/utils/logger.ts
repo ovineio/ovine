@@ -1,53 +1,41 @@
 /**
- * logger日志打印模块
+ * logger模块是全局模块，最开始加载。正常情况下应当不依赖任何其他模块。否则可能会出现相互依赖错误。
  */
 
-import config from '~/config'
+type Level = 'log' | 'info' | 'warn' | 'error'
 
-import { dateFormatter, queryStringParse, templateReplace } from './tool'
-
-/* tslint:disable: no-console */
-
-const logFormat = {
-  moduleName: 'text-decoration: underline;',
-  log: 'background-color: #eceff1; color: #263238;',
-  info: 'background-color: #E3F2FD; color: #2196F3;',
-  error: 'background-color: #EF5350; color: #fff !important;',
-  warn: 'background-color: #fff8e1; color: #ff9800;',
+type Option = {
+  moduleName?: string
+  level?: Level
+  onlySelf?: boolean
 }
 
-const logTemplate = {
-  common: '%c [{timeStr} {OnlyStr} {level} %c{moduleName}%c ]',
-}
-
-export const levels: CustomTypes.Map<'log' | 'info' | 'warn' | 'error', Debug.Level> = {
-  log: 'log' as any,
-  info: 'info' as any,
-  warn: 'warn' as any,
-  error: 'error' as any,
+type Config = {
+  level: Level // LOG级别
+  enable: boolean // 只在打包环境下有效
+  moduleName: string
+  onlyLevel: boolean
+  defaultDebugOption: Required<Option>
 }
 
 // 默认所有日志均显示
-let debugConfig: Debug.Config = {
-  level: levels.info,
-  moduleName: '.*',
+let debugConfig: Config = {
+  level: 'log',
+  moduleName: '',
   onlyLevel: false,
   enable: true,
   defaultDebugOption: {
-    timeFormatter: 'hh:mm:ss',
-    moduleName: 'app',
-    showTime: true,
+    moduleName: 'app*',
     onlySelf: false,
-    level: levels.log,
+    level: 'log',
   },
 }
 
-const isSimpleDebug: boolean = false
-let onlySelfFlag: boolean | CustomTypes.NullValue = null
+let onlySelfFlag: boolean | Types.NullValue = null
 /**
  * 过滤日志打印信息
  */
-const filterLog = (option: Required<Pick<Debug.Option, 'level' | 'moduleName'>>): boolean => {
+const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): boolean => {
   const { level, moduleName, onlyLevel } = debugConfig
 
   // 打包环境不打印LOG
@@ -55,7 +43,7 @@ const filterLog = (option: Required<Pick<Debug.Option, 'level' | 'moduleName'>>)
     return false
   }
 
-  const allowedLevel: Debug.Level[] = []
+  const allowedLevel: Level[] = []
 
   if (onlyLevel) {
     // 仅仅打印当前级别的LOG
@@ -63,14 +51,14 @@ const filterLog = (option: Required<Pick<Debug.Option, 'level' | 'moduleName'>>)
   } else {
     // ERROR > WARN > INFO > LOG
     switch (level) {
-      case levels.log:
-        allowedLevel.push(levels.log)
-      case levels.info:
-        allowedLevel.push(levels.info)
-      case levels.warn:
-        allowedLevel.push(levels.warn)
-      case levels.error:
-        allowedLevel.push(levels.error)
+      case 'log':
+        allowedLevel.push('log')
+      case 'info':
+        allowedLevel.push('info')
+      case 'warn':
+        allowedLevel.push('warn')
+      case 'error':
+        allowedLevel.push('error')
     }
   }
 
@@ -88,44 +76,64 @@ const filterLog = (option: Required<Pick<Debug.Option, 'level' | 'moduleName'>>)
 }
 
 const isRelease = () => {
-  if (!debugConfig.enable) {
+  if (process.env.ENV === 'production' && !debugConfig.enable) {
     return true
   }
 }
 
-export const logger: Debug.IDebug = {
-  getLogger(moduleName: string, option: Debug.Option = {}) {
-    const debugOption: Debug.Option = { ...option, moduleName }
+export const setConfig = (conf: Partial<Config>): void => {
+  debugConfig = {
+    ...debugConfig,
+    ...conf,
+  }
+
+  // 打包环境不打印日志
+  if (isRelease()) {
+    return
+  }
+
+  logger.info('app:logger:config', debugConfig)
+}
+
+export class Logger {
+  public log(moduleName: string, ...loggerDetail: any[]) {
+    this.debugLogger({ level: 'log', moduleName }, loggerDetail)
+  }
+
+  public info(moduleName: string, ...loggerDetail: any[]) {
+    this.debugLogger({ level: 'info', moduleName }, loggerDetail)
+  }
+
+  public warn(moduleName: string, ...loggerDetail: any[]) {
+    this.debugLogger({ level: 'warn', moduleName }, loggerDetail)
+  }
+
+  public error(moduleName: string, ...loggerDetail: any[]) {
+    this.debugLogger({ level: 'error', moduleName }, loggerDetail)
+  }
+
+  public getLogger(moduleName: string, option: Option = {}) {
+    const debugOption: Option = { ...option, moduleName }
 
     return {
-      log: (...logDetail: any[]) => this.signedLogger(levels.log, debugOption, logDetail),
-      info: (...logDetail: any[]) => this.signedLogger(levels.info, debugOption, logDetail),
-      warn: (...logDetail: any[]) => this.signedLogger(levels.warn, debugOption, logDetail),
-      error: (...logDetail: any[]) => this.signedLogger(levels.error, debugOption, logDetail),
+      log: (...logDetail: any[]) => this.signedLogger('log', debugOption, logDetail),
+      info: (...logDetail: any[]) => this.signedLogger('info', debugOption, logDetail),
+      warn: (...logDetail: any[]) => this.signedLogger('warn', debugOption, logDetail),
+      error: (...logDetail: any[]) => this.signedLogger('error', debugOption, logDetail),
     }
-  },
-  setConfig(conf: Partial<Debug.Config>): void {
-    debugConfig = {
-      ...debugConfig,
-      ...conf,
-    }
+  }
 
+  private debugLogger(option: Option, loggerDetail: any[]) {
     // 打包环境不打印日志
     if (isRelease()) {
       return
     }
 
-    console.warn('==DEBUG SET::', debugConfig)
-  },
-  debugLogger(option: Debug.Option, loggerDetail: any[]) {
-    // 打包环境不打印日志
-    if (isRelease()) {
-      return
-    }
     const debugOption = { ...debugConfig.defaultDebugOption, ...option }
-    const { timeFormatter, moduleName, showTime, level, onlySelf } = debugOption
+    const { moduleName, level, onlySelf } = debugOption
 
     onlySelfFlag = null
+
     // onlySelf 为 bool值时 设置 onlySelfFlag
     if (typeof onlySelf === 'boolean') {
       onlySelfFlag = onlySelf
@@ -137,62 +145,21 @@ export const logger: Debug.IDebug = {
       return
     }
 
-    if (isSimpleDebug) {
-      console.log.call(null, `[ ${level} ${moduleName} ]`, ...loggerDetail)
-      return
-    }
-
-    const timeStr = showTime ? dateFormatter(timeFormatter) : ''
-
-    const template: string = templateReplace(logTemplate.common, {
-      timeStr,
-      moduleName,
-      level: level.toLocaleUpperCase(),
-    })
-
+    const now = new Date()
     const logArgs: any[] = [
-      template,
-      `${logFormat[level]}`,
-      `${logFormat[level]}${logFormat.moduleName}`,
-      `${logFormat[level]}`,
+      `[${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${level.toUpperCase()} ${moduleName}]__::`,
     ]
-    const log = Function.prototype.bind.call(console.log, console)
+
+    const log = Function.prototype.bind.call(console[level] || console['log'], console)
     log.apply(console, logArgs.concat(loggerDetail))
     // console.log('logArgs->', logArgs);
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
-  },
-  log(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: levels.log, moduleName }, loggerDetail)
-  },
-  info(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: levels.info, moduleName }, loggerDetail)
-  },
-  warn(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: levels.warn, moduleName }, loggerDetail)
-  },
-  error(moduleName: string, ...loggerDetail: any[]) {
-    this.debugLogger({ level: levels.info, moduleName }, loggerDetail)
-  },
-  signedLogger(level: Debug.Level, option: Debug.Option, loggerDetail: any[]) {
+  }
+  private signedLogger(level: Level, option: Option, loggerDetail: any[]) {
     this.debugLogger.call(null, { ...option, level }, loggerDetail)
-  },
+  }
 }
 
-function initLogger() {
-  const debugStr = queryStringParse('logger_debug') || config.debug
+const logger = new Logger()
 
-  logger.setConfig({
-    moduleName: debugStr,
-    enable: !!debugStr,
-    level: levels.log,
-  })
-
-  logger.getLogger('app:config').log(config)
-
-  return logger
-}
-
-// 全局化日志打印无须 import
-export default initLogger()
-
-// TODO: 添加 timestamp 打印耗时统计 功能
+export default logger

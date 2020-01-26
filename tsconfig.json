@@ -23,7 +23,7 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "types": ["@types/react", "styled-components", "@types/lodash", "amis/lib"],
+    "types": ["react", "styled-components", "lodash", "amis/lib", "react-router-dom"],
     "typeRoots": ["./typings/"]
   },
   "compileOnSave": false,

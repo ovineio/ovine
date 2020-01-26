@@ -1,7 +1,7 @@
 /**
  * 统一声明自定义类型
  */
-declare namespace CustomTypes {
+declare namespace Types {
   type NumStr = number | string
   type NullValue = null | undefined
   type FalseValue = boolean | void | undefined | null

@@ -1,22 +1,28 @@
+import 'amis/lib/themes/default.css'
 import 'react-hot-loader'
 
-import React from 'react' // tslint:disable-line
-import { render } from 'react-dom'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import '~/assets/scripts/polyfill'
+import config from '~/config'
+import logger, { setConfig } from '~/utils/logger'
+import { queryStringParse } from '~/utils/tool'
 
-import NotMatch from '~/pages/404'
-import App from '~/pages/app'
-import Login from '~/pages/login'
+import { initApp } from './app'
 
-import 'amis/lib/themes/default.css'
+const initLogger = () => {
+  const debugReg = queryStringParse('logger_debug') || config.debug
+  const debugLevel = queryStringParse('logger_level') || 'log'
 
-render(
-  <Router>
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/" exact component={App} />
-      <Route path="*" component={NotMatch} />
-    </Switch>
-  </Router>,
-  document.getElementById('app-root')
-)
+  setConfig({
+    moduleName: debugReg,
+    level: debugLevel as any,
+    enable: !!debugReg,
+  })
+
+  const log = logger.getLogger('app:main')
+  log.info('appConfig', config)
+}
+
+window.onload = () => {
+  initLogger()
+  initApp()
+}

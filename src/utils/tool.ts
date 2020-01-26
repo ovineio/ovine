@@ -5,7 +5,7 @@ import random from 'lodash/random'
  * @param template String 待替换字符串
  * @param data Object 数据对象
  */
-export const templateReplace = (template: string, data: CustomTypes.ObjectOf<any>) => {
+export const templateReplace = (template: string, data: Types.ObjectOf<any>) => {
   const replaceTplReg = /\{(\w*[:]*[=]*\w+)\}(?!})/g
   return template.replace(replaceTplReg, (...args) => {
     return data[args[1]] || ''
@@ -190,7 +190,7 @@ export function queryStringParse(key?: string, url?: string): undefined | string
   }
 
   const items = str.split('&')
-  const result: CustomTypes.ObjectOf<string> = {}
+  const result: Types.ObjectOf<string> = {}
 
   items.forEach((v) => {
     const arr = v.split('=')
