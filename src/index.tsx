@@ -1,7 +1,6 @@
-import 'amis/lib/themes/default.css'
 import 'react-hot-loader'
 
-import '~/assets/scripts/polyfill'
+import '~/assets/scripts/include'
 import config from '~/config'
 import logger, { setConfig } from '~/utils/logger'
 import { queryStringParse } from '~/utils/tool'

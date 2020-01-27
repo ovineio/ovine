@@ -3,7 +3,7 @@ declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'
 declare module '@assets/*'
-declare module 'jquery'
+declare module 'classnames'
 
 declare module 'react-dom' {
   export const render: any

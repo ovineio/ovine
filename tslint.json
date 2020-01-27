@@ -12,6 +12,7 @@
     "no-string-literal": false,
     "no-var-requires": false,
     "no-reference": false,
+    "no-invalid-template-strings": false,
     "ordered-imports": [
       true,
       {

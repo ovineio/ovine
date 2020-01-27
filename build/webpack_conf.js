@@ -36,8 +36,8 @@ const webpackConfig = {
       {
         test: /\.ts|tsx$/,
         use: [
-          { loader: 'thread-loader' },
           cacheLoader,
+          { loader: 'thread-loader' },
           { loader: 'babel-loader' },
           {
             loader: 'ts-loader',
@@ -54,7 +54,7 @@ const webpackConfig = {
         use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(png|jpg|gif|ttf|woff|woff2|eot|svg)$/,
+        test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
         use: [
           {
             loader: 'url-loader',

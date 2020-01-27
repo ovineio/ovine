@@ -1,12 +1,13 @@
 import { SchemaNode } from 'amis/lib/types'
 import React from 'react'
 
-import { Schema } from '~/amis/schema'
-// import { setStorage } from '~/utils/store'
+import { logoUrl } from '~/constants'
+import { setStorage } from '~/utils/store'
+import { Schema } from '~/widgets/amis/schema'
 
 import { StyledLogin } from './styled'
 
-// setStorage('isLogin', 1)
+setStorage('isLogin', 1)
 
 const loginSchema: SchemaNode = {
   type: 'page',
@@ -18,7 +19,7 @@ const loginSchema: SchemaNode = {
         type: 'html',
         html: `
           <h6 class="login-title">
-            <img src="/static/images/logo.png" title="rt-admin" />
+            <img src="${logoUrl}" title="rt-admin" />
             <p>RT-ADMIN 管理后台系统</p>
           </h6>
         `,

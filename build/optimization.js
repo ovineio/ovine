@@ -15,13 +15,12 @@ const optimization = {
   occurrenceOrder: true,
   // https://webpack.js.org/plugins/split-chunks-plugin/
   splitChunks: {
-    chunks: 'async',
     cacheGroups: {
       default: false,
-      commonsAsync: {
-        name: 'commons.async',
-        minChunks: 2,
+      appAsync: {
+        name: 'app_async',
         chunks: 'async',
+        minChunks: 2,
         priority: 0,
         reuseExistingChunk: true,
         minSize: 50000,

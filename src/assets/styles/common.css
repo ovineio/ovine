@@ -1,0 +1,23 @@
+.text-c {
+  text-align: center;
+}
+
+.text-c-i {
+  text-align: center !important;
+}
+
+.text-l {
+  text-align: left;
+}
+
+.text-l-i {
+  text-align: left !important;
+}
+
+.text-r {
+  text-align: right;
+}
+
+.text-r-i {
+  text-align: right !important;
+}

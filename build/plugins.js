@@ -45,7 +45,7 @@ const plugins = [
   }),
   new CopyPlugin([{ from: rootDir('static'), to: distDir('static') }]),
   new HtmlWebpackPlugin({
-    title: 'RT-Admin',
+    title: 'RT-ADMIN',
     faviconIco: '/static/images/favicon.ico',
     faviconPng: '/static/images/logo.png',
     template: srcDir('index.html'),
