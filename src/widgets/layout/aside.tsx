@@ -4,11 +4,9 @@ import { useLocation, Link } from 'react-router-dom'
 
 import { routesConfig } from '~/routes/config'
 
-import { LayoutState, SetLayout } from './common'
+import { LayoutCommProps } from './common'
 
-type Props = LayoutState & {
-  setLayout: SetLayout
-}
+type Props = LayoutCommProps
 
 const contextPath = ''
 const pathPrefix = ''

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <% var opt = htmlWebpackPlugin.options; var themes = opt.themes; %>
+    <% var opt = htmlWebpackPlugin.options; %>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta app-version="<%=opt.version%>" />
@@ -11,9 +11,6 @@
     <link rel="apple-touch-icon-precomposed" href="<%=opt.faviconPng%>" />
     <link rel="apple-touch-icon" href="<%=opt.faviconPng%>" />
     <link rel="apple-touch-startup-image" href="<%=opt.faviconPng%>">
-    <% for(var i =0; i<themes.length; i++) { %>
-        <link rel="stylesheet" <%= i !== 0 ? 'disabled' : ''%> href="/static/css/themes/<%= themes[i] %>.css" />
-    <% } %>
 </head>
 
 <body ontouchstart="">

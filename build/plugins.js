@@ -7,7 +7,6 @@ const CopyPlugin = require('copy-webpack-plugin')
 const analyzer = require('webpack-bundle-analyzer')
 
 const package = require('../package.json')
-const themes = require('../src/assets/scripts/theme')
 
 const utils = require('./utils')
 
@@ -46,11 +45,12 @@ const plugins = [
   }),
   new CopyPlugin([
     {
+      // https://github.com/webpack-contrib/copy-webpack-plugin#totype
       from: rootDir('node_modules/amis/lib/themes/*.css'),
-      to: rootDir('static/css/themes'),
-      from: rootDir('static'),
-      to: distDir('static'),
+      to: rootDir('static/css/themes/[name].[ext]'),
+      toType: 'template',
     },
+    { from: rootDir('static'), to: distDir('static') },
   ]),
   new HtmlWebpackPlugin({
     title: 'RT-ADMIN',
@@ -60,7 +60,6 @@ const plugins = [
     filename: distDir('index.html'),
     version: package.version,
     dllVendorJs: dllPaths.dllVendorJs,
-    themes: Object.keys(themes),
   }),
 ]
 

@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CleanPlugin = require('clean-webpack-plugin')
@@ -24,7 +25,18 @@ const dellWebpackConfig = {
     rules: [
       {
         test: /\.js|jsx$/,
-        use: [{ loader: 'babel-loader' }],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: ['@babel/plugin-syntax-dynamic-import'],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
@@ -32,11 +44,16 @@ const dellWebpackConfig = {
     pathinfo: false,
     path: rootDir(dllPaths.dllVendorJsPath),
     filename: `${dllName}.js`,
+    chunkFilename: 'chunk_[name]_[chunkhash:6].js',
     library: dllName,
   },
   plugins: [
     new CleanPlugin({
       cleanOnceBeforeBuildPatterns: ['dll_vendor_*'],
+    }),
+    new MiniCssExtractPlugin({
+      filename: `${dllName}.css`,
+      chunkFilename: 'chunk_[name]_[chunkhash:6].css',
     }),
     new DllPlugin({
       path: dllPaths.manifestPath,

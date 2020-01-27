@@ -1,19 +1,39 @@
-import { Button } from 'amis/lib/components'
+import { Button, Drawer } from 'amis/lib/components'
 import React from 'react'
 
 import { logoUrl } from '~/constants'
+import { useImmer } from '~/utils/hooks'
 
-import { themes, LayoutState, SetLayout } from './common'
+import { themes, LayoutCommProps } from './common'
+import Setting from './setting'
 
-type Props = LayoutState & {
-  setLayout: SetLayout
+type Props = LayoutCommProps
+type State = {
+  settingVisible: boolean
+}
+
+const initState = {
+  settingVisible: false,
 }
 export default (props: Props) => {
   const { theme, setLayout, asideFolded } = props
+  const [state, setState] = useImmer<State>(initState)
+
+  const { settingVisible } = state
+
   const { ns: themeNs } = themes[theme]
+
+  const toggleSetting = () => {
+    setState((d) => {
+      d.settingVisible = !d.settingVisible
+    })
+  }
 
   return (
     <>
+      <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
+        <Setting {...props} />
+      </Drawer>
       <div className={`${themeNs}Layout-brandBar`}>
         <button
           onClick={() =>
@@ -46,6 +66,19 @@ export default (props: Props) => {
             }
           >
             <i className={asideFolded ? 'fa fa-indent' : 'fa fa-dedent'} />
+          </Button>
+        </div>
+        <div className="hidden-xs pull-right">
+          <Button
+            iconOnly
+            theme={theme}
+            className="no-shadow navbar-btn"
+            level="link"
+            placement="bottom"
+            tooltip="系统设置"
+            onClick={toggleSetting}
+          >
+            <i className="fa fa-cog fa-fw" />
           </Button>
         </div>
       </div>

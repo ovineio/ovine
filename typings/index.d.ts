@@ -11,7 +11,3 @@ declare module 'react-dom' {
   export const setHotElementComparator: any
 }
 declare const $: any
-declare function require(path: string): string
-declare const process: {
-  env: any
-}

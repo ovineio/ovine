@@ -3,9 +3,9 @@ import { useCallback, useReducer, useState } from 'react'
 
 export type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S
 
-export function useImmer<S = any>(
-  initialValue: S | (() => S)
-): [S, (f: (draft: Draft<S>) => void | S) => void]
+export type ImmerSetter<S> = (f: (draft: Draft<S>) => void | S) => void
+
+export function useImmer<S = any>(initialValue: S | (() => S)): [S, ImmerSetter<S>]
 export function useImmer(initialValue: any) {
   const [val, updateValue] = useState(initialValue)
   return [

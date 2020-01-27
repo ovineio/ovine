@@ -18,7 +18,7 @@ const srcDir = (p = '') => rootDir(`src/${p}`)
 
 const manifestPath = rootDir('build/dll_vendor_manifest.json')
 const manifestAssetsName = 'build/dll_vendor_assets.json'
-const dllVendorJsPath = 'static/js'
+const dllVendorJsPath = 'static/dll'
 const dllVendorJs = `/${dllVendorJsPath}/${require(rootDir(manifestAssetsName)).dll_vendor.js}`
 
 const replaceUrlPath = (resourcePath) => {
