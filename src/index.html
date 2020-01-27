@@ -2,21 +2,23 @@
 <html>
 
 <head>
+    <% var opt = htmlWebpackPlugin.options; var themes = opt.themes; %>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta app-version="<%=htmlWebpackPlugin.options.version%>" />
-    <title><%=htmlWebpackPlugin.options.title%></title>
-    <link type="image/x-icon" rel="shortcut icon" href="<%=htmlWebpackPlugin.options.faviconIco%>" />
-    <link rel="apple-touch-icon-precomposed" href="<%=htmlWebpackPlugin.options.faviconPng%>" />
-    <link rel="apple-touch-icon" href="<%=htmlWebpackPlugin.options.faviconPng%>" />
-    <link rel="apple-touch-startup-image" href="<%=htmlWebpackPlugin.options.faviconPng%>">
+    <meta app-version="<%=opt.version%>" />
+    <title><%=opt.title%></title>
+    <link type="image/x-icon" rel="shortcut icon" href="<%=opt.faviconIco%>" />
+    <link rel="apple-touch-icon-precomposed" href="<%=opt.faviconPng%>" />
+    <link rel="apple-touch-icon" href="<%=opt.faviconPng%>" />
+    <link rel="apple-touch-startup-image" href="<%=opt.faviconPng%>">
+    <% for(var i =0; i<themes.length; i++) { %>
+        <link rel="stylesheet" <%= i !== 0 ? 'disabled' : ''%> href="/static/css/themes/<%= themes[i] %>.css" />
+    <% } %>
 </head>
 
 <body ontouchstart="">
     <div id="app-root"></div>
-    <% if (htmlWebpackPlugin.options.dllVendorJs) {%>
-    <script src="<%=htmlWebpackPlugin.options.dllVendorJs%>"></script>
-    <%}%>
+    <script src="<%=opt.dllVendorJs%>"></script>
 </body>
 
 </html>

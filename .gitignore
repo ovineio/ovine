@@ -3,10 +3,8 @@
 /dist
 .DS_Store
 .tmp
-yarn.lock
 npm-debug.log
 package-lock.json
-yarn.lock
 yarn-error.log
 deploy.sh
 /.cache

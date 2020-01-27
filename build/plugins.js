@@ -7,6 +7,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const analyzer = require('webpack-bundle-analyzer')
 
 const package = require('../package.json')
+const themes = require('../src/assets/scripts/theme')
 
 const utils = require('./utils')
 
@@ -43,7 +44,14 @@ const plugins = [
     filename: '[name]_[contenthash:6].css',
     chunkFilename: 'chunk/[name]_[contenthash:6].css',
   }),
-  new CopyPlugin([{ from: rootDir('static'), to: distDir('static') }]),
+  new CopyPlugin([
+    {
+      from: rootDir('node_modules/amis/lib/themes/*.css'),
+      to: rootDir('static/css/themes'),
+      from: rootDir('static'),
+      to: distDir('static'),
+    },
+  ]),
   new HtmlWebpackPlugin({
     title: 'RT-ADMIN',
     faviconIco: '/static/images/favicon.ico',
@@ -52,6 +60,7 @@ const plugins = [
     filename: distDir('index.html'),
     version: package.version,
     dllVendorJs: dllPaths.dllVendorJs,
+    themes: Object.keys(themes),
   }),
 ]
 

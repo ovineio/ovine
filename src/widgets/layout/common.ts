@@ -1,3 +1,5 @@
+import themeConfig from '~/assets/scripts/theme'
+
 type ThemeItem = {
   ns: string
   text: string
@@ -12,17 +14,4 @@ export type LayoutState = {
 
 export type SetLayout = (f: (draft: LayoutState) => void | LayoutState) => void
 
-export const themes: Types.ObjectOf<ThemeItem> = {
-  default: {
-    ns: 'a-',
-    text: '默认主题',
-  },
-  cxd: {
-    ns: 'cxd-',
-    text: '淡雅主题',
-  },
-  dark: {
-    ns: 'dark-',
-    text: '暗黑主题',
-  },
-}
+export const themes: Types.ObjectOf<ThemeItem> = themeConfig

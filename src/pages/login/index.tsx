@@ -9,7 +9,7 @@ import { StyledLogin } from './styled'
 
 setStorage('isLogin', 1)
 
-const loginSchema: SchemaNode = {
+const schema: SchemaNode = {
   type: 'page',
   body: {
     type: 'wrapper',
@@ -93,7 +93,7 @@ const loginSchema: SchemaNode = {
 export default () => {
   return (
     <StyledLogin>
-      <Schema schema={loginSchema} />
+      <Schema schema={schema} />
     </StyledLogin>
   )
 }

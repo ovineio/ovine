@@ -51,7 +51,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: [isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [cacheLoader, isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,

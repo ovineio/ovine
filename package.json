@@ -9,6 +9,7 @@
     "build": "cross-env API_ENV=production ENV=production webpack -p --progress",
     "build:dll": "webpack -p --progress --config build/webpack_dll.js -p --progress",
     "build:analyzer": "cross-env API_ENV=production ENV=production ANALYZER=true webpack -p --progress",
+    "build:theme": "node-sass ./src/assets/styles/themes -o ./static/css/themes --include-path node_modules/amis/scss/themes",
     "open:dist": "http-server ./dist -i -g -o -p 7052 -P http://0.0.0.0:7052?",
     "lint:ts": "tslint src/**/*.{ts,tsx}",
     "lint:ts:fix": "yarn run lint:ts --fix",
@@ -22,11 +23,11 @@
     "react",
     "typescript"
   ],
-  "author": "",
+  "author": "carey toboos",
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
-    "amis": "^1.0.8",
+    "amis": "1.0.9",
     "core-js": "^3.6.4",
     "immer": "5.3.2",
     "lodash": "^4.17.15",
@@ -77,8 +78,7 @@
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1",
-    "webpack-merge": "^4.2.1"
+    "webpack-dev-server": "^3.3.1"
   },
   "lint-staged": {
     "*.{js,json,md,yml,yaml}|docs/**/*.md|src/**/*.{css}|build/*.js": "yarn pretty",
@@ -90,7 +90,7 @@
     }
   },
   "engines": {
-    "node": ">=10.12.0"
+    "node": ">=9.0.0"
   },
   "browserslist": [
     "> 1%",
