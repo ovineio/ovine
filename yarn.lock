@@ -5968,11 +5968,6 @@ rmc-feedback@^2.0.0:
     babel-runtime "6.x"
     classnames "^2.2.5"
 
-rt-admin-lib@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npm.taobao.org/rt-admin-lib/download/rt-admin-lib-0.0.1.tgz#c501507d866e81c9dd75fcd8183103696f30bc98"
-  integrity sha1-xQFQfYZugcnddfzYGDEDaW8wvJg=
-
 run-node@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/run-node/download/run-node-1.0.0.tgz#46b50b946a2aa2d4947ae1d886e9856fd9cabe5e"

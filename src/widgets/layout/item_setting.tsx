@@ -1,14 +1,21 @@
+/**
+ * APP 系统设置
+ */
+
+import { Drawer } from 'amis'
 import React from 'react'
 
 import '~/assets/styles/themes/default.css'
+import { useImmer } from '~/utils/hooks'
 
 import { Schema } from '../amis/schema'
 
 import { LayoutCommProps } from './common'
+import HeadItem from './head_item'
 
-type Props = LayoutCommProps
+type SettingProps = LayoutCommProps
 
-const getSchema = (option: Props) => {
+const getSchema = (option: SettingProps) => {
   return {
     type: 'wrapper',
     body: [
@@ -43,6 +50,37 @@ const getSchema = (option: Props) => {
   }
 }
 
-export default (props: Props) => {
+const Setting = (props: SettingProps) => {
   return <Schema schema={getSchema(props)} />
+}
+
+type Props = LayoutCommProps
+
+type State = {
+  settingVisible: boolean
+}
+const initState = {
+  settingVisible: false,
+}
+
+export default (props: Props) => {
+  const { theme } = props
+  const [state, setState] = useImmer<State>(initState)
+
+  const { settingVisible } = state
+
+  const toggleSetting = () => {
+    setState((d) => {
+      d.settingVisible = !d.settingVisible
+    })
+  }
+
+  return (
+    <>
+      <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
+        <Setting {...props} />
+      </Drawer>
+      <HeadItem theme={theme} faIcon="cog" tooltip="设置" onClick={toggleSetting} />
+    </>
+  )
 }

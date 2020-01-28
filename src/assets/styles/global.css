@@ -21,3 +21,7 @@
 .text-r-i {
   text-align: right !important;
 }
+
+.pointer {
+  cursor: pointer;
+}

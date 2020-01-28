@@ -33,7 +33,6 @@
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-router-dom": "5.1.2",
-    "rt-admin-lib": "^0.0.1",
     "styled-components": "5.0.0"
   },
   "devDependencies": {
