@@ -27,13 +27,13 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
-    "amis": "1.0.9",
+    "amis": "^1.0.9",
     "core-js": "^3.6.4",
-    "immer": "5.3.2",
+    "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
-    "react-router-dom": "5.1.2",
-    "styled-components": "5.0.0"
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -62,7 +62,7 @@
     "mini-css-extract-plugin": "^0.6.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "prettier": "^1.17.0",
-    "react-hot-loader": "^4.8.4",
+    "react-hot-loader": "^4.12.11",
     "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^1.2.3",
@@ -72,12 +72,12 @@
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react-hooks": "^2.1.0",
-    "typescript": "3.7.5",
+    "typescript": "^3.7.5",
     "url-loader": "^1.1.2",
     "webpack": "^4.30.0",
     "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.1",
-    "webpack-dev-server": "^3.3.1"
+    "webpack-dev-server": "^3.2.1"
   },
   "lint-staged": {
     "*.{js,json,md,yml,yaml}|docs/**/*.md|src/**/*.{css}|build/*.js": "yarn pretty",

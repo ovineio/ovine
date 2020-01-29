@@ -29,8 +29,8 @@ const macrosConfig = {
 module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
-    ['macros', macrosConfig],
     'react-hot-loader/babel',
+    ['babel-plugin-macros', macrosConfig],
     '@babel/plugin-syntax-dynamic-import',
     importPlugin('lodash'),
   ],

@@ -10,4 +10,9 @@ export const StyledLayout = styled(Layout)`
       display: table-cell;
     }
   `}
+
+  .head-item {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 `

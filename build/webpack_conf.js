@@ -1,6 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const utils = require('./utils')
+const babelConfig = require('./babel_conf')
 const plugins = require('./plugins')
 const optimization = require('./optimization')
 
@@ -13,16 +14,24 @@ const cacheLoader = {
   },
 }
 
+const babelLoader = {
+  loader: 'babel-loader',
+  options: babelConfig,
+}
+
+const publicPath = '/'
+
 const webpackConfig = {
   plugins,
   optimization,
   mode: ENV,
   bail: true,
   devtool: enableAnalyzer ? false : isProd ? 'nosources-source-map' : 'eval',
+  entry: srcDir('index.tsx'),
   output: {
+    publicPath,
     path: distDir(),
     filename: 'index_[hash:6].js',
-    publicPath: '/',
     chunkFilename: 'chunk/[name]_[chunkhash:6].js',
     pathinfo: false,
   },
@@ -30,7 +39,7 @@ const webpackConfig = {
     rules: [
       {
         test: /\.js|jsx$/,
-        use: [cacheLoader, { loader: 'babel-loader' }],
+        use: [cacheLoader, babelLoader],
         exclude: /node_modules/,
       },
       {
@@ -38,7 +47,7 @@ const webpackConfig = {
         use: [
           cacheLoader,
           { loader: 'thread-loader' },
-          { loader: 'babel-loader' },
+          babelLoader,
           {
             loader: 'ts-loader',
             options: {
@@ -59,8 +68,8 @@ const webpackConfig = {
           {
             loader: 'url-loader',
             options: {
+              publicPath,
               limit: 2000, // 低于2K 使用 base64
-              publicPath: '/',
               name: replaceUrlPath,
             },
           },
@@ -76,15 +85,18 @@ const webpackConfig = {
     },
   },
   devServer: {
+    publicPath,
     port: PORT,
     host: '0.0.0.0',
     inline: true,
+    contentBase: distDir(),
     watchContentBase: true,
     overlay: true,
     hot: true,
     historyApiFallback: true,
     open: true,
     useLocalIp: true,
+    disableHostCheck: true,
     // 不同 域名下 触发浏览器自动更新 https://github.com/webpack/webpack-dev-server/issues/533
     watchOptions: { aggregateTimeout: 300, poll: 1000 },
     headers: {

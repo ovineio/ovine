@@ -10,4 +10,7 @@ declare module 'react-dom' {
   export const createPortal: any
   export const setHotElementComparator: any
 }
+declare module 'react-hot-loader/root' {
+  export const hot: any
+}
 declare const $: any

@@ -1,5 +1,6 @@
 import { SchemaNode } from 'amis/lib/types'
 import React from 'react'
+import { hot } from 'react-hot-loader/root'
 
 import { logoUrl } from '~/constants'
 import { setStorage } from '~/utils/store'
@@ -66,10 +67,10 @@ const schema: SchemaNode = {
                 mode: 'inline',
               },
               {
-                type: 'static-image',
+                type: 'html',
+                html: `<img src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg" />`,
                 labelClassName: 'w-auto',
                 mode: 'inline',
-                value: 'https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg',
               },
             ],
           },
@@ -90,10 +91,10 @@ const schema: SchemaNode = {
   },
 }
 
-export default () => {
+export default hot(() => {
   return (
     <StyledLogin>
       <Schema schema={schema} />
     </StyledLogin>
   )
-}
+})

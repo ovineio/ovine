@@ -28,7 +28,7 @@ export default (props: Props) => {
   return (
     <Button
       iconOnly
-      className={`no-shadow navbar-btn ${className}`}
+      className={`no-shadow head-item ${className}`}
       theme={theme}
       level="link"
       placement="bottom"

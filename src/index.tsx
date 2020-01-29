@@ -1,11 +1,11 @@
-import 'react-hot-loader'
+import 'react-hot-loader/patch'
 
 import '~/assets/scripts/include'
 import config from '~/config'
 import logger, { setConfig } from '~/utils/logger'
 import { queryStringParse } from '~/utils/tool'
 
-import { initApp } from './app'
+import initApp from './app'
 
 const initLogger = () => {
   const debugReg = queryStringParse('logger_debug') || config.debug

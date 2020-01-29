@@ -3,22 +3,17 @@ import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
 import { routesConfig } from '~/routes/config'
+import { getRoutePath } from '~/routes/route'
 
 import { LayoutCommProps } from './common'
 
 type Props = LayoutCommProps
 
-const contextPath = ''
-const pathPrefix = ''
-
-const getPath = (path: string[] | string) => {
-  return path && path[0] === '/' ? contextPath + path : `${contextPath}${pathPrefix}/${path}`
-}
-
 const renderLink = ({ link, toggleExpand, classnames: cx }: any) => {
+  const { children: routeChildren, icon, label, badge, badgeClassName, path } = link
   const children = []
 
-  if (link.children) {
+  if (routeChildren) {
     children.push(
       <span
         key="expand-toggle"
@@ -28,31 +23,31 @@ const renderLink = ({ link, toggleExpand, classnames: cx }: any) => {
     )
   }
 
-  if (link.badge) {
+  if (badge) {
     children.push(
-      <b key="badge" className={cx(`AsideNav-itemBadge`, link.badgeClassName || 'bg-info')}>
-        {link.badge}
+      <b key="badge" className={cx(`AsideNav-itemBadge`, badgeClassName || 'bg-info')}>
+        {badge}
       </b>
     )
   }
 
-  if (link.icon) {
-    children.push(<i key="icon" className={cx(`AsideNav-itemIcon`, link.icon)} />)
+  if (icon) {
+    children.push(<i key="icon" className={cx(`AsideNav-itemIcon`, icon)} />)
   }
 
-  if (link.label) {
+  if (label) {
     children.push(
       <span className={cx(`AsideNav-itemLabel`)} key="label">
-        {link.label}
+        {label}
       </span>
     )
   }
 
-  if (!link.path) {
-    return <a onClick={link.children ? () => toggleExpand(link) : undefined}>{children}</a>
+  if (!path) {
+    return <a onClick={routeChildren ? () => toggleExpand(link) : undefined}>{children}</a>
   }
 
-  return <Link to={getPath(link.path)}>{children}</Link>
+  return <Link to={getRoutePath(path)}>{children}</Link>
 }
 
 export default (props: Props) => {
@@ -62,9 +57,9 @@ export default (props: Props) => {
   return (
     <AsideNav
       theme={theme}
-      navigations={routesConfig}
+      navigations={routesConfig as any}
       renderLink={renderLink}
-      isActive={(link: any) => !!(getPath(link.path) === location.pathname)}
+      isActive={(link: any) => !!(getRoutePath(link.path) === location.pathname)}
     />
   )
 }

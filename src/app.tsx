@@ -1,13 +1,14 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { hot } from 'react-hot-loader/root'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import NotMatch from '~/pages/404'
 import Login from '~/pages/login'
-import { PrivateRoute } from '~/routes/route'
+import { renderAppRoutes, PrivateRoute } from '~/routes/route'
 import Layout from '~/widgets/layout'
 
-const App = () => {
+const App = hot(() => {
   return (
     <Router>
       <Switch>
@@ -15,7 +16,7 @@ const App = () => {
         <PrivateRoute path="/">
           <Layout>
             <Switch>
-              <Route path="/a" component={() => <div>123</div>} />
+              {renderAppRoutes()}
               <Route path="*" component={NotMatch} />
             </Switch>
           </Layout>
@@ -23,8 +24,8 @@ const App = () => {
       </Switch>
     </Router>
   )
-}
+})
 
-export const initApp = () => {
+export default () => {
   render(<App />, document.getElementById('app-root'))
 }

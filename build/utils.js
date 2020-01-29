@@ -8,6 +8,8 @@ const {
   ANALYZER_PORT, // 打包分析代码端口
 } = process.env
 
+process.env.NODE_ENV = ENV
+
 const isDev = ENV === 'development'
 const isProd = ENV === 'production'
 const enableAnalyzer = ANALYZER === 'true'
