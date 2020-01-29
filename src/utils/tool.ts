@@ -49,50 +49,6 @@ export const dateFormatter = (formatter: string, date?: string | Date) => {
 }
 
 /**
- * 现实距离当前时间字符串
- * @param {String} date 时间字符串
- */
-export function dateViewText(date: string): string {
-  date = date.replace(/-/g, '/')
-  const diff = new Date().valueOf() - new Date(date).valueOf()
-  const oneMinute = 60 * 1000
-  const oneHour = 60 * oneMinute
-  const oneDay = 24 * oneHour
-  const oneMonth = 31 * oneDay
-  const oneYear = 12 * oneMonth
-
-  let unit = ''
-  let num = 0
-
-  switch (true) {
-    case diff < oneMinute:
-      return '1分钟'
-    case diff < oneHour:
-      unit = '分钟'
-      num = diff / oneMinute
-      break
-    case diff < oneDay:
-      unit = '小时'
-      num = diff / oneHour
-      break
-    case diff < oneMonth:
-      unit = '天'
-      num = diff / oneDay
-      break
-    case diff < oneYear:
-      unit = '月'
-      num = diff / oneMonth
-      break
-    default:
-      unit = '年'
-      num = diff / oneYear
-      break
-  }
-
-  return `${Math.floor(num)}${unit}`
-}
-
-/**
  * 过滤 传入 对象 值为 undefined | null | {} 的 key
  */
 export const filterNullKeys = <T extends object>(source: T): T => {
@@ -158,18 +114,6 @@ export function isExpired(expiredTime: string | number, baseTime: number = Date.
   return baseTime - Number(new Date(expiredTime).valueOf()) > 0
 }
 
-export function formatNum(num: number | string = ''): string {
-  const strAry = num.toString().split('')
-
-  for (let i = strAry.length - 1; i >= 0; i -= 3) {
-    if (i !== strAry.length - 1 && i >= 0) {
-      strAry.splice(i + 1, 0, ',')
-    }
-  }
-
-  return strAry.join('')
-}
-
 export function queryStringify(source: any) {
   let tmpString = ''
 
@@ -221,35 +165,29 @@ export function getLocationQuery(key: string): string {
   return result[1]
 }
 
-export function timeCutDown(count: number, format: 'm:ss' | 'mm:ss' = 'm:ss') {
-  const timeFormatAr = format.split(':')
-
-  const minutes = padString('start', Math.round(count / 60), timeFormatAr[0].length, 0)
-  const seconds = padString('start', Math.round(count % 60), timeFormatAr[1].length, 0)
-
-  return `${minutes}:${seconds}`
-}
-
-export function padString(
-  type: 'start' | 'end',
-  source: string | number,
-  length: number,
-  str: string | number
-): string {
-  const sourceStr = source.toString()
-  const len = sourceStr.length
-  if (len >= length) {
-    return sourceStr
-  }
-
-  let padStr = ''
-  for (let i = 0; i < length - len; i++) {
-    padStr += str
-  }
-
-  if (type === 'start') {
-    return `${padStr}${sourceStr}`
-  }
-
-  return `${sourceStr}${padStr}`
+/**
+ * 重试异步操作。
+ * 主要用于网络异常，导致文件找不到报错 load chunk error
+ * @param promiseFn 需要异步操作部分
+ * @param retriesLeft 最多尝试的次数
+ * @param interval 重试间隔
+ */
+export function retryPromise<T>(
+  promiseFn: () => Promise<T>,
+  retriesLeft: number = 5,
+  interval: number = 1500
+) {
+  return new Promise((resolve: (d: T) => any, reject) => {
+    promiseFn()
+      .then(resolve)
+      .catch((error: any) => {
+        setTimeout(() => {
+          if (retriesLeft === 1) {
+            reject(error)
+            return
+          }
+          retryPromise(promiseFn, retriesLeft - 1, interval).then(resolve, reject)
+        }, interval)
+      })
+  })
 }

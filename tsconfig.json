@@ -19,16 +19,16 @@
     "jsx": "react",
     "outDir": "dist",
     "rootDir": ".",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./*"]
     },
     "types": [
       "@types/react",
-      "@types/styled-components",
       "@types/lodash",
-      "amis/lib",
-      "@types/react-router-dom"
+      "@types/styled-components",
+      "@types/react-router-dom",
+      "amis/lib"
     ],
     "typeRoots": ["./typings"]
   },

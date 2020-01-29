@@ -24,7 +24,7 @@ const dllVendorJsPath = 'static/dll'
 const dllVendorJs = `/${dllVendorJsPath}/${require(rootDir(manifestAssetsName)).dll_vendor.js}`
 
 const replaceUrlPath = (resourcePath) => {
-  // 去除无用文件夹
+  // 调整 静态资源文件夹
   const path = resourcePath
     .replace(`${__dirname}/src/assets`, '')
     .replace(`${__dirname}/src`, '')

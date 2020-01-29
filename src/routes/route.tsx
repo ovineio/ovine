@@ -1,17 +1,20 @@
 import { LinkItem } from 'amis/lib/components/AsideNav'
 import { mapTree } from 'amis/lib/utils/helper'
-import React from 'react'
+import isFunction from 'lodash/isFunction'
+import React, { lazy, Suspense } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
 import { getStorage } from '~/utils/store'
+import { retryPromise } from '~/utils/tool'
+import { Schema } from '~/widgets/amis/schema'
 
 import { routesConfig } from './config'
 
 export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
   Pick<RouteProps, 'component'> & {
     badgeClassName?: string
+    pathToComponent?: boolean | string
     children?: RouteItem[]
-    getComponent?: any
   }
 
 const contextPath = ''
@@ -43,23 +46,49 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
   )
 }
 
+export const getPageAsync = (path: string) => {
+  return lazy(() =>
+    retryPromise(() =>
+      import(
+        /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
+        /* webpackChunkName: "page_[request]" */
+        `~/pages/${path}`
+      )
+    ).then((file: any) => {
+      const { default: content = {}, schema } = file
+
+      if (isFunction(content)) {
+        return file
+      }
+
+      if (schema) {
+        content.schema = schema
+      }
+
+      return { default: () => <Schema {...content} /> }
+    })
+  )
+}
+
 // 解析 route 配置 计算 需要渲染 组件
-export const getRouteComponent = (key: Types.NumStr, item: RouteItem) => {
-  const { path, component, getComponent } = item
+export const getRoute = (key: Types.NumStr, item: RouteItem) => {
+  const { path = '', component, pathToComponent } = item
 
-  const routePath = getRoutePath(path || '')
+  const routeProps = { key, path: getRoutePath(path) }
 
-  if (component) {
-    return <Route key={key} path={routePath} component={component} />
+  if (pathToComponent) {
+    const pathComponent = typeof pathToComponent === 'string' ? pathToComponent : path
+
+    return <Route {...routeProps} component={getPageAsync(pathComponent)} />
   }
 
-  if (getComponent) {
-    return <Route key={key} path={routePath} getComponent={getComponent} />
+  if (component) {
+    return <Route {...routeProps} component={component} />
   }
 }
 
 // 将 routeConfig 转换为 route
-export const renderAppRoutes = () => {
+export const renderAppMenus = () => {
   const routes: any = []
 
   routesConfig.forEach((root) => {
@@ -69,11 +98,11 @@ export const renderAppRoutes = () => {
 
     mapTree(root.children, (item) => {
       if (item.path) {
-        routes.push(getRouteComponent(routes.length + 1, item))
+        routes.push(getRoute(routes.length + 1, item))
       }
       return item
     })
   })
 
-  return routes
+  return <Suspense fallback="loading...">{routes}</Suspense>
 }

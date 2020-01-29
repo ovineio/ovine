@@ -21,7 +21,7 @@ const styledComponents = {
   },
 }
 
-const macrosConfig = {
+const styledConfig = {
   styledComponents: styledComponents[ENV] || styledComponents.development,
 }
 
@@ -30,7 +30,7 @@ module.exports = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
     'react-hot-loader/babel',
-    ['babel-plugin-macros', macrosConfig],
+    ['babel-plugin-styled-components', styledConfig],
     '@babel/plugin-syntax-dynamic-import',
     importPlugin('lodash'),
   ],

@@ -2,10 +2,6 @@
  * App 路由
  */
 
-import user_list from '~/pages/system/user_list'
-import user_log from '~/pages/system/user_log'
-import user_role from '~/pages/system/user_role'
-
 import { RouteItem } from '../route'
 
 const appRoute: RouteItem = {
@@ -15,7 +11,7 @@ const appRoute: RouteItem = {
       label: '热配置管理',
       icon: 'glyphicon glyphicon-th',
       path: 'hot_config',
-      component: user_role,
+      pathToComponent: true,
     },
     {
       label: '博客管理',
@@ -24,12 +20,12 @@ const appRoute: RouteItem = {
         {
           label: '文章管理',
           path: 'blog/article',
-          component: user_list,
+          pathToComponent: true,
         },
         {
           label: '评论管理',
           path: 'blog/comment',
-          component: user_role,
+          pathToComponent: true,
         },
       ],
     },
@@ -40,17 +36,17 @@ const appRoute: RouteItem = {
         {
           label: '管理员用户',
           path: 'system/user_list',
-          component: user_list,
+          pathToComponent: true,
         },
         {
           label: '管理员权限',
           path: 'system/user_role',
-          component: user_role,
+          pathToComponent: true,
         },
         {
           label: '系统操作日志',
           path: 'system/user_log',
-          component: user_log,
+          pathToComponent: true,
         },
       ],
     },

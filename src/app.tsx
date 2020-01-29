@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import NotMatch from '~/pages/404'
 import Login from '~/pages/login'
-import { renderAppRoutes, PrivateRoute } from '~/routes/route'
+import { renderAppMenus, PrivateRoute } from '~/routes/route'
 import Layout from '~/widgets/layout'
 
 const App = hot(() => {
@@ -16,7 +16,7 @@ const App = hot(() => {
         <PrivateRoute path="/">
           <Layout>
             <Switch>
-              {renderAppRoutes()}
+              {renderAppMenus()}
               <Route path="*" component={NotMatch} />
             </Switch>
           </Layout>

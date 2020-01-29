@@ -1,6 +1,5 @@
 import { SchemaNode } from 'amis/lib/types'
 import React from 'react'
-import { hot } from 'react-hot-loader/root'
 
 import { logoUrl } from '~/constants'
 import { setStorage } from '~/utils/store'
@@ -91,10 +90,10 @@ const schema: SchemaNode = {
   },
 }
 
-export default hot(() => {
+export default () => {
   return (
     <StyledLogin>
       <Schema schema={schema} />
     </StyledLogin>
   )
-})
+}
