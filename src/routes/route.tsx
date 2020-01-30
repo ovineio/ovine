@@ -1,3 +1,4 @@
+import { Spinner } from 'amis'
 import { LinkItem } from 'amis/lib/components/AsideNav'
 import { mapTree } from 'amis/lib/utils/helper'
 import isFunction from 'lodash/isFunction'
@@ -12,10 +13,22 @@ import { routesConfig } from './config'
 
 export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
   Pick<RouteProps, 'component'> & {
+    badge?: number
     badgeClassName?: string
     pathToComponent?: boolean | string
     children?: RouteItem[]
+    sideVisible?: boolean
   }
+
+type LazyRouteProps = RouteProps & {
+  pathToComponent?: boolean | string
+  withSuspense?: boolean
+  fallback?: any
+}
+
+export type PageProps = RouteItem & LazyRouteProps
+
+const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
 const contextPath = ''
 const pathPrefix = ''
@@ -46,49 +59,54 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
   )
 }
 
-export const getPageAsync = (path: string) => {
+export const getPageAsync = (option: LazyRouteProps) => {
+  const { pathToComponent, path = '' } = option
+
+  const componentPath = typeof pathToComponent === 'string' ? pathToComponent : getRoutePath(path)
+  const filePath = componentPath[0] !== '/' ? componentPath : componentPath.substr(1)
+
   return lazy(() =>
     retryPromise(() =>
       import(
         /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
         /* webpackChunkName: "page_[request]" */
-        `~/pages/${path}`
+        `~/pages/${filePath}`
       )
     ).then((file: any) => {
       const { default: content = {}, schema } = file
-
-      if (isFunction(content)) {
-        return file
-      }
 
       if (schema) {
         content.schema = schema
       }
 
-      return { default: () => <Schema {...content} /> }
+      const Page: any = isFunction(content) ? content : () => <Schema {...content} />
+
+      return { default: () => <Page {...option} /> }
     })
   )
 }
 
-// 解析 route 配置 计算 需要渲染 组件
-export const getRoute = (key: Types.NumStr, item: RouteItem) => {
-  const { path = '', component, pathToComponent } = item
+// 懒加载路由，如果 props.component 存在则不会懒加载
+export const LazyRoute = (props: LazyRouteProps) => {
+  const { withSuspense = true, fallback = PageSpinner, path = '', component } = props
 
-  const routeProps = { key, path: getRoutePath(path) }
+  const routeComponent = (
+    <Route
+      {...props}
+      path={getRoutePath(path)}
+      component={component ? component : getPageAsync(props)}
+    />
+  )
 
-  if (pathToComponent) {
-    const pathComponent = typeof pathToComponent === 'string' ? pathToComponent : path
-
-    return <Route {...routeProps} component={getPageAsync(pathComponent)} />
+  if (withSuspense) {
+    return <Suspense fallback={fallback}>{routeComponent}</Suspense>
   }
 
-  if (component) {
-    return <Route {...routeProps} component={component} />
-  }
+  return routeComponent
 }
 
 // 将 routeConfig 转换为 route
-export const renderAppMenus = () => {
+export const AppMenuRoutes = () => {
   const routes: any = []
 
   routesConfig.forEach((root) => {
@@ -98,11 +116,11 @@ export const renderAppMenus = () => {
 
     mapTree(root.children, (item) => {
       if (item.path) {
-        routes.push(getRoute(routes.length + 1, item))
+        routes.push(<LazyRoute key={routes.length + 1} withSuspense={false} {...item} />)
       }
       return item
     })
   })
 
-  return <Suspense fallback="loading...">{routes}</Suspense>
+  return <Suspense fallback={PageSpinner}>{routes}</Suspense>
 }

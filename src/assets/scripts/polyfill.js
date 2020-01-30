@@ -1,3 +1,7 @@
+/**
+ * 浏览器兼容文件
+ */
+
 import 'core-js/es/object'
 import 'core-js/es/array'
 

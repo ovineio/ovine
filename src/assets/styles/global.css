@@ -1,4 +1,10 @@
-/* 扩展全局样式 */
+/* 扩展全局样式
+  amis 可用样式：https://baidu.github.io/amis/docs/style
+*/
+
+body {
+  overflow: hidden;
+}
 
 .text-c {
   text-align: center;
@@ -26,4 +32,16 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.p-rel {
+  position: relative;
+}
+
+.p-abs {
+  position: absolute;
+}
+
+.p-fix {
+  position: fixed;
 }

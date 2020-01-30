@@ -5,13 +5,27 @@ import { themes } from './common'
 
 export const StyledLayout = styled(Layout)`
   ${(p) => css`
-    &.${themes[p.theme].ns}Layout--folded .${themes[p.theme].ns}Layout-brand {
+    &.${themes[p.theme].ns}Layout--folded .app-layout-brand {
       height: 3.125rem;
       display: table-cell;
     }
   `}
 
-  .head-item {
+  .app-layout-brand {
+    color: #fff;
+    &:hover,
+    &:active {
+      color: #fff;
+    }
+  }
+
+  .app-layout-body {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .app-head-item {
     margin-top: 8px;
     margin-bottom: 8px;
   }

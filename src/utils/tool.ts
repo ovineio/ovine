@@ -71,11 +71,16 @@ export const filterNullKeys = <T extends object>(source: T): T => {
   return result
 }
 
-export const uuid = (len: number = 6, radix?: number) => {
+/**
+ * 生成唯一ID
+ * @param len 长度
+ * @param radix 基数
+ */
+export const uuid = (len: number = 6, radixNum?: number) => {
   const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
   const uniqId: any[] = []
   let i: number = 0
-  radix = radix || chars.length
+  const radix: number = radixNum || chars.length
 
   if (len) {
     for (i = 0; i < len; i++) {
@@ -101,6 +106,10 @@ export const uuid = (len: number = 6, radix?: number) => {
   return uniqId.join('')
 }
 
+/**
+ * 从数组中随机抽取一个
+ * @param source 参数数组
+ */
 export const choice = (source: any[]): any => {
   return source[random(choice.length - 1)]
 }
@@ -114,6 +123,10 @@ export function isExpired(expiredTime: string | number, baseTime: number = Date.
   return baseTime - Number(new Date(expiredTime).valueOf()) > 0
 }
 
+/**
+ * 将json格式数据 转化为 querystring, 不包含 '?' 字符
+ * @param source 参数json
+ */
 export function queryStringify(source: any) {
   let tmpString = ''
 
@@ -125,6 +138,11 @@ export function queryStringify(source: any) {
   return tmpString.substr(1)
 }
 
+/**
+ * 解析 querystring 为 json 格式数据
+ * @param key 需要获取的数据 json[key], 不传为整个json
+ * @param url 待解析的url 默认为location.href
+ */
 export function queryStringParse(key: string, url?: string): undefined | string
 export function queryStringParse(key?: string, url?: string): undefined | string | object {
   let str = url || location.href
@@ -148,6 +166,10 @@ export function queryStringParse(key?: string, url?: string): undefined | string
   return result
 }
 
+/**
+ * 完整的 urlHref
+ * @param url 简写url
+ */
 export function getFullUrl(url: string): string {
   let fullUrl = url
   if (url.indexOf('//') === -1) {
@@ -157,20 +179,11 @@ export function getFullUrl(url: string): string {
   return fullUrl
 }
 
-export function getLocationQuery(key: string): string {
-  const result = location.search.match(new RegExp('[?&]' + key + '=([^&]+)', 'i'))
-  if (result == null || result.length < 1) {
-    return ''
-  }
-  return result[1]
-}
-
 /**
- * 重试异步操作。
- * 主要用于网络异常，导致文件找不到报错 load chunk error
+ * 重试异步操作, 主要用于网络异常，导致文件找不到报错 load chunk error
  * @param promiseFn 需要异步操作部分
- * @param retriesLeft 最多尝试的次数
- * @param interval 重试间隔
+ * @param retriesLeft 最多尝试的次数, 默认5次
+ * @param interval 重试间隔，默认间隔1.5秒
  */
 export function retryPromise<T>(
   promiseFn: () => Promise<T>,

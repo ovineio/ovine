@@ -4,19 +4,19 @@ import { hot } from 'react-hot-loader/root'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import NotMatch from '~/pages/404'
-import Login from '~/pages/login'
-import { renderAppMenus, PrivateRoute } from '~/routes/route'
+import { AppMenuRoutes, LazyRoute, PrivateRoute } from '~/routes/route'
 import Layout from '~/widgets/layout'
 
 const App = hot(() => {
   return (
     <Router>
       <Switch>
-        <Route path="/login" component={Login} />
+        <LazyRoute pathToComponent path="/login" />
         <PrivateRoute path="/">
           <Layout>
             <Switch>
-              {renderAppMenus()}
+              <LazyRoute exact pathToComponent="dashboard" path="/" />
+              <AppMenuRoutes />
               <Route path="*" component={NotMatch} />
             </Switch>
           </Layout>

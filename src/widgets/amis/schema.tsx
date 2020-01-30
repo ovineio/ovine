@@ -1,4 +1,4 @@
-import { render as renderAmis, toast } from 'amis'
+import { render, toast } from 'amis'
 import { fetcherConfig, RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action, SchemaNode } from 'amis/lib/types'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
@@ -12,6 +12,8 @@ type Props = {
   props?: RendererProps
   option?: RenderOptions
 }
+
+export const renderAmis = render
 
 export const Schema = withRouter((props: Props & RouteComponentProps<any>) => {
   const { schema, props: amisProps = {}, option = {}, history } = props

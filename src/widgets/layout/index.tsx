@@ -30,8 +30,9 @@ export default (props: Props) => {
   return (
     <StyledLayout
       headerFixed
-      folded={asideFolded}
       theme={theme}
+      folded={asideFolded}
+      contentClassName="app-layout-body"
       header={<Header {...compProps} />}
       aside={<Aside {...compProps} />}
     >

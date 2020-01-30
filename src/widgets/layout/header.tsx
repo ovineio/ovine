@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { logoUrl } from '~/constants'
 
@@ -29,10 +30,14 @@ export default (props: Props) => {
         >
           <i className="glyphicon glyphicon-align-justify" />
         </button>
-        <div className={`${themeNs}Layout-brand text-c-i`}>
+        <Link
+          className={`${themeNs}Layout-brand app-layout-brand text-c-i`}
+          to="/"
+          title="Dashboard"
+        >
           <img className="inline brand-logo" src={logoUrl} />
           <span className="hidden-folded m-l-sm inline">RT-ADMIN</span>
-        </div>
+        </Link>
       </div>
       <div className={`${themeNs}Layout-headerBar`}>
         <div className="nav navbar-nav hidden-xs">

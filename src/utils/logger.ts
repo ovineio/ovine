@@ -32,9 +32,8 @@ let debugConfig: Config = {
 }
 
 let onlySelfFlag: boolean | Types.NullValue = null
-/**
- * 过滤日志打印信息
- */
+
+// 过滤日志打印信息
 const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): boolean => {
   const { level, moduleName, onlyLevel } = debugConfig
 
@@ -75,12 +74,14 @@ const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): bool
   return true
 }
 
+// 判断 生产环境
 const isRelease = () => {
   if (process.env.ENV === 'production' && !debugConfig.enable) {
     return true
   }
 }
 
+// 设置 日志 配置
 export const setConfig = (conf: Partial<Config>): void => {
   debugConfig = {
     ...debugConfig,
