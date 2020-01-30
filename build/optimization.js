@@ -40,7 +40,7 @@ const optimization = {
         // 项目内核心文件 => 全部打包为一个
         chunks: 'all',
         name: 'app_core',
-        test: /src[\\/]|assets|config|constants|core|utils|routes|widgets[\\/]/,
+        test: /src[\\/]assets|config|constants|core|utils|routes|widgets[\\/]/,
         priority: 9,
         minChunks: 2,
         reuseExistingChunk: true,

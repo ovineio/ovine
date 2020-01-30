@@ -18,14 +18,23 @@ const rootDir = (p = '') => path.join(__dirname, '../', p)
 const distDir = (p = '') => rootDir(`dist/${p}`)
 const srcDir = (p = '') => rootDir(`src/${p}`)
 
+// 发布时，需要要将静态资源部署到其他位置时设置
 const publicPath = '/'
 
+// dll 相关文件配置
 const manifestPath = rootDir('build/dll_vendor_manifest.json')
 const manifestAssetsName = 'build/dll_vendor_assets.json'
 const dllVendorJsPath = 'static/dll'
 const dllVendorJs = `${publicPath}${dllVendorJsPath}/${
   require(rootDir(manifestAssetsName)).dll_vendor.js
 }`
+
+const dllPaths = {
+  manifestPath,
+  manifestAssetsName,
+  dllVendorJsPath,
+  dllVendorJs,
+}
 
 const replaceUrlPath = (resourcePath) => {
   // 调整 静态资源文件夹
@@ -49,10 +58,5 @@ module.exports = {
   rootDir,
   replaceUrlPath,
   publicPath,
-  dllPaths: {
-    manifestPath,
-    manifestAssetsName,
-    dllVendorJsPath,
-    dllVendorJs,
-  },
+  dllPaths,
 }

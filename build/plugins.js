@@ -34,13 +34,14 @@ const plugins = [
   new TsCheckerPlugin({
     tsconfig: rootDir('tsconfig.json'),
     tslint: rootDir('tslint.json'),
+    reportFiles: ['src/**/*.{ts,tsx}', 'typings/**/*.{ts,tsx}'],
     silent: true,
   }),
   new DllReferencePlugin({
     manifest: dllPaths.manifestPath,
   }),
   new MiniCssExtractPlugin({
-    filename: '[name]_[contenthash:6].css',
+    filename: 'index_[contenthash:6].css',
     chunkFilename: 'chunk/[name]_[contenthash:6].css',
   }),
   new CopyPlugin([{ from: rootDir('static'), to: distDir('static') }]),

@@ -7,7 +7,6 @@ import 'core-js/es/map'
 
 import 'promise/polyfill'
 
-
 if (!Element.prototype.matches) {
   Element.prototype.matches = Element.prototype.msMatchesSelector
     || Element.prototype.webkitMatchesSelector

@@ -69,7 +69,9 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: [cacheLoader, isDev ? 'style-loader' : MiniCssExtractPlugin.loader, 'css-loader'],
+        use: (isDev ? [cacheLoader, 'style-loader'] : [MiniCssExtractPlugin.loader]).concat([
+          'css-loader',
+        ]),
       },
       {
         test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
@@ -125,8 +127,12 @@ const webpackConfig = {
     },
   },
   performance: {
-    maxEntrypointSize: 600 * 1000, // 入口包大小超过600k报警
-    maxAssetSize: 400 * 1000, // 单个包大小超过400k报警
+    maxEntrypointSize: 600 * 1000,
+    maxAssetSize: 300 * 1000,
+    assetFilter: (file) => {
+      // 过滤dll文件夹
+      return file.endsWith('.js') && !/static\/dll/.test(file)
+    },
   },
   stats: {
     chunkModules: false,

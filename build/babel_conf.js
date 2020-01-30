@@ -1,3 +1,7 @@
+/**
+ * babel-loader 配置文件
+ */
+
 const { ENV = 'development' } = process.env
 
 const importPlugin = (moduleName, dirName = '') => [

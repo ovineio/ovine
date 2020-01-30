@@ -3,6 +3,7 @@
  */
 
 import { Drawer } from 'amis'
+import map from 'lodash/map'
 import React from 'react'
 
 import '~/assets/styles/themes/default.css'
@@ -10,12 +11,14 @@ import { useImmer } from '~/utils/hooks'
 
 import { Schema } from '../amis/schema'
 
-import { LayoutCommProps } from './common'
+import { themes, LayoutCommProps } from './common'
 import HeadItem from './head_item'
 
 type SettingProps = LayoutCommProps
 
-const getSchema = (option: SettingProps) => {
+const getSettingSchema = (option: SettingProps) => {
+  const { theme } = option
+
   return {
     type: 'wrapper',
     body: [
@@ -33,25 +36,16 @@ const getSchema = (option: SettingProps) => {
             type: 'select',
             name: 'select',
             label: '选择主题',
-            options: [
-              {
-                label: 'Option A',
-                value: 'a',
-              },
-              {
-                label: 'Option B',
-                value: 'b',
-              },
-            ],
+            value: theme,
+            options: map(themes, ({ text }, key) => ({
+              label: text,
+              value: key,
+            })),
           },
         ],
       },
     ],
   }
-}
-
-const Setting = (props: SettingProps) => {
-  return <Schema schema={getSchema(props)} />
 }
 
 type Props = LayoutCommProps
@@ -78,7 +72,7 @@ export default (props: Props) => {
   return (
     <>
       <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
-        <Setting {...props} />
+        <Schema schema={getSettingSchema(props)} />
       </Drawer>
       <HeadItem theme={theme} faIcon="cog" tooltip="设置" onClick={toggleSetting} />
     </>
