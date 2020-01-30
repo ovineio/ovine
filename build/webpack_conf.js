@@ -5,7 +5,18 @@ const babelConfig = require('./babel_conf')
 const plugins = require('./plugins')
 const optimization = require('./optimization')
 
-const { ENV, PORT, enableAnalyzer, srcDir, distDir, rootDir, isDev, isProd, replaceUrlPath } = utils
+const {
+  ENV,
+  PORT,
+  enableAnalyzer,
+  srcDir,
+  distDir,
+  rootDir,
+  isDev,
+  isProd,
+  replaceUrlPath,
+  publicPath,
+} = utils
 
 const cacheLoader = {
   loader: 'cache-loader',
@@ -18,8 +29,6 @@ const babelLoader = {
   loader: 'babel-loader',
   options: babelConfig,
 }
-
-const publicPath = '/'
 
 const webpackConfig = {
   plugins,

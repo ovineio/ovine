@@ -18,10 +18,14 @@ const rootDir = (p = '') => path.join(__dirname, '../', p)
 const distDir = (p = '') => rootDir(`dist/${p}`)
 const srcDir = (p = '') => rootDir(`src/${p}`)
 
+const publicPath = '/'
+
 const manifestPath = rootDir('build/dll_vendor_manifest.json')
 const manifestAssetsName = 'build/dll_vendor_assets.json'
 const dllVendorJsPath = 'static/dll'
-const dllVendorJs = `/${dllVendorJsPath}/${require(rootDir(manifestAssetsName)).dll_vendor.js}`
+const dllVendorJs = `${publicPath}${dllVendorJsPath}/${
+  require(rootDir(manifestAssetsName)).dll_vendor.js
+}`
 
 const replaceUrlPath = (resourcePath) => {
   // 调整 静态资源文件夹
@@ -44,6 +48,7 @@ module.exports = {
   srcDir,
   rootDir,
   replaceUrlPath,
+  publicPath,
   dllPaths: {
     manifestPath,
     manifestAssetsName,
