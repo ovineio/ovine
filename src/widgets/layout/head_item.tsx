@@ -1,5 +1,5 @@
 /**
- * app头部工具ICON按钮
+ * App头部工具 ICON 按钮
  */
 
 import { Button } from 'amis'

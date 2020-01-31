@@ -32,7 +32,9 @@
     "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-router-dom": "^5.1.2",
-    "styled-components": "^5.0.0"
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0",
+    "abortcontroller-polyfill": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",

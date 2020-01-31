@@ -1,11 +1,11 @@
 /**
  * 配置 文件
- * 如果配置组件增加，可考虑 将 env 拆分为对应的文件
+ * 如果配置的内容非常多，可考虑 将 env 拆分为对应的文件
  */
 
 type EnvMode = 'localhost' | 'staging' | 'production'
 
-type UrlMode = 'api' | 'admin'
+export type UrlMode = 'api' | 'admin'
 
 type EnvConfig = {
   isProd?: boolean
@@ -13,7 +13,7 @@ type EnvConfig = {
   isStaging?: boolean
   isMock?: boolean
   debug: string
-  baseUrl: Types.ObjectOf<string>
+  urlMode: Types.ObjectOf<string>
 }
 
 type AppConfig = EnvConfig & {
@@ -23,7 +23,7 @@ type AppConfig = EnvConfig & {
 
 type Config = AppConfig & {
   envMode: EnvMode
-  baseUrl: { [key in UrlMode]?: string }
+  urlMode: { [key in UrlMode]?: string }
 }
 
 const defaultConfig: AppConfig = {
@@ -33,31 +33,34 @@ const defaultConfig: AppConfig = {
   debug: 'dev:*',
   envMode: 'localhost',
   mockUrl: '',
-  baseUrl: {
+  urlMode: {
     api: '',
   },
 }
 
+// 本地开发 环境
 const localhost: EnvConfig = {
   isLocal: true,
   debug: '.*',
-  baseUrl: {
+  urlMode: {
     api: '',
   },
 }
 
+// 测试 环境
 const staging: EnvConfig = {
   isStaging: true,
   debug: 'app:*',
-  baseUrl: {
+  urlMode: {
     api: '',
   },
 }
 
+// 生产 环境
 const production: EnvConfig = {
   isProd: true,
   debug: '',
-  baseUrl: {
+  urlMode: {
     api: '',
   },
 }

@@ -2,12 +2,12 @@ import { SchemaNode } from 'amis/lib/types'
 import React from 'react'
 
 import { logoUrl } from '~/constants'
-import { setStorage } from '~/utils/store'
+import { setStore } from '~/utils/store'
 import { Schema } from '~/widgets/amis/schema'
 
 import { StyledLogin } from './styled'
 
-setStorage('isLogin', 1)
+setStore('isLogin', 1)
 
 const schema: SchemaNode = {
   type: 'page',

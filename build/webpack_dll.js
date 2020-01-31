@@ -19,18 +19,21 @@ const enableAnalyzer = true
 // 1. 项目必须依赖的基础模块
 // 2. 长期不更新的第三方模块
 // 3. 可以异步按需加载的模块，尽量不要添加进来
-// 4. 每次修改本文件，都要执行 yarn build:dll 才能生效
-const dllModules = ['react', 'react-dom', 'react-router-dom', 'immer', 'styled-components', 'amis']
+// 4. 每次修改本文件, 或者对应npm包升级。都要执行 yarn build:dll 才能生效
+const dllModules = [
+  'react',
+  '@hot-loader/react-dom',
+  'react-router-dom',
+  'immer',
+  'styled-components',
+  'amis',
+  'whatwg-fetch',
+]
 
 const dellWebpackConfig = {
   mode: 'production',
   entry: {
     dll_vendor: dllModules,
-  },
-  resolve: {
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-    },
   },
   module: {
     rules: [

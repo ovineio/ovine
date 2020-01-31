@@ -11,6 +11,8 @@ import 'core-js/es/map'
 
 import 'promise/polyfill'
 
+import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
+
 if (!Element.prototype.matches) {
   Element.prototype.matches = Element.prototype.msMatchesSelector
     || Element.prototype.webkitMatchesSelector
@@ -33,3 +35,4 @@ if (!Element.prototype.closest) {
     return null
   }
 }
+

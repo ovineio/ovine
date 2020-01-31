@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction'
 import React, { lazy, Suspense } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
-import { getStorage } from '~/utils/store'
+import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
 import { Schema } from '~/widgets/amis/schema'
 
@@ -44,7 +44,7 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
     <Route
       {...rest}
       render={({ location }) => {
-        return getStorage('isLogin') ? (
+        return getStore('isLogin') ? (
           children
         ) : (
           <Redirect
@@ -59,6 +59,7 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
   )
 }
 
+// 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
 export const getPageAsync = (option: LazyRouteProps) => {
   const { pathToComponent, path = '' } = option
 
@@ -86,7 +87,7 @@ export const getPageAsync = (option: LazyRouteProps) => {
   )
 }
 
-// 懒加载路由，如果 props.component 存在则不会懒加载
+// 懒加载路由，如果 props.component 存在， 则不会懒加载
 export const LazyRoute = (props: LazyRouteProps) => {
   const { withSuspense = true, fallback = PageSpinner, path = '', component } = props
 

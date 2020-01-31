@@ -1,5 +1,5 @@
 /**
- * APP 登录用户信息 与 相关操作
+ * APP 登录用户信息
  */
 
 import React from 'react'

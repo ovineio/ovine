@@ -44,6 +44,13 @@ const webpackConfig = {
     chunkFilename: 'chunk/[name]_[chunkhash:6].js',
     pathinfo: false,
   },
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      '~': srcDir(),
+    },
+  },
   module: {
     rules: [
       {
@@ -87,13 +94,6 @@ const webpackConfig = {
         ],
       },
     ],
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    alias: {
-      'react-dom': '@hot-loader/react-dom',
-      '~': srcDir(),
-    },
   },
   devServer: {
     publicPath,

@@ -22,6 +22,7 @@ const srcDir = (p = '') => rootDir(`src/${p}`)
 const publicPath = '/'
 
 // dll 相关文件配置
+// build 目录下的两个xx.json文件 是自动生成的 无需手动修改
 const manifestPath = rootDir('build/dll_vendor_manifest.json')
 const manifestAssetsName = 'build/dll_vendor_assets.json'
 const dllVendorJsPath = 'static/dll'
