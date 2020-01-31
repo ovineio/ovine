@@ -1,11 +1,11 @@
 /**
- * 配置 文件
+ * 全局 config 配置
  * 如果配置的内容非常多，可考虑 将 env 拆分为对应的文件
  */
 
 type EnvMode = 'localhost' | 'staging' | 'production'
 
-export type UrlMode = 'api' | 'admin'
+export type UrlMode = 'api' | 'admin' | 'mock'
 
 type EnvConfig = {
   isProd?: boolean

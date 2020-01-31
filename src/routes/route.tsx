@@ -8,6 +8,7 @@ import { Redirect, Route, RouteProps } from 'react-router-dom'
 import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
 import { Schema } from '~/widgets/amis/schema'
+import ErrorBoundary from '~/widgets/error_boundary'
 
 import { routesConfig } from './config'
 
@@ -100,7 +101,11 @@ export const LazyRoute = (props: LazyRouteProps) => {
   )
 
   if (withSuspense) {
-    return <Suspense fallback={fallback}>{routeComponent}</Suspense>
+    return (
+      <ErrorBoundary type="page">
+        <Suspense fallback={fallback}>{routeComponent}</Suspense>
+      </ErrorBoundary>
+    )
   }
 
   return routeComponent
@@ -123,5 +128,9 @@ export const AppMenuRoutes = () => {
     })
   })
 
-  return <Suspense fallback={PageSpinner}>{routes}</Suspense>
+  return (
+    <ErrorBoundary type="page">
+      <Suspense fallback={PageSpinner}>{routes}</Suspense>
+    </ErrorBoundary>
+  )
 }

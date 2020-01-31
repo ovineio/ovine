@@ -17,13 +17,15 @@ import { isExpired } from '~/utils/tool'
 import { getToken, onUserTokenError } from './user'
 
 // 服务端接口 格式
-export type ServerApiRes<T> = {
-  code?: number
-  data?: T
-  msg?: string
-  message?: string
-  error?: any
-}
+export type ServerApiRes<T> =
+  | T
+  | {
+      code?: number
+      data?: T
+      msg?: string
+      message?: string
+      error?: any
+    }
 
 // 请求方法
 export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
@@ -45,7 +47,7 @@ export type RequestOption<S = {}, P = {}> = {
   onSuccess?(source: ServerApiRes<S>, unionOption: UnionOption<S, Partial<P>>): any
   onError?(option: {
     source?: ServerApiRes<S>
-    requestOption?: RequestOption<S, Partial<P>>
+    requestOption?: UnionOption<S, Partial<P>>
     error?: any
   }): UseCommErrHandle
 }
@@ -61,7 +63,7 @@ type UnionOption<S = {}, P = {}> = RequestOption<S, P> & FetchOption
 
 const log = logger.getLogger('dev:request')
 
-// 请求错误集中处理
+// 请求错误集中处理， 必须 throw 错误
 const requestErrorCtrl = (
   type: 'fetch' | 'status' | 'token',
   option: UnionOption | RequestOption,
@@ -103,7 +105,7 @@ const requestErrorCtrl = (
 }
 
 // 用户 TOKEN 配置
-// 此处根据 与 api 约定， 如果不是url路径中，则修改这里
+// 根据 与 api 约定，处理 用户 token
 const userTokenCtrl = (option: RequestOption): RequestOption => {
   const { params, token = 'auto' } = option
   const userToken = getToken()
@@ -199,7 +201,7 @@ const fetchSourceCtrl = async (option: UnionOption) => {
       const status = Number(source.status)
 
       if (status <= 100 || status >= 400) {
-        requestErrorCtrl('fetch', option, source)
+        requestErrorCtrl('status', option, source)
       }
 
       if (method === 'DELETE' || status === 204) {
@@ -243,7 +245,25 @@ const getFetchOption = (option: RequestOption): FetchOption => {
   return fetchOption
 }
 
-async function request<S, P>(option: RequestOption<S, P>): Promise<S | undefined>
+// 可中断的 request 请求
+export function abortRequest<S = {}, P = {}>(option: RequestOption<S, P>) {
+  const { abort, signal } = new AbortController()
+
+  if (option.fetchOption) {
+    option.fetchOption.signal = signal
+  } else {
+    option.fetchOption = {
+      signal,
+    }
+  }
+
+  return {
+    abort,
+    request: async () => request(option),
+  }
+}
+
+async function request<S, P>(option: RequestOption<S, P>): Promise<ServerApiRes<S> | undefined>
 async function request(option: RequestOption<any, any>): Promise<any | undefined> {
   const { onSuccess, sourceKey, params = true } = option
 

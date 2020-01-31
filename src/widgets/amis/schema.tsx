@@ -35,6 +35,9 @@ export const Schema = withRouter((props: Props & RouteComponentProps<any>) => {
     // 是否取消 ajax请求
     isCancel: (value: any) => {
       log.log('isCancel', value)
+      if (value.name === 'AbortError') {
+        log.info('请求被终止', value)
+      }
     },
     // 实现消息提示
     notify: (type: string, msg: string) => {
