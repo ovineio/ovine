@@ -26,6 +26,7 @@ const dllModules = [
   'react-router-dom',
   'immer',
   'styled-components',
+  // amis 更新频率较高（大概半个月左右），因此需要如果更新版本时要考虑升级对项目影响
   'amis',
   'whatwg-fetch',
 ]

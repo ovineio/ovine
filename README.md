@@ -1,28 +1,51 @@
 # RT-Admin
 
-一个简单、高效、快速、安全、专注于企业内部 `admin` 管理系统。基于 [amis](https://github.com/baidu/amis)二次封装。
+一个简单、高效、快速、安全、专注于企业内部的 `admin` 管理系统。基于 [amis](https://github.com/baidu/amis) 二次封装。
+
+在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。
+
+> 如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^\_^
 
 ### 功能
 
-- Amis 功能
+- [Amis](https://github.com/baidu/amis)
 
   - 基于 `bootstrap`
   - 基于 `typescript` 代码开发友好
-  - 拥有齐全的 `admin` 组件库
-  - 支持 `json` 配置渲染逻辑复杂的表单或页面
-  - 中文文档、百度 FEX 团队持续更新、广泛应用于企业级项目
+  - 支持 `json` 配置渲染逻辑复杂的表单或页面，该功能十分强大
+  - 拥有齐全的 `admin` 组件库，完全满足一般管理系统需求
+  - 该框架已经广泛应用于企业级项目中，经得起实践的考验
+  - 百度 FEX 团队更新频率高 (约两周一个版本)
+    - 需求、功能升级、BUG、优化 等都有保障
+    - 中文文档且文档内容较为齐全
 
-- RtAdmin 功能
-  - 基于 `amis` 拥有它所有优势
-  - 最基本的 `react` 技术栈，无学习曲线
-  - 通用基本功能，开箱即用
-    - 自定义内置功能十分简单
-    - 路由配置 + `json` 简单、快速的生成复杂的 `curd` 功能
-    - 页面懒加载，首次加载页面速度非常快
-    - 内置企业级权限管理
+- RtAdmin
+  - 基于 `amis` 二次开发，拥有其所有优势
+  - 最基本的 `react` 技术栈，拥抱 `react` 生态，无任何学习曲线
   - 支持生成自定义 `amis` 主题
-  - 支持通过 `api` 增加 `curd` 功能
   - 基于 `webpack` 打包简单、速度快、支持热更新
+  - 通用基本功能，开箱即用
+    - 路由、页面、组件 都由 `json`配置，简单、快速的生成复杂的 `curd` 表单或者页面
+    - 内置企业级权限管理，并集成到 `json` 配置中
+    - 路由懒加载，首次加载页面速度快
+    - 本项目的内置功能修改起来简单，关键代码均有注释
+
+### 快速开始
+
+```
+git clone git@github.com:CareyToboo/rt-admin.git
+yarn install
+yarn dev # 开发
+yarn build # 打包
+yarn open:dist # 预览打包后的页面
+
+# 构建参数 参照 build/utils.js 文件
+
+# 其他命令
+yarn build:dll # 构建dll，一般不需要使用
+yarn build:theme # 构建主题， 当需要自定义amis主题时
+yarn build:analyzer # 打包代码分析
+```
 
 ### 开发工具
 
