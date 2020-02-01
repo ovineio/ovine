@@ -1,11 +1,32 @@
+import { mockSource } from './mock'
+
+const apis = {
+  list: {
+    url: 'GET api/v1/hot_config',
+    mockSource: mockSource['GET api/v1/hot_config'],
+  },
+  add: {
+    url: 'POST api/v1/hot_config',
+  },
+  edit: {
+    url: 'PUT api/v1/hot_config/edit/$id',
+  },
+  del: {
+    url: 'DELETE api/v1/hot_config/$id',
+  },
+  catList: {
+    url: 'api/v1/hot_config/cat',
+  },
+  api: {
+    url: 'api/v1/hot_config/api',
+  },
+}
+
 export const schema = {
   type: 'rt-crud',
-  api: 'https://houtai.baidu.com/api/sample?waitSeconds=1',
+  api: apis.list,
   filterTogglable: true,
   filter: {
-    title: '',
-    submitText: '',
-    wrapWithPanel: false,
     controls: [
       {
         type: 'text',
@@ -109,64 +130,40 @@ export const schema = {
     {
       name: 'id',
       label: 'ID',
-      width: 20,
-      sortable: true,
       type: 'text',
+      width: 20,
       toggled: false,
     },
     {
       name: 'key',
       label: '配置KEY',
-      sortable: true,
-      searchable: true,
       type: 'text',
       toggled: true,
     },
     {
       name: 'cat',
       label: '配置类别',
-      sortable: true,
       type: 'text',
+      sortable: true,
       toggled: true,
     },
     {
       name: 'desc',
       label: '描述',
+      type: 'text',
       popOver: {
         body: {
           type: 'tpl',
           tpl: '偏了一点的popover',
         },
-        offset: {
-          y: 100,
-        },
       },
-      sortable: true,
-      type: 'text',
       toggled: true,
     },
     {
       name: 'token',
       label: '访问TOKEN',
-      quickEdit: true,
       type: 'text',
       toggled: true,
-      filterable: {
-        options: [
-          {
-            label: '4',
-            value: '4',
-          },
-          {
-            label: '5',
-            value: '5',
-          },
-          {
-            label: '6',
-            value: '6',
-          },
-        ],
-      },
     },
     {
       name: 'ip',
@@ -255,7 +252,7 @@ export const schema = {
           icon: 'fa fa-pencil',
           tooltip: '编辑',
           actionType: 'drawer',
-          drawer: {
+          dialog: {
             position: 'left',
             size: 'lg',
             title: '编辑',

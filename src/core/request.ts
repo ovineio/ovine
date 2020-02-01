@@ -33,10 +33,10 @@ export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
 type UseCommErrHandle = boolean | void
 
 export type RequestOption<S = {}, P = {}> = {
-  api: string // required
+  url: string // required
   method?: RequestMethod // get
   urlMode?: UrlMode // 'api'
-  params?: Partial<P> // {}
+  data?: Partial<P> // {}
   body?: any
   useCommErrHandle?: UseCommErrHandle // true
   token?: 'none' | 'auto' | 'force' // auto
@@ -107,7 +107,7 @@ const requestErrorCtrl = (
 // 用户 TOKEN 配置
 // 根据 与 api 约定，处理 用户 token
 const userTokenCtrl = (option: RequestOption): RequestOption => {
-  const { params, token = 'auto' } = option
+  const { data, token = 'auto' } = option
   const userToken = getToken()
 
   // 不需要 token 的情况
@@ -122,8 +122,8 @@ const userTokenCtrl = (option: RequestOption): RequestOption => {
 
   // url 声明需要 token 但，该请求并不一定要 token
   if (userToken) {
-    option.params = {
-      ...params,
+    option.data = {
+      ...data,
       access_token: userToken,
     }
   }
@@ -134,7 +134,6 @@ const userTokenCtrl = (option: RequestOption): RequestOption => {
 // 模拟数据
 const mockSourceCtrl = async (option: UnionOption) => {
   const { mockSource, onSuccess, sourceKey = '' } = option
-
   if (config.isProd || !mockSource) {
     return 'none'
   }
@@ -216,9 +215,11 @@ const fetchSourceCtrl = async (option: UnionOption) => {
 
 // 获取 fetch 参数
 const getFetchOption = (option: RequestOption): FetchOption => {
-  const { params = {}, body, fetchOption: fetchOpt = {} } = option
+  const { data = {}, body, fetchOption: fetchOpt = {} } = option
 
   const { url, method } = getUrlByOption(option)
+  const hasBody = !/GET|HEAD/.test(method)
+
   const headers = {
     Accept: 'application/json',
   }
@@ -235,11 +236,10 @@ const getFetchOption = (option: RequestOption): FetchOption => {
 
   if (!body && fetchOption.headers) {
     fetchOption.headers['Content-Type'] = 'application/json; charset=utf-8'
-    fetchOption.body = JSON.stringify(params)
   }
 
-  if (method !== 'GET') {
-    fetchOption.body = body
+  if (hasBody) {
+    fetchOption.body = body ? body : JSON.stringify(data)
   }
 
   return fetchOption
@@ -265,10 +265,10 @@ export function abortRequest<S = {}, P = {}>(option: RequestOption<S, P>) {
 
 async function request<S, P>(option: RequestOption<S, P>): Promise<ServerApiRes<S> | undefined>
 async function request(option: RequestOption<any, any>): Promise<any | undefined> {
-  const { onSuccess, sourceKey, params = true } = option
+  const { onSuccess, sourceKey, data: params } = option
 
   if (params) {
-    option.params = omitBy(params as any, (item) => item === undefined || item === null)
+    option.data = omitBy(params as any, (item) => item === undefined || item === null)
   }
 
   const fetchOptions = getFetchOption(userTokenCtrl(option))
@@ -301,7 +301,7 @@ async function request(option: RequestOption<any, any>): Promise<any | undefined
 }
 
 export const getUrlByOption = (option: RequestOption) => {
-  const { api, params = {}, method = 'GET', urlMode: urlModule = 'api' } = option
+  const { url: api, data = {}, method = 'GET', urlMode: urlModule = 'api' } = option
   let url = api
 
   const urlOption = { url, method }
@@ -322,11 +322,11 @@ export const getUrlByOption = (option: RequestOption) => {
 
   // 存在模版标记 tag
   if (/\{/.test(url)) {
-    url = filter(url, params)
+    url = filter(url, data)
   }
 
-  if (method === 'GET' && !isEmpty(params)) {
-    url += `${url.indexOf('?') === -1 ? '?' : '&'}${qsstringify(params)}`
+  if (method === 'GET' && !isEmpty(data)) {
+    url += `${url.indexOf('?') === -1 ? '?' : '&'}${qsstringify(data)}`
   }
 
   urlOption.url = url

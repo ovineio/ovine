@@ -1,9 +1,11 @@
 import { render, toast } from 'amis'
-import { fetcherConfig, RendererProps, RenderOptions } from 'amis/lib/factory'
+import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action, SchemaNode } from 'amis/lib/types'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import logger from '~/utils/logger'
+
+import { envFetcher } from './utils'
 
 const log = logger.getLogger('dev:amisSchema')
 
@@ -29,17 +31,16 @@ export const Schema = withRouter((props: Props & RouteComponentProps<any>) => {
     //  string 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     richTextToken: false,
     // 获取数据
-    fetcher: (config: fetcherConfig) => {
-      log.log('fetcher', config)
-    },
+    fetcher: envFetcher,
     // 是否取消 ajax请求
     isCancel: (value: any) => {
-      log.log('isCancel', value)
       if (value.name === 'AbortError') {
         log.info('请求被终止', value)
+        return true
       }
+      return false
     },
-    // 实现消息提示
+    // 实r现消息提示
     notify: (type: string, msg: string) => {
       log.log('notify', type, msg)
       // 默认跳过表单错误 提示

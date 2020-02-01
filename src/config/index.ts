@@ -34,7 +34,7 @@ const defaultConfig: AppConfig = {
   envMode: 'localhost',
   mockUrl: '',
   urlMode: {
-    api: '',
+    api: 'http://api-rt-admin.com',
   },
 }
 
@@ -43,7 +43,7 @@ const localhost: EnvConfig = {
   isLocal: true,
   debug: '.*',
   urlMode: {
-    api: '',
+    api: 'http://test-api-rt-admin.com',
   },
 }
 
@@ -52,7 +52,7 @@ const staging: EnvConfig = {
   isStaging: true,
   debug: 'app:*',
   urlMode: {
-    api: '',
+    api: 'http://test-api-rt-admin.com',
   },
 }
 
@@ -61,7 +61,7 @@ const production: EnvConfig = {
   isProd: true,
   debug: '',
   urlMode: {
-    api: '',
+    api: 'http://test-api-rt-admin.com',
   },
 }
 
