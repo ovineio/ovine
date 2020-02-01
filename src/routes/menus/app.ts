@@ -14,12 +14,12 @@ const appRoute: RouteItem = {
     },
     {
       label: '热配置管理',
-      icon: 'glyphicon glyphicon-th',
+      icon: 'fa fa-cogs',
       path: 'hot_config',
     },
     {
       label: '博客管理',
-      icon: 'glyphicon glyphicon-th',
+      icon: 'fa fa-newspaper-o',
       children: [
         {
           label: '文章管理',
@@ -33,7 +33,7 @@ const appRoute: RouteItem = {
     },
     {
       label: '系统管理',
-      icon: 'glyphicon glyphicon-th',
+      icon: 'fa fa-wrench',
       children: [
         {
           label: '管理员用户',

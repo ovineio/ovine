@@ -4,6 +4,7 @@ import '~/assets/scripts/include'
 import config from '~/config'
 import logger, { setConfig } from '~/utils/logger'
 import { queryStringParse } from '~/utils/tool'
+import '~/widgets/amis/rt_renderers'
 
 import initApp from './app'
 
