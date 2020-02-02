@@ -140,18 +140,18 @@ const mockSourceCtrl = async (option: UnionOption) => {
 
   const source: any = typeof mockSource === 'function' ? mockSource(option) : mockSource
 
-  let data = !sourceKey ? source : get(source, sourceKey)
+  const data = !sourceKey ? source : get(source, sourceKey)
 
-  if (onSuccess) {
-    data = await onSuccess(data, option)
-  }
+  const result = !onSuccess ? data : await onSuccess(data, option)
 
-  return data
+  log.log('mockSource', option.url, result, option)
+
+  return result
 }
 
 // 只缓存 GET 请求
-const cacheSourceCtrl = (type: 'set' | 'get', options: UnionOption, resource?: any) => {
-  const { url = '', expired = 0, method = 'GET' } = options || {}
+const cacheSourceCtrl = (type: 'set' | 'get', option: UnionOption, resource?: any) => {
+  const { url = '', expired = 0, method = 'GET' } = option || {}
 
   if (!expired || method !== 'GET') {
     return
@@ -171,12 +171,13 @@ const cacheSourceCtrl = (type: 'set' | 'get', options: UnionOption, resource?: a
   }
 
   if (type === 'get') {
-    const cachedUrl = getSessionStore(url)
+    const cached = getSessionStore(url)
     const whenExpired = getSessionStore<string>(timestampKey)
 
-    if (cachedUrl && whenExpired) {
+    if (cached && whenExpired) {
       if (!isExpired(whenExpired)) {
-        return cachedUrl
+        log.log('cacheSource', option.url, cached, option)
+        return cached
       }
     }
     return
@@ -292,12 +293,11 @@ async function request(option: RequestOption<any, any>): Promise<any | undefined
 
   cacheSourceCtrl('set', unionOption, data)
 
-  // 请求成功 回调
-  if (onSuccess) {
-    return onSuccess(data, unionOption)
-  }
+  const result = !onSuccess ? data : await onSuccess(data, unionOption)
 
-  return data
+  log.log('apiSource', unionOption.url, result, unionOption)
+
+  return result
 }
 
 export const getUrlByOption = (option: RequestOption) => {

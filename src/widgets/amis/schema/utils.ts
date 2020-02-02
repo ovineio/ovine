@@ -3,12 +3,17 @@ import logger from '~/utils/logger'
 
 const log = logger.getLogger('dev:amisSchema:utils')
 
+export const amisResAdapter = (res: any) => {
+  return {
+    data: {
+      status: 0,
+      msg: '',
+      ...res,
+    },
+  }
+}
+
 export const envFetcher = (option: any) => {
-  log.log('fetcher', option)
-  const { url, data, ...rest } = option
-  return request({
-    url,
-    data,
-    ...rest,
-  })
+  log.log('amis:fetcher', option)
+  return request(option).then(amisResAdapter)
 }

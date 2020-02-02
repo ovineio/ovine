@@ -3,8 +3,9 @@ import times from 'lodash/times'
 
 const getItem = (i: number) => ({
   id: i,
-  key: uuid(),
-  cat: 'test',
+  username: uuid(),
+  nick_name: '昵称你好爱上',
+  avatar: 'http://img0.imgtn.bdimg.com/it/u=2939704571,4273557359&fm=26&gp=0.jpg',
   desc:
     '描述文案一大堆，描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆',
   token: 'k64qsgk9k64qsgk9k64qsgk9k64qsgk9',
@@ -14,7 +15,7 @@ const getItem = (i: number) => ({
 })
 
 export const mockSource = {
-  'GET api/v1/hot_config': () => {
+  'GET api/v1/adm_user': () => {
     return {
       data: {
         items: times(30, getItem),

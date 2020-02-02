@@ -44,7 +44,14 @@ const plugins = [
     filename: 'index_[contenthash:6].css',
     chunkFilename: 'chunk/[name]_[contenthash:6].css',
   }),
-  new CopyPlugin([{ from: rootDir('static'), to: distDir('static') }]),
+  new CopyPlugin([
+    { from: rootDir('static'), to: distDir('static') },
+    {
+      from: rootDir('node_modules/amis/sdk/pkg'),
+      to: distDir('pkg/[name].[ext]'),
+      toType: 'template',
+    },
+  ]),
   new HtmlWebpackPlugin({
     title: 'RT-ADMIN',
     faviconIco: '/static/images/favicon.ico',

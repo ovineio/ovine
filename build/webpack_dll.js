@@ -7,7 +7,7 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const utils = require('./utils')
 
-const { rootDir, dllPaths } = utils
+const { rootDir, dllPaths, publicPath } = utils
 const { DllPlugin } = webpack
 
 const dllName = '[name]_[hash:6]'
@@ -62,6 +62,7 @@ const dellWebpackConfig = {
     filename: `${dllName}.js`,
     chunkFilename: 'chunk_[name]_[chunkhash:6].js',
     library: dllName,
+    publicPath: `${publicPath}${dllPaths.dllVendorJsPath}/`,
   },
   plugins: [
     new CleanPlugin(),

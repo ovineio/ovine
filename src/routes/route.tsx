@@ -82,7 +82,6 @@ export const getPageAsync = (option: LazyRouteProps) => {
       }
 
       const Page: any = isFunction(content) ? content : () => <Schema {...content} />
-
       return { default: () => <Page {...option} /> }
     })
   )

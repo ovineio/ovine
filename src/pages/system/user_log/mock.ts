@@ -14,11 +14,11 @@ const getItem = (i: number) => ({
 })
 
 export const mockSource = {
-  'GET api/v1/hot_config': () => {
+  'GET api/v1/adm_operate_log': () => {
     return {
       data: {
-        items: times(30, getItem),
-        total: 30,
+        items: times(10, getItem),
+        total: 10,
       },
     }
   },

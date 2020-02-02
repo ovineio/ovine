@@ -72,41 +72,6 @@ export const filterNullKeys = <T extends object>(source: T): T => {
 }
 
 /**
- * 生成唯一ID
- * @param len 长度
- * @param radix 基数
- */
-export const uuid = (len: number = 6, radixNum?: number) => {
-  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('')
-  const uniqId: any[] = []
-  let i: number = 0
-  const radix: number = radixNum || chars.length
-
-  if (len) {
-    for (i = 0; i < len; i++) {
-      // tslint:disable-next-line: no-bitwise
-      uniqId[i] = chars[0 | (Math.random() * radix)]
-    }
-  } else {
-    let r
-
-    uniqId[8] = uniqId[13] = uniqId[18] = uniqId[23] = '-'
-    uniqId[14] = '4'
-
-    for (i = 0; i < 36; i++) {
-      if (!uniqId[i]) {
-        // tslint:disable-next-line: no-bitwise
-        r = 0 | (Math.random() * 16)
-        // tslint:disable-next-line: no-bitwise
-        uniqId[i] = chars[i === 19 ? (r & 0x3) | 0x8 : r]
-      }
-    }
-  }
-
-  return uniqId.join('')
-}
-
-/**
  * 从数组中随机抽取一个
  * @param source 参数数组
  */

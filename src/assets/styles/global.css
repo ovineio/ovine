@@ -45,3 +45,7 @@ body {
 .p-fix {
   position: fixed;
 }
+
+.p-b-none {
+  padding-bottom: 0 !important;
+}

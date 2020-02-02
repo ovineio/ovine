@@ -59,9 +59,15 @@ export const schema = {
   },
   headerToolbar: [
     {
+      type: 'filter-toggler',
+    },
+    {
+      type: 'columns-toggler',
+    },
+    {
       type: 'button',
       actionType: 'dialog',
-      label: '新增',
+      label: '添加',
       icon: 'fa fa-plus pull-left',
       size: 'sm',
       primary: true,
@@ -116,14 +122,6 @@ export const schema = {
         },
       },
     },
-    {
-      type: 'filter-toggler',
-      align: 'right',
-    },
-    {
-      type: 'columns-toggler',
-      align: 'right',
-    },
   ],
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   columns: [
@@ -137,57 +135,93 @@ export const schema = {
     {
       name: 'key',
       label: '配置KEY',
-      type: 'text',
-      toggled: true,
+      type: 'rt-blank',
+      width: 80,
+      body: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '${key}',
+        level: 'link',
+        dialog: {
+          title: '编辑配置: ${cat}/${key}',
+          size: 'lg',
+          bodyClassName: 'p-b-none',
+          body: {
+            type: 'form',
+            mode: 'normal',
+            title: '',
+            controls: [
+              {
+                name: 'content',
+                type: 'diff-editor',
+                label: '',
+                language: 'yaml',
+                inputClassName: '',
+                options: {
+                  minimap: {
+                    enabled: false,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     },
     {
       name: 'cat',
       label: '配置类别',
       type: 'text',
       sortable: true,
-      toggled: true,
+      width: 80,
     },
     {
       name: 'desc',
       label: '描述',
-      type: 'text',
-      popOver: {
-        body: {
-          type: 'tpl',
-          tpl: '偏了一点的popover',
-        },
-      },
-      toggled: true,
+      type: 'tpl',
+      tpl: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
     },
     {
       name: 'token',
       label: '访问TOKEN',
-      type: 'text',
-      toggled: true,
+      type: 'tpl',
+      tpl: '<span class="text-ellipsis" title="${token}">${token}</span>',
     },
     {
       name: 'ip',
       label: 'IP白名单',
-      type: 'text',
-      toggled: true,
+      type: 'rt-blank',
+      width: 60,
+      body: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '查看',
+        level: 'link',
+        dialog: {
+          title: 'IP白名单',
+          body: {
+            type: 'tpl',
+            tpl: '${ip}',
+          },
+        },
+      },
     },
     {
       name: 'update_at',
       label: '修改时间',
-      type: 'text',
-      toggled: true,
+      type: 'datetime',
+      width: 150,
     },
     {
       name: 'create_at',
       label: '创建时间',
-      type: 'text',
-      toggled: true,
+      type: 'datetime',
+      width: 150,
     },
     {
       type: 'operation',
       label: '操作',
       width: 100,
-      toggled: true,
       buttons: [
         {
           type: 'button',

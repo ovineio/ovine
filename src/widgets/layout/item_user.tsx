@@ -26,7 +26,7 @@ export default (props: Props) => {
     >
       <img
         className="w-2x m-r-xs"
-        src="https://img-photo.sumeme.com/15/7/64065743_null.jpg?v=1577188702893&imageMogr2/format/jpg/crop/!2164x2164a403a0/quality/75/thumbnail/400x400"
+        src="https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg"
       />
       <span>梦醒十分2</span>
     </HeadItem>

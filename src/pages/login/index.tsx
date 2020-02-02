@@ -31,7 +31,7 @@ const schema: SchemaNode = {
         mode: 'horizontal',
         wrapWithPanel: false,
         autoFocus: false,
-        redirect: '/123',
+        redirect: '/',
         // api: {
         //   url: '/asd/123',
         // },

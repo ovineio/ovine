@@ -3,10 +3,10 @@
  * TODO: 样式优化
  */
 
+import { uuid } from 'amis/lib/utils/helper'
 import React from 'react'
 
 import logger from '~/utils/logger'
-import { uuid } from '~/utils/tool'
 
 type Props = {
   type?: 'page' | 'component' | 'entry'

@@ -18,7 +18,7 @@ const rootDir = (p = '') => path.join(__dirname, '../', p)
 const distDir = (p = '') => rootDir(`dist/${p}`)
 const srcDir = (p = '') => rootDir(`src/${p}`)
 
-// 发布时，需要要将静态资源部署到其他位置时设置
+// 发布时，需要要将静态资源部署到其他位置时设置,必须以 '/' 结尾
 const publicPath = '/'
 
 // dll 相关文件配置

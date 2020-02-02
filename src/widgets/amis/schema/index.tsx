@@ -77,9 +77,9 @@ export const Schema = withRouter((props: Props & RouteComponentProps<any>) => {
       log.log('copy', contents, options)
     },
     // HTMLElement 决定弹框容器。
-    getModalContainer: () => {
-      log.log('getModalContainer')
-    },
+    // getModalContainer: () => {
+    //   log.log('getModalContainer')
+    // },
     // Promise<Function>  可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
     loadRenderer: (loaderSchema: any, path: string) => {
       log.log('loadRenderer', loaderSchema, path)
