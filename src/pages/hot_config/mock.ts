@@ -17,8 +17,8 @@ export const mockSource = {
   'GET api/v1/hot_config': () => {
     return {
       data: {
-        items: times(30, getItem),
-        total: 30,
+        items: times(1, getItem),
+        total: 1,
       },
     }
   },

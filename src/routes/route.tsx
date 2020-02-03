@@ -7,7 +7,7 @@ import { Redirect, Route, RouteProps } from 'react-router-dom'
 
 import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
-import { Schema } from '~/widgets/amis/schema'
+import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 
 import { routesConfig } from './config'
@@ -81,7 +81,7 @@ export const getPageAsync = (option: LazyRouteProps) => {
         content.schema = schema
       }
 
-      const Page: any = isFunction(content) ? content : () => <Schema {...content} />
+      const Page: any = isFunction(content) ? content : () => <Amis {...content} />
       return { default: () => <Page {...option} /> }
     })
   )

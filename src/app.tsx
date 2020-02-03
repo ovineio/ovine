@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import NotMatch from '~/pages/404'
 import { AppMenuRoutes, LazyRoute, PrivateRoute } from '~/routes/route'
@@ -9,7 +9,7 @@ import Layout from '~/widgets/layout'
 
 const App = hot(() => {
   return (
-    <Router>
+    <BrowserRouter>
       <Switch>
         <LazyRoute pathToComponent path="/login" />
         <PrivateRoute path="/">
@@ -22,7 +22,7 @@ const App = hot(() => {
           </Layout>
         </PrivateRoute>
       </Switch>
-    </Router>
+    </BrowserRouter>
   )
 })
 

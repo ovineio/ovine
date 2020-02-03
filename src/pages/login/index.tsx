@@ -3,7 +3,7 @@ import React from 'react'
 
 import { logoUrl } from '~/constants'
 import { setStore } from '~/utils/store'
-import { Schema } from '~/widgets/amis/schema'
+import { Amis } from '~/widgets/amis/schema'
 
 import { StyledLogin } from './styled'
 
@@ -93,7 +93,7 @@ const schema: SchemaNode = {
 export default () => {
   return (
     <StyledLogin>
-      <Schema schema={schema} />
+      <Amis schema={schema} />
     </StyledLogin>
   )
 }

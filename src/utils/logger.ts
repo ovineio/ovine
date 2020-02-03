@@ -5,6 +5,7 @@
 type Level = 'log' | 'info' | 'warn' | 'error'
 
 type Option = {
+  isPrint?: boolean
   moduleName?: string
   level?: Level
   onlySelf?: boolean
@@ -117,6 +118,7 @@ export class Logger {
     const debugOption: Option = { ...option, moduleName }
 
     return {
+      if: (condition: boolean) => this.getLogger(moduleName, { ...option, isPrint: condition }),
       log: (...logDetail: any[]) => this.signedLogger('log', debugOption, logDetail),
       info: (...logDetail: any[]) => this.signedLogger('info', debugOption, logDetail),
       warn: (...logDetail: any[]) => this.signedLogger('warn', debugOption, logDetail),
@@ -156,6 +158,11 @@ export class Logger {
     // console.log('logArgs->', logArgs);
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
   }
+
+  private if(level: Level, option: Option, loggerDetail: any[]) {
+    this.debugLogger.call(null, { ...option, level }, loggerDetail)
+  }
+
   private signedLogger(level: Level, option: Option, loggerDetail: any[]) {
     this.debugLogger.call(null, { ...option, level }, loggerDetail)
   }

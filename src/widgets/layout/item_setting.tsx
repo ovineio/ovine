@@ -9,7 +9,7 @@ import React from 'react'
 import '~/assets/styles/themes/default.css'
 import { useImmer } from '~/utils/hooks'
 
-import { Schema } from '../amis/schema'
+import { Amis } from '../amis/schema'
 
 import { themes, LayoutCommProps } from './common'
 import HeadItem from './head_item'
@@ -72,7 +72,7 @@ export default (props: Props) => {
   return (
     <>
       <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
-        <Schema schema={getSettingSchema(props)} />
+        <Amis schema={getSettingSchema(props)} />
       </Drawer>
       <HeadItem theme={theme} faIcon="cog" tooltip="设置" onClick={toggleSetting} />
     </>

@@ -1,129 +1,18 @@
+import { RtSchema } from '~/widgets/amis/schema/utils'
+
 import { mockSource } from './mock'
 
-const apis = {
-  list: {
-    url: 'GET api/v1/hot_config',
-    mockSource: mockSource['GET api/v1/hot_config'],
-  },
-  add: {
-    url: 'POST api/v1/hot_config',
-  },
-  edit: {
-    url: 'PUT api/v1/hot_config/edit/$id',
-  },
-  del: {
-    url: 'DELETE api/v1/hot_config/$id',
-  },
-  catList: {
-    url: 'api/v1/hot_config/cat',
-  },
-  api: {
-    url: 'api/v1/hot_config/api',
-  },
-}
-
-export const schema = {
+export const schema: RtSchema = {
   type: 'rt-crud',
-  api: apis.list,
+  api: '$preset.apis.list',
+  filter: '$preset.forms.filter',
   filterTogglable: true,
-  filter: {
-    controls: [
-      {
-        type: 'text',
-        name: 'keywords',
-        label: '关键字',
-        placeholder: '请输入关键字',
-      },
-      {
-        type: 'select',
-        name: 'cat',
-        label: '类别',
-        placeholder: '请选择类别',
-        options: [
-          {
-            label: 'Option A',
-            value: 'a',
-          },
-          {
-            label: 'Option B',
-            value: 'b',
-          },
-        ],
-      },
-      {
-        type: 'submit',
-        className: 'm-l',
-        label: '搜索',
-      },
-    ],
-  },
-  headerToolbar: [
-    {
-      type: 'filter-toggler',
-    },
-    {
-      type: 'columns-toggler',
-    },
-    {
-      type: 'button',
-      actionType: 'dialog',
-      label: '添加',
-      icon: 'fa fa-plus pull-left',
-      size: 'sm',
-      primary: true,
-      dialog: {
-        title: '新增',
-        body: {
-          type: 'form',
-          name: 'sample-edit-form',
-          api: 'post:https://houtai.baidu.com/api/sample',
-          controls: [
-            {
-              type: 'text',
-              name: 'engine',
-              label: 'Engine',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'browser',
-              label: 'Browser',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'platform',
-              label: 'Platform(s)',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'version',
-              label: 'Engine version',
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'grade',
-              label: 'CSS grade',
-            },
-          ],
-        },
-      },
-    },
-  ],
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+  headerToolbar: [
+    { type: 'filter-toggler' },
+    { type: 'columns-toggler' },
+    { $preset: 'actions.add' },
+  ],
   columns: [
     {
       name: 'id',
@@ -135,38 +24,9 @@ export const schema = {
     {
       name: 'key',
       label: '配置KEY',
-      type: 'rt-blank',
       width: 80,
-      body: {
-        type: 'button',
-        actionType: 'dialog',
-        label: '${key}',
-        level: 'link',
-        dialog: {
-          title: '编辑配置: ${cat}/${key}',
-          size: 'lg',
-          bodyClassName: 'p-b-none',
-          body: {
-            type: 'form',
-            mode: 'normal',
-            title: '',
-            controls: [
-              {
-                name: 'content',
-                type: 'diff-editor',
-                label: '',
-                language: 'yaml',
-                inputClassName: '',
-                options: {
-                  minimap: {
-                    enabled: false,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      },
+      type: 'rt-blank',
+      body: '$preset.actions.editConfig',
     },
     {
       name: 'cat',
@@ -192,19 +52,7 @@ export const schema = {
       label: 'IP白名单',
       type: 'rt-blank',
       width: 60,
-      body: {
-        type: 'button',
-        actionType: 'dialog',
-        label: '查看',
-        level: 'link',
-        dialog: {
-          title: 'IP白名单',
-          body: {
-            type: 'tpl',
-            tpl: '${ip}',
-          },
-        },
-      },
+      body: '$preset.actions.viewIp',
     },
     {
       name: 'update_at',
@@ -218,137 +66,304 @@ export const schema = {
       type: 'datetime',
       width: 150,
     },
-    {
-      type: 'operation',
-      label: '操作',
-      width: 100,
-      buttons: [
-        {
-          type: 'button',
-          icon: 'fa fa-eye',
-          actionType: 'dialog',
-          tooltip: '查看',
-          dialog: {
-            title: '查看',
-            body: {
-              type: 'form',
-              controls: [
-                {
-                  type: 'static',
-                  name: 'engine',
-                  label: 'Engine',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'browser',
-                  label: 'Browser',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'platform',
-                  label: 'Platform(s)',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'version',
-                  label: 'Engine version',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'grade',
-                  label: 'CSS grade',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'html',
-                  html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
-                },
-              ],
-            },
-          },
-        },
-        {
-          type: 'button',
-          icon: 'fa fa-pencil',
-          tooltip: '编辑',
-          actionType: 'drawer',
-          dialog: {
-            position: 'left',
-            size: 'lg',
-            title: '编辑',
-            body: {
-              type: 'form',
-              name: 'sample-edit-form',
-              api: 'https://houtai.baidu.com/api/sample/$id',
-              controls: [
-                {
-                  type: 'text',
-                  name: 'engine',
-                  label: 'Engine',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'browser',
-                  label: 'Browser',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'platform',
-                  label: 'Platform(s)',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'version',
-                  label: 'Engine version',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'select',
-                  name: 'grade',
-                  label: 'CSS grade',
-                  options: ['A', 'B', 'C', 'D', 'X'],
-                },
-              ],
-            },
-          },
-        },
-        {
-          type: 'button',
-          icon: 'fa fa-times text-danger',
-          actionType: 'ajax',
-          tooltip: '删除',
-          confirmText: '您确认要删除?',
-          api: 'delete:https://houtai.baidu.com/api/sample/$id',
-        },
-      ],
-    },
+    // {
+    //   type: 'operation',
+    //   label: '操作',
+    //   width: 100,
+    //   buttons: [
+    //     { $preset: 'actions.view' },
+    //     { $preset: 'actions.edit' },
+    //     { $preset: 'actions.delete' },
+    //   ],
+    // },
   ],
+  preset: {
+    apis: {
+      list: {
+        url: 'GET api/v1/hot_config',
+        mockSource: mockSource['GET api/v1/hot_config'],
+      },
+      add: {
+        url: 'POST api/v1/hot_config',
+      },
+      edit: {
+        url: 'PUT api/v1/hot_config/edit/$id',
+      },
+      del: {
+        url: 'DELETE api/v1/hot_config/$id',
+      },
+      catList: {
+        url: 'api/v1/hot_config/cat',
+      },
+      api: {
+        url: 'api/v1/hot_config/api',
+      },
+    },
+    actions: {
+      view: {
+        type: 'button',
+        icon: 'fa fa-eye',
+        actionType: 'dialog',
+        tooltip: '查看',
+        dialog: {
+          title: '查看',
+          body: '$prest.forms.view',
+        },
+      },
+      add: {
+        type: 'button',
+        label: '添加',
+        icon: 'fa fa-plus pull-left',
+        size: 'sm',
+        primary: true,
+        actionType: 'dialog',
+        dialog: {
+          title: '新增',
+          body: '$prest.forms.add',
+        },
+      },
+      edit: {
+        type: 'button',
+        icon: 'fa fa-pencil',
+        tooltip: '编辑',
+        actionType: 'drawer',
+        dialog: {
+          position: 'left',
+          size: 'lg',
+          title: '编辑',
+          body: '$prest.forms.edit',
+        },
+      },
+      delete: {
+        type: 'button',
+        icon: 'fa fa-times text-danger',
+        actionType: 'ajax',
+        tooltip: '删除',
+        confirmText: '您确认要删除?',
+        api: '$prest.apis.delete',
+      },
+      editConfig: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '${key}',
+        level: 'link',
+        dialog: {
+          title: '编辑配置: ${cat}/${key}',
+          size: 'lg',
+          bodyClassName: 'p-b-none',
+          body: '$prest.forms.editConfig',
+        },
+      },
+      viewIp: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '查看',
+        level: 'link',
+        dialog: {
+          title: 'IP白名单',
+          body: {
+            type: 'tpl',
+            tpl: '${ip}',
+          },
+        },
+      },
+    },
+    forms: {
+      filter: {
+        type: 'form',
+        controls: [
+          {
+            type: 'text',
+            name: 'keywords',
+            label: '关键字',
+            placeholder: '请输入关键字',
+          },
+          {
+            type: 'select',
+            name: 'cat',
+            label: '类别',
+            placeholder: '请选择类别',
+            options: [
+              {
+                label: 'Option A',
+                value: 'a',
+              },
+              {
+                label: 'Option B',
+                value: 'b',
+              },
+            ],
+          },
+          {
+            type: 'submit',
+            className: 'm-l',
+            label: '搜索',
+          },
+        ],
+      },
+      view: {
+        type: 'form',
+        controls: [
+          {
+            type: 'static',
+            name: 'engine',
+            label: 'Engine',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'browser',
+            label: 'Browser',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'platform',
+            label: 'Platform(s)',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'grade',
+            label: 'CSS grade',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'html',
+            html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
+          },
+        ],
+      },
+      add: {
+        type: 'form',
+        name: 'sample-edit-form',
+        api: '$preset.apis.add',
+        controls: [
+          {
+            type: 'text',
+            name: 'engine',
+            label: 'Engine',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'browser',
+            label: 'Browser',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'platform',
+            label: 'Platform(s)',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'grade',
+            label: 'CSS grade',
+          },
+        ],
+      },
+      edit: {
+        type: 'form',
+        name: 'sample-edit-form',
+        api: '$preset.apis.edit',
+        controls: [
+          {
+            type: 'text',
+            name: 'engine',
+            label: 'Engine',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'browser',
+            label: 'Browser',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'platform',
+            label: 'Platform(s)',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'select',
+            name: 'grade',
+            label: 'CSS grade',
+            options: ['A', 'B', 'C', 'D', 'X'],
+          },
+        ],
+      },
+      editConfig: {
+        type: 'form',
+        mode: 'normal',
+        title: '',
+        controls: [
+          {
+            name: 'content',
+            type: 'diff-editor',
+            label: '',
+            language: 'yaml',
+            inputClassName: '',
+            options: {
+              minimap: {
+                enabled: false,
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
 }
