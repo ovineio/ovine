@@ -12,6 +12,7 @@ const appRoute: RouteItem = {
       path: 'dashboard',
       sideVisible: false,
     },
+
     {
       label: '热配置管理',
       icon: 'fa fa-cogs',
@@ -41,7 +42,7 @@ const appRoute: RouteItem = {
         },
         {
           label: '管理员权限',
-          path: 'system/user_role',
+          path: 'system/user_limit',
         },
         {
           label: '系统操作日志',

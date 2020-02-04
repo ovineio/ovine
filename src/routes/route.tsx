@@ -5,12 +5,31 @@ import isFunction from 'lodash/isFunction'
 import React, { lazy, Suspense } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router-dom'
 
+import { RequestOption } from '~/core/request'
 import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
 import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 
 import { routesConfig } from './config'
+
+export type Limit = {
+  label: string
+  icon?: string
+  needs?: string[]
+  remark?: string
+}
+
+export type LimitSchema = {
+  limits?: string | string[]
+}
+
+export type PagePreset = {
+  // 页面所有权限定义
+  limits?: Types.ObjectOf<Limit>
+  // 页面内所有异步请求
+  apis?: Types.ObjectOf<RequestOption & LimitSchema>
+}
 
 export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
   Pick<RouteProps, 'component'> & {
@@ -27,7 +46,7 @@ type LazyRouteProps = RouteProps & {
   fallback?: any
 }
 
-export type PageProps = RouteItem & LazyRouteProps
+export type PageProps = RouteItem & LazyRouteProps & PagePreset
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
@@ -60,12 +79,17 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
   )
 }
 
-// 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
-export const getPageAsync = (option: LazyRouteProps) => {
+export const getPageFilePath = (option: Pick<RouteItem, 'path' | 'pathToComponent'>) => {
   const { pathToComponent, path = '' } = option
 
   const componentPath = typeof pathToComponent === 'string' ? pathToComponent : getRoutePath(path)
   const filePath = componentPath[0] !== '/' ? componentPath : componentPath.substr(1)
+  return filePath
+}
+
+// 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
+export const getPageAsync = (option: LazyRouteProps) => {
+  const filePath = getPageFilePath(option)
 
   return lazy(() =>
     retryPromise(() =>
@@ -76,15 +100,34 @@ export const getPageAsync = (option: LazyRouteProps) => {
       )
     ).then((file: any) => {
       const { default: content = {}, schema } = file
+      const preset = getPagePreset(filePath) || {}
 
       if (schema) {
         content.schema = schema
       }
 
+      if (content.schema) {
+        content.schema.preset = {
+          ...preset,
+          ...content.schema.preset,
+        }
+      }
+
       const Page: any = isFunction(content) ? content : () => <Amis {...content} />
-      return { default: () => <Page {...option} /> }
+      return { default: () => <Page {...option} preset={preset} /> }
     })
   )
+}
+
+export const getPagePreset = (path: string): PagePreset | undefined => {
+  try {
+    const limitConf = require(/* webpackInclude: /pages\/.*\/limit\.ts?$/ */
+    /* webpackChunkName: "limit_[request]" */
+    `~/pages/${path}/preset.ts`)
+    return limitConf.default
+  } catch (e) {
+    //
+  }
 }
 
 // 懒加载路由，如果 props.component 存在， 则不会懒加载

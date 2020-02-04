@@ -1,203 +1,51 @@
-import { mockSource } from './mock'
+import { RtSchema } from '~/widgets/amis/schema/utils'
 
-const apis = {
-  list: {
-    url: 'GET api/v1/adm_user',
-    mockSource: mockSource['GET api/v1/adm_user'],
-  },
-  add: {
-    url: 'POST api/v1/adm_user',
-  },
-  edit: {
-    url: 'PUT api/v1/adm_user/edit/$id',
-  },
-  del: {
-    url: 'DELETE api/v1/adm_user/$id',
-  },
-  catList: {
-    url: 'api/v1/adm_user/cat',
-  },
-  api: {
-    url: 'api/v1/adm_user/api',
-  },
-}
+import { Limit } from './limit'
 
-export const schema = {
+export const schema: RtSchema = {
   type: 'rt-crud',
-  api: apis.list,
+  api: '$preset.apis.list',
+  filter: '$preset.forms.filter',
   filterTogglable: true,
-  filter: {
-    controls: [
-      {
-        type: 'text',
-        name: 'keywords',
-        label: '关键字',
-        placeholder: '请输入关键字',
-      },
-      {
-        type: 'select',
-        name: 'cat',
-        label: '类别',
-        placeholder: '请选择类别',
-        options: [
-          {
-            label: 'Option A',
-            value: 'a',
-          },
-          {
-            label: 'Option B',
-            value: 'b',
-          },
-        ],
-      },
-      {
-        type: 'submit',
-        className: 'm-l',
-        label: '搜索',
-      },
-    ],
-  },
-  headerToolbar: [
-    {
-      type: 'filter-toggler',
-    },
-    {
-      type: 'columns-toggler',
-    },
-    {
-      type: 'button',
-      actionType: 'dialog',
-      label: '新增',
-      icon: 'fa fa-plus pull-left',
-      size: 'sm',
-      primary: true,
-      dialog: {
-        title: '新增',
-        body: {
-          type: 'form',
-          name: 'sample-edit-form',
-          api: 'post:https://houtai.baidu.com/api/sample',
-          controls: [
-            {
-              type: 'text',
-              name: 'engine',
-              label: 'Engine',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'browser',
-              label: 'Browser',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'platform',
-              label: 'Platform(s)',
-              required: true,
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'version',
-              label: 'Engine version',
-            },
-            {
-              type: 'divider',
-            },
-            {
-              type: 'text',
-              name: 'grade',
-              label: 'CSS grade',
-            },
-          ],
-        },
-      },
-    },
-  ],
+  limit: 'page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+  headerToolbar: [
+    { type: 'filter-toggler' },
+    { type: 'columns-toggler' },
+    { $preset: 'actions.add' },
+  ],
   columns: [
     {
       name: 'id',
       label: 'ID',
       type: 'text',
-      width: 40,
+      width: 20,
+      toggled: false,
     },
     {
-      name: 'username',
-      label: '登录账号',
-      type: 'rt-blank',
+      name: 'name',
+      label: '名称',
       width: 80,
-      body: {
-        type: 'button',
-        actionType: 'dialog',
-        label: '${key}',
-        level: 'link',
-        dialog: {
-          title: '编辑配置: ${cat}/${key}',
-          size: 'lg',
-          bodyClassName: 'p-b-none',
-          body: {
-            type: 'form',
-            mode: 'normal',
-            title: '',
-            controls: [
-              {
-                name: 'content',
-                type: 'diff-editor',
-                label: '',
-                language: 'yaml',
-                inputClassName: '',
-                options: {
-                  minimap: {
-                    enabled: false,
-                  },
-                },
-              },
-            ],
-          },
-        },
-      },
+      type: 'text',
     },
     {
-      name: 'nick_name',
-      label: '昵称',
-      type: 'text',
-      sortable: true,
-      width: 80,
-    },
-    {
-      name: 'avatar',
-      label: '头像',
-      type: 'text',
-      sortable: true,
-      width: 80,
-    },
-    {
-      name: 'limit',
-      label: '用户权限',
-      type: 'text',
-      // quickEdit: {
-      //   mode: 'inline',
-      //   type: 'select',
-      //   inputClassName: 'w-xs',
-      //   options: ['A', 'B', 'C', 'D', 'X'],
-      //   saveImmediately: true,
-      // },
+      name: 'remark',
+      label: '描述',
+      type: 'html',
+      html: '<span class="text-ellipsis" title="${remark}">${remark}</span>',
     },
     {
       name: 'desc',
-      label: '用户描述',
-      type: 'tpl',
-      tpl: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
+      label: '成员列表',
+      type: 'rt-blank',
+      width: 60,
+      body: '$preset.actions.viewUsers',
+    },
+    {
+      name: 'update_at',
+      label: '修改时间',
+      type: 'datetime',
+      width: 150,
     },
     {
       name: 'create_at',
@@ -208,134 +56,240 @@ export const schema = {
     {
       type: 'operation',
       label: '操作',
-      width: 100,
+      width: 130,
       buttons: [
-        {
-          type: 'button',
-          icon: 'fa fa-eye',
-          actionType: 'dialog',
-          tooltip: '查看',
-          dialog: {
-            title: '查看',
-            body: {
-              type: 'form',
-              controls: [
-                {
-                  type: 'static',
-                  name: 'engine',
-                  label: 'Engine',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'browser',
-                  label: 'Browser',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'platform',
-                  label: 'Platform(s)',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'version',
-                  label: 'Engine version',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'static',
-                  name: 'grade',
-                  label: 'CSS grade',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'html',
-                  html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
-                },
-              ],
-            },
-          },
-        },
-        {
-          type: 'button',
-          icon: 'fa fa-pencil',
-          tooltip: '编辑',
-          actionType: 'drawer',
-          dialog: {
-            position: 'left',
-            size: 'lg',
-            title: '编辑',
-            body: {
-              type: 'form',
-              name: 'sample-edit-form',
-              api: 'https://houtai.baidu.com/api/sample/$id',
-              controls: [
-                {
-                  type: 'text',
-                  name: 'engine',
-                  label: 'Engine',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'browser',
-                  label: 'Browser',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'platform',
-                  label: 'Platform(s)',
-                  required: true,
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'text',
-                  name: 'version',
-                  label: 'Engine version',
-                },
-                {
-                  type: 'divider',
-                },
-                {
-                  type: 'select',
-                  name: 'grade',
-                  label: 'CSS grade',
-                  options: ['A', 'B', 'C', 'D', 'X'],
-                },
-              ],
-            },
-          },
-        },
-        {
-          type: 'button',
-          icon: 'fa fa-times text-danger',
-          actionType: 'ajax',
-          tooltip: '删除',
-          confirmText: '您确认要删除?',
-          api: 'delete:https://houtai.baidu.com/api/sample/$id',
-        },
+        { $preset: 'actions.edit' },
+        { $preset: 'actions.editLimit' },
+        { $preset: 'actions.delete' },
       ],
     },
   ],
+  preset: {
+    actions: {
+      add: {
+        type: 'button',
+        label: '添加',
+        icon: 'fa fa-plus pull-left',
+        size: 'sm',
+        primary: true,
+        actionType: 'dialog',
+        dialog: {
+          title: '新增',
+          body: '$preset.forms.add',
+        },
+      },
+      edit: {
+        type: 'button',
+        label: '编辑',
+        actionType: 'drawer',
+        level: 'link',
+        size: 'md',
+        dialog: {
+          position: 'left',
+          size: 'lg',
+          title: '编辑',
+          body: '$preset.forms.edit',
+        },
+      },
+      editLimit: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '设置权限',
+        level: 'link',
+        size: 'md',
+        dialog: {
+          title: '设置权限 > ${name}',
+          size: 'md',
+          body: {
+            component: Limit,
+          },
+          actions: [],
+        },
+      },
+      delete: {
+        type: 'button',
+        level: 'link',
+        actionType: 'ajax',
+        label: '删除',
+        size: 'md',
+        confirmText: '您确认要删除?',
+        api: '$preset.apis.delete',
+      },
+      viewUsers: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '查看',
+        level: 'link',
+        dialog: {
+          title: '成员列表 > ${name}',
+          body: {
+            type: 'tpl',
+            tpl: '${users}',
+          },
+        },
+      },
+    },
+    forms: {
+      filter: {
+        type: 'form',
+        controls: [
+          {
+            type: 'text',
+            name: 'keywords',
+            label: '关键字',
+            placeholder: '请输入关键字',
+          },
+          {
+            type: 'submit',
+            className: 'm-l',
+            label: '搜索',
+          },
+        ],
+      },
+      view: {
+        type: 'form',
+        controls: [
+          {
+            type: 'static',
+            name: 'engine',
+            label: 'Engine',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'browser',
+            label: 'Browser',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'platform',
+            label: 'Platform(s)',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'static',
+            name: 'grade',
+            label: 'CSS grade',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'html',
+            html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
+          },
+        ],
+      },
+      add: {
+        type: 'form',
+        name: 'sample-edit-form',
+        api: '$preset.apis.add',
+        controls: [
+          {
+            type: 'text',
+            name: 'engine',
+            label: 'Engine',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'browser',
+            label: 'Browser',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'platform',
+            label: 'Platform(s)',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'grade',
+            label: 'CSS grade',
+          },
+        ],
+      },
+      edit: {
+        type: 'form',
+        name: 'sample-edit-form',
+        api: '$preset.apis.edit',
+        controls: [
+          {
+            type: 'text',
+            name: 'engine',
+            label: 'Engine',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'browser',
+            label: 'Browser',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'platform',
+            label: 'Platform(s)',
+            required: true,
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'text',
+            name: 'version',
+            label: 'Engine version',
+          },
+          {
+            type: 'divider',
+          },
+          {
+            type: 'select',
+            name: 'grade',
+            label: 'CSS grade',
+            options: ['A', 'B', 'C', 'D', 'X'],
+          },
+        ],
+      },
+    },
+  },
 }

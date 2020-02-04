@@ -1,13 +1,11 @@
 import { RtSchema } from '~/widgets/amis/schema/utils'
 
-import { mockSource } from './mock'
-
 export const schema: RtSchema = {
   type: 'rt-crud',
   api: '$preset.apis.list',
   filter: '$preset.forms.filter',
   filterTogglable: true,
-  limit: 'page',
+  limits: 'page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   headerToolbar: [
     { type: 'filter-toggler' },
@@ -45,8 +43,8 @@ export const schema: RtSchema = {
     {
       name: 'token',
       label: '访问TOKEN',
-      type: 'tpl',
-      tpl: '<span class="text-ellipsis" title="${token}">${token}</span>',
+      type: 'html',
+      html: '<span class="text-ellipsis" title="${token}">${token}</span>',
     },
     {
       name: 'ip',
@@ -79,58 +77,6 @@ export const schema: RtSchema = {
     },
   ],
   preset: {
-    limits: {
-      page: {
-        label: '查看列表',
-      },
-      viewItem: {
-        needs: ['page'],
-        label: '列表详细',
-      },
-      addItem: {
-        needs: ['page'],
-        label: '添加',
-      },
-      delItem: {
-        needs: ['page'],
-        label: '删除',
-      },
-      editItem: {
-        needs: ['page'],
-        label: '编辑',
-      },
-      editConfig: {
-        needs: ['page'],
-        label: '编辑配置',
-      },
-    },
-    apis: {
-      catList: {
-        url: 'api/v1/hot_config/cat',
-        limits: 'page',
-      },
-      list: {
-        url: 'GET api/v1/hot_config',
-        mockSource: mockSource['GET api/v1/hot_config'],
-        limits: 'page',
-      },
-      add: {
-        url: 'POST api/v1/hot_config',
-        limits: 'add',
-      },
-      edit: {
-        url: 'PUT api/v1/hot_config/edit/$id',
-        limits: 'edit',
-      },
-      del: {
-        url: 'DELETE api/v1/hot_config/$id',
-        limits: 'del',
-      },
-      api: {
-        url: 'api/v1/hot_config/api',
-        limits: 'api',
-      },
-    },
     actions: {
       view: {
         type: 'button',

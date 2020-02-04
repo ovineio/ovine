@@ -21,7 +21,7 @@ export const renderAmis = render
 // 文档 https://baidu.github.io/amis/docs/getting-started
 // 源码 https://github.com/baidu/amis/blob/master/examples/components/App.jsx
 export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
-  const { schema, props: amisProps = {}, option = {}, history, location, match } = props
+  const { schema, props: amisProps = {}, option = {}, history, match } = props
 
   const aimsEnv = {
     // 'default' | 'cxd' | 'dark'
@@ -68,12 +68,12 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
     jumpTo: (to: string, action?: Action, ctx?: object) => {
       log.log('jumpTo', to, action, ctx)
 
-      to = normalizeLink({ location, to })
+      to = normalizeLink({ to })
       history.push(to)
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace?: boolean) => {
-      const link = normalizeLink({ location, to })
+      const link = normalizeLink({ to })
       log.log('updateLocation', !replace ? '' : 'replace', link)
       if (replace) {
         window.history.replaceState({}, '', link)
@@ -83,7 +83,7 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
     },
     // 判断目标地址是否为当前页面。
     isCurrentUrl: (to: string) => {
-      const link = normalizeLink({ location, to })
+      const link = normalizeLink({ to })
       log.log('isCurrentUrl', link)
       return match
     },

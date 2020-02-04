@@ -3,7 +3,8 @@ import get from 'lodash/get'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 
-import request, { RequestOption } from '~/core/request'
+import request from '~/core/request'
+import { LimitSchema, PagePreset } from '~/routes/route'
 import logger from '~/utils/logger'
 
 const log = logger.getLogger('dev:amisSchema:utils')
@@ -18,8 +19,8 @@ export const amisResAdapter = (res: any) => {
   }
 }
 
-export const normalizeLink = (option: { location: any; to?: any }) => {
-  const { location, to: toLink } = option
+export const normalizeLink = (option: { location?: any; to?: any }) => {
+  const { location = window.location, to: toLink } = option
 
   let to = toLink || ''
 
@@ -62,23 +63,10 @@ export const envFetcher = (option: any) => {
   return request(option).then(amisResAdapter)
 }
 
-export type Limit = {
-  needs?: string[]
-  label?: string
-  remark?: string
-}
-
-type LimitSchema = {
-  limits?: string | string[]
-}
-
 export type RtSchema = Schema &
   LimitSchema & {
     // 预设值
-    preset?: {
-      limits?: Types.ObjectOf<Limit>
-      // 所有异步请求
-      apis?: Types.ObjectOf<RequestOption & LimitSchema>
+    preset?: PagePreset & {
       // 所有操作列表
       actions?: Types.ObjectOf<Schema>
       // 所有的表单
