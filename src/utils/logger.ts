@@ -118,12 +118,21 @@ export class Logger {
     const debugOption: Option = { ...option, moduleName }
 
     return {
-      if: (condition: boolean) => this.getLogger(moduleName, { ...option, isPrint: condition }),
+      time: <T>(label: string, timeFn: () => T): T => this.time(label, timeFn, debugOption),
+      if: (isPrint: boolean) => this.getLogger(moduleName, { ...option, isPrint }),
       log: (...logDetail: any[]) => this.signedLogger('log', debugOption, logDetail),
       info: (...logDetail: any[]) => this.signedLogger('info', debugOption, logDetail),
       warn: (...logDetail: any[]) => this.signedLogger('warn', debugOption, logDetail),
       error: (...logDetail: any[]) => this.signedLogger('error', debugOption, logDetail),
     }
+  }
+
+  private time<T>(label: string, timeFn: () => T, debugOption: Option): T {
+    const start = Date.now()
+    const result = timeFn()
+    const end = Date.now()
+    this.debugLogger.call(null, debugOption, [`${label || 'time'}: ${end - start}ms`, result])
+    return result
   }
 
   private debugLogger(option: Option, loggerDetail: any[]) {
@@ -159,11 +168,11 @@ export class Logger {
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
   }
 
-  private if(level: Level, option: Option, loggerDetail: any[]) {
-    this.debugLogger.call(null, { ...option, level }, loggerDetail)
-  }
-
   private signedLogger(level: Level, option: Option, loggerDetail: any[]) {
+    const { isPrint = true } = option
+    if (!isPrint) {
+      return
+    }
     this.debugLogger.call(null, { ...option, level }, loggerDetail)
   }
 }

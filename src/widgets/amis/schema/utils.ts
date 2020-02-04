@@ -62,24 +62,36 @@ export const envFetcher = (option: any) => {
   return request(option).then(amisResAdapter)
 }
 
-export type RtSchema = Schema & {
-  // 预设值
-  preset?: {
-    // 所有异步请求
-    apis?: Types.ObjectOf<RequestOption>
-    // 所有操作列表
-    actions?: Types.ObjectOf<Schema>
-    // 所有的表单
-    forms?: Types.ObjectOf<Schema>
-  }
+export type Limit = {
+  needs?: string[]
+  label?: string
+  remark?: string
 }
+
+type LimitSchema = {
+  limits?: string | string[]
+}
+
+export type RtSchema = Schema &
+  LimitSchema & {
+    // 预设值
+    preset?: {
+      limits?: Types.ObjectOf<Limit>
+      // 所有异步请求
+      apis?: Types.ObjectOf<RequestOption & LimitSchema>
+      // 所有操作列表
+      actions?: Types.ObjectOf<Schema>
+      // 所有的表单
+      forms?: Types.ObjectOf<Schema>
+    }
+  }
 // 转换 schema 计算
 export const convertToAmisSchema = (
   schema: RtSchema,
   option: {
     preset?: any
   }
-): Schema => {
+): RtSchema => {
   const { preset } = option
 
   if (!preset) {
@@ -87,16 +99,19 @@ export const convertToAmisSchema = (
   }
 
   map(schema, (value, key) => {
-    if (key === '$preset') {
-      delete schema.$preset
-      schema = {
-        ...get(preset, value),
-        ...schema,
-      }
-    } else if (typeof value === 'string' && value.indexOf('$preset.') === 0) {
-      schema[key] = get(preset, value.replace('$preset.', '')) || null
-    } else if (isObject(value)) {
+    if (isObject(value)) {
       schema[key] = convertToAmisSchema(value as any, { preset })
+      //
+    } else if (key === '$preset') {
+      delete schema.$preset
+      const presetVal = get(preset, value)
+      log.if(!presetVal).warn('未找到 $preset: ', `${key}: ${value}`, ' 请检查preset')
+      schema = { ...presetVal, ...schema }
+      //
+    } else if (typeof value === 'string' && value.indexOf('$preset.') === 0) {
+      const presetVal = get(preset, value.replace('$preset.', ''))
+      log.if(!presetVal).warn('未找到 $preset: ', `${key}: ${value}`, ' 请检查preset')
+      schema[key] = presetVal || null
     }
   })
   return schema

@@ -7,6 +7,7 @@ export const schema: RtSchema = {
   api: '$preset.apis.list',
   filter: '$preset.forms.filter',
   filterTogglable: true,
+  limit: 'page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   headerToolbar: [
     { type: 'filter-toggler' },
@@ -66,37 +67,68 @@ export const schema: RtSchema = {
       type: 'datetime',
       width: 150,
     },
-    // {
-    //   type: 'operation',
-    //   label: '操作',
-    //   width: 100,
-    //   buttons: [
-    //     { $preset: 'actions.view' },
-    //     { $preset: 'actions.edit' },
-    //     { $preset: 'actions.delete' },
-    //   ],
-    // },
+    {
+      type: 'operation',
+      label: '操作',
+      width: 100,
+      buttons: [
+        { $preset: 'actions.view' },
+        { $preset: 'actions.edit' },
+        { $preset: 'actions.delete' },
+      ],
+    },
   ],
   preset: {
+    limits: {
+      page: {
+        label: '查看列表',
+      },
+      viewItem: {
+        needs: ['page'],
+        label: '列表详细',
+      },
+      addItem: {
+        needs: ['page'],
+        label: '添加',
+      },
+      delItem: {
+        needs: ['page'],
+        label: '删除',
+      },
+      editItem: {
+        needs: ['page'],
+        label: '编辑',
+      },
+      editConfig: {
+        needs: ['page'],
+        label: '编辑配置',
+      },
+    },
     apis: {
+      catList: {
+        url: 'api/v1/hot_config/cat',
+        limits: 'page',
+      },
       list: {
         url: 'GET api/v1/hot_config',
         mockSource: mockSource['GET api/v1/hot_config'],
+        limits: 'page',
       },
       add: {
         url: 'POST api/v1/hot_config',
+        limits: 'add',
       },
       edit: {
         url: 'PUT api/v1/hot_config/edit/$id',
+        limits: 'edit',
       },
       del: {
         url: 'DELETE api/v1/hot_config/$id',
-      },
-      catList: {
-        url: 'api/v1/hot_config/cat',
+        limits: 'del',
       },
       api: {
         url: 'api/v1/hot_config/api',
+        limits: 'api',
       },
     },
     actions: {
@@ -105,9 +137,10 @@ export const schema: RtSchema = {
         icon: 'fa fa-eye',
         actionType: 'dialog',
         tooltip: '查看',
+        limit: '$preset.limits.viewDetail',
         dialog: {
           title: '查看',
-          body: '$prest.forms.view',
+          body: '$preset.forms.view',
         },
       },
       add: {
@@ -119,7 +152,7 @@ export const schema: RtSchema = {
         actionType: 'dialog',
         dialog: {
           title: '新增',
-          body: '$prest.forms.add',
+          body: '$preset.forms.add',
         },
       },
       edit: {
@@ -131,7 +164,7 @@ export const schema: RtSchema = {
           position: 'left',
           size: 'lg',
           title: '编辑',
-          body: '$prest.forms.edit',
+          body: '$preset.forms.edit',
         },
       },
       delete: {
@@ -140,7 +173,7 @@ export const schema: RtSchema = {
         actionType: 'ajax',
         tooltip: '删除',
         confirmText: '您确认要删除?',
-        api: '$prest.apis.delete',
+        api: '$preset.apis.delete',
       },
       editConfig: {
         type: 'button',
@@ -151,7 +184,7 @@ export const schema: RtSchema = {
           title: '编辑配置: ${cat}/${key}',
           size: 'lg',
           bodyClassName: 'p-b-none',
-          body: '$prest.forms.editConfig',
+          body: '$preset.forms.editConfig',
         },
       },
       viewIp: {

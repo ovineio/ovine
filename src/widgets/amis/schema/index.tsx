@@ -1,6 +1,7 @@
 import { render, toast } from 'amis'
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
+import omit from 'lodash/omit'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import logger from '~/utils/logger'
@@ -101,12 +102,16 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
     },
   }
 
+  let amisSchema = schema
   const { preset } = schema
-  const amisSchema = convertToAmisSchema(schema, { preset })
 
-  log.if(!!preset).log('amisSchema', schema)
+  if (preset) {
+    amisSchema = log.time('convertToAmisSchema', () => {
+      return convertToAmisSchema(schema, { preset })
+    })
+  }
 
-  return renderAmis(amisSchema, amisProps, {
+  return renderAmis(omit(amisSchema, ['preset']) as any, amisProps, {
     ...aimsEnv,
     ...option,
   } as any)
