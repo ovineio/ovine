@@ -134,7 +134,9 @@ const userTokenCtrl = (option: RequestOption): RequestOption => {
 // 模拟数据
 const mockSourceCtrl = async (option: UnionOption) => {
   const { mockSource, onSuccess, sourceKey = '' } = option
-  if (config.isProd || !mockSource) {
+  // 预览打包，暂时去掉 config.isProd 限制
+  // config.isProd || !mockSource
+  if (!mockSource) {
     return 'none'
   }
 

@@ -9,8 +9,8 @@ import { useImmer } from '~/utils/hooks'
 
 import { StyledLimit } from './styled'
 
-const appRoutes = routesConfig.filter((i) => i.label !== 'Amis 示例')
-
+// TODO：
+// 设置项足够多的时候， 搜索 tree， 显示tab，并滚动条对应到节点位置，并高亮显示
 type State = {
   activeTab: number
 }
@@ -40,6 +40,9 @@ export const Limit = (props: any) => {
   const renderButtons = () => {
     return render('', {
       type: 'button-toolbar',
+      data: {
+        isFold: true,
+      },
       buttons: [
         {
           type: 'button-group',
@@ -51,6 +54,7 @@ export const Limit = (props: any) => {
             {
               type: 'button',
               label: '折叠',
+              className: 'is-active',
             },
             {
               type: 'button',
@@ -78,7 +82,7 @@ export const Limit = (props: any) => {
     <StyledLimit ns={classPrefix}>
       <div className="action-btns">{renderButtons()}</div>
       <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
-        {limitOption[0].children.map((item: any, index: number) => {
+        {limitOption.map((item: any, index: number) => {
           if (!item.children) {
             return
           }
@@ -100,7 +104,7 @@ export const Limit = (props: any) => {
   )
 }
 
-const limitOption = mapTree(appRoutes, (item) => {
+const limitOption = mapTree(routesConfig, (item) => {
   const newItem = { ...item }
 
   const filePath = getPageFilePath(item)
