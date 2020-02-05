@@ -1,11 +1,12 @@
 import { Tab, Tabs, Tree } from 'amis'
-import { mapTree } from 'amis/lib/utils/helper'
-import map from 'lodash/map'
+import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import React, { useEffect } from 'react'
 
-import { routesConfig } from '~/routes/config'
-import { getPageFilePath, getPagePreset, getRoutePath } from '~/routes/route'
+import { routeLimitKey } from '~/constants'
+import { limitMenusConfig } from '~/routes/limit'
+import { LimitMenuItem } from '~/routes/types'
 import { useImmer } from '~/utils/hooks'
+import { getStore, setStore } from '~/utils/store'
 
 import { StyledLimit } from './styled'
 
@@ -13,22 +14,27 @@ import { StyledLimit } from './styled'
 // 设置项足够多的时候， 搜索 tree， 显示tab，并滚动条对应到节点位置，并高亮显示
 type State = {
   activeTab: number
+  selectedVal: string
 }
 export const Limit = (props: any) => {
   const { classPrefix, render } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
+    selectedVal: '',
   })
 
-  const { activeTab } = state
+  const { activeTab, selectedVal } = state
 
   useEffect(() => {
-    //
+    setState((d) => {
+      d.selectedVal = getStore('limit') || ''
+    })
   }, [])
 
-  const onTreeChange = (...args: any) => {
-    //
-    //
+  const onTreeChange = (value: string) => {
+    setState((d) => {
+      d.selectedVal = resolveSelectVal(value)
+    })
   }
 
   const onTabSelect = (tab: number) => {
@@ -37,12 +43,13 @@ export const Limit = (props: any) => {
     })
   }
 
+  const onSave = () => {
+    setStore('limit', selectedVal)
+  }
+
   const renderButtons = () => {
-    return render('', {
+    return render('body', {
       type: 'button-toolbar',
-      data: {
-        isFold: true,
-      },
       buttons: [
         {
           type: 'button-group',
@@ -67,6 +74,7 @@ export const Limit = (props: any) => {
           icon: 'fa fa-check text-success',
           tooltipPlacement: 'top',
           tooltip: '提交',
+          onClick: onSave,
         },
         {
           type: 'button',
@@ -82,7 +90,7 @@ export const Limit = (props: any) => {
     <StyledLimit ns={classPrefix}>
       <div className="action-btns">{renderButtons()}</div>
       <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
-        {limitOption.map((item: any, index: number) => {
+        {resolveLimitMenus(selectedVal).map((item: any, index: number) => {
           if (!item.children) {
             return
           }
@@ -92,7 +100,11 @@ export const Limit = (props: any) => {
                 {...props}
                 hideRoot
                 multiple
+                joinValues
                 withChildren
+                onlyChildren
+                value={selectedVal}
+                valueField="limitKey"
                 options={item.children}
                 onChange={onTreeChange}
               />
@@ -104,23 +116,52 @@ export const Limit = (props: any) => {
   )
 }
 
-const limitOption = mapTree(routesConfig, (item) => {
-  const newItem = { ...item }
+// 解析 权限设置的 值
+const resolveSelectVal = (limitValue: string) => {
+  const limits = limitValue.split(',')
+  eachTree<LimitMenuItem>(limitMenusConfig, (item) => {
+    const { needs, limitKey } = item
+    if (!limitKey || !needs || limitKey === routeLimitKey) {
+      return
+    }
 
-  const filePath = getPageFilePath(item)
-  const preset = getPagePreset(filePath) || {}
-
-  if (preset.limits) {
-    newItem.children = map(preset.limits, (limitItem, limitKey) => {
-      return {
-        value: limitKey,
-        label: limitItem.label,
-        icon: limitItem.icon ? limitItem.icon : 'fa fa-code',
+    let omit = false
+    needs.forEach((needK) => {
+      if (!omit && !limits.find((v) => v === needK)) {
+        omit = true
       }
     })
-  }
 
-  newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
+    // 前置权限被取消，依赖它的权限，都被取消
+    if (omit) {
+      const idx = limits.indexOf(limitKey)
+      if (idx !== -1) {
+        limits.splice(limits.indexOf(limitKey), 1)
+      }
+    }
+  })
 
-  return newItem
-})
+  return limits.join(',')
+}
+
+// 处理权限配置
+const resolveLimitMenus = (limitValue: string) => {
+  const limits = limitValue.split(',')
+  return mapTree<LimitMenuItem>(limitMenusConfig, (item) => {
+    const { needs, limitKey } = item
+    if (!needs || limitKey === routeLimitKey) {
+      return item
+    }
+
+    // 不满足依赖的权限 值被禁用
+    let disabled = false
+    needs.forEach((needK) => {
+      if (!disabled && !limits.find((v) => v === needK)) {
+        disabled = true
+      }
+    })
+
+    item.disabled = disabled
+    return item
+  })
+}

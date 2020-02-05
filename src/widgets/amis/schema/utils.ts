@@ -4,21 +4,12 @@ import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 
 import request from '~/core/request'
-import { LimitSchema, PagePreset } from '~/routes/route'
+import { LimitSchema, PagePreset } from '~/routes/types'
 import logger from '~/utils/logger'
 
 const log = logger.getLogger('dev:amisSchema:utils')
 
-export const amisResAdapter = (res: any) => {
-  return {
-    data: {
-      status: 0,
-      msg: '',
-      ...res,
-    },
-  }
-}
-
+// amis 官方 格式化项目内 链接
 export const normalizeLink = (option: { location?: any; to?: any }) => {
   const { location = window.location, to: toLink } = option
 
@@ -58,26 +49,39 @@ export const normalizeLink = (option: { location?: any; to?: any }) => {
   return pathname + search + hash
 }
 
+// 请求返回值 格式转化
+export const amisResAdapter = (res: any) => {
+  return {
+    data: {
+      status: 0,
+      msg: '',
+      ...res,
+    },
+  }
+}
+
+// 自定义 amis 请求
 export const envFetcher = (option: any) => {
   log.log('amis:fetcher')
   return request(option).then(amisResAdapter)
 }
 
+type SchemaPreset = PagePreset & {
+  // 所有操作列表
+  actions?: Types.ObjectOf<Schema>
+  // 所有的表单
+  forms?: Types.ObjectOf<Schema>
+}
+
 export type RtSchema = Schema &
   LimitSchema & {
-    // 预设值
-    preset?: PagePreset & {
-      // 所有操作列表
-      actions?: Types.ObjectOf<Schema>
-      // 所有的表单
-      forms?: Types.ObjectOf<Schema>
-    }
+    preset?: SchemaPreset // 预设值
   }
-// 转换 schema 计算
+// 自定义格式 转换为 amis 格式
 export const convertToAmisSchema = (
   schema: RtSchema,
   option: {
-    preset?: any
+    preset?: SchemaPreset
   }
 ): RtSchema => {
   const { preset } = option
@@ -87,18 +91,26 @@ export const convertToAmisSchema = (
   }
 
   map(schema, (value, key) => {
+    const logIfNotFound = (val: any) =>
+      log
+        .if(!val)
+        .warn(
+          `未找到 $preset: [${key}: ${value}] `,
+          `请检查 ${preset.schemaId}/preset 或者 schema.preset`
+        )
+
     if (isObject(value)) {
       schema[key] = convertToAmisSchema(value as any, { preset })
       //
     } else if (key === '$preset') {
       delete schema.$preset
       const presetVal = get(preset, value)
-      log.if(!presetVal).warn('未找到 $preset: ', `${key}: ${value}`, ' 请检查preset')
+      logIfNotFound(presetVal)
       schema = { ...presetVal, ...schema }
       //
     } else if (typeof value === 'string' && value.indexOf('$preset.') === 0) {
       const presetVal = get(preset, value.replace('$preset.', ''))
-      log.if(!presetVal).warn('未找到 $preset: ', `${key}: ${value}`, ' 请检查preset')
+      logIfNotFound(presetVal)
       schema[key] = presetVal || null
     }
   })

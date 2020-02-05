@@ -2,7 +2,7 @@
  * App 路由
  */
 
-import { RouteItem } from '../route'
+import { RouteItem } from '../types'
 
 const appRoute: RouteItem = {
   label: 'RT-ADMIN 实际应用',

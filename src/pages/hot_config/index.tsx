@@ -5,7 +5,7 @@ export const schema: RtSchema = {
   api: '$preset.apis.list',
   filter: '$preset.forms.filter',
   filterTogglable: true,
-  limits: 'page',
+  limits: '$page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   headerToolbar: [
     { type: 'filter-toggler' },

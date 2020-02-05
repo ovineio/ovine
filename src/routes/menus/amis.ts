@@ -4,7 +4,7 @@
 
 import { mapTree } from 'amis/lib/utils/helper'
 
-import { RouteItem } from '../route'
+import { RouteItem } from '../types'
 
 const amisRoute: RouteItem = {
   label: 'Amis 示例',

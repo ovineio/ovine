@@ -3,7 +3,7 @@ import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
 import { menusConfig } from '~/routes/config'
-import { getRoutePath } from '~/routes/route'
+import { getRoutePath } from '~/routes/utils'
 
 import { LayoutCommProps } from './common'
 

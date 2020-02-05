@@ -1,42 +1,41 @@
-import { PagePreset } from '~/routes/route'
+import { PagePreset } from '~/routes/types'
 
 import { mockSource } from './mock'
 
 const pageLimit: PagePreset = {
   limits: {
-    page: {
+    $page: {
       label: '查看列表',
+      description: '路由权限',
     },
     viewItem: {
       label: '列表详细',
-      needs: ['page'],
     },
     addItem: {
       label: '添加',
-      needs: ['page'],
+      needs: ['editItem'],
+    },
+    editConfig: {
+      label: '编辑配置',
     },
     editItem: {
       label: '编辑',
-      needs: ['page'],
-    },
-    editConfig: {
-      needs: ['page'],
-      label: '编辑配置',
+      needs: ['editConfig'],
     },
     delItem: {
       label: '删除',
-      needs: ['page', 'viewItem', 'addItem', 'editItem', 'editConfig'],
+      needs: ['viewItem', 'addItem', 'editItem', 'editConfig'],
     },
   },
   apis: {
     catList: {
       url: 'api/v1/hot_config/cat',
-      limits: 'page',
+      limits: '$page',
     },
     list: {
       url: 'GET api/v1/adm_user_limit',
       mockSource: mockSource['GET api/v1/adm_user_limit'],
-      limits: 'page',
+      limits: '$page',
     },
     add: {
       url: 'POST api/v1/hot_config',
