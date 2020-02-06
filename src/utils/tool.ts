@@ -132,19 +132,6 @@ export function queryStringParse(key?: string, url?: string): undefined | string
 }
 
 /**
- * 完整的 urlHref
- * @param url 简写url
- */
-export function getFullUrl(url: string): string {
-  let fullUrl = url
-  if (url.indexOf('//') === -1) {
-    fullUrl = location.origin + url
-  }
-
-  return fullUrl
-}
-
-/**
  * 重试异步操作, 主要用于网络异常，导致文件找不到报错 load chunk error
  * @param promiseFn 需要异步操作部分
  * @param retriesLeft 最多尝试的次数, 默认5次
@@ -168,4 +155,13 @@ export function retryPromise<T>(
         }, interval)
       })
   })
+}
+
+/**
+ * 是否是子串
+ * @param source 模版字符串
+ * @param check 待检验字符串
+ */
+export function isSubStr(source: string, check: string): boolean {
+  return source.indexOf(check) > -1
 }

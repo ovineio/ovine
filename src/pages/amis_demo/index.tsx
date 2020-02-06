@@ -2,7 +2,7 @@ import { Spinner } from 'amis'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { PageProps } from '~/routes/route'
+import { PageProps } from '~/routes/types'
 
 export default (props: PageProps) => {
   const { path = 'docs/getting-started' } = props

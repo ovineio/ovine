@@ -1,23 +1,34 @@
 import { Spinner } from 'amis'
 import { mapTree } from 'amis/lib/utils/helper'
+import isArray from 'lodash/isArray'
 import isFunction from 'lodash/isFunction'
 import React, { lazy, Suspense } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
+import logger from '~/utils/logger'
 import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
 import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 
-import { routesConfig } from './config'
+import { limitedRoutesConfig } from './limit'
 import { LazyRouteProps } from './types'
 import { getPageFilePath, getPagePreset, getRoutePath } from './utils'
+
+const log = logger.getLogger('dev:route')
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
 export const getPageAsync = (option: LazyRouteProps) => {
-  const filePath = getPageFilePath(option)
+  const { nodePath, path = '', pathToComponent } = option
+
+  if (isArray(path)) {
+    log.warn('getPageAsync path 必须为字符串', option)
+    return
+  }
+
+  const filePath = getPageFilePath({ path, pathToComponent })
 
   return lazy(() =>
     retryPromise(() =>
@@ -36,9 +47,9 @@ export const getPageAsync = (option: LazyRouteProps) => {
 
       if (content.schema) {
         content.schema.preset = {
-          schemaId: filePath || '未知schemaId',
           ...preset,
           ...content.schema.preset,
+          nodePath,
         }
       }
 
@@ -77,6 +88,7 @@ export const LazyRoute = (props: LazyRouteProps) => {
     <Route
       {...props}
       path={getRoutePath(path)}
+      // TODO: 非懒加载组件也要注入权限管理
       component={component ? component : getPageAsync(props)}
     />
   )
@@ -96,16 +108,18 @@ export const LazyRoute = (props: LazyRouteProps) => {
 export const AppMenuRoutes = () => {
   const routes: any = []
 
-  routesConfig.forEach((root) => {
-    if (!root.children) {
+  limitedRoutesConfig.forEach((item) => {
+    const { children } = item
+
+    if (!children) {
       return
     }
 
-    mapTree(root.children, (item) => {
-      if (item.path) {
-        routes.push(<LazyRoute key={routes.length + 1} withSuspense={false} {...item} />)
+    mapTree(children, (subItem) => {
+      if (subItem.path) {
+        routes.push(<LazyRoute key={routes.length + 1} withSuspense={false} {...subItem} />)
       }
-      return item
+      return subItem
     })
   })
 

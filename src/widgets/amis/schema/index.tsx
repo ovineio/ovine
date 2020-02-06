@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import logger from '~/utils/logger'
 
-import { convertToAmisSchema, envFetcher, normalizeLink, RtSchema } from './utils'
+import { envFetcher, normalizeLink, resolveRtSchema, RtSchema } from './utils'
 
 const log = logger.getLogger('dev:amisSchema')
 
@@ -102,16 +102,15 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
     },
   }
 
-  let amisSchema = schema
   const { preset } = schema
 
   if (preset) {
-    amisSchema = log.time('convertToAmisSchema', () => {
-      return convertToAmisSchema(schema, { preset })
+    log.time('convertToAmisSchema', () => {
+      return resolveRtSchema(schema, { preset })
     })
   }
 
-  return renderAmis(omit(amisSchema, ['preset']) as any, amisProps, {
+  return renderAmis(omit(schema, ['preset']) as any, amisProps, {
     ...aimsEnv,
     ...option,
   } as any)

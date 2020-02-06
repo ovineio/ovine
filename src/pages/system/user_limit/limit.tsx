@@ -3,10 +3,11 @@ import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import React, { useEffect } from 'react'
 
 import { routeLimitKey } from '~/constants'
-import { limitMenusConfig } from '~/routes/limit'
+import { convertLimitStr, limitMenusConfig } from '~/routes/limit'
 import { LimitMenuItem } from '~/routes/types'
 import { useImmer } from '~/utils/hooks'
 import { getStore, setStore } from '~/utils/store'
+import { isSubStr } from '~/utils/tool'
 
 import { StyledLimit } from './styled'
 
@@ -102,9 +103,8 @@ export const Limit = (props: any) => {
                 multiple
                 joinValues
                 withChildren
-                onlyChildren
                 value={selectedVal}
-                valueField="limitKey"
+                valueField="nodePath"
                 options={item.children}
                 onChange={onTreeChange}
               />
@@ -116,47 +116,50 @@ export const Limit = (props: any) => {
   )
 }
 
-// 解析 权限设置的 值
+// 处理 权限设置的 值
 const resolveSelectVal = (limitValue: string) => {
-  const limits = limitValue.split(',')
+  const limits = convertLimitStr(limitValue)
+
+  // 存在一个权限 则默认拥有根权限
+  if (limitValue) {
+    limits['/'] = true
+  }
+
   eachTree<LimitMenuItem>(limitMenusConfig, (item) => {
-    const { needs, limitKey } = item
-    if (!limitKey || !needs || limitKey === routeLimitKey) {
+    const { needs, nodePath } = item
+    if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return
     }
 
     let omit = false
     needs.forEach((needK) => {
-      if (!omit && !limits.find((v) => v === needK)) {
+      if (!omit && !limits[needK]) {
         omit = true
       }
     })
 
     // 前置权限被取消，依赖它的权限，都被取消
     if (omit) {
-      const idx = limits.indexOf(limitKey)
-      if (idx !== -1) {
-        limits.splice(limits.indexOf(limitKey), 1)
-      }
+      delete limits[nodePath]
     }
   })
 
-  return limits.join(',')
+  return Object.values(limits).join(',')
 }
 
 // 处理权限配置
 const resolveLimitMenus = (limitValue: string) => {
-  const limits = limitValue.split(',')
+  const limits = convertLimitStr(limitValue)
   return mapTree<LimitMenuItem>(limitMenusConfig, (item) => {
-    const { needs, limitKey } = item
-    if (!needs || limitKey === routeLimitKey) {
+    const { needs, nodePath } = item
+    if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return item
     }
 
     // 不满足依赖的权限 值被禁用
     let disabled = false
     needs.forEach((needK) => {
-      if (!disabled && !limits.find((v) => v === needK)) {
+      if (!disabled && !limits[needK]) {
         disabled = true
       }
     })

@@ -9,11 +9,11 @@ const globalData: any = {}
  * 1. 添加缓存过期时间
  */
 
-export function setStore<K extends string>(key: K, value: any): void {
+export function setStore(key: string, value: any): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getStore<K extends string, T>(key: K): T | undefined {
+export function getStore<T>(key: string): T | undefined {
   let value = localStorage.getItem(key)
 
   if (value) {
@@ -41,7 +41,7 @@ export function setGlobalStore(key: string, value: any): void {
   globalData[key] = value
 }
 
-export function getGlobalStore<K extends string, T>(key: K): T | undefined {
+export function getGlobalStore<T>(key: string): T | undefined {
   const value = globalData[key]
 
   return value

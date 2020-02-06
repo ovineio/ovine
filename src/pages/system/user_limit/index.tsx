@@ -7,7 +7,6 @@ export const schema: RtSchema = {
   api: '$preset.apis.list',
   filter: '$preset.forms.filter',
   filterTogglable: true,
-  limit: 'page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   headerToolbar: [
     { type: 'filter-toggler' },
@@ -73,6 +72,7 @@ export const schema: RtSchema = {
         size: 'sm',
         primary: true,
         actionType: 'dialog',
+        limits: 'add',
         dialog: {
           title: '新增',
           body: '$preset.forms.add',

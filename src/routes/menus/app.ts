@@ -4,49 +4,56 @@
 
 import { RouteItem } from '../types'
 
+// TODO： 重新梳理
+// path [option]
+// nodePath 节点路径
+// pathToComponent [option] = true
 const appRoute: RouteItem = {
   label: 'RT-ADMIN 实际应用',
+  nodePath: '/',
   children: [
     {
       label: 'Dashboard',
-      path: 'dashboard',
+      nodePath: 'dashboard',
       sideVisible: false,
     },
 
     {
       label: '热配置管理',
       icon: 'fa fa-cogs',
-      path: 'hot_config',
+      nodePath: 'hot_config',
     },
     {
       label: '博客管理',
       icon: 'fa fa-newspaper-o',
+      nodePath: 'blog',
       children: [
         {
           label: '文章管理',
-          path: 'blog/article',
+          nodePath: 'article',
         },
         {
           label: '评论管理',
-          path: 'blog/comment',
+          nodePath: 'comment',
         },
       ],
     },
     {
       label: '系统管理',
       icon: 'fa fa-wrench',
+      nodePath: 'system',
       children: [
         {
           label: '管理员用户',
-          path: 'system/user_list',
+          nodePath: 'user_list',
         },
         {
           label: '管理员权限',
-          path: 'system/user_limit',
+          nodePath: 'user_limit',
         },
         {
           label: '系统操作日志',
-          path: 'system/user_log',
+          nodePath: 'user_log',
         },
       ],
     },

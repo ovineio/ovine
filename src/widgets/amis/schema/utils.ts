@@ -1,9 +1,12 @@
 import { Schema } from 'amis/lib/types'
 import get from 'lodash/get'
+import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
+import omit from 'lodash/omit'
 
 import request from '~/core/request'
+import { checkLimitByKeys } from '~/routes/limit'
 import { LimitSchema, PagePreset } from '~/routes/types'
 import logger from '~/utils/logger'
 
@@ -77,6 +80,34 @@ export type RtSchema = Schema &
   LimitSchema & {
     preset?: SchemaPreset // 预设值
   }
+
+const $omitByLimit = '$omitByLimit'
+
+// 过滤无权限操作
+export const filterSchemaLimit = (
+  schema: RtSchema,
+  option: {
+    nodePath?: string
+  }
+) => {
+  const { nodePath } = option
+
+  map(schema, (val, key) => {
+    if (!isObject(val)) {
+      return
+    }
+
+    const { type, limits } = val as any
+    let isAuth = true
+    if (type && limits) {
+      isAuth = checkLimitByKeys(limits, { nodePath })
+    }
+    schema[key] = !isAuth ? $omitByLimit : filterSchemaLimit(val as any, { nodePath })
+  })
+
+  return schema
+}
+
 // 自定义格式 转换为 amis 格式
 export const convertToAmisSchema = (
   schema: RtSchema,
@@ -90,29 +121,64 @@ export const convertToAmisSchema = (
     return schema
   }
 
-  map(schema, (value, key) => {
-    const logIfNotFound = (val: any) =>
-      log
-        .if(!val)
-        .warn(
-          `未找到 $preset: [${key}: ${value}] `,
-          `请检查 ${preset.schemaId}/preset 或者 schema.preset`
-        )
+  const { nodePath } = preset
 
+  map(schema, (value, key) => {
     if (isObject(value)) {
       schema[key] = convertToAmisSchema(value as any, { preset })
-      //
-    } else if (key === '$preset') {
-      delete schema.$preset
-      const presetVal = get(preset, value)
-      logIfNotFound(presetVal)
-      schema = { ...presetVal, ...schema }
-      //
-    } else if (typeof value === 'string' && value.indexOf('$preset.') === 0) {
-      const presetVal = get(preset, value.replace('$preset.', ''))
-      logIfNotFound(presetVal)
-      schema[key] = presetVal || null
+      return
     }
+
+    const $presetRefType =
+      key === '$preset'
+        ? 'key'
+        : typeof value === 'string' && value.indexOf('$preset.') === 0
+        ? 'value'
+        : ''
+
+    if (!$presetRefType) {
+      return
+    }
+
+    const isKeyRef = $presetRefType === 'key'
+    const presetVal = get(preset, isKeyRef ? value : value.replace('$preset.', ''))
+    const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
+
+    if (!presetVal) {
+      log.warn('$preset 不存在 => ', logStr)
+      return
+    }
+
+    if (presetVal === $omitByLimit) {
+      schema = { type: 'rt-omit' }
+      return
+    }
+
+    if (!isKeyRef) {
+      schema[key] = presetVal
+      return
+    }
+
+    if (!isObject(presetVal)) {
+      log.warn('$preset为key时，只能引用object值', logStr)
+      return
+    }
+
+    schema = { ...presetVal, ...schema }
   })
+
+  return schema
+}
+
+// 处理自定义格式
+export const resolveRtSchema = (
+  schema: RtSchema,
+  option: {
+    preset?: SchemaPreset
+  }
+) => {
+  const { preset = {} } = option
+  filterSchemaLimit(schema, preset)
+  convertToAmisSchema(schema, { preset })
   return schema
 }

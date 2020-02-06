@@ -1,13 +1,19 @@
-import { mapTree } from 'amis/lib/utils/helper'
+import { filterTree, mapTree } from 'amis/lib/utils/helper'
+import isArray from 'lodash/isArray'
 import map from 'lodash/map'
 
 import { routeLimitKey } from '~/constants'
+import logger from '~/utils/logger'
+import { getStore, setStore } from '~/utils/store'
+import { isSubStr } from '~/utils/tool'
 
-import { routesConfig } from './config'
-import { Limit, LimitMenuItem } from './types'
-import { getPageFilePath, getPagePreset, getRoutePath } from './utils'
+import { getRouteConfig, routesConfig } from './config'
+import { Limit, LimitMenuItem, RouteItem } from './types'
+import { getPageFilePath, getPagePreset } from './utils'
 
-// 解析页面内 配置的权限依赖
+const log = logger.getLogger('dev:routes:limit')
+
+// 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {
   const checked: Types.ObjectOf<boolean> = {}
 
@@ -19,7 +25,7 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
     node.map((k: string) => {
       if (!checked[k]) {
         checked[k] = true
-        return getNeeds(limits[k]!.needs)
+        return getNeeds(limits[k]?.needs)
       }
     })
   }
@@ -35,50 +41,100 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
   return Object.keys(checked)
 }
 
+// 侧边栏: 系统设置/权限管理/权限配置表
 export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
   const newItem = { ...item }
-  const { path, limitKey } = newItem
+  const { nodePath } = newItem
 
-  // 路由中间节点， 统一不设置权限
-  if (!path && !limitKey) {
-    newItem.limitKey = '_'
-    return newItem
-  }
-
-  const filePath = getPageFilePath(item)
-  const preset = getPagePreset(filePath) || {}
-  const routePath = getRoutePath(path || '')
+  const preset = getPagePreset(getPageFilePath(item))
 
   // 有子权限 limits 配置的根结点
-  const { limits } = preset
+  const limits = preset?.limits
+
   if (limits) {
     newItem.children = map(limits, ({ icon, label, description }, key) => {
       const needs =
         key === routeLimitKey
           ? undefined
-          : resolveLimitNeeds(key, limits).map((needK: string) => `${routePath}/${needK}`)
+          : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
 
       return {
         label,
         description,
         needs,
         icon: icon || 'fa fa-code',
-        limitKey: `${routePath}/${key}`,
+        nodePath: `${nodePath}/${key}`,
       }
     })
   }
 
-  // 页面节点，且无子权限 limits
-  if (!limitKey) {
-    newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
-    newItem.limitKey = `${routePath}`
-  }
+  // 添加默认 icon
+  newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
 
   // console.log('-----', routePath, newItem)
   return newItem
 })
 
-// 过滤 路由权限
-export const limitedRouteConfig = () => {
-  //
+// 将字符串格式的权限数据，转为对象类型，可大大减少权限匹配的时间
+export const convertLimitStr = (limitStr: string) => {
+  const tpl: Types.ObjectOf<boolean> = {}
+  const limits = limitStr?.split(',')
+
+  limits?.forEach((key) => {
+    tpl[key] = true
+  })
+
+  return tpl
 }
+
+// 校验组件权限
+export const checkLimitByKeys = (
+  limitKeys: string | string[],
+  option: {
+    nodePath?: string
+  }
+) => {
+  const { nodePath = '' } = option
+  const limits = limitStore('get')
+  const checkAr = typeof limitKeys === 'string' ? [limitKeys] : limitKeys
+
+  if (!isArray(checkAr)) {
+    log.warn('checkLimitByKeys limitKeys 必须是字符串', limitKeys)
+    return false
+  }
+
+  return !checkAr?.some((key) => {
+    const checkKey = isSubStr(key, '/') ? key : `${nodePath}/key`
+    return !limits[checkKey]
+  })
+}
+
+export const limitStore: Types.StoreCtrl = (type, value) => {
+  if (type === 'get') {
+    return convertLimitStr(getStore('limit') || '')
+  }
+  setStore('limit', value)
+}
+
+// 过滤掉 配置路由信息
+// 1. 去除无权限路由
+// 2. 去除侧边栏隐藏 菜单项
+const filterRoutesConfig = (type: 'aside' | 'route') => {
+  const limits = limitStore('get')
+  return filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
+    const auth = limits[nodePath]
+
+    switch (type) {
+      case 'route':
+        return auth
+      case 'aside':
+        return auth && sideVisible !== false
+    }
+  })
+}
+
+export const limitedRoutesConfig = filterRoutesConfig('route')
+
+export const asideMenuConfig = filterRoutesConfig('aside')
+
+// console.log('asideMenuConfig===', routesConfig, asideMenuConfig)

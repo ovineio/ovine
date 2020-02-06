@@ -26,14 +26,14 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
+    "abortcontroller-polyfill": "^1.4.0",
     "amis": "^1.0.9",
     "core-js": "^3.6.4",
     "immer": "^5.3.2",
     "react": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",
-    "whatwg-fetch": "^3.0.0",
-    "abortcontroller-polyfill": "^1.4.0"
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
@@ -60,7 +60,7 @@
     "lint-staged": "^8.1.5",
     "mini-css-extract-plugin": "^0.6.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "prettier": "^1.17.0",
+    "prettier": "^1.19.1",
     "react-hot-loader": "^4.12.11",
     "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
