@@ -42,7 +42,7 @@ export type LimitMenuItem = RouteItem &
   }
 
 export type LazyRouteProps = RouteProps & {
-  nodePath: string
+  nodePath?: string
   pathToComponent?: boolean | string
   withSuspense?: boolean
   fallback?: any

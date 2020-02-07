@@ -10,6 +10,7 @@ import { getStore } from '~/utils/store'
 import { retryPromise } from '~/utils/tool'
 import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
+import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
 import { limitedRoutesConfig } from './limit'
 import { LazyRouteProps } from './types'
@@ -86,6 +87,7 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
 export const LazyRoute = (props: LazyRouteProps) => {
   const { withSuspense = true, fallback = PageSpinner, path = '', component } = props
 
+  // TODO: 设置 nodePath 默认值
   const routeComponent = (
     <Route
       {...props}
@@ -127,10 +129,7 @@ export const AppMenuRoutes = () => {
 
   return (
     <ErrorBoundary type="page">
-      <Suspense fallback="loading,,,">
-        {routes}
-        tes}
-      </Suspense>
+      <Suspense fallback={<LayoutLazyFallback />}>{routes}</Suspense>
     </ErrorBoundary>
   )
 }

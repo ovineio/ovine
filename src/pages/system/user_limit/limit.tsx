@@ -123,11 +123,6 @@ export const Limit = (props: any) => {
 const resolveSelectVal = (limitValue: string) => {
   const limits = convertLimitStr(limitValue)
 
-  // 存在一个权限 则默认拥有根权限
-  if (limitValue) {
-    limits['/'] = true
-  }
-
   eachTree<LimitMenuItem>(limitMenusConfig, (item) => {
     const { needs, nodePath } = item
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
@@ -147,7 +142,9 @@ const resolveSelectVal = (limitValue: string) => {
     }
   })
 
-  return Object.values(limits).join(',')
+  const newValue = Object.keys(limits).join(',')
+
+  return newValue
 }
 
 // 处理 权限配置表

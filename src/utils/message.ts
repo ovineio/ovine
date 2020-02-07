@@ -6,54 +6,51 @@
 import isArray from 'lodash/isArray'
 import isNone from 'lodash/isUndefined'
 
+import { storeRoot } from '~/constants/message_key'
+
 type Key = string | string[]
 type Handler<T = any> = (data: T) => void
 
 export const observer: Types.ObjectOf<Handler[]> = {}
 export const source: Types.ObjectOf<any> = {}
 
-const $store = '$store'
-
+// 格式化存储 key 格式
 const storeKeyCtrl: Types.ValueCtrl<string> = (type, value = '') => {
+  const isStoreKey = value.indexOf(storeRoot) === 0
   if (type === 'get') {
-    if (value.indexOf(`${$store}/`) === 0) {
-      return value.split(`${$store}/`)[1]
-    }
-    return
+    return !isStoreKey ? undefined : value.split(storeRoot)[1]
   }
 
   if (type === 'set') {
-    return `${$store}/${value}`
+    return isStoreKey ? value : `${storeRoot}${value}`
   }
 }
 
-export const store = () => {
-  return new Proxy(
-    {},
-    {
-      get(_, key: string) {
-        return source[key]
-      },
-      // 整个模块的核心逻辑
-      // 代理object赋值操作，设置值的时候，触发订阅时的回调函数
-      set(_, key: string, value) {
-        // 只有值变化 才触发回调。
-        if (!(source[key] && source[key] === value)) {
-          source[key] = value
+// 更改 store 值,就会自动 emit 消息
+export const store = new Proxy<Types.ObjectOf<any>>(
+  {},
+  {
+    get(_, key: string) {
+      return source[key]
+    },
+    // 整个模块的核心逻辑
+    // 代理object赋值操作，设置值的时候，触发订阅时的回调函数
+    set(_, key: string, value) {
+      // 只有值变化 才触发回调。
+      if (!(source[key] && source[key] === value)) {
+        source[key] = value
+        const storeKey = storeKeyCtrl('set', key)
 
-          const storeKey = storeKeyCtrl('set', key) || ''
-
-          if (!isNone(observer[storeKey])) {
-            observer[storeKey].forEach((handler) => {
-              handler(value)
-            })
-          }
+        if (storeKey && !isNone(observer[storeKey])) {
+          observer[storeKey].forEach((handler) => {
+            handler(value)
+          })
         }
-        return true
-      },
-    }
-  )
-}
+      }
+      return true
+    },
+  }
+)
 
 // 消息订阅
 export const on = (key: Key, handler: Handler) => {

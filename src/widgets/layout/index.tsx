@@ -9,6 +9,7 @@ import { useImmer } from '~/utils/hooks'
 import Aside from './aside'
 import { LayoutState } from './common'
 import Header from './header'
+import { LayoutLoading } from './loading'
 import { StyledLayout } from './styled'
 
 type Props = {
@@ -37,6 +38,7 @@ export default (props: Props) => {
       header={<Header {...compProps} />}
       aside={<Aside {...compProps} />}
     >
+      <LayoutLoading />
       {props.children}
     </StyledLayout>
   )

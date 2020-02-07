@@ -87,6 +87,12 @@ export const convertLimitStr = (limitStr: string) => {
   return tpl
 }
 
+// 循环调用时一定要 传 limits 参数
+export const checkLimitByNodePath = (nodePath: string, limits: any = limitStore('get')) => {
+  // 子权限存在，父权限一定存在
+  return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
+}
+
 // 校验组件权限
 export const checkLimitByKeys = (
   limitKeys?: string | string[],
@@ -109,10 +115,11 @@ export const checkLimitByKeys = (
 
   return !checkAr?.some((key) => {
     const checkKey = isSubStr(key, '/') ? key : `${nodePath}/key`
-    return !limits[checkKey]
+    return !checkLimitByNodePath(checkKey, limits)
   })
 }
 
+// TODO: 将limits对象存在 内存中，因为组件会频繁读取
 export const limitStore: Types.ValueCtrl = (type, value) => {
   if (type === 'get') {
     return convertLimitStr(getStore('limit') || '')
@@ -126,7 +133,7 @@ export const limitStore: Types.ValueCtrl = (type, value) => {
 const filterRoutesConfig = (type: 'aside' | 'route') => {
   const limits = limitStore('get')
   return filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
-    const auth = limits[nodePath]
+    const auth = checkLimitByNodePath(nodePath, limits)
 
     switch (type) {
       case 'route':
