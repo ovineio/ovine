@@ -89,12 +89,16 @@ export const convertLimitStr = (limitStr: string) => {
 
 // 校验组件权限
 export const checkLimitByKeys = (
-  limitKeys: string | string[],
-  option: {
+  limitKeys?: string | string[],
+  option?: {
     nodePath?: string
   }
 ) => {
-  const { nodePath = '' } = option
+  if (!limitKeys) {
+    return false
+  }
+
+  const { nodePath = '' } = option || {}
   const limits = limitStore('get')
   const checkAr = typeof limitKeys === 'string' ? [limitKeys] : limitKeys
 
@@ -109,7 +113,7 @@ export const checkLimitByKeys = (
   })
 }
 
-export const limitStore: Types.StoreCtrl = (type, value) => {
+export const limitStore: Types.ValueCtrl = (type, value) => {
   if (type === 'get') {
     return convertLimitStr(getStore('limit') || '')
   }

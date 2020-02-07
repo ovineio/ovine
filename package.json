@@ -30,6 +30,7 @@
     "amis": "^1.0.9",
     "core-js": "^3.6.4",
     "immer": "^5.3.2",
+    "proxy-polyfill": "^0.3.0",
     "react": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",

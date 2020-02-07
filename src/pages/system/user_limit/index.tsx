@@ -38,6 +38,7 @@ export const schema: RtSchema = {
       label: '成员列表',
       type: 'rt-blank',
       width: 60,
+      limits: 'add',
       body: '$preset.actions.viewUsers',
     },
     {

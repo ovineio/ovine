@@ -17,6 +17,8 @@ import { getPageFilePath, getPagePreset, getRoutePath } from './utils'
 
 const log = logger.getLogger('dev:route')
 
+// TODO: 优化 loading 卡顿
+// 方案：提前挂在loading,只是控制显隐藏
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
@@ -125,7 +127,10 @@ export const AppMenuRoutes = () => {
 
   return (
     <ErrorBoundary type="page">
-      <Suspense fallback={PageSpinner}>{routes}</Suspense>
+      <Suspense fallback="loading,,,">
+        {routes}
+        tes}
+      </Suspense>
     </ErrorBoundary>
   )
 }

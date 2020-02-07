@@ -1,5 +1,6 @@
 /**
- * logger模块是全局模块，最开始加载。正常情况下应当不依赖任何其他模块。否则可能会出现相互依赖错误。
+ * logger模块
+ * 错误，异常等地方都应输入日志，给出提示
  */
 
 type Level = 'log' | 'info' | 'warn' | 'error'
@@ -26,6 +27,7 @@ let debugConfig: Config = {
   onlyLevel: false,
   enable: true,
   defaultDebugOption: {
+    isPrint: true,
     moduleName: 'app*',
     onlySelf: false,
     level: 'log',

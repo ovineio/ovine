@@ -116,7 +116,10 @@ export const Limit = (props: any) => {
   )
 }
 
-// 处理 权限设置的 值
+// TODO：
+// 接入 api 权限设置
+
+// 处理 权限设置的值
 const resolveSelectVal = (limitValue: string) => {
   const limits = convertLimitStr(limitValue)
 
@@ -147,7 +150,7 @@ const resolveSelectVal = (limitValue: string) => {
   return Object.values(limits).join(',')
 }
 
-// 处理权限配置
+// 处理 权限配置表
 const resolveLimitMenus = (limitValue: string) => {
   const limits = convertLimitStr(limitValue)
   return mapTree<LimitMenuItem>(limitMenusConfig, (item) => {

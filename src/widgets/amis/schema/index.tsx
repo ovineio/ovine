@@ -1,7 +1,6 @@
 import { render, toast } from 'amis'
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
-import omit from 'lodash/omit'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import logger from '~/utils/logger'
@@ -110,7 +109,7 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
     })
   }
 
-  return renderAmis(omit(schema, ['preset']) as any, amisProps, {
+  return renderAmis(schema, amisProps, {
     ...aimsEnv,
     ...option,
   } as any)

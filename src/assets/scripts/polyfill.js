@@ -10,8 +10,10 @@ import 'core-js/es/set'
 import 'core-js/es/map'
 
 import 'promise/polyfill'
+import 'proxy-polyfill'
 
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
+
 
 if (!Element.prototype.matches) {
   Element.prototype.matches = Element.prototype.msMatchesSelector

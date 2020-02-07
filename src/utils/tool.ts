@@ -162,6 +162,7 @@ export function retryPromise<T>(
  * @param source 模版字符串
  * @param check 待检验字符串
  */
-export function isSubStr(source: string, check: string): boolean {
-  return source.indexOf(check) > -1
+export function isSubStr(source: string, check: string, num?: number): boolean {
+  const index = source.indexOf(check)
+  return typeof num === 'undefined' ? index > -1 : index === num
 }

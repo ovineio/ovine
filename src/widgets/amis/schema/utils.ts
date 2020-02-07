@@ -1,9 +1,7 @@
 import { Schema } from 'amis/lib/types'
 import get from 'lodash/get'
-import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
-import omit from 'lodash/omit'
 
 import request from '~/core/request'
 import { checkLimitByKeys } from '~/routes/limit'
@@ -81,7 +79,12 @@ export type RtSchema = Schema &
     preset?: SchemaPreset // 预设值
   }
 
-const $omitByLimit = '$omitByLimit'
+// schema 配置，必须 type, limits 同时存在才会校验权限
+const checkSchemaLimit = (schema: RtSchema, nodePath?: string) => {
+  const { type, limits } = schema
+
+  return !type || !limits ? true : checkLimitByKeys(limits, { nodePath })
+}
 
 // 过滤无权限操作
 export const filterSchemaLimit = (
@@ -92,17 +95,28 @@ export const filterSchemaLimit = (
 ) => {
   const { nodePath } = option
 
+  // root schema 权限不匹配，直接不显示
+  if (!checkSchemaLimit(schema, nodePath)) {
+    return { type: 'rt-omit' }
+  }
+
   map(schema, (val, key) => {
     if (!isObject(val)) {
       return
     }
 
-    const { type, limits } = val as any
-    let isAuth = true
-    if (type && limits) {
-      isAuth = checkLimitByKeys(limits, { nodePath })
+    const isAuth = checkSchemaLimit(val as any, nodePath)
+
+    if (isAuth) {
+      schema[key] = filterSchemaLimit(val as any, { nodePath })
+      return
     }
-    schema[key] = !isAuth ? $omitByLimit : filterSchemaLimit(val as any, { nodePath })
+
+    if (schema.splice) {
+      schema.splice(key, 1)
+      return
+    }
+    delete schema[key]
   })
 
   return schema
@@ -145,12 +159,7 @@ export const convertToAmisSchema = (
     const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
 
     if (!presetVal) {
-      log.warn('$preset 不存在 => ', logStr)
-      return
-    }
-
-    if (presetVal === $omitByLimit) {
-      schema = { type: 'rt-omit' }
+      log.warn('$preset 不存在。', logStr)
       return
     }
 
@@ -160,7 +169,7 @@ export const convertToAmisSchema = (
     }
 
     if (!isObject(presetVal)) {
-      log.warn('$preset为key时，只能引用object值', logStr)
+      log.warn('$preset为key时，只能引用object值。', logStr)
       return
     }
 
@@ -178,7 +187,7 @@ export const resolveRtSchema = (
   }
 ) => {
   const { preset = {} } = option
-  filterSchemaLimit(schema, preset)
   convertToAmisSchema(schema, { preset })
+  filterSchemaLimit(schema, preset)
   return schema
 }
