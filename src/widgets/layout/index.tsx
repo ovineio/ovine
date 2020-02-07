@@ -2,6 +2,7 @@
  * App布局
  */
 
+import { AlertComponent, ToastComponent } from 'amis'
 import React from 'react'
 
 import { useImmer } from '~/utils/hooks'
@@ -39,6 +40,8 @@ export default (props: Props) => {
       aside={<Aside {...compProps} />}
     >
       <LayoutLoading />
+      <ToastComponent theme={theme} />
+      <AlertComponent theme={theme} />
       {props.children}
     </StyledLayout>
   )

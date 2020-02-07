@@ -1,3 +1,6 @@
+import isArray from 'lodash/isArray'
+import isObject from 'lodash/isObject'
+import map from 'lodash/map'
 import random from 'lodash/random'
 
 /**
@@ -161,8 +164,32 @@ export function retryPromise<T>(
  * 是否是子串
  * @param source 模版字符串
  * @param check 待检验字符串
+ * @param pos 需要校验的子串位置
  */
-export function isSubStr(source: string, check: string, num?: number): boolean {
+export function isSubStr(source: string, check: string, pos?: number): boolean {
   const index = source.indexOf(check)
-  return typeof num === 'undefined' ? index > -1 : index === num
+  return typeof pos === 'undefined' ? index > -1 : index === pos
+}
+
+export function cls(...args: any[]): string {
+  let str = ''
+  args.forEach((arg) => {
+    if (typeof arg === 'string') {
+      str += ' ' + arg
+    } else if (isArray(arg)) {
+      arg.forEach((i: string) => {
+        if (typeof i === 'string') {
+          str += ' ' + i
+        }
+      })
+    } else if (isObject(arg)) {
+      map(arg, (val, key) => {
+        if (!!val) {
+          str += ' ' + key
+        }
+      })
+    }
+  })
+
+  return str
 }

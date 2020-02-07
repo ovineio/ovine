@@ -6,7 +6,7 @@ const getItem = (i: number) => ({
   name: uuid(),
   remark:
     '描述文案一大堆，描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆描述文案一大堆',
-  users: 'k64qsgk9k64qsgk9k64qsgk9k64qsgk9',
+  users: i !== 1 && 'k64qsgk9k64qsgk9k64qsgk9k64qsgk9',
   update_at: '2020-02-03 10:00:00',
   create_at: '2020-02-03 10:00:00',
   content: '',

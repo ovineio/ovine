@@ -6,20 +6,35 @@
 import { Renderer } from 'amis'
 import { RendererComponent, RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
-import { filter } from 'amis/lib/utils/tpl'
+import { evalExpression, evalJS } from 'amis/lib/utils/tpl'
 
 type Props = RendererProps & {
   condition: string
-  cases: Array<
+  ifTrue?: SchemaNode
+  ifFalse?: SchemaNode
+  cases?: Array<
     SchemaNode & {
       value: any
     }
   >
 }
 const RtWhen = (props: Props) => {
-  const { condition, cases, render, data } = props
+  const { condition, cases, render, data, ifTrue, ifFalse } = props
 
-  const schema = cases.find(({ value }) => value === filter(condition, data))
+  let schema = null
+
+  if (cases) {
+    schema = cases.find(({ value }) => value === evalJS(condition, data))
+    //
+  } else if (ifTrue || ifFalse) {
+    const result = evalExpression(condition, data)
+    if (result && ifTrue) {
+      schema = ifTrue
+    }
+    if (!result && ifFalse) {
+      schema = ifFalse
+    }
+  }
 
   return !schema ? null : render('body', schema)
 }

@@ -1,4 +1,4 @@
-import { render, toast } from 'amis'
+import { confirm, render, toast } from 'amis'
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
@@ -60,8 +60,17 @@ export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
       log.log('alert', msg)
     },
     // 实现确认框。 boolean | Promise<boolean>
-    confirm: (msg: string) => {
-      log.log('confirm', msg)
+    confirm: (msg: string, title?: string) => {
+      let confirmTitle = title || '提示'
+      let confirmText = msg || ''
+      if (!title && msg.indexOf('[') === 0 && msg.indexOf(']') > 0) {
+        const end = msg.indexOf(']')
+        confirmText = msg.substr(end + 1)
+        confirmTitle = msg.substring(1, end)
+      }
+
+      log.log('confirm: ', msg)
+      return confirm(confirmText, confirmTitle)
     },
     // 实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
     jumpTo: (to: string, action?: Action, ctx?: object) => {

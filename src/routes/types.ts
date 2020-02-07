@@ -20,7 +20,12 @@ export type PagePreset = {
   // 页面所有权限定义
   limits?: Types.ObjectOf<Limit>
   // 页面内所有异步请求
-  apis?: Types.ObjectOf<RequestOption & LimitSchema>
+  apis?: Types.ObjectOf<
+    RequestOption &
+      LimitSchema & {
+        key?: string
+      }
+  >
 }
 
 export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
@@ -34,14 +39,27 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     sideVisible?: boolean
   }
 
-export type PageProps = RouteItem & LazyRouteProps & PagePreset
+export type PageProps = RouteItem & LazyRouteProps
 
-export type LimitMenuItem = RouteItem &
+export type LimitMenuItem = Omit<RouteItem, 'apis'> &
   Limit & {
     disabled?: boolean
+    apis?: Types.ObjectOf<{
+      url: string
+      key?: string
+      limits?: string | string[]
+    }>
   }
 
-export type LazyRouteProps = RouteProps & {
+export type PresetRouteProps = Omit<RouteProps, 'path'> & {
+  path?: string
+  preset?: PagePreset
+  pathToComponent?: boolean | string
+  withSuspense?: boolean
+  fallback?: any
+}
+
+export type LazyRouteProps = PresetRouteProps & {
   nodePath?: string
   pathToComponent?: boolean | string
   withSuspense?: boolean

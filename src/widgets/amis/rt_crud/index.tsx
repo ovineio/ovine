@@ -1,5 +1,5 @@
 /**
- * 自定义 rt-crud 组件
+ * 自定义 crud 组件
  */
 
 import { Renderer } from 'amis'

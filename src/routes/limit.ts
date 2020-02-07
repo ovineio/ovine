@@ -41,16 +41,16 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
   return Object.keys(checked)
 }
 
-// 侧边栏: 系统设置/权限管理/权限配置表
+// 权限配置表
 export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
   const newItem = { ...item }
   const { nodePath } = newItem
 
   const preset = getPagePreset(getPageFilePath(item))
 
-  // 有子权限 limits 配置的根结点
-  const limits = preset?.limits
+  const { limits, apis } = preset || {}
 
+  // limits 表示 当前节点 有子权限
   if (limits) {
     newItem.children = map(limits, ({ icon, label, description }, key) => {
       const needs =
@@ -66,6 +66,24 @@ export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
         nodePath: `${nodePath}/${key}`,
       }
     })
+  }
+
+  // 将 preset 配置的 apis， 添加到权限配置表中
+  if (apis) {
+    const allApis: any = {}
+    map(apis, (apiItem, apiKey) => {
+      const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
+      const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
+      allApis[apiKey] = {
+        url,
+        key: apiAuthKey,
+        limits: presetApiNeeds?.concat(routeLimitKey),
+      }
+    })
+    newItem.apis = {
+      ...newItem.apis,
+      ...allApis,
+    }
   }
 
   // 添加默认 icon
@@ -93,19 +111,20 @@ export const checkLimitByNodePath = (nodePath: string, limits: any = limitStore(
   return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
 }
 
-// 校验组件权限
+// 校验一组权限
 export const checkLimitByKeys = (
   limitKeys?: string | string[],
   option?: {
     nodePath?: string
+    limits?: any
   }
 ) => {
   if (!limitKeys) {
     return false
   }
 
-  const { nodePath = '' } = option || {}
-  const limits = limitStore('get')
+  const { nodePath = '', limits } = option || {}
+  const thisLimits = limits || limitStore('get')
   const checkAr = typeof limitKeys === 'string' ? [limitKeys] : limitKeys
 
   if (!isArray(checkAr)) {
@@ -114,8 +133,8 @@ export const checkLimitByKeys = (
   }
 
   return !checkAr?.some((key) => {
-    const checkKey = isSubStr(key, '/') ? key : `${nodePath}/key`
-    return !checkLimitByNodePath(checkKey, limits)
+    const checkKey = isSubStr(key, '/') ? key : `${nodePath}/${key}`
+    return !checkLimitByNodePath(checkKey, thisLimits)
   })
 }
 
@@ -132,9 +151,15 @@ export const limitStore: Types.ValueCtrl = (type, value) => {
 // 2. 去除侧边栏隐藏 菜单项
 const filterRoutesConfig = (type: 'aside' | 'route') => {
   const limits = limitStore('get')
+  if (!Object.keys(limits).length) {
+    return []
+  }
+
   return filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
     const auth = checkLimitByNodePath(nodePath, limits)
-
+    if (nodePath === '/') {
+      return true
+    }
     switch (type) {
       case 'route':
         return auth
@@ -148,4 +173,4 @@ export const limitedRoutesConfig = filterRoutesConfig('route')
 
 export const asideMenuConfig = filterRoutesConfig('aside')
 
-// console.log('asideMenuConfig===', routesConfig, asideMenuConfig)
+// console.log('asideMenuConfig===', routesConfig, limitMenusConfig, asideMenuConfig)

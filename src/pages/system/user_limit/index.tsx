@@ -1,6 +1,5 @@
 import { RtSchema } from '~/widgets/amis/schema/utils'
-
-import { Limit } from './limit'
+import LimitSetting from '~/widgets/limit_setting'
 
 export const schema: RtSchema = {
   type: 'rt-crud',
@@ -34,12 +33,11 @@ export const schema: RtSchema = {
       html: '<span class="text-ellipsis" title="${remark}">${remark}</span>',
     },
     {
-      name: 'desc',
+      name: 'users',
       label: '成员列表',
-      type: 'rt-blank',
-      width: 60,
-      limits: 'add',
-      body: '$preset.actions.viewUsers',
+      type: 'rt-when',
+      condition: '!!data.users',
+      ifTrue: '$preset.actions.viewUsers',
     },
     {
       name: 'update_at',
@@ -102,7 +100,7 @@ export const schema: RtSchema = {
           title: '设置权限 > ${name}',
           size: 'md',
           body: {
-            component: Limit,
+            component: LimitSetting,
           },
           actions: [],
         },
