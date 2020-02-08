@@ -1,13 +1,16 @@
+/**
+ * App 全局 menus 配置
+ */
+
 import { mapTree } from 'amis/lib/utils/helper'
 import cloneDeep from 'lodash/cloneDeep'
 import last from 'lodash/last'
 
+import amisRoute from './menus/amis'
 import appRoute from './menus/app'
 import { RouteItem } from './types'
 
-// import amisRoute from './menus/amis'
-
-const originConfig = [appRoute]
+const originConfig = [appRoute, amisRoute]
 
 // 解析配置的路由数据
 // 1. 根据 nodePath 生成默认 path 路径值

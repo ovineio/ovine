@@ -15,7 +15,7 @@ export default (props: PageProps) => {
   return (
     <StyledIframe>
       <Spinner overlay key={path} show={visible} size="lg" />
-      <iframe frameBorder={0} src={`https://baidu.github.io/amis/${path}`} onLoad={onLoad} />
+      <iframe frameBorder={0} src={`https://baidu.github.io/amis${path}`} onLoad={onLoad} />
     </StyledIframe>
   )
 }

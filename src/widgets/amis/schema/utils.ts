@@ -1,12 +1,12 @@
-import { Schema } from 'amis/lib/types'
 import get from 'lodash/get'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 
 import request from '~/core/request'
 import { checkLimitByKeys } from '~/routes/limit'
-import { LimitSchema, PagePreset } from '~/routes/types'
 import logger from '~/utils/logger'
+
+import { RtSchema, SchemaPreset } from './types'
 
 const log = logger.getLogger('dev:amisSchema:utils')
 
@@ -66,18 +66,6 @@ export const envFetcher = (option: any) => {
   log.log('amis:fetcher')
   return request(option).then(amisResAdapter)
 }
-
-type SchemaPreset = PagePreset & {
-  // 所有操作列表
-  actions?: Types.ObjectOf<Schema>
-  // 所有的表单
-  forms?: Types.ObjectOf<Schema>
-}
-
-export type RtSchema = Schema &
-  LimitSchema & {
-    preset?: SchemaPreset // 预设值
-  }
 
 // schema 配置，必须 type, limits 同时存在才会校验权限
 const checkSchemaLimit = (schema: RtSchema, nodePath?: string) => {

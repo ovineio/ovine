@@ -1,3 +1,7 @@
+/**
+ * APP 权限相关。权限配置表、权限校验
+ */
+
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import isArray from 'lodash/isArray'
 import map from 'lodash/map'
@@ -8,8 +12,8 @@ import { getStore, setStore } from '~/utils/store'
 import { isSubStr } from '~/utils/tool'
 
 import { getRouteConfig, routesConfig } from './config'
-import { Limit, LimitMenuItem, RouteItem } from './types'
-import { getPageFilePath, getPagePreset } from './utils'
+import { CheckLimitFunc, Limit, LimitMenuItem, RouteItem } from './types'
+import { getPagePreset } from './utils'
 
 const log = logger.getLogger('dev:routes:limit')
 
@@ -46,7 +50,7 @@ export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
   const newItem = { ...item }
   const { nodePath } = newItem
 
-  const preset = getPagePreset(getPageFilePath(item))
+  const preset = getPagePreset(item)
 
   const { limits, apis } = preset || {}
 
@@ -105,20 +109,22 @@ export const convertLimitStr = (limitStr: string) => {
   return tpl
 }
 
-// 循环调用时一定要 传 limits 参数
+/**
+ * 循环调用时一定要, 传 limits 参数
+ * @param nodePath 带检查的节点
+ * @param limits 权限模版，用检查节点
+ */
 export const checkLimitByNodePath = (nodePath: string, limits: any = limitStore('get')) => {
   // 子权限存在，父权限一定存在
   return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
 }
 
-// 校验一组权限
-export const checkLimitByKeys = (
-  limitKeys?: string | string[],
-  option?: {
-    nodePath?: string
-    limits?: any
-  }
-) => {
+/**
+ * 校验一组权限
+ * @param limitKeys 可以是权限 key,或者 nodePath。当为 key 时，一定要传 option.nodePath
+ * @param option nodePath 校验节点。 limits 权限模版，用检查节点
+ */
+export const checkLimitByKeys: CheckLimitFunc = (limitKeys, option) => {
   if (!limitKeys) {
     return false
   }
@@ -155,7 +161,7 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
     return []
   }
 
-  return filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
+  const nodes = filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
     const auth = checkLimitByNodePath(nodePath, limits)
     if (nodePath === '/') {
       return true
@@ -167,10 +173,19 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
         return auth && sideVisible !== false
     }
   })
+
+  if (type === 'aside') {
+    // 去除顶层 无用 label 显示
+    return nodes.filter(({ nodePath, children }) => nodePath === '/' && !!children?.length)
+  }
+
+  return nodes
 }
 
-export const limitedRoutesConfig = filterRoutesConfig('route')
+// 可用权限
+export const authRoutesConfig = filterRoutesConfig('route')
 
+// 侧边栏 展示菜单配置
 export const asideMenuConfig = filterRoutesConfig('aside')
 
 // console.log('asideMenuConfig===', routesConfig, limitMenusConfig, asideMenuConfig)

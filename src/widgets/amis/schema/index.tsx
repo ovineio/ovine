@@ -5,11 +5,12 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 import logger from '~/utils/logger'
 
-import { envFetcher, normalizeLink, resolveRtSchema, RtSchema } from './utils'
+import { RtSchema } from './types'
+import { envFetcher, normalizeLink, resolveRtSchema } from './utils'
 
 const log = logger.getLogger('dev:amisSchema')
 
-type Props = {
+export type AmisProps = {
   schema: RtSchema
   props?: RendererProps
   option?: RenderOptions
@@ -19,7 +20,7 @@ export const renderAmis = render
 
 // 文档 https://baidu.github.io/amis/docs/getting-started
 // 源码 https://github.com/baidu/amis/blob/master/examples/components/App.jsx
-export const Amis = withRouter((props: Props & RouteComponentProps<any>) => {
+export const Amis = withRouter((props: AmisProps & RouteComponentProps<any>) => {
   const { schema, props: amisProps = {}, option = {}, history, match } = props
 
   const aimsEnv = {

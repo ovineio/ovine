@@ -13,11 +13,16 @@ const appRoute: RouteItem = {
   nodePath: '/',
   children: [
     {
+      label: '测试权限设置',
+      nodePath: 'test_limit',
+      sideVisible: false,
+      limitOnly: true,
+    },
+    {
       label: 'Dashboard',
       nodePath: 'dashboard',
       sideVisible: false,
     },
-
     {
       label: '热配置管理',
       icon: 'fa fa-cogs',
@@ -50,6 +55,7 @@ const appRoute: RouteItem = {
         {
           label: '管理员权限',
           nodePath: 'user_limit',
+          pathToComponent: 'system/user_limit',
         },
         {
           label: '系统操作日志',

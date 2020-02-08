@@ -1,4 +1,4 @@
-import { RtSchema } from '~/widgets/amis/schema/utils'
+import { RtSchema } from '~/widgets/amis/schema/types'
 
 export const schema: RtSchema = {
   type: 'rt-crud',

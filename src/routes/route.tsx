@@ -1,7 +1,11 @@
+/**
+ * APP 路由相关组件
+ */
+
 import { Spinner } from 'amis'
 import { mapTree } from 'amis/lib/utils/helper'
 import isFunction from 'lodash/isFunction'
-import React, { lazy, Suspense } from 'react'
+import React, { createContext, lazy, useContext, Suspense } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
 import { getStore } from '~/utils/store'
@@ -10,17 +14,15 @@ import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
-import { limitedRoutesConfig } from './limit'
-import { LazyRouteProps, PagePreset, PresetRouteProps } from './types'
-import { getPageFilePath, getPagePreset, getRoutePath } from './utils'
+import { authRoutesConfig, checkLimitByKeys } from './limit'
+import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
+import { getNodePath, getPageFilePath, getPagePreset, getRoutePath } from './utils'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
-export const getPageAsync = (option: LazyRouteProps & { preset?: PagePreset }) => {
-  const { nodePath, path = '', pathToComponent, preset } = option
-
-  const filePath = getPageFilePath({ path, pathToComponent })
+export const getPageAsync = (option: PresetRouteProps) => {
+  const filePath = getPageFilePath(option)
 
   return lazy(() =>
     retryPromise(() =>
@@ -31,29 +33,22 @@ export const getPageAsync = (option: LazyRouteProps & { preset?: PagePreset }) =
       )
     ).then((file: any) => {
       const { default: content = {}, schema } = file
-      const pagePreset = preset || getPagePreset(option) || {}
+      const compProps: PresetComponentProps = {}
 
-      if (schema) {
-        content.schema = schema
-      }
-
-      if (content.schema) {
-        content.schema.preset = {
-          ...pagePreset,
-          ...content.schema.preset,
-          nodePath,
+      if (isFunction(content)) {
+        compProps.LazyFileComponent = content
+      } else {
+        if (schema) {
+          content.schema = schema
         }
+        compProps.lazyFileAmisProps = content
       }
 
-      const Page: any = isFunction(content) ? content : () => <Amis {...content} />
-      return { default: () => <Page {...option} preset={pagePreset} /> }
+      return {
+        default: () => <PrestComponent {...option} {...compProps} />,
+      }
     })
   )
-}
-
-// 获取预设值 组件
-const PrestComponnet = (props: PresetRouteProps) => {
-  //
 }
 
 // 登录路由拦截
@@ -77,60 +72,93 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
   )
 }
 
-// 懒加载路由，如果 props.component 存在， 则不会懒加载
-export const LazyRoute = (props: LazyRouteProps) => {
-  const {
-    withSuspense = true,
-    fallback = PageSpinner,
-    path = '',
-    component: RouteComponent,
-  } = props
+// usePresetContext 可获取 preset 值，与 checkLimit 校验权限 方法
+const PresetContext = createContext<PresetCtxState>({})
+export const usePresetContext = () => {
+  const preset = useContext(PresetContext)
+  const checkLimit: CheckLimitFunc = (keys, option) =>
+    checkLimitByKeys(keys, {
+      nodePath: preset.nodePath,
+      ...option,
+    })
 
-  const routePath = getRoutePath(path)
+  return {
+    ...preset,
+    checkLimit,
+  }
+}
+
+// 将 preset 注入组件，可全局通过 usePresetContext 获取 preset 值
+const PrestComponent = (props: PresetComponentProps) => {
+  const { LazyFileComponent, lazyFileAmisProps, RouteComponent, ...rest } = props
+
+  const nodePath = getNodePath(props)
   const preset = getPagePreset(props) || {}
 
-  const renderComponent = (): any => {
-    if (!RouteComponent) {
-      return <Route {...props} path={routePath} component={getPageAsync(props)} />
-    }
+  preset.nodePath = nodePath
 
-    const RoutePresetComponent = (p: any) => <RouteComponent {...p} preset={preset} />
+  let Component: any = <div>Not Found 请检查路由设置</div>
 
-    return <Route {...props} path={routePath} component={RoutePresetComponent} />
+  if (LazyFileComponent) {
+    Component = <LazyFileComponent {...rest} />
   }
+  if (RouteComponent) {
+    Component = <RouteComponent {...rest} />
+  }
+  if (lazyFileAmisProps) {
+    lazyFileAmisProps.schema.preset = {
+      ...lazyFileAmisProps.schema.preset,
+      ...preset,
+    }
+    Component = <Amis {...rest} {...lazyFileAmisProps} />
+  }
+
+  return <PresetContext.Provider value={preset}>{Component}</PresetContext.Provider>
+}
+
+// 处理每个路由，包裹 PrestComponent 组件
+export const PrestRoute = (props: PresetRouteProps) => {
+  const { withSuspense = true, fallback = PageSpinner, path = '', component } = props
+
+  const routePath = getRoutePath(path)
+
+  const RouteComponent = (
+    <Route
+      {...props}
+      path={routePath}
+      component={
+        !component
+          ? getPageAsync(props)
+          : () => <PrestComponent {...props} RouteComponent={component} />
+      }
+    />
+  )
 
   if (withSuspense) {
     return (
       <ErrorBoundary type="page">
-        <Suspense fallback={fallback}>{renderComponent()}</Suspense>
+        <Suspense fallback={fallback}>{RouteComponent}</Suspense>
       </ErrorBoundary>
     )
   }
 
-  return renderComponent()
-}
-
-// 获取预设值
-const PrestRoute = (props: PresetRouteProps) => {
-  //
+  return RouteComponent
 }
 
 // 将 routeConfig 转换为 route
 export const AppMenuRoutes = () => {
   const routes: any = []
 
-  limitedRoutesConfig.forEach((item) => {
-    const { children } = item
-
+  authRoutesConfig.forEach(({ children }) => {
     if (!children) {
       return
     }
 
-    mapTree(children, (subItem) => {
-      if (subItem.path) {
-        routes.push(<LazyRoute key={routes.length + 1} withSuspense={false} {...subItem} />)
+    mapTree(children, (item) => {
+      if (item.path && !item.limitOnly) {
+        routes.push(<PrestRoute key={routes.length + 1} withSuspense={false} {...item} />)
       }
-      return subItem
+      return item
     })
   })
 

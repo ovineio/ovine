@@ -1,4 +1,4 @@
-import { RtSchema } from '~/widgets/amis/schema/utils'
+import { RtSchema } from '~/widgets/amis/schema/types'
 import LimitSetting from '~/widgets/limit_setting'
 
 export const schema: RtSchema = {

@@ -25,7 +25,7 @@ export const StyledLimit = styled.div<{ ns: string }>`
       }
     }
     .${ns}Tabs {
-      &-content {
+      &-content > div {
         height: 380px;
         overflow-y: auto;
       }

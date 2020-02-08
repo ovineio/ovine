@@ -1,4 +1,4 @@
-import { PagePreset, RouteItem } from './types'
+import { PageFileOption, PagePreset } from './types'
 
 const contextPath = ''
 const pathPrefix = ''
@@ -8,17 +8,15 @@ export const getRoutePath = (path: string[] | string) => {
   return path && path[0] === '/' ? contextPath + path : `${contextPath}${pathPrefix}/${path}`
 }
 
-type PageFileOption = Partial<Pick<RouteItem, 'path' | 'pathToComponent' | 'nodePath'>>
 // 获取pages内组件文件在项目内的物理路径，用于 webpack 懒加载文件与打包
 export const getPageFilePath = (option: PageFileOption) => {
   const { pathToComponent, path = '' } = option
-
   const componentPath = typeof pathToComponent === 'string' ? pathToComponent : getRoutePath(path)
   const filePath = componentPath[0] !== '/' ? componentPath : componentPath.substr(1)
   return filePath
 }
 
-// 获取页面预设值
+// 获取 页面预设值。默认为  pages/xxx/preset.ts 该文件是权限设置必须文件
 export const getPagePreset = (option: PageFileOption): PagePreset | undefined => {
   const filePath = getPageFilePath(option)
 
@@ -33,7 +31,9 @@ export const getPagePreset = (option: PageFileOption): PagePreset | undefined =>
 }
 
 // 获取 nodePath
-export const getNodePath = (options: PageFileOption) => {
-  const { nodePath, pathToComponent, path } = options
-  return nodePath || pathToComponent || path || ''
+export const getNodePath = (option: PageFileOption) => {
+  const { nodePath } = option
+  const filePath = getPageFilePath(option)
+
+  return nodePath || filePath ? `/${filePath}` : ''
 }

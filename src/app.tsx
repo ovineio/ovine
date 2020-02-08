@@ -4,18 +4,21 @@ import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import NotMatch from '~/pages/404'
-import { AppMenuRoutes, LazyRoute, PrivateRoute } from '~/routes/route'
+import { AppMenuRoutes, PrestRoute, PrivateRoute } from '~/routes/route'
 import Layout from '~/widgets/layout'
+
+import TestLimit from './pages/test_limit'
 
 const App = hot(() => {
   return (
     <BrowserRouter>
       <Switch>
-        <LazyRoute pathToComponent path="/login" />
+        <PrestRoute pathToComponent path="/login" />
         <PrivateRoute path="/">
           <Layout>
             <Switch>
-              <LazyRoute exact pathToComponent="dashboard" path="/" />
+              <PrestRoute path="/test_limit" component={TestLimit} />
+              <PrestRoute exact pathToComponent="dashboard" path="/" />
               <AppMenuRoutes />
               <Route path="*" component={NotMatch} />
             </Switch>

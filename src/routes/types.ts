@@ -2,6 +2,7 @@ import { LinkItem } from 'amis/lib/components/AsideNav'
 import { RouteProps } from 'react-router-dom'
 
 import { RequestOption } from '~/core/request'
+import { AmisProps } from '~/widgets/amis/schema'
 
 export type Limit = {
   label: string
@@ -37,9 +38,8 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     pathToComponent?: boolean | string
     children?: RouteItem[]
     sideVisible?: boolean
+    limitOnly?: boolean // 该配置只为权限
   }
-
-export type PageProps = RouteItem & LazyRouteProps
 
 export type LimitMenuItem = Omit<RouteItem, 'apis'> &
   Limit & {
@@ -51,17 +51,29 @@ export type LimitMenuItem = Omit<RouteItem, 'apis'> &
     }>
   }
 
-export type PresetRouteProps = Omit<RouteProps, 'path'> & {
-  path?: string
-  preset?: PagePreset
-  pathToComponent?: boolean | string
-  withSuspense?: boolean
-  fallback?: any
-}
+export type PageFileOption = Partial<Pick<RouteItem, 'path' | 'pathToComponent' | 'nodePath'>>
 
-export type LazyRouteProps = PresetRouteProps & {
-  nodePath?: string
-  pathToComponent?: boolean | string
-  withSuspense?: boolean
-  fallback?: any
-}
+export type PresetRouteProps = Omit<RouteProps, 'path'> &
+  PageFileOption & {
+    withSuspense?: boolean
+    fallback?: any
+  }
+
+export type PageProps = Omit<RouteItem, keyof PagePreset> & PresetRouteProps
+
+export type PresetComponentProps = PresetRouteProps &
+  PageFileOption & {
+    LazyFileComponent?: any
+    RouteComponent?: any
+    lazyFileAmisProps?: AmisProps
+  }
+
+export type CheckLimitFunc = (
+  limitKeys?: string | string[],
+  option?: {
+    nodePath?: string
+    limits?: any
+  }
+) => boolean
+
+export type PresetCtxState = PagePreset

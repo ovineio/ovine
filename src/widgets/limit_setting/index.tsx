@@ -1,6 +1,6 @@
 import { confirm, Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { routeLimitKey } from '~/constants'
 import { checkLimitByKeys, convertLimitStr, limitMenusConfig } from '~/routes/limit'
@@ -27,13 +27,16 @@ const LimitSetting = (props: any) => {
     initialSelectedVal: '',
     selectedVal: '',
   })
+  const storeRef = useRef<any>({})
 
   const { activeTab, initialSelectedVal, selectedVal, isUnfolded } = state
 
   useEffect(() => {
     setState((d) => {
-      d.selectedVal = getStore('limit') || ''
-      d.initialSelectedVal = d.selectedVal
+      const initialVal = getStore<string>('limit') || ''
+      d.selectedVal = initialVal
+      storeRef.current[activeTab] = initialVal
+      d.initialSelectedVal = initialVal
     })
   }, [])
 
@@ -44,27 +47,26 @@ const LimitSetting = (props: any) => {
   }
 
   const onTreeChange = (value: string) => {
+    const limitValue = resolveSelectVal(value)
+    storeRef.current[activeTab] = limitValue
     setState((d) => {
-      d.selectedVal = resolveSelectVal(value)
+      d.selectedVal = limitValue
     })
   }
 
   const onTabSelect = (tab: number) => {
     setState((d) => {
       d.activeTab = tab
+      d.selectedVal = storeRef.current[tab]
     })
   }
 
   const onSave = () => {
-    confirm(`您正在修改的权限是【${data.name}】，提交后将不可重置，是否确认提交？`, '提示').then(
-      () => {
-        setState((d) => {
-          d.initialSelectedVal = selectedVal
-        })
-        const apiValue = getAllAuthApis(selectedVal)
-        setStore('limit', selectedVal)
-      }
-    )
+    setState((d) => {
+      d.initialSelectedVal = selectedVal
+    })
+    const apiValue = getAllAuthApis(selectedVal)
+    setStore('limit', selectedVal)
   }
 
   const renderButtons = () => {
@@ -100,7 +102,9 @@ const LimitSetting = (props: any) => {
           type: 'button',
           icon: 'fa fa-check text-success',
           tooltipPlacement: 'top',
-          onClick: onSave,
+          actionType: 'cancel',
+          confirmText: `您正在修改的权限是【${data.name}】，提交后将不可重置，是否确认提交？`,
+          onAction: onSave,
         },
         {
           type: 'button',
@@ -147,9 +151,6 @@ const LimitSetting = (props: any) => {
   )
 }
 
-// TODO：
-// 接入 api 权限设置
-
 // 处理 权限设置的值
 const resolveSelectVal = (limitValue: string) => {
   const limits = convertLimitStr(limitValue)
@@ -176,6 +177,7 @@ const resolveSelectVal = (limitValue: string) => {
 type LimitItem = LimitMenuItem & {
   unfolded: boolean
 }
+
 // 处理 权限配置表
 const resolveLimitMenus = (option: { limitValue: string; isUnfolded?: boolean }) => {
   const { limitValue, isUnfolded = true } = option
