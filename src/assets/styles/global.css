@@ -53,3 +53,7 @@ body {
 .p-t-none {
   padding-bottom: 0 !important;
 }
+
+.app-tool-tip {
+  max-width: unset !important;
+}

@@ -16,6 +16,8 @@ import HeadItem from './head_item'
 
 type SettingProps = LayoutCommProps
 
+// TODO: 需要定义 styled-themes 主题
+// 将 amis 某些核心 变量重新定义
 const getSettingSchema = (option: SettingProps) => {
   const { theme } = option
 
@@ -74,7 +76,7 @@ export default (props: Props) => {
       <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
         <Amis schema={getSettingSchema(props)} />
       </Drawer>
-      <HeadItem theme={theme} faIcon="cog" tooltip="设置" onClick={toggleSetting} />
+      <HeadItem theme={theme} faIcon="cog" tip="设置" onClick={toggleSetting} />
     </>
   )
 }

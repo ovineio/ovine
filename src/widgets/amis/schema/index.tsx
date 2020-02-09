@@ -52,8 +52,9 @@ export const Amis = withRouter((props: AmisProps & RouteComponentProps<any>) => 
       if (/msg/.test('表单验证失败')) {
         return
       }
-      if (type === 'error') {
-        toast.error(msg, '系统错误')
+      const tipMsg = (toast as any)[type]
+      if (tipMsg) {
+        tipMsg(msg, type === 'error' ? '系统异常' : '系统提示')
       }
     },
     // 实现警告提示。
@@ -114,8 +115,8 @@ export const Amis = withRouter((props: AmisProps & RouteComponentProps<any>) => 
   const { preset } = schema
 
   if (preset) {
-    log.time('convertToAmisSchema', () => {
-      return resolveRtSchema(schema, { preset })
+    log.time('convertToAmisSchema 当前渲染schema', () => {
+      return resolveRtSchema(schema)
     })
   }
 

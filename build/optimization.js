@@ -21,7 +21,7 @@ const optimization = {
   occurrenceOrder: true,
   // https://webpack.js.org/plugins/split-chunks-plugin/
   splitChunks: {
-    // minSize: 30000,
+    minSize: 30000,
     maxInitialRequests: Infinity,
     automaticNameDelimiter: '_',
     cacheGroups: {

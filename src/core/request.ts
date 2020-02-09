@@ -32,11 +32,11 @@ export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
 
 type UseCommErrHandle = boolean | void
 
-export type MockSourceGen<S = {}, P = {}> =
-  | ServerApiRes<S>
+type MockSourceGen<S = {}, P = {}> =
   | ((options: UnionOption<S, Partial<P>>) => object)
+  | ServerApiRes<S>
 
-export type MockSource = Types.ObjectOf<MockSourceGen<any, any>>
+export type MockSource = Types.ObjectOf<MockSourceGen>
 
 export type RequestOption<S = {}, P = {}> = {
   url: string // required
@@ -50,7 +50,8 @@ export type RequestOption<S = {}, P = {}> = {
   sourceKey?: string // ''
   expired?: number // 秒数 0
   fetchOption?: RequestInit
-  mockSource?: MockSourceGen
+  mockSource?: MockSourceGen // 数据生成器
+  mock?: boolean // 是否启用 mock
   onSuccess?(source: ServerApiRes<S>, unionOption: UnionOption<S, Partial<P>>): any
   onError?(option: {
     source?: ServerApiRes<S>
@@ -140,10 +141,11 @@ const userTokenCtrl = (option: RequestOption): RequestOption => {
 
 // 模拟数据
 const mockSourceCtrl = async (option: UnionOption) => {
-  const { mockSource, onSuccess, sourceKey = '', api, url } = option
+  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true } = option
   // 预览打包，暂时去掉 config.isProd 限制
+
   // config.isProd || !mockSource
-  if (!mockSource) {
+  if (!mock || !mockSource) {
     return 'none'
   }
 

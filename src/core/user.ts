@@ -2,14 +2,27 @@
  * 用户模块
  */
 
-export function getToken(): string | undefined {
+// 用户token
+export const getToken = (): string | undefined => {
   return 'asasdasdd'
 }
 
-export function isLogin(): boolean {
+// 是否登录
+export const isLogin = (): boolean => {
   return !!getToken()
 }
 
-export function onUserTokenError() {
+// 检验 token 出错后的操作
+export const onUserTokenError = () => {
+  //
+}
+
+// 用户登出
+export const userLogout = () => {
+  //
+}
+
+// 用户登录
+export const userLogin = () => {
   //
 }

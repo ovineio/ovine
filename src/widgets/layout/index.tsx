@@ -2,7 +2,6 @@
  * App布局
  */
 
-import { AlertComponent, ToastComponent } from 'amis'
 import React from 'react'
 
 import { useImmer } from '~/utils/hooks'
@@ -15,20 +14,21 @@ import { StyledLayout } from './styled'
 
 type Props = {
   children: any
+  theme: string
 }
 
 const initState = {
   asideFolded: false,
   offScreen: false,
   headerVisible: false,
-  theme: 'default',
 }
 
 export default (props: Props) => {
   const [state, setState] = useImmer<LayoutState>(initState)
-  const { theme, asideFolded } = state
+  const { theme } = props
+  const { asideFolded } = state
 
-  const compProps = { ...state, setLayout: setState }
+  const compProps = { ...state, theme, setLayout: setState }
 
   return (
     <StyledLayout
@@ -40,8 +40,6 @@ export default (props: Props) => {
       aside={<Aside {...compProps} />}
     >
       <LayoutLoading />
-      <ToastComponent theme={theme} />
-      <AlertComponent theme={theme} />
       {props.children}
     </StyledLayout>
   )

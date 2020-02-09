@@ -1,15 +1,16 @@
-import { SchemaNode } from 'amis/lib/types'
 import React from 'react'
 
 import { logoUrl } from '~/constants'
-import { setStore } from '~/utils/store'
+// import { setStore } from '~/utils/store'
 import { Amis } from '~/widgets/amis/schema'
+import { RtSchema } from '~/widgets/amis/schema/types'
 
+import { mockSource } from './mock'
 import { StyledLogin } from './styled'
 
-setStore('isLogin', 1)
+// setStore('isLogin', 1)
 
-const schema: SchemaNode = {
+const schema: RtSchema = {
   type: 'page',
   body: {
     type: 'wrapper',
@@ -25,6 +26,19 @@ const schema: SchemaNode = {
         `,
       },
       {
+        $preset: 'forms.loginForm',
+      },
+    ],
+  },
+  preset: {
+    apis: {
+      login: {
+        url: 'POST api/v1/login',
+        mockSource,
+      },
+    },
+    forms: {
+      loginForm: {
         type: 'form',
         className: 'login-form',
         title: '',
@@ -32,9 +46,10 @@ const schema: SchemaNode = {
         wrapWithPanel: false,
         autoFocus: false,
         redirect: '/',
-        // api: {
-        //   url: '/asd/123',
-        // },
+        api: '$preset.apis.login',
+        messages: {
+          saveSuccess: '欢迎您登录本系统～',
+        },
         controls: [
           {
             type: 'text',
@@ -86,7 +101,7 @@ const schema: SchemaNode = {
           },
         ],
       },
-    ],
+    },
   },
 }
 

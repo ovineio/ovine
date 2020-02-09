@@ -2,42 +2,86 @@
  * App头部工具 ICON 按钮
  */
 
-import { Button } from 'amis'
-import { TooltipObject } from 'amis/lib/components/TooltipWrapper'
+import { Button, TooltipWrapper } from 'amis'
 import React from 'react'
 
 type Props = {
   theme: string
+  trigger?: 'click' | 'focus'
+  className?: string
+  tooltipClassName?: string
+  triggerContent?: any
   icon?: string
   faIcon?: string
-  className?: string
+  bsIcon?: string
   children?: any
-  tooltip?: string | TooltipObject
+  tip?: string
   onClick?: any
-  itemContent?: any
 }
 export default (props: Props) => {
-  const { theme, icon, className = '', faIcon, children, onClick, tooltip, itemContent } = props
+  const {
+    className = '',
+    tooltipClassName,
+    theme,
+    icon,
+    faIcon,
+    trigger,
+    triggerContent,
+    children,
+    onClick,
+    tip,
+  } = props
 
-  const toolTip = !itemContent
-    ? tooltip
-    : {
-        render: () => itemContent,
-      }
+  const isClickOpen = trigger === 'click'
+  const withContent = !!trigger ? trigger : undefined
 
-  return (
+  const toolTip = withContent && {
+    render: () => triggerContent,
+  }
+
+  const button = (
     <Button
       iconOnly
       className={`no-shadow app-head-item ${className}`}
       theme={theme}
       level="link"
       placement="bottom"
-      tooltipTrigger={itemContent ? 'focus' : 'hover'}
       onClick={onClick}
-      tooltip={toolTip}
+      tooltipTrigger={withContent && trigger}
+      tooltip={!isClickOpen ? toolTip : undefined}
     >
-      {(icon || faIcon) && <i className={icon ? icon : `fa fa-${faIcon} fa-fw`} />}
-      {children}
+      {(icon || faIcon) && (
+        <i
+          className={icon ? icon : faIcon ? `fa fa-${faIcon} fa-fw` : ''}
+          // TODO: BUG 点击 item 的时候也会 重新显示提示
+          data-tooltip={tip}
+          data-position="bottom"
+        />
+      )}
+      {!tip ? (
+        children
+      ) : (
+        <div data-tooltip={tip} data-position="bottom">
+          {children}
+        </div>
+      )}
     </Button>
+  )
+
+  if (!isClickOpen) {
+    return button
+  }
+
+  return (
+    <TooltipWrapper
+      rootClose
+      placement="bottom"
+      trigger="click"
+      theme={theme}
+      tooltip={toolTip}
+      tooltipClassName={tooltipClassName}
+    >
+      {button}
+    </TooltipWrapper>
   )
 }

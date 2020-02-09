@@ -44,7 +44,7 @@ export default (props: Props) => {
           <HeadItem
             theme={theme}
             faIcon={asideFolded ? 'indent' : 'dedent'}
-            tooltip={`${asideFolded ? '展开' : '收起'}侧边栏`}
+            tip={`${asideFolded ? '展开' : '收起'}侧边栏`}
             onClick={() =>
               setLayout((d) => {
                 d.asideFolded = !d.asideFolded
@@ -54,10 +54,10 @@ export default (props: Props) => {
         </div>
         <div className="hidden-xs pull-right">
           <ItemSearch theme={theme} />
-          <HeadItem theme={theme} tooltip="帮助" faIcon="question-circle" />
+          <HeadItem theme={theme} tip="帮助" faIcon="question-circle" />
           <ItemMsg theme={theme} />
           <ItemUser theme={theme} />
-          <ItemSetting {...props} />
+          <ItemSetting theme={theme} {...props} />
         </div>
       </div>
     </>

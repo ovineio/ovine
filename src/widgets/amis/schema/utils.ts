@@ -64,6 +64,7 @@ export const amisResAdapter = (res: any) => {
 // 自定义 amis 请求
 export const envFetcher = (option: any) => {
   log.log('amis:fetcher')
+
   return request(option).then(amisResAdapter)
 }
 
@@ -172,14 +173,10 @@ export const convertToAmisSchema = (
 }
 
 // 处理自定义格式
-export const resolveRtSchema = (
-  schema: RtSchema,
-  option: {
-    preset?: SchemaPreset
-  }
-) => {
-  const { preset = {} } = option
-  convertToAmisSchema(schema, { preset })
-  filterSchemaLimit(schema, preset)
+export const resolveRtSchema = (schema: RtSchema) => {
+  const { preset = {}, ...rest } = schema
+  const reformSchema = { preset, ...rest }
+  convertToAmisSchema(reformSchema, { preset })
+  filterSchemaLimit(reformSchema, preset)
   return schema
 }

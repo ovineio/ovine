@@ -9,11 +9,11 @@ export type LayoutState = {
   asideFolded: boolean
   offScreen: boolean
   headerVisible: boolean
-  theme: string
 }
 
 export type LayoutCommProps = LayoutState & {
   setLayout: ImmerSetter<LayoutState>
+  theme: string
 }
 
 export const themes: Types.ObjectOf<ThemeItem> = {
