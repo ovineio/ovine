@@ -1,4 +1,4 @@
-import { confirm, Tab, Tabs, Tree } from 'amis'
+import { Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import React, { useEffect, useRef } from 'react'
 

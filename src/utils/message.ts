@@ -6,7 +6,7 @@
 import isArray from 'lodash/isArray'
 import isNone from 'lodash/isUndefined'
 
-import { storeRoot } from '~/constants/message_key'
+import { storeRoot } from '~/constants/msg_key'
 
 type Key = string | string[]
 type Handler<T = any> = (data: T) => void

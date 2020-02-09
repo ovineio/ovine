@@ -9,6 +9,7 @@ const {
   ENV,
   PORT,
   enableAnalyzer,
+  enableMock,
   srcDir,
   distDir,
   rootDir,
@@ -28,6 +29,58 @@ const cacheLoader = {
 const babelLoader = {
   loader: 'babel-loader',
   options: babelConfig,
+}
+
+const rules = [
+  {
+    test: /\.js|jsx$/,
+    use: [cacheLoader, babelLoader],
+    exclude: /node_modules/,
+  },
+  {
+    test: /\.ts|tsx$/,
+    use: [
+      cacheLoader,
+      { loader: 'thread-loader' },
+      babelLoader,
+      {
+        loader: 'ts-loader',
+        options: {
+          happyPackMode: true,
+          transpileOnly: true,
+        },
+      },
+    ],
+    exclude: /node_modules/,
+  },
+  {
+    test: /\.css$/,
+    use: (isDev ? [cacheLoader, 'style-loader'] : [MiniCssExtractPlugin.loader]).concat([
+      'css-loader',
+    ]),
+  },
+  {
+    test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
+    use: [
+      {
+        loader: 'url-loader',
+        options: {
+          publicPath,
+          limit: 2000, // 低于2K 使用 base64
+          name: replaceUrlPath,
+        },
+      },
+    ],
+  },
+]
+
+// 禁用 mock 时，项目会过滤掉 mock.ts
+if (!enableMock) {
+  rules.unshift({
+    test: /[\\/]mock\.ts$/,
+    use: 'null-loader',
+    exclude: /node_modules/,
+  })
 }
 
 const webpackConfig = {
@@ -51,50 +104,7 @@ const webpackConfig = {
       '~': srcDir(),
     },
   },
-  module: {
-    rules: [
-      {
-        test: /\.js|jsx$/,
-        use: [cacheLoader, babelLoader],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.ts|tsx$/,
-        use: [
-          cacheLoader,
-          { loader: 'thread-loader' },
-          babelLoader,
-          {
-            loader: 'ts-loader',
-            options: {
-              happyPackMode: true,
-              transpileOnly: true,
-            },
-          },
-        ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: (isDev ? [cacheLoader, 'style-loader'] : [MiniCssExtractPlugin.loader]).concat([
-          'css-loader',
-        ]),
-      },
-      {
-        test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              publicPath,
-              limit: 2000, // 低于2K 使用 base64
-              name: replaceUrlPath,
-            },
-          },
-        ],
-      },
-    ],
-  },
+  module: { rules },
   devServer: {
     publicPath,
     port: PORT,

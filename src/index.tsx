@@ -8,6 +8,7 @@ import '~/widgets/amis/rt_renderers'
 
 import initApp from './app'
 
+// 初始化日志模块
 const initLogger = () => {
   const debugReg = queryStringParse('logger_debug') || config.debug
   const debugLevel = queryStringParse('logger_level') || 'log'
@@ -22,6 +23,7 @@ const initLogger = () => {
   log.info('appConfig', config)
 }
 
+// 初始化应用
 window.onload = () => {
   initLogger()
   initApp()

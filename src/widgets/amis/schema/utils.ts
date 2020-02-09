@@ -151,6 +151,10 @@ export const convertToAmisSchema = (
       return
     }
 
+    if (presetVal.url) {
+      presetVal.api = presetVal.url
+    }
+
     if (!isKeyRef) {
       schema[key] = presetVal
       return

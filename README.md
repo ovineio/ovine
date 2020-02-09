@@ -1,6 +1,8 @@
 # RT-Admin
 
-一个仅需 json 配置就可以实现复杂的 admin 管理系统的框架。基于 [amis](https://github.com/baidu/amis) 二次开发。
+### 用 JSON 配置就能生成安全、复杂、可扩展的 `admin` 管理系统。 [[预览 Demo]](http://rt-admin.igroupes.com/)
+
+基于 [amis](https://github.com/baidu/amis) 二次开发。
 
 > 在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^\_^
 
@@ -17,17 +19,18 @@
     - 需求、功能升级、BUG、优化 等都有保障
     - 中文文档且文档内容较为齐全
 
-- #### RtAdmin [[预览 Demo]](http://rt-admin.igroupes.com/)
+- #### RtAdmin
 
   - 基于 `amis` 二次开发，拥有其所有优势
   - 最基本的 `react` 技术栈，拥抱 `react` 生态，无任何学习曲线。(如果非 React 技术栈，可选择 [[amis jsSdk]](https://baidu.github.io/amis/docs/getting-started#jssdk))
   - 支持生成自定义 `amis` 主题
   - 基于 `webpack` 打包，简单、速度快、支持热更新
   - 通用基本功能，开箱即用
-    - 路由、页面、组件 都由 `json` 配置，可简单、快速的生成复杂的 `curd` 表单或页面
+    - 路由、权限、页面、组件 都由 `json` 配置，可简单、快速的生成复杂的 `curd` 表单或页面
     - 内置企业级权限管理完整实现，并集成到 `json` 配置中
     - 路由懒加载、配合 `webpack dll`，页面加载速度快
     - 本项目的内置功能修改起来十分简单，关键代码均有注释
+  - 强大的 mock 方案，实现脱离后端开发
 
 ### 快速开始
 

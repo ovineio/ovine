@@ -1,7 +1,7 @@
 import { Spinner } from 'amis'
 import React, { useEffect, useState } from 'react'
 
-import { layoutLoadingStore } from '~/constants/message_key'
+import { layoutLoading } from '~/constants/msg_key'
 import { on, store } from '~/utils/message'
 
 export const LayoutLazyFallback = () => {
@@ -9,11 +9,11 @@ export const LayoutLazyFallback = () => {
     let closed = false
     // 不显示 50 毫秒内的 loading
     setTimeout(() => {
-      store[layoutLoadingStore] = !closed && true
+      store[layoutLoading] = !closed && true
     }, 50)
     return () => {
       closed = true
-      store[layoutLoadingStore] = false
+      store[layoutLoading] = false
     }
   })
   return null
@@ -24,7 +24,7 @@ export const LayoutLoading = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    const { off } = on(layoutLoadingStore, (toggle) => {
+    const { off } = on(layoutLoading, (toggle) => {
       setLoading(toggle)
     })
     return off
