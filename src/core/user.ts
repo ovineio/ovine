@@ -19,6 +19,7 @@ export const onUserTokenError = () => {
 
 // 用户登出
 export const userLogout = () => {
+  location.href = '/login'
   //
 }
 

@@ -15,7 +15,7 @@ export const getAmisCrudSchema = (props: any) => {
   const crudSchema: any = {
     ...rest,
     type: 'crud',
-    className: 'rt-crud bg-white',
+    className: 'rt-crud bg-white r',
     tableClassName: `rt-crud-table ${tableClassName}`,
     affixHeader: false,
     filter: {

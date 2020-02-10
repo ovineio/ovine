@@ -99,6 +99,7 @@ export const schema: RtSchema = {
         dialog: {
           title: '设置权限 > ${name}',
           size: 'md',
+          showCloseButton: false,
           body: {
             component: LimitSetting,
           },

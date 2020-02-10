@@ -93,7 +93,8 @@ export const SearchInput = styled.div<{ ns: string }>`
     .${ns}Tree {
       width: 350px;
       margin-top: 6px;
-      border: 0;
+      border-color: #dedede;
+      border-radius: 2px;
     }
     .active {
       .${ns}TreeSelect-input {

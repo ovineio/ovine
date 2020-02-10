@@ -17,7 +17,7 @@ const theme = 'default'
 const App = hot(() => {
   return (
     <BrowserRouter>
-      <ToastComponent theme={theme} timeout={2500} closeButton />
+      <ToastComponent closeButton theme={theme} timeout={2000} className="m-t-xl" />
       <AlertComponent theme={theme} />
       <Switch>
         <PrestRoute pathToComponent path="/login" />
