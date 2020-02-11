@@ -1,5 +1,5 @@
 {
-  "cSpell.ignoreWords": ["rtadmin", "immer", "abortcontroller"],
+  "cSpell.ignoreWords": ["rtadmin", "immer", "abortcontroller", "glyphicon"],
   "editor.tabSize": 2,
   "tslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {

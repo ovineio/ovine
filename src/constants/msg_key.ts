@@ -4,4 +4,8 @@
 
 export const storeRoot = '$store/'
 
-export const layoutLoading = `${storeRoot}LAYOUT_LOADING`
+export const layoutLoading = '$store/layoutLoading'
+
+export const changeAppTheme = 'changeAppTheme'
+
+export const changeAppLang = 'changeAppLang'

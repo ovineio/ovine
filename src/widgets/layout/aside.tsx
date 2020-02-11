@@ -2,6 +2,7 @@ import AsideNav from 'amis/lib/components/AsideNav'
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
+import { withAppTheme } from '~/app'
 import { asideMenuConfig } from '~/routes/limit'
 import { getRoutePath } from '~/routes/utils'
 
@@ -50,16 +51,15 @@ const renderNav = ({ link, toggleExpand, classnames: cx }: any) => {
   return <Link to={getRoutePath(path)}>{children}</Link>
 }
 
-export default (props: Props) => {
-  const { theme } = props
+export default withAppTheme<Props>((props) => {
   const location = useLocation()
 
   return (
     <AsideNav
-      theme={theme}
+      theme={props.name}
       navigations={asideMenuConfig as any}
       renderLink={renderNav}
       isActive={(link: any) => !!(getRoutePath(link.path) === location.pathname)}
     />
   )
-}
+})

@@ -2,20 +2,24 @@ import { Spinner } from 'amis'
 import React, { useEffect, useState } from 'react'
 
 import { layoutLoading } from '~/constants/msg_key'
-import { on, store } from '~/utils/message'
+import { useSubscriber } from '~/utils/hooks'
+import { store } from '~/utils/message'
 
 export const LayoutLazyFallback = () => {
   useEffect(() => {
     let closed = false
+
     // 不显示 50 毫秒内的 loading
     setTimeout(() => {
       store[layoutLoading] = !closed && true
     }, 50)
+
     return () => {
       closed = true
       store[layoutLoading] = false
     }
-  })
+  }, [])
+
   return null
 }
 
@@ -23,12 +27,9 @@ export const LayoutLazyFallback = () => {
 export const LayoutLoading = () => {
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const { off } = on(layoutLoading, (toggle) => {
-      setLoading(toggle)
-    })
-    return off
-  }, [])
+  useSubscriber(layoutLoading, (toggle: boolean) => {
+    setLoading(toggle)
+  })
 
   return <Spinner overlay show={loading} size="lg" key="pageLoading" />
 }

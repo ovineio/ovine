@@ -3,11 +3,9 @@ import styled, { css } from 'styled-components'
 
 import { ellipsis, inline } from '~/utils/styled'
 
-import { themes } from './common'
-
 export const StyledLayout = styled(Layout)`
   ${(p) => css`
-    &.${themes[p.theme].ns}Layout--folded .app-layout-brand {
+    &.${p.theme.ns}Layout--folded .app-layout-brand {
       height: 3.125rem;
       display: table-cell;
     }
@@ -63,20 +61,20 @@ export const PopupUserMenu = styled.div`
   }
 `
 
-export const PopupMsgMenu = styled.div<{ ns: string }>`
+export const PopupMsgMenu = styled.div`
   min-width: 300px;
 
   ${(p) => css`
-    .${p.ns}Tabs-link a {
+    .${p.theme.ns}Tabs-link a {
       padding-top: 0 !important;
       padding-bottom: 5px !important;
     }
   `}
 `
 
-export const SearchInput = styled.div<{ ns: string }>`
+export const SearchInput = styled.div`
   ${inline()};
-  ${({ ns }) => css`
+  ${({ theme: { ns } }) => css`
     .${ns}TreeSelect-arrow {
       display: none;
     }

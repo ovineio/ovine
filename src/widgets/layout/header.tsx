@@ -1,25 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { withAppTheme } from '~/app'
 import { logoUrl } from '~/constants'
 
-import { themes, LayoutCommProps } from './common'
+import { LayoutCommProps } from './common'
 import HeadItem from './head_item'
 import ItemMsg from './item_msg'
 import ItemSearch from './item_search'
 import ItemSetting from './item_setting'
 import ItemUser from './item_user'
 
-type Props = LayoutCommProps
-
-export default (props: Props) => {
-  const { theme, setLayout, asideFolded } = props
-
-  const { ns: themeNs } = themes[theme]
-
+export default withAppTheme<LayoutCommProps>((props) => {
+  const { setLayout, asideFolded, ns } = props
   return (
     <>
-      <div className={`${themeNs}Layout-brandBar`}>
+      <div className={`${ns}Layout-brandBar`}>
         <button
           onClick={() =>
             setLayout((d) => {
@@ -30,19 +26,14 @@ export default (props: Props) => {
         >
           <i className="glyphicon glyphicon-align-justify" />
         </button>
-        <Link
-          className={`${themeNs}Layout-brand app-layout-brand text-c-i`}
-          to="/"
-          title="Dashboard"
-        >
+        <Link className={`${ns}Layout-brand app-layout-brand text-c-i`} to="/" title="Dashboard">
           <img className="inline brand-logo" src={logoUrl} />
           <span className="hidden-folded m-l-sm inline">RT-ADMIN</span>
         </Link>
       </div>
-      <div className={`${themeNs}Layout-headerBar`}>
+      <div className={`${ns}Layout-headerBar`}>
         <div className="nav navbar-nav hidden-xs">
           <HeadItem
-            theme={theme}
             faIcon={asideFolded ? 'indent' : 'dedent'}
             tip={`${asideFolded ? '展开' : '收起'}侧边栏`}
             onClick={() =>
@@ -53,13 +44,13 @@ export default (props: Props) => {
           />
         </div>
         <div className="hidden-xs pull-right">
-          <ItemSearch theme={theme} />
-          <HeadItem theme={theme} tip="帮助" faIcon="question-circle" />
-          <ItemMsg theme={theme} />
-          <ItemUser theme={theme} />
-          <ItemSetting theme={theme} {...props} />
+          <ItemSearch />
+          <HeadItem tip="帮助" faIcon="question-circle" />
+          <ItemMsg />
+          <ItemUser />
+          <ItemSetting {...props} />
         </div>
       </div>
     </>
   )
-}
+})

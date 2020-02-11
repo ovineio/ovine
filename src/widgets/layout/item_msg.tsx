@@ -5,27 +5,20 @@
 import { Tab, Tabs } from 'amis'
 import React from 'react'
 
+import { withAppTheme } from '~/app'
 import { useImmer } from '~/utils/hooks'
 
-import { themes } from './common'
 import HeadItem from './head_item'
 import { PopupMsgMenu } from './styled'
 
-type Props = {
-  theme: string
-}
-
-export default (props: Props) => {
-  const { theme } = props
-
+export default () => {
   return (
     <HeadItem
-      theme={theme}
       faIcon="bell"
       tip="消息"
       trigger="click"
       tooltipClassName="app-tool-tip"
-      triggerContent={<MsgContent theme={theme} />}
+      triggerContent={<MsgContent />}
     />
   )
 }
@@ -33,8 +26,7 @@ export default (props: Props) => {
 type TabsState = {
   activeTab: string
 }
-const MsgContent = (props: { theme: string }) => {
-  const { theme } = props
+const MsgContent = withAppTheme<{}>((props) => {
   const [state, setState] = useImmer<TabsState>({
     activeTab: 'notify',
   })
@@ -48,8 +40,8 @@ const MsgContent = (props: { theme: string }) => {
   }
 
   return (
-    <PopupMsgMenu ns={themes[theme].ns}>
-      <Tabs theme={theme} mode="line" activeKey={activeTab} onSelect={onTabSelect}>
+    <PopupMsgMenu>
+      <Tabs theme={props.name} mode="line" activeKey={activeTab} onSelect={onTabSelect}>
         <Tab eventKey="notify" title="通知">
           通知模块，该功能正在开发中...
         </Tab>
@@ -62,4 +54,4 @@ const MsgContent = (props: { theme: string }) => {
       </Tabs>
     </PopupMsgMenu>
   )
-}
+})

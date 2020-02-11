@@ -14,7 +14,6 @@ import { StyledLayout } from './styled'
 
 type Props = {
   children: any
-  theme: string
 }
 
 const initState = {
@@ -25,15 +24,15 @@ const initState = {
 
 export default (props: Props) => {
   const [state, setState] = useImmer<LayoutState>(initState)
-  const { theme } = props
+
   const { asideFolded } = state
 
-  const compProps = { ...state, theme, setLayout: setState }
+  const compProps = { ...state, setLayout: setState }
 
+  // TODO: Layout 作为一个 自定义组件
   return (
     <StyledLayout
       headerFixed
-      theme={theme}
       folded={asideFolded}
       contentClassName="app-layout-body"
       header={<Header {...compProps} />}

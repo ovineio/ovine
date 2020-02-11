@@ -12,17 +12,13 @@ import { Amis } from '../amis/schema'
 import HeadItem from './head_item'
 import { PopupUserMenu } from './styled'
 
-type Props = {
-  theme: string
-}
 type State = {
   infoVisible: boolean
 }
 const initState: State = {
   infoVisible: false,
 }
-export default (props: Props) => {
-  const { theme } = props
+export default () => {
   const [state, setState] = useImmer<State>(initState)
   const { infoVisible } = state
 
@@ -72,7 +68,6 @@ export default (props: Props) => {
   return (
     <>
       <HeadItem
-        theme={theme}
         className="no-padder m-l-sm"
         tip="用户信息"
         trigger="click"

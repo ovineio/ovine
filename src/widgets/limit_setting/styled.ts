@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
-export const StyledLimit = styled.div<{ ns: string }>`
-  ${({ ns }) => css`
+export const StyledLimit = styled.div`
+  ${({ theme: { ns } }) => css`
     .${ns}Tree {
       &-itemLabel {
         padding-left: 0 !important;

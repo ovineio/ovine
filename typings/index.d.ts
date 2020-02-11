@@ -1,3 +1,4 @@
+/// <reference path="../src/constants/themes/theme.d.ts" />
 
 declare module '*.json'
 declare module '*.png'

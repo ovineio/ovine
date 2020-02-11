@@ -12,19 +12,14 @@ import { cls } from '~/utils/tool'
 
 import { Amis } from '../amis/schema'
 
-import { themes } from './common'
 import HeadItem from './head_item'
 import { SearchInput } from './styled'
 
-type Props = {
-  theme: string
-}
 type State = {
   isInputActive: boolean
   value: string
 }
-export default (props: Props) => {
-  const { theme } = props
+export default () => {
   const [state, setState] = useImmer<State>({
     value: '',
     isInputActive: false,
@@ -77,7 +72,6 @@ export default (props: Props) => {
   return (
     <>
       <HeadItem
-        theme={theme}
         faIcon="search"
         tip="搜索"
         onClick={() => {
@@ -86,7 +80,7 @@ export default (props: Props) => {
           })
         }}
       />
-      <SearchInput ns={themes[theme].ns}>
+      <SearchInput>
         <Amis schema={inputSchema} />
       </SearchInput>
     </>

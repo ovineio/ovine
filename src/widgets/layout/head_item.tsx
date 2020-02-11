@@ -5,8 +5,9 @@
 import { Button, TooltipWrapper } from 'amis'
 import React from 'react'
 
+import { getAppContext } from '~/app'
+
 type Props = {
-  theme: string
   trigger?: 'click' | 'focus'
   className?: string
   tooltipClassName?: string
@@ -22,7 +23,6 @@ export default (props: Props) => {
   const {
     className = '',
     tooltipClassName,
-    theme,
     icon,
     faIcon,
     trigger,
@@ -31,6 +31,8 @@ export default (props: Props) => {
     onClick,
     tip,
   } = props
+
+  const { theme } = getAppContext()
 
   const isClickOpen = trigger === 'click'
   const withContent = !!trigger ? trigger : undefined

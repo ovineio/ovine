@@ -6,15 +6,19 @@ import { Drawer } from 'amis'
 import map from 'lodash/map'
 import React from 'react'
 
+import { withAppTheme } from '~/app'
 import '~/assets/styles/themes/default.css'
+import themes from '~/constants/themes'
 import { useImmer } from '~/utils/hooks'
 
 import { Amis } from '../amis/schema'
 
-import { themes, LayoutCommProps } from './common'
+import { LayoutCommProps } from './common'
 import HeadItem from './head_item'
 
-type SettingProps = LayoutCommProps
+type SettingProps = LayoutCommProps & {
+  theme: string
+}
 
 // TODO: 需要定义 styled-themes 主题
 // 将 amis 某些核心 变量重新定义
@@ -59,9 +63,9 @@ const initState = {
   settingVisible: false,
 }
 
-export default (props: Props) => {
-  const { theme } = props
+export default withAppTheme<Props>((props) => {
   const [state, setState] = useImmer<State>(initState)
+  const { theme = '' } = props
 
   const { settingVisible } = state
 
@@ -74,9 +78,9 @@ export default (props: Props) => {
   return (
     <>
       <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
-        <Amis schema={getSettingSchema(props)} />
+        <Amis schema={getSettingSchema({ theme, ...props })} />
       </Drawer>
-      <HeadItem theme={theme} faIcon="cog" tip="设置" onClick={toggleSetting} />
+      <HeadItem faIcon="cog" tip="设置" onClick={toggleSetting} />
     </>
   )
-}
+})
