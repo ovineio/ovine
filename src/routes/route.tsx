@@ -13,7 +13,7 @@ import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
-import { authRoutesConfig, checkLimitByKeys } from './limit'
+import { checkLimitByKeys, getAuthRoutes } from './limit'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 import { getNodePath, getPageFileAsync, getPagePreset, getRoutePath } from './utils'
 
@@ -140,7 +140,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
 export const AppMenuRoutes = () => {
   const routes: any = []
 
-  authRoutesConfig.forEach(({ children }) => {
+  getAuthRoutes().forEach(({ children }) => {
     if (!children) {
       return
     }

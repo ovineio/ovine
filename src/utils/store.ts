@@ -13,6 +13,10 @@ export function setStore(key: string, value: any): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
+export function clearStore(key: string): void {
+  localStorage.removeItem(key)
+}
+
 export function getStore<T>(key: string): T | undefined {
   let value = localStorage.getItem(key)
 

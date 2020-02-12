@@ -49,7 +49,7 @@ const App = hot(() => {
 
   return (
     <BrowserRouter>
-      <ToastComponent closeButton theme={theme} timeout={2000} className="m-t-xl" />
+      <ToastComponent closeButton theme={theme} timeout={1500} className="m-t-xl" />
       <AlertComponent theme={theme} />
       <AppContext.Provider value={state}>
         <ThemeProvider theme={themes[theme]}>

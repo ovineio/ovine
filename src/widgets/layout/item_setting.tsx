@@ -2,11 +2,12 @@
  * APP 系统设置
  */
 
-import { Drawer } from 'amis'
+import { toast, Drawer } from 'amis'
 import map from 'lodash/map'
 import React from 'react'
 
 import themes from '~/constants/themes'
+import { userLogout } from '~/core/user'
 import { changeAppTheme, withAppTheme } from '~/theme'
 import { useImmer } from '~/utils/hooks'
 
@@ -17,6 +18,11 @@ import HeadItem from './head_item'
 
 type SettingProps = LayoutCommProps & {
   theme: string
+}
+
+const onClearCache = () => {
+  toast.success('缓存已经被清理', '操作成功')
+  setTimeout(userLogout, 1000)
 }
 
 const getSettingSchema = (option: SettingProps) => {
@@ -47,6 +53,18 @@ const getSettingSchema = (option: SettingProps) => {
               label: text,
               value: key,
             })),
+          },
+          {
+            type: 'rt-blank',
+            name: '',
+            label: '系统缓存',
+            body: {
+              type: 'button',
+              icon: 'fa fa-trash-o',
+              label: '清除',
+              confirmText: '本地缓存数据将被删除，需要重新登录，确认清除？',
+              onAction: onClearCache,
+            },
           },
         ],
         onChange: (formVal: any) => {
@@ -83,8 +101,8 @@ export default withAppTheme<Props>((props) => {
   return (
     <>
       <Drawer
-        theme={theme.name}
         size="sm"
+        theme={theme.name}
         onHide={toggleSetting}
         show={settingVisible}
         position="right"

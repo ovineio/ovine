@@ -6,7 +6,7 @@ import { findTree } from 'amis/lib/utils/helper'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { asideMenuConfig } from '~/routes/limit'
+import { getAsideMenus } from '~/routes/limit'
 import { useImmer } from '~/utils/hooks'
 import { cls } from '~/utils/tool'
 
@@ -28,6 +28,8 @@ export default () => {
 
   const { isInputActive, value } = state
 
+  const asideMenus = getAsideMenus()
+
   const inputSchema = {
     title: '',
     type: 'form',
@@ -46,12 +48,12 @@ export default () => {
         searchable: true,
         valueField: 'nodePath',
         placeholder: '搜索侧边栏...',
-        options: asideMenuConfig,
+        options: asideMenus,
       },
     ],
     onChange: (formValue: any) => {
       const { nodePath } = formValue
-      const nodeItem = findTree(asideMenuConfig, (item) => nodePath === item.nodePath)
+      const nodeItem = findTree(asideMenus, (item) => nodePath === item.nodePath)
       if (!nodeItem) {
         return
       }

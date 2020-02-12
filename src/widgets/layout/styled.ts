@@ -10,6 +10,10 @@ export const StyledLayout = styled.div`
     }
   `}
 
+  .brand-logo {
+    width: 22px;
+  }
+
   .app-layout-brand {
     color: #fff;
     &:hover,

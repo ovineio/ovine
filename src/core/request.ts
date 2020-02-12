@@ -17,15 +17,13 @@ import { isExpired } from '~/utils/tool'
 import { getToken, onUserTokenError } from './user'
 
 // 服务端接口 格式
-export type ServerApiRes<T> =
-  | T
-  | {
-      code?: number
-      data?: T
-      msg?: string
-      message?: string
-      error?: any
-    }
+export type ServerApiRes<T> = T & {
+  code?: number
+  data?: T
+  msg?: string
+  message?: string
+  error?: any
+}
 
 // 请求方法
 export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
@@ -35,6 +33,17 @@ type UseCommErrHandle = boolean | void
 type MockSourceGen<S = {}, P = {}> =
   | ((options: UnionOption<S, Partial<P>>) => object)
   | ServerApiRes<S>
+
+export type ReqSucHook<S = {}, P = {}> = (
+  source: ServerApiRes<S>,
+  unionOption: UnionOption<S, Partial<P>>
+) => any
+
+export type ReqErrorHook<S = {}, P = {}> = (option: {
+  source?: ServerApiRes<S>
+  requestOption?: UnionOption<S, Partial<P>>
+  error?: any
+}) => UseCommErrHandle
 
 export type MockSource = Types.ObjectOf<MockSourceGen>
 
@@ -52,12 +61,8 @@ export type RequestOption<S = {}, P = {}> = {
   fetchOption?: RequestInit
   mockSource?: MockSourceGen // 数据生成器
   mock?: boolean // 是否启用 mock
-  onSuccess?(source: ServerApiRes<S>, unionOption: UnionOption<S, Partial<P>>): any
-  onError?(option: {
-    source?: ServerApiRes<S>
-    requestOption?: UnionOption<S, Partial<P>>
-    error?: any
-  }): UseCommErrHandle
+  onSuccess?: ReqSucHook<S, P> // 接口成功回调
+  onError?: ReqErrorHook<S, P> // 接口失败回调
 }
 
 export type FetchOption = RequestInit & {
@@ -284,7 +289,8 @@ export function abortRequest<S = {}, P = {}>(option: RequestOption<S, P>) {
 
 async function request<S, P>(option: RequestOption<S, P>): Promise<ServerApiRes<S> | undefined>
 async function request(option: RequestOption<any, any>): Promise<any | undefined> {
-  const { onSuccess, sourceKey, data: params } = option
+  const { onSuccess, sourceKey, data: params, url, api } = option
+  option.api = api || url
 
   if (params) {
     option.data = omitBy(params as any, (item) => item === undefined || item === null)
@@ -319,35 +325,36 @@ async function request(option: RequestOption<any, any>): Promise<any | undefined
 }
 
 export const getUrlByOption = (option: RequestOption) => {
-  const { url: api, data = {}, method = 'GET', urlMode: urlModule = 'api' } = option
-  let url = api
+  const { url, data = {}, method = 'GET', urlMode: urlModule = 'api' } = option
+
+  let realUrl = url
 
   const urlOption = { url, method }
 
-  if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(api)) {
-    urlOption.method = `${(/^.*? /.exec(api) || [])[0]}`.replace(' ', '') as RequestMethod
-    url = api.replace(/^.*? /, '')
+  if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(realUrl)) {
+    urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as RequestMethod
+    realUrl = realUrl.replace(/^.*? /, '')
   }
 
   // url中不存在 '//' 匹配
-  if (!/\/\//.test(url)) {
+  if (!/\/\//.test(realUrl)) {
     const urlPrefix = !config.isProd && config.mockUrl ? config.mockUrl : config.urlMode[urlModule]
     if (!urlPrefix) {
       log.error('request.getUrlByOption 解析出错', option)
     }
-    url = `${urlPrefix}/${url}`
+    realUrl = `${urlPrefix}/${realUrl}`
   }
 
   // 存在模版标记 tag
-  if (/\{/.test(url)) {
-    url = filter(url, data)
+  if (/\{/.test(realUrl)) {
+    realUrl = filter(realUrl, data)
   }
 
   if (method === 'GET' && !isEmpty(data)) {
-    url += `${url.indexOf('?') === -1 ? '?' : '&'}${qsstringify(data)}`
+    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(data)}`
   }
 
-  urlOption.url = url
+  urlOption.url = realUrl
 
   return urlOption
 }

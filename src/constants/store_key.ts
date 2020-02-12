@@ -5,3 +5,5 @@
 export const userInfo = 'userInfo'
 
 export const appTheme = 'appTheme'
+
+export const appLimit = 'appLimit'

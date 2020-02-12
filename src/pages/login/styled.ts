@@ -32,4 +32,9 @@ export const loginCss = () => css`
       }
     }
   }
+
+  .code-img {
+    width: 100px;
+    cursor: pointer;
+  }
 `

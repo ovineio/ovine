@@ -1,4 +1,5 @@
-import { logoUrl } from '~/constants'
+import { logoUrl, testCodeUrl } from '~/constants'
+import { userLoginHook } from '~/core/user'
 import { RtSchema } from '~/widgets/amis/schema/types'
 
 import { mockSource } from './mock'
@@ -30,6 +31,7 @@ export const schema: RtSchema = {
       login: {
         url: 'POST api/v1/login',
         mockSource,
+        onSuccess: userLoginHook,
       },
     },
     forms: {
@@ -77,7 +79,7 @@ export const schema: RtSchema = {
               },
               {
                 type: 'html',
-                html: `<img src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg" />`,
+                html: `<img class="code-img" title="测试验证码图片" src="${testCodeUrl}" />`,
                 labelClassName: 'w-auto',
                 mode: 'inline',
               },

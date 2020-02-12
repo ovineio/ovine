@@ -116,12 +116,12 @@ export const Amis = withRouter((props: Props) => {
 
   const { preset, css } = schema
 
-  const envSchema = log.time('resolveRtSchema 当前schema', () => {
-    if (preset || css) {
+  let envSchema: any = schema
+  if (preset || css) {
+    envSchema = log.time('resolveRtSchema 当前schema', () => {
       return resolveRtSchema(schema)
-    }
-    return schema
-  })
+    })
+  }
 
   return (
     <ThemeConsumer>

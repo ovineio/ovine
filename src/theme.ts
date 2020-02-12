@@ -1,4 +1,4 @@
-import { theme as setAmisTheme, toast } from 'amis'
+import { theme as setAmisTheme } from 'amis'
 import { FunctionComponent } from 'react'
 import { withTheme, DefaultTheme } from 'styled-components'
 
@@ -13,9 +13,6 @@ export const changeAppTheme = (theme: string) => {
   publish(themeKey, theme)
   getThemeCssAsync(theme).then(() => {
     setStore(appTheme, theme)
-    toast.success('主题切换成功', '提示', {
-      timeout: 1000,
-    })
   })
 }
 

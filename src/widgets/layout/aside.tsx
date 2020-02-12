@@ -2,7 +2,7 @@ import AsideNav from 'amis/lib/components/AsideNav'
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
-import { asideMenuConfig } from '~/routes/limit'
+import { getAsideMenus } from '~/routes/limit'
 import { getRoutePath } from '~/routes/utils'
 import { withAppTheme } from '~/theme'
 
@@ -57,7 +57,7 @@ export default withAppTheme<Props>((props) => {
   return (
     <AsideNav
       theme={props.theme.name}
-      navigations={asideMenuConfig as any}
+      navigations={getAsideMenus() as any}
       renderLink={renderNav}
       isActive={(link: any) => !!(getRoutePath(link.path) === location.pathname)}
     />
