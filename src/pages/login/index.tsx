@@ -1,17 +1,12 @@
-import React from 'react'
-
 import { logoUrl } from '~/constants'
-// import { setStore } from '~/utils/store'
-import { Amis } from '~/widgets/amis/schema'
 import { RtSchema } from '~/widgets/amis/schema/types'
 
 import { mockSource } from './mock'
-import { StyledLogin } from './styled'
+import { loginCss } from './styled'
 
-// setStore('isLogin', 1)
-
-const schema: RtSchema = {
+export const schema: RtSchema = {
   type: 'page',
+  css: loginCss,
   body: {
     type: 'wrapper',
     className: 'login-wrapper b r-2x bg-white',
@@ -103,12 +98,4 @@ const schema: RtSchema = {
       },
     },
   },
-}
-
-export default () => {
-  return (
-    <StyledLogin>
-      <Amis schema={schema} />
-    </StyledLogin>
-  )
 }

@@ -1,3 +1,10 @@
+/**
+ * 路由相关工具函数
+ * 所有异步加载文件
+ */
+
+import { retryPromise } from '~/utils/tool'
+
 import { PageFileOption, PagePreset } from './types'
 
 const contextPath = ''
@@ -28,6 +35,29 @@ export const getPagePreset = (option: PageFileOption): PagePreset | undefined =>
   } catch (e) {
     //
   }
+}
+
+// 异步获取主题 css 文件
+export const getThemeCssAsync = async (theme: string) => {
+  retryPromise(() =>
+    import(
+      /* webpackChunkName: "theme_[request]" */
+      `~/assets/styles/themes/${theme}.css`
+    )
+  )
+}
+
+// 异步获取页面文件
+export const getPageFileAsync = async (option: PageFileOption) => {
+  const filePath = getPageFilePath(option)
+
+  return retryPromise(() =>
+    import(
+      /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
+      /* webpackChunkName: "page_[request]" */
+      `~/pages/${filePath}`
+    )
+  )
 }
 
 // 获取 nodePath

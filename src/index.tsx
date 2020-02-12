@@ -7,6 +7,7 @@ import { queryStringParse } from '~/utils/tool'
 import '~/widgets/amis/rt_renderers'
 
 import initApp from './app'
+import { initAppTheme } from './theme'
 
 // 初始化日志模块
 const initLogger = () => {
@@ -22,6 +23,8 @@ const initLogger = () => {
   const log = logger.getLogger('app:main')
   log.info('appConfig', config)
 }
+
+initAppTheme()
 
 // 初始化应用
 window.onload = () => {

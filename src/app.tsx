@@ -3,7 +3,7 @@ import React, { createContext, useContext } from 'react'
 import { render } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { withTheme, DefaultTheme, ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components'
 
 import NotMatch from '~/pages/404'
 import { AppMenuRoutes, PrestRoute, PrivateRoute } from '~/routes/route'
@@ -12,27 +12,26 @@ import Layout from '~/widgets/layout'
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
 import themes from './constants/themes'
 import TestLimit from './pages/test_limit'
+import { getAppTheme } from './theme'
 import { useImmer, useSubscriber } from './utils/hooks'
 
-type ContextState = {
+type State = {
   theme: string
   lang: string
 }
-const initContext = {
-  theme: 'default',
+const initState = {
+  theme: getAppTheme(),
   lang: 'zh_CN',
 }
 
-const AppContext = createContext<ContextState>(initContext)
+type AppContext = Omit<State, 'theme'>
+
+const AppContext = createContext<AppContext>(initState)
 
 export const getAppContext = () => useContext(AppContext)
 
-// 重写 withTheme 类型
-type WithAppTheme = <P, R = React.FunctionComponent<P & Partial<DefaultTheme>>>(component: R) => R
-export const withAppTheme: WithAppTheme = withTheme as any
-
 const App = hot(() => {
-  const [state, setState] = useImmer<ContextState>(initContext)
+  const [state, setState] = useImmer<State>(initState)
   const { theme } = state
 
   useSubscriber([changeAppTheme, changeAppLang], (newValue: string, key) => {
@@ -60,7 +59,6 @@ const App = hot(() => {
               <Layout>
                 <Switch>
                   <PrestRoute path="/test_limit" component={TestLimit} />
-                  <PrestRoute exact pathToComponent="dashboard" path="/" />
                   <AppMenuRoutes />
                   <Route path="*" component={NotMatch} />
                 </Switch>

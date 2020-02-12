@@ -1,11 +1,10 @@
-import Layout from 'amis/lib/components/Layout'
 import styled, { css } from 'styled-components'
 
 import { ellipsis, inline } from '~/utils/styled'
 
-export const StyledLayout = styled(Layout)`
+export const StyledLayout = styled.div`
   ${(p) => css`
-    &.${p.theme.ns}Layout--folded .app-layout-brand {
+    .${p.theme.ns}Layout--folded .app-layout-brand {
       height: 3.125rem;
       display: table-cell;
     }

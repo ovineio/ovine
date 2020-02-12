@@ -35,10 +35,10 @@ export const store = new Proxy<Types.ObjectOf<any>>(
     },
     // 整个模块的核心逻辑
     // 代理object赋值操作，设置值的时候，触发订阅时的回调函数
-    set(_, key: string, value) {
+    set(obj: any, key: string, value) {
       // 只有值变化 才触发回调。
       if (!(source[key] && source[key] === value)) {
-        source[key] = value
+        obj[key] = value
         const storeKey = storeKeyCtrl('set', key)
 
         if (storeKey && !isNone(observer[storeKey])) {
@@ -94,7 +94,7 @@ export const publish = <T>(key: Key, value: T) => {
       source[sourceKey] = value
     }
 
-    if (!isNone(source[obsKey])) {
+    if (!isNone(observer[obsKey])) {
       observer[obsKey].forEach((handler: Handler<T>) => {
         handler(value, obsKey)
       })

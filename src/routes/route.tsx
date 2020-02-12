@@ -8,30 +8,21 @@ import isFunction from 'lodash/isFunction'
 import React, { createContext, lazy, useContext, Suspense } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 
-import { getStore } from '~/utils/store'
-import { retryPromise } from '~/utils/tool'
+import { isLogin } from '~/core/user'
 import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
 import { authRoutesConfig, checkLimitByKeys } from './limit'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
-import { getNodePath, getPageFilePath, getPagePreset, getRoutePath } from './utils'
+import { getNodePath, getPageFileAsync, getPagePreset, getRoutePath } from './utils'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
 export const getPageAsync = (option: PresetRouteProps) => {
-  const filePath = getPageFilePath(option)
-
   return lazy(() =>
-    retryPromise(() =>
-      import(
-        /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
-        /* webpackChunkName: "page_[request]" */
-        `~/pages/${filePath}`
-      )
-    ).then((file: any) => {
+    getPageFileAsync(option).then((file: any) => {
       const { default: content = {}, schema } = file
       const compProps: PresetComponentProps = {}
 
@@ -57,7 +48,7 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
     <Route
       {...rest}
       render={({ location }) => {
-        return getStore('isLogin') ? (
+        return isLogin() ? (
           children
         ) : (
           <Redirect

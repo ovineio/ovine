@@ -5,7 +5,7 @@
 import { Tab, Tabs } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/app'
+import { withAppTheme } from '~/theme'
 import { useImmer } from '~/utils/hooks'
 
 import HeadItem from './head_item'
@@ -41,7 +41,7 @@ const MsgContent = withAppTheme<{}>((props) => {
 
   return (
     <PopupMsgMenu>
-      <Tabs theme={props.name} mode="line" activeKey={activeTab} onSelect={onTabSelect}>
+      <Tabs theme={props.theme.name} mode="line" activeKey={activeTab} onSelect={onTabSelect}>
         <Tab eventKey="notify" title="通知">
           通知模块，该功能正在开发中...
         </Tab>

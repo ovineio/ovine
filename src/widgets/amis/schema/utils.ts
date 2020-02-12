@@ -175,8 +175,14 @@ export const convertToAmisSchema = (
 // 处理自定义格式
 export const resolveRtSchema = (schema: RtSchema) => {
   const { preset = {}, ...rest } = schema
-  const reformSchema = { preset, ...rest }
+  const { css, ...restCss } = rest
+  // 顶层有 page 与 css，自动注入 rt-css
+  const reformSchema =
+    rest.type === 'page' && css
+      ? { preset, type: 'rt-css', css, body: restCss }
+      : { preset, ...rest }
+
   convertToAmisSchema(reformSchema, { preset })
   filterSchemaLimit(reformSchema, preset)
-  return schema
+  return reformSchema
 }

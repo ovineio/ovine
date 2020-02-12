@@ -34,24 +34,16 @@ body {
   cursor: pointer;
 }
 
-.p-rel {
+.pos-rel {
   position: relative;
 }
 
-.p-abs {
+.pos-abs {
   position: absolute;
 }
 
-.p-fix {
+.pos-fix {
   position: fixed;
-}
-
-.p-b-none {
-  padding-bottom: 0 !important;
-}
-
-.p-t-none {
-  padding-bottom: 0 !important;
 }
 
 .app-tool-tip {

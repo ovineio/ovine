@@ -6,9 +6,9 @@
 import { Renderer } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import React from 'react'
-import styled, { css, FlattenSimpleInterpolation } from 'styled-components'
+import styled, { css, DefaultTheme, FlattenSimpleInterpolation } from 'styled-components'
 
-type CssType = (ns: string) => FlattenSimpleInterpolation
+type CssType = (theme: DefaultTheme) => FlattenSimpleInterpolation
 
 export type RtCssProps = RendererProps & {
   css?: CssType // 需要渲染的 css
@@ -31,6 +31,6 @@ Renderer({
 
 const StyledCss = styled.div<{ css?: CssType; ns: string }>`
   ${(p) => css`
-    ${p.css && p.css(p.ns)};
+    ${p.css && p.css(p.theme)};
   `};
 `

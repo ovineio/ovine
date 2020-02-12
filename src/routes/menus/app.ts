@@ -21,6 +21,8 @@ const appRoute: RouteItem = {
     {
       label: 'Dashboard',
       nodePath: 'dashboard',
+      path: '/',
+      pathToComponent: 'dashboard',
       sideVisible: false,
     },
     {

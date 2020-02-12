@@ -1,6 +1,6 @@
-import { css } from 'styled-components'
+import { css, DefaultTheme } from 'styled-components'
 
-export const crudCss = (ns: string) => css`
+export const crudCss = ({ ns }: DefaultTheme) => css`
   .rt-crud {
     display: flex;
     flex-direction: column;

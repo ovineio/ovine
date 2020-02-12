@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 
 export const lightTheme: DefaultTheme = {
   ns: 'l-',
-  theme: 'light',
+  name: 'light',
   text: '清新主题',
   borderRadius: '5px',
   colors: {

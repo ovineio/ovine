@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 
 export const darkTheme: DefaultTheme = {
   ns: 'dark-',
-  theme: 'dark',
+  name: 'dark',
   text: '暗黑主题',
   borderRadius: '5px',
   colors: {

@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import { css } from 'styled-components'
 
 import { inline } from '~/utils/styled'
 
-export const StyledLogin = styled.div`
+export const loginCss = () => css`
   .login-wrapper {
     width: 450px;
     margin: 12% auto 0;

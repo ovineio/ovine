@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { withAppTheme } from '~/app'
 import { logoUrl } from '~/constants'
+import { withAppTheme } from '~/theme'
 
 import { LayoutCommProps } from './common'
 import HeadItem from './head_item'
@@ -12,10 +12,10 @@ import ItemSetting from './item_setting'
 import ItemUser from './item_user'
 
 export default withAppTheme<LayoutCommProps>((props) => {
-  const { setLayout, asideFolded, ns } = props
+  const { setLayout, asideFolded, theme } = props
   return (
     <>
-      <div className={`${ns}Layout-brandBar`}>
+      <div className={`${theme.ns}Layout-brandBar`}>
         <button
           onClick={() =>
             setLayout((d) => {
@@ -26,12 +26,16 @@ export default withAppTheme<LayoutCommProps>((props) => {
         >
           <i className="glyphicon glyphicon-align-justify" />
         </button>
-        <Link className={`${ns}Layout-brand app-layout-brand text-c-i`} to="/" title="Dashboard">
+        <Link
+          className={`${theme.ns}Layout-brand app-layout-brand text-c-i`}
+          to="/"
+          title="Dashboard"
+        >
           <img className="inline brand-logo" src={logoUrl} />
           <span className="hidden-folded m-l-sm inline">RT-ADMIN</span>
         </Link>
       </div>
-      <div className={`${ns}Layout-headerBar`}>
+      <div className={`${theme.ns}Layout-headerBar`}>
         <div className="nav navbar-nav hidden-xs">
           <HeadItem
             faIcon={asideFolded ? 'indent' : 'dedent'}

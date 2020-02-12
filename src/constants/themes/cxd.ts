@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 
 export const cxdTheme: DefaultTheme = {
   ns: 'cxd-',
-  theme: 'cxd',
+  name: 'cxd',
   text: '淡雅主题',
   borderRadius: '5px',
   colors: {

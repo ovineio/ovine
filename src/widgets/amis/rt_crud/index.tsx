@@ -3,7 +3,7 @@
  */
 
 import { Renderer } from 'amis'
-import { css } from 'styled-components'
+import { css, DefaultTheme } from 'styled-components'
 
 import { RtCssProps } from '../rt_css'
 
@@ -35,9 +35,9 @@ const RtCrud = (props: RtCssProps) => {
   const amisCurd: any = {
     className,
     type: 'rt-css',
-    css: (ns: string) => css`
-      ${crudCss(ns)};
-      ${getCss && getCss(ns)};
+    css: (theme: DefaultTheme) => css`
+      ${crudCss(theme)};
+      ${getCss && getCss(theme)};
     `,
     body: getAmisCrudSchema(props),
   }

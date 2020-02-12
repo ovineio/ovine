@@ -6,9 +6,8 @@ import { Drawer } from 'amis'
 import map from 'lodash/map'
 import React from 'react'
 
-import { withAppTheme } from '~/app'
-import '~/assets/styles/themes/default.css'
 import themes from '~/constants/themes'
+import { changeAppTheme, withAppTheme } from '~/theme'
 import { useImmer } from '~/utils/hooks'
 
 import { Amis } from '../amis/schema'
@@ -20,35 +19,41 @@ type SettingProps = LayoutCommProps & {
   theme: string
 }
 
-// TODO: 需要定义 styled-themes 主题
-// 将 amis 某些核心 变量重新定义
 const getSettingSchema = (option: SettingProps) => {
   const { theme } = option
 
   return {
     type: 'wrapper',
+    className: 'no-bg',
     body: [
       {
         type: 'html',
-        html: `<h5 class="login-title m-t-xs m-b-lg">系统设置</h5>`,
+        html: `<div class="m-t-xs m-b-lg"><i class="fa fa-cog p-r-xs"></i><span>系统设置</span></div>`,
       },
       {
         type: 'form',
         mode: 'horizontal',
         horizontal: { left: 'col-sm-4', right: 'col-sm-8' },
         wrapWithPanel: false,
+        data: {
+          theme,
+        },
         controls: [
           {
             type: 'select',
-            name: 'select',
+            name: 'theme',
             label: '选择主题',
-            value: theme,
             options: map(themes, ({ text }, key) => ({
               label: text,
               value: key,
             })),
           },
         ],
+        onChange: (formVal: any) => {
+          if (formVal.theme !== formVal.__prev.theme) {
+            changeAppTheme(formVal.theme)
+          }
+        },
       },
     ],
   }
@@ -65,7 +70,7 @@ const initState = {
 
 export default withAppTheme<Props>((props) => {
   const [state, setState] = useImmer<State>(initState)
-  const { theme = '' } = props
+  const { theme } = props
 
   const { settingVisible } = state
 
@@ -77,8 +82,14 @@ export default withAppTheme<Props>((props) => {
 
   return (
     <>
-      <Drawer theme={theme} size="sm" onHide={toggleSetting} show={settingVisible} position="right">
-        <Amis schema={getSettingSchema({ theme, ...props })} />
+      <Drawer
+        theme={theme.name}
+        size="sm"
+        onHide={toggleSetting}
+        show={settingVisible}
+        position="right"
+      >
+        <Amis schema={getSettingSchema({ ...props, theme: theme.name })} />
       </Drawer>
       <HeadItem faIcon="cog" tip="设置" onClick={toggleSetting} />
     </>
