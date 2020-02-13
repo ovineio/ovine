@@ -17,10 +17,8 @@ const appRoute: RouteItem = {
       sideVisible: false,
     },
     {
-      label: '测试权限设置',
-      nodePath: 'test_limit',
-      sideVisible: false,
-      limitOnly: true,
+      label: '快速开始Demo',
+      nodePath: 'start_demo',
     },
     {
       label: '热配置管理',

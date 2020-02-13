@@ -10,7 +10,7 @@ export const schema: RtSchema = {
   css: loginCss,
   body: {
     type: 'wrapper',
-    className: 'login-wrapper b r-2x bg-white',
+    className: 'login-wrapper b r-2x',
     body: [
       {
         type: 'html',

@@ -12,10 +12,6 @@ import request, { ReqSucHook } from './request'
 
 let store: any = getStore(userInfo) || {}
 
-const cacheStore = () => {
-  setStore(userInfo, store)
-}
-
 // 用户token
 export const getToken = (): string | undefined => {
   return store?.access_token || queryStringParse('access_token')
@@ -43,20 +39,21 @@ export const getUserInfo = () => {
     mockSource,
     onSuccess: (source) => {
       const { access_token, ...data } = source?.data || {}
-      cacheUserInfo({ data })
+      cacheUserInfo({ data, isUserInfo: true })
       return source
     },
   })
 }
 
 export const cacheUserInfo = (source: any) => {
-  const { limit = '', access_token, ...rest } = source?.data || {}
-  if (access_token) {
-    rest.access_token = access_token
+  const { limit = '', isUserInfo, ...rest } = source?.data || {}
+  const cachedInfo = getStore<App.UserInfoData>(userInfo)
+  if (source?.isUserInfo) {
+    rest.access_token = cachedInfo?.access_token
   }
   store = rest
   setAppLimits(limit)
-  cacheStore()
+  setStore(userInfo, rest)
 }
 
 // 用户登录

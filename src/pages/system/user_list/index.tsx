@@ -1,30 +1,6 @@
-import { mockSource } from './mock'
-
-const apis = {
-  list: {
-    url: 'GET api/v1/adm_user',
-    mockSource: mockSource['GET api/v1/adm_user'],
-  },
-  add: {
-    url: 'POST api/v1/adm_user',
-  },
-  edit: {
-    url: 'PUT api/v1/adm_user/edit/$id',
-  },
-  del: {
-    url: 'DELETE api/v1/adm_user/$id',
-  },
-  catList: {
-    url: 'api/v1/adm_user/cat',
-  },
-  api: {
-    url: 'api/v1/adm_user/api',
-  },
-}
-
 export const schema = {
   type: 'rt-crud',
-  api: apis.list,
+  api: '$prest.api.list',
   filterTogglable: true,
   filter: {
     controls: [

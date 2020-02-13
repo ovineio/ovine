@@ -1,11 +1,12 @@
-import { css } from 'styled-components'
+import { css, DefaultTheme } from 'styled-components'
 
 import { inline } from '~/utils/styled'
 
-export const loginCss = () => css`
+export const loginCss = ({ colors }: DefaultTheme) => css`
   .login-wrapper {
     width: 450px;
     margin: 12% auto 0;
+    background-color: ${colors.layoutHeaderBg};
   }
 
   .login-title {
