@@ -35,6 +35,11 @@ export const StyledLayout = styled.div`
 `
 
 export const PopupUserMenu = styled.div`
+  ${({ theme: { colors } }) => css`
+    li:hover {
+      color: ${colors.linkHover};
+    }
+  `}
   ul {
     min-width: 100px;
     padding: 0;
@@ -44,9 +49,6 @@ export const PopupUserMenu = styled.div`
     list-style: none;
     padding: 6px;
     cursor: pointer;
-    &:hover {
-      color: #7265ba;
-    }
     &:first-child {
       padding-top: 0;
     }

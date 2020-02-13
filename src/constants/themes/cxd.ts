@@ -4,9 +4,9 @@ export const cxdTheme: DefaultTheme = {
   ns: 'cxd-',
   name: 'cxd',
   text: '淡雅主题',
-  borderRadius: '5px',
   colors: {
-    main: 'cyan',
-    secondary: 'magenta',
+    layoutHeaderBg: '#f5f5f5',
+    linkHover: 'rgb(0, 0, 0)',
+    border: '#e8ebee',
   },
 }

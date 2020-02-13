@@ -22,6 +22,7 @@ type SettingProps = LayoutCommProps & {
 
 const onClearCache = () => {
   toast.success('缓存已经被清理', '操作成功')
+  localStorage.clear()
   setTimeout(userLogout, 1000)
 }
 

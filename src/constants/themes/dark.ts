@@ -4,9 +4,9 @@ export const darkTheme: DefaultTheme = {
   ns: 'dark-',
   name: 'dark',
   text: '暗黑主题',
-  borderRadius: '5px',
   colors: {
-    main: 'cyan',
-    secondary: 'magenta',
+    layoutHeaderBg: '#191c22',
+    linkHover: '#2296f3',
+    border: '#656565',
   },
 }

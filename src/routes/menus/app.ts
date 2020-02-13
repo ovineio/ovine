@@ -4,27 +4,24 @@
 
 import { RouteItem } from '../types'
 
-// TODO： 重新梳理
-// path [option]
-// nodePath 节点路径
-// pathToComponent [option] = true
 const appRoute: RouteItem = {
   label: 'RT-ADMIN 实际应用',
   nodePath: '/',
   children: [
     {
-      label: '测试权限设置',
-      nodePath: 'test_limit',
-      sideVisible: false,
-      limitOnly: true,
-    },
-    {
       label: 'Dashboard',
       nodePath: 'dashboard',
       path: '/',
+      exact: true,
       pathToComponent: 'dashboard',
       sideVisible: false,
     },
+    // {
+    //   label: '测试权限设置',
+    //   nodePath: 'test_limit',
+    //   sideVisible: false,
+    //   limitOnly: true,
+    // },
     {
       label: '热配置管理',
       icon: 'fa fa-cogs',

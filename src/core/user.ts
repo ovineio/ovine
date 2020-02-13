@@ -61,6 +61,7 @@ export const cacheUserInfo = (source: any) => {
 // 用户登录
 export const userLoginHook: ReqSucHook<App.UserInfoData> = (source) => {
   cacheUserInfo(source)
+  setStore('test_limit', source.data?.limit)
   return source
 }
 

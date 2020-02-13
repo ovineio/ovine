@@ -59,8 +59,9 @@ export type RequestOption<S = {}, P = {}> = {
   sourceKey?: string // ''
   expired?: number // 秒数 0
   fetchOption?: RequestInit
-  mockSource?: MockSourceGen // 数据生成器
   mock?: boolean // 是否启用 mock
+  mockSource?: MockSourceGen // 数据生成器
+  mockTimeout?: number // 1000
   onSuccess?: ReqSucHook<S, P> // 接口成功回调
   onError?: ReqErrorHook<S, P> // 接口失败回调
 }
@@ -144,9 +145,21 @@ const userTokenCtrl = (option: RequestOption): RequestOption => {
   return option
 }
 
+const timeout = (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 // 模拟数据
 const mockSourceCtrl = async (option: UnionOption) => {
-  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true } = option
+  const {
+    mockSource,
+    onSuccess,
+    sourceKey = '',
+    api,
+    url,
+    mock = true,
+    mockTimeout = 1000,
+  } = option
   // 预览打包，暂时去掉 config.isProd 限制
 
   // config.isProd || !mockSource
@@ -166,6 +179,10 @@ const mockSourceCtrl = async (option: UnionOption) => {
 
   // mock 最终返回结果
   const result = !onSuccess ? data : await onSuccess(data, option)
+
+  if (mockTimeout) {
+    await timeout(mockTimeout)
+  }
 
   log.log('mockSource', option.url, result, option)
 

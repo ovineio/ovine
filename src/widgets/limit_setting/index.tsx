@@ -1,5 +1,6 @@
 import { Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
+import map from 'lodash/map'
 import React, { useEffect, useRef } from 'react'
 
 import { routeLimitKey } from '~/constants'
@@ -17,29 +18,36 @@ import { StyledLimit } from './styled'
 type State = {
   activeTab: number
   isUnfolded: boolean
-  initialSelectedVal: string
   selectedVal: string
+  visitedTabs: number[]
 }
 const LimitSetting = (props: any) => {
-  const { classPrefix, render, data } = props
+  const { render, data } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
-    initialSelectedVal: '',
+    visitedTabs: [],
     selectedVal: '',
   })
-  const storeRef = useRef<any>({})
+  const storeRef = useRef<Types.ObjectOf<string>>({})
 
-  const { activeTab, initialSelectedVal, selectedVal, isUnfolded } = state
+  const { activeTab, visitedTabs, selectedVal, isUnfolded } = state
 
   useEffect(() => {
-    setState((d) => {
-      const initialVal = getStore<string>('limit') || ''
-      d.selectedVal = initialVal
-      storeRef.current[activeTab] = initialVal
-      d.initialSelectedVal = initialVal
-    })
+    initData()
   }, [])
+
+  const initData = () => {
+    setState((d) => {
+      const initialVal = getStore<string>('test_limit') || ''
+      // 初始化每个tab
+      limitMenusConfig.map((_, index) => {
+        storeRef.current[index] = initialVal
+      })
+      d.selectedVal = initialVal
+      d.visitedTabs = []
+    })
+  }
 
   const toggleFold = (toggle: boolean) => {
     setState((d) => {
@@ -49,9 +57,13 @@ const LimitSetting = (props: any) => {
 
   const onTreeChange = (value: string) => {
     const limitValue = resolveSelectVal(value)
+
     storeRef.current[activeTab] = limitValue
     setState((d) => {
       d.selectedVal = limitValue
+      if (!d.visitedTabs.filter((tab) => tab === activeTab).length) {
+        d.visitedTabs.push(activeTab)
+      }
     })
   }
 
@@ -63,11 +75,10 @@ const LimitSetting = (props: any) => {
   }
 
   const onSave = () => {
-    setState((d) => {
-      d.initialSelectedVal = selectedVal
-    })
-    const apiValue = getAllAuthApis(selectedVal)
-    setStore('limit', selectedVal)
+    const authApi = getAllAuthApiStr(selectedVal)
+    const authLimit = getAllAuthLimitStr(visitedTabs, storeRef.current)
+    setStore('test_limit', authLimit)
+    setStore('test_apis', authApi)
   }
 
   const renderButtons = () => {
@@ -92,10 +103,7 @@ const LimitSetting = (props: any) => {
             {
               type: 'button',
               label: '重置',
-              onClick: () =>
-                setState((d) => {
-                  d.selectedVal = d.initialSelectedVal
-                }),
+              onClick: initData,
             },
           ],
         },
@@ -113,16 +121,14 @@ const LimitSetting = (props: any) => {
           tooltip: '关闭',
           actionType: 'cancel',
           tooltipPlacement: 'top',
-          confirmText: `${
-            initialSelectedVal === selectedVal ? '' : '关闭将视为您主动放弃本次修改。'
-          }`,
+          confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
         },
       ],
     })
   }
 
   return (
-    <StyledLimit ns={classPrefix}>
+    <StyledLimit>
       <div className="action-btns">{renderButtons()}</div>
       <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
         {resolveLimitMenus({ limitValue: selectedVal, isUnfolded }).map(
@@ -200,8 +206,28 @@ const resolveLimitMenus = (option: { limitValue: string; isUnfolded?: boolean })
   })
 }
 
+// 获取所有被允许的权限
+const getAllAuthLimitStr = (visitedTabs: number[], store: Types.ObjectOf<string>): string => {
+  const limitValue: string[] = []
+
+  map(store, (value, storeTab) => {
+    const index = Number(storeTab)
+    if (visitedTabs.findIndex((tab) => tab === index) > -1) {
+      limitValue.push(value)
+      return
+    }
+    eachTree(limitMenusConfig[index]?.children || [], (item) => {
+      const limits = convertLimitStr(value)
+      if (limits[item.nodePath]) {
+        limitValue.push(item.nodePath)
+      }
+    })
+  })
+
+  return limitValue.join(',')
+}
 // 获取所有 被允许的 api
-const getAllAuthApis = (limitValue: string) => {
+const getAllAuthApiStr = (limitValue: string) => {
   const limits = convertLimitStr(limitValue)
   const authApis: any = {}
 

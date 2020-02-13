@@ -1,6 +1,6 @@
 import { css, DefaultTheme } from 'styled-components'
 
-export const crudCss = ({ ns }: DefaultTheme) => css`
+export const crudCss = ({ ns, colors }: DefaultTheme) => css`
   .rt-crud {
     display: flex;
     flex-direction: column;
@@ -8,6 +8,7 @@ export const crudCss = ({ ns }: DefaultTheme) => css`
     height: calc(100% - 80px);
     margin: 15px;
     padding: 15px;
+    background-color: ${colors.layoutHeaderBg};
     & > .${ns}Form {
       flex: 0 0 auto;
       margin-bottom: 10px;
@@ -42,7 +43,7 @@ export const crudCss = ({ ns }: DefaultTheme) => css`
       }
     }
     thead {
-      border-bottom: 1px solid #dee2e6;
+      border-bottom: 1px solid ${colors.border};
     }
     tbody {
       display: block;

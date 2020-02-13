@@ -1,14 +1,16 @@
 import { DefaultTheme } from 'styled-components'
 
+// 定义用到的主题变量
 declare module 'styled-components' {
   export interface DefaultTheme { // tslint:disable-line
     ns: string
     name: string
     text: string
-    borderRadius: string
+    // 颜色
     colors: {
-      main: string
-      secondary: string
+      layoutHeaderBg: string
+      linkHover: string
+      border: string
     }
   }
 }

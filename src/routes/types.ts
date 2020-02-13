@@ -30,7 +30,7 @@ export type PagePreset = {
 }
 
 export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
-  Pick<RouteProps, 'component'> &
+  Pick<RouteProps, 'component' | 'exact' | 'sensitive' | 'strict'> &
   PagePreset & {
     nodePath: string
     badge?: number
