@@ -42,7 +42,8 @@ export const getUserInfo = () => {
     url: 'GET api/v1/user_info',
     mockSource,
     onSuccess: (source) => {
-      cacheUserInfo(source)
+      const { access_token, ...data } = source?.data || {}
+      cacheUserInfo({ data })
       return source
     },
   })

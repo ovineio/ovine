@@ -14,7 +14,7 @@ process.env.NODE_ENV = ENV
 const isDev = ENV === 'development'
 const isProd = ENV === 'production'
 const enableAnalyzer = ANALYZER === 'true'
-const enableMock = ANALYZER === 'true' || !isProd
+const enableMock = MOCK === 'true' || !isProd
 
 const rootDir = (p = '') => path.join(__dirname, '../', p)
 const distDir = (p = '') => rootDir(`dist/${p}`)
