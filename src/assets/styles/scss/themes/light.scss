@@ -2,6 +2,10 @@
 // 具体参照源码 https://github.com/baidu/amis/tree/master/scss/themes
 // 修改主题后 需要 手动执行 yarn build:theme 才能生效。（执行前必须全局安装 node-sass）
 
+// TODO: 制定自定义主题
+
+@import '../functions';
+
 $ns: 'l-';
 
 $primary: #7266ba;

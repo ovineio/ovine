@@ -2,9 +2,6 @@
 // https://github.com/baidu/amis/blob/master/scss/themes/cxd.scss
 // 必须与源码 一样， 但要注意版本 否则 yarn build:theme 会报错
 
-// TODO: 为了更加美观，需要重新定义官方主题部分变量
-
-@import '../functions';
 @import '../variables';
 @import '../mixins';
 @import '../base/reset';

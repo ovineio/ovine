@@ -5,7 +5,7 @@
 import { Button, TooltipWrapper } from 'amis'
 import React from 'react'
 
-import { getAppContext } from '~/app'
+import { withAppTheme } from '~/theme'
 
 type Props = {
   trigger?: 'click' | 'focus'
@@ -19,8 +19,9 @@ type Props = {
   tip?: string
   onClick?: any
 }
-export default (props: Props) => {
+export default withAppTheme<Props>((props) => {
   const {
+    theme,
     className = '',
     tooltipClassName,
     icon,
@@ -31,8 +32,6 @@ export default (props: Props) => {
     onClick,
     tip,
   } = props
-
-  const { theme } = getAppContext()
 
   const isClickOpen = trigger === 'click'
   const withContent = !!trigger ? trigger : undefined
@@ -45,7 +44,7 @@ export default (props: Props) => {
     <Button
       iconOnly
       className={`no-shadow app-head-item ${className}`}
-      theme={theme}
+      theme={theme.name}
       level="link"
       placement="bottom"
       onClick={onClick}
@@ -79,11 +78,11 @@ export default (props: Props) => {
       rootClose
       placement="bottom"
       trigger="click"
-      theme={theme}
+      theme={theme.name}
       tooltip={toolTip}
       tooltipClassName={tooltipClassName}
     >
       {button}
     </TooltipWrapper>
   )
-}
+})

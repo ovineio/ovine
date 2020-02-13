@@ -5,8 +5,9 @@ import './rt_crud'
 import './rt_css'
 import './rt_when'
 
-// 直接渲染 schema.body
-// 用于 渲染器 key 值冲突时
+// TODO: 添加 table-cell 文字折叠展示
+
+// 直接渲染 schema.body, 用于 渲染器 key 值冲突时
 Renderer({
   name: 'rt-blank',
   test: /(^|\/)rt\-blank$/,

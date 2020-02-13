@@ -27,7 +27,6 @@ export const LayoutLazyFallback = () => {
   return null
 }
 
-// TODO: 优化首次进入时 loading 卡顿
 export const LayoutLoading = () => {
   const [loading, setLoading] = useState(false)
 

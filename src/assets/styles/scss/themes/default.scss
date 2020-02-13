@@ -1,3 +1,29 @@
 // amis 官方主题: default
+// 具体参照源码 https://github.com/baidu/amis/tree/master/scss/themes
+// 修改主题后 需要 手动执行 yarn build:theme 才能生效。（执行前必须全局安装 node-sass）
 
-@import '../../lib/themes/default'
+@import '../functions';
+
+$ns: 'a-';
+
+$primary: #7266ba;
+$info: #23b7e5;
+$success: #27c24c;
+$warning: #fad733;
+$danger: #f05050;
+$light: #edf1f2;
+$dark: #3a3f51;
+$black: #1c2b36;
+
+$text-color: #58666e;
+$link-color: $info;
+
+$Form-input-borderColor: #cfdadd;
+
+// 自定义内容
+$Layout-aside-onHover-bg: lighten($info, 5%);
+$Layout-aside-onAcitve-bg: darken($info, 5%);
+
+$Modal-title-lineHeight: 1;
+
+@import '../base.scss';

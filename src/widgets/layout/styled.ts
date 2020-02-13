@@ -3,12 +3,23 @@ import styled, { css } from 'styled-components'
 import { ellipsis, inline } from '~/utils/styled'
 
 export const StyledLayout = styled.div`
-  ${(p) => css`
-    .${p.theme.ns}Layout--folded .app-layout-brand {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  ${({ theme: { ns } }) => css`
+    .${ns}Layout--folded .app-layout-brand {
       height: 3.125rem;
       display: table-cell;
     }
+    .${ns}Layout {
+      height: 100%;
+    }
   `}
+
+  .mobile-menu {
+    height: 100%;
+  }
 
   .brand-logo {
     width: 22px;
@@ -25,7 +36,7 @@ export const StyledLayout = styled.div`
   .app-layout-body {
     position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
   }
 
   .app-head-item {

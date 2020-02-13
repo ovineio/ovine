@@ -2,10 +2,6 @@
   amis 可用样式：https://baidu.github.io/amis/docs/style
 */
 
-body {
-  overflow: hidden;
-}
-
 .text-c {
   text-align: center;
 }
@@ -46,6 +42,3 @@ body {
   position: fixed;
 }
 
-.app-tool-tip {
-  max-width: unset !important;
-}

@@ -27,18 +27,19 @@ const initState = {
 export default withAppTheme<Props>((props) => {
   const [state, setState] = useImmer<LayoutState>(initState)
 
-  const { asideFolded } = state
+  const { asideFolded, offScreen } = state
 
   const compProps = { ...state, setLayout: setState }
 
-  // TODO: Layout 作为一个 自定义组件
+  // TODO: 将 Layout 定义为 amis 组件
   return (
     <StyledLayout>
       <Layout
         headerFixed
+        contentClassName="app-layout-body"
         theme={props.theme.name}
         folded={asideFolded}
-        contentClassName="app-layout-body"
+        offScreen={offScreen}
         header={<Header {...compProps} />}
         aside={<Aside {...compProps} />}
       >

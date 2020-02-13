@@ -14,7 +14,7 @@ export type RtCssProps = RendererProps & {
   css?: CssType // 需要渲染的 css
   tag?: keyof JSX.IntrinsicElements | React.ComponentType<any> // 当前组件的 tagName
 }
-const RtCrud = (props: RtCssProps) => {
+const RtCss = (props: RtCssProps) => {
   const { css: getCss, tag, render, className = '', classPrefix, body } = props
 
   return (
@@ -27,9 +27,9 @@ const RtCrud = (props: RtCssProps) => {
 Renderer({
   test: /(^|\/)rt\-css$/,
   name: 'rt-css',
-})(RtCrud)
+})(RtCss)
 
-const StyledCss = styled.div<{ css?: CssType; ns: string }>`
+const StyledCss = styled.div<{ css?: CssType }>`
   ${(p) => css`
     ${p.css && p.css(p.theme)};
   `};

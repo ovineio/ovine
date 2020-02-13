@@ -16,12 +16,12 @@ const appRoute: RouteItem = {
       pathToComponent: 'dashboard',
       sideVisible: false,
     },
-    // {
-    //   label: '测试权限设置',
-    //   nodePath: 'test_limit',
-    //   sideVisible: false,
-    //   limitOnly: true,
-    // },
+    {
+      label: '测试权限设置',
+      nodePath: 'test_limit',
+      sideVisible: false,
+      limitOnly: true,
+    },
     {
       label: '热配置管理',
       icon: 'fa fa-cogs',

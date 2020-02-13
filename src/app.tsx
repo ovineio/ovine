@@ -12,6 +12,7 @@ import Layout from '~/widgets/layout'
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
 import themes from './constants/themes'
 import TestLimit from './pages/test_limit'
+import { GlobalAppStyle } from './styled'
 import { getAppTheme } from './theme'
 import { useImmer, useSubscriber } from './utils/hooks'
 
@@ -53,6 +54,7 @@ const App = hot(() => {
       <AlertComponent theme={theme} />
       <AppContext.Provider value={state}>
         <ThemeProvider theme={themes[theme]}>
+          <GlobalAppStyle />
           <Switch>
             <PrestRoute pathToComponent path="/login" />
             <PrivateRoute path="/">

@@ -31,7 +31,7 @@ export const Amis = withRouter((props: Props) => {
     session: 'global',
     // number 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
     // number 固底间距，当你的有其x他固底元素时，需要设置一定的偏移量，否则会重叠。
-    affixOffsetTop: 0,
+    affixOffsetTop: 50, // 系统默认值
     //  string 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     affixOffsetBottom: 0,
     // 富文本编辑器 token

@@ -13,18 +13,17 @@ import ItemUser from './item_user'
 
 export default withAppTheme<LayoutCommProps>((props) => {
   const { setLayout, asideFolded, theme } = props
+  const toggleScreen = () => {
+    setLayout((d) => {
+      d.offScreen = !d.offScreen
+    })
+  }
+
   return (
     <>
       <div className={`${theme.ns}Layout-brandBar`}>
-        <button
-          onClick={() =>
-            setLayout((d) => {
-              d.offScreen = !d.offScreen
-            })
-          }
-          className="pull-right visible-xs"
-        >
-          <i className="glyphicon glyphicon-align-justify" />
+        <button className="pull-right visible-xs mobile-menu" onClick={toggleScreen}>
+          <i className="fa fa-bars" />
         </button>
         <Link
           className={`${theme.ns}Layout-brand app-layout-brand text-c-i`}

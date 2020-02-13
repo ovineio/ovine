@@ -7,6 +7,7 @@ export const schema: RtSchema = {
   filterTogglable: true,
   limits: '$page',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+  tableWidth: 1000,
   headerToolbar: [
     { type: 'filter-toggler' },
     { type: 'columns-toggler' },
@@ -82,7 +83,6 @@ export const schema: RtSchema = {
         type: 'button',
         icon: 'fa fa-eye',
         actionType: 'dialog',
-        tooltip: '查看',
         limit: '$preset.limits.viewDetail',
         dialog: {
           title: '查看',
@@ -93,9 +93,9 @@ export const schema: RtSchema = {
         type: 'button',
         label: '添加',
         icon: 'fa fa-plus pull-left',
-        size: 'sm',
-        primary: true,
         actionType: 'dialog',
+        size: 'sm',
+        level: 'primary',
         dialog: {
           title: '新增',
           body: '$preset.forms.add',
@@ -104,7 +104,6 @@ export const schema: RtSchema = {
       edit: {
         type: 'button',
         icon: 'fa fa-pencil',
-        tooltip: '编辑',
         actionType: 'drawer',
         dialog: {
           position: 'left',
@@ -117,7 +116,6 @@ export const schema: RtSchema = {
         type: 'button',
         icon: 'fa fa-times text-danger',
         actionType: 'ajax',
-        tooltip: '删除',
         confirmText: '您确认要删除?',
         api: '$preset.apis.delete',
       },
@@ -175,7 +173,6 @@ export const schema: RtSchema = {
           },
           {
             type: 'submit',
-            className: 'm-l',
             label: '搜索',
           },
         ],
