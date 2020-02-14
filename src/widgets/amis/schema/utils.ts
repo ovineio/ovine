@@ -76,7 +76,7 @@ export const envFetcher = (option: any) => {
 
 // schema 配置，必须 type, limits 同时存在才会校验权限
 const checkSchemaLimit = (schema: RtSchema, nodePath?: string) => {
-  const { type, limits, limitsLogic = 'and' } = schema
+  const { type, limits, limitsLogic = 'and' } = schema || {}
 
   if (!type || !limits) {
     return true

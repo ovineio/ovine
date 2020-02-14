@@ -1,11 +1,12 @@
-import { createGlobalStyle, css } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
+/* ${({ theme: { ns } }) => css`
+    //
+`} */
 // app 全局样式
 export const GlobalAppStyle = createGlobalStyle`
   /** 需要用到主题的全局样式 */
-  /* ${({ theme: { ns } }) => css`
-    //
-  `} */
+  
 
   /** 不需要用到主题的全局样式 */
   #app-root {

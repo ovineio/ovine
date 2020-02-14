@@ -67,7 +67,7 @@ const rules = [
         options: {
           publicPath,
           limit: 2000, // 低于2K 使用 base64
-          name: replaceUrlPath,
+          name: replaceUrlPath(),
         },
       },
     ],
@@ -140,8 +140,8 @@ const webpackConfig = {
     maxEntrypointSize: 600 * 1000,
     maxAssetSize: 300 * 1000,
     assetFilter: (file) => {
-      // 过滤dll文件夹
-      return file.endsWith('.js') && !/static\/dll/.test(file)
+      // 过滤 dll, pkg 文件夹
+      return file.endsWith('.js') && (!/static\/dll/.test(file) || !/pkg\//.test(file))
     },
   },
   stats: {

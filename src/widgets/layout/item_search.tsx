@@ -26,7 +26,7 @@ export default () => {
   })
   const history = useHistory()
 
-  const { isInputActive, value } = state
+  const { isInputActive } = state
 
   const asideMenus = getAsideMenus()
 
