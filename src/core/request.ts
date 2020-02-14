@@ -30,22 +30,22 @@ export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
 
 type UseCommErrHandle = boolean | void
 
-type MockSourceGen<S = {}, P = {}> =
-  | ((options: UnionOption<S, Partial<P>>) => object)
+export type MockSourceGen<S = {}, P = {}> =
+  | ((options: UnionOption<S, P>) => object)
   | ServerApiRes<S>
 
 export type ReqSucHook<S = {}, P = {}> = (
   source: ServerApiRes<S>,
-  unionOption: UnionOption<S, Partial<P>>
+  unionOption: UnionOption<S, P>
 ) => any
 
 export type ReqErrorHook<S = {}, P = {}> = (option: {
   source?: ServerApiRes<S>
-  requestOption?: UnionOption<S, Partial<P>>
+  requestOption?: UnionOption<S, P>
   error?: any
 }) => UseCommErrHandle
 
-export type MockSource = Types.ObjectOf<MockSourceGen>
+export type MockSource<S = {}, P = {}> = Types.ObjectOf<MockSourceGen<S, P>>
 
 export type RequestOption<S = {}, P = {}> = {
   url: string // required
@@ -61,7 +61,7 @@ export type RequestOption<S = {}, P = {}> = {
   fetchOption?: RequestInit
   mock?: boolean // 是否启用 mock
   mockSource?: MockSourceGen // 数据生成器
-  mockTimeout?: number // 1000
+  mockTimeout?: number // 300
   onSuccess?: ReqSucHook<S, P> // 接口成功回调
   onError?: ReqErrorHook<S, P> // 接口失败回调
 }
@@ -151,15 +151,7 @@ const timeout = (ms: number) => {
 
 // 模拟数据
 const mockSourceCtrl = async (option: UnionOption) => {
-  const {
-    mockSource,
-    onSuccess,
-    sourceKey = '',
-    api,
-    url,
-    mock = true,
-    mockTimeout = 1000,
-  } = option
+  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockTimeout = 300 } = option
   // 预览打包，暂时去掉 config.isProd 限制
 
   // config.isProd || !mockSource

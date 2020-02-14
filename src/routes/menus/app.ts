@@ -18,6 +18,7 @@ const appRoute: RouteItem = {
     },
     {
       label: '快速开始Demo',
+      icon: 'glyphicon glyphicon-gift',
       nodePath: 'start_demo',
     },
     {

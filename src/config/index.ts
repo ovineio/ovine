@@ -67,7 +67,7 @@ const production: EnvConfig = {
 
 const env = { localhost, staging, production }
 
-const envMode = (process.env.ENV || 'localhost') as EnvMode
+const envMode = (process.env.API_ENV || 'localhost') as EnvMode
 
 const config = {
   ...defaultConfig,

@@ -12,24 +12,115 @@ import { changeAppTheme, withAppTheme } from '~/theme'
 import { useImmer } from '~/utils/hooks'
 
 import { Amis } from '../amis/schema'
+import LimitSetting from '../limit_setting'
 
 import { LayoutCommProps } from './common'
 import HeadItem from './head_item'
 
+type Props = LayoutCommProps
+
+type State = {
+  settingVisible: boolean
+  limitVisible: boolean
+}
+const initState = {
+  settingVisible: false,
+  limitVisible: false,
+}
+
+export default withAppTheme<Props>((props) => {
+  const [state, setState] = useImmer<State>(initState)
+  const { theme } = props
+
+  const { settingVisible, limitVisible } = state
+
+  const toggleSetting = () => {
+    setState((d) => {
+      d.settingVisible = !d.settingVisible
+    })
+  }
+  const toggleLimitDialog = () => {
+    setState((d) => {
+      d.limitVisible = !d.limitVisible
+    })
+  }
+
+  const limitDialog = {
+    type: 'dialog',
+    title: '测试权限设置',
+    show: limitVisible,
+    onClose: toggleLimitDialog,
+    size: 'md',
+    showCloseButton: false,
+    data: {
+      isTestLimit: true,
+    },
+    body: {
+      component: LimitSetting,
+    },
+    actions: [],
+  }
+
+  const settingPanelProps = {
+    ...props,
+    toggleSetting,
+    toggleLimitDialog,
+    theme: theme.name,
+  }
+
+  return (
+    <>
+      <HeadItem faIcon="cog" tip="设置" onClick={toggleSetting} />
+      <Drawer
+        closeOnOutside
+        size="sm"
+        theme={theme.name}
+        onHide={toggleSetting}
+        show={settingVisible}
+        position="right"
+      >
+        <SettingPanel {...settingPanelProps} />
+      </Drawer>
+      <Amis schema={limitDialog} />
+    </>
+  )
+})
+
 type SettingProps = LayoutCommProps & {
   theme: string
+  toggleSetting: () => void
+  toggleLimitDialog: () => void
 }
 
-const onClearCache = () => {
-  toast.success('缓存已经被清理', '操作成功')
-  localStorage.clear()
-  setTimeout(userLogout, 1000)
-}
+const SettingPanel = (option: SettingProps) => {
+  const { theme, toggleSetting, toggleLimitDialog } = option
 
-const getSettingSchema = (option: SettingProps) => {
-  const { theme } = option
+  const onClearCache = () => {
+    toggleSetting()
+    localStorage.clear()
+    sessionStorage.clear()
+    toast.success('缓存已经被清理', '操作成功')
+    setTimeout(userLogout, 1000)
+  }
 
-  return {
+  const onChangeTheme = (choseTheme: string, prevTheme?: string) => {
+    if (!prevTheme) {
+      return
+    }
+    if (choseTheme !== prevTheme) {
+      toggleSetting()
+      changeAppTheme(choseTheme)
+    }
+  }
+
+  const schema = {
+    css: `
+      .from-item-button {
+        .form-control-static {
+          padding: 0;
+        }
+      }
+    `,
     type: 'wrapper',
     className: 'no-bg',
     body: [
@@ -54,11 +145,13 @@ const getSettingSchema = (option: SettingProps) => {
               label: text,
               value: key,
             })),
+            onChange: onChangeTheme,
           },
           {
             type: 'rt-blank',
             name: '',
             label: '系统缓存',
+            className: 'from-item-button',
             body: {
               type: 'button',
               icon: 'fa fa-trash-o',
@@ -67,50 +160,27 @@ const getSettingSchema = (option: SettingProps) => {
               onAction: onClearCache,
             },
           },
+          !process.env.MOCK
+            ? { type: 'rt-omit' }
+            : {
+                type: 'rt-blank',
+                label: '测试权限',
+                name: '',
+                className: 'from-item-button',
+                body: {
+                  type: 'button',
+                  icon: 'fa fa-lock',
+                  label: '编辑权限',
+                  onClick: () => {
+                    toggleSetting()
+                    toggleLimitDialog()
+                  },
+                },
+              },
         ],
-        onChange: (formVal: any) => {
-          if (formVal.theme !== formVal.__prev.theme) {
-            changeAppTheme(formVal.theme)
-          }
-        },
       },
     ],
   }
+
+  return <Amis schema={schema} />
 }
-
-type Props = LayoutCommProps
-
-type State = {
-  settingVisible: boolean
-}
-const initState = {
-  settingVisible: false,
-}
-
-export default withAppTheme<Props>((props) => {
-  const [state, setState] = useImmer<State>(initState)
-  const { theme } = props
-
-  const { settingVisible } = state
-
-  const toggleSetting = () => {
-    setState((d) => {
-      d.settingVisible = !d.settingVisible
-    })
-  }
-
-  return (
-    <>
-      <Drawer
-        size="sm"
-        theme={theme.name}
-        onHide={toggleSetting}
-        show={settingVisible}
-        position="right"
-      >
-        <Amis schema={getSettingSchema({ ...props, theme: theme.name })} />
-      </Drawer>
-      <HeadItem faIcon="cog" tip="设置" onClick={toggleSetting} />
-    </>
-  )
-})

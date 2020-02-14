@@ -11,15 +11,15 @@ import styled, { css, DefaultTheme, FlattenSimpleInterpolation } from 'styled-co
 type CssType = (theme: DefaultTheme) => FlattenSimpleInterpolation
 
 export type RtCssProps = RendererProps & {
-  css?: CssType // 需要渲染的 css
+  css?: string | CssType // 需要渲染的 css
   tag?: keyof JSX.IntrinsicElements | React.ComponentType<any> // 当前组件的 tagName
 }
 const RtCss = (props: RtCssProps) => {
-  const { css: getCss, tag, render, className = '', classPrefix, body } = props
+  const { css: getCss, tag, render, className = '', body } = props
 
   return (
-    <StyledCss as={tag} className={className} ns={classPrefix} css={getCss}>
-      {render('body', body, {})}
+    <StyledCss as={tag} className={className} css={getCss}>
+      {render('body', body)}
     </StyledCss>
   )
 }
@@ -31,6 +31,6 @@ Renderer({
 
 const StyledCss = styled.div<{ css?: CssType }>`
   ${(p) => css`
-    ${p.css && p.css(p.theme)};
+    ${!p.css ? undefined : typeof p.css === 'string' ? p.css : p.css(p.theme)};
   `};
 `

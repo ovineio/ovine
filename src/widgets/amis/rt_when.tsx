@@ -21,7 +21,7 @@ type Props = RendererProps & {
 const RtWhen = (props: Props) => {
   const { condition, cases, render, data, ifTrue, ifFalse } = props
 
-  let schema = null
+  let schema: any = null
 
   if (cases) {
     schema = cases.find(({ value }) => value === evalJS(condition, data))

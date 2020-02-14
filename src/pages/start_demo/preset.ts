@@ -8,52 +8,43 @@ const pageLimit: PagePreset = {
       label: '查看列表',
     },
     viewItem: {
-      label: '列表详细',
+      label: '查看行',
     },
-    addItem: {
-      label: '添加',
+    viewToken: {
+      label: '查看Token',
     },
     editItem: {
       label: '编辑',
     },
-    editConfig: {
-      label: '编辑配置',
+    addItem: {
+      label: '添加',
+      needs: ['editItem'],
     },
     delItem: {
       label: '删除',
-      needs: ['viewItem', 'addItem', 'editItem', 'editConfig'],
+      needs: ['addItem'],
     },
   },
   apis: {
-    catList: {
-      mockSource,
-      url: 'api/v1/hot_config/cat',
-      limits: '$page',
-    },
     list: {
       mockSource,
-      url: 'GET api/v1/hot_config',
+      url: 'GET api/v1/start_demo',
       limits: '$page',
-    },
-    add: {
-      mockSource,
-      url: 'POST api/v1/hot_config',
-      limits: 'add',
     },
     edit: {
       mockSource,
-      url: 'PUT api/v1/hot_config/edit/$id',
-      limits: 'edit',
+      url: 'PUT api/v1/start_demo/$id',
+      limits: 'editItem',
     },
-    del: {
+    add: {
       mockSource,
-      url: 'DELETE api/v1/hot_config/$id',
-      limits: 'del',
+      url: 'POST api/v1/start_demo',
+      limits: 'addItem',
     },
-    api: {
+    delete: {
       mockSource,
-      url: 'api/v1/hot_config/api',
-      limits: 'api',
+      url: 'DELETE api/v1/start_demo/$id',
+      limits: 'delItem',
     },
   },
 }

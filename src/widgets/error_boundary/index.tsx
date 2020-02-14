@@ -8,12 +8,15 @@ import React from 'react'
 
 import logger from '~/utils/logger'
 
+import { StyledErrorPage } from './styled'
+
 type Props = {
   type?: 'page' | 'component' | 'entry'
   children: any
 }
 type State = {
   hasError: boolean
+  online: boolean
 }
 
 const refreshPage = () => {
@@ -37,7 +40,20 @@ class ErrorBoundary extends React.Component<Props, State> {
 
   constructor(props: any) {
     super(props)
-    this.state = { hasError: false }
+    this.state = { hasError: false, online: true }
+  }
+
+  public componentDidMount() {
+    window.addEventListener('online', () => {
+      this.setState({
+        online: true,
+      })
+    })
+    window.addEventListener('offline', () => {
+      this.setState({
+        online: false,
+      })
+    })
   }
 
   public componentDidCatch(error: any, errorInfo: any) {
@@ -67,12 +83,19 @@ class ErrorBoundary extends React.Component<Props, State> {
   // 页面加载错误
   private renderPageError() {
     return (
-      <div>
-        页面错误
-        <ul>
-          <li onClick={refreshPage}>刷新页面</li>
-        </ul>
-      </div>
+      <StyledErrorPage>
+        <div className="inner">
+          <div />
+          <p>
+            <span>当前页面发生错误</span>
+            {this.state.online && (
+              <a onClick={refreshPage} href="javascript:;">
+                刷新页面
+              </a>
+            )}
+          </p>
+        </div>
+      </StyledErrorPage>
     )
   }
 }

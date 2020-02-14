@@ -79,7 +79,7 @@ export const filterNullKeys = <T extends object>(source: T): T => {
  * @param source 参数数组
  */
 export const choice = (source: any[]): any => {
-  return source[random(choice.length - 1)]
+  return source[random(source.length - 1)]
 }
 
 // 校验是否过期

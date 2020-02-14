@@ -34,7 +34,7 @@
 
 ### 快速开始
 
-```
+```bash
 git clone git@github.com:CareyToboo/rt-admin.git
 yarn install
 yarn dev # 开发
@@ -57,7 +57,7 @@ yarn build:analyzer # 打包代码分析
 
 - 开发具体步骤为：
 
-```
+```javascript
 /*
 1. 添加 路由配置 routes/menus/xxx.ts
 2. 添加 页面权限 pages/xxx/prest.ts
@@ -70,7 +70,7 @@ yarn build:analyzer # 打包代码分析
 {
   label: '快速开始Demo', // 侧边栏显示
   nodePath: 'start_demo', // 必填，唯一标示节点路径
-  icon: 'xx' // 侧边栏 icon
+  icon: 'glyphicon glyphicon-gift' // 侧边栏 icon
 }
 
 // 2. 添加 页面权限
@@ -79,7 +79,7 @@ const pageLimit: PagePreset = {
   limits: {
     // key值为自定义值
     $page: { // 预设值，表示路由权限，没有这个权限，路由不会被显示，页面任何权限都会依赖这个权限
-      label: '查看列表‘ // 页面访问查看权限
+      label: '查看列表', // 页面访问查看权限
     },
     edit: {
       label: '编辑', // 默认依赖 $pages

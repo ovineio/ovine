@@ -3,12 +3,14 @@
  */
 
 import { Spinner } from 'amis'
-import { mapTree } from 'amis/lib/utils/helper'
+import { eachTree } from 'amis/lib/utils/helper'
 import isFunction from 'lodash/isFunction'
 import React, { createContext, lazy, useContext, Suspense } from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { isLogin } from '~/core/user'
+import NotFound from '~/pages/404'
+import { isSubStr } from '~/utils/tool'
 import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 import { LayoutLazyFallback } from '~/widgets/layout/loading'
@@ -109,14 +111,26 @@ const PrestComponent = (props: PresetComponentProps) => {
 
 // 处理每个路由，包裹 PrestComponent 组件
 export const PrestRoute = (props: PresetRouteProps) => {
-  const { withSuspense = true, fallback = PageSpinner, path = '', component } = props
+  const {
+    withSuspense = true,
+    fallback = PageSpinner,
+    path = '',
+    component,
+    exact = true,
+    children,
+    ...rest
+  } = props
 
   const routePath = getRoutePath(path)
+  if (exact && !isSubStr(routePath, ':') && routePath !== location.pathname) {
+    return <Redirect to="/404" />
+  }
 
   const RouteComponent = (
     <Route
-      {...props}
+      {...rest}
       path={routePath}
+      exact={exact}
       component={
         !component
           ? getPageAsync(props)
@@ -145,17 +159,21 @@ export const AppMenuRoutes = () => {
       return
     }
 
-    mapTree(children, (item) => {
+    eachTree(children, (item) => {
       if (item.path && !item.limitOnly) {
         routes.push(<PrestRoute key={routes.length + 1} withSuspense={false} {...item} />)
       }
-      return item
     })
   })
 
   return (
     <ErrorBoundary type="page">
-      <Suspense fallback={<LayoutLazyFallback />}>{routes}</Suspense>
+      <Suspense fallback={<LayoutLazyFallback />}>
+        <Switch>
+          {routes}
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </Suspense>
     </ErrorBoundary>
   )
 }

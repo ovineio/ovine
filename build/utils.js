@@ -28,24 +28,34 @@ const publicPath = '/'
 const manifestPath = rootDir('build/dll_vendor_manifest.json')
 const manifestAssetsName = 'build/dll_vendor_assets.json'
 const dllVendorJsPath = 'static/dll'
-const dllVendorJs = `${publicPath}${dllVendorJsPath}/${
-  require(rootDir(manifestAssetsName)).dll_vendor.js
-}`
+
+const getDllDistPath = (type) =>
+  `${publicPath}${dllVendorJsPath}/${require(rootDir(manifestAssetsName)).dll_vendor[type]}`
+
+const dllVendorCss = getDllDistPath('css')
+const dllVendorJs = getDllDistPath('js')
 
 const dllPaths = {
   manifestPath,
   manifestAssetsName,
   dllVendorJsPath,
   dllVendorJs,
+  dllVendorCss,
 }
 
 const replaceUrlPath = (resourcePath) => {
-  // 调整 静态资源文件夹
-  const path = resourcePath
-    .replace(`${__dirname}/src/assets`, '')
-    .replace(`${__dirname}/src`, '')
-    .replace('/images', '')
-  return `assets${path}`
+  if (isDev) {
+    return '[path][name].[ext]'
+  }
+
+  // 去除无用文件夹 并添加 hash
+  return (resourcePath) => {
+    const filePath = resourcePath
+      .replace(srcDir('assets'), '')
+      .replace(srcDir(), '')
+      .replace('/images', '')
+    return `assets/${path.dirname(filePath)}/[name]_[contenthash:6].[ext]`
+  }
 }
 
 module.exports = {

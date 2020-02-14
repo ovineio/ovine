@@ -34,7 +34,8 @@ export default () => {
     signature:
       '就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～',
   }
-  const schema = {
+
+  const infoDialog = {
     data,
     type: 'dialog',
     title: '您的个人信息',
@@ -93,7 +94,7 @@ export default () => {
         />
         <span>梦醒十分2</span>
       </HeadItem>
-      <Amis schema={schema} />
+      <Amis schema={infoDialog} />
     </>
   )
 }

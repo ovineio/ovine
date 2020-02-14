@@ -55,8 +55,12 @@ export const Amis = withRouter((props: Props) => {
         return
       }
       const tipMsg = (toast as any)[type]
+      const isError = type === 'error'
       if (tipMsg) {
-        tipMsg(msg, type === 'error' ? '系统异常' : '系统提示')
+        tipMsg(
+          msg || `未知${isError ? '异常' : '消息'}`,
+          type === 'error' ? '系统异常' : '系统提示'
+        )
       }
     },
     // 实现警告提示。
@@ -76,22 +80,23 @@ export const Amis = withRouter((props: Props) => {
       log.log('confirm: ', msg)
       return confirm(confirmText, confirmTitle)
     },
-    // 实现页面跳转，因为不清楚所在环境中是否使用了 spa 模式，所以用户自己实现吧。
+    // 实现页面跳转
     jumpTo: (to: string, action?: Action, ctx?: object) => {
       log.log('jumpTo', to, action, ctx)
-
-      to = normalizeLink({ to })
-      history.push(to)
+      const { href } = normalizeLink({ to })
+      history.push(href)
     },
     // 地址替换，跟 jumpTo 类似。
-    updateLocation: (to: any, replace?: boolean) => {
-      const link = normalizeLink({ to })
-      log.log('updateLocation', replace ? 'replace ' : 'push', link)
-      if (replace) {
-        window.history.replaceState({}, '', link)
+    updateLocation: (to: any, replace: boolean = false) => {
+      const { href, pathname } = normalizeLink({ to })
+
+      const isReplace = pathname === location.pathname
+      log.log('updateLocation', replace ? 'replace ' : 'push', isReplace, href)
+      if (isReplace) {
+        window.history.replaceState(null, '', href)
         return
       }
-      history.push(link)
+      history.push(href)
     },
     // 判断目标地址是否为当前页面。
     isCurrentUrl: (to: string) => {

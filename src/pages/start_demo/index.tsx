@@ -6,11 +6,12 @@ export const schema: RtSchema = {
   filter: '$preset.forms.filter',
   filterTogglable: true,
   limits: '$page',
+  perPageField: 'size',
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   tableWidth: 1000,
   headerToolbar: [
-    { type: 'filter-toggler' },
-    { type: 'columns-toggler' },
+    { type: 'filter-toggler', align: 'left' },
+    { type: 'columns-toggler', align: 'left' },
     { $preset: 'actions.add' },
   ],
   columns: [
@@ -22,37 +23,31 @@ export const schema: RtSchema = {
       toggled: false,
     },
     {
-      name: 'key',
-      label: '配置KEY',
-      width: 80,
-      type: 'rt-blank',
-      body: '$preset.actions.editConfig',
+      name: 'name',
+      label: '名称',
+      type: 'text',
+      width: 110,
     },
     {
       name: 'cat',
-      label: '配置类别',
-      type: 'text',
-      sortable: true,
+      label: '类别',
+      type: 'html',
+      html: '<span class="label label-primary">${cat}</span>',
       width: 80,
     },
     {
       name: 'desc',
       label: '描述',
-      type: 'tpl',
-      tpl: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
-    },
-    {
-      name: 'token',
-      label: '访问TOKEN',
       type: 'html',
-      html: '<span class="text-ellipsis" title="${token}">${token}</span>',
+      html: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
     },
     {
-      name: 'ip',
-      label: 'IP白名单',
+      name: 'auth',
+      label: '用户Token',
       type: 'rt-blank',
-      width: 60,
-      body: '$preset.actions.viewIp',
+      width: 70,
+      limits: 'viewToken',
+      body: '$preset.actions.viewToken',
     },
     {
       name: 'update_at',
@@ -70,6 +65,8 @@ export const schema: RtSchema = {
       type: 'operation',
       label: '操作',
       width: 100,
+      limits: ['viewItem', 'editItem', 'delItem'],
+      limitsLogic: 'or',
       buttons: [
         { $preset: 'actions.view' },
         { $preset: 'actions.edit' },
@@ -79,14 +76,28 @@ export const schema: RtSchema = {
   ],
   preset: {
     actions: {
+      viewToken: {
+        type: 'button',
+        actionType: 'dialog',
+        label: '查看',
+        level: 'link',
+        dialog: {
+          title: '查看Token',
+          body: {
+            type: 'html',
+            html: '${token}',
+          },
+        },
+      },
       view: {
         type: 'button',
         icon: 'fa fa-eye',
         actionType: 'dialog',
-        limit: '$preset.limits.viewDetail',
+        limits: 'viewItem',
         dialog: {
-          title: '查看',
+          title: '查看【${name}】',
           body: '$preset.forms.view',
+          actions: [],
         },
       },
       add: {
@@ -96,19 +107,19 @@ export const schema: RtSchema = {
         actionType: 'dialog',
         size: 'sm',
         level: 'primary',
+        limits: 'addItem',
         dialog: {
-          title: '新增',
+          title: '添加一项',
           body: '$preset.forms.add',
         },
       },
       edit: {
         type: 'button',
         icon: 'fa fa-pencil',
-        actionType: 'drawer',
+        actionType: 'dialog',
+        limits: 'editItem',
         dialog: {
-          position: 'left',
-          size: 'lg',
-          title: '编辑',
+          title: '编辑【${name}】',
           body: '$preset.forms.edit',
         },
       },
@@ -116,33 +127,9 @@ export const schema: RtSchema = {
         type: 'button',
         icon: 'fa fa-times text-danger',
         actionType: 'ajax',
-        confirmText: '您确认要删除?',
+        confirmText: '您确认要删除【${name}】?',
+        limits: 'delItem',
         api: '$preset.apis.delete',
-      },
-      editConfig: {
-        type: 'button',
-        actionType: 'dialog',
-        label: '${key}',
-        level: 'link',
-        dialog: {
-          title: '编辑配置: ${cat}/${key}',
-          size: 'lg',
-          bodyClassName: 'p-b-none',
-          body: '$preset.forms.editConfig',
-        },
-      },
-      viewIp: {
-        type: 'button',
-        actionType: 'dialog',
-        label: '查看',
-        level: 'link',
-        dialog: {
-          title: 'IP白名单',
-          body: {
-            type: 'tpl',
-            tpl: '${ip}',
-          },
-        },
       },
     },
     forms: {
@@ -160,14 +147,19 @@ export const schema: RtSchema = {
             name: 'cat',
             label: '类别',
             placeholder: '请选择类别',
+            clearable: true,
             options: [
               {
-                label: 'Option A',
-                value: 'a',
+                label: '普通',
+                value: '普通',
               },
               {
-                label: 'Option B',
-                value: 'b',
+                label: '一般',
+                value: '一般',
+              },
+              {
+                label: '高级',
+                value: '高级',
               },
             ],
           },
@@ -181,48 +173,36 @@ export const schema: RtSchema = {
         type: 'form',
         controls: [
           {
+            name: 'id',
             type: 'static',
-            name: 'engine',
-            label: 'Engine',
+            label: 'ID',
           },
           {
-            type: 'divider',
-          },
-          {
+            name: 'name',
             type: 'static',
-            name: 'browser',
-            label: 'Browser',
+            label: '名称',
           },
           {
-            type: 'divider',
-          },
-          {
-            type: 'static',
-            name: 'platform',
-            label: 'Platform(s)',
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'static',
-            name: 'version',
-            label: 'Engine version',
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'static',
-            name: 'grade',
-            label: 'CSS grade',
-          },
-          {
-            type: 'divider',
-          },
-          {
+            name: 'cat',
             type: 'html',
-            html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
+            label: '类别',
+            html:
+              '<div class="label label-primary" style="line-height:inherit;display: inline-block;">${cat}</div>',
+          },
+          {
+            name: 'desc',
+            type: 'static',
+            label: '描述',
+          },
+          {
+            name: 'update_at',
+            type: 'static-datetime',
+            label: '更新时间',
+          },
+          {
+            name: 'create_at',
+            type: 'static-datetime',
+            label: '创建时间',
           },
         ],
       },
@@ -232,44 +212,36 @@ export const schema: RtSchema = {
         api: '$preset.apis.add',
         controls: [
           {
+            name: 'name',
             type: 'text',
-            name: 'engine',
-            label: 'Engine',
+            label: '名称',
             required: true,
           },
           {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'browser',
-            label: 'Browser',
+            name: 'cat',
+            type: 'select',
+            label: '类别',
             required: true,
+            options: [
+              {
+                label: '普通',
+                value: '普通',
+              },
+              {
+                label: '一般',
+                value: '一般',
+              },
+              {
+                label: '高级',
+                value: '高级',
+              },
+            ],
           },
           {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'platform',
-            label: 'Platform(s)',
-            required: true,
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'version',
-            label: 'Engine version',
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'grade',
-            label: 'CSS grade',
+            name: 'desc',
+            type: 'textarea',
+            label: '描述',
+            minRows: 2,
           },
         ],
       },
@@ -279,45 +251,43 @@ export const schema: RtSchema = {
         api: '$preset.apis.edit',
         controls: [
           {
+            name: 'id',
             type: 'text',
-            name: 'engine',
-            label: 'Engine',
+            label: 'ID',
+            disabled: true,
             required: true,
           },
           {
-            type: 'divider',
-          },
-          {
+            name: 'name',
             type: 'text',
-            name: 'browser',
-            label: 'Browser',
+            label: '名称',
             required: true,
           },
           {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'platform',
-            label: 'Platform(s)',
-            required: true,
-          },
-          {
-            type: 'divider',
-          },
-          {
-            type: 'text',
-            name: 'version',
-            label: 'Engine version',
-          },
-          {
-            type: 'divider',
-          },
-          {
+            name: 'cat',
             type: 'select',
-            name: 'grade',
-            label: 'CSS grade',
-            options: ['A', 'B', 'C', 'D', 'X'],
+            label: '类别',
+            required: true,
+            options: [
+              {
+                label: '普通',
+                value: '普通',
+              },
+              {
+                label: '一般',
+                value: '一般',
+              },
+              {
+                label: '高级',
+                value: '高级',
+              },
+            ],
+          },
+          {
+            name: 'desc',
+            type: 'textarea',
+            label: '描述',
+            minRows: 2,
           },
         ],
       },

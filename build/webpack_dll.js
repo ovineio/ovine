@@ -13,7 +13,7 @@ const { DllPlugin } = webpack
 const dllName = '[name]_[hash:6]'
 
 // 是否启用分析工具
-const enableAnalyzer = true
+const enableAnalyzer = false
 
 // 需要打包到 dll 的模块
 // 1. 项目必须依赖的基础模块
@@ -27,8 +27,15 @@ const dllModules = [
   'immer',
   'styled-components',
   'whatwg-fetch',
+  'qs',
   // amis 更新频率较高（大概半个月左右），因此需要如果更新版本时要考虑升级对项目影响
   'amis',
+  'font-awesome/css/font-awesome.css',
+  'react-datetime/css/react-datetime.css',
+  'video-react/dist/video-react.css',
+  'cropperjs/dist/cropper.css',
+  'froala-editor/css/froala_style.min.css',
+  'froala-editor/css/froala_editor.pkgd.min.css',
 ]
 
 const dellWebpackConfig = {
@@ -53,6 +60,20 @@ const dellWebpackConfig = {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
+        exclude: /qs\//,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              publicPath: `${publicPath}${dllPaths.dllVendorJsPath}/`,
+              limit: 2000, // 低于2K 使用 base64
+              name: '[name]_[contenthash:6].[ext]',
+            },
+          },
+        ],
       },
     ],
   },

@@ -16,6 +16,7 @@ const {
   API_ENV,
   ENV,
   ANALYZER_PORT,
+  enableMock,
   dllPaths,
   isProd,
   rootDir,
@@ -27,6 +28,7 @@ const {
 const plugins = [
   new CleanPlugin(),
   new EnvironmentPlugin({
+    MOCK: enableMock,
     API_ENV: API_ENV,
     ENV: ENV,
   }),
@@ -59,6 +61,7 @@ const plugins = [
     template: srcDir('index.html'),
     filename: distDir('index.html'),
     version: package.version,
+    dllVendorCss: dllPaths.dllVendorCss,
     dllVendorJs: dllPaths.dllVendorJs,
   }),
 ]

@@ -31,7 +31,7 @@ export const schema: RtSchema = {
       login: {
         url: 'POST api/v1/login',
         mockSource,
-        onSuccess: userLoginHook,
+        onSuccess: userLoginHook as any,
       },
     },
     forms: {
@@ -42,8 +42,8 @@ export const schema: RtSchema = {
         mode: 'horizontal',
         wrapWithPanel: false,
         autoFocus: false,
-        redirect: '/',
         api: '$preset.apis.login',
+        redirect: '/',
         messages: {
           saveSuccess: '欢迎您登录本系统～',
         },

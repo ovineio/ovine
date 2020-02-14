@@ -45,10 +45,14 @@ export default withAppTheme<LayoutCommProps>((props) => {
               })
             }
           />
+          <HeadItem
+            tip="github仓库"
+            faIcon="github"
+            onClick={() => window.open('https://github.com/CareyToboo/rt-admin', '_blank')}
+          />
         </div>
         <div className="hidden-xs pull-right">
           <ItemSearch />
-          <HeadItem tip="帮助" faIcon="question-circle" />
           <ItemMsg />
           <ItemUser />
           <ItemSetting {...props} />

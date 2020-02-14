@@ -2,16 +2,14 @@ import { AlertComponent, ToastComponent } from 'amis'
 import React, { createContext, useContext } from 'react'
 import { render } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Switch } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
-import NotMatch from '~/pages/404'
 import { AppMenuRoutes, PrestRoute, PrivateRoute } from '~/routes/route'
 import Layout from '~/widgets/layout'
 
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
 import themes from './constants/themes'
-import TestLimit from './pages/test_limit'
 import { GlobalAppStyle } from './styled'
 import { getAppTheme } from './theme'
 import { useImmer, useSubscriber } from './utils/hooks'
@@ -59,11 +57,7 @@ const App = hot(() => {
             <PrestRoute pathToComponent path="/login" />
             <PrivateRoute path="/">
               <Layout>
-                <Switch>
-                  <PrestRoute path="/test_limit" component={TestLimit} />
-                  <AppMenuRoutes />
-                  <Route path="*" component={NotMatch} />
-                </Switch>
+                <AppMenuRoutes />
               </Layout>
             </PrivateRoute>
           </Switch>

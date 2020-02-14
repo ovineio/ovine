@@ -22,7 +22,7 @@ type State = {
   visitedTabs: number[]
 }
 const LimitSetting = (props: any) => {
-  const { render, data } = props
+  const { render, data = {} } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
@@ -32,6 +32,7 @@ const LimitSetting = (props: any) => {
   const storeRef = useRef<Types.ObjectOf<string>>({})
 
   const { activeTab, visitedTabs, selectedVal, isUnfolded } = state
+  const { name: limitName, isTestLimit = false } = data
 
   useEffect(() => {
     initData()
@@ -112,7 +113,9 @@ const LimitSetting = (props: any) => {
           icon: 'fa fa-check text-success',
           tooltipPlacement: 'top',
           actionType: 'cancel',
-          confirmText: `您正在修改的权限是【${data.name}】，提交后将不可重置，是否确认提交？`,
+          confirmText: isTestLimit
+            ? '权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。'
+            : `您正在修改的权限是【${limitName}】，提交后将不可重置，是否确认提交？`,
           onAction: onSave,
         },
         {

@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import isArray from 'lodash/isArray'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 
@@ -47,7 +48,12 @@ export const normalizeLink = (option: { location?: any; to?: any }) => {
     }
     pathname = paths.concat(pathname).join('/')
   }
-  return pathname + search + hash
+  return {
+    href: pathname + search + hash,
+    pathname,
+    search,
+    hash,
+  }
 }
 
 // 请求返回值 格式转化
@@ -63,16 +69,26 @@ export const amisResAdapter = (res: any) => {
 
 // 自定义 amis 请求
 export const envFetcher = (option: any) => {
-  log.log('amis:fetcher')
+  log.log('amis:fetcher', option)
 
   return request(option).then(amisResAdapter)
 }
 
 // schema 配置，必须 type, limits 同时存在才会校验权限
 const checkSchemaLimit = (schema: RtSchema, nodePath?: string) => {
-  const { type, limits } = schema
+  const { type, limits, limitsLogic = 'and' } = schema
 
-  return !type || !limits ? true : checkLimitByKeys(limits, { nodePath })
+  if (!type || !limits) {
+    return true
+  }
+
+  if (limitsLogic === 'or' && typeof limits !== 'string') {
+    return !!limits.some((limit) => checkLimitByKeys(limit, { nodePath }))
+  }
+
+  const isAuth = checkLimitByKeys(limits, { nodePath })
+
+  return isAuth
 }
 
 // 过滤无权限操作
@@ -84,31 +100,42 @@ export const filterSchemaLimit = (
 ) => {
   const { nodePath } = option
 
-  // root schema 权限不匹配，直接不显示
+  if (!isObject(schema)) {
+    return
+  }
+
+  if (isArray(schema)) {
+    const limitedIdxAr: number[] = []
+    schema.forEach((item: any, index) => {
+      if (!checkSchemaLimit(item, nodePath)) {
+        limitedIdxAr.push(index)
+      } else {
+        filterSchemaLimit(item, { nodePath })
+      }
+    })
+    limitedIdxAr.forEach((idx, index) => {
+      schema.splice(idx - index, 1)
+    })
+    return
+  }
+
   if (!checkSchemaLimit(schema, nodePath)) {
-    return { type: 'rt-omit' }
+    schema.type = 'rt-omit'
+    return
   }
 
   map(schema, (val, key) => {
-    if (!isObject(val)) {
+    if (!isObject(schema)) {
       return
     }
 
-    const isAuth = checkSchemaLimit(val as any, nodePath)
-
-    if (isAuth) {
-      schema[key] = filterSchemaLimit(val as any, { nodePath })
+    if (!checkSchemaLimit(val as any, nodePath)) {
+      delete schema[key]
       return
     }
 
-    if (schema.splice) {
-      schema.splice(key, 1)
-      return
-    }
-    delete schema[key]
+    filterSchemaLimit(val as any, { nodePath })
   })
-
-  return schema
 }
 
 // 自定义格式 转换为 amis 格式
@@ -176,13 +203,11 @@ export const convertToAmisSchema = (
 export const resolveRtSchema = (schema: RtSchema) => {
   const { preset = {}, ...rest } = schema
   const { css, ...restCss } = rest
-  // 顶层有 page 与 css，自动注入 rt-css
+  // 顶层有 type 与 css，自动注入 rt-css
   const reformSchema =
-    rest.type === 'page' && css
-      ? { preset, type: 'rt-css', css, body: restCss }
-      : { preset, ...rest }
+    rest.type && css ? { preset, type: 'rt-css', css, body: restCss } : { preset, ...rest }
 
   convertToAmisSchema(reformSchema, { preset })
-  filterSchemaLimit(reformSchema, preset)
+  filterSchemaLimit(rest, preset)
   return reformSchema
 }

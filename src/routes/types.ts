@@ -13,6 +13,7 @@ export type Limit = {
 
 export type LimitSchema = {
   limits?: string | string[]
+  limitsLogic?: 'and' | 'or'
 }
 
 export type PagePreset = {
