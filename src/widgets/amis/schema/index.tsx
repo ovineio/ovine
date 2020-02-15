@@ -26,7 +26,7 @@ export const renderAmis = render
 type Props = AmisProps & RouteComponentProps<any>
 
 export const Amis = withRouter((props: Props) => {
-  const { schema, props: amisProps = {}, option = {}, history, match } = props
+  const { schema, props: amisProps, option = {}, history, match } = props
 
   const { preset, css } = schema
 

@@ -17,7 +17,6 @@ type EnvConfig = {
 }
 
 type AppConfig = EnvConfig & {
-  mockUrl: string
   envMode: EnvMode
 }
 
@@ -32,7 +31,6 @@ const defaultConfig: AppConfig = {
   isMock: false,
   debug: 'dev:*',
   envMode: 'localhost',
-  mockUrl: '',
   urlMode: {
     api: 'http://api-rt-admin.com',
   },

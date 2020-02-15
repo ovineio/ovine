@@ -1,5 +1,5 @@
 /**
- * 主题文件入口
+ * 主题文件
  */
 
 import { DefaultTheme } from 'styled-components'

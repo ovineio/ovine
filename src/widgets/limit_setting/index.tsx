@@ -1,3 +1,7 @@
+/**
+ * APP 权限设置模块
+ */
+
 import { Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import map from 'lodash/map'

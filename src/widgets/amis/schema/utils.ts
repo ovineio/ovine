@@ -59,18 +59,20 @@ export const normalizeLink = (option: { location?: any; to?: any }) => {
 
 // 请求返回值 格式转化
 export const amisResAdapter = (res: any) => {
+  const response = {
+    status: res?.code,
+    msg: '',
+    ...res,
+  }
+
   return {
-    data: {
-      status: 0,
-      msg: '',
-      ...res,
-    },
+    data: response,
   }
 }
 
 // 自定义 amis 请求
 export const envFetcher = (option: any) => {
-  log.log('amis:fetcher', option)
+  log.log('amis:fetcher')
 
   return request(option).then(amisResAdapter)
 }

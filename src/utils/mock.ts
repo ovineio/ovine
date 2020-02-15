@@ -1,5 +1,5 @@
 /**
- * Mock数据需要用到的工具
+ * Mock数据 一些简单封装
  */
 
 import { uuid } from 'amis/lib/utils/helper'
@@ -134,5 +134,22 @@ export class MockListStore<S = {}, P = S> {
 
   private getItemData(data: P): Partial<P> {
     return pick(data, Object.keys(this.generator(0)))
+  }
+}
+
+export const mockResSuccess = <T>(data: T) => {
+  return {
+    data,
+    code: 0,
+  }
+}
+
+export const mockResError = (...args: any[]) => {
+  const [code, message = 'mock错误请求', error] = args
+  return {
+    code,
+    msg: message,
+    message,
+    error,
   }
 }

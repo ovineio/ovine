@@ -1,5 +1,6 @@
 /**
  * App布局
+ * TODO: 将 Layout, HeaderItem, Aside 定义为 amis 组件
  */
 
 import { Layout } from 'amis'
@@ -31,7 +32,6 @@ export default withAppTheme<Props>((props) => {
 
   const compProps = { ...state, setLayout: setState }
 
-  // TODO: 将 Layout 定义为 amis 组件
   return (
     <StyledLayout>
       <Layout

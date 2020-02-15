@@ -308,16 +308,17 @@ async function request(option: RequestOption<any, any>): Promise<any | undefined
   const fetchOptions = getFetchOption(userTokenCtrl(option))
   const unionOption = { ...option, ...fetchOptions }
 
-  // mock数据拦截
-  const mockSource = await mockSourceCtrl(unionOption)
-  if (mockSource !== 'none') {
-    return mockSource
-  }
-
   // 命中缓存 直接返回
   const cachedResponse = cacheSourceCtrl('get', unionOption)
   if (cachedResponse) {
     return cachedResponse
+  }
+
+  // mock数据拦截
+  const mockSource = await mockSourceCtrl(unionOption)
+  if (mockSource !== 'none') {
+    cacheSourceCtrl('set', unionOption, mockSource)
+    return mockSource
   }
 
   const resData = await fetchSourceCtrl(unionOption)

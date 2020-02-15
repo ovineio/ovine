@@ -1,13 +1,9 @@
 /**
  * 项目用到的全局数据存储模块
+ * TODO: 添加缓存过期时间
  */
 
 const globalData: any = {}
-
-/**
- * TODO:
- * 1. 添加缓存过期时间
- */
 
 export function setStore(key: string, value: any): void {
   localStorage.setItem(key, JSON.stringify(value))
