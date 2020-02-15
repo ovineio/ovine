@@ -3,6 +3,7 @@
  * 所有异步加载文件
  */
 
+import { MockSource } from '~/core/request'
 import { retryPromise } from '~/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
@@ -28,10 +29,24 @@ export const getPagePreset = (option: PageFileOption): PagePreset | undefined =>
   const filePath = getPageFilePath(option)
 
   try {
-    const limitConf = require(/* webpackInclude: /pages\/.*\/limit\.ts?$/ */
-    /* webpackChunkName: "limit_[request]" */
+    const pagePest = require(/* webpackInclude: /pages\/.*\/limit\.ts$/ */
+    /* webpackChunkName: "prest_[request]" */
     `~/pages/${filePath}/preset.ts`)
-    return limitConf.default
+    return pagePest.default
+  } catch (e) {
+    //
+  }
+}
+
+// 获取 mock。默认为  pages/xxx/mock.ts 存在该文件，将自动注入mock到prest每一个 api
+export const getPageMockSource = (option: PageFileOption): MockSource | undefined => {
+  const filePath = getPageFilePath(option)
+
+  try {
+    const pagePest = require(/* webpackInclude: /pages\/.*\/mock\.ts$/ */
+    /* webpackChunkName: "mock_[request]" */
+    `~/pages/${filePath}/mock.ts`)
+    return pagePest.default
   } catch (e) {
     //
   }

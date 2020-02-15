@@ -1,5 +1,6 @@
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 
@@ -106,7 +107,7 @@ export const filterSchemaLimit = (
 
   if (isArray(schema)) {
     const limitedIdxAr: number[] = []
-    schema.forEach((item: any, index) => {
+    schema.forEach((item: RtSchema, index) => {
       if (!checkSchemaLimit(item, nodePath)) {
         limitedIdxAr.push(index)
       } else {
@@ -124,17 +125,17 @@ export const filterSchemaLimit = (
     return
   }
 
-  map(schema, (val, key) => {
+  map(schema, (val: RtSchema, key) => {
     if (!isObject(schema)) {
       return
     }
 
-    if (!checkSchemaLimit(val as any, nodePath)) {
+    if (!checkSchemaLimit(val, nodePath)) {
       delete schema[key]
       return
     }
 
-    filterSchemaLimit(val as any, { nodePath })
+    filterSchemaLimit(val, { nodePath })
   })
 }
 
@@ -207,7 +208,12 @@ export const resolveRtSchema = (schema: RtSchema) => {
   const reformSchema =
     rest.type && css ? { preset, type: 'rt-css', css, body: restCss } : { preset, ...rest }
 
+  if (isEmpty(preset)) {
+    return reformSchema
+  }
+
   convertToAmisSchema(reformSchema, { preset })
   filterSchemaLimit(rest, preset)
+
   return reformSchema
 }

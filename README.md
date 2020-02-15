@@ -73,8 +73,8 @@ yarn build:analyzer # 打包代码分析
   icon: 'glyphicon glyphicon-gift' // 侧边栏 icon
 }
 
-// 2. 添加 页面权限
-const pageLimit: PagePreset = {
+// 2. 添加 页面设置
+const pagePrest: PagePreset = {
   // 所有权限定义的权限， 可以在页面任何需要渲染的地方使用
   limits: {
     // key值为自定义值
@@ -108,7 +108,7 @@ const pageLimit: PagePreset = {
     // ... 其他任何接口定义
   }
 }
-export default pageLimit // 导出配置
+export default pagePrest // 导出配置
 
 // 3. 添加 页面组件， amis schema配置
 export const schema = {

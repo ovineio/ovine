@@ -21,28 +21,33 @@ const optimization = {
   occurrenceOrder: true,
   // https://webpack.js.org/plugins/split-chunks-plugin/
   splitChunks: {
-    minSize: 30000,
-    maxInitialRequests: Infinity,
+    // minSize: 30000,
+    // maxInitialRequests: Infinity,
     automaticNameDelimiter: '_',
     cacheGroups: {
       default: false, // 取消 splitChunks 默认配置
       vendors: false, // 取消 splitChunks vendors 配置
-      // 缓存文件 每一个Key,对应的配置就是一种打包规则
-      appAsync: {
-        // 异步加载模块 被应用3次以上的模块
-        chunks: 'async',
-        name: 'app_async',
-        priority: 10,
-        minChunks: 3, // 当异步模块只被应用2次时，会分别打包到引用两个入口中。
-        reuseExistingChunk: true,
-      },
-      appCore: {
-        // 项目内核心文件 => 全部打包为一个
+      appTheme: {
         chunks: 'all',
-        name: 'app_core',
-        test: /src[\\/]assets|config|constants|core|utils|routes|widgets[\\/]/,
-        priority: 9,
-        minChunks: 2,
+        name: 'theme',
+        test: /theme/,
+        priority: 10,
+        minChunks: 1,
+        reuseExistingChunk: false,
+      },
+      appVendor: {
+        chunks: 'all',
+        name: 'vendor',
+        test: /[\\/]node_modules[\\/]/,
+        priority: 8,
+        minChunks: 1,
+        reuseExistingChunk: false,
+      },
+      appAsync: {
+        chunks: 'async',
+        name: 'async',
+        priority: 7,
+        minChunks: 3,
         reuseExistingChunk: true,
       },
     },

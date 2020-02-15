@@ -141,7 +141,11 @@ const webpackConfig = {
     maxAssetSize: 300 * 1000,
     assetFilter: (file) => {
       // 过滤 dll, pkg 文件夹
-      return file.endsWith('.js') && (!/static\/dll/.test(file) || !/pkg\//.test(file))
+      const isDll = /static\/dll/.test(file)
+      const isPkg = /pkg\//.test(file)
+      const isJs = file.endsWith('.js')
+
+      return isJs && !isDll && !isPkg
     },
   },
   stats: {

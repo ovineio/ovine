@@ -4,6 +4,9 @@ import { MockSource } from '~/core/request'
 import { MockListStore } from '~/utils/mock'
 import { choice } from '~/utils/tool'
 
+// TODO:
+// 1. 优化mock重复逻辑, errorData, successData
+
 const getNow = () => Date.now() / 1000
 
 const generator = (i: number) => ({
@@ -19,11 +22,11 @@ const generator = (i: number) => ({
 
 const initItem = generator(0)
 
-type Item = typeof initItem
+type ReqParams = typeof initItem
 
-const mockStore = new MockListStore<Partial<Item>>({ generator })
+const mockStore = new MockListStore<any, Partial<ReqParams>>({ generator })
 
-export const mockSource: MockSource<{}, Item> = {
+const mockSource: MockSource<{}, ReqParams> = {
   'GET api/v1/start_demo': () => {
     const items = mockStore.search()
     return {
@@ -34,26 +37,23 @@ export const mockSource: MockSource<{}, Item> = {
     }
   },
   'PUT api/v1/start_demo/$id': ({ data = initItem }) => {
-    mockStore.updateById(data, {
-      update_at: getNow(),
+    return mockStore.updateById(data, {
+      updater: {
+        update_at: getNow(),
+      },
     })
-    return {
-      code: 0,
-    }
   },
   'POST api/v1/start_demo': ({ data = initItem }) => {
-    mockStore.add(data, {
-      update_at: getNow(),
-      create_at: getNow(),
+    return mockStore.add(data, {
+      updater: {
+        update_at: getNow(),
+        create_at: getNow(),
+      },
     })
-    return {
-      code: 0,
-    }
   },
   'DELETE api/v1/start_demo/$id': ({ data = initItem }) => {
-    mockStore.deleteById(data)
-    return {
-      code: 0,
-    }
+    return mockStore.deleteById(data, {})
   },
 }
+
+export default mockSource

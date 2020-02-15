@@ -1,7 +1,8 @@
 import { confirm, render, toast } from 'amis'
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
-import React from 'react'
+import isEmpty from 'lodash/isEmpty'
+import React, { useMemo } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
@@ -26,6 +27,15 @@ type Props = AmisProps & RouteComponentProps<any>
 
 export const Amis = withRouter((props: Props) => {
   const { schema, props: amisProps = {}, option = {}, history, match } = props
+
+  const { preset, css } = schema
+
+  const envSchema: any = useMemo(() => {
+    if (isEmpty(preset) && css) {
+      return schema
+    }
+    return resolveRtSchema(schema)
+  }, [schema])
 
   const aimsEnv = {
     session: 'global',
@@ -117,15 +127,6 @@ export const Amis = withRouter((props: Props) => {
     loadRenderer: (loaderSchema: any, path: string) => {
       log.log('loadRenderer', loaderSchema, path)
     },
-  }
-
-  const { preset, css } = schema
-
-  let envSchema: any = schema
-  if (preset || css) {
-    envSchema = log.time('resolveRtSchema 当前schema', () => {
-      return resolveRtSchema(schema)
-    })
   }
 
   return (

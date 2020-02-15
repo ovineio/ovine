@@ -5,7 +5,8 @@
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
 import isFunction from 'lodash/isFunction'
-import React, { createContext, lazy, useContext, Suspense } from 'react'
+import map from 'lodash/map'
+import React, { createContext, lazy, useContext, useMemo, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { isLogin } from '~/core/user'
@@ -17,7 +18,13 @@ import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
 import { checkLimitByKeys, getAuthRoutes } from './limit'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
-import { getNodePath, getPageFileAsync, getPagePreset, getRoutePath } from './utils'
+import {
+  getNodePath,
+  getPageFileAsync,
+  getPageMockSource,
+  getPagePreset,
+  getRoutePath,
+} from './utils'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
@@ -84,11 +91,26 @@ export const usePresetContext = () => {
 // 将 preset 注入组件，可全局通过 usePresetContext 获取 preset 值
 const PrestComponent = (props: PresetComponentProps) => {
   const { LazyFileComponent, lazyFileAmisProps, RouteComponent, ...rest } = props
+  const { path, pathToComponent, nodePath: propNodePath } = rest
 
-  const nodePath = getNodePath(props)
-  const preset = getPagePreset(props) || {}
+  const preset = useMemo(() => {
+    const fileOption = { path, pathToComponent, nodePath: propNodePath }
+    const mockSource = getPageMockSource(fileOption)
+    const pagePreset = getPagePreset(fileOption) || {}
+    const nodePath = getNodePath(fileOption)
 
-  preset.nodePath = nodePath
+    pagePreset.nodePath = nodePath
+
+    map(pagePreset.apis, (api) => {
+      const { mock, mockSource: apiMockSource } = api
+      // 自动注入规则
+      if (mock === true && !apiMockSource && mockSource) {
+        api.mockSource = mockSource
+      }
+    })
+
+    return pagePreset
+  }, [path, pathToComponent, propNodePath])
 
   let Component: any = <div>Not Found 请检查路由设置</div>
 

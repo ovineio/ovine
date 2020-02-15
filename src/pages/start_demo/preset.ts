@@ -1,8 +1,6 @@
 import { PagePreset } from '~/routes/types'
 
-import { mockSource } from './mock'
-
-const pageLimit: PagePreset = {
+const pagePrest: PagePreset = {
   limits: {
     $page: {
       label: '查看列表',
@@ -27,26 +25,26 @@ const pageLimit: PagePreset = {
   },
   apis: {
     list: {
-      mockSource,
       url: 'GET api/v1/start_demo',
       limits: '$page',
+      mock: true,
     },
     edit: {
-      mockSource,
       url: 'PUT api/v1/start_demo/$id',
       limits: 'editItem',
+      mock: true,
     },
     add: {
-      mockSource,
       url: 'POST api/v1/start_demo',
       limits: 'addItem',
+      mock: true,
     },
     delete: {
-      mockSource,
       url: 'DELETE api/v1/start_demo/$id',
       limits: 'delItem',
+      mock: true,
     },
   },
 }
 
-export default pageLimit
+export default pagePrest
