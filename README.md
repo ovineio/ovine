@@ -1,24 +1,10 @@
 # RT-Admin
 
-### 用 JSON 配置就能生成安全、复杂、可扩展的 `admin` 管理系统。
+##### 用 JSON 配置就能生成安全、复杂、可扩展的 `Admin` 管理系统。
 
 基于 [amis](https://github.com/baidu/amis) 二次开发。
 
-> 在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^\_^
-
-## 项目演示 [[预览 Demo]](http://rt-admin.igroupes.com/)
-
-### 个性化主题
-
-![个性化主题](http://static.igroupes.com/rt-admin-intro-theme.gif)
-
-### JSON 配置 路由、页面、Form、组件
-
-![JSON 配置](http://static.igroupes.com/rt-admin-intro-json.gif)
-
-### 强大权限管理 (集成在配置中，无需开发)
-
-![权限管理](http://static.igroupes.com/rt-admin-intro-limit.gif)
+> 在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^_^
 
 ### 功能
 
@@ -46,6 +32,21 @@
     - 路由懒加载、配合 `webpack dll`，页面加载速度快
     - 本项目的内置功能修改起来十分简单，关键代码均有注释
   - 强大的 mock 方案，实现脱离后端开发
+
+### 项目演示 [[预览 Demo]](http://rt-admin.igroupes.com/)
+
+###### 个性化主题
+
+![个性化主题](http://static.igroupes.com/rt-admin-intro-theme.gif)
+
+##### JSON 配置 路由、页面、Form、组件
+
+![JSON 配置](http://static.igroupes.com/rt-admin-intro-json.gif)
+
+#### 强大权限管理 (集成在配置中，无需开发)
+
+![权限管理](http://static.igroupes.com/rt-admin-intro-limit.gif)
+
 
 ### RtAdmin 适合谁？
 
