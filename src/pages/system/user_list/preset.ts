@@ -1,7 +1,5 @@
 import { PagePreset } from '~/routes/types'
 
-import { mockSource } from './mock'
-
 const pageLimit: PagePreset = {
   limits: {
     $page: {
@@ -25,33 +23,24 @@ const pageLimit: PagePreset = {
     },
   },
   apis: {
-    catList: {
-      mockSource,
+    list: {
       url: 'GET api/v1/adm_user',
       limits: '$page',
-    },
-    list: {
-      mockSource,
-      url: 'GET api/v1/hot_config',
-      limits: '$page',
+      mock: true,
     },
     add: {
-      mockSource,
       url: 'POST api/v1/hot_config',
       limits: 'add',
     },
     edit: {
-      mockSource,
       url: 'PUT api/v1/hot_config/edit/$id',
       limits: 'edit',
     },
     del: {
-      mockSource,
       url: 'DELETE api/v1/hot_config/$id',
       limits: 'del',
     },
     api: {
-      mockSource,
       url: 'api/v1/hot_config/api',
       limits: 'api',
     },

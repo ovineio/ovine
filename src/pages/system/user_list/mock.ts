@@ -16,7 +16,7 @@ const getItem = (i: number) => ({
   ip: '',
 })
 
-export const mockSource: MockSource = {
+const mockSource: MockSource = {
   'GET api/v1/adm_user': () => {
     return {
       data: {
@@ -26,3 +26,5 @@ export const mockSource: MockSource = {
     }
   },
 }
+
+export default mockSource

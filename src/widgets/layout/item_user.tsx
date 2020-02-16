@@ -10,7 +10,7 @@ import { useImmer } from '~/utils/hooks'
 import { Amis } from '../amis/schema'
 
 import HeadItem from './head_item'
-import { PopupUserMenu } from './styled'
+import { PopupItemMenu } from './styled'
 
 type State = {
   infoVisible: boolean
@@ -71,12 +71,12 @@ export default () => {
       <HeadItem
         className="no-padder m-l-sm"
         tip="用户信息"
-        trigger="click"
+        trigger="focus"
         triggerContent={
-          <PopupUserMenu>
+          <PopupItemMenu>
             <ul>
               {/* TODO: 点击后，弹出框没有消失 */}
-              <li className="b-b" onClick={toggleInfoDialog}>
+              <li onClick={toggleInfoDialog}>
                 <i className="glyphicon glyphicon-user" />
                 <span>查看信息</span>
               </li>
@@ -85,7 +85,7 @@ export default () => {
                 <span>退出登录</span>
               </li>
             </ul>
-          </PopupUserMenu>
+          </PopupItemMenu>
         }
       >
         <img

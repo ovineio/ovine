@@ -1,10 +1,6 @@
 import { css, DefaultTheme } from 'styled-components'
 
 export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
-  .${ns}DatePicker-toggler::before {
-    line-height: 1.5;
-  }
-
   .dash-grid {
     margin: 0 -8px;
     & > div {
@@ -20,6 +16,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
       background-repeat: no-repeat;
       width: 25px;
       height: 25px;
+      opacity: 0.5;
     }
   }
 
@@ -52,16 +49,70 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
     margin-bottom: 15px;
     padding: 5px 15px 0px;
     background-color: ${colors.layoutHeaderBg};
+
+    .tab-filter {
+      margin: 15px 0 30px;
+    }
+
+    .img-carousel {
+      .image {
+        background-size: cover !important;
+        border-radius: 2px;
+      }
+    }
+
+    .rain-table {
+      height: 300px;
+      overflow: auto;
+    }
   }
 
-  .tab-filter {
-    margin: 15px 0 30px;
+  /** 调整主题 */
+  .${ns}DatePicker {
+    &-toggler::before {
+      line-height: 1.5;
+    }
   }
-
-  .img-carousel {
-    .image {
-      background-size: cover !important;
-      border-radius: 2px;
+  .${ns}Form {
+    &-item button {
+      background-color: transparent;
+    }
+    &-control {
+      & > div {
+        background-color: transparent;
+      }
+    }
+  }
+  .rain-table {
+    border-color: ${colors.border};
+    .${ns}Table-contentWrap {
+      background-color: transparent;
+    }
+    .${ns}Table-table {
+      height: 100%;
+      min-width: 300px;
+      thead,
+      tbody {
+        tr {
+          table-layout: fixed;
+          display: table;
+          width: 100%;
+          box-sizing: content-box;
+        }
+      }
+      tbody {
+        background-color: ${colors.layoutHeaderBg};
+        display: block;
+        overflow-y: scroll;
+        height: 100%;
+      }
+      th {
+        border-right: 0 !important;
+      }
+      tr {
+        border-top: 0;
+        background-color: transparent !important;
+      }
     }
   }
 `

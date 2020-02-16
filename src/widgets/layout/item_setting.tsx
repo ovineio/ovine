@@ -6,6 +6,7 @@ import { toast, Drawer } from 'amis'
 import map from 'lodash/map'
 import React from 'react'
 
+import config from '~/config'
 import themes from '~/constants/themes'
 import { userLogout } from '~/core/user'
 import { changeAppTheme, withAppTheme } from '~/theme'
@@ -113,6 +114,28 @@ const SettingPanel = (option: SettingProps) => {
     }
   }
 
+  let devItems: any[] = []
+  if (!config.isRelease) {
+    devItems = [
+      { type: 'divider' },
+      {
+        type: 'rt-blank',
+        label: '测试权限',
+        name: '',
+        className: 'from-item-button',
+        body: {
+          type: 'button',
+          icon: 'fa fa-lock',
+          label: '编辑权限',
+          onClick: () => {
+            toggleSetting()
+            toggleLimitDialog()
+          },
+        },
+      },
+    ]
+  }
+
   const schema = {
     css: `
       .from-item-button {
@@ -160,23 +183,7 @@ const SettingPanel = (option: SettingProps) => {
               onAction: onClearCache,
             },
           },
-          !process.env.MOCK
-            ? { type: 'rt-omit' }
-            : {
-                type: 'rt-blank',
-                label: '测试权限',
-                name: '',
-                className: 'from-item-button',
-                body: {
-                  type: 'button',
-                  icon: 'fa fa-lock',
-                  label: '编辑权限',
-                  onClick: () => {
-                    toggleSetting()
-                    toggleLimitDialog()
-                  },
-                },
-              },
+          ...devItems,
         ],
       },
     ],

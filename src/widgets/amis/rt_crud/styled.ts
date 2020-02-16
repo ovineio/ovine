@@ -81,6 +81,9 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
       }
       thead {
         border-bottom: 1px solid ${colors.border};
+        tr {
+          background-color: transparent;
+        }
       }
       tbody {
         display: block;

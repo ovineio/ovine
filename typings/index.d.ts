@@ -6,6 +6,8 @@ declare module '*.jpg'
 declare module '*.jpeg'
 declare module '~/assets/*'
 
+declare module 'react-overlays'
+
 declare module 'react-dom' {
   export const render: any
   export const createPortal: any

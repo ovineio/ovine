@@ -10,8 +10,8 @@ import { publish } from './utils/message'
 import { getStore, setStore } from './utils/store'
 
 export const changeAppTheme = (theme: string) => {
-  publish(themeKey, theme)
   getThemeCssAsync(theme).then(() => {
+    publish(themeKey, theme)
     setStore(appTheme, theme)
   })
 }

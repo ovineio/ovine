@@ -8,6 +8,8 @@ declare module 'styled-components' {
     text: string
     // 颜色
     colors: {
+      bodyBg: string
+      text: string
       layoutHeaderBg: string
       linkHover: string
       border: string

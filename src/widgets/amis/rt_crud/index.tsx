@@ -14,7 +14,6 @@ import { crudCss } from './styled'
 
 const getAmisCrudSchema = (props: any) => {
   const { tableClassName = '', filter, headerToolbar = [], ...rest } = props
-
   const isSmScreen = window.innerWidth < breakpoints.md
 
   // 在小屏幕中 自动加入分页
@@ -51,11 +50,12 @@ export type RtCrudProps = RtCssProps & {
   tableWidth?: number
 }
 const RtCrud = (props: RtCrudProps) => {
-  const { css: getCss, render, className, tableWidth = 800 } = props
+  const { css: getCss, render, className, htmlClassName, tableWidth = 800 } = props
 
   const amisCurd: any = {
     className,
     type: 'rt-css',
+    htmlClassName,
     css: (theme: DefaultTheme) => css`
       ${crudCss({ ...theme, tableWidth })};
       ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};

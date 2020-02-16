@@ -1,6 +1,6 @@
 export const schema = {
   type: 'rt-crud',
-  api: '$prest.api.list',
+  api: '$preset.apis.list',
   filterTogglable: true,
   filter: {
     controls: [

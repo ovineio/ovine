@@ -12,57 +12,13 @@ import { RtSchema, SchemaPreset } from './types'
 
 const log = logger.getLogger('dev:amisSchema:utils')
 
-// amis 官方 格式化项目内 链接
-export const normalizeLink = (option: { location?: any; to?: any }) => {
-  const { location = window.location, to: toLink } = option
-
-  let to = toLink || ''
-
-  if (to && to[0] === '#') {
-    to = location.pathname + location.search + to
-  } else if (to && to[0] === '?') {
-    to = location.pathname + to
-  }
-
-  const searchIdx = to.indexOf('?')
-  const hashIdx = to.indexOf('#')
-  const isSearch = searchIdx > -1
-  const isHash = hashIdx > -1
-
-  let pathname = isSearch ? to.substring(0, searchIdx) : isHash ? to.substring(0, hashIdx) : to
-  const search = isSearch ? to.substring(searchIdx, isHash ? hashIdx : undefined) : ''
-  const hash = isHash ? to.substring(hashIdx) : location.hash
-
-  if (!pathname) {
-    pathname = location.pathname
-  } else if (pathname[0] !== '/') {
-    const relativeBase = location.pathname
-    const paths = relativeBase.split('/')
-    paths.pop()
-    let m = /^\.\.?\//.exec(pathname)
-    while (m) {
-      if (m[0] === '../') {
-        paths.pop()
-      }
-      pathname = pathname.substring(m[0].length)
-      m = /^\.\.?\//.exec(pathname)
-    }
-    pathname = paths.concat(pathname).join('/')
-  }
-  return {
-    href: pathname + search + hash,
-    pathname,
-    search,
-    hash,
-  }
-}
-
 // 请求返回值 格式转化
 export const amisResAdapter = (res: any) => {
+  const { code = 0, data: resData, msg, message, ...rest } = res
   const response = {
-    status: res?.code,
-    msg: '',
-    ...res,
+    status: code,
+    msg: msg || message || '',
+    data: resData ? resData : rest,
   }
 
   return {
@@ -72,8 +28,7 @@ export const amisResAdapter = (res: any) => {
 
 // 自定义 amis 请求
 export const envFetcher = (option: any) => {
-  log.log('amis:fetcher')
-
+  // log.log('amis:fetcher', cloneDeep(option))
   return request(option).then(amisResAdapter)
 }
 
@@ -195,27 +150,86 @@ export const convertToAmisSchema = (
       log.warn('$preset为key时，只能引用object值。', logStr)
       return
     }
-
+    delete schema['$preset']
     schema = { ...presetVal, ...schema }
   })
 
   return schema
 }
 
+// 顶层有 type 与 css 属性， 自动注入 rt-css
+export const wrapCss = (schema: RtSchema) => {
+  const { css, tag, htmlClassName, preset, ...restCss } = schema
+
+  if (!css && !tag && !htmlClassName) {
+    return schema
+  }
+
+  return {
+    css,
+    tag,
+    preset,
+    htmlClassName,
+    type: 'rt-css',
+    body: restCss,
+  }
+}
+
 // 处理自定义格式
 export const resolveRtSchema = (schema: RtSchema) => {
   const { preset = {}, ...rest } = schema
-  const { css, ...restCss } = rest
-  // 顶层有 type 与 css，自动注入 rt-css
-  const reformSchema =
-    rest.type && css ? { preset, type: 'rt-css', css, body: restCss } : { preset, ...rest }
+  const reformSchema = { preset, ...rest }
 
   if (isEmpty(preset)) {
     return reformSchema
   }
-
   convertToAmisSchema(reformSchema, { preset })
   filterSchemaLimit(rest, preset)
 
   return reformSchema
+}
+
+// amis 官方 格式化项目内 链接
+export const normalizeLink = (option: { location?: any; to?: any }) => {
+  const { location = window.location, to: toLink } = option
+
+  let to = toLink || ''
+
+  if (to && to[0] === '#') {
+    to = location.pathname + location.search + to
+  } else if (to && to[0] === '?') {
+    to = location.pathname + to
+  }
+
+  const searchIdx = to.indexOf('?')
+  const hashIdx = to.indexOf('#')
+  const isSearch = searchIdx > -1
+  const isHash = hashIdx > -1
+
+  let pathname = isSearch ? to.substring(0, searchIdx) : isHash ? to.substring(0, hashIdx) : to
+  const search = isSearch ? to.substring(searchIdx, isHash ? hashIdx : undefined) : ''
+  const hash = isHash ? to.substring(hashIdx) : location.hash
+
+  if (!pathname) {
+    pathname = location.pathname
+  } else if (pathname[0] !== '/') {
+    const relativeBase = location.pathname
+    const paths = relativeBase.split('/')
+    paths.pop()
+    let m = /^\.\.?\//.exec(pathname)
+    while (m) {
+      if (m[0] === '../') {
+        paths.pop()
+      }
+      pathname = pathname.substring(m[0].length)
+      m = /^\.\.?\//.exec(pathname)
+    }
+    pathname = paths.concat(pathname).join('/')
+  }
+  return {
+    href: pathname + search + hash,
+    pathname,
+    search,
+    hash,
+  }
 }

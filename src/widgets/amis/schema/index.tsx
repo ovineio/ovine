@@ -1,15 +1,18 @@
 import { confirm, render, toast } from 'amis'
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
+import cloneDeep from 'lodash/cloneDeep'
 import isEmpty from 'lodash/isEmpty'
 import React, { useMemo } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
+import config from '~/config'
 import logger from '~/utils/logger'
 
+import Code from './code'
 import { RtSchema } from './types'
-import { envFetcher, normalizeLink, resolveRtSchema } from './utils'
+import { envFetcher, normalizeLink, resolveRtSchema, wrapCss } from './utils'
 
 const log = logger.getLogger('dev:amisSchema')
 
@@ -28,23 +31,25 @@ type Props = AmisProps & RouteComponentProps<any>
 export const Amis = withRouter((props: Props) => {
   const { schema, props: amisProps, option = {}, history, match } = props
 
-  const { preset, css } = schema
+  const { preset, type } = schema
+  const showCode = !config.isRelease && (type === 'page' || type === 'rt-crud')
 
-  const envSchema: any = useMemo(() => {
-    if (isEmpty(preset) && css) {
-      return schema
+  const envSchema: RtSchema = useMemo(() => {
+    const origin = !showCode ? schema : cloneDeep(schema)
+    const cssSchema = wrapCss(origin)
+    if (isEmpty(preset)) {
+      return cssSchema
     }
-    return resolveRtSchema(schema)
+    return resolveRtSchema(cssSchema)
   }, [schema])
 
   const aimsEnv = {
     session: 'global',
-    // number 固顶间距，当你的有其他固顶元素时，需要设置一定的偏移量，否则会重叠。
+    // number 固底间距 顶部间距
+    affixOffsetTop: 50, // 系统默认值 50
     // number 固底间距，当你的有其x他固底元素时，需要设置一定的偏移量，否则会重叠。
-    affixOffsetTop: 50, // 系统默认值
-    //  string 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     affixOffsetBottom: 0,
-    // 富文本编辑器 token
+    // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     richTextToken: false,
     // 请求模块
     fetcher: envFetcher,
@@ -58,18 +63,18 @@ export const Amis = withRouter((props: Props) => {
       return false
     },
     // 消息提示
-    notify: (type: string, msg: string) => {
-      log.log('notify', type, msg)
+    notify: (msgType: string, msg: string) => {
+      log.log('notify', msgType, msg)
       // 默认跳过表单错误 提示
       if (/表单验证失败/.test(msg)) {
         return
       }
-      const tipMsg = (toast as any)[type]
-      const isError = type === 'error'
+      const tipMsg = (toast as any)[msgType]
+      const isError = msgType === 'error'
       if (tipMsg) {
         tipMsg(
           msg || `未知${isError ? '异常' : '消息'}`,
-          type === 'error' ? '系统异常' : '系统提示'
+          msgType === 'error' ? '系统异常' : '系统提示'
         )
       }
     },
@@ -131,13 +136,16 @@ export const Amis = withRouter((props: Props) => {
 
   return (
     <ThemeConsumer>
-      {({ name: theme }) =>
-        renderAmis(envSchema, amisProps, {
-          ...aimsEnv,
-          ...option,
-          theme,
-        } as any)
-      }
+      {({ name: theme }) => (
+        <>
+          {renderAmis(envSchema, amisProps, {
+            ...aimsEnv,
+            ...option,
+            theme,
+          } as any)}
+          {showCode && <Code theme={theme} schema={schema} />}
+        </>
+      )}
     </ThemeConsumer>
   )
 })

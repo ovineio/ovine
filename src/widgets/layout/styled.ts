@@ -7,13 +7,17 @@ export const StyledLayout = styled.div`
   height: 100%;
   width: 100%;
 
-  ${({ theme: { ns } }) => css`
+  ${({ theme: { ns, colors } }) => css`
     .${ns}Layout--folded .app-layout-brand {
       height: 3.125rem;
       display: table-cell;
     }
     .${ns}Layout {
       height: 100%;
+      &-body {
+        background-color: ${colors.bodyBg};
+        color: ${colors.text};
+      }
     }
   `}
 
@@ -45,10 +49,13 @@ export const StyledLayout = styled.div`
   }
 `
 
-export const PopupUserMenu = styled.div`
+export const PopupItemMenu = styled.div`
   ${({ theme: { colors } }) => css`
-    li:hover {
-      color: ${colors.linkHover};
+    li {
+      border-bottom: 1px solid ${colors.border};
+      &:hover {
+        color: ${colors.linkHover};
+      }
     }
   `}
   ul {
@@ -57,20 +64,22 @@ export const PopupUserMenu = styled.div`
     margin: 0;
   }
   li {
-    list-style: none;
     padding: 6px;
+    list-style: none;
     cursor: pointer;
     &:first-child {
       padding-top: 0;
     }
     &:last-child {
       padding-bottom: 0;
+      border-bottom: 0;
     }
   }
   i {
     ${inline()};
-    text-align: center;
+    width: 20px;
     padding-right: 10px;
+    text-align: center;
   }
   span {
     ${inline()};

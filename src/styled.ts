@@ -8,6 +8,10 @@ export const GlobalAppStyle = createGlobalStyle`
       min-width: 100px !important;
       min-height: 100px !important;
     }
+
+    .${ns}DateRangePicker {
+      align-items: center;
+    }
   `}
 
   /** 不需要用到主题的全局样式 */
@@ -20,4 +24,5 @@ export const GlobalAppStyle = createGlobalStyle`
   .app-tool-tip {
     max-width: unset !important;
   }
+  
 `

@@ -35,7 +35,7 @@ export default withAppTheme<LayoutCommProps>((props) => {
         </Link>
       </div>
       <div className={`${theme.ns}Layout-headerBar`}>
-        <div className="nav navbar-nav hidden-xs">
+        <div id="app-header-left" className="nav navbar-nav hidden-xs">
           <HeadItem
             faIcon={asideFolded ? 'indent' : 'dedent'}
             tip={`${asideFolded ? '展开' : '收起'}侧边栏`}

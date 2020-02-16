@@ -102,10 +102,10 @@ const PrestComponent = (props: PresetComponentProps) => {
     pagePreset.nodePath = nodePath
 
     map(pagePreset.apis, (api) => {
-      const { mock, mockSource: apiMockSource } = api
+      const { mock, mockSource: apiMockSource, url } = api
       // 自动注入规则
       if (mock === true && !apiMockSource && mockSource) {
-        api.mockSource = mockSource
+        api.mockSource = mockSource[url] || mockSource
       }
     })
 

@@ -12,6 +12,7 @@ type EnvConfig = {
   isLocal?: boolean
   isStaging?: boolean
   isMock?: boolean
+  isRelease?: boolean
   debug: string
   urlMode: Types.ObjectOf<string>
 }
@@ -29,6 +30,7 @@ const defaultConfig: AppConfig = {
   isProd: false,
   isLocal: false,
   isMock: false,
+  isRelease: false,
   debug: 'dev:*',
   envMode: 'localhost',
   urlMode: {
@@ -70,7 +72,10 @@ const envMode = (process.env.API_ENV || 'localhost') as EnvMode
 const config = {
   ...defaultConfig,
   ...env[envMode],
+  isMock: process.env.MOCK,
   envMode,
 }
+
+config.isRelease = !config.isMock && config.isProd
 
 export default config as Config

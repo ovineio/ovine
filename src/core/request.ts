@@ -12,7 +12,7 @@ import config, { UrlMode } from '~/config'
 import { userTokenError } from '~/constants'
 import logger from '~/utils/logger'
 import { getSessionStore, setSessionStore } from '~/utils/store'
-import { isExpired } from '~/utils/tool'
+import { isExpired, queryStringParse } from '~/utils/tool'
 
 import { getToken, onUserTokenError } from './user'
 
@@ -66,7 +66,7 @@ export type RequestOption<S = {}, P = {}> = {
   onError?: ReqErrorHook<S, P> // 接口失败回调
 }
 
-export type FetchOption = RequestInit & {
+export type FetchOption = Omit<RequestInit, 'method'> & {
   url: string
   method: RequestMethod
   headers?: any
@@ -250,7 +250,7 @@ const fetchSourceCtrl = async (option: UnionOption) => {
 const getFetchOption = (option: RequestOption): FetchOption => {
   const { data = {}, body, fetchOption: fetchOpt = {} } = option
 
-  const { url, method } = getUrlByOption(option)
+  const { url, method } = getUrlByOption(option) as any
   const hasBody = !/GET|HEAD/.test(method)
 
   const headers = {
@@ -301,8 +301,10 @@ async function request(option: RequestOption<any, any>): Promise<any | undefined
   const { onSuccess, sourceKey, data: params, url, api } = option
   option.api = api || url
 
-  if (params) {
-    option.data = omitBy(params as any, (item) => item === undefined || item === null)
+  const query: any = queryStringParse('', url)
+  if (query) {
+    option.url = url.split('?')[0]
+    option.data = { ...query, ...params }
   }
 
   const fetchOptions = getFetchOption(userTokenCtrl(option))
@@ -339,7 +341,8 @@ export const getUrlByOption = (option: RequestOption) => {
 
   let realUrl = url
 
-  const urlOption = { url, method }
+  const urlOption = { url, method: method.toUpperCase() }
+  const params = omitBy(data as any, (item) => item === undefined || item === null)
 
   if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(realUrl)) {
     urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as RequestMethod
@@ -348,7 +351,7 @@ export const getUrlByOption = (option: RequestOption) => {
 
   // url中不存在 '//' 匹配
   if (!/\/\//.test(realUrl)) {
-    const urlPrefix = !config.isProd && config.mockUrl ? config.mockUrl : config.urlMode[urlModule]
+    const urlPrefix = config.urlMode[urlModule]
     if (!urlPrefix) {
       log.error('request.getUrlByOption 解析出错', option)
     }
@@ -360,8 +363,9 @@ export const getUrlByOption = (option: RequestOption) => {
     realUrl = filter(realUrl, data)
   }
 
-  if (method === 'GET' && !isEmpty(data)) {
-    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(data)}`
+  if (urlOption.method === 'GET' && !isEmpty(data)) {
+    const queryParams = omitBy(params, (item) => item === 'undefined' || item === '')
+    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams)}`
   }
 
   urlOption.url = realUrl

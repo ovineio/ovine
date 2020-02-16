@@ -16,363 +16,88 @@ export const mockSource: MockSource = {
 
 function getMoneyChart() {
   return mockResSuccess({
-    cardData: {
-      text: '¥ 126,560',
-    },
-    color: ['#3398DB'],
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
-      },
-    },
-    grid: {
-      left: '10%',
-      right: '10%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    xAxis: [
-      {
-        type: 'category',
-        show: false,
-        boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        axisTick: {
-          alignWithLabel: true,
-        },
-      },
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        show: false,
-      },
-    ],
-    series: [
-      {
-        name: '直接访问',
-        type: 'bar',
-        barWidth: '60%',
-        barCategoryGap: false,
-        data: [10, 52, 200, 334, 390, 330, 220],
-      },
-    ],
+    xAxis: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    series: [10, 52, 200, 334, 390, 330, 220],
+    text: '¥ 126,560',
   })
 }
 
 function getVisitedChart() {
   return mockResSuccess({
-    cardData: {
-      text: '1,123,123',
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'none',
-      },
-    },
-    grid: {
-      left: '5%',
-      right: '5%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    xAxis: {
-      type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      show: false,
-      boundaryGap: false,
-    },
-    yAxis: {
-      type: 'value',
-      show: false,
-    },
-    series: [
-      {
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        type: 'line',
-        smooth: true,
-        showSymbol: false,
-        areaStyle: {},
-      },
-    ],
-  })
-}
-
-function getAdCompareChart() {
-  return mockResSuccess({
-    cardData: {
-      text: '1,123,123',
-    },
-    grid: {
-      left: '0%',
-      right: '0%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    xAxis: {
-      boundaryGap: false,
-      show: false,
-    },
-    yAxis: {
-      boundaryGap: false,
-      show: false,
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)',
-    },
-    visualMap: {
-      show: false,
-      min: 80,
-      max: 600,
-      inRange: {
-        colorLightness: [0, 1],
-      },
-    },
-    series: [
-      {
-        name: '访问来源',
-        type: 'pie',
-        radius: '55%',
-        center: ['50%', '50%'],
-        label: {
-          position: 'outside',
-          distanceToLabelLine: 0,
-        },
-        data: [
-          { value: 335, name: '直接访问' },
-          { value: 310, name: '邮件营销' },
-          { value: 274, name: '联盟广告' },
-          { value: 235, name: '视频广告' },
-          { value: 400, name: '搜索引擎' },
-        ].sort((a, b) => a.value - b.value),
-        roseType: 'radius',
-        animationType: 'scale',
-        animationEasing: 'elasticOut',
-        animationDelay: () => Math.random() * 200,
-      },
-    ],
-  })
-}
-
-function getIndexChart() {
-  return mockResSuccess({
-    cardData: {
-      text: '1,123,123',
-    },
-    tooltip: {
-      formatter: '{a} <br/>{b} : {c}%',
-    },
-    series: [
-      {
-        name: '业务指标',
-        type: 'gauge',
-        radius: '80%',
-        detail: { formatter: '{value}%' },
-        data: [{ value: 66.6, name: '本周完成清情况' }],
-        title: {
-          offsetCenter: [0, '70%'],
-          fontSize: '14',
-        },
-        axisLine: {
-          lineStyle: {
-            width: 15,
-          },
-        },
-        axisTick: {
-          length: 5,
-        },
-        splitLine: {
-          length: 12,
-        },
-      },
-    ],
-  })
-}
-
-function getFunnelChart() {
-  return mockResSuccess({
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%',
-    },
-    grid: {
-      left: '0%',
-      right: '0%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    series: [
-      {
-        name: '预期',
-        type: 'funnel',
-        left: '10%',
-        width: '80%',
-        label: {
-          formatter: '{b}预期',
-        },
-        labelLine: {
-          show: false,
-        },
-        itemStyle: {
-          opacity: 0.7,
-        },
-        emphasis: {
-          label: {
-            position: 'inside',
-            formatter: '{b}预期: {c}%',
-          },
-        },
-        data: [
-          { value: 60, name: '访问' },
-          { value: 40, name: '咨询' },
-          { value: 20, name: '订单' },
-          { value: 80, name: '点击' },
-          { value: 100, name: '展现' },
-        ],
-      },
-      {
-        name: '实际',
-        type: 'funnel',
-        left: '10%',
-        width: '80%',
-        maxSize: '80%',
-        label: {
-          position: 'inside',
-          formatter: '{c}%',
-          color: '#fff',
-        },
-        itemStyle: {
-          opacity: 0.5,
-          borderColor: '#fff',
-          borderWidth: 2,
-        },
-        emphasis: {
-          label: {
-            position: 'inside',
-            formatter: '{b}实际: {c}%',
-          },
-        },
-        data: [
-          { value: 30, name: '访问' },
-          { value: 10, name: '咨询' },
-          { value: 5, name: '订单' },
-          { value: 50, name: '点击' },
-          { value: 80, name: '展现' },
-        ],
-      },
-    ],
-  })
-}
-
-function getRadarChart() {
-  return mockResSuccess({
-    tooltip: {},
-    radar: {
-      radius: '55%',
-      name: {
-        textStyle: {
-          color: '#fff',
-          backgroundColor: '#999',
-          borderRadius: 3,
-          padding: [3, 5],
-        },
-      },
-      indicator: [
-        { name: '销售', max: 6500 },
-        { name: '管理', max: 16000 },
-        { name: '信息技术', max: 30000 },
-        { name: '客服', max: 38000 },
-        { name: '研发', max: 52000 },
-        { name: '市场', max: 25000 },
-      ],
-    },
-    series: [
-      {
-        name: '预算 vs 开销',
-        type: 'radar',
-        data: [
-          {
-            value: [4300, 10000, 28000, 35000, 50000, 19000],
-            name: '预算分配',
-          },
-          {
-            value: [5000, 14000, 28000, 31000, 42000, 21000],
-            name: '实际开销',
-          },
-        ],
-      },
-    ],
+    xAxis: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    series: [820, 932, 901, 934, 1290, 1330, 1320],
+    text: '¥ 126,560',
   })
 }
 
 function getChargeChart() {
   return mockResSuccess({
-    cardData: {
-      text: '1,123,123',
+    xAxis: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    text: '¥ 126,560',
+    series: {
+      profit: [200, 170, 240, 244, 200, 220, 210],
+      income: [320, 302, 341, 374, 390, 450, 420],
+      cost: [-120, -132, -101, -134, -190, -230, -210],
     },
-    grid: {
-      left: '10%',
-      right: '10%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
-      },
-    },
+  })
+}
 
-    yAxis: [
-      {
-        type: 'value',
-        show: false,
-        boundaryGap: false,
-      },
-    ],
-    xAxis: [
-      {
-        type: 'category',
-        show: false,
-        axisTick: {
-          show: false,
-        },
-        boundaryGap: false,
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-      },
-    ],
+function getAdCompareChart() {
+  return mockResSuccess({
     series: [
-      {
-        name: '利润',
-        type: 'bar',
-        label: false,
-        data: [200, 170, 240, 244, 200, 220, 210],
-      },
-      {
-        name: '收入',
-        type: 'bar',
-        stack: '总量',
-        label: false,
-        data: [320, 302, 341, 374, 390, 450, 420],
-      },
-      {
-        name: '支出',
-        type: 'bar',
-        stack: '总量',
-        label: false,
-        data: [-120, -132, -101, -134, -190, -230, -210],
-      },
+      { value: 335, name: '直接访问' },
+      { value: 310, name: '邮件营销' },
+      { value: 274, name: '联盟广告' },
+      { value: 235, name: '视频广告' },
+      { value: 400, name: '搜索引擎' },
     ],
+    text: '¥ 126,560',
+  })
+}
+
+function getIndexChart() {
+  return mockResSuccess({
+    series: {
+      finish: 66.6,
+    },
+  })
+}
+
+function getFunnelChart() {
+  return mockResSuccess({
+    series: {
+      expect: [
+        { value: 60, name: '访问' },
+        { value: 40, name: '咨询' },
+        { value: 20, name: '订单' },
+        { value: 80, name: '点击' },
+        { value: 100, name: '展现' },
+      ],
+      reality: [
+        { value: 30, name: '访问' },
+        { value: 10, name: '咨询' },
+        { value: 5, name: '订单' },
+        { value: 50, name: '点击' },
+        { value: 80, name: '展现' },
+      ],
+    },
+  })
+}
+
+function getRadarChart() {
+  return mockResSuccess({
+    indicator: [
+      { name: '销售', max: 6500 },
+      { name: '管理', max: 16000 },
+      { name: '信息技术', max: 30000 },
+      { name: '客服', max: 38000 },
+      { name: '研发', max: 52000 },
+      { name: '市场', max: 25000 },
+    ],
+    series: {
+      budget: [4300, 10000, 28000, 35000, 50000, 19000],
+      cost: [5000, 14000, 28000, 31000, 42000, 21000],
+    },
   })
 }
 
@@ -526,89 +251,78 @@ function getAdLineArea() {
 
 function getRainChart() {
   return mockResSuccess({
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-        crossStyle: {
-          color: '#999',
-        },
-      },
-    },
-    legend: {
-      left: 10,
-      data: ['蒸发量', '降水量', '平均温度'],
-    },
-    grid: {
-      left: '0%',
-      right: '0%',
-      bottom: '0%',
-      top: '0%',
-      containLabel: false,
-    },
-    xAxis: [
+    items: [
       {
-        type: 'category',
-        show: false,
-        data: [
-          '1月',
-          '2月',
-          '3月',
-          '4月',
-          '5月',
-          '6月',
-          '7月',
-          '8月',
-          '9月',
-          '10月',
-          '11月',
-          '12月',
-        ],
-        axisPointer: {
-          type: 'shadow',
-        },
-      },
-    ],
-    yAxis: [
-      {
-        type: 'value',
-        name: '水量',
-        show: false,
-        min: 0,
-        max: 250,
-        interval: 50,
-        axisLabel: {
-          formatter: '{value} ml',
-        },
+        date: '2019年1月',
+        water: 2.0,
+        evaporation: 2.6,
+        avg_temperature: 2.0,
       },
       {
-        type: 'value',
-        name: '温度',
-        show: false,
-        min: 0,
-        max: 25,
-        interval: 5,
-        axisLabel: {
-          formatter: '{value} °C',
-        },
-      },
-    ],
-    series: [
-      {
-        name: '蒸发量',
-        type: 'bar',
-        data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
+        date: '2019年2月',
+        water: 4.9,
+        evaporation: 5.9,
+        avg_temperature: 2.2,
       },
       {
-        name: '降水量',
-        type: 'bar',
-        data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
+        date: '2019年3月',
+        water: 7.0,
+        evaporation: 9.0,
+        avg_temperature: 3.3,
       },
       {
-        name: '平均温度',
-        type: 'line',
-        yAxisIndex: 1,
-        data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2],
+        date: '2019年4月',
+        water: 23.2,
+        evaporation: 26.4,
+        avg_temperature: 4.5,
+      },
+      {
+        date: '2019年5月',
+        water: 25.6,
+        evaporation: 28.7,
+        avg_temperature: 6.3,
+      },
+      {
+        date: '2019年6月',
+        water: 76.7,
+        evaporation: 70.7,
+        avg_temperature: 10.2,
+      },
+      {
+        date: '2019年7月',
+        water: 135.6,
+        evaporation: 175.6,
+        avg_temperature: 20.3,
+      },
+      {
+        date: '2019年8月',
+        water: 162.2,
+        evaporation: 182.2,
+        avg_temperature: 23.0,
+      },
+      {
+        date: '2019年9月',
+        water: 32.6,
+        evaporation: 48.7,
+        avg_temperature: 23.4,
+      },
+      {
+        date: '2019年10月',
+        water: 20.0,
+        evaporation: 18.8,
+        avg_temperature: 16.5,
+      },
+      {
+        date: '2019年11月',
+        water: 6.4,
+        evaporation: 6.0,
+        avg_temperature: 12.0,
+      },
+      {
+        date: '2019年12月',
+        water: 3.3,
+        evaporation: 2.3,
+        avg_temperature: 6.2,
       },
     ],
   })

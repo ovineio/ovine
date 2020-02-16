@@ -1,27 +1,64 @@
 import { RtSchema } from '~/widgets/amis/schema/types'
 
+import * as reqSucHooks from './req'
 import { dashboardCss } from './styled'
 
 const targetCards = [
   {
     title: '总销售额',
-    api: '$preset.apis.moneyChart',
+    api: {
+      $preset: 'apis.moneyChart',
+      onSuccess: reqSucHooks.onMoneyChartSuc,
+    },
     intro: '总销售额就是当月1号到月底最后一天，售出货物总利润。',
   },
   {
     title: '访问量',
-    api: '$preset.apis.visitedChart',
+    api: {
+      $preset: 'apis.visitedChart',
+      onSuccess: reqSucHooks.onVisitedChartSuc,
+    },
     intro: '所有平台访到本产品的次数。',
   },
   {
     title: '交易数据',
-    api: '$preset.apis.chargeChart',
+    api: {
+      $preset: 'apis.chargeChart',
+      onSuccess: reqSucHooks.onChargeChartSuc,
+    },
     intro: '所有平台用户，产生交易的对比。',
   },
   {
     title: '运营活动效果',
-    api: '$preset.apis.adCompareChart',
+    api: {
+      $preset: 'apis.adCompareChart',
+      onSuccess: reqSucHooks.onAdCompareChartSuc,
+    },
     intro: '营销广告的投入与所获的收入的对比。',
+  },
+]
+
+const chartCards = [
+  {
+    title: '本周业绩指标',
+    api: {
+      $preset: 'apis.indexChart',
+      onSuccess: reqSucHooks.onIndexChartSuc,
+    },
+  },
+  {
+    title: '订单成交漏斗',
+    api: {
+      $preset: 'apis.funnelChart',
+      onSuccess: reqSucHooks.onFunnelChartSuc,
+    },
+  },
+  {
+    title: '营销雷达分析',
+    api: {
+      $preset: 'apis.radarChart',
+      onSuccess: reqSucHooks.onRadarChartSuc,
+    },
   },
 ]
 
@@ -32,58 +69,13 @@ export const schema: RtSchema = {
     {
       type: 'grid',
       className: 'dash-grid',
+      limits: 'target',
       columns: renderTargetCards(targetCards),
     },
     {
       type: 'grid',
       className: 'dash-grid',
-      columns: [
-        {
-          type: 'wrapper',
-          lg: 4,
-          body: [
-            {
-              type: 'html',
-              html: '<h5 class="m-none">本周业绩指标</h5>',
-            },
-            {
-              type: 'chart',
-              api: '$preset.apis.indexChart',
-              height: 300,
-            },
-          ],
-        },
-        {
-          type: 'wrapper',
-          lg: 4,
-          body: [
-            {
-              type: 'html',
-              html: '<h5 class="m-none">订单成交漏斗</h5>',
-            },
-            {
-              type: 'chart',
-              api: '$preset.apis.funnelChart',
-              height: 300,
-            },
-          ],
-        },
-        {
-          type: 'wrapper',
-          lg: 4,
-          body: [
-            {
-              type: 'html',
-              html: '<h5 class="m-none">营销雷达分析</h5>',
-            },
-            {
-              type: 'chart',
-              api: '$preset.apis.radarChart',
-              height: 300,
-            },
-          ],
-        },
-      ],
+      columns: renderChartCards(chartCards),
     },
     {
       type: 'tabs',
@@ -93,46 +85,56 @@ export const schema: RtSchema = {
         {
           title: '降雨量',
           tab: {
-            type: 'grid',
-            columns: [
-              {
-                lg: 12,
-                $preset: 'forms.tabRainFilter',
-              },
-              {
-                lg: 8,
-                type: 'chart',
-                className: 'rain-chart',
-                api: '$preset.apis.rainChart',
-                name: 'rain-chart',
-                height: 300,
-              },
-              {
-                type: 'table',
-                lg: 4,
-                affixHeader: false,
-                columnsTogglable: false,
-                className: 'm-b-none',
-                columns: [
-                  {
-                    name: 'date',
-                    label: '日期',
-                  },
-                  {
-                    name: 'ads',
-                    label: '蒸发量',
-                  },
-                  {
-                    name: 'version',
-                    label: '将水量',
-                  },
-                  {
-                    name: 'browser',
-                    label: '平均温度',
-                  },
-                ],
-              },
-            ],
+            type: 'service',
+            name: 'tab-rain',
+            api: {
+              $preset: 'apis.rainChart',
+              onSuccess: reqSucHooks.onRainChartSuc,
+            },
+            body: {
+              type: 'grid',
+              columns: [
+                {
+                  lg: 12,
+                  $preset: 'forms.tabRainFilter',
+                },
+                {
+                  lg: 8,
+                  type: 'chart',
+                  className: 'rain-chart',
+                  name: 'rain-chart',
+                  height: 300,
+                  source: '${chart}',
+                },
+                {
+                  type: 'table',
+                  lg: 4,
+                  affixHeader: false,
+                  columnsTogglable: false,
+                  className: 'rain-table m-b-none',
+                  source: '${table}',
+                  columns: [
+                    {
+                      name: 'date',
+                      label: '月分',
+                      width: 80,
+                    },
+                    {
+                      name: 'evaporation',
+                      label: '蒸发量',
+                    },
+                    {
+                      name: 'water',
+                      label: '将水量',
+                    },
+                    {
+                      name: 'avg_temperature',
+                      label: '平均温度',
+                    },
+                  ],
+                },
+              ],
+            },
           },
         },
         {
@@ -149,7 +151,7 @@ export const schema: RtSchema = {
               },
               {
                 type: 'carousel',
-                className: 'img-carousel',
+                className: 'img-carousel r',
                 height: '300',
                 options: [
                   {
@@ -178,34 +180,23 @@ export const schema: RtSchema = {
         type: 'form',
         title: '过滤条件',
         className: 'tab-filter',
-        target: 'rain-chart',
         submitOnInit: true,
         wrapWithPanel: false,
         mode: 'inline',
+        target: 'tab-rain',
         controls: [
           {
-            type: 'date',
-            label: '开始日期',
-            name: 'starttime',
-            value: '-8days',
-            maxDate: '${endtime}',
-          },
-          {
-            type: 'date',
-            label: '结束日期',
-            name: 'endtime',
-            value: '-1days',
-            minDate: '${starttime}',
+            type: 'date-range',
+            label: '时间范围',
+            name: 'daterange',
           },
           {
             type: 'text',
             label: '关键字',
-            name: 'name',
-            addOn: {
-              type: 'submit',
-              label: '搜索',
-            },
+            name: 'keywords',
+            clearable: true,
           },
+          { type: 'submit', label: '搜索' },
         ],
         actions: [],
       },
@@ -231,11 +222,11 @@ function renderTargetCards(cardInfos: any[]) {
       body: [
         {
           type: 'wrapper',
-          className: 'card-info',
+          className: 'card-info no-bg',
           body: [
             {
               type: 'html',
-              html: ` <h6>${title}</h6><p>$cardData.text</p>`,
+              html: ` <div>${title}</div><p>$origin.text</p>`,
             },
             {
               type: 'button',
@@ -258,9 +249,43 @@ function renderTargetCards(cardInfos: any[]) {
         {
           type: 'chart',
           className: 'card-chart',
-          api,
+          source: '${chart}',
         },
       ],
+    }
+  })
+}
+
+function renderChartCards(cardInfos: any[]) {
+  return cardInfos.map((info) => {
+    const { title, api, grid } = info
+    const gridProps = {
+      lg: 4,
+      md: 4,
+      sm: 6,
+      xs: 12,
+      ...grid,
+    }
+    return {
+      type: 'service',
+      className: 'target-card',
+      ...gridProps,
+      api,
+      body: {
+        type: 'wrapper',
+        className: 'no-bg',
+        body: [
+          {
+            type: 'html',
+            html: `<div class="m-none">${title}</div>`,
+          },
+          {
+            type: 'chart',
+            source: '${chart}',
+            height: 300,
+          },
+        ],
+      },
     }
   })
 }

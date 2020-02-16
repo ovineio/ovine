@@ -125,7 +125,6 @@ const LimitSetting = (props: any) => {
         {
           type: 'button',
           icon: 'fa fa-times text-danger',
-          tooltip: '关闭',
           actionType: 'cancel',
           tooltipPlacement: 'top',
           confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
