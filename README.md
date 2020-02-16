@@ -4,7 +4,7 @@
 
 基于 [amis](https://github.com/baidu/amis) 二次开发。
 
-> 在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^_^
+> 在本项目使用中，有任何问题、需求、建议，请提交 issue。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^\_^
 
 ### 功能
 
@@ -35,7 +35,7 @@
 
 ### 项目演示 [[预览 Demo]](http://rt-admin.igroupes.com/)
 
-###### 个性化主题
+##### 个性化主题
 
 ![个性化主题](http://static.igroupes.com/rt-admin-intro-theme.gif)
 
@@ -43,10 +43,9 @@
 
 ![JSON 配置](http://static.igroupes.com/rt-admin-intro-json.gif)
 
-#### 强大权限管理 (集成在配置中，无需开发)
+##### 强大权限管理 (集成在配置中，无需开发)
 
 ![权限管理](http://static.igroupes.com/rt-admin-intro-limit.gif)
-
 
 ### RtAdmin 适合谁？
 

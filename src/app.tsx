@@ -1,5 +1,5 @@
 import { AlertComponent, ToastComponent } from 'amis'
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { render } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Switch } from 'react-router-dom'

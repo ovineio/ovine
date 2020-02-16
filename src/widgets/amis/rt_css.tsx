@@ -8,6 +8,8 @@ import { RendererProps } from 'amis/lib/factory'
 import React, { useEffect } from 'react'
 import styled, { css, DefaultTheme, FlattenSimpleInterpolation } from 'styled-components'
 
+import { changeDomCls } from '~/utils/tool'
+
 type CssType = (theme: DefaultTheme) => FlattenSimpleInterpolation
 
 export type RtCssProps = RendererProps & {
@@ -23,8 +25,10 @@ const RtCss = (props: RtCssProps) => {
     if (!htmlClassName) {
       return
     }
-    changeHtmlClsName('add', htmlClassName)
-    return () => changeHtmlClsName('remove', htmlClassName)
+    const $html = document.getElementsByTagName('html')[0]
+
+    changeDomCls($html, 'add', htmlClassName)
+    return () => changeDomCls($html, 'remove', htmlClassName)
   }, [])
 
   return (
@@ -38,34 +42,6 @@ Renderer({
   test: /(^|\/)rt\-css$/,
   name: 'rt-css',
 })(RtCss)
-
-const changeHtmlClsName = (type: 'add' | 'remove', className: string) => {
-  const $html = document.getElementsByTagName('html')[0]
-  const clsAr = className.split(' ')
-  const htmlClsAr = $html.className.split(' ')
-
-  if (!htmlClsAr.length) {
-    $html.className = type === 'add' ? className : ''
-  }
-
-  const result: string[] = []
-
-  if (type === 'add') {
-    clsAr.forEach((cls) => {
-      if (!htmlClsAr.includes(cls)) {
-        result.push(cls)
-      }
-    })
-  }
-  if (type === 'remove') {
-    htmlClsAr.forEach((cls) => {
-      if (!htmlClsAr.includes(cls)) {
-        result.push(cls)
-      }
-    })
-  }
-  $html.className = result.join(' ')
-}
 
 const StyledCss = styled.div<{ css?: CssType }>`
   ${(p) => css`

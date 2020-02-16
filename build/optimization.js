@@ -27,14 +27,6 @@ const optimization = {
     cacheGroups: {
       default: false, // 取消 splitChunks 默认配置
       vendors: false, // 取消 splitChunks vendors 配置
-      appTheme: {
-        chunks: 'all',
-        name: 'theme',
-        test: /theme/,
-        priority: 10,
-        minChunks: 1,
-        reuseExistingChunk: false,
-      },
       appVendor: {
         chunks: 'all',
         name: 'vendor',

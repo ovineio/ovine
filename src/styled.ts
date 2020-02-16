@@ -19,14 +19,23 @@ export const GlobalAppStyle = createGlobalStyle`
   `}
 
   /** 不需要用到主题的全局样式 */
-  #app-root {
+  .app-root {
     position: relative;
     width: 100%;
     height: 100%;
+    opacity: 1;
+    transition: 'opacity' 100ms ease-in;
   }
-
+  
+  .theme-is-loading {
+    .app-root, .amis-dialog-widget {
+      opacity: 0;
+    }
+  }
+  
   .app-tool-tip {
     max-width: unset !important;
   }
+
   
 `

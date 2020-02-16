@@ -52,29 +52,6 @@ export const dateFormatter = (formatter: string, date?: string | Date) => {
 }
 
 /**
- * 过滤 传入 对象 值为 undefined | null | {} 的 key
- */
-export const filterNullKeys = <T extends object>(source: T): T => {
-  const result = source
-
-  // tslint:disable-next-line: forin
-  for (const key in source) {
-    const value = source[key]
-    const type = typeof value
-
-    if (
-      type === 'undefined' ||
-      value === null ||
-      (type === 'object' && !Object.keys(value).length)
-    ) {
-      delete source[key]
-    }
-  }
-
-  return result
-}
-
-/**
  * 从数组中随机抽取一个
  * @param source 参数数组
  */
@@ -171,6 +148,7 @@ export function isSubStr(source: string, check: string, pos?: number): boolean {
   return typeof pos === 'undefined' ? index > -1 : index === pos
 }
 
+// classnames 简单版，足够用了
 export function cls(...args: any[]): string {
   let str = ''
   args.forEach((arg) => {
@@ -190,6 +168,41 @@ export function cls(...args: any[]): string {
       })
     }
   })
-
   return str
+}
+
+// 更改 dom class 类似 Jq addClass removeClass
+export function changeDomCls(
+  $dom: HTMLElement | undefined,
+  type: 'add' | 'remove',
+  clsName: string = ''
+) {
+  if (!$dom) {
+    return
+  }
+
+  const clsAr = clsName.split(' ')
+  const domClsAr = $dom.className.split(' ')
+
+  if (!domClsAr.length) {
+    $dom.className = type === 'add' ? clsName : ''
+  }
+
+  const result: string[] = []
+
+  if (type === 'add') {
+    clsAr.forEach((clsStr) => {
+      if (!domClsAr.includes(clsStr)) {
+        result.push(clsStr)
+      }
+    })
+  }
+  if (type === 'remove') {
+    domClsAr.forEach((clsStr) => {
+      if (!domClsAr.includes(clsStr)) {
+        result.push(clsStr)
+      }
+    })
+  }
+  $dom.className = result.join(' ')
 }

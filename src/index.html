@@ -11,11 +11,13 @@
     <link rel="apple-touch-icon-precomposed" href="<%=opt.faviconPng%>" />
     <link rel="apple-touch-icon" href="<%=opt.faviconPng%>" />
     <link rel="apple-touch-startup-image" href="<%=opt.faviconPng%>">
+    <link rel="stylesheet" href="<%=opt.publicPath%>static/lib/pace.css"></script>
+    <script data-pace-options='{"elements": true, "ajax": false }' src="<%=opt.publicPath%>static/lib/pace.min.js"></script>
     <link rel="stylesheet" href="<%=opt.dllVendorCss%>"></script>
 </head>
 
 <body ontouchstart="">
-    <div id="app-root"></div>
+    <div id="app-root" class="app-root"></div>
     <script src="<%=opt.dllVendorJs%>"></script>
 </body>
 

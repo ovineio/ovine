@@ -17,6 +17,7 @@ const {
   ENV,
   ANALYZER_PORT,
   enableMock,
+  publicPath,
   dllPaths,
   isProd,
   rootDir,
@@ -55,6 +56,7 @@ const plugins = [
     },
   ]),
   new HtmlWebpackPlugin({
+    publicPath,
     title: 'RT-ADMIN',
     faviconIco: '/static/images/favicon.ico',
     faviconPng: '/static/images/logo.png',

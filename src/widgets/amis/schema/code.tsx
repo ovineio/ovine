@@ -18,7 +18,9 @@ type Props = {
   schema: RtSchema
 }
 
-const LazyEditor = lazy(() => import('amis/lib/components/Editor')) as any
+const LazyEditor = lazy(() =>
+  import(/* webpackChunkName: "lazy_editor" */ 'amis/lib/components/Editor')
+) as any
 
 type CodeType = 'route' | 'page' | 'limit'
 export default (props: Props) => {
