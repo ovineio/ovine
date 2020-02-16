@@ -3,7 +3,11 @@ import { createGlobalStyle, css } from 'styled-components'
 // app 全局样式
 export const GlobalAppStyle = createGlobalStyle`
   /** 需要用到主题的全局样式 */
-  ${({ theme: { ns } }) => css`
+  ${({ theme: { ns, colors } }) => css`
+    body > div {
+      color: ${colors.text};
+    }
+
     .${ns}Chart {
       min-width: 100px !important;
       min-height: 100px !important;

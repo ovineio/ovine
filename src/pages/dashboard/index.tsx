@@ -273,7 +273,7 @@ function renderChartCards(cardInfos: any[]) {
       api,
       body: {
         type: 'wrapper',
-        className: 'no-bg',
+        className: 'no-bg-c',
         body: [
           {
             type: 'html',

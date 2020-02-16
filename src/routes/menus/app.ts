@@ -17,6 +17,11 @@ const appRoute: RouteItem = {
       sideVisible: false,
     },
     {
+      label: 'Hello RtAdmin',
+      icon: 'fa fa-terminal',
+      nodePath: 'hello_rt',
+    },
+    {
       label: '快速开始Demo',
       icon: 'glyphicon glyphicon-gift',
       nodePath: 'start_demo',

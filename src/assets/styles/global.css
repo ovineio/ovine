@@ -42,3 +42,7 @@
   position: fixed;
 }
 
+.no-bg-c {
+  background-color: transparent;
+}
+
