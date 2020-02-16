@@ -42,6 +42,7 @@
   - 通用基本功能，开箱即用
     - 路由、权限、页面、组件 都由 `json` 配置，可简单、快速的生成复杂的 `curd` 表单或页面
     - 内置企业级权限管理完整实现，并集成到 `json` 配置中
+      - 支持权限依赖、自定义设置权限、定义好权限后，可控制任何节点
     - 路由懒加载、配合 `webpack dll`，页面加载速度快
     - 本项目的内置功能修改起来十分简单，关键代码均有注释
   - 强大的 mock 方案，实现脱离后端开发
@@ -206,7 +207,29 @@ export const schema = {
   - `search node_modules` - 快速查看 `node_modules` 包中源文件
   - `code spell checker` - 检查错误单词
 
-## 资源
+### TODO
+
+- 第一阶段
+
+  - 持续修复现存 BUG
+  - 搭建文档页面
+  - 继续完善 `demo` 项目，最终上线为实际应用
+  - 核心模块编写测试代码
+  - 配套 `api` 开发
+
+- 第二阶段
+
+  - 发布 npm 包，减少开发者使用门槛
+    - 将现在项目进行拆分，核心公用代码抽离为 `npm` 包，其他代码作为 `demo` 应用
+    - 思考如如何 去 `react` 化，兼容更多库。
+  - 实现 `api` 实时构建 `admin` 页面
+
+- 第三阶段
+  - 实现拖拽生成 `UI`，并产生 `admin` 页面，降低使用门槛
+
+> 期待你的 PR，支持开源 ^\_^
+
+### 资源
 
 - [amis](https://baidu.github.io/amis/docs/getting-started) 非常感谢百度团队的开源贡献
 - [font-awesome](http://fontawesome.dashgame.com)
