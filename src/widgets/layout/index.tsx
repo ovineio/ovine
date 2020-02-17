@@ -6,7 +6,7 @@
 import { Layout } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/theme'
+import { withAppTheme } from '~/theme_util'
 import { useImmer } from '~/utils/hooks'
 
 import Aside from './aside'

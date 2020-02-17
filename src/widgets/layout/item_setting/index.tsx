@@ -9,14 +9,14 @@ import React from 'react'
 import config from '~/config'
 import themes from '~/constants/themes'
 import { userLogout } from '~/core/user'
-import { changeAppTheme, withAppTheme } from '~/theme'
+import { changeAppTheme } from '~/theme'
+import { withAppTheme } from '~/theme_util'
 import { useImmer } from '~/utils/hooks'
+import { Amis } from '~/widgets/amis/schema'
+import LimitSetting from '~/widgets/limit_setting'
 
-import { Amis } from '../amis/schema'
-import LimitSetting from '../limit_setting'
-
-import { LayoutCommProps } from './common'
-import HeadItem from './head_item'
+import { LayoutCommProps } from '../common'
+import HeadItem from '../head_item'
 
 type Props = LayoutCommProps
 

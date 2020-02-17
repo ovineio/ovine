@@ -33,7 +33,7 @@
     - 本项目的内置功能修改起来十分简单，关键代码均有注释
   - 强大的 mock 方案，实现脱离后端开发，轻松对接
 
-### 项目演示 [[预览 Demo]](http://rt-admin.igroupes.com/)
+### 项目演示 [[预览 Demo]](https://rt-admin.igroupes.com/)
 
 ##### 个性化主题
 

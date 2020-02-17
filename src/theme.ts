@@ -1,20 +1,17 @@
 import { theme as setAmisTheme } from 'amis'
-import { FunctionComponent } from 'react'
-import { withTheme, DefaultTheme } from 'styled-components'
 
+import { themeNamePrefix } from './constants'
 import { changeAppTheme as themeKey } from './constants/msg_key'
 import { appTheme } from './constants/store_key'
 import themes from './constants/themes'
 import { getThemeCssAsync } from './routes/utils'
+import { getAppTheme } from './theme_util'
 import { publish } from './utils/message'
-import { getStore, setStore } from './utils/store'
+import { setStore } from './utils/store'
 import { changeDomCls } from './utils/tool'
 
-export const getAppTheme = () => getStore<string>(appTheme) || 'default'
-
-const themePrefix = 'app-theme-'
 const loadingCls = 'theme-is-loading' // 异步加载CSS，会导致页面抖动
-const storedTheme = getAppTheme()
+const { name: storedTheme } = getAppTheme()
 const loadedCss: Types.ObjectOf<boolean> = {
   [storedTheme]: true,
 }
@@ -22,7 +19,7 @@ const pace = (window as any).Pace
 
 export const changeAppTheme = (theme: string) => {
   const loading = !loadedCss[theme]
-  let bodyCls = `${themePrefix}${theme}`
+  let bodyCls = `${themeNamePrefix}${theme}`
   if (loading) {
     pace.restart()
     bodyCls += ` ${loadingCls}`
@@ -43,7 +40,7 @@ export const changeAppTheme = (theme: string) => {
 }
 
 export const initAppTheme = () => {
-  changeDomCls(document.body, 'add', `${themePrefix}${storedTheme}`)
+  changeDomCls(document.body, 'add', `${themeNamePrefix}${storedTheme}`)
 
   // 非amis主题 都需要注册
   Object.values(themes)
@@ -53,12 +50,5 @@ export const initAppTheme = () => {
         classPrefix: item.ns,
       })
     })
-  getThemeCssAsync(getAppTheme())
+  getThemeCssAsync(storedTheme)
 }
-
-// 重写 withTheme 类型
-type WithAppTheme = <P, C = FunctionComponent<P & { theme: DefaultTheme }>>(
-  component: C
-) => FunctionComponent<P>
-
-export const withAppTheme: WithAppTheme = withTheme as any

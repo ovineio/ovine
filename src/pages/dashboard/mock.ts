@@ -25,8 +25,8 @@ function getMoneyChart() {
 function getVisitedChart() {
   return mockResSuccess({
     xAxis: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    series: [820, 932, 901, 934, 1290, 1330, 1320],
-    text: '¥ 126,560',
+    series: [820, 1120, 901, 1020, 1308, 843, 1211],
+    text: '1,219',
   })
 }
 

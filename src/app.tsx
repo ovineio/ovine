@@ -1,5 +1,5 @@
 import { AlertComponent, ToastComponent } from 'amis'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 import { render } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Switch } from 'react-router-dom'
@@ -11,7 +11,7 @@ import Layout from '~/widgets/layout'
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
 import themes from './constants/themes'
 import { GlobalAppStyle } from './styled'
-import { getAppTheme } from './theme'
+import { getAppTheme } from './theme_util'
 import { useImmer, useSubscriber } from './utils/hooks'
 
 type State = {
@@ -19,7 +19,7 @@ type State = {
   lang: string
 }
 const initState = {
-  theme: getAppTheme(),
+  theme: getAppTheme().name,
   lang: 'zh_CN',
 }
 

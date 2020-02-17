@@ -1,4 +1,7 @@
 import { ReqSucHook } from '~/core/request'
+import { getAppTheme } from '~/theme_util'
+
+const getChartColor = () => getAppTheme().colors.echart
 
 export const onMoneyChartSuc: ReqSucHook = ({ data = {} }: any) => {
   const { xAxis = [], series = [] } = data
@@ -6,6 +9,7 @@ export const onMoneyChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -55,6 +59,7 @@ export const onVisitedChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -96,6 +101,7 @@ export const onChargeChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       grid: {
         left: '10%',
         right: '10%',
@@ -160,6 +166,7 @@ export const onAdCompareChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       grid: {
         left: '0%',
         right: '0%',
@@ -218,6 +225,8 @@ export const onIndexChartSuc: ReqSucHook = ({ data = {} }: any) => {
       },
       series: [
         {
+          color: getChartColor(),
+
           name: '业务指标',
           type: 'gauge',
           radius: '80%',
@@ -249,6 +258,7 @@ export const onFunnelChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       tooltip: {
         trigger: 'item',
         formatter: '{a} <br/>{b} : {c}%',
@@ -317,6 +327,7 @@ export const onRadarChartSuc: ReqSucHook = ({ data = {} }: any) => {
   return {
     origin: data,
     chart: {
+      color: getChartColor(),
       tooltip: {},
       radar: {
         radius: '55%',
@@ -356,6 +367,7 @@ export const onRainChartSuc: ReqSucHook = ({ data = [] }: any) => {
   return {
     table: list,
     chart: {
+      color: getChartColor(),
       tooltip: {
         trigger: 'axis',
         axisPointer: {

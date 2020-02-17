@@ -1,11 +1,15 @@
+import { resolveRenderer } from 'amis'
+import { RendererConfig } from 'amis/lib/factory'
+import { Schema } from 'amis/lib/types'
 import get from 'lodash/get'
 import isArray from 'lodash/isArray'
 import isEmpty from 'lodash/isEmpty'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
+import { DefaultTheme } from 'styled-components'
 
 import request from '~/core/request'
-import { checkLimitByKeys } from '~/routes/limit'
+import { checkLimitByKeys } from '~/routes/limit_util'
 import logger from '~/utils/logger'
 
 import { RtSchema, SchemaPreset } from './types'
@@ -187,6 +191,16 @@ export const resolveRtSchema = (schema: RtSchema) => {
   filterSchemaLimit(rest, preset)
 
   return reformSchema
+}
+
+export const envResolver = (option: {
+  path: string
+  schema?: Schema
+  props?: any
+  theme: DefaultTheme
+}): null | RendererConfig => {
+  const { path, schema, props } = option
+  return resolveRenderer(path, schema, props)
 }
 
 // amis 官方 格式化项目内 链接

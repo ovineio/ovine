@@ -12,7 +12,7 @@ import logger from '~/utils/logger'
 
 import Code from './code'
 import { RtSchema } from './types'
-import { envFetcher, normalizeLink, resolveRtSchema, wrapCss } from './utils'
+import { envFetcher, envResolver, normalizeLink, resolveRtSchema, wrapCss } from './utils'
 
 const log = logger.getLogger('dev:amisSchema')
 
@@ -43,7 +43,8 @@ export const Amis = withRouter((props: Props) => {
     return resolveRtSchema(cssSchema)
   }, [schema])
 
-  const aimsEnv = {
+  // TODO: amis将配置拆出去
+  const aimsEnv: any = {
     session: 'global',
     // number 固底间距 顶部间距
     affixOffsetTop: 50, // 系统默认值 50
@@ -136,14 +137,16 @@ export const Amis = withRouter((props: Props) => {
 
   return (
     <ThemeConsumer>
-      {({ name: theme }) => (
+      {(theme) => (
         <>
           {renderAmis(envSchema, amisProps, {
+            rendererResolver: (...args) =>
+              envResolver({ path: args[0], schema: args[1], props: args[2], theme }),
             ...aimsEnv,
             ...option,
-            theme,
-          } as any)}
-          {showCode && <Code theme={theme} schema={schema} />}
+            theme: theme.name,
+          })}
+          {showCode && <Code theme={theme.name} schema={schema} />}
         </>
       )}
     </ThemeConsumer>

@@ -8,6 +8,7 @@ declare module 'styled-components' {
     text: string
     // 颜色
     colors: {
+      echart: string[]
       bodyBg: string
       text: string
       layoutHeaderBg: string

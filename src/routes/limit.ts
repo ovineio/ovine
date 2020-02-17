@@ -1,21 +1,16 @@
 /**
- * APP 权限相关。权限配置表、权限校验
+ * APP 权限配置表处理
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
-import isArray from 'lodash/isArray'
 import map from 'lodash/map'
 
 import { routeLimitKey } from '~/constants'
-import logger from '~/utils/logger'
-import { isSubStr } from '~/utils/tool'
 
 import { getRouteConfig, routesConfig } from './config'
-import { getAppLimits } from './limit_store'
-import { CheckLimitFunc, Limit, LimitMenuItem, RouteItem } from './types'
+import { checkLimitByNodePath, getAppLimits } from './limit_util'
+import { Limit, LimitMenuItem, RouteItem } from './types'
 import { getPagePreset } from './utils'
-
-const log = logger.getLogger('dev:routes:limit')
 
 // 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {
@@ -96,41 +91,6 @@ export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
   // console.log('-----', routePath, newItem)
   return newItem
 })
-
-/**
- * 循环调用时一定要, 传 limits 参数
- * @param nodePath 带检查的节点
- * @param limits 权限模版，用检查节点
- */
-export const checkLimitByNodePath = (nodePath: string, limits: any = getAppLimits()) => {
-  // 子权限存在，父权限一定存在
-  return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
-}
-
-/**
- * 校验一组权限
- * @param limitKeys 可以是权限 key,或者 nodePath。当为 key 时，一定要传 option.nodePath
- * @param option nodePath 校验节点。 limits 权限模版，用检查节点
- */
-export const checkLimitByKeys: CheckLimitFunc = (limitKeys, option) => {
-  if (!limitKeys) {
-    return false
-  }
-
-  const { nodePath = '', limits } = option || {}
-  const thisLimits = limits || getAppLimits()
-  const checkAr = typeof limitKeys === 'string' ? [limitKeys] : limitKeys
-
-  if (!isArray(checkAr)) {
-    log.warn('checkLimitByKeys limitKeys 必须是字符串', limitKeys)
-    return false
-  }
-
-  return !checkAr?.some((key) => {
-    const checkKey = isSubStr(key, '/') ? key : `${nodePath}/${key}`
-    return !checkLimitByNodePath(checkKey, thisLimits)
-  })
-}
 
 // 过滤掉 配置路由信息
 // 1. 去除无权限路由

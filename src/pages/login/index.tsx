@@ -55,6 +55,8 @@ export const schema: RtSchema = {
             placeholder: '请输入用户名',
             label: '用户名',
             size: 'full',
+            value: 'demo',
+            description: '体验账户名: demo',
           },
           {
             type: 'password',
@@ -63,6 +65,8 @@ export const schema: RtSchema = {
             required: true,
             placeholder: '请输入密码',
             size: 'full',
+            value: 'demo',
+            description: '体验密码: demo',
           },
           {
             type: 'group',
@@ -74,6 +78,7 @@ export const schema: RtSchema = {
                 type: 'text',
                 name: 'code',
                 required: true,
+                value: '5809',
                 placeholder: '请输入验证码',
                 mode: 'inline',
               },
@@ -89,6 +94,7 @@ export const schema: RtSchema = {
             type: 'checkbox',
             name: 'remember',
             label: '记住登录',
+            value: true,
           },
           {
             type: 'submit',

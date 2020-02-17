@@ -8,7 +8,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
       padding: 0;
       & > div {
         margin: 0px 8px;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
         background-color: ${colors.layoutHeaderBg};
       }
     }
@@ -24,6 +24,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
     .card-info {
       position: relative;
       padding: 15px 15px 0;
+      height: 75px;
       h6 {
         font-size: 14px;
         margin: 0;
@@ -41,7 +42,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
     }
     .card-chart {
       width: 100%;
-      height: 80px;
+      height: 100px;
     }
   }
 

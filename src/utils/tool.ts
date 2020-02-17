@@ -56,7 +56,7 @@ export const dateFormatter = (formatter: string, date?: string | Date) => {
  * @param source 参数数组
  */
 export const choice = (source: any[]): any => {
-  return source[random(source.length - 1)]
+  return source[random(source.length)]
 }
 
 // 校验是否过期

@@ -3,11 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import { layoutLoading } from '~/constants/msg_key'
 import { useSubscriber } from '~/utils/hooks'
-import { store } from '~/utils/message'
 
-export const toggleLayoutLoading = (toggle: boolean) => {
-  store[layoutLoading] = toggle
-}
+import { toggleLayoutLoading } from './layout_util'
 
 export const LayoutLazyFallback = () => {
   useEffect(() => {

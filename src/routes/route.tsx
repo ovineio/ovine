@@ -16,7 +16,8 @@ import { Amis } from '~/widgets/amis/schema'
 import ErrorBoundary from '~/widgets/error_boundary'
 import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
-import { checkLimitByKeys, getAuthRoutes } from './limit'
+import { getAuthRoutes } from './limit'
+import { checkLimitByKeys } from './limit_util'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 import {
   getNodePath,
