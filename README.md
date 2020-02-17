@@ -41,7 +41,7 @@
 
 ##### JSON 配置 路由、页面、Form、组件
 
-![JSON 配置](http://static.igroupes.com/rt-admin-intro-json.gif?t=1)
+![JSON 配置](http://static.igroupes.com/rt-admin-intro-json-1.gif)
 
 ##### 强大权限管理 (集成在配置中，无需开发)
 
