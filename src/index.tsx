@@ -1,14 +1,14 @@
 import 'react-hot-loader/patch'
 
 import '~/assets/scripts/include'
+import '~/components/amis/rt_renderers'
 import config from '~/config'
 import logger, { setConfig } from '~/utils/logger'
 import { queryStringParse } from '~/utils/tool'
-import '~/widgets/amis/rt_renderers'
 
 import initApp from './app'
 import { initUser } from './core/user'
-import { initAppTheme } from './theme'
+import { initAppTheme } from './themes'
 
 // 初始化日志模块
 const initLogger = () => {

@@ -1,50 +1,27 @@
 import { confirm, render, toast } from 'amis'
-import { RendererProps, RenderOptions } from 'amis/lib/factory'
+import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
-import cloneDeep from 'lodash/cloneDeep'
-import isEmpty from 'lodash/isEmpty'
-import React, { useMemo } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { ThemeConsumer } from 'styled-components'
+import { DefaultTheme } from 'styled-components'
 
-import config from '~/config'
 import logger from '~/utils/logger'
 
-import Code from './code'
+import { envFetcher, envResolver, normalizeLink } from './func'
 import { RtSchema } from './types'
-import { envFetcher, envResolver, normalizeLink, resolveRtSchema, wrapCss } from './utils'
 
-const log = logger.getLogger('dev:amisSchema')
+const log = logger.getLogger('dev:renderAmis')
 
-export type AmisProps = {
+type Option = {
   schema: RtSchema
-  props?: RendererProps
+  theme: DefaultTheme
+  history: any
   option?: RenderOptions
+  props?: RootRenderProps
+  [prop: string]: any
 }
+export default (option: Option) => {
+  const { schema, props, theme, option: amisOption, history } = option
 
-export const renderAmis = render
-
-// 文档 https://baidu.github.io/amis/docs/getting-started
-// 源码 https://github.com/baidu/amis/blob/master/examples/components/App.jsx
-type Props = AmisProps & RouteComponentProps<any>
-
-export const Amis = withRouter((props: Props) => {
-  const { schema, props: amisProps, option = {}, history, match } = props
-
-  const { preset, type } = schema
-  const showCode = !config.isRelease && (type === 'page' || type === 'rt-crud')
-
-  const envSchema: RtSchema = useMemo(() => {
-    const origin = !showCode ? schema : cloneDeep(schema)
-    const cssSchema = wrapCss(origin)
-    if (isEmpty(preset)) {
-      return cssSchema
-    }
-    return resolveRtSchema(cssSchema)
-  }, [schema])
-
-  // TODO: amis将配置拆出去
-  const aimsEnv: any = {
+  const env: any = {
     session: 'global',
     // number 固底间距 顶部间距
     affixOffsetTop: 50, // 系统默认值 50
@@ -116,9 +93,9 @@ export const Amis = withRouter((props: Props) => {
     },
     // 判断目标地址是否为当前页面。
     isCurrentUrl: (to: string) => {
-      const link = normalizeLink({ to })
-      log.log('isCurrentUrl', link)
-      return match
+      const { href } = normalizeLink({ to })
+      log.log('isCurrentUrl', href)
+      return href === location.href
     },
     // 实现，内容复制。
     copy: (contents: string, options?: { shutup: boolean }) => {
@@ -135,20 +112,11 @@ export const Amis = withRouter((props: Props) => {
     },
   }
 
-  return (
-    <ThemeConsumer>
-      {(theme) => (
-        <>
-          {renderAmis(envSchema, amisProps, {
-            rendererResolver: (...args) =>
-              envResolver({ path: args[0], schema: args[1], props: args[2], theme }),
-            ...aimsEnv,
-            ...option,
-            theme: theme.name,
-          })}
-          {showCode && <Code theme={theme.name} schema={schema} />}
-        </>
-      )}
-    </ThemeConsumer>
-  )
-})
+  return render(schema, props, {
+    rendererResolver: (...args) =>
+      envResolver({ path: args[0], schema: args[1], props: args[2], theme }),
+    ...env,
+    ...amisOption,
+    theme: theme.name,
+  })
+}

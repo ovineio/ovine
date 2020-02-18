@@ -7,7 +7,7 @@ import isArray from 'lodash/isArray'
 import logger from '~/utils/logger'
 import { isSubStr } from '~/utils/tool'
 
-import { CheckLimitFunc } from './types'
+import { CheckLimitFunc } from '../types'
 
 let store: Types.ObjectOf<boolean> = {}
 

@@ -4,11 +4,11 @@
 
 import { userInfo } from '~/constants/store_key'
 import { mockSource } from '~/pages/login/mock'
-import { setAppLimits } from '~/routes/limit_util'
+import { setAppLimits } from '~/routes/limit/utils'
 import { clearStore, getStore, setStore } from '~/utils/store'
 import { queryStringParse } from '~/utils/tool'
 
-import request, { ReqSucHook } from './request'
+import request, { ReqSucHook } from '../request'
 
 let store: any = getStore(userInfo) || {}
 

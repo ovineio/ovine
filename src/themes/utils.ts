@@ -6,7 +6,7 @@ import { FunctionComponent } from 'react'
 import { withTheme, DefaultTheme } from 'styled-components'
 
 import { appTheme } from '~/constants/store_key'
-import themes from '~/constants/themes'
+import themes from '~/themes/variables'
 import { getStore } from '~/utils/store'
 
 export const getAppTheme = () => ({

@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom'
 
 import { getAsideMenus } from '~/routes/limit'
 import { getRoutePath } from '~/routes/utils'
-import { withAppTheme } from '~/theme_util'
+import { withAppTheme } from '~/themes/utils'
 
 import { LayoutCommProps } from './common'
 

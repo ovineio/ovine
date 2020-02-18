@@ -9,15 +9,15 @@ import map from 'lodash/map'
 import React, { createContext, lazy, useContext, useMemo, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
+import { Amis } from '~/components/amis/schema'
+import ErrorBoundary from '~/components/error_boundary'
+import { LayoutLazyFallback } from '~/components/layout/loading'
 import { isLogin } from '~/core/user'
 import NotFound from '~/pages/404'
 import { isSubStr } from '~/utils/tool'
-import { Amis } from '~/widgets/amis/schema'
-import ErrorBoundary from '~/widgets/error_boundary'
-import { LayoutLazyFallback } from '~/widgets/layout/loading'
 
 import { getAuthRoutes } from './limit'
-import { checkLimitByKeys } from './limit_util'
+import { checkLimitByKeys } from './limit/utils'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 import {
   getNodePath,

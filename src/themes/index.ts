@@ -1,14 +1,15 @@
 import { theme as setAmisTheme } from 'amis'
 
-import { themeNamePrefix } from './constants'
-import { changeAppTheme as themeKey } from './constants/msg_key'
-import { appTheme } from './constants/store_key'
-import themes from './constants/themes'
-import { getThemeCssAsync } from './routes/utils'
-import { getAppTheme } from './theme_util'
-import { publish } from './utils/message'
-import { setStore } from './utils/store'
-import { changeDomCls } from './utils/tool'
+import { themeNamePrefix } from '~/constants'
+import { changeAppTheme as themeKey } from '~/constants/msg_key'
+import { appTheme } from '~/constants/store_key'
+import { getThemeCssAsync } from '~/routes/utils'
+import { publish } from '~/utils/message'
+import { setStore } from '~/utils/store'
+import { changeDomCls } from '~/utils/tool'
+
+import { getAppTheme } from './utils'
+import themes from './variables'
 
 const loadingCls = 'theme-is-loading' // 异步加载CSS，会导致页面抖动
 const { name: storedTheme } = getAppTheme()

@@ -9,7 +9,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { routeLimitKey } from '~/constants'
 import { limitMenusConfig } from '~/routes/limit'
-import { checkLimitByKeys, convertLimitStr } from '~/routes/limit_util'
+import { checkLimitByKeys, convertLimitStr } from '~/routes/limit/utils'
 import { LimitMenuItem } from '~/routes/types'
 import { useImmer } from '~/utils/hooks'
 import { getStore, setStore } from '~/utils/store'

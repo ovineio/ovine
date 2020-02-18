@@ -1,6 +1,6 @@
+import { RtSchema } from '~/components/amis/schema/types'
 import { logoUrl, testCodeUrl } from '~/constants'
 import { userLoginHook } from '~/core/user'
-import { RtSchema } from '~/widgets/amis/schema/types'
 
 import { mockSource } from './mock'
 import { loginCss } from './styled'

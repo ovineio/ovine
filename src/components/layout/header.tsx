@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { logoUrl } from '~/constants'
-import { withAppTheme } from '~/theme_util'
+import { withAppTheme } from '~/themes/utils'
 
 import { LayoutCommProps } from './common'
 import HeadItem from './head_item'

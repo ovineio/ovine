@@ -6,4 +6,5 @@
     "source.fixAll.tslint": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.updateImportsOnFileMove.enabled": "prompt"
 }

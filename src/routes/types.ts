@@ -1,8 +1,8 @@
 import { LinkItem } from 'amis/lib/components/AsideNav'
 import { RouteProps } from 'react-router-dom'
 
+import { AmisProps } from '~/components/amis/schema'
 import { RequestOption } from '~/core/request'
-import { AmisProps } from '~/widgets/amis/schema'
 
 export type Limit = {
   label: string

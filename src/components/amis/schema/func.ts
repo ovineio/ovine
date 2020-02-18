@@ -8,27 +8,14 @@ import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 import { DefaultTheme } from 'styled-components'
 
+import { amisResAdapter } from '~/components/amis/utils'
 import request from '~/core/request'
-import { checkLimitByKeys } from '~/routes/limit_util'
+import { checkLimitByKeys } from '~/routes/limit/utils'
 import logger from '~/utils/logger'
 
 import { RtSchema, SchemaPreset } from './types'
 
 const log = logger.getLogger('dev:amisSchema:utils')
-
-// 请求返回值 格式转化
-export const amisResAdapter = (res: any) => {
-  const { code = 0, data: resData, msg, message, ...rest } = res
-  const response = {
-    status: code,
-    msg: msg || message || '',
-    data: resData ? resData : rest,
-  }
-
-  return {
-    data: response,
-  }
-}
 
 // 自定义 amis 请求
 export const envFetcher = (option: any) => {
@@ -161,24 +148,6 @@ export const convertToAmisSchema = (
   return schema
 }
 
-// 顶层有 type 与 css 属性， 自动注入 rt-css
-export const wrapCss = (schema: RtSchema) => {
-  const { css, tag, htmlClassName, preset, ...restCss } = schema
-
-  if (!css && !tag && !htmlClassName) {
-    return schema
-  }
-
-  return {
-    css,
-    tag,
-    preset,
-    htmlClassName,
-    type: 'rt-css',
-    body: restCss,
-  }
-}
-
 // 处理自定义格式
 export const resolveRtSchema = (schema: RtSchema) => {
   const { preset = {}, ...rest } = schema
@@ -201,6 +170,24 @@ export const envResolver = (option: {
 }): null | RendererConfig => {
   const { path, schema, props } = option
   return resolveRenderer(path, schema, props)
+}
+
+// 顶层有 type 与 css 属性， 自动注入 rt-css
+export const wrapCss = (schema: RtSchema) => {
+  const { css: getCss, tag, htmlClassName, preset, ...rest } = schema
+
+  if (!getCss && !tag && !htmlClassName) {
+    return schema
+  }
+
+  return {
+    css: getCss,
+    tag,
+    preset,
+    htmlClassName,
+    type: 'rt-css',
+    body: rest,
+  }
 }
 
 // amis 官方 格式化项目内 链接

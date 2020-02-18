@@ -1,5 +1,5 @@
-import { RtSchema } from '~/widgets/amis/schema/types'
-import LimitSetting from '~/widgets/limit_setting'
+import { RtSchema } from '~/components/amis/schema/types'
+import LimitSetting from '~/components/limit_setting'
 
 export const schema: RtSchema = {
   type: 'rt-crud',

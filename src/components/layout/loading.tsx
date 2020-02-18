@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { layoutLoading } from '~/constants/msg_key'
 import { useSubscriber } from '~/utils/hooks'
 
-import { toggleLayoutLoading } from './layout_util'
+import { toggleLayoutLoading } from './utils'
 
 export const LayoutLazyFallback = () => {
   useEffect(() => {

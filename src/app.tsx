@@ -5,13 +5,13 @@ import { hot } from 'react-hot-loader/root'
 import { BrowserRouter, Switch } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
+import Layout from '~/components/layout'
 import { AppMenuRoutes, PrestRoute, PrivateRoute } from '~/routes/route'
-import Layout from '~/widgets/layout'
 
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
-import themes from './constants/themes'
 import { GlobalAppStyle } from './styled'
-import { getAppTheme } from './theme_util'
+import { getAppTheme } from './themes/utils'
+import themes from './themes/variables'
 import { useImmer, useSubscriber } from './utils/hooks'
 
 type State = {

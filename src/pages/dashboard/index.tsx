@@ -1,4 +1,4 @@
-import { RtSchema } from '~/widgets/amis/schema/types'
+import { RtSchema } from '~/components/amis/schema/types'
 
 import * as reqSucHooks from './req'
 import { dashboardCss } from './styled'

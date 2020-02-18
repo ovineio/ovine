@@ -5,7 +5,7 @@
 import { Tab, Tabs } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/theme_util'
+import { withAppTheme } from '~/themes/utils'
 import { useImmer } from '~/utils/hooks'
 
 import HeadItem from './head_item'

@@ -1,5 +1,5 @@
 /**
- * 请求模块
+ * 应用内请求模块
  */
 
 import { qsstringify } from 'amis/lib/utils/helper'

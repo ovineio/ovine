@@ -6,10 +6,10 @@ import map from 'lodash/map'
 import React, { lazy, useMemo, useRef, useState, Suspense } from 'react'
 import { Portal } from 'react-overlays'
 
+import HeadItem from '~/components/layout/head_item'
+import { PopupItemMenu } from '~/components/layout/styled'
 import { getRouteConfig } from '~/routes/config'
 import { getStore } from '~/utils/store'
-import HeadItem from '~/widgets/layout/head_item'
-import { PopupItemMenu } from '~/widgets/layout/styled'
 
 import { RtSchema } from './types'
 
