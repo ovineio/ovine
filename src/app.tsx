@@ -10,7 +10,7 @@ import { AppMenuRoutes, PrestRoute, PrivateRoute } from '~/routes/route'
 
 import { changeAppLang, changeAppTheme } from './constants/msg_key'
 import { GlobalAppStyle } from './styled'
-import { getAppTheme } from './themes/utils'
+import { getAppTheme } from './themes/export'
 import themes from './themes/variables'
 import { useImmer, useSubscriber } from './utils/hooks'
 

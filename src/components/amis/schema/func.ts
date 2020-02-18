@@ -8,9 +8,9 @@ import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 import { DefaultTheme } from 'styled-components'
 
-import { amisResAdapter } from '~/components/amis/utils'
+import { amisResAdapter } from '~/components/amis/export'
 import request from '~/core/request'
-import { checkLimitByKeys } from '~/routes/limit/utils'
+import { checkLimitByKeys } from '~/routes/limit/export'
 import logger from '~/utils/logger'
 
 import { RtSchema, SchemaPreset } from './types'

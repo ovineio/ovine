@@ -6,12 +6,12 @@ import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import map from 'lodash/map'
 
 import { routeLimitKey } from '~/constants'
-import { getPagePreset } from '~/routes/utils'
+import { getPagePreset } from '~/routes/export'
 
 import { getRouteConfig, routesConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'
 
-import { checkLimitByNodePath, getAppLimits } from './utils'
+import { checkLimitByNodePath, getAppLimits } from './export'
 
 // 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {

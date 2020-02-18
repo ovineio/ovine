@@ -1,5 +1,5 @@
 import { ReqSucHook } from '~/core/request'
-import { getAppTheme } from '~/themes/utils'
+import { getAppTheme } from '~/themes/export'
 
 const getChartColor = () => getAppTheme().colors.echart
 

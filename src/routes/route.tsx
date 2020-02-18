@@ -16,16 +16,16 @@ import { isLogin } from '~/core/user'
 import NotFound from '~/pages/404'
 import { isSubStr } from '~/utils/tool'
 
-import { getAuthRoutes } from './limit'
-import { checkLimitByKeys } from './limit/utils'
-import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 import {
   getNodePath,
   getPageFileAsync,
   getPageMockSource,
   getPagePreset,
   getRoutePath,
-} from './utils'
+} from './export'
+import { getAuthRoutes } from './limit'
+import { checkLimitByKeys } from './limit/export'
+import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 

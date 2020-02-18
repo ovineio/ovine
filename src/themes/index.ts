@@ -3,12 +3,12 @@ import { theme as setAmisTheme } from 'amis'
 import { themeNamePrefix } from '~/constants'
 import { changeAppTheme as themeKey } from '~/constants/msg_key'
 import { appTheme } from '~/constants/store_key'
-import { getThemeCssAsync } from '~/routes/utils'
+import { getThemeCssAsync } from '~/routes/export'
 import { publish } from '~/utils/message'
 import { setStore } from '~/utils/store'
 import { changeDomCls } from '~/utils/tool'
 
-import { getAppTheme } from './utils'
+import { getAppTheme } from './export'
 import themes from './variables'
 
 const loadingCls = 'theme-is-loading' // 异步加载CSS，会导致页面抖动

@@ -11,7 +11,7 @@ import LimitSetting from '~/components/limit_setting'
 import config from '~/config'
 import { userLogout } from '~/core/user'
 import { changeAppTheme } from '~/themes'
-import { withAppTheme } from '~/themes/utils'
+import { withAppTheme } from '~/themes/export'
 import themes from '~/themes/variables'
 import { useImmer } from '~/utils/hooks'
 

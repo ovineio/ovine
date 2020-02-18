@@ -8,6 +8,7 @@ declare module '~/assets/*'
 
 declare module 'react-overlays'
 
+declare module 'whatwg-fetch'
 declare module 'react-dom' {
   export const render: any
   export const createPortal: any

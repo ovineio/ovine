@@ -5,7 +5,7 @@
 import { Button, TooltipWrapper } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/themes/utils'
+import { withAppTheme } from '~/themes/export'
 
 type Props = {
   trigger?: 'click' | 'focus'

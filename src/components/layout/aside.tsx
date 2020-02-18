@@ -2,9 +2,9 @@ import AsideNav from 'amis/lib/components/AsideNav'
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
+import { getRoutePath } from '~/routes/export'
 import { getAsideMenus } from '~/routes/limit'
-import { getRoutePath } from '~/routes/utils'
-import { withAppTheme } from '~/themes/utils'
+import { withAppTheme } from '~/themes/export'
 
 import { LayoutCommProps } from './common'
 
