@@ -5,35 +5,31 @@
 
 type EnvMode = 'localhost' | 'staging' | 'production'
 
-export type UrlMode = 'api' | 'admin' | 'mock'
+export type Domain = 'api'
 
-type EnvConfig = {
+type Config = {
   isProd?: boolean
   isLocal?: boolean
   isStaging?: boolean
   isMock?: boolean
   isRelease?: boolean
   debug: string
-  urlMode: Types.ObjectOf<string>
-}
-
-type AppConfig = EnvConfig & {
   envMode: EnvMode
+  domains: Types.Map<Domain, string>
 }
 
-type Config = AppConfig & {
-  envMode: EnvMode
-  urlMode: { [key in UrlMode]?: string }
+type EnvConfig = Omit<Config, 'domains' | 'envMode'> & {
+  domains: Types.PartialMap<Domain, string>
 }
 
-const defaultConfig: AppConfig = {
+const defaultConfig: Config = {
   isProd: false,
   isLocal: false,
   isMock: false,
   isRelease: false,
-  debug: 'dev:*',
   envMode: 'localhost',
-  urlMode: {
+  debug: 'dev:*',
+  domains: {
     api: 'http://api-rt-admin.com',
   },
 }
@@ -42,7 +38,7 @@ const defaultConfig: AppConfig = {
 const localhost: EnvConfig = {
   isLocal: true,
   debug: '.*',
-  urlMode: {
+  domains: {
     api: 'http://test-api-rt-admin.com',
   },
 }
@@ -51,7 +47,7 @@ const localhost: EnvConfig = {
 const staging: EnvConfig = {
   isStaging: true,
   debug: 'app:*',
-  urlMode: {
+  domains: {
     api: 'http://test-api-rt-admin.com',
   },
 }
@@ -60,7 +56,7 @@ const staging: EnvConfig = {
 const production: EnvConfig = {
   isProd: true,
   debug: '',
-  urlMode: {
+  domains: {
     api: 'http://test-api-rt-admin.com',
   },
 }
@@ -72,8 +68,12 @@ const envMode = (process.env.API_ENV || 'localhost') as EnvMode
 const config = {
   ...defaultConfig,
   ...env[envMode],
-  isMock: process.env.MOCK,
+  domains: {
+    ...defaultConfig.domains,
+    ...env[envMode].domains,
+  },
   envMode,
+  isMock: process.env.MOCK,
 }
 
 config.isRelease = !config.isMock && config.isProd

@@ -12,7 +12,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { Amis } from '~/components/amis/schema'
 import ErrorBoundary from '~/components/error_boundary'
 import { LayoutLazyFallback } from '~/components/layout/loading'
-import { isLogin } from '~/core/user'
+import { isLogin } from '~/core/user/export'
 import NotFound from '~/pages/404'
 import { isSubStr } from '~/utils/tool'
 

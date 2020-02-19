@@ -4,7 +4,7 @@
 
 import React from 'react'
 
-import { userLogout } from '~/core/user'
+import { userLogout } from '~/core/user/export'
 import { useImmer } from '~/utils/hooks'
 
 import { Amis } from '../amis/schema'

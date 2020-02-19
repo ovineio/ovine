@@ -1,4 +1,5 @@
 /// <reference path="../src/themes/variables/theme.d.ts" />
+/// <reference path="../src/utils/request.d.ts" />
 
 declare module '*.json'
 declare module '*.png'

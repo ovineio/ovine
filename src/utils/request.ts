@@ -1,6 +1,7 @@
 /**
  * 封装 fetch 请求
  */
+
 import { qsstringify } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
 import get from 'lodash/get'
@@ -12,66 +13,10 @@ import logger from '~/utils/logger'
 import { getSessionStore, setSessionStore } from '~/utils/store'
 import { isExpired, queryStringParse } from '~/utils/tool'
 
-// 服务端接口 格式
-export type ServerApiRes<T> = T & {
-  code?: number
-  data?: T
-  msg?: string
-  message?: string
-  error?: any
-}
-
-// 请求方法
-export type RequestMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
-
-export type MockSourceGen<S = {}, P = {}> =
-  | ((options: UnionOption<S, P>) => object)
-  | ServerApiRes<S>
-
-export type ReqSucHook<S = {}, P = {}> = (
-  source: ServerApiRes<S>,
-  unionOption: UnionOption<S, P>
-) => ServerApiRes<S>
-
-export type ReqErrorHook<S = {}, P = {}> = (option: {
-  source?: ServerApiRes<S>
-  option?: UnionOption<S, P>
-  error?: any
-}) => void
-
-export type MockSource<S = {}, P = {}> = Types.ObjectOf<MockSourceGen<S, P>>
-
-export type RequestOption<S = {}, P = {}> = {
-  url: string // required
-  api?: string // 默认与 url 一样
-  method?: RequestMethod // get
-  urlMode?: string // 'api'
-  data?: Partial<P> // {}
-  body?: any
-  token?: 'none' | 'auto' | 'force' // auto
-  sourceKey?: string // ''
-  expired?: number // 秒数 0
-  fetchOption?: RequestInit
-  mock?: boolean // 是否启用 mock
-  mockSource?: MockSourceGen // 数据生成器
-  mockTimeout?: number // 300
-  onSuccess?: ReqSucHook<S, P> // 接口成功回调
-  onError?: ReqErrorHook<S, P> // 接口失败回调
-}
-
-export type FetchOption = Omit<RequestInit, 'method'> & {
-  url: string
-  method: RequestMethod
-  headers?: any
-  body?: any
-}
-
-type UnionOption<S = {}, P = {}> = RequestOption<S, P> & FetchOption
-
 const log = logger.getLogger('dev:request')
 
 // 请求错误集中处理， 必须 throw 错误
-function requestErrorCtrl(this: Request, option: UnionOption, response: any, error: any) {
+function requestErrorCtrl(this: Request, option: Req.UnionOption, response: any, error: any) {
   const { onError: handle = false } = option
 
   log.info('requestErrorCtrl', { response, error })
@@ -95,7 +40,7 @@ function timeout(ms: number) {
 }
 
 // 模拟数据
-const mockSourceCtrl = async (option: UnionOption) => {
+const mockSourceCtrl = async (option: Req.UnionOption) => {
   const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockTimeout = 300 } = option
   // 预览打包，暂时去掉 config.isProd 限制
 
@@ -127,7 +72,7 @@ const mockSourceCtrl = async (option: UnionOption) => {
 }
 
 // 只缓存 GET 请求
-const cacheSourceCtrl = (type: 'set' | 'get', option: UnionOption, resource?: any) => {
+const cacheSourceCtrl = (type: 'set' | 'get', option: Req.UnionOption, resource?: any) => {
   const { url = '', expired = 0, method = 'GET' } = option || {}
 
   if (!expired || method !== 'GET') {
@@ -162,7 +107,7 @@ const cacheSourceCtrl = (type: 'set' | 'get', option: UnionOption, resource?: an
 }
 
 // 发出请求
-async function fetchSourceCtrl(this: Request, option: UnionOption) {
+async function fetchSourceCtrl(this: Request, option: Req.UnionOption) {
   const { url, sourceKey, onSuccess } = option
 
   const reqOption = !this.onRequest ? option : this.onRequest(option)
@@ -201,23 +146,24 @@ async function fetchSourceCtrl(this: Request, option: UnionOption) {
 }
 
 // 获取 fetch 参数
-function getFetchOption(this: Request, option: RequestOption): FetchOption {
-  const { data = {}, body, fetchOption: fetchOpt = {} } = option
+function getFetchOption(this: Request, option: Req.Option): Req.FetchOption {
+  const { data = {}, body, headers, fetchOption: fetchOpt = {} } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
   const hasBody = !/GET|HEAD/.test(method)
 
-  const headers = {
+  const reqHeaders = {
     Accept: 'application/json',
+    ...headers,
   }
 
-  const fetchOption: FetchOption = {
+  const fetchOption: Req.FetchOption = {
     ...fetchOpt,
     url,
     method,
     headers: {
+      ...reqHeaders,
       ...fetchOpt.headers,
-      ...headers,
     },
   }
 
@@ -232,11 +178,8 @@ function getFetchOption(this: Request, option: RequestOption): FetchOption {
   return fetchOption
 }
 
-export function getUrlByOption(
-  this: RequestConfig,
-  option: RequestOption & Partial<RequestConfig>
-) {
-  const { url, data = {}, method = 'GET', urlMode = 'api', domains } = option
+export function getUrlByOption(this: Req.Config, option: Req.Option & Partial<Req.Config>) {
+  const { url, data = {}, method = 'GET', domain = 'api', domains } = option
 
   let realUrl = url
 
@@ -244,7 +187,7 @@ export function getUrlByOption(
   const params = omitBy(data as any, (item) => item === undefined || item === null)
 
   if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(realUrl)) {
-    urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as RequestMethod
+    urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as Req.Method
     realUrl = realUrl.replace(/^.*? /, '')
   }
 
@@ -252,7 +195,7 @@ export function getUrlByOption(
 
   // url中不存在 '//' 匹配
   if (!/\/\//.test(realUrl)) {
-    const urlPrefix = apiDomains[urlMode]
+    const urlPrefix = apiDomains[domain]
     if (!urlPrefix) {
       log.error('request.getUrlByOption 解析出错', option)
     }
@@ -273,33 +216,31 @@ export function getUrlByOption(
 
   return urlOption
 }
+export class Request<T = {}, K = {}> {
+  public isRelease?: boolean
+  public domains: { [domain: string]: string }
 
-type RequestConfig = { domains: Types.ObjectOf<string>; isRelease?: boolean }
-export class Request {
-  public onRequest?: (option: RequestOption) => RequestOption
-
+  public onRequest?: (option: Req.UnionOption) => Req.UnionOption
+  public userTokenCtrl?: (option: Req.Option) => Req.Option
+  public onError?: (option: { option: Req.UnionOption; response: Response; error?: any }) => any
+  public onResponse?: (option: { option: Req.UnionOption; response: Response; source?: any }) => any
   public onFinish?: (option: {
-    option: UnionOption
+    option: Req.UnionOption
     response: Response
     error?: any
     source?: any
   }) => void
 
-  public onError?: (option: { option: UnionOption; response: Response; error?: any }) => any
-
-  public onResponse?: (option: { option: UnionOption; response: Response; source?: any }) => any
-
-  public isRelease?: boolean = false
-  public domains: Types.ObjectOf<string> = {}
-
-  constructor(config: RequestConfig) {
+  constructor(config: Req.Config) {
     const { domains = {}, isRelease } = config || {}
     this.domains = domains
     this.isRelease = isRelease
   }
 
-  public async request<S, P>(option: RequestOption<S, P>): Promise<ServerApiRes<S> | undefined>
-  public async request(option: RequestOption<any, any>): Promise<any | undefined> {
+  public async request<S, P>(
+    option: Req.Option<S & T, P & K>
+  ): Promise<Req.ServerApiRes<S & T> | undefined>
+  public async request(option: Req.Option<any, any>): Promise<any | undefined> {
     const { data: params, url, api } = option
     option.api = api || url
 

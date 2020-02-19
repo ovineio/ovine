@@ -2,69 +2,44 @@
  * 用户模块
  */
 
-import { userInfo } from '~/constants/store_key'
-import { mockSource } from '~/pages/login/mock'
-import { setAppLimits } from '~/routes/limit/export'
-import { clearStore, getStore, setStore } from '~/utils/store'
-import { queryStringParse } from '~/utils/tool'
+import { setStore } from '~/utils/store'
 
-import request, { ReqSucHook } from '../request'
+import { cacheUserInfo, getToken, getUserInfo, onUserTokenError } from './export'
 
-let store: any = getStore(userInfo) || {}
-
-// 用户token
-export const getToken = (): string | undefined => {
-  return store?.access_token || queryStringParse('access_token')
-}
-
-// 是否登录
-export const isLogin = (): boolean => {
-  return !!getToken()
-}
-
-// 检验 token 出错后的操作
-export const onUserTokenError = () => {
-  //
-}
-
-// 用户登出
-export const userLogout = () => {
-  clearStore(userInfo)
-  location.href = '/login'
-}
-
-export const getUserInfo = () => {
-  return request<App.UserInfoData, {}>({
-    url: 'GET api/v1/user_info',
-    mockSource,
-    onSuccess: (source) => {
-      const { access_token, ...data } = source?.data || {}
-      cacheUserInfo({ data, isUserInfo: true })
-      return source
-    },
-  })
-}
-
-export const cacheUserInfo = (source: any) => {
-  const { limit = '', isUserInfo, ...rest } = source?.data || {}
-  const cachedInfo = getStore<App.UserInfoData>(userInfo)
-  if (source?.isUserInfo) {
-    rest.access_token = cachedInfo?.access_token
-  }
-  store = rest
-  setAppLimits(limit)
-  setStore(userInfo, rest)
+export const initUser = () => {
+  return getUserInfo()
 }
 
 // 用户登录
-export const userLoginHook: ReqSucHook<App.UserInfoData> = (source) => {
+export const userLoginHook: Req.SuccessHook<App.UserInfoData> = (source) => {
   cacheUserInfo(source)
   setStore('test_limit', source.data?.limit)
   return source
 }
 
-export const initUser = () => {
-  return getUserInfo()
+export const userTokenCtrl = (option: Req.Option) => {
+  const { token = 'auto', headers } = option
+  const userToken = getToken()
+
+  // 不需要 token 的情况
+  if (token === 'none' || (!userToken && token === 'auto')) {
+    return option
+  }
+
+  // 明确需要 token 但是 token不存在
+  if (token === 'force' && !userToken) {
+    onUserTokenError()
+  }
+
+  // url 声明需要 token 但，该请求并不一定要 token
+  if (userToken) {
+    option.headers = {
+      ...headers,
+      ['X-AUTH']: userToken,
+    }
+  }
+
+  return option
 }
 
 /**
