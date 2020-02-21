@@ -1,9 +1,10 @@
-import { Drawer, Spinner } from 'amis'
+import { Drawer } from 'amis'
+import { Editor } from 'amis/lib/components'
 import cloneDeep from 'lodash/cloneDeep'
 import isFunction from 'lodash/isFunction'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
-import React, { lazy, useMemo, useRef, useState, Suspense } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { Portal } from 'react-overlays'
 
 import HeadItem from '~/components/layout/head_item'
@@ -17,10 +18,6 @@ type Props = {
   theme: string
   schema: RtSchema
 }
-
-const LazyEditor = lazy(() =>
-  import(/* webpackChunkName: "lazy_editor" */ 'amis/lib/components/Editor')
-) as any
 
 type CodeType = 'route' | 'page' | 'limit'
 export default (props: Props) => {
@@ -74,14 +71,12 @@ export default (props: Props) => {
         position="left"
       >
         {show && (
-          <Suspense fallback={<Spinner size="lg" show />}>
-            <LazyEditor
-              options={{ readOnly: true }}
-              editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
-              language="json"
-              value={cachedSchema}
-            />
-          </Suspense>
+          <Editor
+            options={{ readOnly: true }}
+            editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
+            language="json"
+            value={cachedSchema}
+          />
         )}
       </Drawer>
       <HeadItem

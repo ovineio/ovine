@@ -1,4 +1,3 @@
-import { MockSource } from '~/core/request'
 import { getStore } from '~/utils/store'
 
 // const store: any = {}
@@ -15,7 +14,7 @@ const fakeUserData = {
   limit: getStore('test_limit') || fakeLimit,
 }
 
-export const mockSource: MockSource<any, any> = {
+export const mockSource: Req.MockSource<any, any> = {
   'POST api/v1/login': () => {
     return {
       code: 0,

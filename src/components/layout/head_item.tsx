@@ -33,6 +33,7 @@ export default withAppTheme<Props>((props) => {
     tip,
   } = props
 
+  // TODO: trigger === focus 时 有兼容问题
   const isClickOpen = trigger === 'click'
   const withContent = !!trigger ? trigger : undefined
 

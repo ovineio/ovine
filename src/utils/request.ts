@@ -42,6 +42,7 @@ function timeout(ms: number) {
 // 模拟数据
 const mockSourceCtrl = async (option: Req.UnionOption) => {
   const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockTimeout = 300 } = option
+
   // 预览打包，暂时去掉 config.isProd 限制
 
   // config.isProd || !mockSource
@@ -152,18 +153,13 @@ function getFetchOption(this: Request, option: Req.Option): Req.FetchOption {
   const { url, method } = getUrlByOption.call(this, option) as any
   const hasBody = !/GET|HEAD/.test(method)
 
-  const reqHeaders = {
-    Accept: 'application/json',
-    ...headers,
-  }
-
   const fetchOption: Req.FetchOption = {
     ...fetchOpt,
     url,
     method,
     headers: {
-      ...reqHeaders,
-      ...fetchOpt.headers,
+      Accept: 'application/json',
+      ...headers,
     },
   }
 
@@ -179,7 +175,7 @@ function getFetchOption(this: Request, option: Req.Option): Req.FetchOption {
 }
 
 export function getUrlByOption(this: Req.Config, option: Req.Option & Partial<Req.Config>) {
-  const { url, data = {}, method = 'GET', domain = 'api', domains } = option
+  const { url = '', data = {}, method = 'GET', domain = 'api', domains } = option
 
   let realUrl = url
 
@@ -216,6 +212,7 @@ export function getUrlByOption(this: Req.Config, option: Req.Option & Partial<Re
 
   return urlOption
 }
+
 export class Request<T = {}, K = {}> {
   public isRelease?: boolean
   public domains: { [domain: string]: string }
@@ -237,16 +234,21 @@ export class Request<T = {}, K = {}> {
     this.isRelease = isRelease
   }
 
-  public async request<S, P>(
-    option: Req.Option<S & T, P & K>
-  ): Promise<Req.ServerApiRes<S & T> | undefined>
-  public async request(option: Req.Option<any, any>): Promise<any | undefined> {
+  public async request<S = {}, P = {}>(
+    option: Types.MixObject<Req.Option<Types.MixObject<S, K>, P>, T>
+  ): Promise<Req.ServerApiRes<Types.MixObject<S, K>> | undefined>
+  public async request(this: any, option: any): Promise<any> {
     const { data: params, url, api } = option
-    option.api = api || url
+    option.api = api ? api : url
 
-    const query: any = queryStringParse('', url)
+    if (!option.api) {
+      log.error('request option.api 不存在', option)
+      return
+    }
+
+    const query: any = queryStringParse('', option.url)
     if (query) {
-      option.url = url.split('?')[0]
+      option.url = option.url.split('?')[0]
       option.data = { ...query, ...params }
     }
 

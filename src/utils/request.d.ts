@@ -24,8 +24,8 @@ declare namespace Req {
   type MockSource<S = {}, P = {}> = { [key: string]: MockSourceGen<S, P> }
 
   type Option<S = {}, P = {}> = {
-    url: string // required
-    api?: string // 默认与 url 一样
+    api: string // 请求原始api字符串
+    url?: string // 默认与 api 一样
     method?: Method // get
     domain?: string // 'api'
     data?: Partial<P> // {}
@@ -34,7 +34,7 @@ declare namespace Req {
     token?: 'none' | 'auto' | 'force' // none
     sourceKey?: string // ''
     expired?: number // 秒数 0
-    fetchOption?: RequestInit
+    fetchOption?: Omit<RequestInit, 'header' | 'body'>
     mock?: boolean // 是否启用 mock
     mockSource?: MockSourceGen // 数据生成器
     mockTimeout?: number // 300
@@ -56,4 +56,6 @@ declare namespace Req {
     isRelease?: boolean
     domains: { [domain: string]: string }
   }
+
+  type MixObject<T, K> = K & Omit<T, keyof K>
 }

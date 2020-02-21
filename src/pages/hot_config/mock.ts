@@ -1,8 +1,6 @@
 import { uuid } from 'amis/lib/utils/helper'
 import times from 'lodash/times'
 
-import { MockSource } from '~/core/request'
-
 const getItem = (i: number) => ({
   id: i,
   key: uuid(),
@@ -15,7 +13,7 @@ const getItem = (i: number) => ({
   ip: '',
 })
 
-export const mockSource: MockSource = {
+export const mockSource: Req.MockSource = {
   'GET api/v1/hot_config': () => {
     return {
       data: {

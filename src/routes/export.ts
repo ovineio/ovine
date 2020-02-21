@@ -3,7 +3,6 @@
  * 所有异步加载文件
  */
 
-import { MockSource } from '~/core/request'
 import { retryPromise } from '~/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
@@ -39,7 +38,7 @@ export const getPagePreset = (option: PageFileOption): PagePreset | undefined =>
 }
 
 // 获取 mock。默认为  pages/xxx/mock.ts 存在该文件，将自动注入mock到prest每一个 api
-export const getPageMockSource = (option: PageFileOption): MockSource | undefined => {
+export const getPageMockSource = (option: PageFileOption): Req.MockSource | undefined => {
   const filePath = getPageFilePath(option)
 
   try {

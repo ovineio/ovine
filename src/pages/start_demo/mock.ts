@@ -1,6 +1,5 @@
 import { uuid } from 'amis/lib/utils/helper'
 
-import { MockSource } from '~/core/request'
 import { MockListStore } from '~/utils/mock'
 import { choice } from '~/utils/tool'
 
@@ -26,7 +25,7 @@ type ReqParams = typeof initItem
 
 const mockStore = new MockListStore<any, Partial<ReqParams>>({ generator })
 
-const mockSource: MockSource<{}, ReqParams> = {
+const mockSource: Req.MockSource<{}, ReqParams> = {
   'GET api/v1/start_demo': () => {
     const items = mockStore.search()
     return {

@@ -1,7 +1,6 @@
-import { MockSource } from '~/core/request'
 import { mockResSuccess } from '~/utils/mock'
 
-export const mockSource: MockSource = {
+export const mockSource: Req.MockSource = {
   'GET api/v1/money_chart': getMoneyChart,
   'GET api/v1/visited_chart': getVisitedChart,
   'GET api/v1/ad_compare_chart': getAdCompareChart,
