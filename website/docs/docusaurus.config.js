@@ -11,8 +11,8 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'CareyToboo', // Usually your GitHub org/user name.
   projectName: 'rt-admin', // Usually your repo name.
-  url: 'https://CareyToboo.github.io',
-  baseUrl: '/rt/',
+  url: 'https://careytoboo.github.io/rt-admin',
+  baseUrl: '/rtdocs/',
   themeConfig: {
     prism: {
       theme: require('prism-react-renderer/themes/shadesOfPurple'),
