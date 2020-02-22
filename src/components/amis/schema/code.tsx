@@ -1,10 +1,10 @@
-import { Drawer } from 'amis'
+import { Drawer, Spinner } from 'amis'
 import { Editor } from 'amis/lib/components'
 import cloneDeep from 'lodash/cloneDeep'
 import isFunction from 'lodash/isFunction'
 import isObject from 'lodash/isObject'
 import map from 'lodash/map'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Portal } from 'react-overlays'
 
 import HeadItem from '~/components/layout/head_item'
@@ -25,9 +25,23 @@ export default (props: Props) => {
 
   const [show, toggle] = useState(false)
   const [code, setCode] = useState<CodeType>('page')
+  const [loading, toggleLoading] = useState(false)
+
   const storeRef = useRef<Types.ObjectOf<any>>({})
 
-  const toggleDrawer = () => toggle((s) => !s)
+  const toggleDrawer = () => toggle((t) => !t)
+
+  useEffect(() => {
+    if (!(window as any).monaco) {
+      toggleLoading(true)
+    }
+  }, [])
+
+  const onEditorMounted = () => {
+    if (loading && (window as any).monaco) {
+      toggleLoading(false)
+    }
+  }
 
   const cachedSchema = useMemo(() => {
     let json: any = {}
@@ -60,6 +74,9 @@ export default (props: Props) => {
     toggleDrawer()
   }
 
+  // Editor 存在类型错误提示
+  const reqConf: any = {}
+
   return (
     <Portal container={() => document.getElementById('app-header-left')}>
       <Drawer
@@ -70,8 +87,11 @@ export default (props: Props) => {
         show={show}
         position="left"
       >
+        <Spinner overlay show={show && loading} size="lg" />
         {show && (
           <Editor
+            requireConfig={reqConf}
+            editorDidMount={onEditorMounted}
             options={{ readOnly: true }}
             editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
             language="json"

@@ -10,8 +10,6 @@ import map from 'lodash/map'
 import pick from 'lodash/pick'
 import times from 'lodash/times'
 
-import { ServerApiRes } from '~/core/request'
-
 type MockListStoreOption<T = {}> = {
   generator: (index: number) => T
   idField?: string
@@ -22,10 +20,10 @@ type Updater<T = {}> = Partial<T> | ((d: Partial<T>) => Partial<T>)
 
 type OperationOption<S = {}, P = {}> = {
   updater?: Updater<S>
-  response?: ServerApiRes<P>
+  response?: Req.ServerApiRes<P>
 }
 
-const defaultApiRes: ServerApiRes<any> = { code: 0 }
+const defaultApiRes: Req.ServerApiRes<any> = { code: 0 }
 
 export class MockListStore<S = {}, P = S> {
   private list: S[] = []
@@ -46,7 +44,7 @@ export class MockListStore<S = {}, P = S> {
     return !query ? this.list : query(this.list)
   }
 
-  public add(data: P, option: OperationOption<S, P>): ServerApiRes<S> {
+  public add(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S> {
     const { updater, response } = this.resolveOption(data, option)
     const itemData = this.getItemData(data)
     const newItem: any = {
@@ -61,7 +59,7 @@ export class MockListStore<S = {}, P = S> {
     return response
   }
 
-  public updateById(data: P, option: OperationOption<S, P>): ServerApiRes<S> {
+  public updateById(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S> {
     const { updater, response } = this.resolveOption(data, option)
     const { idx, itemData } = this.getItemInfo(data)
     if (idx > -1 && this.list[idx]) {
@@ -86,7 +84,7 @@ export class MockListStore<S = {}, P = S> {
   // public batchUpdateBy() {}
   // public batchUpdateById() {}
 
-  public deleteById(data: P, option: OperationOption<S, P>): ServerApiRes<S> {
+  public deleteById(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S> {
     const { response } = this.resolveOption(data, option)
     const { idx } = this.getItemInfo(data)
     this.list = produce(this.list, (d) => {
@@ -95,7 +93,10 @@ export class MockListStore<S = {}, P = S> {
     return response
   }
 
-  public deleteBy(predicate: (data: P) => boolean, option: OperationOption<S, P>): ServerApiRes<S> {
+  public deleteBy(
+    predicate: (data: P) => boolean,
+    option: OperationOption<S, P>
+  ): Req.ServerApiRes<S> {
     const { response } = this.resolveOption({} as any, option)
 
     this.list = produce(this.list, (d: any) => {

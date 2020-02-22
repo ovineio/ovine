@@ -18,6 +18,7 @@ type Props = {
   children?: any
   tip?: string
   onClick?: any
+  href?: string
 }
 export default withAppTheme<Props>((props) => {
   const {
@@ -30,6 +31,7 @@ export default withAppTheme<Props>((props) => {
     triggerContent,
     children,
     onClick,
+    href,
     tip,
   } = props
 
@@ -41,6 +43,16 @@ export default withAppTheme<Props>((props) => {
     render: () => triggerContent,
   }
 
+  const onItemClick = (e: any) => {
+    if (href) {
+      window.open(href, '_blank')
+    }
+
+    if (onClick) {
+      onClick(e)
+    }
+  }
+
   const button = (
     <Button
       iconOnly
@@ -48,7 +60,7 @@ export default withAppTheme<Props>((props) => {
       theme={theme.name}
       level="link"
       placement="bottom"
-      onClick={onClick}
+      onClick={onItemClick}
       tooltipTrigger={withContent && trigger}
       tooltip={!isClickOpen ? toolTip : undefined}
     >

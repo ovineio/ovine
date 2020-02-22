@@ -48,7 +48,12 @@ export default withAppTheme<LayoutCommProps>((props) => {
           <HeadItem
             tip="github仓库"
             faIcon="github"
-            onClick={() => window.open('https://github.com/CareyToboo/rt-admin', '_blank')}
+            href="https://github.com/CareyToboo/rt-admin"
+          />
+          <HeadItem
+            tip="使用文档"
+            faIcon="question-circle-o"
+            href="http://rt-admin.igroupes.com/rtdocs/"
           />
         </div>
         <div className="hidden-xs pull-right">

@@ -1,4 +1,4 @@
-import AsideNav from 'amis/lib/components/AsideNav'
+import { AsideNav } from 'amis'
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 
