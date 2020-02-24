@@ -1,3 +1,5 @@
-/node_modules
-/dist
-/src/assets
+dist
+node_modules
+build
+backup
+__fixtures__

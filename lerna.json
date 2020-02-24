@@ -1,0 +1,19 @@
+{
+  "lerna": "3.14.1",
+  "version": "0.0.1-alpha.1",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "changelog": {
+    "repo": "CareyToboo/rt-admin",
+    "labels": {
+      "tag: new feature": ":rocket: New Feature",
+      "tag: breaking change": ":boom: Breaking Change",
+      "tag: bug fix": ":bug: Bug Fix",
+      "tag: polish": ":nail_care: Polish",
+      "tag: documentation": ":memo: Documentation",
+      "tag: internal": ":house: Internal",
+      "tag: performance": ":running_woman: Performance"
+    },
+    "cacheDir": ".changelog"
+  }
+}

@@ -1,38 +1,30 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": ["es6", "dom"],
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "noImplicitAny": true,
-    "incremental": true,
-    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "strict": true,
-    "sourceMap": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "outDir": "dist",
-    "rootDir": ".",
-    "baseUrl": "./src",
-    "paths": {
-      "~/*": ["./*"]
-    },
-    "types": [
-      "@types/react",
-      "@types/lodash",
-      "@types/styled-components",
-      "@types/react-router-dom",
-      "amis/lib"
-    ],
-    "typeRoots": ["./typings"]
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+
+    /* Advanced Options */
+    "resolveJsonModule": true
   },
-  "compileOnSave": false,
-  "include": ["./src", "./typings"],
-  "exclude": ["node_modules", "coverage", "document", "dist", "__test__"]
+  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
 }

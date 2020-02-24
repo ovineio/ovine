@@ -1,10 +1,18 @@
 {
-  "cSpell.ignoreWords": ["rtadmin", "immer", "abortcontroller", "glyphicon"],
   "editor.tabSize": 2,
   "tslint.autoFixOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.tslint": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.updateImportsOnFileMove.enabled": "prompt"
+  "editor.formatOnSave": true,
+  "typescript.updateImportsOnFileMove.enabled": "prompt",
+  "cSpell.ignoreWords": [
+    "rtadmin",
+    "immer",
+    "abortcontroller",
+    "glyphicon",
+    "toboo",
+    "toboos",
+    "tsbuildinfo"
+  ]
 }

@@ -1,17 +1,15 @@
 {
-  "name": "rt_docs",
+  "name": "app-name",
   "version": "0.0.1-beta.1",
   "private": true,
   "scripts": {
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "start": "rtadmin dev",
+    "build": "rtadmin build",
+    "theme": "rtadmin theme"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.43",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.43",
-    "classnames": "^2.2.6",
+    "@rtadmin/cli": "^0.0.1-alpha.1",
+    "@rtadmin/core": "^0.0.1-alpha.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },

@@ -1,0 +1,20 @@
+{
+  "name": "@rtadmin/utils",
+  "version": "0.0.1-alpha.1",
+  "description": "rtadmin utility functions.",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "tsc": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  }
+}

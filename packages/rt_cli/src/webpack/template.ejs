@@ -1,0 +1,26 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <% var opts = htmlWebpackPlugin.options; %>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta app-version="<%=opts.version%>" />
+  <title><%=opts.title%></title>
+  <link type="image/x-icon" rel="shortcut icon" href="<%=opts.faviconIco%>" />
+  <link rel="stylesheet" href="<%=opts.publicPath%>static/lib/pace.css">
+  <script data-pace-options='{"elements": true, "ajax": false }'
+    src="<%=opts.publicPath%>static/lib/pace.min.js"></script>
+  <link rel="stylesheet" href="<%=opts.dllVendorCss%>">
+  <%= opts.headTags %>
+  </script>
+</head>
+
+<body ontouchstart="">
+  <%= opts.preBodyTags %>
+  <div id="app-root" class="app-root"></div>
+  <script src="<%=opts.dllVendorJs%>"></script>
+  <%= opts.postBodyTags %>
+</body>
+
+</html>

@@ -1,0 +1,6 @@
+declare module 'react-dev-utils/*'
+declare module 'webpack-merge'
+declare module 'chalk'
+declare module 'fs-extra'
+declare module 'std-env'
+declare module 'gray-matter'
