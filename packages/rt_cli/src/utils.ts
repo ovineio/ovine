@@ -4,6 +4,8 @@ import fs from 'fs-extra'
 import matter from 'gray-matter'
 import _ from 'lodash'
 import path from 'path'
+import webpack, { Configuration } from 'webpack'
+import merge from 'webpack-merge'
 
 const fileHash = new Map()
 export async function generate(
@@ -220,4 +222,41 @@ export function normalizeToSiteDir(filePath, siteDir) {
     return posixPath(path.relative(siteDir, filePath))
   }
   return posixPath(filePath)
+}
+
+export function compileWebpack(config: Configuration[]): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const compiler = webpack(config)
+    compiler.run((err, stats) => {
+      if (err) {
+        reject(err)
+      }
+      if (stats.hasErrors()) {
+        stats.toJson('errors-only').errors.forEach((e) => {
+          console.error(e)
+        })
+        reject(new Error('Failed to compile with errors.'))
+      }
+      if (stats.hasWarnings()) {
+        stats.toJson('errors-warnings').warnings.forEach((warning) => {
+          console.warn(warning)
+        })
+      }
+      resolve()
+    })
+  })
+}
+
+export function mergeWebpackConfig(baseConfig: any, config: string | object): Configuration {
+  let webpackConfig = config
+
+  if (typeof config === 'object') {
+    return merge(baseConfig, config)
+  }
+
+  if (fs.existsSync(config)) {
+    webpackConfig = merge(baseConfig, require(config))
+  }
+
+  return webpackConfig
 }

@@ -4,7 +4,8 @@ const chalk = require('chalk')
 const semver = require('semver')
 const path = require('path')
 const cli = require('commander')
-const { build, swizzle, deploy, start, externalCommand } = require('../lib')
+
+const { build, theme, dev, dll } = require('../lib')
 const requiredVersion = require('../package.json').engines.node
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -41,6 +42,19 @@ cli
   })
 
 cli
+  .command('dll [siteDir]')
+  .description('Build dll static files')
+  .option(
+    '--bundle-analyzer',
+    'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
+  )
+  .action((siteDir = '.', { bundleAnalyzer }) => {
+    wrapCommand(build)(path.resolve(siteDir), {
+      bundleAnalyzer,
+    })
+  })
+
+cli
   .command('swizzle <themeName> [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .action((themeName, componentName, siteDir = '.') => {
@@ -48,14 +62,7 @@ cli
   })
 
 cli
-  .command('deploy [siteDir]')
-  .description('Deploy website to GitHub pages')
-  .action((siteDir = '.') => {
-    wrapCommand(deploy)(path.resolve(siteDir))
-  })
-
-cli
-  .command('start [siteDir]')
+  .command('dev [siteDir]')
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
@@ -77,7 +84,7 @@ cli.arguments('<command>').action((cmd) => {
 })
 
 function isInternalCommand(command) {
-  return ['start', 'build', 'swizzle', 'deploy'].includes(command)
+  return ['dev', 'build', 'theme', 'dll'].includes(command)
 }
 
 if (!isInternalCommand(process.argv.slice(2)[0])) {

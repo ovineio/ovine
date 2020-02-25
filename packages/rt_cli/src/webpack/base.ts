@@ -1,59 +1,108 @@
+import { version as cacheLoaderVersion } from 'cache-loader/package.json'
+import CleanPlugin from 'clean-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import fs from 'fs-extra'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import path from 'path'
 import TerserPlugin from 'terser-webpack-plugin'
-import { Configuration, Loader } from 'webpack'
+import { Configuration, DllReferencePlugin, EnvironmentPlugin } from 'webpack'
 
-import { Props } from '../types'
+import {
+  generatedDirName,
+  libName,
+  staticDirName,
+  tsConfFileName,
+  tsLintConfFileName,
+} from '../constants'
+import { BuildCliOptions, DevCliOptions, Props } from '../types'
+import { mergeWebpackConfig } from '../utils'
 
-import { getBabelLoader, getCacheLoader, getStyleLoaders } from './utils'
+import babelConfig from './babel'
+import LogPlugin from './plugins/log_plugin'
 
-const CSS_REGEX = /\.css$/
-const CSS_MODULE_REGEX = /\.module\.css$/
-export const clientDir = path.join(__dirname, '..', 'client')
+const cacheLoader = {
+  loader: 'cache-loader',
+  options: {
+    cacheIdentifier: `cache-loader:${cacheLoaderVersion}`,
+  },
+}
+
+const babelLoader = {
+  loader: 'babel-loader',
+  options: babelConfig,
+}
 
 export function excludeJS(modulePath: string) {
-  // always transpile client dir
-  if (modulePath.startsWith(clientDir)) {
-    return false
-  }
-  // Don't transpile node_modules except any docusaurus npm package
+  // Don't transpile node_modules except any @rtadmin npm package
   return (
-    /node_modules/.test(modulePath) && !/(docusaurus)((?!node_modules).)*\.jsx?$/.test(modulePath)
+    /node_modules/.test(modulePath) && !/(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
   )
 }
 
-export function createBaseConfig(props: Props, isServer: boolean): Configuration {
-  const { outDir, siteDir, baseUrl, generatedFilesDir, routesPaths } = props
+type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
+export function createBaseConfig(options: BaseConfigOptions): Configuration {
+  const {
+    outDir,
+    srcDir,
+    siteDir,
+    publicPath,
+    genDir,
+    env,
+    bundleAnalyzer,
+    mock,
+    siteConfig,
+  } = options
 
-  const totalPages = routesPaths.length
   const isProd = process.env.NODE_ENV === 'production'
-  return {
+
+  const webpackConfig = {
     mode: isProd ? 'production' : 'development',
+    entry: [
+      // Instead of the default WebpackDevServer client, we use a custom one
+      // like CRA to bring better experience.
+      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      `${srcDir}/index`,
+    ].filter(Boolean) as string[],
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
+      publicPath,
       futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      publicPath: baseUrl,
+      filename: isProd ? '[name].[contenthash:6].js' : '[name].js',
+      chunkFilename: isProd ? '[name].[contenthash:6].js' : '[name].js',
     },
     // Don't throw warning when asset created is over 250kb
     performance: {
-      hints: false,
+      maxEntrypointSize: 600 * 1000,
+      maxAssetSize: 300 * 1000,
+      assetFilter: (file) => {
+        // Filter genDir files
+        const isGen = file.startsWith(genDir)
+        const isJs = file.endsWith('.js')
+        return isJs && !isGen
+      },
     },
-    devtool: isProd ? false : 'cheap-module-eval-source-map',
+    // Omit not necessary stats log
+    stats: {
+      chunkModules: false,
+      assets: false,
+    },
+    // Source map help for trick bugs
+    devtool: bundleAnalyzer
+      ? false
+      : isProd
+      ? 'nosources-source-map'
+      : 'cheap-module-eval-source-map',
     resolve: {
-      extensions: ['.wasm', '.mjs', '.js', '.jsx', '.ts', '.tsx', '.json'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx'],
       symlinks: true,
       alias: {
-        // https://stackoverflow.com/a/55433680/6072730
-        ejs: 'ejs/ejs.min.js',
-        '@site': siteDir,
-        '@generated': generatedFilesDir,
-        '@docusaurus': path.resolve(__dirname, '../client/exports'),
+        '~': srcDir,
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
@@ -66,15 +115,17 @@ export function createBaseConfig(props: Props, isServer: boolean): Configuration
       ],
     },
     optimization: {
+      runtimeChunk: true,
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
-      minimize: isProd && !isServer,
-      minimizer: isProd
-        ? [
+      minimize: isProd,
+      minimizer: !isProd
+        ? undefined
+        : [
             new TerserPlugin({
               cache: true,
               parallel: true,
-              sourceMap: false,
+              sourceMap: !bundleAnalyzer,
               terserOptions: {
                 parse: {
                   // we want uglify-js to parse ecma 8 code. However, we don't want it
@@ -102,76 +153,134 @@ export function createBaseConfig(props: Props, isServer: boolean): Configuration
             }),
             new OptimizeCSSAssetsPlugin({
               cssProcessorPluginOptions: {
-                preset: 'default',
+                preset: ['default', { discardComments: { removeAll: true } }],
               },
             }),
-          ]
-        : undefined,
-      splitChunks: isServer
-        ? false
-        : {
-            // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
-            name: false,
-            cacheGroups: {
-              // disable the built-in cacheGroups
-              default: false,
-              common: {
-                name: 'common',
-                minChunks: totalPages > 2 ? totalPages * 0.5 : 2,
-                priority: 40,
-              },
-              // Only create one CSS file to avoid
-              // problems with code-split CSS loading in different orders
-              // causing inconsistent/non-deterministic styling
-              // See https://github.com/facebook/docusaurus/issues/2006
-              styles: {
-                name: 'styles',
-                test: /\.css$/,
-                chunks: `all`,
-                enforce: true,
-                priority: 50,
-              },
-            },
+          ],
+      splitChunks: {
+        // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
+        name: false,
+        automaticNameDelimiter: '_',
+        cacheGroups: {
+          default: false, // disabled default configuration
+          vendors: false, // disabled splitChunks vendors configuration
+          appVendor: {
+            chunks: 'all',
+            name: 'app_vendor',
+            test: /[\\/]node_modules[\\/]/,
+            priority: 8,
+            minChunks: 1,
+            reuseExistingChunk: false,
           },
+          appCommon: {
+            chunks: 'all',
+            name: 'app_common',
+            priority: 7,
+            minChunks: 2,
+          },
+        },
+      },
     },
     module: {
       rules: [
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
-          use: [getCacheLoader(isServer), getBabelLoader(isServer)].filter(Boolean) as Loader[],
+          use: [cacheLoader, babelLoader],
         },
         {
-          test: CSS_REGEX,
-          exclude: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
-            importLoaders: 1,
-            sourceMap: !isProd,
-          }),
-        },
-        // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-        // using the extension .module.css
-        {
-          test: CSS_MODULE_REGEX,
-          use: getStyleLoaders(isServer, {
-            modules: {
-              localIdentName: isProd ? `[local]_[hash:base64:4]` : `[local]_[path]`,
+          test: /\.ts|tsx$/,
+          exclude: excludeJS,
+          use: [
+            cacheLoader,
+            { loader: 'thread-loader' },
+            babelLoader,
+            {
+              loader: 'ts-loader',
+              options: {
+                happyPackMode: true,
+                transpileOnly: true,
+              },
             },
-            importLoaders: 1,
-            sourceMap: !isProd,
-            onlyLocals: isServer,
-          }),
+          ],
+        },
+        {
+          test: /\.css$/,
+          use: (isProd ? [MiniCssExtractPlugin.loader] : [cacheLoader, 'style-loader']).concat([
+            'css-loader',
+          ]),
+        },
+        {
+          test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                publicPath,
+                limit: 2000, // less than 2kb files use base64 url
+                name: !isProd
+                  ? '[path][name].[ext]'
+                  : (modulePath) => {
+                      const filePath = modulePath.replace(srcDir, '').replace('/assets', '')
+                      return `assets/${path.dirname(filePath)}/[name]_[contenthash:6].[ext]`
+                    },
+              },
+            },
+          ],
         },
       ],
     },
     plugins: [
+      new LogPlugin({
+        name: libName,
+      }),
+      new CleanPlugin(),
+      new EnvironmentPlugin({
+        MOCK: mock,
+        ENV: env,
+      }),
+      fs.existsSync(`${siteDir}/${tsConfFileName}`) &&
+        new TsCheckerPlugin({
+          tsconfig: `${siteDir}/${tsConfFileName}`,
+          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`)
+            ? undefined
+            : `${siteDir}/${tsLintConfFileName}`,
+          reportFiles: [`${srcDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
+          silent: true,
+        }),
+      new DllReferencePlugin({
+        manifest: '',
+      }),
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash:8].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:8].css' : '[name].css',
+        filename: isProd ? '[name].[contenthash:6].css' : '[name].css',
+        chunkFilename: isProd ? '[name].[contenthash:6].css' : '[name].css',
         // remove css order warnings if css imports are not sorted alphabetically
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
-    ],
+      new CopyPlugin([
+        { from: `${siteDir}/${staticDirName}`, to: `${outDir}/${staticDirName}` },
+        {
+          from: path.resolve(siteDir, 'node_modules/amis/sdk/pkg'),
+          to: `${generatedDirName}/${staticDirName}/pkg/[name].[ext]`,
+          toType: 'template',
+        },
+        {
+          from: `${generatedDirName}/${staticDirName}`,
+          to: `${outDir}/${staticDirName}/${libName}`,
+        },
+      ]),
+      new HtmlWebpackPlugin({
+        publicPath,
+        ..._.pick(siteConfig, ['title', 'favicon']),
+        ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
+        template: path.resolve(__dirname, './template.ejs'),
+        filename: `${outDir}/index.html`,
+        dllVendorCss: '',
+        dllVendorJs: '',
+      }),
+    ].filter(Boolean) as Plugin[],
   }
+
+  return mergeWebpackConfig(webpackConfig, `${siteDir}/webpack.config.js`)
 }

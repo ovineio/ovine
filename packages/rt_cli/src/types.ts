@@ -34,15 +34,21 @@ export type BuildCliOptions = CliOptions & {
   bundleAnalyzer: boolean
 }
 
+export type DllCliOptions = {
+  bundleAnalyzer: boolean
+  dllModules: string
+}
+
 export interface LoadContext {
   siteDir: string
-  genDirName: string
+  genDir: string
   siteConfig: SiteConfig
   outDir: string
+  srcDir: string
   publicPath: string
 }
 
-export type Props = LoadContext & TemplateConfig
+export type Props = LoadContext
 
 export interface ConfigureWebpackUtils {
   getStyleLoaders: (

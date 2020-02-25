@@ -5,7 +5,6 @@
 import chalk = require('chalk')
 import chokidar from 'chokidar'
 import express from 'express'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
 import _ from 'lodash'
 import path from 'path'
 import portfinder from 'portfinder'
@@ -22,7 +21,7 @@ import { load } from '../config'
 import { configFileName, defaultPort, staticDirName } from '../constants'
 import { DevCliOptions } from '../types'
 import { normalizeUrl } from '../utils'
-import { createClientConfig } from '../webpack/client'
+import { createBaseConfig } from '../webpack/base'
 
 function getHost(reqHost: string | undefined): string {
   return reqHost || 'localhost'
@@ -48,7 +47,6 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
       console.error(chalk.red(err.stack))
     })
   }
-  const { siteConfig } = props
 
   const fsWatcher = chokidar.watch([configFileName], {
     cwd: siteDir,
@@ -61,23 +59,13 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(cliOptions.port)
   const host: string = getHost(cliOptions.host)
-  const { publicPath, head, preBody, postBody } = props
+  const { publicPath } = props
+
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
 
-  const config: webpack.Configuration = merge(createClientConfig(props), {
+  const config: webpack.Configuration = merge(createBaseConfig({ ...props, ...cliOptions }), {
     plugins: [
-      // Generates an `index.html` file with the <script> injected.
-      new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, '../webpack/template.ejs'),
-        // So we can define the position where the scripts are injected.
-        inject: false,
-        filename: 'index.html',
-        title: siteConfig.title,
-        head,
-        preBody,
-        postBody,
-      }),
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),
     ],
