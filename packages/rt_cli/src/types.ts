@@ -36,7 +36,6 @@ export type BuildCliOptions = CliOptions & {
 
 export type DllCliOptions = {
   bundleAnalyzer: boolean
-  dllModules: string
 }
 
 export interface LoadContext {

@@ -1,40 +1,27 @@
 import chalk = require('chalk')
-import fs from 'fs-extra'
-import importFresh from 'import-fresh'
 import path from 'path'
+import { Configuration } from 'webpack'
 
-import { THEME_PATH } from '../constants'
-import { loadContext } from '../server'
+import { loadContext } from '../config'
+import { dllDirName } from '../constants'
+import { BuildCliOptions, Props } from '../types'
+import { compileWebpack } from '../utils'
+import { createBaseConfig } from '../webpack/base'
 
 export async function theme(
   siteDir: string,
-  themeName: string,
-  componentName?: string
+  cliOptions: Partial<BuildCliOptions> = {}
 ): Promise<void> {
-  const plugin: any = importFresh(themeName)
-  const context = loadContext(siteDir)
-  const pluginInstance = plugin(context)
-  let fromPath = pluginInstance.getThemePath()
+  process.env.BABEL_ENV = 'production'
+  process.env.NODE_ENV = 'production'
+  console.log(chalk.blue('Creating an optimized production build...'))
 
-  if (fromPath) {
-    let toPath = path.resolve(siteDir, THEME_PATH)
-    if (componentName) {
-      fromPath = path.join(fromPath, componentName)
-      toPath = path.join(toPath, componentName)
+  const props: Props = loadContext(siteDir)
 
-      // Handle single JavaScript file only.
-      // E.g: if <fromPath> does not exist, we try to swizzle <fromPath>.js instead
-      if (!fs.existsSync(fromPath) && fs.existsSync(`${fromPath}.js`)) {
-        ;[fromPath, toPath] = [`${fromPath}.js`, `${toPath}.js`]
-      }
-    }
-    await fs.copy(fromPath, toPath)
+  const config: Configuration = createBaseConfig({ ...props, ...cliOptions })
 
-    const relativeDir = path.relative(process.cwd(), toPath)
-    const fromMsg = chalk.blue(
-      componentName ? `${themeName} ${chalk.yellow(componentName)}` : themeName
-    )
-    const toMsg = chalk.cyan(relativeDir)
-    console.log(`\n${chalk.green('Success!')} Copied ${fromMsg} to ${toMsg}.\n`)
-  }
+  await compileWebpack(config)
+
+  const relativeDir = path.relative(process.cwd(), dllDirName)
+  console.log(`\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(relativeDir)}.\n`)
 }

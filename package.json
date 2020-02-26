@@ -55,6 +55,21 @@
     "react-dom": "^16.12.0",
     "typescript": "^3.8.2"
   },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "yarn lint",
+      "git add"
+    ],
+    "*.{md,yml,json,yaml,css}": [
+      "yarn pretty",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "engines": {
     "node": ">=10.9.0"
   }

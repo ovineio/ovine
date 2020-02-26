@@ -11,13 +11,7 @@ import path from 'path'
 import TerserPlugin from 'terser-webpack-plugin'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin } from 'webpack'
 
-import {
-  generatedDirName,
-  libName,
-  staticDirName,
-  tsConfFileName,
-  tsLintConfFileName,
-} from '../constants'
+import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
 
@@ -36,11 +30,26 @@ const babelLoader = {
   options: babelConfig,
 }
 
+const {
+  libName,
+  generatedDirName,
+  staticDirName,
+  tsConfFileName,
+  tsLintConfFileName,
+  dllVendorPath,
+  dllManifestName,
+  dllVendorFileName,
+  dllAssetsName,
+  webpackConfFileName,
+} = constants
+
 export function excludeJS(modulePath: string) {
   // Don't transpile node_modules except any @rtadmin npm package
-  return (
-    /node_modules/.test(modulePath) && !/(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
-  )
+  const isNodeModules = /node_modules/.test(modulePath)
+  const notRtModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
+  const isRtModules = isNodeModules && !notRtModules
+
+  return isRtModules
 }
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -58,6 +67,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
   } = options
 
   const isProd = process.env.NODE_ENV === 'production'
+
+  const getDllDistFile = (type: string) => {
+    const dllBasePath = `${publicPath}${dllVendorPath}/`
+    const assetJson = require(`${siteDir}/${dllAssetsName}`)
+    return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+  }
 
   const webpackConfig = {
     mode: isProd ? 'production' : 'development',
@@ -249,8 +264,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           silent: true,
         }),
       new DllReferencePlugin({
-        manifest: '',
-      }),
+        manifest: `${siteDir}/${dllManifestName}`,
+      } as any),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash:6].css' : '[name].css',
         chunkFilename: isProd ? '[name].[contenthash:6].css' : '[name].css',
@@ -276,11 +291,21 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: '',
-        dllVendorJs: '',
+        dllVendorCss: getDllDistFile('css'),
+        dllVendorJs: getDllDistFile('js'),
       }),
-    ].filter(Boolean) as Plugin[],
+    ].filter(Boolean) as any[],
   }
 
-  return mergeWebpackConfig(webpackConfig, `${siteDir}/webpack.config.js`)
+  if (!mock) {
+    webpackConfig.module.rules.unshift({
+      test: /[\\/]mock\.[t|j]sx?$/,
+      use: 'null-loader',
+      exclude: /node_modules/,
+    } as any)
+  }
+
+  const realConfig = mergeWebpackConfig(webpackConfig, `${siteDir}/${webpackConfFileName}`)
+
+  return realConfig
 }

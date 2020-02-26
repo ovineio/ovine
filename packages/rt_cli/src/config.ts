@@ -8,8 +8,7 @@ import _ from 'lodash'
 import path from 'path'
 
 import { buildDirName, configFileName, generatedDirName, srcDirName } from './constants'
-import { LoadContext, Props, SiteConfig } from './types'
-import { generate } from './utils'
+import { LoadContext, SiteConfig } from './types'
 
 const requiredFields = ['publicPath', 'favicon', 'title', 'env']
 
@@ -73,27 +72,4 @@ export function loadContext(siteDir: string): LoadContext {
     srcDir,
     publicPath,
   }
-}
-
-export async function load(siteDir: string): Promise<Props> {
-  // Context.
-  const context: LoadContext = loadContext(siteDir)
-  const { genDir, siteConfig } = context
-  const genSiteConfig = generate(
-    genDir,
-    configFileName,
-    `export default ${JSON.stringify(siteConfig, null, 2)};`
-  )
-
-  // Load extra head & body html strings.
-  await Promise.all([genSiteConfig])
-
-  const props: Props = {
-    ...context,
-    siteConfig,
-    siteDir,
-    genDir,
-  }
-
-  return props
 }

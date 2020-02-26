@@ -1,11 +1,23 @@
 import AssetsPlugin from 'assets-webpack-plugin'
+import chalk = require('chalk')
 import CleanPlugin from 'clean-webpack-plugin'
+import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import { DllPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
+import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
+import { mergeWebpackConfig } from '../utils'
+
+const {
+  webpackDllConfFileName,
+  dllDirName,
+  dllVendorFileName,
+  dllManifestName,
+  dllAssetsName,
+} = constants
 
 const dllName = '[name]_[hash:6]'
 
@@ -33,13 +45,10 @@ const dllModules = [
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { publicPath, bundleAnalyzer, dllModules: cliModules = '' } = options
+  const { publicPath, siteDir, bundleAnalyzer } = options
 
-  const dellConfig = {
+  const dllConfig = {
     mode: 'production',
-    entry: {
-      dll_vendor: dllModules.concat(cliModules.split(',')),
-    },
     module: {
       rules: [
         {
@@ -65,7 +74,7 @@ export function createDllConfig(options: ConfigOptions) {
             {
               loader: 'url-loader',
               options: {
-                publicPath: `${publicPath}${''}/`,
+                publicPath: `${publicPath}${dllDirName}/`,
                 limit: 2000, // 低于2K 使用 base64
                 name: '[name]_[contenthash:6].[ext]',
               },
@@ -76,11 +85,11 @@ export function createDllConfig(options: ConfigOptions) {
     },
     output: {
       pathinfo: false,
-      path: '',
+      path: dllDirName,
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
-      publicPath: `${publicPath}${''}/`,
+      publicPath: `${publicPath}${dllDirName}/`,
     },
     plugins: [
       new CleanPlugin(),
@@ -89,14 +98,14 @@ export function createDllConfig(options: ConfigOptions) {
         chunkFilename: 'chunk_[name]_[chunkhash:6].css',
       }),
       new DllPlugin({
-        path: '',
+        path: `${siteDir}/${dllManifestName}`,
         name: dllName,
       }),
       // 把带hash的dll插入到html中 https://github.com/ztoben/assets-webpack-plugin
       new AssetsPlugin({
-        filename: '',
+        filename: dllAssetsName,
         fullPath: false,
-        path: './',
+        path: siteDir,
       }),
     ],
     // 关闭文件大小报警，具体情况，可查看分析工具
@@ -124,11 +133,22 @@ export function createDllConfig(options: ConfigOptions) {
   }
 
   if (bundleAnalyzer) {
-    dellConfig.plugins.push(
+    dllConfig.plugins.push(
       // https://github.com/webpack-contrib/webpack-bundle-analyzer
       new BundleAnalyzerPlugin()
     )
   }
 
-  return dellConfig
+  const realConfig = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)
+  const venderConfKey = `entry.${dllVendorFileName}`
+  const vendorModules = _.get(realConfig, venderConfKey) || []
+
+  if (!_.isArray(vendorModules)) {
+    console.error(chalk.red('\n   Dll webpack config must set entry.vendor modules name array...'))
+    return
+  }
+
+  _.set(realConfig, venderConfKey, _.uniq(dllModules.concat(vendorModules)))
+
+  return realConfig
 }

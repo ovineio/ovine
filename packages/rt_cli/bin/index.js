@@ -30,7 +30,7 @@ cli.version(require('../package.json').version).usage('<command> [options]')
 
 cli
   .command('build [siteDir]')
-  .description('Build website')
+  .description('Build project')
   .option(
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
@@ -49,16 +49,16 @@ cli
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
   )
   .action((siteDir = '.', { bundleAnalyzer }) => {
-    wrapCommand(build)(path.resolve(siteDir), {
+    wrapCommand(dll)(path.resolve(siteDir), {
       bundleAnalyzer,
     })
   })
 
 cli
-  .command('swizzle <themeName> [componentName] [siteDir]')
+  .command('theme <themeName> [componentName] [siteDir]')
   .description('Copy the theme files into website folder for customization.')
   .action((themeName, componentName, siteDir = '.') => {
-    wrapCommand(swizzle)(path.resolve(siteDir), themeName, componentName)
+    wrapCommand(theme)(path.resolve(siteDir), themeName, componentName)
   })
 
 cli
@@ -66,13 +66,11 @@ cli
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 3000)')
   .option('-h, --host <host>', 'use specified host (default: localhost')
-  .option('--hot-only', 'Do not fallback to page refresh if hot reload fails (default: false)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
-  .action((siteDir = '.', { port, host, hotOnly, open }) => {
-    wrapCommand(start)(path.resolve(siteDir), {
+  .action((siteDir = '.', { port, host, open }) => {
+    wrapCommand(dev)(path.resolve(siteDir), {
       port,
       host,
-      hotOnly,
       open,
     })
   })
@@ -82,14 +80,6 @@ cli.arguments('<command>').action((cmd) => {
   console.log(`  ${chalk.red(`\n  Unknown command ${chalk.yellow(cmd)}.`)}`)
   console.log()
 })
-
-function isInternalCommand(command) {
-  return ['dev', 'build', 'theme', 'dll'].includes(command)
-}
-
-if (!isInternalCommand(process.argv.slice(2)[0])) {
-  externalCommand(cli, path.resolve('.'))
-}
 
 cli.parse(process.argv)
 

@@ -1,20 +1,19 @@
 .DS_Store
-.vscode
 
 .idea
 .cache
 .cache-loader
 .tmp
 
-*-*.log
 npm-debug.log
 package-lock.json
 yarn-error.log
 deploy.sh
 
-/lib
-/dist
-/node_modules
+lib
+dist
+build
+node_modules
 
 
 

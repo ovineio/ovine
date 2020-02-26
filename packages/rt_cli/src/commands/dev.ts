@@ -17,7 +17,7 @@ import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin'
 
-import { load } from '../config'
+import { loadContext } from '../config'
 import { configFileName, defaultPort, staticDirName } from '../constants'
 import { DevCliOptions } from '../types'
 import { normalizeUrl } from '../utils'
@@ -39,13 +39,11 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
   console.log(chalk.blue('Starting the development server...'))
 
   // Process all related files as a prop.
-  const props = await load(siteDir)
+  const props = await loadContext(siteDir)
 
   // Reload files processing.
   const reload = () => {
-    load(siteDir).catch((err) => {
-      console.error(chalk.red(err.stack))
-    })
+    loadContext(siteDir)
   }
 
   const fsWatcher = chokidar.watch([configFileName], {
@@ -73,6 +71,7 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
+    host,
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -91,7 +90,6 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
     disableHostCheck: true,
     // Disable overlay on browser since we use CRA's overlay error reporting.
     overlay: false,
-    host,
     before: (app, server) => {
       app.use(publicPath, express.static(path.resolve(siteDir, staticDirName)))
 
@@ -103,8 +101,10 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
       // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   }
+
   const compiler = webpack(config)
   const devServer = new WebpackDevServer(compiler, devServerConfig)
+
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err)

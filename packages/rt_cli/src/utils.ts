@@ -224,7 +224,7 @@ export function normalizeToSiteDir(filePath, siteDir) {
   return posixPath(filePath)
 }
 
-export function compileWebpack(config: Configuration[]): Promise<any> {
+export function compileWebpack(config: Configuration): Promise<any> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config)
     compiler.run((err, stats) => {
@@ -258,5 +258,5 @@ export function mergeWebpackConfig(baseConfig: any, config: string | object): Co
     webpackConfig = merge(baseConfig, require(config))
   }
 
-  return webpackConfig
+  return webpackConfig as Configuration
 }
