@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  title: 'RT-Admin',
+  title: 'RT-Admin2',
   tagline: '基于JSON配置，快速搭建后台管理后台。',
   favicon: 'img/favicon.ico',
   organizationName: 'CareyToboo', // Usually your GitHub org/user name.

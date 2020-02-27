@@ -46,6 +46,8 @@
     "copy-webpack-plugin": "^5.0.5",
     "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
+    "file-loader": "^3.0.1",
+    "clean-webpack-plugin": "^2.0.1",
     "del": "^5.1.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",

@@ -26,5 +26,5 @@
     /* Advanced Options */
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "**/__tests__/**/*", "**/lib/**/*"]
+  "exclude": ["node_modules", "backup", "**/__tests__/**/*", "**/lib/**/*"]
 }

@@ -36,20 +36,20 @@ const {
   staticDirName,
   tsConfFileName,
   tsLintConfFileName,
+  webpackConfFileName,
   dllVendorPath,
   dllManifestName,
   dllVendorFileName,
   dllAssetsName,
-  webpackConfFileName,
 } = constants
 
 export function excludeJS(modulePath: string) {
   // Don't transpile node_modules except any @rtadmin npm package
   const isNodeModules = /node_modules/.test(modulePath)
-  const notRtModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
-  const isRtModules = isNodeModules && !notRtModules
+  const notLibModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
+  const isLibModules = isNodeModules && !notLibModules
 
-  return isRtModules
+  return isLibModules
 }
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -60,7 +60,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     siteDir,
     publicPath,
     genDir,
-    env,
+    env = 'localhost',
     bundleAnalyzer,
     mock,
     siteConfig,
@@ -74,8 +74,41 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
   }
 
+  const getCopyPlugin = () => {
+    const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
+    const siteStaticDir = `${siteDir}/${staticDirName}`
+    const outStaticDir = `${outDir}/${staticDirName}`
+    const amisPkg = 'node_modules/amis/sdk/pkg'
+    const amisPkgPaths = [
+      `${siteDir}/${amisPkg}`,
+      path.resolve(siteDir, `../../${amisPkg}`),
+    ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
+
+    const copyFiles: any = [
+      {
+        from: generatedStaticDir,
+        to: `${outDir}/${staticDirName}/${libName}`,
+      },
+    ]
+    if (fs.pathExistsSync(siteStaticDir)) {
+      copyFiles.unshift({
+        from: siteStaticDir,
+        to: outStaticDir,
+      })
+    }
+
+    if (amisPkgPaths.length) {
+      copyFiles.unshift({
+        from: amisPkgPaths[0],
+        to: `${generatedStaticDir}/pkg/[name].[ext]`,
+        toType: 'template',
+      })
+    }
+    return new CopyPlugin(copyFiles)
+  }
+
   const webpackConfig = {
-    mode: isProd ? 'production' : 'development',
+    mode: process.env.NODE_ENV,
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
@@ -247,9 +280,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     },
     plugins: [
       new LogPlugin({
-        name: libName,
+        name: `${libName}-${isProd ? 'prod' : 'dev'}`,
       }),
       new CleanPlugin(),
+      getCopyPlugin(),
       new EnvironmentPlugin({
         MOCK: mock,
         ENV: env,
@@ -273,20 +307,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
-      new CopyPlugin([
-        { from: `${siteDir}/${staticDirName}`, to: `${outDir}/${staticDirName}` },
-        {
-          from: path.resolve(siteDir, 'node_modules/amis/sdk/pkg'),
-          to: `${generatedDirName}/${staticDirName}/pkg/[name].[ext]`,
-          toType: 'template',
-        },
-        {
-          from: `${generatedDirName}/${staticDirName}`,
-          to: `${outDir}/${staticDirName}/${libName}`,
-        },
-      ]),
       new HtmlWebpackPlugin({
         publicPath,
+        // inject: false,
         ..._.pick(siteConfig, ['title', 'favicon']),
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
         template: path.resolve(__dirname, './template.ejs'),

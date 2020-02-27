@@ -6,6 +6,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import { DllPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import LogPlugin from './plugins/log_plugin'
 
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
@@ -17,6 +18,7 @@ const {
   dllVendorFileName,
   dllManifestName,
   dllAssetsName,
+  libName,
 } = constants
 
 const dllName = '[name]_[hash:6]'
@@ -85,13 +87,16 @@ export function createDllConfig(options: ConfigOptions) {
     },
     output: {
       pathinfo: false,
-      path: dllDirName,
+      path: `${siteDir}/${dllDirName}`,
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
       publicPath: `${publicPath}${dllDirName}/`,
     },
     plugins: [
+      new LogPlugin({
+        name: `${libName}-dll`,
+      }),
       new CleanPlugin(),
       new MiniCssExtractPlugin({
         filename: `${dllName}.css`,

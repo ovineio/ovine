@@ -248,13 +248,11 @@ export function compileWebpack(config: Configuration): Promise<any> {
 }
 
 export function mergeWebpackConfig(baseConfig: any, config: string | object): Configuration {
-  let webpackConfig = config
+  let webpackConfig = baseConfig
 
   if (typeof config === 'object') {
-    return merge(baseConfig, config)
-  }
-
-  if (fs.existsSync(config)) {
+    webpackConfig = merge(baseConfig, config)
+  } else if (fs.existsSync(config)) {
     webpackConfig = merge(baseConfig, require(config))
   }
 

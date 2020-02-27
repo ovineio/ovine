@@ -14,6 +14,7 @@ export async function build(
 ): Promise<void> {
   process.env.BABEL_ENV = 'production'
   process.env.NODE_ENV = 'production'
+
   console.log(chalk.blue('Creating an optimized production build...'))
 
   const props: Props = loadContext(siteDir)
@@ -23,5 +24,6 @@ export async function build(
   await compileWebpack(config)
 
   const relativeDir = path.relative(process.cwd(), dllDirName)
+
   console.log(`\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(relativeDir)}.\n`)
 }

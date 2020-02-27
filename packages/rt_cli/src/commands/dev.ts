@@ -18,7 +18,7 @@ import merge from 'webpack-merge'
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin'
 
 import { loadContext } from '../config'
-import { configFileName, defaultPort, staticDirName } from '../constants'
+import { configFileName, defaultPort, staticDirName, webpackConfFileName } from '../constants'
 import { DevCliOptions } from '../types'
 import { normalizeUrl } from '../utils'
 import { createBaseConfig } from '../webpack/base'
@@ -33,20 +33,29 @@ async function getPort(reqPort: string | undefined): Promise<number> {
   return port
 }
 
-export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = {}): Promise<void> {
+type Options = Partial<DevCliOptions> & {
+  reloadDevServer?: boolean
+}
+export async function dev(siteDir: string, options: Options = {}): Promise<void> {
   process.env.NODE_ENV = 'development'
   process.env.BABEL_ENV = 'development'
-  console.log(chalk.blue('Starting the development server...'))
+
+  if (options.reloadDevServer) {
+    console.log(chalk.blue('\nConfig changed restart the development server...'))
+  } else {
+    console.log(chalk.blue('\nStarting the development server...'))
+  }
 
   // Process all related files as a prop.
-  const props = await loadContext(siteDir)
+  const props = loadContext(siteDir)
 
   // Reload files processing.
   const reload = () => {
-    loadContext(siteDir)
+    devServer.close()
+    dev(siteDir, { ...options, reloadDevServer: true })
   }
 
-  const fsWatcher = chokidar.watch([configFileName], {
+  const fsWatcher = chokidar.watch([configFileName, webpackConfFileName], {
     cwd: siteDir,
     ignoreInitial: true,
   })
@@ -55,14 +64,14 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
   )
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
-  const port: number = await getPort(cliOptions.port)
-  const host: string = getHost(cliOptions.host)
+  const port: number = await getPort(options.port)
+  const host: string = getHost(options.host)
   const { publicPath } = props
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
 
-  const config: webpack.Configuration = merge(createBaseConfig({ ...props, ...cliOptions }), {
+  const config: webpack.Configuration = merge(createBaseConfig({ ...props, ...options }), {
     plugins: [
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),
@@ -72,6 +81,7 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
     host,
+    publicPath,
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -80,7 +90,6 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
     headers: {
       'access-control-allow-origin': '*',
     },
-    publicPath,
     watchOptions: {
       ignored: /node_modules/,
     },
@@ -105,11 +114,13 @@ export async function dev(siteDir: string, cliOptions: Partial<DevCliOptions> = 
   const compiler = webpack(config)
   const devServer = new WebpackDevServer(compiler, devServerConfig)
 
+  console.log(chalk.yellow(`\nurl: ${openUrl}\nenv: ${options.env}\nmock: ${options.mock}\n`))
+
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err)
     }
-    if (cliOptions.open) {
+    if (options.open) {
       openBrowser(openUrl)
     }
   })

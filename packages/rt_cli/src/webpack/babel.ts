@@ -33,7 +33,6 @@ const styledConfig = {
 const babelConfig = {
   presets: ['@babel/preset-env', '@babel/preset-react'],
   plugins: [
-    'react-hot-loader/babel',
     ['babel-plugin-styled-components', styledConfig],
     '@babel/plugin-syntax-dynamic-import',
     importPlugin('lodash'),

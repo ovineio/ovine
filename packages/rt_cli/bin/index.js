@@ -6,6 +6,7 @@ const path = require('path')
 const cli = require('commander')
 
 const { build, theme, dev, dll } = require('../lib')
+const { defaultPort } = require('../lib/constants')
 const requiredVersion = require('../package.json').engines.node
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -29,8 +30,34 @@ function wrapCommand(fn) {
 cli.version(require('../package.json').version).usage('<command> [options]')
 
 cli
+  .command('dev [siteDir]')
+  .description('Start development server')
+  .option('-p, --port <port>', 'use specified port (default: 7050)')
+  .option('--host', 'use specified host (default: localhost)')
+  .option('--env', 'app environment (default: localhost)')
+  .option('--mock', 'use mock environment (default: true)')
+  .option('--no-open', 'Do not open page in the browser (default: false)')
+  .action((siteDir = '.', options) => {
+    const {
+      port = defaultPort,
+      host = 'localhost',
+      env = 'localhost',
+      mock = true,
+      open = true,
+    } = options
+    const isMock = mock ? mock : !/production|release/.test(env)
+    wrapCommand(dev)(path.resolve(siteDir), {
+      port,
+      host,
+      open,
+      env,
+      mock: isMock,
+    })
+  })
+
+cli
   .command('build [siteDir]')
-  .description('Build project')
+  .description('Build project for deploy')
   .option(
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
@@ -59,20 +86,6 @@ cli
   .description('Copy the theme files into website folder for customization.')
   .action((themeName, componentName, siteDir = '.') => {
     wrapCommand(theme)(path.resolve(siteDir), themeName, componentName)
-  })
-
-cli
-  .command('dev [siteDir]')
-  .description('Start development server')
-  .option('-p, --port <port>', 'use specified port (default: 3000)')
-  .option('-h, --host <host>', 'use specified host (default: localhost')
-  .option('--no-open', 'Do not open page in the browser (default: false)')
-  .action((siteDir = '.', { port, host, open }) => {
-    wrapCommand(dev)(path.resolve(siteDir), {
-      port,
-      host,
-      open,
-    })
   })
 
 cli.arguments('<command>').action((cmd) => {
