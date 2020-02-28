@@ -23,11 +23,6 @@ const {
 
 const dllName = '[name]_[hash:6]'
 
-// 需要打包到 dll 的模块
-// 1. 项目必须依赖的基础模块
-// 2. 长期不更新的第三方模块
-// 3. 可以异步按需加载的模块，尽量不要添加进来
-// 4. 每次修改本文件, 或者对应npm包升级。都要执行 yarn build:dll 才能生效
 const dllModules = [
   'react',
   'react-dom',
@@ -37,6 +32,9 @@ const dllModules = [
   'whatwg-fetch',
   // amis 更新频率较高（大概半个月左右），因此需要如果更新版本时要考虑升级对项目影响
   'amis',
+  'bootstrap/dist/css/bootstrap.css',
+  'animate.css/animate.css',
+  'highlight.js/styles/shades-of-purple.css',
   'font-awesome/css/font-awesome.css',
   'react-datetime/css/react-datetime.css',
   'video-react/dist/video-react.css',
@@ -146,14 +144,34 @@ export function createDllConfig(options: ConfigOptions) {
 
   const realConfig = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)
   const venderConfKey = `entry.${dllVendorFileName}`
-  const vendorModules = _.get(realConfig, venderConfKey) || []
+  let vendorModules = _.get(realConfig, venderConfKey)
 
-  if (!_.isArray(vendorModules)) {
-    console.error(chalk.red('\n   Dll webpack config must set entry.vendor modules name array...'))
+  if (typeof vendorModules === 'undefined') {
+    return realConfig
+  }
+
+  if (_.isArray(vendorModules)) {
+    _.set(realConfig, venderConfKey, _.uniq(dllModules.concat(vendorModules)))
+  } else {
+    console.error(
+      chalk.red(
+        '\nDll webpack config must set entry.vendor must function or array of module name...'
+      )
+    )
     return
   }
 
-  _.set(realConfig, venderConfKey, _.uniq(dllModules.concat(vendorModules)))
+  if (_.isFunction(vendorModules)) {
+    const vendorDllModules = vendorModules(dllModules)
+    if (_.isArray(vendorDllModules)) {
+      _.set(realConfig, venderConfKey, vendorDllModules)
+    } else {
+      console.error(
+        chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
+      )
+      return
+    }
+  }
 
   return realConfig
 }

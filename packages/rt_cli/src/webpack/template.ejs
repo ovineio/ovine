@@ -12,15 +12,15 @@
   <script data-pace-options='{"elements": true, "ajax": false }'
     src="<%=opts.publicPath%>static/lib/pace.min.js"></script>
   <link rel="stylesheet" href="<%=opts.dllVendorCss%>">
-  <%= opts.head %>
+  <%- opts.head %>
   </script>
 </head>
 
 <body ontouchstart="">
-  <%= opts.preBody %>
+  <%- opts.preBody %>
   <div id="app-root" class="app-root"></div>
   <script src="<%=opts.dllVendorJs%>"></script>
-  <%= opts.postBody %>
+  <%- opts.postBody %>
 </body>
 
 </html>
