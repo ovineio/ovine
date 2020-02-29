@@ -6,7 +6,9 @@ const path = require('path')
 const cli = require('commander')
 
 const { build, theme, dev, dll } = require('../lib')
+const { globalStore } = require('../lib/utils')
 const { defaultPort } = require('../lib/constants')
+
 const requiredVersion = require('../package.json').engines.node
 
 if (!semver.satisfies(process.version, requiredVersion)) {
@@ -20,11 +22,15 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 }
 
 function wrapCommand(fn) {
-  return (...args) =>
+  return (...args) => {
+    const siteDir =
+      typeof args[0] === 'string' ? args[0] : path.resolve(fs.realpathSync(process.cwd()))
+    globalStore('set', 'siteDir', siteDir)
     fn(...args).catch((err) => {
       console.error(chalk.red(err.stack))
       process.exitCode = 1
     })
+  }
 }
 
 cli.version(require('../package.json').version).usage('<command> [options]')

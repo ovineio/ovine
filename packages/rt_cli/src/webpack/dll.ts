@@ -11,6 +11,7 @@ import LogPlugin from './plugins/log_plugin'
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
+import { getDllBabelConfig } from './babel'
 
 const {
   webpackDllConfFileName,
@@ -43,6 +44,38 @@ const dllModules = [
   'froala-editor/css/froala_editor.pkgd.min.css',
 ]
 
+function setDllVendorModules(config) {
+  const venderConfKey = `entry.${dllVendorFileName}`
+  let vendorModules = _.get(config, venderConfKey)
+
+  if (typeof vendorModules === 'undefined') {
+    return config
+  }
+
+  if (_.isArray(vendorModules)) {
+    _.set(config, venderConfKey, _.uniq(dllModules.concat(vendorModules)))
+  } else {
+    console.error(
+      chalk.red(
+        '\nDll webpack config must set entry.vendor must function or array of module name...'
+      )
+    )
+    return
+  }
+
+  if (_.isFunction(vendorModules)) {
+    const vendorDllModules = vendorModules(dllModules)
+    if (_.isArray(vendorDllModules)) {
+      _.set(config, venderConfKey, vendorDllModules)
+    } else {
+      console.error(
+        chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
+      )
+      return
+    }
+  }
+}
+
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
   const { publicPath, siteDir, bundleAnalyzer } = options
@@ -56,10 +89,7 @@ export function createDllConfig(options: ConfigOptions) {
           use: [
             {
               loader: 'babel-loader',
-              options: {
-                compact: true,
-                plugins: ['@babel/plugin-syntax-dynamic-import'],
-              },
+              options: getDllBabelConfig(),
             },
           ],
         },
@@ -142,36 +172,9 @@ export function createDllConfig(options: ConfigOptions) {
     )
   }
 
-  const realConfig = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)
-  const venderConfKey = `entry.${dllVendorFileName}`
-  let vendorModules = _.get(realConfig, venderConfKey)
+  const config = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)
 
-  if (typeof vendorModules === 'undefined') {
-    return realConfig
-  }
+  setDllVendorModules(config)
 
-  if (_.isArray(vendorModules)) {
-    _.set(realConfig, venderConfKey, _.uniq(dllModules.concat(vendorModules)))
-  } else {
-    console.error(
-      chalk.red(
-        '\nDll webpack config must set entry.vendor must function or array of module name...'
-      )
-    )
-    return
-  }
-
-  if (_.isFunction(vendorModules)) {
-    const vendorDllModules = vendorModules(dllModules)
-    if (_.isArray(vendorDllModules)) {
-      _.set(realConfig, venderConfKey, vendorDllModules)
-    } else {
-      console.error(
-        chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
-      )
-      return
-    }
-  }
-
-  return realConfig
+  return config
 }

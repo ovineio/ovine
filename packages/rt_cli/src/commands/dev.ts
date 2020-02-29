@@ -20,7 +20,7 @@ import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin'
 import { loadContext } from '../config'
 import { configFileName, defaultPort, staticDirName, webpackConfFileName } from '../constants'
 import { DevCliOptions } from '../types'
-import { normalizeUrl } from '../utils'
+import { normalizeUrl, globalStore } from '../utils'
 import { createBaseConfig } from '../webpack/base'
 
 function getHost(reqHost: string | undefined): string {
@@ -39,6 +39,7 @@ type Options = Partial<DevCliOptions> & {
 export async function dev(siteDir: string, options: Options = {}): Promise<void> {
   process.env.NODE_ENV = 'development'
   process.env.BABEL_ENV = 'development'
+  globalStore('set', 'isProd', false)
 
   if (options.reloadDevServer) {
     console.log(chalk.blue('\nConfig changed restart the development server...'))
@@ -46,10 +47,10 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     console.log(chalk.blue('\nStarting the development server...'))
   }
 
-  // Process all related files as a prop.
-  const props = loadContext(siteDir)
+  // get all config context.
+  const context = loadContext(siteDir)
 
-  // Reload files processing.
+  // Reload webpack server.
   const reload = () => {
     devServer.close()
     dev(siteDir, { ...options, reloadDevServer: true })
@@ -66,12 +67,12 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.host)
-  const { publicPath } = props
+  const { publicPath } = context
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
 
-  const config: webpack.Configuration = merge(createBaseConfig({ ...props, ...options }), {
+  const config: webpack.Configuration = merge(createBaseConfig({ ...context, ...options }), {
     plugins: [
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),

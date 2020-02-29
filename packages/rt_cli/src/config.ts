@@ -9,6 +9,7 @@ import path from 'path'
 
 import { buildDirName, configFileName, generatedDirName, srcDirName } from './constants'
 import { LoadContext, SiteConfig } from './types'
+import { globalStore } from './utils'
 
 const requiredFields = ['publicPath', 'favicon', 'title', 'env']
 
@@ -57,7 +58,9 @@ export function loadConfig(siteDir: string): SiteConfig {
   return config as SiteConfig
 }
 
-export function loadContext(siteDir: string): LoadContext {
+export function loadContext(dir?: string): LoadContext {
+  const siteDir = dir ? dir : globalStore('get', 'siteDir')
+
   const genDir: string = path.resolve(siteDir, generatedDirName)
   const siteConfig: SiteConfig = loadConfig(siteDir)
   const outDir = path.resolve(siteDir, buildDirName)

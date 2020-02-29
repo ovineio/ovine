@@ -1,18 +1,13 @@
 /**
- * babel-loader 配置文件
+ * babel-loader configuration
  */
 
-const { NODE_ENV = 'development' } = process.env
+import fs from 'fs-extra'
+import path from 'path'
+import { babelConfigFileName } from '../constants'
+import { loadContext } from '../config'
 
-const importPlugin = (moduleName, dirName = '') => [
-  'babel-plugin-import',
-  {
-    libraryName: moduleName,
-    libraryDirectory: '',
-    camel2DashComponentName: false,
-  },
-  dirName,
-]
+const { NODE_ENV = 'development' } = process.env
 
 const styledComponents = {
   development: {
@@ -29,14 +24,47 @@ const styledConfig = {
   styledComponents: styledComponents[NODE_ENV] || styledComponents.development,
 }
 
-// babel 配置列表选项 https://babeljs.io/docs/en/options#sourcetype
-const babelConfig = {
-  presets: ['@babel/preset-env', '@babel/preset-react'],
-  plugins: [
-    ['babel-plugin-styled-components', styledConfig],
-    '@babel/plugin-syntax-dynamic-import',
-    importPlugin('lodash'),
-  ],
+function importPlugin(moduleName, dirName = '') {
+  return [
+    'babel-plugin-import',
+    {
+      libraryName: moduleName,
+      libraryDirectory: '',
+      camel2DashComponentName: false,
+    },
+    dirName,
+  ]
 }
 
-export default babelConfig
+function extendsConfig() {
+  const { siteDir } = loadContext()
+  const configFile = path.resolve(siteDir, babelConfigFileName)
+  if (!fs.existsSync(configFile)) {
+    return
+  }
+
+  return {
+    extends: configFile,
+  }
+}
+
+// babel config https://babeljs.io/docs/en/options#sourcetype
+export function getBabelConfig() {
+  return {
+    ...extendsConfig(),
+    presets: ['@babel/preset-env', '@babel/preset-react'],
+    plugins: [
+      ['babel-plugin-styled-components', styledConfig],
+      '@babel/plugin-syntax-dynamic-import',
+      importPlugin('lodash'),
+    ],
+  }
+}
+
+export function getDllBabelConfig() {
+  return {
+    ...extendsConfig(),
+    compact: true,
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
+  }
+}

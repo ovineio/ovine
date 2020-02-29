@@ -6,29 +6,16 @@ import fs from 'fs-extra'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import path from 'path'
-import TerserPlugin from 'terser-webpack-plugin'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin } from 'webpack'
 
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
-import { mergeWebpackConfig } from '../utils'
+import { mergeWebpackConfig, globalStore } from '../utils'
 
-import babelConfig from './babel'
 import LogPlugin from './plugins/log_plugin'
-
-const cacheLoader = {
-  loader: 'cache-loader',
-  options: {
-    cacheIdentifier: `cache-loader:${cacheLoaderVersion}`,
-  },
-}
-
-const babelLoader = {
-  loader: 'babel-loader',
-  options: babelConfig,
-}
+import { loadContext } from '../config'
+import { getBabelConfig } from './babel'
 
 const {
   libName,
@@ -43,13 +30,85 @@ const {
   dllAssetsName,
 } = constants
 
-export function excludeJS(modulePath: string) {
+const cacheLoader = {
+  loader: 'cache-loader',
+  options: {
+    cacheIdentifier: `cache-loader:${cacheLoaderVersion}`,
+  },
+}
+
+const babelLoader = {
+  loader: 'babel-loader',
+  options: getBabelConfig(),
+}
+
+function excludeJS(modulePath: string) {
   // Don't transpile node_modules except any @rtadmin npm package
   const isNodeModules = /node_modules/.test(modulePath)
   const notLibModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
   const isLibModules = isNodeModules && !notLibModules
 
   return isLibModules
+}
+
+function getDllDistFile(type: string) {
+  const { publicPath, siteDir } = loadContext()
+  const dllBasePath = `${publicPath}${dllVendorPath}/`
+  const assetJson = require(`${siteDir}/${dllAssetsName}`)
+
+  return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+}
+
+function getCopyPlugin() {
+  const { outDir, siteDir } = loadContext()
+
+  const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
+  const siteStaticDir = `${siteDir}/${staticDirName}`
+  const outStaticDir = `${outDir}/${staticDirName}`
+
+  const amisPkg = 'node_modules/amis/sdk/pkg'
+  const amisPkgPaths = [
+    `${siteDir}/${amisPkg}`,
+    path.resolve(siteDir, `../../${amisPkg}`),
+  ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
+
+  const rtCoreStatic = 'node_modules/@rtadmin/core/static'
+  const rtCorePaths = [
+    `${siteDir}/${rtCoreStatic}`,
+    path.resolve(siteDir, `../rt_core/static`),
+    path.resolve(siteDir, `../../${rtCoreStatic}`),
+  ]
+
+  const copyFiles: any = [
+    {
+      from: generatedStaticDir,
+      to: `${outStaticDir}/${libName}`,
+    },
+  ]
+
+  if (fs.pathExistsSync(siteStaticDir)) {
+    copyFiles.unshift({
+      from: siteStaticDir,
+      to: outStaticDir,
+    })
+  }
+
+  if (amisPkgPaths.length) {
+    copyFiles.unshift({
+      from: amisPkgPaths[0],
+      to: `${generatedStaticDir}/pkg/[name].[ext]`,
+      toType: 'template',
+    })
+  }
+
+  if (rtCorePaths.length) {
+    copyFiles.unshift({
+      from: amisPkgPaths[0],
+      to: generatedStaticDir,
+    })
+  }
+
+  return new CopyPlugin(copyFiles)
 }
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -66,48 +125,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     siteConfig,
   } = options
 
-  const isProd = process.env.NODE_ENV === 'production'
+  const isProd = globalStore('get', 'isProd') || false
 
-  const getDllDistFile = (type: string) => {
-    const dllBasePath = `${publicPath}${dllVendorPath}/`
-    const assetJson = require(`${siteDir}/${dllAssetsName}`)
-    return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
-  }
-
-  const getCopyPlugin = () => {
-    const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
-    const siteStaticDir = `${siteDir}/${staticDirName}`
-    const outStaticDir = `${outDir}/${staticDirName}`
-    const amisPkg = 'node_modules/amis/sdk/pkg'
-    const amisPkgPaths = [
-      `${siteDir}/${amisPkg}`,
-      path.resolve(siteDir, `../../${amisPkg}`),
-    ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
-
-    const copyFiles: any = [
-      {
-        from: generatedStaticDir,
-        to: `${outDir}/${staticDirName}/${libName}`,
-      },
-    ]
-    if (fs.pathExistsSync(siteStaticDir)) {
-      copyFiles.unshift({
-        from: siteStaticDir,
-        to: outStaticDir,
-      })
-    }
-
-    if (amisPkgPaths.length) {
-      copyFiles.unshift({
-        from: amisPkgPaths[0],
-        to: `${generatedStaticDir}/pkg/[name].[ext]`,
-        toType: 'template',
-      })
-    }
-    return new CopyPlugin(copyFiles)
-  }
-
-  const webpackConfig = {
+  const baseConfig = {
     mode: process.env.NODE_ENV,
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
@@ -167,44 +187,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: isProd,
-      minimizer: !isProd
-        ? undefined
-        : [
-            new TerserPlugin({
-              cache: true,
-              parallel: true,
-              sourceMap: !bundleAnalyzer,
-              terserOptions: {
-                parse: {
-                  // we want uglify-js to parse ecma 8 code. However, we don't want it
-                  // to apply any minfication steps that turns valid ecma 5 code
-                  // into invalid ecma 5 code. This is why the 'compress' and 'output'
-                  // sections only apply transformations that are ecma 5 safe
-                  // https://github.com/facebook/create-react-app/pull/4234
-                  ecma: 8,
-                },
-                compress: {
-                  ecma: 5,
-                  warnings: false,
-                },
-                mangle: {
-                  safari10: true,
-                },
-                output: {
-                  ecma: 5,
-                  comments: false,
-                  // Turned on because emoji and regex is not minified properly using default
-                  // https://github.com/facebook/create-react-app/issues/2488
-                  ascii_only: true,
-                },
-              },
-            }),
-            new OptimizeCSSAssetsPlugin({
-              cssProcessorPluginOptions: {
-                preset: ['default', { discardComments: { removeAll: true } }],
-              },
-            }),
-          ],
       splitChunks: {
         // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
         name: false,
@@ -231,6 +213,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     },
     module: {
       rules: [
+        !mock && {
+          test: /[\\/]mock\.[t|j]sx?$/,
+          use: 'null-loader',
+          exclude: /node_modules/,
+        },
         {
           test: /\.(j|t)sx?$/,
           exclude: excludeJS,
@@ -276,7 +263,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             },
           ],
         },
-      ],
+      ].filter(Boolean) as any[],
     },
     plugins: [
       new LogPlugin({
@@ -320,15 +307,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     ].filter(Boolean) as any[],
   }
 
-  if (!mock) {
-    webpackConfig.module.rules.unshift({
-      test: /[\\/]mock\.[t|j]sx?$/,
-      use: 'null-loader',
-      exclude: /node_modules/,
-    } as any)
-  }
+  const config = mergeWebpackConfig(baseConfig, `${siteDir}/${webpackConfFileName}`)
 
-  const realConfig = mergeWebpackConfig(webpackConfig, `${siteDir}/${webpackConfFileName}`)
-
-  return realConfig
+  return config
 }

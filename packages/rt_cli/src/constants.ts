@@ -16,6 +16,6 @@ export const dllAssetsName = `${generatedDirName}/dll_assets.json`
 
 export const webpackConfFileName = 'webpack.config.js'
 export const webpackDllConfFileName = 'webpack.dll.js'
-
 export const tsLintConfFileName = 'tslint.json'
 export const tsConfFileName = 'tsconfig.json'
+export const babelConfigFileName = 'babel.config.js'

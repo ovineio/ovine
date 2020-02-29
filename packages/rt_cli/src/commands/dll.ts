@@ -4,7 +4,7 @@ import path from 'path'
 import { loadContext } from '../config'
 import { dllDirName } from '../constants'
 import { BuildCliOptions, Props } from '../types'
-import { compileWebpack } from '../utils'
+import { compileWebpack, globalStore } from '../utils'
 import { createDllConfig } from '../webpack/dll'
 
 export async function dll(
@@ -13,6 +13,8 @@ export async function dll(
 ): Promise<void> {
   process.env.BABEL_ENV = 'production'
   process.env.NODE_ENV = 'production'
+  globalStore('set', 'isProd', true)
+
   console.log(chalk.blue('Creating an webpack dll build static files...'))
 
   const props: Props = loadContext(siteDir)

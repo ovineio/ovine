@@ -258,3 +258,12 @@ export function mergeWebpackConfig(baseConfig: any, config: string | object): Co
 
   return webpackConfig as Configuration
 }
+
+const store: any = {}
+export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T): T | undefined {
+  if (type === 'set') {
+    _.set(store, key, value)
+    return
+  }
+  return _.get(store, key, value)
+}
