@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -6,12 +6,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta app-version="<%=opts.version%>" />
-  <title><%=opts.title%></title>
-  <link type="image/x-icon" rel="shortcut icon" href="<%=opts.favicon%>" />
-  <link rel="stylesheet" href="<%=opts.publicPath%>static/lib/pace.css">
-  <script data-pace-options='{"elements": true, "ajax": false }'
-    src="<%=opts.publicPath%>static/lib/pace.min.js"></script>
-  <link rel="stylesheet" href="<%=opts.dllVendorCss%>">
+  <title><%=opts.title || 'RT-ADMIN'%></title>
+  <link type="image/x-icon" rel="shortcut icon" href="<%=opts.favIcon || `${opts.staticLibPath}core/favicon.ico`%>" />
+  <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css" />
+  <script data-pace-options='{"elements": true, "ajax": false }' src="<%=opts.staticLibPath%>core/pace.min.js"></script>
+  <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
   <%- opts.head %>
   </script>
 </head>

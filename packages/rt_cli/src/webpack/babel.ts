@@ -5,7 +5,6 @@
 import fs from 'fs-extra'
 import path from 'path'
 import { babelConfigFileName } from '../constants'
-import { loadContext } from '../config'
 
 const { NODE_ENV = 'development' } = process.env
 
@@ -36,8 +35,7 @@ function importPlugin(moduleName, dirName = '') {
   ]
 }
 
-function extendsConfig() {
-  const { siteDir } = loadContext()
+function extendsConfig(siteDir: string) {
   const configFile = path.resolve(siteDir, babelConfigFileName)
   if (!fs.existsSync(configFile)) {
     return
@@ -49,9 +47,9 @@ function extendsConfig() {
 }
 
 // babel config https://babeljs.io/docs/en/options#sourcetype
-export function getBabelConfig() {
+export function getBabelConfig(siteDir: string) {
   return {
-    ...extendsConfig(),
+    ...extendsConfig(siteDir),
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
       ['babel-plugin-styled-components', styledConfig],
@@ -61,9 +59,9 @@ export function getBabelConfig() {
   }
 }
 
-export function getDllBabelConfig() {
+export function getDllBabelConfig(siteDir: string) {
   return {
-    ...extendsConfig(),
+    ...extendsConfig(siteDir),
     compact: true,
     plugins: ['@babel/plugin-syntax-dynamic-import'],
   }

@@ -5,12 +5,7 @@
   "private": false,
   "scripts": {
     "test:cli:dev": "node ../rt_cli/bin/index.js dev",
-    "test:cli:build": "node ../rt_cli/bin/index.js build",
-    "test:cli:dll": "node ../rt_cli/bin/index.js dll",
-    "dev": "cross-env API_ENV=localhost webpack-dev-server",
-    "build": "cross-env API_ENV=production ENV=production webpack -p --progress",
-    "build:dll": "webpack --config build/webpack_dll.js -p --progress",
-    "build:analyzer": "cross-env API_ENV=production ENV=production ANALYZER=true webpack -p --progress",
+    "test:cli:buld": "node ../rt_cli/bin/index.js build --bundle-analyzer",
     "build:theme": "node-sass ./src/assets/styles/scss/themes -o ./src/assets/styles/themes --include-path node_modules/amis/scss/themes",
     "open:dist": "http-server ./dist -i -g -o -p 7052 -P http://0.0.0.0:7052?",
     "lint:ts": "tslint src/**/*.{ts,tsx}",

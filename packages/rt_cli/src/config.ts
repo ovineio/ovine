@@ -7,16 +7,16 @@ import importFresh from 'import-fresh'
 import _ from 'lodash'
 import path from 'path'
 
-import { buildDirName, configFileName, generatedDirName, srcDirName } from './constants'
+import { outDirName, configFileName, generatedDirName, srcDirName } from './constants'
 import { LoadContext, SiteConfig } from './types'
-import { globalStore } from './utils'
 
 const requiredFields = ['publicPath', 'favicon', 'title', 'env']
 
-const optionalFields = ['template']
+const optionalFields = ['template', 'staticFileExt', 'devServerProxy']
 
 const defaultConfig = {
   template: {},
+  devServerProxy: {},
 }
 
 function formatFields(fields: string[]): string {
@@ -58,12 +58,10 @@ export function loadConfig(siteDir: string): SiteConfig {
   return config as SiteConfig
 }
 
-export function loadContext(dir?: string): LoadContext {
-  const siteDir = dir ? dir : globalStore('get', 'siteDir')
-
+export function loadContext(siteDir: string): LoadContext {
   const genDir: string = path.resolve(siteDir, generatedDirName)
   const siteConfig: SiteConfig = loadConfig(siteDir)
-  const outDir = path.resolve(siteDir, buildDirName)
+  const outDir = path.resolve(siteDir, outDirName)
   const srcDir = path.resolve(siteDir, srcDirName)
   const { publicPath } = siteConfig
 

@@ -1,6 +1,6 @@
 module.exports = {
   publicPath: '/',
-  favicon: 'static/assets/favicon.ico',
-  title: 'rt-admin4',
+  favicon: 'static/favicon.ico',
+  title: 'rt-22',
   env: ['localhost', 'staging', 'production'],
 }

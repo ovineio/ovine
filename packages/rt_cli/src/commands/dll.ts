@@ -15,7 +15,7 @@ export async function dll(
   process.env.NODE_ENV = 'production'
   globalStore('set', 'isProd', true)
 
-  console.log(chalk.blue('Creating an webpack dll build static files...'))
+  console.log(chalk.blue('\nCreating an webpack dll static files build...'))
 
   const props: Props = loadContext(siteDir)
 
@@ -27,6 +27,9 @@ export async function dll(
 
   await compileWebpack(dllConfig)
 
-  const relativeDir = path.relative(process.cwd(), dllDirName)
-  console.log(`\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(relativeDir)}.\n`)
+  console.log(
+    `\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(
+      path.relative(siteDir, dllDirName)
+    )}.\n`
+  )
 }

@@ -28,19 +28,8 @@ const {
   dllManifestName,
   dllVendorFileName,
   dllAssetsName,
+  staticLibDirName,
 } = constants
-
-const cacheLoader = {
-  loader: 'cache-loader',
-  options: {
-    cacheIdentifier: `cache-loader:${cacheLoaderVersion}`,
-  },
-}
-
-const babelLoader = {
-  loader: 'babel-loader',
-  options: getBabelConfig(),
-}
 
 function excludeJS(modulePath: string) {
   // Don't transpile node_modules except any @rtadmin npm package
@@ -51,20 +40,21 @@ function excludeJS(modulePath: string) {
   return isLibModules
 }
 
-function getDllDistFile(type: string) {
-  const { publicPath, siteDir } = loadContext()
+function getDllDistFile(siteDir: string, type: string) {
+  const { publicPath } = loadContext(siteDir)
   const dllBasePath = `${publicPath}${dllVendorPath}/`
   const assetJson = require(`${siteDir}/${dllAssetsName}`)
 
   return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
 }
 
-function getCopyPlugin() {
-  const { outDir, siteDir } = loadContext()
+function getCopyPlugin(siteDir: string) {
+  const { outDir } = loadContext(siteDir)
 
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
   const siteStaticDir = `${siteDir}/${staticDirName}`
   const outStaticDir = `${outDir}/${staticDirName}`
+  const outLibDir = `${outDir}/${staticLibDirName}`
 
   const amisPkg = 'node_modules/amis/sdk/pkg'
   const amisPkgPaths = [
@@ -77,12 +67,12 @@ function getCopyPlugin() {
     `${siteDir}/${rtCoreStatic}`,
     path.resolve(siteDir, `../rt_core/static`),
     path.resolve(siteDir, `../../${rtCoreStatic}`),
-  ]
+  ].filter((corePath) => fs.pathExistsSync(corePath))
 
   const copyFiles: any = [
     {
       from: generatedStaticDir,
-      to: `${outStaticDir}/${libName}`,
+      to: outLibDir,
     },
   ]
 
@@ -96,15 +86,15 @@ function getCopyPlugin() {
   if (amisPkgPaths.length) {
     copyFiles.unshift({
       from: amisPkgPaths[0],
-      to: `${generatedStaticDir}/pkg/[name].[ext]`,
+      to: `${outLibDir}/pkg/[name].[ext]`,
       toType: 'template',
     })
   }
 
   if (rtCorePaths.length) {
     copyFiles.unshift({
-      from: amisPkgPaths[0],
-      to: generatedStaticDir,
+      from: rtCorePaths[0],
+      to: `${outLibDir}/core`,
     })
   }
 
@@ -113,19 +103,21 @@ function getCopyPlugin() {
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
 export function createBaseConfig(options: BaseConfigOptions): Configuration {
-  const {
-    outDir,
-    srcDir,
-    siteDir,
-    publicPath,
-    genDir,
-    env = 'localhost',
-    bundleAnalyzer,
-    mock,
-    siteConfig,
-  } = options
+  const { outDir, srcDir, siteDir, publicPath, env, bundleAnalyzer, mock, siteConfig } = options
 
   const isProd = globalStore('get', 'isProd') || false
+
+  const cacheLoader = {
+    loader: 'cache-loader',
+    options: {
+      cacheIdentifier: `cache-loader:${cacheLoaderVersion}`,
+    },
+  }
+
+  const babelLoader = {
+    loader: 'babel-loader',
+    options: getBabelConfig(siteDir),
+  }
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
@@ -150,9 +142,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       maxAssetSize: 300 * 1000,
       assetFilter: (file) => {
         // Filter genDir files
-        const isGen = file.startsWith(genDir)
-        const isJs = file.endsWith('.js')
-        return isJs && !isGen
+        const isLibFiles = /static\/rtadmin/.test(file)
+        const isThemeStyles = /theme.*\.css/.test(file)
+        return !isLibFiles && !isThemeStyles
       },
     },
     // Omit not necessary stats log
@@ -183,7 +175,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       ],
     },
     optimization: {
-      runtimeChunk: true,
+      runtimeChunk: {
+        // https://github.com/webpack/webpack/issues/7875
+        name: ({ name }) => `runtime_${name}`,
+      },
       removeAvailableModules: false,
       // Only minimize client bundle in production because server bundle is only used for static site generation
       minimize: isProd,
@@ -219,12 +214,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           exclude: /node_modules/,
         },
         {
-          test: /\.(j|t)sx?$/,
+          test: /\.jsx?$/,
           exclude: excludeJS,
           use: [cacheLoader, babelLoader],
         },
         {
-          test: /\.ts|tsx$/,
+          test: /\.tsx?$/,
           exclude: excludeJS,
           use: [
             cacheLoader,
@@ -246,7 +241,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           ]),
         },
         {
-          test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
+          test: new RegExp(
+            `\\.${('png,jpg,gif,ttf,woff,woff2,eot,svg' + !siteConfig.staticFileExt
+              ? ''
+              : `,${siteConfig.staticFileExt}`
+            ).replace(',', '|')}$`
+          ),
           use: [
             {
               loader: 'url-loader',
@@ -267,10 +267,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     },
     plugins: [
       new LogPlugin({
-        name: `${libName}-${isProd ? 'prod' : 'dev'}`,
+        name: `${libName}-${isProd ? 'build' : 'dev'}`,
       }),
       new CleanPlugin(),
-      getCopyPlugin(),
+      getCopyPlugin(siteDir),
       new EnvironmentPlugin({
         MOCK: mock,
         ENV: env,
@@ -295,14 +295,14 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         ignoreOrder: true,
       }),
       new HtmlWebpackPlugin({
-        publicPath,
-        // inject: false,
-        ..._.pick(siteConfig, ['title', 'favicon']),
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
+        title: siteConfig.title,
+        favIcon: siteConfig.favicon,
+        staticLibPath: `${publicPath}${staticLibDirName}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile('css'),
-        dllVendorJs: getDllDistFile('js'),
+        dllVendorCss: getDllDistFile(siteDir, 'css'),
+        dllVendorJs: getDllDistFile(siteDir, 'js'),
       }),
     ].filter(Boolean) as any[],
   }

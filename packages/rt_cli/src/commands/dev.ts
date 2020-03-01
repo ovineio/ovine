@@ -18,7 +18,13 @@ import merge from 'webpack-merge'
 import HotModuleReplacementPlugin from 'webpack/lib/HotModuleReplacementPlugin'
 
 import { loadContext } from '../config'
-import { configFileName, defaultPort, staticDirName, webpackConfFileName } from '../constants'
+import {
+  configFileName,
+  defaultPort,
+  staticDirName,
+  webpackConfFileName,
+  babelConfigFileName,
+} from '../constants'
 import { DevCliOptions } from '../types'
 import { normalizeUrl, globalStore } from '../utils'
 import { createBaseConfig } from '../webpack/base'
@@ -33,15 +39,33 @@ async function getPort(reqPort: string | undefined): Promise<number> {
   return port
 }
 
+function reloadDevServer(options: any) {
+  const { siteDir, devServer, cliOptions } = options
+  const reload = () => {
+    fsWatcher.close().then(() => {
+      devServer.close(() => {
+        dev(siteDir, { ...cliOptions, isReload: true })
+      })
+    })
+  }
+  const fsWatcher = chokidar.watch([configFileName, webpackConfFileName, babelConfigFileName], {
+    cwd: siteDir,
+    ignoreInitial: true,
+  })
+  ;['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) => {
+    fsWatcher.on(event, reload)
+  })
+}
+
 type Options = Partial<DevCliOptions> & {
-  reloadDevServer?: boolean
+  isReload?: boolean
 }
 export async function dev(siteDir: string, options: Options = {}): Promise<void> {
   process.env.NODE_ENV = 'development'
   process.env.BABEL_ENV = 'development'
   globalStore('set', 'isProd', false)
 
-  if (options.reloadDevServer) {
+  if (options.isReload) {
     console.log(chalk.blue('\nConfig changed restart the development server...'))
   } else {
     console.log(chalk.blue('\nStarting the development server...'))
@@ -50,24 +74,11 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   // get all config context.
   const context = loadContext(siteDir)
 
-  // Reload webpack server.
-  const reload = () => {
-    devServer.close()
-    dev(siteDir, { ...options, reloadDevServer: true })
-  }
-
-  const fsWatcher = chokidar.watch([configFileName, webpackConfFileName], {
-    cwd: siteDir,
-    ignoreInitial: true,
-  })
-  ;['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) =>
-    fsWatcher.on(event, reload)
-  )
+  const { siteConfig, publicPath } = context
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.host)
-  const { publicPath } = context
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
@@ -88,6 +99,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     hot: true,
     hotOnly: false,
     quiet: true,
+    proxy: siteConfig.devServerProxy,
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -115,12 +127,13 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const compiler = webpack(config)
   const devServer = new WebpackDevServer(compiler, devServerConfig)
 
-  console.log(chalk.yellow(`\nurl: ${openUrl}\nenv: ${options.env}\nmock: ${options.mock}\n`))
+  reloadDevServer({ devServer, siteDir, cliOptions: options })
 
   devServer.listen(port, host, (err) => {
     if (err) {
       console.log(err)
     }
+    console.log(chalk.yellow(`\nurl: ${openUrl}\nenv: ${options.env}\nmock: ${options.mock}\n`))
     if (options.open) {
       openBrowser(openUrl)
     }

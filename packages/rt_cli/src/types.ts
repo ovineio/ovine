@@ -7,11 +7,12 @@ type TemplateConfig = {
 }
 
 export type SiteConfig = {
-  publicPath: string // 静态资源路径
-  favicon: string // 网站图标
-  title: string // 网站标题
-  env: string[] // 所有环境
-  // html 模版
+  publicPath: string
+  favicon: string
+  title: string
+  env: string[]
+  devServerProxy: any
+  staticFileExt?: string
   template?: TemplateConfig
 }
 

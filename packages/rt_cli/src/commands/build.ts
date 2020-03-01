@@ -3,9 +3,10 @@ import path from 'path'
 import { Configuration } from 'webpack'
 import TerserPlugin from 'terser-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 import { loadContext } from '../config'
-import { dllDirName } from '../constants'
+import { outDirName } from '../constants'
 import { BuildCliOptions } from '../types'
 import { compileWebpack, globalStore, mergeWebpackConfig } from '../utils'
 import { createBaseConfig } from '../webpack/base'
@@ -18,7 +19,7 @@ export async function build(
   process.env.NODE_ENV = 'production'
   globalStore('set', 'isProd', true)
 
-  console.log(chalk.blue('Creating an optimized production build...'))
+  console.log(chalk.blue('\nCreating an optimized production build...'))
 
   const context = loadContext(siteDir)
   const { bundleAnalyzer } = cliOptions
@@ -67,9 +68,15 @@ export async function build(
     }
   )
 
+  if (bundleAnalyzer) {
+    buildConfig.plugins?.push(new BundleAnalyzerPlugin())
+  }
+
   await compileWebpack(buildConfig)
 
-  const relativeDir = path.relative(process.cwd(), dllDirName)
-
-  console.log(`\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(relativeDir)}.\n`)
+  console.log(
+    `\n${chalk.green('Success!')} Generated bundle files in ${chalk.cyan(
+      path.relative(siteDir, outDirName)
+    )}.\n`
+  )
 }

@@ -49,7 +49,8 @@ function setDllVendorModules(config) {
   let vendorModules = _.get(config, venderConfKey)
 
   if (typeof vendorModules === 'undefined') {
-    return config
+    _.set(config, venderConfKey, dllModules)
+    return
   }
 
   if (_.isArray(vendorModules)) {
@@ -89,7 +90,7 @@ export function createDllConfig(options: ConfigOptions) {
           use: [
             {
               loader: 'babel-loader',
-              options: getDllBabelConfig(),
+              options: getDllBabelConfig(siteDir),
             },
           ],
         },

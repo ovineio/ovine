@@ -6,7 +6,6 @@ const path = require('path')
 const cli = require('commander')
 
 const { build, theme, dev, dll } = require('../lib')
-const { globalStore } = require('../lib/utils')
 const { defaultPort } = require('../lib/constants')
 
 const requiredVersion = require('../package.json').engines.node
@@ -25,7 +24,6 @@ function wrapCommand(fn) {
   return (...args) => {
     const siteDir =
       typeof args[0] === 'string' ? args[0] : path.resolve(fs.realpathSync(process.cwd()))
-    globalStore('set', 'siteDir', siteDir)
     fn(...args).catch((err) => {
       console.error(chalk.red(err.stack))
       process.exitCode = 1
@@ -39,9 +37,9 @@ cli
   .command('dev [siteDir]')
   .description('Start development server')
   .option('-p, --port <port>', 'use specified port (default: 7050)')
-  .option('--host', 'use specified host (default: localhost)')
-  .option('--env', 'app environment (default: localhost)')
-  .option('--mock', 'use mock environment (default: true)')
+  .option('--host <host>', 'use specified host (default: localhost)')
+  .option('--env <env>', 'app environment (default: localhost)')
+  .option('--mock <mock>', 'use mock environment (default: true)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .action((siteDir = '.', options) => {
     const {
@@ -64,12 +62,17 @@ cli
 cli
   .command('build [siteDir]')
   .description('Build project for deploy')
+  .option('--env <env>', 'app environment (default: production)')
+  .option('--mock <mock>', 'use mock environment (default: false)')
   .option(
     '--bundle-analyzer',
-    'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
+    'Visualize size of webpack output files with an interactive zoomable treemap (default: false)'
   )
-  .action((siteDir = '.', { bundleAnalyzer }) => {
+  .action((siteDir = '.', options) => {
+    const { env = 'production', mock = false, bundleAnalyzer = false } = options
     wrapCommand(build)(path.resolve(siteDir), {
+      env,
+      mock,
       bundleAnalyzer,
     })
   })
@@ -79,9 +82,9 @@ cli
   .description('Build dll static files')
   .option(
     '--bundle-analyzer',
-    'Visualize size of webpack output files with an interactive zoomable treemap (default = false)'
+    'Visualize size of webpack output files with an interactive zoomable treemap (default: false)'
   )
-  .action((siteDir = '.', { bundleAnalyzer }) => {
+  .action((siteDir = '.', { bundleAnalyzer = false }) => {
     wrapCommand(dll)(path.resolve(siteDir), {
       bundleAnalyzer,
     })
