@@ -1,5 +1,5 @@
 {
-  "name": "rt_docs",
+  "name": "@rtadmin/docs",
   "version": "0.0.1-beta.1",
   "private": true,
   "scripts": {

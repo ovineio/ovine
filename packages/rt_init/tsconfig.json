@@ -1,15 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "lib": ["es6", "dom"],
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
-    "outDir": "lib",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    "outDir": "lib"
   }
 }

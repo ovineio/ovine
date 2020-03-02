@@ -1,12 +1,10 @@
 .DS_Store
 
 .idea
-.cache
 .cache-loader
 .tmp
 
 npm-debug.log
-package-lock.json
 yarn-error.log
 deploy.sh
 
@@ -14,6 +12,4 @@ lib
 dist
 build
 node_modules
-
-
 

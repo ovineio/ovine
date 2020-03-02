@@ -1,5 +1,5 @@
 {
-  "name": "rt_example",
+  "name": "@rtadmin/example",
   "version": "0.0.1-beta.1",
   "private": true,
   "scripts": {

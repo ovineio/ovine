@@ -27,19 +27,24 @@
             "order": 10
           },
           {
-            "name": "app modules",
-            "match": "^~/.+",
+            "name": "lib core modules",
+            "match": "^[@a-z].*",
             "order": 20
           },
           {
-            "name": "relate up modules",
-            "match": "^\\.\\.",
+            "name": "app modules",
+            "match": "^~/.+",
             "order": 30
           },
           {
-            "name": "relate modules",
-            "match": "^\\.",
+            "name": "superior folder modules",
+            "match": "^\\.\\.",
             "order": 40
+          },
+          {
+            "name": "curr folder modules",
+            "match": "^\\.",
+            "order": 50
           }
         ]
       }
