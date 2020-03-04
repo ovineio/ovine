@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk')
-const semver = require('semver')
-const path = require('path')
 const cli = require('commander')
+const path = require('path')
+const semver = require('semver')
 
 const { build, theme, dev, dll } = require('../lib')
 const { defaultPort } = require('../lib/constants')
@@ -22,8 +22,6 @@ if (!semver.satisfies(process.version, requiredVersion)) {
 
 function wrapCommand(fn) {
   return (...args) => {
-    const siteDir =
-      typeof args[0] === 'string' ? args[0] : path.resolve(fs.realpathSync(process.cwd()))
     fn(...args).catch((err) => {
       console.error(chalk.red(err.stack))
       process.exitCode = 1
@@ -49,7 +47,7 @@ cli
       mock = true,
       open = true,
     } = options
-    const isMock = mock ? mock : !/production|release/.test(env)
+    const isMock = mock || !/production|release/.test(env)
     wrapCommand(dev)(path.resolve(siteDir), {
       port,
       host,

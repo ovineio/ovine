@@ -2,6 +2,7 @@
 
 .idea
 .cache-loader
+.eslintcache
 .tmp
 
 npm-debug.log

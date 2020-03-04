@@ -3,6 +3,3 @@ dist
 node_modules
 build
 backup
-jest.config.js
-jest.transform.js
-scripts

@@ -9,9 +9,9 @@ export const Image = ({img}) => {
     <div className="img-wrapper">
       <div>
         <header>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div />
+        <div />
+        <div />
         </header>
         <img src={`${baseUrl}img/${img}`} />
       </div>

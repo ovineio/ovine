@@ -1,8 +1,7 @@
-import chalk = require('chalk')
-import path from 'path'
-import { Configuration } from 'webpack'
-import TerserPlugin from 'terser-webpack-plugin'
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
+import path from 'path'
+import TerserPlugin from 'terser-webpack-plugin'
+import { Configuration } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 import { loadContext } from '../config'
@@ -10,6 +9,8 @@ import { outDirName } from '../constants'
 import { BuildCliOptions } from '../types'
 import { compileWebpack, globalStore, mergeWebpackConfig } from '../utils'
 import { createBaseConfig } from '../webpack/base'
+
+import chalk = require('chalk')
 
 export async function build(
   siteDir: string,

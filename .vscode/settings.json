@@ -1,10 +1,11 @@
 {
   "editor.tabSize": 2,
-  "tslint.autoFixOnSave": true,
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.tslint": true
+    "source.fixAll.eslint": true,
+    "source.fixAll": true,
   },
-  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
   "typescript.updateImportsOnFileMove.enabled": "prompt",
   "cSpell.ignoreWords": [
     "rtadmin",

@@ -62,6 +62,20 @@ export async function init(
     throw new Error(`Directory already exists at ${dest} !`)
   }
 
+  const { useTs } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'useTs',
+    message: 'Whether to use typescript?',
+    default: false,
+  })
+
+  const { useLint } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'useTs',
+    message: `Do you need eslint?`,
+    default: true,
+  })
+
   let template = reqTemplate
   // Prompt if template is not provided from CLI.
   if (!template) {
@@ -92,7 +106,7 @@ export async function init(
   }
 
   console.log()
-  console.log(chalk.cyan('Creating new Docusaurus project ...'))
+  console.log(chalk.cyan('Creating new admin system project ...'))
   console.log()
 
   if (template && isValidGitRepoUrl(template)) {

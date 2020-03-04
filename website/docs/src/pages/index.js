@@ -38,7 +38,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <div className={styles.announcementDark}></div>
+      <div className={styles.announcementDark} />
       <div className={styles.section}>
         <div className="container text--center margin-bottom--xl">
           <div className="row">

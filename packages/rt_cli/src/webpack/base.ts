@@ -24,11 +24,12 @@ const {
   tsConfFileName,
   tsLintConfFileName,
   webpackConfFileName,
-  dllVendorPath,
+  dllVendorDirName,
   dllManifestName,
   dllVendorFileName,
   dllAssetsName,
   staticLibDirName,
+  esLintFileName,
 } = constants
 
 function excludeJS(modulePath: string) {
@@ -42,7 +43,7 @@ function excludeJS(modulePath: string) {
 
 function getDllDistFile(siteDir: string, type: string) {
   const { publicPath } = loadContext(siteDir)
-  const dllBasePath = `${publicPath}${dllVendorPath}/`
+  const dllBasePath = `${publicPath}${dllVendorDirName}/`
   const assetJson = require(`${siteDir}/${dllAssetsName}`)
 
   return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
@@ -278,6 +279,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       fs.existsSync(`${siteDir}/${tsConfFileName}`) &&
         new TsCheckerPlugin({
           tsconfig: `${siteDir}/${tsConfFileName}`,
+          eslint: fs.existsSync(`${siteDir}/${esLintFileName}`),
+          eslintOptions: !fs.existsSync(`${siteDir}/${esLintFileName}`)
+            ? {}
+            : require(`${siteDir}/${esLintFileName}`),
           tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`)
             ? undefined
             : `${siteDir}/${tsLintConfFileName}`,
