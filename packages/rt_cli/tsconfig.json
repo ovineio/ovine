@@ -7,6 +7,5 @@
     "outDir": "lib",
     "noImplicitAny": false,
     "jsx": "react",
-    "typeRoots": ["typings"]
   }
 }

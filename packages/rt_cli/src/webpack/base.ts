@@ -9,13 +9,13 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin } from 'webpack'
 
+import { loadContext } from '../config'
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig, globalStore } from '../utils'
 
-import LogPlugin from './plugins/log_plugin'
-import { loadContext } from '../config'
 import { getBabelConfig } from './babel'
+import LogPlugin from './plugins/log_plugin'
 
 const {
   libName,
@@ -66,7 +66,7 @@ function getCopyPlugin(siteDir: string) {
   const rtCoreStatic = 'node_modules/@rtadmin/core/static'
   const rtCorePaths = [
     `${siteDir}/${rtCoreStatic}`,
-    path.resolve(siteDir, `../rt_core/static`),
+    path.resolve(siteDir, '../rt_core/static'),
     path.resolve(siteDir, `../../${rtCoreStatic}`),
   ].filter((corePath) => fs.pathExistsSync(corePath))
 
@@ -243,7 +243,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         },
         {
           test: new RegExp(
-            `\\.${('png,jpg,gif,ttf,woff,woff2,eot,svg' + !siteConfig.staticFileExt
+            `\\.${(`png,jpg,gif,ttf,woff,woff2,eot,svg${  !siteConfig.staticFileExt}`
               ? ''
               : `,${siteConfig.staticFileExt}`
             ).replace(',', '|')}$`

@@ -1,6 +1,8 @@
 import chalk from 'chalk'
-import fs from 'fs-extra'
 import { execSync } from 'child_process'
+import figlet from 'figlet'
+import fs from 'fs'
+import fse from 'fs-extra'
 import inquirer from 'inquirer'
 import path from 'path'
 import shell from 'shelljs'
@@ -18,12 +20,42 @@ function isValidGitRepoUrl(gitRepoUrl: string): boolean {
   return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item))
 }
 
+function copyDirSync(src: string, dest: string) {
+  fse.ensureDirSync(dest)
+  fs.readdirSync(src).forEach((item) => {
+    const itemPath = `${src}/${item}`
+    const stat = fs.statSync(itemPath)
+    if (stat.isDirectory()) {
+      copyDirSync(itemPath, `${dest}/${item}`)
+    } else if (stat.isFile()) {
+      const readable = fs.createReadStream(itemPath)
+      const writeable = fs.createWriteStream(`${dest}/${item}`)
+      readable.pipe(writeable)
+    }
+  })
+}
+
+function logStartCreate() {
+  console.log()
+  console.log(chalk.cyan('Creating new admin system project ...'))
+  console.log()
+}
+
+function logBanner() {
+  console.log()
+  console.log(chalk.blue('Welcome to use RtAdmin template builder ~'))
+  console.log()
+  console.log(figlet.textSync('RTADMIN'))
+  console.log()
+}
+
+
 async function updatePkg(pkgPath: string, obj: any): Promise<void> {
-  const content = await fs.readFile(pkgPath, 'utf-8')
+  const content = await fse.readFile(pkgPath, 'utf-8')
   const pkg = JSON.parse(content)
   const newPkg = Object.assign(pkg, obj)
 
-  await fs.outputFile(pkgPath, JSON.stringify(newPkg, null, 2))
+  await fse.outputFile(pkgPath, JSON.stringify(newPkg, null, 2))
 }
 
 export async function init(
@@ -32,7 +64,9 @@ export async function init(
   reqTemplate?: string
 ): Promise<void> {
   const useYarn = hasYarn()
-  const templatesDir = path.resolve(__dirname, '../templates')
+  const libDir = path.resolve(__dirname, '..')
+  const templatesDir = `${libDir}/templates`
+
   const templates = fs
     .readdirSync(templatesDir)
     .filter((d) => !d.startsWith('.') && !d.startsWith('README'))
@@ -42,6 +76,8 @@ export async function init(
 
   let name = siteName
 
+  logBanner()
+  
   // Prompt if siteName is not passed from CLI.
   if (!name) {
     const { name: promptedName } = await inquirer.prompt({
@@ -58,25 +94,12 @@ export async function init(
   }
 
   const dest = path.resolve(rootDir, name)
-  if (fs.existsSync(dest)) {
+  if (fse.existsSync(dest)) {
     throw new Error(`Directory already exists at ${dest} !`)
   }
 
-  const { useTs } = await inquirer.prompt({
-    type: 'confirm',
-    name: 'useTs',
-    message: 'Whether to use typescript?',
-    default: false,
-  })
-
-  const { useLint } = await inquirer.prompt({
-    type: 'confirm',
-    name: 'useTs',
-    message: `Do you need eslint?`,
-    default: true,
-  })
-
   let template = reqTemplate
+
   // Prompt if template is not provided from CLI.
   if (!template) {
     const { template: promptedTemplate } = await inquirer.prompt({
@@ -97,7 +120,7 @@ export async function init(
         if (url && isValidGitRepoUrl(url)) {
           return true
         }
-        return chalk.red(`Invalid repository URL`)
+        return chalk.red('Invalid repository URL')
       },
       message:
         'Enter a repository URL from GitHub, BitBucket, GitLab, or any other public repo. \n(e.g: https://github.com/ownerName/repoName.git)',
@@ -105,30 +128,48 @@ export async function init(
     template = gitRepoUrl
   }
 
-  console.log()
-  console.log(chalk.cyan('Creating new admin system project ...'))
-  console.log()
+ 
 
   if (template && isValidGitRepoUrl(template)) {
+    logStartCreate()
     console.log(`Cloning Git template: ${chalk.cyan(template)}`)
     if (shell.exec(`git clone --recursive ${template} ${dest}`, { silent: true }).code !== 0) {
       throw new Error(chalk.red(`Cloning Git template: ${template} failed!`))
     }
-  } else if (template && templates.includes(template)) {
-    // Docusaurus templates.
-    try {
-      await fs.copy(path.resolve(templatesDir, template), dest)
-    } catch (err) {
-      console.log(`Copying Docusaurus template: ${chalk.cyan(template)} failed!`)
-      throw err
-    }
-  } else {
+  }
+
+  if (!template || !templates.includes(template)) {
     throw new Error('Invalid template')
+  }
+  
+  const { useTs } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'useTs',
+    message: 'Whether to use typescript?',
+    default: false,
+  })
+
+  const { useLint } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'useTs',
+    message: 'Do you need eslint?',
+    default: true,
+  })
+
+  logStartCreate()
+
+  try {
+    // fes.copy multi dirs to same dest with errors.
+    copyDirSync(`${templatesDir}/${template}/${useTs ? 'ts' : 'es'}`, dest)
+    copyDirSync(`${libDir}/env/${useLint ? 'constraint' : 'normal'}`, dest)
+  } catch (err) {
+    console.log(`Copying admin template: ${chalk.cyan(template)} failed!`)
+    throw err
   }
 
   // Update package.json info.
   try {
-    await updatePkg(path.join(dest, 'package.json'), {
+    await updatePkg(`${dest}/package.json`, {
       name,
       version: '0.0.0',
       private: true,
@@ -140,35 +181,25 @@ export async function init(
 
   // We need to rename the gitignore file to .gitignore
   if (
-    !fs.pathExistsSync(path.join(dest, '.gitignore')) &&
-    fs.pathExistsSync(path.join(dest, 'gitignore'))
+    !fse.pathExistsSync(path.join(dest, '.gitignore')) &&
+    fse.pathExistsSync(path.join(dest, 'gitignore'))
   ) {
-    await fs.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'))
+    await fse.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'))
   }
-  if (fs.pathExistsSync(path.join(dest, 'gitignore'))) {
-    fs.removeSync(path.join(dest, 'gitignore'))
+  if (fse.pathExistsSync(path.join(dest, 'gitignore'))) {
+    fse.removeSync(path.join(dest, 'gitignore'))
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm'
-
-  console.log(`Installing dependencies with: ${chalk.cyan(pkgManager)}`)
-
-  try {
-    shell.exec(`cd "${name}" && ${useYarn ? 'yarn' : 'npm install'}`)
-  } catch (err) {
-    console.log(chalk.red('Installation failed'))
-    throw err
-  }
-  console.log()
-
   // Display the most elegant way to cd.
   const cdPath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name)
 
   console.log()
+  console.log()
   console.log(`Success! Created ${chalk.cyan(cdPath)}`)
   console.log('Inside that directory, you can run several commands:')
   console.log()
-  console.log(chalk.cyan(`  ${pkgManager} start`))
+  console.log(chalk.cyan(`  ${pkgManager} dev`))
   console.log('    Starts the development server.')
   console.log()
   console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`))
@@ -177,8 +208,10 @@ export async function init(
   console.log('We suggest that you begin by typing:')
   console.log()
   console.log(chalk.cyan('  cd'), cdPath)
+  console.log(`  ${chalk.cyan(`${pkgManager} install`)}`)
   console.log(`  ${chalk.cyan(`${pkgManager} dev`)}`)
 
   console.log()
   console.log('Happy hacking!')
+  console.log()
 }

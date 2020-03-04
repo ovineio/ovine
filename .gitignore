@@ -1,5 +1,4 @@
 .DS_Store
-
 .idea
 .cache-loader
 .eslintcache
@@ -11,6 +10,7 @@ deploy.sh
 
 lib
 dist
-build
 node_modules
+
+/website/docs/build
 

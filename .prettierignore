@@ -1,5 +1,7 @@
+__fixtures__
+
 dist
 node_modules
-build
-backup
-__fixtures__
+
+/website/docs/build
+/backup

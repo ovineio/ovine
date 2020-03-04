@@ -24,7 +24,8 @@
     "esModuleInterop": true,
 
     /* Advanced Options */
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "typeRoots": ["typings"]
   },
   "exclude": ["node_modules", "backup", "**/__tests__/**/*", "**/lib/**/*"]
 }

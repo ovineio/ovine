@@ -3,6 +3,8 @@ const WARNING = 1
 const ERROR = 2
 
 module.exports = {
+  extends: ['airbnb', 'prettier', 'prettier/react'],
+  plugins: ['react-hooks', 'import', "@typescript-eslint"],
   env: {
     browser: true,
     commonjs: true,
@@ -20,23 +22,26 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  plugins: ['react-hooks', 'import', "@typescript-eslint"],
   rules: {
+    curly: [WARNING, 'all'],
+    semi: [ERROR, 'never'],
+    quotes: [ERROR, 'single'],
+    'arrow-parens': [ERROR, 'always'],
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     'no-unused-expressions': OFF,
+    'no-nested-ternary': OFF,
     'no-console': ERROR,
     'no-underscore-dangle': OFF,
-    curly: [WARNING, 'all'],
     '@typescript-eslint/no-unused-expressions': ERROR,
+    "import/no-dynamic-require": OFF,
     'import/no-unresolved': [ERROR], // Ignore certain webpack alias because it can't be resolved
     'import/extensions': OFF,
     'import/prefer-default-export': OFF,
-    'import/order': [
+    'import/order': [ // sort import groups
       ERROR,
       {
-        groups: [['builtin', 'external'], 'internal', ['sibling', 'parent']],
+        groups: [['builtin', 'external'], 'internal', ['sibling', 'parent'], 'index'],
         pathGroups: [
           {
             pattern: '~/**',

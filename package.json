@@ -13,7 +13,7 @@
     "build:demo": "yarn workspace rt_example deploy",
     "changelog": "lerna-changelog",
     "postinstall": "yarn tsc",
-    "pretty": "prettier --loglevel warn --write --config .prettierrc \"*.{md,yml,json,yaml,css}\"\"",
+    "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"\"",
     "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix",
     "lerna": "lerna",
     "test": "jest",
@@ -52,7 +52,7 @@
     "prettier": "^1.19.1",
     "typescript": "^3.8.2"
   },
-  
+ 
   "engines": {
     "node": ">=10.9.0"
   },

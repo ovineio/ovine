@@ -1,9 +1,9 @@
 /**
  * babel-loader configuration
  */
-
 import fs from 'fs-extra'
 import path from 'path'
+
 import { babelConfigFileName } from '../constants'
 
 const { NODE_ENV = 'development' } = process.env
@@ -38,7 +38,7 @@ function importPlugin(moduleName, dirName = '') {
 function extendsConfig(siteDir: string) {
   const configFile = path.resolve(siteDir, babelConfigFileName)
   if (!fs.existsSync(configFile)) {
-    return
+    return {}
   }
 
   return {

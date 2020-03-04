@@ -1,14 +1,9 @@
-const path = require('path');
+const path = require('path')
 
 const ignorePatterns = [
   '/node_modules/',
   '__fixtures__',
-  '/packages/docusaurus/lib',
-  '/packages/docusaurus-utils/lib',
-  '/packages/docusaurus-plugin-content-blog/lib',
-  '/packages/docusaurus-plugin-content-docs/lib',
-  '/packages/docusaurus-plugin-content-pages/lib',
-];
+]
 
 module.exports = {
   rootDir: path.resolve(__dirname),
@@ -20,4 +15,4 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
-};
+}
