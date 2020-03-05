@@ -1,4 +1,3 @@
-import chalk = require('chalk')
 import path from 'path'
 
 import { loadContext } from '../config'
@@ -6,6 +5,8 @@ import { dllDirName } from '../constants'
 import { BuildCliOptions, Props } from '../types'
 import { compileWebpack, globalStore } from '../utils'
 import { createDllConfig } from '../webpack/dll'
+
+import chalk = require('chalk')
 
 export async function dll(
   siteDir: string,

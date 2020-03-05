@@ -6,8 +6,4 @@
 2. 提供 自定义 webpack 入口
 3. 提供 ts/es 支持
 4. 提供主题生成
-
-@rtadmin/dev
-@rtadmin/build
-@rtadmin/
 ```

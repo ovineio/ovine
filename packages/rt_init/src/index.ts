@@ -4,8 +4,11 @@ import figlet from 'figlet'
 import fs from 'fs'
 import fse from 'fs-extra'
 import inquirer from 'inquirer'
+import ora from 'ora'
 import path from 'path'
 import shell from 'shelljs'
+
+const spinner = ora()
 
 function hasYarn(): boolean {
   try {
@@ -28,16 +31,19 @@ function copyDirSync(src: string, dest: string) {
     if (stat.isDirectory()) {
       copyDirSync(itemPath, `${dest}/${item}`)
     } else if (stat.isFile()) {
-      const readable = fs.createReadStream(itemPath)
-      const writeable = fs.createWriteStream(`${dest}/${item}`)
-      readable.pipe(writeable)
+      fse.copyFileSync(itemPath, `${dest}/${item}`)
     }
   })
 }
 
-function logStartCreate() {
+function logStartCreate(showSpinner: boolean) {
+  const startStr = 'Creating new admin system project...'
   console.log()
-  console.log(chalk.cyan('Creating new admin system project ...'))
+  if (showSpinner) {
+    spinner.start(chalk.cyan(startStr))
+  } else {
+    console.log(chalk.cyan(startStr))
+  }
   console.log()
 }
 
@@ -48,7 +54,6 @@ function logBanner() {
   console.log(figlet.textSync('RTADMIN'))
   console.log()
 }
-
 
 async function updatePkg(pkgPath: string, obj: any): Promise<void> {
   const content = await fse.readFile(pkgPath, 'utf-8')
@@ -128,12 +133,11 @@ export async function init(
     template = gitRepoUrl
   }
 
- 
-
   if (template && isValidGitRepoUrl(template)) {
-    logStartCreate()
+    logStartCreate(false)
     console.log(`Cloning Git template: ${chalk.cyan(template)}`)
     if (shell.exec(`git clone --recursive ${template} ${dest}`, { silent: true }).code !== 0) {
+      spinner.stop()
       throw new Error(chalk.red(`Cloning Git template: ${template} failed!`))
     }
   }
@@ -156,13 +160,14 @@ export async function init(
     default: true,
   })
 
-  logStartCreate()
+  logStartCreate(true)
 
   try {
     // fes.copy multi dirs to same dest with errors.
     copyDirSync(`${templatesDir}/${template}/${useTs ? 'ts' : 'es'}`, dest)
     copyDirSync(`${libDir}/env/${useLint ? 'constraint' : 'normal'}`, dest)
   } catch (err) {
+    spinner.stop()
     console.log(`Copying admin template: ${chalk.cyan(template)} failed!`)
     throw err
   }
@@ -175,6 +180,7 @@ export async function init(
       private: true,
     })
   } catch (err) {
+    spinner.stop()
     console.log(chalk.red('Failed to update package.json'))
     throw err
   }
@@ -186,6 +192,7 @@ export async function init(
   ) {
     await fse.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'))
   }
+
   if (fse.pathExistsSync(path.join(dest, 'gitignore'))) {
     fse.removeSync(path.join(dest, 'gitignore'))
   }
@@ -194,6 +201,7 @@ export async function init(
   // Display the most elegant way to cd.
   const cdPath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name)
 
+  spinner.stop()
   console.log()
   console.log()
   console.log(`Success! Created ${chalk.cyan(cdPath)}`)

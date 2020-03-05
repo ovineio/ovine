@@ -25,7 +25,6 @@
 
     /* Advanced Options */
     "resolveJsonModule": true,
-    "typeRoots": ["typings"]
   },
   "exclude": ["node_modules", "backup", "**/__tests__/**/*", "**/lib/**/*"]
 }

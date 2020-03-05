@@ -1,17 +1,18 @@
 import AssetsPlugin from 'assets-webpack-plugin'
-import chalk = require('chalk')
 import CleanPlugin from 'clean-webpack-plugin'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import { DllPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
-import LogPlugin from './plugins/log_plugin'
 
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
 import { getDllBabelConfig } from './babel'
+import LogPlugin from './plugins/log_plugin'
+
+import chalk = require('chalk')
 
 const {
   webpackDllConfFileName,
@@ -46,7 +47,7 @@ const dllModules = [
 
 function setDllVendorModules(config) {
   const venderConfKey = `entry.${dllVendorFileName}`
-  let vendorModules = _.get(config, venderConfKey)
+  const vendorModules = _.get(config, venderConfKey)
 
   if (typeof vendorModules === 'undefined') {
     _.set(config, venderConfKey, dllModules)
@@ -72,7 +73,7 @@ function setDllVendorModules(config) {
       console.error(
         chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
       )
-      return
+      
     }
   }
 }

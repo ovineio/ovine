@@ -2,16 +2,14 @@
  * dev command for webpack dev server
  */
 
-import chalk = require('chalk')
 import chokidar from 'chokidar'
 import express from 'express'
-import _ from 'lodash'
 import path from 'path'
 import portfinder from 'portfinder'
+import { prepareUrls } from 'react-dev-utils/WebpackDevServerUtils'
 import errorOverlayMiddleware from 'react-dev-utils/errorOverlayMiddleware'
 import evalSourceMapMiddleware from 'react-dev-utils/evalSourceMapMiddleware'
 import openBrowser from 'react-dev-utils/openBrowser'
-import { prepareUrls } from 'react-dev-utils/WebpackDevServerUtils'
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 import merge from 'webpack-merge'
@@ -29,33 +27,7 @@ import { DevCliOptions } from '../types'
 import { normalizeUrl, globalStore } from '../utils'
 import { createBaseConfig } from '../webpack/base'
 
-function getHost(reqHost: string | undefined): string {
-  return reqHost || 'localhost'
-}
-
-async function getPort(reqPort: string | undefined): Promise<number> {
-  const basePort = reqPort ? parseInt(reqPort, 10) : defaultPort
-  const port = await portfinder.getPortPromise({ port: basePort })
-  return port
-}
-
-function reloadDevServer(options: any) {
-  const { siteDir, devServer, cliOptions } = options
-  const reload = () => {
-    fsWatcher.close().then(() => {
-      devServer.close(() => {
-        dev(siteDir, { ...cliOptions, isReload: true })
-      })
-    })
-  }
-  const fsWatcher = chokidar.watch([configFileName, webpackConfFileName, babelConfigFileName], {
-    cwd: siteDir,
-    ignoreInitial: true,
-  })
-  ;['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) => {
-    fsWatcher.on(event, reload)
-  })
-}
+import chalk = require('chalk')
 
 type Options = Partial<DevCliOptions> & {
   isReload?: boolean
@@ -142,6 +114,33 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     process.on(sig as NodeJS.Signals, () => {
       devServer.close()
       process.exit()
+    })
+  })
+}
+
+function getHost(reqHost: string | undefined): string {
+  return reqHost || 'localhost'
+}
+
+async function getPort(reqPort: string | undefined): Promise<number> {
+  const basePort = reqPort ? parseInt(reqPort, 10) : defaultPort
+  const port = await portfinder.getPortPromise({ port: basePort })
+  return port
+}
+
+function reloadDevServer(options: any) {
+  const { siteDir, devServer, cliOptions } = options
+  const fsWatcher = chokidar.watch([configFileName, webpackConfFileName, babelConfigFileName], {
+    cwd: siteDir,
+    ignoreInitial: true,
+  })
+  ;['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) => {
+    fsWatcher.on(event, () => {
+      fsWatcher.close().then(() => {
+        devServer.close(() => {
+          dev(siteDir, { ...cliOptions, isReload: true })
+        })
+      })
     })
   })
 }

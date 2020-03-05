@@ -1,5 +1,5 @@
-const WebpackBar = require('webpackbar')
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
+const WebpackBar = require('webpackbar')
 
 function showError(arr) {
   console.log(`\n\n${arr.join('')}`)

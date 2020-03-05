@@ -1,5 +1,5 @@
-const path = require('path')
 const fs = require('fs-extra')
+const path = require('path')
 const { waitFile } = require('wait-file')
 
 class WaitPlugin {

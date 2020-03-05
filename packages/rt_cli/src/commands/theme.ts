@@ -1,4 +1,3 @@
-import chalk = require('chalk')
 import path from 'path'
 import { Configuration } from 'webpack'
 
@@ -8,6 +7,11 @@ import { BuildCliOptions, Props } from '../types'
 import { compileWebpack } from '../utils'
 import { createBaseConfig } from '../webpack/base'
 
+import chalk = require('chalk')
+
+/**
+ * think how to build theme
+ */
 export async function theme(
   siteDir: string,
   cliOptions: Partial<BuildCliOptions> = {}

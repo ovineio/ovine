@@ -1,7 +1,6 @@
 import { createHash } from 'crypto'
 import escapeStringRegexp from 'escape-string-regexp'
 import fs from 'fs-extra'
-import matter from 'gray-matter'
 import _ from 'lodash'
 import path from 'path'
 import webpack, { Configuration } from 'webpack'
@@ -126,28 +125,6 @@ export function getSubFolder(file: string, refDir: string): string | null {
   return match && match[1]
 }
 
-export function parse(
-  fileString: string
-): {
-  frontMatter: {
-    [key: string]: any
-  }
-  content: string
-  excerpt: string | undefined
-} {
-  const options: {} = {
-    excerpt: (file) => {
-      file.excerpt = file.content
-        .trim()
-        .split('\n', 1)
-        .shift()
-    },
-  }
-
-  const { data: frontMatter, content, excerpt } = matter(fileString, options)
-  return { frontMatter, content, excerpt }
-}
-
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls
   const resultArray: any[] = []
@@ -263,7 +240,7 @@ const store: any = {}
 export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T): T | undefined {
   if (type === 'set') {
     _.set(store, key, value)
-    return
+    return undefined
   }
   return _.get(store, key, value)
 }

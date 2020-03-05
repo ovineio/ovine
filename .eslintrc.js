@@ -27,6 +27,7 @@ module.exports = {
     semi: [ERROR, 'never'],
     quotes: [ERROR, 'single'],
     'arrow-parens': [ERROR, 'always'],
+    "no-use-before-define": ["error", { "functions": false }],
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     'no-unused-expressions': OFF,
