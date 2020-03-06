@@ -1,7 +1,6 @@
 /**
  * Mock数据 一些简单封装
  */
-
 import { uuid } from 'amis/lib/utils/helper'
 import produce from 'immer'
 import dropWhile from 'lodash/dropWhile'
@@ -52,7 +51,7 @@ export class MockListStore<S = {}, P = S> {
       ...updater,
       [this.idField]: uuid(),
     }
-    this.list = produce(this.list, (d) => {
+    this.list = produce(this.list, (d: any) => {
       d.unshift(newItem)
     })
 

@@ -14,7 +14,7 @@
   ],
   "author": "carey toboos",
   "license": "ISC",
-  "dependencies": {
+  "peerDependencies": {
     "immer": "^5.3.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -22,9 +22,11 @@
     "styled-components": "^5.0.0",
     "whatwg-fetch": "^3.0.0"
   },
+  "dependencies": {
+    "amis": "1.0.9"
+  },
   "devDependencies": {
     "abortcontroller-polyfill": "^1.4.0",
-    "amis": "1.0.9",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",

@@ -24,83 +24,13 @@ const {
   tsConfFileName,
   tsLintConfFileName,
   webpackConfFileName,
-  dllVendorDirName,
-  dllManifestName,
+  dllVendorDirPath,
+  dllManifestFile,
   dllVendorFileName,
-  dllAssetsName,
-  staticLibDirName,
+  dllAssetsFile,
+  staticLibDirPath,
   esLintFileName,
 } = constants
-
-function excludeJS(modulePath: string) {
-  // Don't transpile node_modules except any @rtadmin npm package
-  const isNodeModules = /node_modules/.test(modulePath)
-  const notLibModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
-  const isLibModules = isNodeModules && !notLibModules
-
-  return isLibModules
-}
-
-function getDllDistFile(siteDir: string, type: string) {
-  const { publicPath } = loadContext(siteDir)
-  const dllBasePath = `${publicPath}${dllVendorDirName}/`
-  const assetJson = require(`${siteDir}/${dllAssetsName}`)
-
-  return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
-}
-
-function getCopyPlugin(siteDir: string) {
-  const { outDir } = loadContext(siteDir)
-
-  const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
-  const siteStaticDir = `${siteDir}/${staticDirName}`
-  const outStaticDir = `${outDir}/${staticDirName}`
-  const outLibDir = `${outDir}/${staticLibDirName}`
-
-  const amisPkg = 'node_modules/amis/sdk/pkg'
-  const amisPkgPaths = [
-    `${siteDir}/${amisPkg}`,
-    path.resolve(siteDir, `../../${amisPkg}`),
-  ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
-
-  const rtCoreStatic = 'node_modules/@rtadmin/core/static'
-  const rtCorePaths = [
-    `${siteDir}/${rtCoreStatic}`,
-    path.resolve(siteDir, '../rt_core/static'),
-    path.resolve(siteDir, `../../${rtCoreStatic}`),
-  ].filter((corePath) => fs.pathExistsSync(corePath))
-
-  const copyFiles: any = [
-    {
-      from: generatedStaticDir,
-      to: outLibDir,
-    },
-  ]
-
-  if (fs.pathExistsSync(siteStaticDir)) {
-    copyFiles.unshift({
-      from: siteStaticDir,
-      to: outStaticDir,
-    })
-  }
-
-  if (amisPkgPaths.length) {
-    copyFiles.unshift({
-      from: amisPkgPaths[0],
-      to: `${outLibDir}/pkg/[name].[ext]`,
-      toType: 'template',
-    })
-  }
-
-  if (rtCorePaths.length) {
-    copyFiles.unshift({
-      from: rtCorePaths[0],
-      to: `${outLibDir}/core`,
-    })
-  }
-
-  return new CopyPlugin(copyFiles)
-}
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
 export function createBaseConfig(options: BaseConfigOptions): Configuration {
@@ -119,6 +49,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     loader: 'babel-loader',
     options: getBabelConfig(siteDir),
   }
+
+  const useTs = fs.existsSync(`${siteDir}/${tsConfFileName}`)
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
@@ -141,10 +73,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     performance: {
       maxEntrypointSize: 600 * 1000,
       maxAssetSize: 300 * 1000,
-      assetFilter: (file) => {
-        // Filter genDir files
-        const isLibFiles = /static\/rtadmin/.test(file)
-        const isThemeStyles = /theme.*\.css/.test(file)
+      assetFilter: (filePath) => {
+        // Filter genDir or theme files
+        const isLibFiles = filePath.indexOf(generatedDirName) > -1
+        const isThemeStyles = /themes\/.*\.css/.test(filePath)
         return !isLibFiles && !isThemeStyles
       },
     },
@@ -166,9 +98,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         '~': srcDir,
       },
       // This allows you to set a fallback for where Webpack should look for modules.
-      // We want `@docusaurus/core` own dependencies/`node_modules` to "win" if there is conflict
-      // Example: if there is core-js@3 in user's own node_modules, but core depends on
-      // core-js@2, we should use core-js@2.
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
@@ -219,7 +148,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           exclude: excludeJS,
           use: [cacheLoader, babelLoader],
         },
-        {
+        useTs && {
           test: /\.tsx?$/,
           exclude: excludeJS,
           use: [
@@ -243,10 +172,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         },
         {
           test: new RegExp(
-            `\\.${(`png,jpg,gif,ttf,woff,woff2,eot,svg${  !siteConfig.staticFileExt}`
-              ? ''
-              : `,${siteConfig.staticFileExt}`
-            ).replace(',', '|')}$`
+            `\\.${(`png,jpg,gif,ttf,woff,woff2,eot,svg${!siteConfig.staticFileExt ?
+                '' : `,${siteConfig.staticFileExt}`}`).replace(',', '|')}$`
           ),
           use: [
             {
@@ -276,21 +203,17 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         MOCK: mock,
         ENV: env,
       }),
-      fs.existsSync(`${siteDir}/${tsConfFileName}`) &&
+      useTs &&
         new TsCheckerPlugin({
           tsconfig: `${siteDir}/${tsConfFileName}`,
           eslint: fs.existsSync(`${siteDir}/${esLintFileName}`),
-          eslintOptions: !fs.existsSync(`${siteDir}/${esLintFileName}`)
-            ? {}
-            : require(`${siteDir}/${esLintFileName}`),
-          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`)
-            ? undefined
-            : `${siteDir}/${tsLintConfFileName}`,
+          eslintOptions: fs.existsSync(`${siteDir}/${esLintFileName}`) && require(`${siteDir}/${esLintFileName}`),
+          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`) ? undefined : `${siteDir}/${tsLintConfFileName}`,
           reportFiles: [`${srcDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
           silent: true,
         }),
       new DllReferencePlugin({
-        manifest: `${siteDir}/${dllManifestName}`,
+        manifest: `${siteDir}/${dllManifestFile}`,
       } as any),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash:6].css' : '[name].css',
@@ -303,7 +226,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
         title: siteConfig.title,
         favIcon: siteConfig.favicon,
-        staticLibPath: `${publicPath}${staticLibDirName}/`,
+        staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
         dllVendorCss: getDllDistFile(siteDir, 'css'),
@@ -315,4 +238,74 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
   const config = mergeWebpackConfig(baseConfig, `${siteDir}/${webpackConfFileName}`)
 
   return config
+}
+
+function excludeJS(modulePath: string) {
+  // Don't transpile node_modules except any @rtadmin npm package
+  const isNodeModules = /node_modules/.test(modulePath)
+  const notLibModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
+  const isLibModules = isNodeModules && !notLibModules
+
+  return isLibModules
+}
+
+function getDllDistFile(siteDir: string, type: string) {
+  const { publicPath } = loadContext(siteDir)
+  const dllBasePath = `${publicPath}${dllVendorDirPath}/`
+  const assetJson = require(`${siteDir}/${dllAssetsFile}`)
+
+  return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+}
+
+function getCopyPlugin(siteDir: string) {
+  const { outDir } = loadContext(siteDir)
+
+  const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
+  const siteStaticDir = `${siteDir}/${staticDirName}`
+  const outStaticDir = `${outDir}/${staticDirName}`
+  const outLibDir = `${outDir}/${staticLibDirPath}`
+
+  const amisPkg = 'node_modules/amis/sdk/pkg'
+  const amisPkgPaths = [
+    `${siteDir}/${amisPkg}`,
+    path.resolve(siteDir, `../../${amisPkg}`),
+  ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
+
+  const rtCoreStatic = 'node_modules/@rtadmin/core/static'
+  const rtCorePaths = [
+    `${siteDir}/${rtCoreStatic}`,
+    path.resolve(siteDir, '../rt_core/static'),
+    path.resolve(siteDir, `../../${rtCoreStatic}`),
+  ].filter((corePath) => fs.pathExistsSync(corePath))
+
+  const copyFiles: any = [
+    {
+      from: generatedStaticDir,
+      to: outLibDir,
+    },
+  ]
+
+  if (fs.pathExistsSync(siteStaticDir)) {
+    copyFiles.unshift({
+      from: siteStaticDir,
+      to: outStaticDir,
+    })
+  }
+
+  if (amisPkgPaths.length) {
+    copyFiles.unshift({
+      from: amisPkgPaths[0],
+      to: `${outLibDir}/pkg/[name].[ext]`,
+      toType: 'template',
+    })
+  }
+
+  if (rtCorePaths.length) {
+    copyFiles.unshift({
+      from: rtCorePaths[0],
+      to: `${outLibDir}/core`,
+    })
+  }
+
+  return new CopyPlugin(copyFiles)
 }

@@ -2,7 +2,7 @@ import path from 'path'
 import { Configuration } from 'webpack'
 
 import { loadContext } from '../config'
-import { dllDirName } from '../constants'
+import { dllDirPath } from '../constants'
 import { BuildCliOptions, Props } from '../types'
 import { compileWebpack } from '../utils'
 import { createBaseConfig } from '../webpack/base'
@@ -26,6 +26,6 @@ export async function theme(
 
   await compileWebpack(config)
 
-  const relativeDir = path.relative(process.cwd(), dllDirName)
+  const relativeDir = path.relative(process.cwd(), dllDirPath)
   console.log(`\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(relativeDir)}.\n`)
 }

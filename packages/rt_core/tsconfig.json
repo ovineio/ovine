@@ -6,6 +6,7 @@
     "lib": ["es6", "dom"],
     "incremental": true,
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "jsx": "react",
     "rootDir": "src",
     "outDir": "lib",
     "baseUrl": "./src/",

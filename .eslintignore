@@ -1,6 +1,7 @@
 __fixtures__
 
 dist
+lib
 node_modules
 
 /website/docs/build

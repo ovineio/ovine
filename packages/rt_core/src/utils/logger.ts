@@ -52,16 +52,9 @@ const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): bool
     allowedLevel.push(level)
   } else {
     // ERROR > WARN > INFO > LOG
-    switch (level) {
-      case 'log':
-        allowedLevel.push('log')
-      case 'info':
-        allowedLevel.push('info')
-      case 'warn':
-        allowedLevel.push('warn')
-      case 'error':
-        allowedLevel.push('error')
-    }
+    const allLevel: Level[] = ['log', 'info', 'warn', 'error']
+    const idx = allLevel.findIndex((l) => l === level)
+    allowedLevel.push(...allLevel.slice(idx))
   }
 
   // 过滤不同级别的 LOG
@@ -79,9 +72,7 @@ const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): bool
 
 // 判断 生产环境
 const isRelease = () => {
-  if (process.env.ENV === 'production' && !debugConfig.enable) {
-    return true
-  }
+  return process.env.ENV === 'production' && !debugConfig.enable
 }
 
 // 设置 日志 配置

@@ -35,27 +35,6 @@ module.exports = {
     'no-console': ERROR,
     'no-underscore-dangle': OFF,
     '@typescript-eslint/no-unused-expressions': ERROR,
-    "import/no-dynamic-require": OFF,
-    'import/no-unresolved': [ERROR], // Ignore certain webpack alias because it can't be resolved
-    'import/extensions': OFF,
-    'import/prefer-default-export': OFF,
-    'import/order': [ // sort import groups
-      ERROR,
-      {
-        groups: [['builtin', 'external'], 'internal', ['sibling', 'parent'], 'index'],
-        pathGroups: [
-          {
-            pattern: '~/**',
-            group: 'internal',
-          },
-        ],
-        'newlines-between': 'always-and-inside-groups',
-        alphabetize: {
-          order: 'asc',
-          caseInsensitive: false,
-        },
-      },
-    ],
     'jsx-a11y/click-events-have-key-events': WARNING,
     'jsx-a11y/no-noninteractive-element-interactions': WARNING,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
@@ -67,6 +46,39 @@ module.exports = {
     'react/prefer-stateless-function': WARNING,
     'react/jsx-props-no-spreading': OFF,
     'react-hooks/rules-of-hooks': ERROR,
+    "import/no-dynamic-require": OFF,
+    'import/no-unresolved': [ERROR], // Ignore certain webpack alias because it can't be resolved
+    'import/extensions': OFF,
+    'import/prefer-default-export': OFF,
+    'import/order': [ // sort import groups
+      ERROR,
+      {
+        groups: [['builtin', 'external'], 'internal', ['sibling', 'parent'], 'index'],
+        pathGroups: [
+          {
+            pattern: '@**',
+            group: 'external',
+            position: 'after'
+          },
+          {
+            pattern: '@/**',
+            group: 'sibling',
+            position: 'internal'
+          },
+          {
+            pattern: '~/**',
+            group: 'sibling',
+            position: 'internal'
+          },
+        ],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: false,
+        },
+        'newlines-between': 'always-and-inside-groups',
+        'pathGroupsExcludedImportTypes': ['builtin']
+      },
+    ],
   },
   overrides: [
     {

@@ -6,7 +6,9 @@
 import isArray from 'lodash/isArray'
 import isNone from 'lodash/isUndefined'
 
-import { storeRoot } from '~/constants/msg_key'
+import { message } from '@/constants'
+
+const { storeRoot } = message
 
 type Key = string | string[]
 export type Handler<T = any> = (data: T, key?: string) => void
@@ -17,17 +19,15 @@ const source: Types.ObjectOf<any> = {}
 // 格式化存储 key 格式
 const storeKeyCtrl: Types.ValueCtrl<string> = (type, value = '') => {
   const isStoreKey = value.indexOf(storeRoot) === 0
-  if (type === 'get') {
-    return !isStoreKey ? undefined : value.split(storeRoot)[1]
-  }
-
   if (type === 'set') {
     return isStoreKey ? value : `${storeRoot}${value}`
   }
+  
+  return !isStoreKey ? undefined : value.split(storeRoot)[1]
 }
 
 // 更改 store 值,就会自动 publish 消息
-export const store = new Proxy<Types.ObjectOf<any>>(
+export const store = new Proxy<any>(
   {},
   {
     get(_, key: string) {

@@ -9,59 +9,7 @@ import path from 'path'
 import shell from 'shelljs'
 
 const spinner = ora()
-
-function hasYarn(): boolean {
-  try {
-    execSync('yarnpkg --version', { stdio: 'ignore' })
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-function isValidGitRepoUrl(gitRepoUrl: string): boolean {
-  return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item))
-}
-
-function copyDirSync(src: string, dest: string) {
-  fse.ensureDirSync(dest)
-  fs.readdirSync(src).forEach((item) => {
-    const itemPath = `${src}/${item}`
-    const stat = fs.statSync(itemPath)
-    if (stat.isDirectory()) {
-      copyDirSync(itemPath, `${dest}/${item}`)
-    } else if (stat.isFile()) {
-      fse.copyFileSync(itemPath, `${dest}/${item}`)
-    }
-  })
-}
-
-function logStartCreate(showSpinner: boolean) {
-  const startStr = 'Creating new admin system project...'
-  console.log()
-  if (showSpinner) {
-    spinner.start(chalk.cyan(startStr))
-  } else {
-    console.log(chalk.cyan(startStr))
-  }
-  console.log()
-}
-
-function logBanner() {
-  console.log()
-  console.log(chalk.blue('Welcome to use RtAdmin template builder ~'))
-  console.log()
-  console.log(figlet.textSync('RTADMIN'))
-  console.log()
-}
-
-async function updatePkg(pkgPath: string, obj: any): Promise<void> {
-  const content = await fse.readFile(pkgPath, 'utf-8')
-  const pkg = JSON.parse(content)
-  const newPkg = Object.assign(pkg, obj)
-
-  await fse.outputFile(pkgPath, JSON.stringify(newPkg, null, 2))
-}
+const libName = 'rtadmin'
 
 export async function init(
   rootDir: string,
@@ -145,7 +93,7 @@ export async function init(
   if (!template || !templates.includes(template)) {
     throw new Error('Invalid template')
   }
-  
+
   const { useTs } = await inquirer.prompt({
     type: 'confirm',
     name: 'useTs',
@@ -163,9 +111,13 @@ export async function init(
   logStartCreate(true)
 
   try {
-    // fes.copy multi dirs to same dest with errors.
+    // fes.copy multi source dir to same dest dir with errors.
+    // basic files
     copyDirSync(`${templatesDir}/${template}/${useTs ? 'ts' : 'es'}`, dest)
+    // project env  files
     copyDirSync(`${libDir}/env/${useLint ? 'constraint' : 'normal'}`, dest)
+    // lib files
+    copyDirSync(`${libDir}/env/.${libName}`, `dest/.${libName}`)
   } catch (err) {
     spinner.stop()
     console.log(`Copying admin template: ${chalk.cyan(template)} failed!`)
@@ -222,4 +174,57 @@ export async function init(
   console.log()
   console.log('Happy hacking!')
   console.log()
+}
+
+function hasYarn(): boolean {
+  try {
+    execSync('yarnpkg --version', { stdio: 'ignore' })
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
+function isValidGitRepoUrl(gitRepoUrl: string): boolean {
+  return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item))
+}
+
+function copyDirSync(src: string, dest: string) {
+  fse.ensureDirSync(dest)
+  fs.readdirSync(src).forEach((item) => {
+    const itemPath = `${src}/${item}`
+    const stat = fs.statSync(itemPath)
+    if (stat.isDirectory()) {
+      copyDirSync(itemPath, `${dest}/${item}`)
+    } else if (stat.isFile()) {
+      fse.copyFileSync(itemPath, `${dest}/${item}`)
+    }
+  })
+}
+
+function logStartCreate(showSpinner: boolean) {
+  const startStr = 'Creating new admin system project...'
+  console.log()
+  if (showSpinner) {
+    spinner.start(chalk.cyan(startStr))
+  } else {
+    console.log(chalk.cyan(startStr))
+  }
+  console.log()
+}
+
+function logBanner() {
+  console.log()
+  console.log(figlet.textSync(libName.toLocaleUpperCase()))
+  console.log()
+  console.log(chalk.blue(`Welcome to use ${libName} template builder ~`))
+  console.log()
+}
+
+async function updatePkg(pkgPath: string, obj: any): Promise<void> {
+  const content = await fse.readFile(pkgPath, 'utf-8')
+  const pkg = JSON.parse(content)
+  const newPkg = Object.assign(pkg, obj)
+
+  await fse.outputFile(pkgPath, JSON.stringify(newPkg, null, 2))
 }

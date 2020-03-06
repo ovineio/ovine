@@ -1,7 +1,7 @@
 /**
  * 封装 fetch 请求
  */
-
+// / <reference path="./request.d.ts" />
 import { qsstringify } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
 import get from 'lodash/get'
@@ -9,9 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 import omitBy from 'lodash/omitBy'
 import { fetch } from 'whatwg-fetch'
 
-import logger from '~/utils/logger'
-import { getSessionStore, setSessionStore } from '~/utils/store'
-import { isExpired, queryStringParse } from '~/utils/tool'
+import logger from '@/utils/logger'
+import { getSessionStore, setSessionStore } from '@/utils/store'
+import { isExpired, getQuery } from '@/utils/tool'
 
 const log = logger.getLogger('dev:request')
 
@@ -103,7 +103,7 @@ const cacheSourceCtrl = (type: 'set' | 'get', option: Req.UnionOption, resource?
         return cached
       }
     }
-    return
+    
   }
 }
 
@@ -168,7 +168,7 @@ function getFetchOption(this: Request, option: Req.Option): Req.FetchOption {
   }
 
   if (hasBody) {
-    fetchOption.body = body ? body : JSON.stringify(data)
+    fetchOption.body = body || JSON.stringify(data)
   }
 
   return fetchOption
@@ -212,15 +212,19 @@ export function getUrlByOption(this: Req.Config, option: Req.Option & Partial<Re
 
   return urlOption
 }
-
 export class Request<T = {}, K = {}> {
   public isRelease?: boolean
+
   public domains: { [domain: string]: string }
 
   public onRequest?: (option: Req.UnionOption) => Req.UnionOption
+
   public userTokenCtrl?: (option: Req.Option) => Req.Option
+
   public onError?: (option: { option: Req.UnionOption; response: Response; error?: any }) => any
+
   public onResponse?: (option: { option: Req.UnionOption; response: Response; source?: any }) => any
+
   public onFinish?: (option: {
     option: Req.UnionOption
     response: Response
@@ -237,16 +241,17 @@ export class Request<T = {}, K = {}> {
   public async request<S = {}, P = {}>(
     option: Types.MixObject<Req.Option<Types.MixObject<S, K>, P>, T>
   ): Promise<Req.ServerApiRes<Types.MixObject<S, K>> | undefined>
+
   public async request(this: any, option: any): Promise<any> {
     const { data: params, url, api } = option
-    option.api = api ? api : url
+    option.api = api || url
 
     if (!option.api) {
       log.error('request option.api 不存在', option)
       return
     }
 
-    const query: any = queryStringParse('', option.url)
+    const query: any = getQuery('', option.url)
     if (query) {
       option.url = option.url.split('?')[0]
       option.data = { ...query, ...params }

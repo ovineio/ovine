@@ -88,8 +88,8 @@ export function queryStringify(source: any) {
  * @param key 需要获取的数据 json[key], 不传为整个json
  * @param url 待解析的url 默认为location.href
  */
-export function queryStringParse(key: string, url?: string): undefined | string
-export function queryStringParse(key?: string, url?: string): undefined | string | object {
+export function getQuery(key: string, url?: string): undefined | string
+export function getQuery(key?: string, url?: string): undefined | string | object {
   let str = url || location.href
 
   if (str.indexOf('?') > -1) {

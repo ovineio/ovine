@@ -16,10 +16,10 @@ import chalk = require('chalk')
 
 const {
   webpackDllConfFileName,
-  dllDirName,
+  dllDirPath,
   dllVendorFileName,
-  dllManifestName,
-  dllAssetsName,
+  dllManifestFile,
+  dllAssetsFile,
   libName,
 } = constants
 
@@ -106,7 +106,7 @@ export function createDllConfig(options: ConfigOptions) {
             {
               loader: 'url-loader',
               options: {
-                publicPath: `${publicPath}${dllDirName}/`,
+                publicPath: `${publicPath}${dllDirPath}/`,
                 limit: 2000, // 低于2K 使用 base64
                 name: '[name]_[contenthash:6].[ext]',
               },
@@ -117,11 +117,11 @@ export function createDllConfig(options: ConfigOptions) {
     },
     output: {
       pathinfo: false,
-      path: `${siteDir}/${dllDirName}`,
+      path: `${siteDir}/${dllDirPath}`,
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
-      publicPath: `${publicPath}${dllDirName}/`,
+      publicPath: `${publicPath}${dllDirPath}/`,
     },
     plugins: [
       new LogPlugin({
@@ -133,12 +133,12 @@ export function createDllConfig(options: ConfigOptions) {
         chunkFilename: 'chunk_[name]_[chunkhash:6].css',
       }),
       new DllPlugin({
-        path: `${siteDir}/${dllManifestName}`,
+        path: `${siteDir}/${dllManifestFile}`,
         name: dllName,
       }),
       // 把带hash的dll插入到html中 https://github.com/ztoben/assets-webpack-plugin
       new AssetsPlugin({
-        filename: dllAssetsName,
+        filename: dllAssetsFile,
         fullPath: false,
         path: siteDir,
       }),

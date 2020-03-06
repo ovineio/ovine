@@ -1,7 +1,7 @@
 import path from 'path'
 
 import { loadContext } from '../config'
-import { dllDirName } from '../constants'
+import { dllDirPath } from '../constants'
 import { BuildCliOptions, Props } from '../types'
 import { compileWebpack, globalStore } from '../utils'
 import { createDllConfig } from '../webpack/dll'
@@ -30,7 +30,7 @@ export async function dll(
 
   console.log(
     `\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(
-      path.relative(siteDir, dllDirName)
+      path.relative(siteDir, dllDirPath)
     )}.\n`
   )
 }
