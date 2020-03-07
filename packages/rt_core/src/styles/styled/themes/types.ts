@@ -1,4 +1,4 @@
-export interface AppTheme {
+export interface AppThemeVariable {
   ns: string
   name: string
   text: string

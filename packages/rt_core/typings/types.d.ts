@@ -11,5 +11,5 @@ declare namespace Types {
   type MixObject<T, K> = K & Omit<T, keyof K>
   type Pair<T> = [T, T | undefined]
   type ValueCtrl<T = any> = (type: 'set' | 'get', value?: T) => T | undefined
-  type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }
+  type DeepPartial<T> = { [K in keyof T]?: T[K] | DeepPartial<T[K]> }
 }

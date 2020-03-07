@@ -172,8 +172,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         },
         {
           test: new RegExp(
-            `\\.${(`png,jpg,gif,ttf,woff,woff2,eot,svg${!siteConfig.staticFileExt ?
-                '' : `,${siteConfig.staticFileExt}`}`).replace(',', '|')}$`
+            `\\.${`png,jpg,gif,ttf,woff,woff2,eot,svg${
+              !siteConfig.staticFileExt ? '' : `,${siteConfig.staticFileExt}`
+            }`.replace(',', '|')}$`
           ),
           use: [
             {
@@ -200,6 +201,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new CleanPlugin(),
       getCopyPlugin(siteDir),
       new EnvironmentPlugin({
+        PUBLIC_PATH: publicPath,
+        NODE_ENV: process.env.NODE_ENV,
         MOCK: mock,
         ENV: env,
       }),
@@ -207,8 +210,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         new TsCheckerPlugin({
           tsconfig: `${siteDir}/${tsConfFileName}`,
           eslint: fs.existsSync(`${siteDir}/${esLintFileName}`),
-          eslintOptions: fs.existsSync(`${siteDir}/${esLintFileName}`) && require(`${siteDir}/${esLintFileName}`),
-          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`) ? undefined : `${siteDir}/${tsLintConfFileName}`,
+          eslintOptions:
+            fs.existsSync(`${siteDir}/${esLintFileName}`) &&
+            require(`${siteDir}/${esLintFileName}`),
+          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`)
+            ? undefined
+            : `${siteDir}/${tsLintConfFileName}`,
           reportFiles: [`${srcDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
           silent: true,
         }),

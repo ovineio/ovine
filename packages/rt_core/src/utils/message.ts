@@ -22,7 +22,7 @@ const storeKeyCtrl: Types.ValueCtrl<string> = (type, value = '') => {
   if (type === 'set') {
     return isStoreKey ? value : `${storeRoot}${value}`
   }
-  
+
   return !isStoreKey ? undefined : value.split(storeRoot)[1]
 }
 
@@ -38,6 +38,7 @@ export const store = new Proxy<any>(
     set(obj: any, key: string, value) {
       // 只有值变化 才触发回调。
       if (!(source[key] && source[key] === value)) {
+        // eslint-disable-next-line
         obj[key] = value
         const storeKey = storeKeyCtrl('set', key)
 
@@ -51,6 +52,47 @@ export const store = new Proxy<any>(
     },
   }
 )
+
+// 发送消息
+export const publish = <T>(key: Key, value: T) => {
+  const keyToObserver = (obsKey: string) => {
+    const sourceKey = storeKeyCtrl('get', obsKey)
+    if (sourceKey && !isNone(source[sourceKey])) {
+      source[sourceKey] = value
+    }
+
+    if (!isNone(observer[obsKey])) {
+      observer[obsKey].forEach((handler: Handler<T>) => {
+        handler(value, obsKey)
+      })
+    }
+  }
+
+  if (isArray(key)) {
+    key.forEach(keyToObserver)
+  } else {
+    keyToObserver(key)
+  }
+}
+
+// 取消订阅
+export const unsubscribe = (key: Key, handler: Handler) => {
+  const offObserver = (offKey: string) => {
+    if (!isNone(observer[offKey])) {
+      observer[offKey].forEach((obsHandler: Handler, index) => {
+        if (obsHandler === handler) {
+          observer[offKey].splice(index, 1)
+        }
+      })
+    }
+  }
+
+  if (isArray(key)) {
+    key.forEach(offObserver)
+  } else {
+    offObserver(key)
+  }
+}
 
 // 消息订阅
 export const subscribe = (key: Key, handler: Handler) => {
@@ -86,51 +128,10 @@ export const subscribe = (key: Key, handler: Handler) => {
   return listener
 }
 
-// 发送消息
-export const publish = <T>(key: Key, value: T) => {
-  const keyToObserver = (obsKey: string) => {
-    const sourceKey = storeKeyCtrl('get', obsKey)
-    if (sourceKey && !isNone(source[sourceKey])) {
-      source[sourceKey] = value
-    }
-
-    if (!isNone(observer[obsKey])) {
-      observer[obsKey].forEach((handler: Handler<T>) => {
-        handler(value, obsKey)
-      })
-    }
-  }
-
-  if (isArray(key)) {
-    key.forEach(keyToObserver)
-  } else {
-    keyToObserver(key)
-  }
-}
-
 // 订阅一次，就销毁
 export const subscribeOnce = <T>(key: string, handler: Handler) => {
   const listener = subscribe(key, (data: T) => {
     handler(data, key)
     listener.unsubscribe()
   })
-}
-
-// 取消订阅
-export const unsubscribe = (key: Key, handler: Handler) => {
-  const offObserver = (offKey: string) => {
-    if (!isNone(observer[offKey])) {
-      observer[offKey].forEach((obsHandler: Handler, index) => {
-        if (obsHandler === handler) {
-          observer[offKey].splice(index, 1)
-        }
-      })
-    }
-  }
-
-  if (isArray(key)) {
-    key.forEach(offObserver)
-  } else {
-    offObserver(key)
-  }
 }

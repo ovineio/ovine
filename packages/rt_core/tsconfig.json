@@ -10,6 +10,8 @@
     "rootDir": "src",
     "outDir": "lib",
     "baseUrl": "./src/",
+    "noImplicitReturns": false,
+    "typeRoots": ["typings"],
     "paths": {
       "@/*": ["./*"]
     }

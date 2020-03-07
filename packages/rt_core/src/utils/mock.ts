@@ -26,6 +26,7 @@ const defaultApiRes: Req.ServerApiRes<any> = { code: 0 }
 
 export class MockListStore<S = {}, P = S> {
   private list: S[] = []
+
   private idField: string = 'id'
 
   constructor(option: MockListStoreOption<S>) {

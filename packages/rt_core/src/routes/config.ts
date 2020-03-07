@@ -6,11 +6,11 @@ import { mapTree } from 'amis/lib/utils/helper'
 import cloneDeep from 'lodash/cloneDeep'
 import last from 'lodash/last'
 
-import amisRoute from './menus/amis'
-import appRoute from './menus/app'
+import { app } from '@/app'
+
 import { RouteItem } from './types'
 
-const originConfig = [appRoute, amisRoute]
+const originConfig = app.routes
 
 // 解析配置的路由数据
 // 1. 根据 nodePath 生成默认 path 路径值

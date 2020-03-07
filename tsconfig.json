@@ -24,7 +24,7 @@
     "esModuleInterop": true,
 
     /* Advanced Options */
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "backup", "**/__tests__/**/*", "**/lib/**/*"]
 }

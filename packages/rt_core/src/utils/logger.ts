@@ -3,6 +3,8 @@
  * 错误，异常等地方都应输入日志，给出提示
  */
 
+/* eslint-disable no-console */
+
 type Level = 'log' | 'info' | 'warn' | 'error'
 
 type Option = {
@@ -36,6 +38,11 @@ let debugConfig: Config = {
 
 let onlySelfFlag: boolean | Types.NullValue = null
 
+// 判断 生产环境
+const isRelease = () => {
+  return process.env.NODE_ENV === 'production' && !debugConfig.enable
+}
+
 // 过滤日志打印信息
 const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): boolean => {
   const { level, moduleName, onlyLevel } = debugConfig
@@ -68,26 +75,6 @@ const filterLog = (option: Required<Pick<Option, 'level' | 'moduleName'>>): bool
   }
 
   return true
-}
-
-// 判断 生产环境
-const isRelease = () => {
-  return process.env.ENV === 'production' && !debugConfig.enable
-}
-
-// 设置 日志 配置
-export const setConfig = (conf: Partial<Config>): void => {
-  debugConfig = {
-    ...debugConfig,
-    ...conf,
-  }
-
-  // 打包环境不打印日志
-  if (isRelease()) {
-    return
-  }
-
-  logger.info('app:logger:config', debugConfig)
 }
 
 export class Logger {
@@ -155,7 +142,7 @@ export class Logger {
       `[${now.getHours()}:${now.getMinutes()}:${now.getSeconds()} ${level.toUpperCase()} ${moduleName}]__::`,
     ]
 
-    const log = Function.prototype.bind.call(console[level] || console['log'], console)
+    const log = Function.prototype.bind.call(console[level] || console.log, console)
     log.apply(console, logArgs.concat(loggerDetail))
     // console.log('logArgs->', logArgs);
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
@@ -171,5 +158,20 @@ export class Logger {
 }
 
 const logger = new Logger()
+
+// 设置 日志 配置
+export const setConfig = (conf: Partial<Config>): void => {
+  debugConfig = {
+    ...debugConfig,
+    ...conf,
+  }
+
+  // 打包环境不打印日志
+  if (isRelease()) {
+    return
+  }
+
+  logger.info('app:logger:config', debugConfig)
+}
 
 export default logger

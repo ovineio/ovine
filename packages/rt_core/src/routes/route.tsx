@@ -9,11 +9,11 @@ import map from 'lodash/map'
 import React, { createContext, lazy, useContext, useMemo, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
+import { app } from '@/app'
+import NotFound from '@/components/404'
 import { Amis } from '@/components/amis/schema'
 import ErrorBoundary from '@/components/error_boundary'
 import { LayoutLazyFallback } from '@/components/layout/loading'
-import { isLogin } from '@/core/user/export'
-import NotFound from '@/pages/404'
 import { isSubStr } from '@/utils/tool'
 
 import {
@@ -22,9 +22,10 @@ import {
   getPageMockSource,
   getPagePreset,
   getRoutePath,
+  currPath,
 } from './exports'
 import { getAuthRoutes } from './limit'
-import { checkLimitByKeys } from './limit/export'
+import { checkLimitByKeys } from './limit/exports'
 import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
@@ -58,12 +59,12 @@ export const PrivateRoute = ({ children, ...rest }: any) => {
     <Route
       {...rest}
       render={({ location }) => {
-        return isLogin() ? (
+        return app.user.isLogin() ? (
           children
         ) : (
           <Redirect
             to={{
-              pathname: '/login',
+              pathname: getRoutePath(app.constants.login.route),
               state: { from: location },
             }}
           />
@@ -103,7 +104,7 @@ const PrestComponent = (props: PresetComponentProps) => {
     pagePreset.nodePath = nodePath
 
     map(pagePreset.apis, (api) => {
-      const { mock, mockSource: apiMockSource, url } = api
+      const { mock, mockSource: apiMockSource, url = '' } = api
       // 自动注入规则
       if (mock === true && !apiMockSource && mockSource) {
         api.mockSource = mockSource[url] || mockSource
@@ -140,13 +141,12 @@ export const PrestRoute = (props: PresetRouteProps) => {
     path = '',
     component,
     exact = true,
-    children,
     ...rest
   } = props
 
   const routePath = getRoutePath(path)
-  if (exact && !isSubStr(routePath, ':') && routePath !== location.pathname) {
-    return <Redirect to="/404" />
+  if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
+    return <Redirect to={getRoutePath(app.constants.notFound.route)} />
   }
 
   const RouteComponent = (
@@ -173,6 +173,17 @@ export const PrestRoute = (props: PresetRouteProps) => {
   return RouteComponent
 }
 
+const NotFoundRoute = () => {
+  let Component = NotFound
+  try {
+    Component = require(`~/${currPath(app.constants.notFound.pagePath, '404')}`)
+  } catch (e) {
+    //
+  }
+
+  return <Route path="*" component={Component} />
+}
+
 // 将 routeConfig 转换为 route
 export const AppMenuRoutes = () => {
   const routes: any = []
@@ -194,7 +205,7 @@ export const AppMenuRoutes = () => {
       <Suspense fallback={<LayoutLazyFallback />}>
         <Switch>
           {routes}
-          <Route path="*" component={NotFound} />
+          <NotFoundRoute />
         </Switch>
       </Suspense>
     </ErrorBoundary>

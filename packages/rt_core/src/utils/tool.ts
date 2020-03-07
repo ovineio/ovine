@@ -20,7 +20,7 @@ export const templateReplace = (template: string, data: Types.ObjectOf<any>) => 
  * @param formatter String  模版字符串
  * @param dateString? String 日期字符串
  */
-export const dateFormatter = (formatter: string, date?: string | Date) => {
+export const formatDate = (formatter: string, date?: string | Date) => {
   const dateObj = !date ? new Date() : date instanceof Date ? date : new Date(date)
 
   const transObj: any = {
@@ -36,9 +36,10 @@ export const dateFormatter = (formatter: string, date?: string | Date) => {
   let fmt = formatter
 
   if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (dateObj.getFullYear() + '').substr(4 - RegExp.$1.length))
+    fmt = fmt.replace(RegExp.$1, `${dateObj.getFullYear()}`.substr(4 - RegExp.$1.length))
   }
 
+  // eslint-disable-next-line no-restricted-syntax
   for (const k in transObj) {
     if (new RegExp(`(${k})`).test(fmt)) {
       fmt = fmt.replace(
@@ -69,39 +70,22 @@ export function isExpired(expiredTime: string | number, baseTime: number = Date.
 }
 
 /**
- * 将json格式数据 转化为 querystring, 不包含 '?' 字符
- * @param source 参数json
- */
-export function queryStringify(source: any) {
-  let tmpString = ''
-
-  // tslint:disable-next-line: forin
-  for (const key in source) {
-    tmpString += `&${key}=${source[key]}`
-  }
-
-  return tmpString.substr(1)
-}
-
-/**
  * 解析 querystring 为 json 格式数据
  * @param key 需要获取的数据 json[key], 不传为整个json
  * @param url 待解析的url 默认为location.href
  */
 export function getQuery(key: string, url?: string): undefined | string
 export function getQuery(key?: string, url?: string): undefined | string | object {
-  let str = url || location.href
+  let str = url || window.location.href
 
-  if (str.indexOf('?') > -1) {
-    str = str.split('?')[1]
-  }
+  str = str.indexOf('?') === -1 ? '' : str.split('?')[1]
 
   const items = str.split('&')
   const result: Types.ObjectOf<string> = {}
 
   items.forEach((v) => {
-    const arr = v.split('=')
-    result[arr[0]] = arr[1]
+    const [queryKey, queryVal] = v.split('=')
+    result[queryKey] = queryVal
   })
 
   if (key) {
@@ -144,6 +128,9 @@ export function retryPromise<T>(
  * @param pos 需要校验的子串位置
  */
 export function isSubStr(source: string, check: string, pos?: number): boolean {
+  if (typeof source !== 'string') {
+    return false
+  }
   const index = source.indexOf(check)
   return typeof pos === 'undefined' ? index > -1 : index === pos
 }
@@ -153,17 +140,17 @@ export function cls(...args: any[]): string {
   let str = ''
   args.forEach((arg) => {
     if (typeof arg === 'string') {
-      str += ' ' + arg
+      str += ` ${arg}`
     } else if (isArray(arg)) {
       arg.forEach((i: string) => {
         if (typeof i === 'string') {
-          str += ' ' + i
+          str += ` ${i}`
         }
       })
     } else if (isObject(arg)) {
       map(arg, (val, key) => {
-        if (!!val) {
-          str += ' ' + key
+        if (val) {
+          str += ` ${key}`
         }
       })
     }

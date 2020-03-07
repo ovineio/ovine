@@ -5,13 +5,13 @@
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import map from 'lodash/map'
 
-import { routeLimitKey } from '~/constants'
-import { getPagePreset } from '~/routes/export'
+import { routeLimitKey } from '@/constants'
+import { getPagePreset } from '@/routes/exports'
 
 import { getRouteConfig, routesConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'
 
-import { checkLimitByNodePath, getAppLimits } from './export'
+import { checkLimitByNodePath, getAppLimits } from './exports'
 
 // 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {
@@ -22,10 +22,10 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
   // 便利所有节点
   const getNeeds = (node: string[] = []) => {
     // 防止循环依赖
-    node.map((k: string) => {
+    node.forEach((k: string) => {
       if (!checked[k]) {
         checked[k] = true
-        return getNeeds(limits[k]?.needs)
+        getNeeds(limits[k]?.needs)
       }
     })
   }
@@ -104,14 +104,16 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
 
   const nodes = filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
     const auth = checkLimitByNodePath(nodePath, limits)
+
     if (nodePath === '/') {
       return true
     }
+
     switch (type) {
-      case 'route':
-        return auth
       case 'aside':
         return auth && sideVisible !== false
+      default:
+        return auth
     }
   })
 

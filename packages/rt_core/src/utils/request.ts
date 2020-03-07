@@ -1,7 +1,8 @@
 /**
  * 封装 fetch 请求
  */
-// / <reference path="./request.d.ts" />
+
+/* eslint-disable consistent-return */
 import { qsstringify } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
 import get from 'lodash/get'
@@ -103,7 +104,6 @@ const cacheSourceCtrl = (type: 'set' | 'get', option: Req.UnionOption, resource?
         return cached
       }
     }
-    
   }
 }
 
@@ -242,9 +242,12 @@ export class Request<T = {}, K = {}> {
     option: Types.MixObject<Req.Option<Types.MixObject<S, K>, P>, T>
   ): Promise<Req.ServerApiRes<Types.MixObject<S, K>> | undefined>
 
+  // eslint-disable-next-line
   public async request(this: any, option: any): Promise<any> {
     const { data: params, url, api } = option
-    option.api = api || url
+    const parsedOption = option
+
+    parsedOption.api = api || url
 
     if (!option.api) {
       log.error('request option.api 不存在', option)
@@ -252,12 +255,14 @@ export class Request<T = {}, K = {}> {
     }
 
     const query: any = getQuery('', option.url)
+
     if (query) {
-      option.url = option.url.split('?')[0]
-      option.data = { ...query, ...params }
+      // eslint-disable-next-line
+      parsedOption.url = url.split('?')[0]
+      parsedOption.data = { ...query, ...params }
     }
 
-    const unionOption = { ...option, ...getFetchOption.call(this, option) }
+    const unionOption = { ...parsedOption, ...getFetchOption.call(this, option) }
 
     // 命中缓存 直接返回
     const cachedResponse = cacheSourceCtrl('get', unionOption)

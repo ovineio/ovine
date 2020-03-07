@@ -4,14 +4,14 @@
 
 import isArray from 'lodash/isArray'
 
-import logger from '~/utils/logger'
-import { isSubStr } from '~/utils/tool'
+import logger from '@/utils/logger'
+import { isSubStr } from '@/utils/tool'
 
 import { CheckLimitFunc } from '../types'
 
 let store: Types.ObjectOf<boolean> = {}
 
-const log = logger.getLogger('dev:routes:limit:utils')
+const log = logger.getLogger('lib:routes:limit:exports')
 
 // 将字符串格式的权限数据，转为对象类型，可大大减少权限匹配的时间
 export const convertLimitStr = (limitStr: string = '') => {

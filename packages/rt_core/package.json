@@ -20,7 +20,8 @@
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",
-    "whatwg-fetch": "^3.0.0"
+    "whatwg-fetch": "^3.0.0",
+    "lodash": "^4.17.15"
   },
   "dependencies": {
     "amis": "1.0.9"
