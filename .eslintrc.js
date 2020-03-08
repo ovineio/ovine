@@ -32,10 +32,11 @@ module.exports = {
     'no-console': ERROR,
     '@typescript-eslint/no-unused-expressions': ERROR,
     '@typescript-eslint/no-unused-vars': [ERROR],
-    'jsx-a11y/click-events-have-key-events': WARNING,
-    'jsx-a11y/no-noninteractive-element-interactions': WARNING,
+    'jsx-a11y/click-events-have-key-events': OFF,
+    'jsx-a11y/no-noninteractive-element-interactions': OFF,
+    'jsx-a11y/no-static-element-interactions': OFF,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
-    'react/jsx-filename-extension': OFF,
+    'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
@@ -89,6 +90,7 @@ module.exports = {
       files: ['*.ts', '*.tsx'],
       rules: {
         'import/no-unresolved': OFF,
+        'import/no-extraneous-dependencies': OFF,
       },
     },
   ],
