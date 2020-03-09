@@ -27,7 +27,7 @@ export async function theme(siteDir: string): Promise<void> {
   console.log(chalk.blue('Build scss to css files...'))
 
   const amisScss = getModulePath(siteDir, 'amis/scss/themes', true)
-  const libScss = getModulePath(siteDir, `lib/${scssDirName}`, true)
+  const libScss = getModulePath(siteDir, `lib/core/${scssDirName}`, true)
   const destStyles = `${siteDir}/${generatedDirName}/${stylesDirName}`
 
   const siteScss = `${siteDir}/${scssDirName}`
@@ -38,8 +38,20 @@ export async function theme(siteDir: string): Promise<void> {
     includePathAr.push(siteScss)
   }
 
-  const cmd = `${nodeScssCmd} ${libScss} -o ${destStyles} --include-path ${includePathAr}`
-  shell.exec(cmd, (_, stdout, stderr) => {
+  const libCmd = `${nodeScssCmd} ${libScss} -o ${destStyles} --include-path ${includePathAr}`
+
+  const siteCmd = `${nodeScssCmd} `
+
+  console.log(`\n${chalk.grey(libCmd)}\n`)
+
+  /**
+   * // should show spinner
+   * 1. build lib scss to .lib/styles
+   * 2. copy user scss to .lib/scss/  gitignore
+   * 3. build .gen/scss to .lib/styles/
+   */
+
+  shell.exec(libCmd, (_, stdout, stderr) => {
     if (stderr) {
       console.warn(chalk.red(stderr))
       return
@@ -47,7 +59,7 @@ export async function theme(siteDir: string): Promise<void> {
     console.log(stdout)
   })
 
-  const relativeDir = path.relative(process.cwd(), dllDirPath)
+  const relativeDir = path.relative(process.cwd(), destStyles)
   console.log(`\n${chalk.green('Success!')} Generated css files in ${chalk.cyan(relativeDir)}.\n`)
 }
 

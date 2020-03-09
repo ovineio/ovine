@@ -5,11 +5,14 @@ export const defaultPort = 7050
 
 export const srcDirName = 'src'
 export const staticDirName = 'static'
-export const stylesDirName = 'styles'
-export const scssDirName = 'scss'
 export const configFileName = `${libName}.config.js`
 export const generatedDirName = `.${libName}`
 export const staticLibDirPath = `${staticDirName}/${libName}`
+
+// scss
+export const stylesDirName = 'styles'
+export const scssDirName = 'scss'
+export const libThemes = ['default', 'cdx', 'dark']
 
 // dll config
 export const dllVendorFileName = 'vendor'

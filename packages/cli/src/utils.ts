@@ -6,7 +6,7 @@ import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
 
-import { libRootPath } from './constants'
+import { libRootPath, libName } from './constants'
 
 const fileHash = new Map()
 export async function generate(
@@ -248,13 +248,13 @@ export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T
 }
 
 export function getModulePath(siteDir: string, lib: string, required: boolean = false) {
-  const index = __dirname.indexOf(libRootPath)
-  const isDev = index > -1
-  const devRootDir = __dirname.substring(0, index) + libRootPath
+  const rootPathIdx = __dirname.indexOf(libRootPath)
+  const isDev = rootPathIdx > -1
+  const devRootDir = __dirname.substring(0, rootPathIdx) + libRootPath
 
   const isLib = lib.indexOf('lib/') === 0
   const libPath = !isLib ? lib : lib.split('lib/')[1]
-  const prodPath = `node_modules/${!isLib ? '' : '@rtadmin/'}${libPath}`
+  const prodPath = `node_modules/${!isLib ? '' : `@${libName}/`}${libPath}`
 
   const libPaths = [`${siteDir}/${prodPath}`, path.resolve(siteDir, `../../${prodPath}`)]
 
@@ -269,7 +269,7 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
   const result = libPaths.filter((corePath) => fs.pathExistsSync(corePath))[0]
 
   if (!result && required) {
-    throw new Error(`Can not find path: ${lib}. Searched paths:\n${libPaths.join('\n')}`)
+    throw new Error(`Can not find path: ${lib}.\nSearched paths:\n${libPaths.join('\n')}`)
   }
 
   return result
