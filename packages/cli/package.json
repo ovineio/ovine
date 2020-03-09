@@ -20,8 +20,7 @@
     "rt-cli": "bin/index.js"
   },
   "scripts": {
-    "tsc": "tsc && node cpoy_to_lib.js",
-    "test": "jest --colors --errorOnDeprecated --expand"
+    "tsc": "tsc && node cpoy_to_lib.js"
   },
   "bugs": {
     "url": "https://github.com/CareyToboo/rt-admin/issues"

@@ -12,7 +12,6 @@ const ignorePatterns = [
 module.exports = {
   rootDir: path.resolve(__dirname),
   verbose: true,
-  preset: 'ts-jest',
   testURL: 'http://localhost/',
   testEnvironment: 'node',
   testPathIgnorePatterns: ignorePatterns,

@@ -3,7 +3,7 @@
   "workspaces": [
     "packages/*",
     "website/docs/*",
-    "website/example/",
+    "website/example/*",
     "packages/rt_cli/templates/*"
   ],
   "scripts": {
@@ -16,10 +16,12 @@
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"\"",
     "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix",
     "lerna": "lerna",
-    "test": "jest",
+    "test": "jest --colors --errorOnDeprecated --expand",
     "tsc": "lerna run tsc --no-private"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
     "@types/express": "^4.17.2",
     "@types/fs-extra": "^8.0.1",
     "@types/inquirer": "^6.5.0",
