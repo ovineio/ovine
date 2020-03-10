@@ -4,7 +4,7 @@ import path from 'path'
 
 import shell from 'shelljs'
 
-import { dllDirPath, generatedDirName, stylesDirName, scssDirName } from '../constants'
+import { generatedDirName, stylesDirName, scssDirName } from '../constants'
 import { getModulePath } from '../utils'
 
 import chalk = require('chalk')
@@ -17,6 +17,7 @@ export async function theme(siteDir: string): Promise<void> {
   // 'node-sass ./src/assets/styles/scss/themes -o ./src/assets/styles/themes --include-path node_modules/amis/scss/themes'
 
   const nodeScssCmd = getNodeScssCmd()
+  const scssCmdOpts = { async: true, silent: true }
   if (!nodeScssCmd) {
     console.log(
       chalk.yellowBright('You need install `node-sass` module as devDependencies or globally...')
@@ -29,51 +30,68 @@ export async function theme(siteDir: string): Promise<void> {
   const amisScss = getModulePath(siteDir, 'amis/scss/themes', true)
   const libScss = getModulePath(siteDir, `lib/core/${scssDirName}`, true)
   const destStyles = `${siteDir}/${generatedDirName}/${stylesDirName}`
-
   const siteScss = `${siteDir}/${scssDirName}`
-
-  const includePathAr = [amisScss]
-
-  if (fs.existsSync(siteScss)) {
-    includePathAr.push(siteScss)
-  }
-
-  const libCmd = `${nodeScssCmd} ${libScss} -o ${destStyles} --include-path ${includePathAr}`
-
-  const siteCmd = `${nodeScssCmd} `
-
-  console.log(`\n${chalk.grey(libCmd)}\n`)
-
-  /**
-   * // should show spinner
-   * 1. build lib scss to .lib/styles
-   * 2. copy user scss to .lib/scss/  gitignore
-   * 3. build .gen/scss to .lib/styles/
-   */
-
-  shell.exec(libCmd, (_, stdout, stderr) => {
-    if (stderr) {
-      console.warn(chalk.red(stderr))
-      return
-    }
-    console.log(stdout)
-  })
+  const hasSiteScss = fs.existsSync(siteScss)
 
   const relativeDir = path.relative(process.cwd(), destStyles)
-  console.log(`\n${chalk.green('Success!')} Generated css files in ${chalk.cyan(relativeDir)}.\n`)
+
+  const importer = `--importer ${path.resolve(__dirname, '../scss_importer.js')}`
+
+  const includePaths = (pathAr) => pathAr.map((i) => ` --include-path ${i}`).join(' ')
+
+  const resultFlag: string[] = []
+  const logSuccess = (type: 'lib' | 'site') => {
+    resultFlag.push(type)
+    if (resultFlag.length === 2) {
+      console.log(
+        `\n${chalk.green('Success!')} Generated css files in ${chalk.cyan(relativeDir)}.\n`
+      )
+    }
+  }
+
+  // build libScss
+  const libCmd = `${nodeScssCmd} ${libScss} -o ${destStyles} ${importer} ${includePaths(
+    !hasSiteScss ? [amisScss] : [amisScss, siteScss]
+  )}`
+  // console.log('libCmd===>\n', libCmd)
+  shell.exec(libCmd, scssCmdOpts, (_, __, stderr) => {
+    if (stderr) {
+      console.error(chalk.red(stderr))
+      return
+    }
+    logSuccess('lib')
+  })
+
+  // build siteScss
+  if (hasSiteScss) {
+    const siteCmd = `${nodeScssCmd} ${siteScss} -o ${destStyles} ${importer} ${includePaths([
+      amisScss,
+      libScss,
+    ])}`
+    // console.log('siteCmd===>\n', siteCmd)
+    shell.exec(siteCmd, scssCmdOpts, (_, __, stderr) => {
+      if (stderr) {
+        console.error(chalk.red(stderr))
+        return
+      }
+      logSuccess('site')
+    })
+  }
 }
 
 function getNodeScssCmd(): string {
+  let cmd = 'node-sass'
   try {
-    execSync('node-sass --version', { stdio: 'ignore' })
-    return 'node-sass'
+    execSync('node-sass -v', { stdio: 'ignore' })
+    return cmd
   } catch (_) {
     //
   }
 
+  cmd = './node_modules/.bin/node-sass'
   try {
-    execSync('./node_modules/.bin/node-sass --version', { stdio: 'ignore' })
-    return './node_modules/.bin/node-sass'
+    execSync(`${cmd} -v`, { stdio: 'ignore' })
+    return cmd
   } catch (_) {
     //
   }

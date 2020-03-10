@@ -67,7 +67,7 @@ export const getPageFileAsync = async (option: PageFileOption) => {
 
   return retryPromise(() =>
     import(
-      /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
+      /* webpackInclude: /pages[\\/].*[\\/]index\.tsx?$/ */
       /* webpackChunkName: "page_[request]" */
       `~/pages/${filePath}`
     )
