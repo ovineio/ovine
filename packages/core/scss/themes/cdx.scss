@@ -2,7 +2,7 @@
 // 具体参照源码 https://github.com/baidu/amis/tree/master/scss/themes
 
 @import '../cdx_iconfont.css';
-@import '../functions';
+@import '../_lib/utils';
 
 $ns: 'cxd-';
 
@@ -489,12 +489,12 @@ $Card-actions-onHover-bg: white;
 $Card-actions-onHover-color: $primary;
 $Card-actions-onChecked-onHover-bg: $white;
 
-// 自定义内容
+// lib core redefined
 $Modal-title-lineHeight: 1;
 
-// site scss
+// site cdx theme scss
 @import './_cdx.scss';
 @import './themes/_cdx.scss';
 
-// amis base
-@import '../_base.scss';
+// amis lib scss
+@import '../_lib/base';

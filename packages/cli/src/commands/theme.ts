@@ -9,15 +9,14 @@ import { getModulePath } from '../utils'
 
 import chalk = require('chalk')
 
-export async function theme(siteDir: string): Promise<void> {
-  process.env.BABEL_ENV = 'production'
-  process.env.NODE_ENV = 'production'
-
-  // const { siteDir } = loadContext(siteDir)
-  // 'node-sass ./src/assets/styles/scss/themes -o ./src/assets/styles/themes --include-path node_modules/amis/scss/themes'
+type Options = {
+  verbose?: boolean
+}
+export async function theme(siteDir: string, options: Options = {}): Promise<void> {
+  const { verbose = false } = options
 
   const nodeScssCmd = getNodeScssCmd()
-  const scssCmdOpts = { async: true, silent: true }
+  const scssCmdOpts = { async: true, silent: !verbose }
   if (!nodeScssCmd) {
     console.log(
       chalk.yellowBright('You need install `node-sass` module as devDependencies or globally...')
@@ -53,7 +52,7 @@ export async function theme(siteDir: string): Promise<void> {
   const libCmd = `${nodeScssCmd} ${libScss} -o ${destStyles} ${importer} ${includePaths(
     !hasSiteScss ? [amisScss] : [amisScss, siteScss]
   )}`
-  // console.log('libCmd===>\n', libCmd)
+  // console.log('libCmd===>\n', libCmd, '\n')
   shell.exec(libCmd, scssCmdOpts, (_, __, stderr) => {
     if (stderr) {
       console.error(chalk.red(stderr))
@@ -68,7 +67,7 @@ export async function theme(siteDir: string): Promise<void> {
       amisScss,
       libScss,
     ])}`
-    // console.log('siteCmd===>\n', siteCmd)
+    // console.log('siteCmd===>\n', siteCmd, '\n')
     shell.exec(siteCmd, scssCmdOpts, (_, __, stderr) => {
       if (stderr) {
         console.error(chalk.red(stderr))

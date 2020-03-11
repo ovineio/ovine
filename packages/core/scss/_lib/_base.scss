@@ -1,7 +1,7 @@
 // https://github.com/baidu/amis/blob/master/scss/themes/cxd.scss
 
 @import '../variables';
-@import '../mixins';
+
 @import '../base/reset';
 @import '../base/normalize';
 @import '../base/typography';
@@ -86,3 +86,6 @@
 @import '../components/form/icon-picker';
 
 @import '../utilities';
+
+// core scss
+@import './_all.scss';

@@ -1,7 +1,7 @@
 // amis 官方主题: dark
 // 具体参照源码 https://github.com/baidu/amis/tree/master/scss/themes
 
-@import '../functions';
+@import '../_lib/utils';
 
 $ns: 'dark-';
 
@@ -154,12 +154,14 @@ pre {
   color: $text-color;
 }
 
-// 自定义内容
+// lib core redefined
 $Spinner-overlay-bg: rgba(25, 28, 35, 0.5);
 $Modal-title-lineHeight: 1;
 $text-color: #b4b6bd;
 
+// site dark theme scss
 @import './_dark.scss';
 @import './themes/_dark.scss';
 
-@import '../_base.scss';
+// amis lib scss
+@import '../_lib/_base';

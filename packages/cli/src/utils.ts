@@ -247,10 +247,19 @@ export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T
   return _.get(store, key, value)
 }
 
-export function getModulePath(siteDir: string, lib: string, required: boolean = false) {
+export function isCliDev() {
+  return __dirname.indexOf(libRootPath) > -1
+}
+
+export function getCliDevRootDir() {
   const rootPathIdx = __dirname.indexOf(libRootPath)
-  const isDev = rootPathIdx > -1
   const devRootDir = __dirname.substring(0, rootPathIdx) + libRootPath
+  return devRootDir
+}
+
+export function getModulePath(siteDir: string, lib: string, required: boolean = false) {
+  const isDev = isCliDev()
+  const devRootDir = getCliDevRootDir()
 
   const isLib = lib.indexOf('lib/') === 0
   const libPath = !isLib ? lib : lib.split('lib/')[1]

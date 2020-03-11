@@ -90,9 +90,10 @@ cli
 
 cli
   .command('scss [siteDir]')
+  .option('--verbose', 'Show all build log (default: false)')
   .description('Build scss to css files. Because amis lib use scss for styles.')
-  .action((siteDir = '.') => {
-    wrapCommand(theme)(path.resolve(siteDir))
+  .action((siteDir = '.', { verbose = false }) => {
+    wrapCommand(theme)(path.resolve(siteDir), { verbose })
   })
 
 cli.arguments('<command>').action((cmd) => {
