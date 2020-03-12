@@ -24,9 +24,7 @@
     "lodash": "^4.17.15"
   },
   "dependencies": {
-    "amis": "1.0.9"
-  },
-  "devDependencies": {
+    "amis": "1.0.9",
     "abortcontroller-polyfill": "^1.4.0",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",

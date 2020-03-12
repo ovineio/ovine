@@ -5,8 +5,8 @@
 import { Tab, Tabs } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/themes/export'
-import { useImmer } from '~/utils/hooks'
+import { withAppTheme } from '@/app/theme'
+import { useImmer } from '@/utils/hooks'
 
 import HeadItem from './head_item'
 import { PopupMsgMenu } from './styled'

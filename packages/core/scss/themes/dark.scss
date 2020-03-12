@@ -164,4 +164,5 @@ $text-color: #b4b6bd;
 @import './themes/_dark.scss';
 
 // amis lib scss
-@import '../_lib/_base';
+@import '../_lib/components';
+@import '../_lib/global';

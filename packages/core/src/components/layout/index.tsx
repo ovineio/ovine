@@ -1,6 +1,5 @@
 /**
  * App布局
- * TODO: 将 Layout, HeaderItem, Aside 定义为 amis 组件
  */
 
 import { Layout } from 'amis'
@@ -32,18 +31,20 @@ export default withAppTheme<Props>((props) => {
 
   const compProps = { ...state, setLayout: setState }
 
+  const theme = props.theme.name
+
   return (
     <StyledLayout>
       <Layout
         headerFixed
         contentClassName="app-layout-body"
-        theme={props.theme.name}
+        theme={theme}
         folded={asideFolded}
         offScreen={offScreen}
         header={<Header {...compProps} />}
         aside={<Aside {...compProps} />}
       >
-        <LayoutLoading />
+        <LayoutLoading theme={theme} />
         {props.children}
       </Layout>
     </StyledLayout>

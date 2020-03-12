@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { logoUrl } from '~/constants'
-import { withAppTheme } from '~/themes/export'
+import { withAppTheme } from '@/app/theme'
 
 import HeadItem from './head_item'
 import ItemMsg from './item_msg'
@@ -19,10 +18,13 @@ export default withAppTheme<LayoutCommProps>((props) => {
     })
   }
 
+  const logoUrl = ''
+  const title = ''
+
   return (
     <>
       <div className={`${theme.ns}Layout-brandBar`}>
-        <button className="pull-right visible-xs mobile-menu" onClick={toggleScreen}>
+        <button className="pull-right visible-xs mobile-menu" type="button" onClick={toggleScreen}>
           <i className="fa fa-bars" />
         </button>
         <Link
@@ -30,8 +32,8 @@ export default withAppTheme<LayoutCommProps>((props) => {
           to="/"
           title="Dashboard"
         >
-          <img className="inline brand-logo" src={logoUrl} />
-          <span className="hidden-folded m-l-sm inline">RT-ADMIN</span>
+          <img className="inline brand-logo" src={logoUrl} alt="logo" />
+          <span className="hidden-folded m-l-sm inline">{title}</span>
         </Link>
       </div>
       <div className={`${theme.ns}Layout-headerBar`}>

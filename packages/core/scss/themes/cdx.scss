@@ -497,4 +497,5 @@ $Modal-title-lineHeight: 1;
 @import './themes/_cdx.scss';
 
 // amis lib scss
-@import '../_lib/base';
+@import '../_lib/components';
+@import '../_lib/global';

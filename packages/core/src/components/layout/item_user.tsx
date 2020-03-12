@@ -4,8 +4,7 @@
 
 import React from 'react'
 
-import { userLogout } from '~/core/user/export'
-import { useImmer } from '~/utils/hooks'
+import { useImmer } from '@/utils/hooks'
 
 import { Amis } from '../amis/schema'
 
@@ -80,7 +79,7 @@ export default () => {
                 <i className="glyphicon glyphicon-user" />
                 <span>查看信息</span>
               </li>
-              <li onClick={userLogout}>
+              <li>
                 <i className="glyphicon glyphicon-log-out" />
                 <span>退出登录</span>
               </li>
@@ -91,6 +90,7 @@ export default () => {
         <img
           className="w-2x m-r-xs"
           src="https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg"
+          alt="avatar"
         />
         <span>梦醒十分2</span>
       </HeadItem>

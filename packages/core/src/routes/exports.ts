@@ -4,7 +4,6 @@
  */
 
 import { app } from '@/app'
-
 import { isSubStr, retryPromise } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
@@ -26,7 +25,7 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
   const filePath = getPageFilePath(option)
 
   try {
-    const pagePest = require(/* webpackInclude: /pages\/.*\/limit\.ts$/ */
+    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]limit\.ts$/ */
     /* webpackChunkName: "prest_[request]" */
     `~/pages/${filePath}/preset.ts`)
     return pagePest.default
@@ -42,7 +41,7 @@ export function getPageMockSource(option: PageFileOption): Req.MockSource | unde
   const filePath = getPageFilePath(option)
 
   try {
-    const pagePest = require(/* webpackInclude: /pages\/.*\/mock\.ts$/ */
+    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]mock\.ts$/ */
     /* webpackChunkName: "mock_[request]" */
     `~/pages/${filePath}/mock.ts`)
     return pagePest.default
@@ -58,7 +57,7 @@ export async function getThemeCssAsync(theme: string) {
   retryPromise(() =>
     import(
       /* webpackChunkName: "theme_[request]" */
-      `@generated/themes/${theme}.css`
+      `@generated/styles/themes/${theme}.css`
     )
   )
 }
@@ -69,7 +68,7 @@ export async function getPageFileAsync(option: PageFileOption) {
 
   return retryPromise(() =>
     import(
-      /* webpackInclude: /pages\/.*\/index\.tsx?$/ */
+      /* webpackInclude: /pages[\\/].*[\\/]index\.tsx?$/ */
       /* webpackChunkName: "page_[request]" */
       `~/pages/${filePath}`
     )

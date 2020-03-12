@@ -6,17 +6,16 @@ import { toast, Drawer } from 'amis'
 import map from 'lodash/map'
 import React from 'react'
 
-import { Amis } from '~/components/amis/schema'
-import LimitSetting from '~/components/limit_setting'
-import config from '~/config'
-import { userLogout } from '~/core/user/export'
-import { changeAppTheme } from '~/themes'
-import { withAppTheme } from '~/themes/export'
-import themes from '~/themes/variables'
-import { useImmer } from '~/utils/hooks'
+import { app } from '@/app'
+import { withAppTheme } from '@/app/theme'
 
-import HeadItem from '../head_item'
-import { LayoutCommProps } from '../types'
+import { Amis } from '@/components/amis/schema'
+import LimitSetting from '@/components/limit_setting'
+import { changeAppTheme } from '@/styled/theme'
+import { useImmer } from '@/utils/hooks'
+
+import HeadItem from './head_item'
+import { LayoutCommProps } from './types'
 
 type Props = LayoutCommProps
 
@@ -101,7 +100,7 @@ const SettingPanel = (option: SettingProps) => {
     localStorage.clear()
     sessionStorage.clear()
     toast.success('缓存已经被清理', '操作成功')
-    setTimeout(userLogout, 1000)
+    // setTimeout(userLogout, 1000)
   }
 
   const onChangeTheme = (choseTheme: string, prevTheme?: string) => {
@@ -115,7 +114,7 @@ const SettingPanel = (option: SettingProps) => {
   }
 
   let devItems: any[] = []
-  if (!config.isRelease) {
+  if (!app.env.isRelease) {
     devItems = [
       { type: 'divider' },
       {
@@ -165,7 +164,7 @@ const SettingPanel = (option: SettingProps) => {
             type: 'select',
             name: 'theme',
             label: '选择主题',
-            options: map(themes, ({ text }, key) => ({
+            options: map(app.theme.getAllThemes(), ({ text }, key) => ({
               label: text,
               value: key,
             })),

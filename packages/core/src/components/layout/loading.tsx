@@ -24,12 +24,12 @@ export const LayoutLazyFallback = () => {
   return null
 }
 
-export const LayoutLoading = () => {
+export const LayoutLoading = ({ theme }: any) => {
   const [loading, setLoading] = useState(false)
 
   useSubscriber(message.layoutSpinner, (toggle: boolean) => {
     setLoading(toggle)
   })
 
-  return <Spinner overlay show={loading} size="lg" key="pageLoading" />
+  return <Spinner overlay show={loading} theme={theme} size="lg" key="pageLoading" />
 }

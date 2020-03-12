@@ -3,7 +3,7 @@ import { createGlobalStyle, css, DefaultTheme } from 'styled-components'
 
 const getSiteGlobalStyle = (props: DefaultTheme) => {
   try {
-    const siteStyle = require('~/app/styles/styled/global.ts')
+    const siteStyle = require('~/styled/global.ts')
 
     return !isFunction(siteStyle) ? siteStyle : siteStyle(props)
   } catch (_) {

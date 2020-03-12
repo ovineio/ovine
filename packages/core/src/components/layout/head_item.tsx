@@ -5,7 +5,7 @@
 import { Button, TooltipWrapper } from 'amis'
 import React from 'react'
 
-import { withAppTheme } from '~/themes/export'
+import { withAppTheme } from '@/app/theme'
 
 type Props = {
   trigger?: 'click' | 'focus'
@@ -37,7 +37,7 @@ export default withAppTheme<Props>((props) => {
 
   // TODO: trigger === focus 时 有兼容问题
   const isClickOpen = trigger === 'click'
-  const withContent = !!trigger ? trigger : undefined
+  const withContent = trigger || undefined
 
   const toolTip = withContent && {
     render: () => triggerContent,
@@ -66,7 +66,7 @@ export default withAppTheme<Props>((props) => {
     >
       {(icon || faIcon) && (
         <i
-          className={icon ? icon : faIcon ? `fa fa-${faIcon} fa-fw` : ''}
+          className={icon || (faIcon ? `fa fa-${faIcon} fa-fw` : '')}
           // TODO: BUG 点击 item 的时候也会 重新显示提示
           data-tooltip={tip}
           data-position="bottom"

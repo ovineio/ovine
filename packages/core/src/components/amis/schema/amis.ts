@@ -5,7 +5,7 @@ import { DefaultTheme } from 'styled-components'
 
 import logger from '@/utils/logger'
 
-import { envFetcher, envResolver, normalizeLink } from './func'
+import { envFetcher, normalizeLink } from './func'
 import { RtSchema } from './types'
 
 const log = logger.getLogger('lib:components:amis:schema')
@@ -113,8 +113,8 @@ export default (option: Option) => {
   }
 
   return render(schema, props, {
-    rendererResolver: (...args) =>
-      envResolver({ path: args[0], schema: args[1], props: args[2], theme }),
+    // rendererResolver: (...args) =>
+    //   envResolver({ path: args[0], schema: args[1], props: args[2], theme }),
     ...env,
     ...amisOption,
     theme: theme.name,

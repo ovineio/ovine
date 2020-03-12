@@ -1,11 +1,16 @@
+import { RtSchema } from '@/components/amis/schema/types'
+
 import { AppRequest } from './request'
 import { AppTheme } from './theme'
 import { AppUser } from './user'
 
 type AppLayout = {
-  type?: string // 'asideMenu'
-  header?: any
-  footer?: any
+  type?: 'asideMenu' // 'asideMenu'
+  header?: Array<{
+    align: 'left' | 'right'
+    [key: string]: any
+  }>
+  footer?: RtSchema
 }
 
 type EnvLogger = {}

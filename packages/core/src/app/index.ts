@@ -74,7 +74,7 @@ function checkAppGetter(key: string) {
   }
 }
 
-// 自动引入 siteApp 文件夹代码，最多支持两级目录
+// 自动引入 site ‘/app’ 文件夹代码，最多支持两级目录
 function initSiteApp() {
   try {
     require('~\\/app\\/[a-z]*.[j|t]sx?$')

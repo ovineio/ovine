@@ -29,4 +29,5 @@ $Modal-title-lineHeight: 1;
 @import './themes/_default.scss';
 
 // amis lib scss
-@import '../_lib/_base';
+@import '../_lib/components';
+@import '../_lib/global';

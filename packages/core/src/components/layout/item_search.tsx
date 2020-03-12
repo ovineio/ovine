@@ -6,9 +6,9 @@ import { findTree } from 'amis/lib/utils/helper'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 
-import { getAsideMenus } from '~/routes/limit'
-import { useImmer } from '~/utils/hooks'
-import { cls } from '~/utils/tool'
+import { getAsideMenus } from '@/routes/limit'
+import { useImmer } from '@/utils/hooks'
+import { cls } from '@/utils/tool'
 
 import { Amis } from '../amis/schema'
 

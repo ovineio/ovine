@@ -30,7 +30,7 @@ export async function init(
   let name = siteName
 
   logBanner()
-  
+
   // Prompt if siteName is not passed from CLI.
   if (!name) {
     const { name: promptedName } = await inquirer.prompt({
@@ -117,7 +117,7 @@ export async function init(
     // project env  files
     copyDirSync(`${libDir}/env/${useLint ? 'constraint' : 'normal'}`, dest)
     // lib files
-    copyDirSync(`${libDir}/env/.${libName}`, `dest/.${libName}`)
+    copyDirSync(`${libDir}/env/.${libName}`, `${dest}/.${libName}`)
   } catch (err) {
     spinner.stop()
     console.log(`Copying admin template: ${chalk.cyan(template)} failed!`)
