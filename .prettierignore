@@ -3,5 +3,5 @@ __fixtures__
 dist
 node_modules
 
-/website/docs/build
 /backup
+/website/docs/build

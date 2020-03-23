@@ -5,6 +5,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { coreStatic } from '@/constants'
+
 export default () => {
   return (
     <NotFound>
@@ -23,7 +25,7 @@ const NotFound = styled.div`
       margin: 100px auto 20px;
       width: 120px;
       height: 120px;
-      background-image: url(${require('./404.png')});
+      background-image: url(${`${coreStatic}/404.png`});
       background-size: contain;
       background-repeat: no-repeat;
     }

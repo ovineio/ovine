@@ -1,3 +1,4 @@
+# common
 .DS_Store
 .idea
 .cache-loader
@@ -8,9 +9,10 @@ npm-debug.log
 yarn-error.log
 deploy.sh
 
-lib
+# lib
 dist
 node_modules
 
+# workspace
 /website/docs/build
-
+/packages/init/tmp/*

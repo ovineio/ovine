@@ -22,6 +22,8 @@ type Config = {
   defaultDebugOption: Required<Option>
 }
 
+export type LoggerConfig = Omit<Config, 'defaultDebugOption'>
+
 // 默认所有日志均显示
 let debugConfig: Config = {
   level: 'log',

@@ -3,15 +3,11 @@
  */
 
 import { mapTree } from 'amis/lib/utils/helper'
-import cloneDeep from 'lodash/cloneDeep'
-import last from 'lodash/last'
-
-import { app } from '@/app'
+import { cloneDeep, last } from 'lodash'
 
 import { RouteItem } from './types'
 
-const originConfig = app.routes
-
+let routesConfig: RouteItem[] = []
 // 解析配置的路由数据
 // 1. 根据 nodePath 生成默认 path 路径值
 const resolveRouteConfig = (nodes: RouteItem[]) => {
@@ -28,9 +24,15 @@ const resolveRouteConfig = (nodes: RouteItem[]) => {
   })
 }
 
-export const routesConfig = resolveRouteConfig(originConfig)
+export function setRoutesConfig(routes: RouteItem[]) {
+  routesConfig = resolveRouteConfig(routes)
+  return routesConfig
+}
 
 // 防止修改原始数据
-export const getRouteConfig = () => {
-  return cloneDeep(routesConfig)
+export function getRouteConfig(fresh?: boolean) {
+  if (fresh) {
+    return cloneDeep(routesConfig)
+  }
+  return routesConfig
 }

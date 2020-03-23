@@ -11,11 +11,7 @@ import shell from 'shelljs'
 const spinner = ora()
 const libName = 'rtadmin'
 
-export async function init(
-  rootDir: string,
-  siteName?: string,
-  reqTemplate?: string
-): Promise<void> {
+export async function init(rootDir: string, siteName?: string): Promise<void> {
   const useYarn = hasYarn()
   const libDir = path.resolve(__dirname, '..')
   const templatesDir = `${libDir}/templates`
@@ -51,7 +47,7 @@ export async function init(
     throw new Error(`Directory already exists at ${dest} !`)
   }
 
-  let template = reqTemplate
+  let template = ''
 
   // Prompt if template is not provided from CLI.
   if (!template) {
@@ -103,7 +99,7 @@ export async function init(
 
   const { useLint } = await inquirer.prompt({
     type: 'confirm',
-    name: 'useTs',
+    name: 'useLint',
     message: 'Do you need eslint?',
     default: true,
   })
@@ -111,16 +107,37 @@ export async function init(
   logStartCreate(true)
 
   try {
-    // fes.copy multi source dir to same dest dir with errors.
-    // basic files
-    copyDirSync(`${templatesDir}/${template}/${useTs ? 'ts' : 'es'}`, dest)
-    // project env  files
-    copyDirSync(`${libDir}/env/${useLint ? 'constraint' : 'normal'}`, dest)
-    // lib files
-    copyDirSync(`${libDir}/env/.${libName}`, `${dest}/.${libName}`)
+    // copy basic files
+    copyDirSync(`${templatesDir}/${template}`, dest, (currItem: string) => {
+      const reg = useTs ? /\.tsx?$/ : /\.jsx?$/
+      const isDir = currItem.indexOf('.') === -1
+      return isDir || reg.test(currItem)
+    })
+
+    // copy env files
+    copyDirSync(`${libDir}/env`, dest, (currItem: string, parentPath: string) => {
+      console.log('file==', currItem, parentPath)
+      if (
+        // ts not copy es_**/ files
+        (useTs && /^es_/.test(currItem)) ||
+        // es not copy ts_**/ files
+        (!useTs && /^ts_/.test(currItem)) ||
+        // without eslint not copy *_constraint/** files
+        (!useLint && /_constraint$/.test(currItem))
+      ) {
+        return false
+      }
+
+      // delete the es_*,ts_* dir name
+      if (/(_constraint|_normal)$/.test(currItem)) {
+        return ''
+      }
+
+      return true
+    })
   } catch (err) {
     spinner.stop()
-    console.log(`Copying admin template: ${chalk.cyan(template)} failed!`)
+    console.log('Copying template files failed!')
     throw err
   }
 
@@ -189,21 +206,34 @@ function isValidGitRepoUrl(gitRepoUrl: string): boolean {
   return ['https://', 'git@'].some((item) => gitRepoUrl.startsWith(item))
 }
 
-function copyDirSync(src: string, dest: string) {
+function copyDirSync(
+  src: string,
+  dest: string,
+  handle?: (currItem: string, parentPath: string) => string | boolean
+) {
   fse.ensureDirSync(dest)
   fs.readdirSync(src).forEach((item) => {
     const itemPath = `${src}/${item}`
     const stat = fs.statSync(itemPath)
+
+    const handleRes = handle ? handle(item, src) : item
+
+    if (handleRes === false) {
+      return
+    }
+
+    const destName = typeof handleRes === 'string' ? handleRes : item
+
     if (stat.isDirectory()) {
-      copyDirSync(itemPath, `${dest}/${item}`)
+      copyDirSync(itemPath, `${dest}/${destName}`, handle)
     } else if (stat.isFile()) {
-      fse.copyFileSync(itemPath, `${dest}/${item}`)
+      fse.copyFileSync(itemPath, `${dest}/${destName}`)
     }
   })
 }
 
 function logStartCreate(showSpinner: boolean) {
-  const startStr = 'Creating new admin system project...'
+  const startStr = 'Creating new project...'
   console.log()
   if (showSpinner) {
     spinner.start(chalk.cyan(startStr))

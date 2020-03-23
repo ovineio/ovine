@@ -8,20 +8,12 @@ import isObject from 'lodash/isObject'
 import map from 'lodash/map'
 import { DefaultTheme } from 'styled-components'
 
-import { app } from '@/app'
-import { amisResAdapter } from '@/components/amis/exports'
 import { checkLimitByKeys } from '@/routes/limit/exports'
 import logger from '@/utils/logger'
 
 import { RtSchema, SchemaPreset } from './types'
 
 const log = logger.getLogger('dev:amisSchema:utils')
-
-// 自定义 amis 请求
-export const envFetcher = (option: any) => {
-  // log.log('amis:fetcher', cloneDeep(option))
-  return app.request(option).then(amisResAdapter)
-}
 
 // schema 配置，必须 type, limits 同时存在才会校验权限
 const checkSchemaLimit = (schema: RtSchema, nodePath?: string) => {

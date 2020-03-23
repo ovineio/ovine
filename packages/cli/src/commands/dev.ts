@@ -82,17 +82,12 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
       rewrites: [{ from: /\/*/, to: publicPath }],
     },
     disableHostCheck: true,
-    // Disable overlay on browser since we use CRA's overlay error reporting.
     overlay: false,
     before: (app, server) => {
       app.use(publicPath, express.static(path.resolve(siteDir, staticDirName)))
 
-      // This lets us fetch source contents from webpack for the error overlay.
       app.use(evalSourceMapMiddleware(server))
-      // This lets us open files from the runtime error overlay.
       app.use(errorOverlayMiddleware())
-
-      // TODO: add plugins beforeDevServer and afterDevServer hook
     },
   }
 

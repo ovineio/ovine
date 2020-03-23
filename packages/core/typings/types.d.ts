@@ -13,4 +13,5 @@ declare namespace Types {
   type ValueCtrl<T = any> = (type: 'set' | 'get', value?: T) => T | undefined
   type DeepPartial<T> = { [K in keyof T]?: T[K] | DeepPartial<T[K]> }
   type ClassMethod<T, M extends keyof T> = T[M] extends (...args: any) => any ? T[M] : never
+  type AnyFunc = (...args: any[]) => any
 }

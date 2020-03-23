@@ -1,24 +1,21 @@
-import defaultsDeep from 'lodash/defaultsDeep'
-import get from 'lodash/get'
-import isFunction from 'lodash/isFunction'
-import set from 'lodash/set'
+/* eslint-disable max-classes-per-file */
+import './includes'
+
+import { defaultsDeep, get, isFunction, set } from 'lodash'
 
 import { AppInstance } from '@rtadmin/core/app/instance'
 
 import { defaultEnvMode } from '@/constants'
-
 import { isSubStr } from '@/utils/tool'
 
 import { AppRequest } from './request'
 import { AppTheme } from './theme'
 import { AppConfig, EnvConfig } from './types'
-import { AppUser } from './user'
 
 const source: any = {}
 
 const initConfig: AppConfig = {
   request: new AppRequest(),
-  user: new AppUser(),
   theme: new AppTheme(),
   env: {
     default: {
@@ -32,22 +29,21 @@ const initConfig: AppConfig = {
     baseUrl: isSubStr(process.env.PUBLIC_PATH || '', 'http', 0)
       ? '/'
       : process.env.PUBLIC_PATH || '/',
-    login: {
-      route: '/login',
-      pagePath: '/login',
-    },
     notFound: {
       route: '/404',
       pagePath: '/404',
     },
   },
-  routes: [],
-  layout: {},
+  entry: [
+    {
+      path: '/',
+    },
+  ],
   amis: {},
 }
 
-function checkAppGetter(key: string) {
-  const val = get(source, key)
+function checkAppGetter(key: string, value?: any) {
+  const val = value || get(source, key)
   switch (key) {
     case 'theme':
       if (!(val instanceof AppTheme)) {
@@ -56,55 +52,56 @@ function checkAppGetter(key: string) {
         )
       }
       break
-    case 'request':
+    case 'requestFunc':
       if (!(val instanceof AppRequest)) {
         throw new Error(
           'You should register request with AppRequest instance.\neg. app.register("request", new AppRequest())'
         )
       }
       break
-    case 'user':
-      if (!(val instanceof AppUser)) {
-        throw new Error(
-          'You should register user with AppUser instance.\neg. app.register("user", new AppUser())'
-        )
-      }
-      break
     default:
   }
 }
-
-// 自动引入 site ‘/app’ 文件夹代码，最多支持两级目录
-function initSiteApp() {
-  try {
-    require('~\\/app\\/[a-z]*.[j|t]sx?$')
-    require('~\\/app\\/[a-z]*\\/index.[j|t]sx?$')
-  } catch (_) {
-    //
+class AppProxy {
+  constructor() {
+    const that: any = this
+    const proxy = new Proxy<AppInstance>(that, {
+      get(_, key: string) {
+        checkAppGetter(key)
+        if (key in that) {
+          return that[key]
+        }
+        return get(source, key) || get(initConfig, key)
+      },
+    })
+    return proxy
   }
 }
-
-class App extends Proxy<AppInstance> {
+class App extends AppProxy {
   private isEnvSetUp = false
+
+  private isEntrySetUp = false
 
   private registers: any[] = []
 
-  create(config: Types.DeepPartial<AppConfig>) {
+  public create(config: Types.DeepPartial<AppConfig>) {
     Object.assign(source, defaultsDeep(config, initConfig))
     if (config.env) {
       this.setEnv(config.env)
     }
+    if (config.entry) {
+      this.setEntry(config.entry)
+    }
     if (config.request) {
       this.setRequest(config.request)
     }
-    initSiteApp()
   }
 
-  register<K extends keyof AppInstance, V extends AppInstance[K]>(
+  public register<K extends keyof AppInstance, V extends AppInstance[K]>(
     key: K,
     value: (() => V) | V
   ): void {
-    if (key.indexOf('.') > -1) {
+    if ((key as string).indexOf('.') > -1) {
       throw new Error(
         `Can not register nest key. You should register the key in this list:\n [${Object.keys(
           initConfig
@@ -113,7 +110,7 @@ class App extends Proxy<AppInstance> {
     }
 
     // 回调 取值，确保 app.env 已经被设置
-    const getValue = () => (isFunction(value) ? value() : value)
+    const getValue = () => (isFunction(value) ? (value as any)() : value)
 
     if (key === 'env') {
       this.setEnv(getValue())
@@ -124,6 +121,9 @@ class App extends Proxy<AppInstance> {
       switch (key) {
         case 'request':
           this.setRequest(getValue())
+          break
+        case 'entry':
+          this.setEntry(getValue())
           break
         default:
           set(source, key, getValue())
@@ -138,6 +138,17 @@ class App extends Proxy<AppInstance> {
     setValue()
   }
 
+  private setEntry(entry: any[]) {
+    if (this.isEntrySetUp) {
+      throw new Error('App "entry" already set up. Can not reset.')
+    }
+    set(source, 'entry', entry)
+    this.isEntrySetUp = true
+    import(/* webpackChunkName: "app_entry" */ './app').then(({ initApp }) => {
+      initApp()
+    })
+  }
+
   private dispatchRegisters() {
     this.registers.forEach((register) => register())
     this.registers = []
@@ -145,7 +156,7 @@ class App extends Proxy<AppInstance> {
 
   private setEnv(value: Types.DeepPartial<EnvConfig>) {
     if (this.isEnvSetUp) {
-      throw new Error('App env already set up. Can not reset.')
+      throw new Error('App "env" already set up. Can not reset.')
     }
     const mode = process.env.ENV || defaultEnvMode
     const isMock = process.env.MOCK
@@ -167,27 +178,20 @@ class App extends Proxy<AppInstance> {
     this.dispatchRegisters()
   }
 
-  private setRequest(request: AppRequest) {
+  private setRequest(requestIns: AppRequest) {
     const initEnv = initConfig.env.default
+    checkAppGetter('requestFunc', requestIns)
 
     // 设置request环境变量
-    request.setConfig({
-      isRelease: get(source, 'env.isRelease') || initEnv.domains.isRelease,
+    requestIns.setConfig({
+      isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
       domains: get(source, 'env.domains') || initEnv.domains,
     })
 
-    set(source, 'request', request.request.bind(request))
+    set(source, 'request', requestIns.request.bind(requestIns))
   }
 }
 
-const app = new App({} as any, {
-  get(_, key: string) {
-    checkAppGetter(key)
-    return get(source, key) || get(initConfig, key)
-  },
-  set() {
-    throw new Error('Can not change app instance, Use `app.register` to register app.')
-  },
-})
+const app: AppInstance & App = new App() as any
 
-export { app, AppRequest, AppTheme, AppUser }
+export { app, AppRequest, AppTheme }

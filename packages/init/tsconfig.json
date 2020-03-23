@@ -4,6 +4,8 @@
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
     "rootDir": "src",
     "outDir": "lib",
+    "typeRoots": ["@types"],
     "incremental": true
-  }
+  },
+  "include": ["src"]
 }

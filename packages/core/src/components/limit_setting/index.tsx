@@ -5,11 +5,11 @@
 import { Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import map from 'lodash/map'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 
-import { routeLimitKey } from '@/constants'
-import { limitMenusConfig } from '@/routes/limit'
-import { checkLimitByKeys, convertLimitStr } from '@/routes/limit/exports'
+import { routeLimitKey, storage } from '@/constants'
+import { getLimitMenusConfig } from '@/routes/limit'
+import { checkLimitByKeys, convertLimitStr, setAppLimits } from '@/routes/limit/exports'
 import { LimitMenuItem } from '@/routes/types'
 import { useImmer } from '@/utils/hooks'
 import { getStore, setStore } from '@/utils/store'
@@ -36,7 +36,8 @@ const LimitSetting = (props: any) => {
   const storeRef = useRef<Types.ObjectOf<string>>({})
 
   const { activeTab, visitedTabs, selectedVal, isUnfolded } = state
-  const { name: limitName, isTestLimit = false } = data
+  const { name: limitName, isDevLimit = false, limits = '' } = data
+  const menuConfig = useMemo(getLimitMenusConfig, [])
 
   useEffect(() => {
     initData()
@@ -44,9 +45,9 @@ const LimitSetting = (props: any) => {
 
   function initData() {
     setState((d) => {
-      const initialVal = getStore<string>('test_limit') || ''
+      const initialVal = isDevLimit ? getStore<string>(storage.dev.limit) || '' : limits
       // 初始化每个tab
-      limitMenusConfig.forEach((_, index) => {
+      menuConfig.forEach((_, index) => {
         storeRef.current[index] = initialVal
       })
       d.selectedVal = initialVal
@@ -61,7 +62,7 @@ const LimitSetting = (props: any) => {
   }
 
   const onTreeChange = (value: string) => {
-    const limitValue = resolveSelectVal(value)
+    const limitValue = resolveSelectVal(menuConfig, value)
 
     storeRef.current[activeTab] = limitValue
     setState((d) => {
@@ -80,10 +81,14 @@ const LimitSetting = (props: any) => {
   }
 
   const onSave = () => {
-    const authApi = getAllAuthApiStr(selectedVal)
-    const authLimit = getAllAuthLimitStr(visitedTabs, storeRef.current)
-    setStore('test_limit', authLimit)
-    setStore('test_apis', authApi)
+    const authApi = getAllAuthApiStr(menuConfig, selectedVal)
+    const authLimit = getAllAuthLimitStr(menuConfig, visitedTabs, storeRef.current)
+    if (isDevLimit) {
+      setStore(storage.dev.limit, authLimit)
+      setStore(storage.dev.api, authApi)
+      setAppLimits(authLimit)
+      window.location.reload()
+    }
   }
 
   const renderButtons = () => {
@@ -117,7 +122,7 @@ const LimitSetting = (props: any) => {
           icon: 'fa fa-check text-success',
           tooltipPlacement: 'top',
           actionType: 'cancel',
-          confirmText: isTestLimit
+          confirmText: isDevLimit
             ? '权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。'
             : `您正在修改的权限是【${limitName}】，提交后将不可重置，是否确认提交？`,
           onAction: onSave,
@@ -137,7 +142,7 @@ const LimitSetting = (props: any) => {
     <StyledLimit>
       <div className="action-btns">{renderButtons()}</div>
       <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
-        {resolveLimitMenus({ limitValue: selectedVal, isUnfolded }).map(
+        {resolveLimitMenus(menuConfig, { limitValue: selectedVal, isUnfolded }).map(
           (item: any, index: number) => {
             if (!item.children) {
               return null
@@ -165,10 +170,10 @@ const LimitSetting = (props: any) => {
 }
 
 // 处理 权限设置的值
-function resolveSelectVal(limitValue: string) {
+function resolveSelectVal(menusConfig: any[], limitValue: string) {
   const limits = convertLimitStr(limitValue)
 
-  eachTree<LimitMenuItem>(limitMenusConfig, (item) => {
+  eachTree<LimitMenuItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return
@@ -192,11 +197,14 @@ type LimitItem = LimitMenuItem & {
 }
 
 // 处理 权限配置表
-function resolveLimitMenus(option: { limitValue: string; isUnfolded?: boolean }) {
+function resolveLimitMenus(
+  menusConfig: any[],
+  option: { limitValue: string; isUnfolded?: boolean }
+) {
   const { limitValue, isUnfolded = true } = option
   const limits = convertLimitStr(limitValue)
 
-  return mapTree<LimitItem>(limitMenusConfig, (item) => {
+  return mapTree<LimitItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
 
     item.unfolded = isUnfolded
@@ -213,7 +221,11 @@ function resolveLimitMenus(option: { limitValue: string; isUnfolded?: boolean })
 }
 
 // 获取所有被允许的权限
-function getAllAuthLimitStr(visitedTabs: number[], store: Types.ObjectOf<string>): string {
+function getAllAuthLimitStr(
+  menusConfig: any[],
+  visitedTabs: number[],
+  store: Types.ObjectOf<string>
+): string {
   const limitValue: string[] = []
 
   map(store, (value, storeTab) => {
@@ -222,7 +234,7 @@ function getAllAuthLimitStr(visitedTabs: number[], store: Types.ObjectOf<string>
       limitValue.push(value)
       return
     }
-    eachTree(limitMenusConfig[index]?.children || [], (item) => {
+    eachTree(menusConfig[index]?.children || [], (item) => {
       const limits = convertLimitStr(value)
       if (limits[item.nodePath]) {
         limitValue.push(item.nodePath)
@@ -234,11 +246,11 @@ function getAllAuthLimitStr(visitedTabs: number[], store: Types.ObjectOf<string>
 }
 
 // 获取所有 被允许的 api
-function getAllAuthApiStr(limitValue: string) {
+function getAllAuthApiStr(menusConfig: any[], limitValue: string) {
   const limits = convertLimitStr(limitValue)
   const authApis: any = {}
 
-  eachTree<LimitMenuItem>(limitMenusConfig, (item) => {
+  eachTree<LimitMenuItem>(menusConfig, (item) => {
     const { nodePath, apis } = item
 
     if (!apis) {

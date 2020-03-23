@@ -1,17 +1,19 @@
 import { AlertComponent, ToastComponent } from 'amis'
 import get from 'lodash/get'
 import React, { createContext, useContext, useEffect } from 'react'
-import { BrowserRouter, Switch } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { app } from '@/app'
-import Layout from '@/components/layout'
+
+import { Amis } from '@/components/amis/schema'
+import AsideLayout from '@/components/aside_layout'
 import { message } from '@/constants'
-import { getRoutePath } from '@/routes/exports'
-import { AppMenuRoutes, PrestRoute, PrivateRoute } from '@/routes/route'
+import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
+import { json2reactFactory } from '@/utils/tool'
 
 type State = {
   theme: string
@@ -28,6 +30,14 @@ const initState = {
 type AppContext = Omit<State, 'theme'>
 
 const AppContext = createContext<AppContext>(initState)
+
+const j2r = json2reactFactory({
+  route: Route,
+  'private-route': PrivateRoute,
+  'preset-route': PrestRoute,
+  'aside-layout': AsideLayout,
+  'amis-render': Amis,
+})
 
 export const useAppContext = () => useContext(AppContext)
 
@@ -69,14 +79,7 @@ export const App = () => {
       <AppContext.Provider value={state}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />
-          <Switch>
-            <PrestRoute pathToComponent path={getRoutePath(app.constants.login.route)} />
-            <PrivateRoute path="/">
-              <Layout>
-                <AppMenuRoutes />
-              </Layout>
-            </PrivateRoute>
-          </Switch>
+          <Switch>{app.entry.map(j2r)}</Switch>
         </ThemeProvider>
       </AppContext.Provider>
     </BrowserRouter>

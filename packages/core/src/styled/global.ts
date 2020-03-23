@@ -3,8 +3,7 @@ import { createGlobalStyle, css, DefaultTheme } from 'styled-components'
 
 const getSiteGlobalStyle = (props: DefaultTheme) => {
   try {
-    const siteStyle = require('~/styled/global.ts')
-
+    const siteStyle = require('~/styled/global')
     return !isFunction(siteStyle) ? siteStyle : siteStyle(props)
   } catch (_) {
     //
@@ -32,6 +31,26 @@ const GlobalStyle = createGlobalStyle`
   
   .app-tool-tip {
     max-width: unset !important;
+  }
+
+  .glyphicon {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &-th:before {
+      content: "\f009";
+    }
+    &-sort:before {
+      content: "\f0ec";
+      transform: rotate(90deg);
+    }
+    &-remove:before {
+      content: "\f00d";
+    }
   }
 
   /** lib 主题相关的全局样式 */

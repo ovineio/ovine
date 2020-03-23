@@ -1,0 +1,1 @@
+{"version":3,"file":"base.d.ts","sourceRoot":"","sources":["../../src/webpack/base.ts"],"names":[],"mappings":"AASA,OAAO,EAAE,aAAa,EAAwD,MAAM,SAAS,CAAA;AAI7F,OAAO,EAAE,eAAe,EAAE,aAAa,EAAE,KAAK,EAAE,MAAM,UAAU,CAAA;AAqBhE,aAAK,iBAAiB,GAAG,KAAK,GAAG,OAAO,CAAC,aAAa,CAAC,GAAG,OAAO,CAAC,eAAe,CAAC,CAAA;AAClF,wBAAgB,gBAAgB,CAAC,OAAO,EAAE,iBAAiB,GAAG,aAAa,CAmO1E"}

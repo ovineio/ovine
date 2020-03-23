@@ -5,7 +5,7 @@ const cli = require('commander')
 const path = require('path')
 const semver = require('semver')
 
-const { build, theme, dev, dll } = require('../lib')
+const { build, scss, dev, dll } = require('../lib')
 const { defaultPort } = require('../lib/constants')
 
 const requiredVersion = require('../package.json').engines.node
@@ -34,10 +34,10 @@ cli.version(require('../package.json').version).usage('<command> [options]')
 cli
   .command('dev [siteDir]')
   .description('Start development server')
-  .option('-p, --port <port>', 'use specified port (default: 7050)')
-  .option('--host <host>', 'use specified host (default: localhost)')
-  .option('--env <env>', 'app environment (default: localhost)')
-  .option('--mock <mock>', 'use mock environment (default: true)')
+  .option('-p, --port <port>', 'Use specified port (default: 7050)')
+  .option('--host <host>', 'Use specified host (default: localhost)')
+  .option('--env <env>', 'Set app environment mode (default: localhost)')
+  .option('--mock', 'Use mock environment (default: true)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .action((siteDir = '.', options) => {
     const {
@@ -60,8 +60,8 @@ cli
 cli
   .command('build [siteDir]')
   .description('Build project for deploy')
-  .option('--env <env>', 'app environment (default: production)')
-  .option('--mock <mock>', 'use mock environment (default: false)')
+  .option('--env <env>', 'Set app environment mode (default: production)')
+  .option('--mock', 'Use mock environment (default: false)')
   .option(
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default: false)'
@@ -90,10 +90,11 @@ cli
 
 cli
   .command('scss [siteDir]')
+  .option('-w, --watch', 'Watch folder realtime compile (default: false)')
   .option('--verbose', 'Show all build log (default: false)')
   .description('Build scss to css files. Because amis lib use scss for styles.')
-  .action((siteDir = '.', { verbose = false }) => {
-    wrapCommand(theme)(path.resolve(siteDir), { verbose })
+  .action((siteDir = '.', { verbose = false, watch = false }) => {
+    wrapCommand(scss)(path.resolve(siteDir), { verbose, watch })
   })
 
 cli.arguments('<command>').action((cmd) => {

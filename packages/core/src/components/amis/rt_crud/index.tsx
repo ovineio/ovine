@@ -3,7 +3,7 @@
  */
 
 import { Renderer } from 'amis'
-import get from 'lodash/get'
+import { get } from 'lodash'
 import { css, DefaultTheme } from 'styled-components'
 
 import { breakpoints } from '@/constants'

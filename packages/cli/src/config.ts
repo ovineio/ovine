@@ -10,9 +10,9 @@ import path from 'path'
 import { outDirName, configFileName, generatedDirName, srcDirName } from './constants'
 import { LoadContext, SiteConfig } from './types'
 
-const requiredFields = ['publicPath', 'favicon', 'title', 'env']
+const requiredFields = ['publicPath', 'favicon', 'title']
 
-const optionalFields = ['template', 'staticFileExt', 'devServerProxy']
+const optionalFields = ['envModes', 'template', 'staticFileExt', 'devServerProxy']
 
 const defaultConfig = {
   template: {},

@@ -5,10 +5,10 @@ import React, { useMemo } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
-import config from '~/config'
+import { app } from '@/app'
 
 import renderAmis from './amis'
-import Code from './code'
+import Code, { containerSelector } from './code'
 import { resolveRtSchema, wrapCss } from './func'
 import { RtSchema } from './types'
 
@@ -26,7 +26,8 @@ export const Amis = withRouter((props: Props) => {
   const { schema, props: amisProps, option = {}, history } = props
 
   const { preset, type } = schema
-  const showCode = !config.isRelease && (type === 'page' || type === 'rt-crud')
+  const showCode =
+    !app.env.isRelease && (type === 'page' || type === 'rt-crud') && $(containerSelector).length
 
   const envSchema: RtSchema = useMemo(() => {
     const origin = !showCode ? schema : cloneDeep(schema)

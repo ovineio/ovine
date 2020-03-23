@@ -10,6 +10,7 @@ module.exports = {
     commonjs: true,
     jest: true,
     node: true,
+    jquery: true,
   },
   settings: {},
   parser: '@typescript-eslint/parser',

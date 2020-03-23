@@ -1,7 +1,5 @@
-import isArray from 'lodash/isArray'
-import isObject from 'lodash/isObject'
-import map from 'lodash/map'
-import random from 'lodash/random'
+import { isArray, isObject, map, random, isFunction } from 'lodash'
+import { createElement } from 'react'
 
 /**
  * 模版替换字符串 {}
@@ -201,4 +199,36 @@ export function timeout(ms: number) {
       resolve()
     }, ms)
   })
+}
+
+// json渲染React组件
+export function json2reactFactory(
+  mapper: Types.ObjectOf<any> | ((type: string, props?: any) => any)
+) {
+  return function j2r(
+    schema: string | number | { type: string; children?: any; [prop: string]: any }
+  ) {
+    if (schema === null) {
+      return null
+    }
+
+    if (typeof schema === 'string' || typeof schema === 'number') {
+      return schema
+    }
+
+    const { type: schemaType, children, ...props } = schema
+
+    const hasSchemaType = schemaType && typeof schemaType === 'string' && schemaType.trim() !== ''
+
+    if (!hasSchemaType) {
+      throw new Error('schema.type must be a non-empty string')
+    }
+
+    const componentChildren: any[] = children && [].concat(children).map(j2r.bind(null))
+    const componentType = isFunction(mapper) ? mapper(schemaType, props) : mapper[schemaType]
+
+    const createArgs: any = [componentType || schemaType, props].concat(componentChildren)
+
+    return createElement.apply(createElement, createArgs)
+  }
 }

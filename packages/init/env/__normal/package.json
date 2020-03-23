@@ -1,0 +1,36 @@
+{
+  "name": "template",
+  "version": "0.0.0",
+  "description": "your awesome project.",
+  "private": true,
+  "scripts": {
+    "dev": "rt-cli dev",
+    "build": "rt-cli build",
+    "scss": "rt-cli scss",
+    "dll": "rt-cli dll",
+    "help": "rt-cli -h"
+  },
+  "dependencies": {
+    "@rtadmin/core": "/Users/careytoboo/zone/github/rt-admin/packages/core",
+    "@rtadmin/cli": "/Users/careytoboo/zone/github/rt-admin/packages/cli",
+    "immer": "^5.3.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0",
+    "lodash": "^4.17.15"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

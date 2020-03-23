@@ -2,10 +2,9 @@ import { theme as setAmisTheme } from 'amis'
 
 import { app } from '@/app'
 import { themeNamePrefix, storage, message } from '@/constants'
-import { getThemeCssAsync } from '@/routes/exports'
+import { getThemeCss } from '@/routes/exports'
 import { publish } from '@/utils/message'
 import { setStore } from '@/utils/store'
-import { changeDomCls } from '@/utils/tool'
 
 const loadingCls = 'theme-is-loading' // 异步加载CSS，会导致页面抖动
 
@@ -23,22 +22,21 @@ export const changeAppTheme = (theme: string) => {
     bodyCls += ` ${loadingCls}`
   }
 
-  changeDomCls(document.body, 'add', bodyCls)
-  getThemeCssAsync(theme).then(() => {
-    publish(message.appTheme, theme)
-    setStore(storage.appTheme, theme)
-    if (loading) {
-      loadedCss[theme] = true
-      setTimeout(() => {
-        changeDomCls(document.body, 'remove', loadingCls)
-        pace.stop()
-      }, 1000)
-    }
-  })
+  $('body').addClass(bodyCls)
+  getThemeCss(theme)
+  publish(message.appTheme, theme)
+  setStore(storage.appTheme, theme)
+  if (loading) {
+    loadedCss[theme] = true
+    setTimeout(() => {
+      $('body').removeClass(bodyCls)
+      pace.stop()
+    }, 1000)
+  }
 }
 
 export const initAppTheme = () => {
-  changeDomCls(document.body, 'add', `${themeNamePrefix}${storedTheme}`)
+  $('body').addClass(`${themeNamePrefix}${storedTheme}`)
 
   // 非amis主题 都需要注册
   Object.values(app.theme.getAllThemes())
@@ -48,5 +46,5 @@ export const initAppTheme = () => {
         classPrefix: item.ns,
       })
     })
-  getThemeCssAsync(storedTheme)
+  getThemeCss(storedTheme)
 }

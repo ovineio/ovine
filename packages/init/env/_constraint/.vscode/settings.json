@@ -1,0 +1,10 @@
+{
+  "editor.tabSize": 2,
+  "eslint.alwaysShowStatus": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.fixAll": true
+  },
+  "editor.formatOnSave": true,
+  "cSpell.ignoreWords": ["rtadmin", "immer", "tsbuildinfo"]
+}

@@ -21,6 +21,7 @@ const {
   dllManifestFile,
   dllAssetsFile,
   libName,
+  staticLibDirPath,
 } = constants
 
 const dllName = '[name]_[hash:6]'
@@ -32,8 +33,9 @@ const dllModules = [
   'immer',
   'styled-components',
   'whatwg-fetch',
-  // amis 更新频率较高（大概半个月左右），因此需要如果更新版本时要考虑升级对项目影响
+  'qs',
   'amis',
+  'bootstrap/dist/js/bootstrap.bundle.js',
   'bootstrap/dist/css/bootstrap.css',
   'animate.css/animate.css',
   'highlight.js/styles/shades-of-purple.css',
@@ -73,7 +75,6 @@ function setDllVendorModules(config) {
       console.error(
         chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
       )
-      
     }
   }
 }
@@ -82,18 +83,32 @@ type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
   const { publicPath, siteDir, bundleAnalyzer } = options
 
+  const babelLoader = {
+    loader: 'babel-loader',
+    options: getDllBabelConfig(siteDir),
+  }
+
   const dllConfig = {
     mode: 'production',
     module: {
       rules: [
         {
-          test: /\.js|jsx$/,
+          test: /amis\/lib\/components\/Editor.js$/,
           use: [
+            babelLoader,
             {
-              loader: 'babel-loader',
-              options: getDllBabelConfig(siteDir),
+              loader: 'string-replace-loader', // transform amis editor files
+              options: {
+                search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
+                flags: 'm',
+                replace: `function filterUrl(url) {return ${`${publicPath}${staticLibDirPath}`} + url.substring(1);`,
+              },
             },
           ],
+        },
+        {
+          test: /\.js|jsx$/,
+          use: [babelLoader],
         },
         {
           test: /\.css$/,

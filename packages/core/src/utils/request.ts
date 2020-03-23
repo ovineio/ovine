@@ -246,11 +246,10 @@ export class Request<T = {}, K = {}> {
 
   // eslint-disable-next-line
   public async request(this: any, option: any): Promise<any> {
-    const { data: params, url, api } = option
+    const { data: params, url = '', api } = option
     let parsedOption = option
 
     parsedOption.api = api || url
-
     if (!option.api) {
       log.error('request option.api 不存在', option)
       return

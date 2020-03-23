@@ -8,8 +8,6 @@ import { RendererProps } from 'amis/lib/factory'
 import React, { useEffect } from 'react'
 import styled, { css, DefaultTheme, FlattenSimpleInterpolation } from 'styled-components'
 
-import { changeDomCls } from '@/utils/tool'
-
 type CssType = (theme: DefaultTheme) => FlattenSimpleInterpolation
 
 export type RtCssProps = RendererProps & {
@@ -25,13 +23,12 @@ const RtCss = (props: RtCssProps) => {
     if (!htmlClassName) {
       return
     }
-    const $html = document.getElementsByTagName('html')[0]
 
-    changeDomCls($html, 'add', htmlClassName)
+    $('html').addClass(htmlClassName)
 
     // eslint-disable-next-line
     return () => {
-      changeDomCls($html, 'remove', htmlClassName)
+      $('html').removeClass(htmlClassName)
     }
   }, [])
 

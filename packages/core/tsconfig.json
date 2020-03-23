@@ -2,18 +2,30 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./lib/.tsbuildinfo",
-    "target": "es5",
-    "module": "esnext",
+    "target": "es6",
+    "module": "ESNext",
     "lib": ["es6", "dom"],
+    "skipLibCheck": true,
     "incremental": true,
+    "allowJs": true,
     "jsx": "react",
     "rootDir": "src",
     "outDir": "lib",
-    "baseUrl": "./src/",
+    "baseUrl": "./src",
     "noImplicitReturns": false,
-    "typeRoots": ["typings"],
+    "typeRoots": ["./typings"],
     "paths": {
       "@/*": ["./*"]
-    }
-  }
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
+  },
+  "include": ["src", "typings"]
 }

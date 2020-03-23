@@ -25,9 +25,9 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
   const filePath = getPageFilePath(option)
 
   try {
-    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]limit\.ts$/ */
+    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]preset\.[t|j]s$/ */
     /* webpackChunkName: "prest_[request]" */
-    `~/pages/${filePath}/preset.ts`)
+    `~/pages/${filePath}/preset`)
     return pagePest.default
   } catch (e) {
     //
@@ -41,9 +41,9 @@ export function getPageMockSource(option: PageFileOption): Req.MockSource | unde
   const filePath = getPageFilePath(option)
 
   try {
-    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]mock\.ts$/ */
+    const pagePest = require(/* webpackInclude: /pages[\\/].*[\\/]mock\.[t|j]s$/ */
     /* webpackChunkName: "mock_[request]" */
-    `~/pages/${filePath}/mock.ts`)
+    `~/pages/${filePath}/mock`)
     return pagePest.default
   } catch (e) {
     //
@@ -53,13 +53,9 @@ export function getPageMockSource(option: PageFileOption): Req.MockSource | unde
 }
 
 // 异步获取主题 css 文件
-export async function getThemeCssAsync(theme: string) {
-  retryPromise(() =>
-    import(
-      /* webpackChunkName: "theme_[request]" */
-      `@generated/styles/themes/${theme}.css`
-    )
-  )
+export async function getThemeCss(theme: string) {
+  require(/* webpackChunkName: "theme_[request]" */
+  `@generated/styles/themes/${theme}.css`)
 }
 
 // 异步获取页面文件
@@ -68,7 +64,7 @@ export async function getPageFileAsync(option: PageFileOption) {
 
   return retryPromise(() =>
     import(
-      /* webpackInclude: /pages[\\/].*[\\/]index\.tsx?$/ */
+      /* webpackInclude: /pages[\\/].*[\\/]index\.[t|j]sx?$/ */
       /* webpackChunkName: "page_[request]" */
       `~/pages/${filePath}`
     )

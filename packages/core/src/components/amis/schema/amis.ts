@@ -1,11 +1,14 @@
 import { confirm, render, toast } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
+import cloneDeep from 'lodash/cloneDeep'
 import { DefaultTheme } from 'styled-components'
 
+import { app } from '@/app'
 import logger from '@/utils/logger'
 
-import { envFetcher, normalizeLink } from './func'
+import { amisResAdapter } from '../exports'
+import { normalizeLink } from './func'
 import { RtSchema } from './types'
 
 const log = logger.getLogger('lib:components:amis:schema')
@@ -30,7 +33,10 @@ export default (option: Option) => {
     // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     richTextToken: false,
     // 请求模块
-    fetcher: envFetcher,
+    fetcher: (reqOpts: any) => {
+      console.log('~~~==', cloneDeep(reqOpts))
+      return app.request(reqOpts).then(amisResAdapter)
+    },
     // 是否取消 ajax请求
     isCancel: (value: any) => {
       log.log('isCancel', value)

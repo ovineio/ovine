@@ -1,0 +1,3 @@
+- You might have more than one copy of React in the same app
+  - describe: https://github.com/facebook/react/issues/13991#issuecomment-435135293
+  - fixed: https://github.com/facebook/react/issues/13991#issuecomment-449597362

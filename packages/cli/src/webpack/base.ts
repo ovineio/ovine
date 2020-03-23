@@ -7,12 +7,12 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
-import { Configuration, DllReferencePlugin, EnvironmentPlugin } from 'webpack'
+import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } from 'webpack'
 
 import { loadContext } from '../config'
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
-import { mergeWebpackConfig, globalStore } from '../utils'
+import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
 
 import { getBabelConfig } from './babel'
 import LogPlugin from './plugins/log_plugin'
@@ -76,16 +76,16 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       futureEmitAssets: true,
       pathinfo: false,
       path: outDir,
-      filename: isProd ? '[name].[contenthash:6].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:6].js' : '[name].js',
+      filename: isProd ? '[name]_[contenthash:6].js' : '[name].js',
+      chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].js' : 'chunks/[name].js',
     },
     // Don't throw warning when asset created is over 250kb
     performance: {
-      maxEntrypointSize: 600 * 1000,
-      maxAssetSize: 300 * 1000,
+      maxEntrypointSize: 400 * 1000,
+      maxAssetSize: 400 * 1000,
       assetFilter: (filePath) => {
         // Filter genDir or theme files
-        const isLibFiles = filePath.indexOf(generatedDirName) > -1
+        const isLibFiles = /static\/rtadmin/.test(filePath)
         const isThemeStyles = /themes\/.*\.css/.test(filePath)
         return !isLibFiles && !isThemeStyles
       },
@@ -185,7 +185,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           test: new RegExp(
             `\\.${`png,jpg,gif,ttf,woff,woff2,eot,svg${
               !siteConfig.staticFileExt ? '' : `,${siteConfig.staticFileExt}`
-            }`.replace(',', '|')}$`
+            }`.replace(/,/gi, '|')}$`
           ),
           use: [
             {
@@ -217,6 +217,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         MOCK: mock,
         ENV: env,
       }),
+      new ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+      }),
       useTs &&
         new TsCheckerPlugin({
           tsconfig: `${siteDir}/${tsConfFileName}`,
@@ -234,8 +238,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         manifest: `${siteDir}/${dllManifestFile}`,
       } as any),
       new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash:6].css' : '[name].css',
-        chunkFilename: isProd ? '[name].[contenthash:6].css' : '[name].css',
+        filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
+        chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].css' : 'chunks/[name].css',
         // remove css order warnings if css imports are not sorted alphabetically
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
@@ -261,10 +265,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 function excludeJS(modulePath: string) {
   // Don't transpile node_modules except any @rtadmin npm package
   const isNodeModules = /node_modules/.test(modulePath)
-  const notLibModules = /(@rtadmin)((?!node_modules).)*\.[j|t]sx?$/.test(modulePath)
-  const isLibModules = isNodeModules && !notLibModules
+  const isLibModules = /node_modules\/@rtadmin\/.*\.[j|t]sx?$/.test(modulePath)
 
-  return isLibModules
+  return isLibModules ? false : isNodeModules
 }
 
 function getDllDistFile(siteDir: string, type: string) {
@@ -272,7 +275,7 @@ function getDllDistFile(siteDir: string, type: string) {
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
   const assetJson = require(`${siteDir}/${dllAssetsFile}`)
 
-  return `${dllBasePath}/${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+  return `${dllBasePath}${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
 }
 
 function getCopyPlugin(siteDir: string) {
@@ -282,19 +285,6 @@ function getCopyPlugin(siteDir: string) {
   const siteStaticDir = `${siteDir}/${staticDirName}`
   const outStaticDir = `${outDir}/${staticDirName}`
   const outLibDir = `${outDir}/${staticLibDirPath}`
-
-  const amisPkg = 'node_modules/amis/sdk/pkg'
-  const amisPkgPaths = [
-    `${siteDir}/${amisPkg}`,
-    path.resolve(siteDir, `../../${amisPkg}`),
-  ].filter((pkgPath) => fs.pathExistsSync(pkgPath))
-
-  const libCoreStatic = 'node_modules/@rtadmin/core/static'
-  const libCorePaths = [
-    `${siteDir}/${libCoreStatic}`,
-    path.resolve(siteDir, '../rt_core/static'),
-    path.resolve(siteDir, `../../${libCoreStatic}`),
-  ].filter((corePath) => fs.pathExistsSync(corePath))
 
   const copyFiles: any = [
     {
@@ -310,17 +300,19 @@ function getCopyPlugin(siteDir: string) {
     })
   }
 
-  if (amisPkgPaths.length) {
+  const amisPkg = getModulePath(siteDir, 'amis/sdk/pkg')
+  if (amisPkg) {
     copyFiles.unshift({
-      from: amisPkgPaths[0],
+      from: amisPkg,
       to: `${outLibDir}/pkg/[name].[ext]`,
       toType: 'template',
     })
   }
 
-  if (libCorePaths.length) {
+  const coreStatic = getModulePath(siteDir, 'lib/core/static')
+  if (coreStatic) {
     copyFiles.unshift({
-      from: libCorePaths[0],
+      from: coreStatic,
       to: `${outLibDir}/core`,
     })
   }

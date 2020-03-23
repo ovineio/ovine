@@ -7,8 +7,10 @@ type CssProps = DefaultTheme & {
 }
 
 export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
+  height: 100%;
+  padding: 15px 0 0;
   .rt-crud {
-    margin: 15px;
+    margin: 0 15px 15px;
     padding: 15px;
     background-color: ${colors.layoutHeaderBg};
   }
@@ -44,7 +46,7 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
-      height: calc(100% - 30px);
+      height: calc(100% - 15px);
       & > .${ns}Form {
         flex: 0 0 auto;
         margin-bottom: 10px;
@@ -55,14 +57,19 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
         flex-direction: column;
         flex-wrap: nowrap;
         margin-bottom: 0;
-        .${ns}Table-headToolbar {
-          flex: 0 0 auto;
-        }
-        .${ns}Table-footToolbar {
-          flex: 0 0 auto;
-        }
-        .${ns}Table-contentWrap {
-          flex: 1 0 auto;
+        .${ns}Table {
+          &-content {
+            height: 100%;
+          }
+          &-headToolbar {
+            flex: 0 0 auto;
+          }
+          &-footToolbar {
+            flex: 0 0 auto;
+          }
+          &-contentWrap {
+            flex: 1 0 auto;
+          }
         }
       }
     }

@@ -52,6 +52,7 @@ export function getBabelConfig(siteDir: string) {
     ...extendsConfig(siteDir),
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
+      'babel-plugin-macros',
       ['babel-plugin-styled-components', styledConfig],
       '@babel/plugin-syntax-dynamic-import',
       importPlugin('lodash'),

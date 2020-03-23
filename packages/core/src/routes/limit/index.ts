@@ -8,7 +8,7 @@ import map from 'lodash/map'
 import { routeLimitKey } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
 
-import { getRouteConfig, routesConfig } from '../config'
+import { getRouteConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'
 
 import { checkLimitByNodePath, getAppLimits } from './exports'
@@ -42,56 +42,57 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
 }
 
 // 权限配置表
-export const limitMenusConfig = mapTree<LimitMenuItem>(routesConfig, (item) => {
-  const newItem = { ...item }
-  const { nodePath } = newItem
+export const getLimitMenusConfig = () =>
+  mapTree(getRouteConfig() as LimitMenuItem[], (item) => {
+    const newItem = { ...item }
+    const { nodePath } = newItem
 
-  const preset = getPagePreset(item)
+    const preset = getPagePreset(item)
 
-  const { limits, apis } = preset || {}
+    const { limits, apis } = preset || {}
 
-  // limits 表示 当前节点 有子权限
-  if (limits) {
-    newItem.children = map(limits, ({ icon, label, description }, key) => {
-      const needs =
-        key === routeLimitKey
-          ? undefined
-          : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
+    // limits 表示 当前节点 有子权限
+    if (limits) {
+      newItem.children = map(limits, ({ icon, label, description }, key) => {
+        const needs =
+          key === routeLimitKey
+            ? undefined
+            : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
 
-      return {
-        label,
-        description,
-        needs,
-        icon: icon || 'fa fa-code',
-        nodePath: `${nodePath}/${key}`,
-      }
-    })
-  }
-
-  // 将 preset 配置的 apis， 添加到权限配置表中
-  if (apis) {
-    const allApis: any = {}
-    map(apis, (apiItem, apiKey) => {
-      const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
-      const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
-      allApis[apiKey] = {
-        url,
-        key: apiAuthKey,
-        limits: presetApiNeeds?.concat(routeLimitKey),
-      }
-    })
-    newItem.apis = {
-      ...newItem.apis,
-      ...allApis,
+        return {
+          label,
+          description,
+          needs,
+          icon: icon || 'fa fa-code',
+          nodePath: `${nodePath}/${key}`,
+        }
+      })
     }
-  }
 
-  // 添加默认 icon
-  newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
+    // 将 preset 配置的 apis， 添加到权限配置表中
+    if (apis) {
+      const allApis: any = {}
+      map(apis, (apiItem, apiKey) => {
+        const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
+        const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
+        allApis[apiKey] = {
+          url,
+          key: apiAuthKey,
+          limits: presetApiNeeds?.concat(routeLimitKey),
+        }
+      })
+      newItem.apis = {
+        ...newItem.apis,
+        ...allApis,
+      }
+    }
 
-  // console.log('-----', routePath, newItem)
-  return newItem
-})
+    // 添加默认 icon
+    newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
+
+    // console.log('-----', routePath, newItem)
+    return newItem
+  })
 
 // 过滤掉 配置路由信息
 // 1. 去除无权限路由
@@ -102,7 +103,7 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
     return []
   }
 
-  const nodes = filterTree<RouteItem>(getRouteConfig(), ({ sideVisible, nodePath }) => {
+  const nodes = filterTree<RouteItem>(getRouteConfig(true), ({ sideVisible, nodePath }) => {
     const auth = checkLimitByNodePath(nodePath, limits)
 
     if (nodePath === '/') {

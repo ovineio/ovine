@@ -11,8 +11,6 @@ type Themes = {
   [theme: string]: Types.DeepPartial<DefaultTheme>
 }
 
-type ThemeNames = keyof Themes
-
 // 重写 withTheme 类型
 type WithAppTheme = <P, C = FunctionComponent<P & { theme: DefaultTheme }>>(
   component: C
@@ -23,7 +21,10 @@ export const withAppTheme: WithAppTheme = withTheme as any
 export class AppTheme {
   private themes: Types.ObjectOf<DefaultTheme> = presetThemes
 
-  constructor(appThemes?: Themes) {
+  private initTheme = 'default'
+
+  constructor(initTheme?: string, appThemes?: Themes) {
+    this.initTheme = getStore<string>(storage.appTheme) || initTheme || 'default'
     this.themes = defaultsDeep(appThemes, this.themes)
   }
 
@@ -32,10 +33,9 @@ export class AppTheme {
   }
 
   getTheme(): DefaultTheme {
-    const theme = getStore<ThemeNames>(storage.appTheme) || 'default'
     return {
       name: 'default',
-      ...this.themes[theme],
+      ...this.themes[this.initTheme],
     }
   }
 

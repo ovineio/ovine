@@ -61,6 +61,7 @@
     "semver": "^6.3.0",
     "shelljs": "^0.8.3",
     "std-env": "^2.2.1",
+    "string-replace-loader": "^2.2.0",
     "style-loader": "^0.23.1",
     "terser-webpack-plugin": "^2.2.1",
     "thread-loader": "^2.1.2",
@@ -76,5 +77,6 @@
   },
   "engines": {
     "node": ">=10.9.0"
-  }
+  },
+  "devDependencies": {}
 }

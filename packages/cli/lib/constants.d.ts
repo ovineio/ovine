@@ -1,0 +1,24 @@
+export declare const libName = "rtadmin";
+export declare const libRootPath = "/rt-admin";
+export declare const outDirName = "dist";
+export declare const defaultPort = 7050;
+export declare const srcDirName = "src";
+export declare const staticDirName = "static";
+export declare const configFileName: string;
+export declare const generatedDirName: string;
+export declare const staticLibDirPath: string;
+export declare const stylesDirName = "styles";
+export declare const scssDirName = "scss";
+export declare const libThemes: string[];
+export declare const dllVendorFileName = "vendor";
+export declare const dllVendorDirPath: string;
+export declare const dllDirPath: string;
+export declare const dllManifestFile: string;
+export declare const dllAssetsFile: string;
+export declare const webpackConfFileName = "webpack.config.js";
+export declare const webpackDllConfFileName = "webpack.dll.js";
+export declare const esLintFileName = ".eslintrc.js";
+export declare const tsLintConfFileName = "tslint.json";
+export declare const tsConfFileName = "tsconfig.json";
+export declare const babelConfigFileName = "babel.config.js";
+//# sourceMappingURL=constants.d.ts.map

@@ -4,7 +4,8 @@
   "description": "Build flexible admin system with json.",
   "private": false,
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "ttsc",
+    "dev": "ttsc -w"
   },
   "keywords": [
     "aims",
@@ -16,16 +17,20 @@
   "license": "ISC",
   "peerDependencies": {
     "immer": "^5.3.2",
+    "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",
-    "whatwg-fetch": "^3.0.0",
-    "lodash": "^4.17.15"
+    "whatwg-fetch": "^3.0.0"
+  },
+  "resolutions": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "dependencies": {
-    "amis": "1.0.9",
     "abortcontroller-polyfill": "^1.4.0",
+    "amis": "1.0.10",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",

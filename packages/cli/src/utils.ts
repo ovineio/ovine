@@ -265,7 +265,11 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
   const libPath = !isLib ? lib : lib.split('lib/')[1]
   const prodPath = `node_modules/${!isLib ? '' : `@${libName}/`}${libPath}`
 
-  const libPaths = [`${siteDir}/${prodPath}`, path.resolve(siteDir, `../../${prodPath}`)]
+  const libPaths = [
+    `${siteDir}/${prodPath}`,
+    path.resolve(siteDir, `../../${prodPath}`),
+    path.resolve(siteDir, `../../../../${prodPath}`),
+  ]
 
   if (isLib) {
     libPaths.push(`${devRootDir}/packages/${libPath}`)

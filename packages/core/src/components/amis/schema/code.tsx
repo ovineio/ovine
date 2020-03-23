@@ -7,8 +7,9 @@ import map from 'lodash/map'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Portal } from 'react-overlays'
 
-import HeadItem from '@/components/layout/head_item'
-import { PopupItemMenu } from '@/components/layout/styled'
+import HeadItem from '@/components/aside_layout/head_item'
+import { PopupItemMenu } from '@/components/aside_layout/styled'
+import { storage } from '@/constants'
 import { getRouteConfig } from '@/routes/config'
 import { getStore } from '@/utils/store'
 
@@ -26,6 +27,8 @@ const transSchema = (schema: any) => {
     }
   })
 }
+
+export const containerSelector = '.navbar-nav[data-code="true"]'
 
 type Props = {
   theme: string
@@ -72,8 +75,8 @@ export default (props: Props) => {
         break
       case 'limit':
         json = {
-          authLimits: getStore<string>('test_limit')?.split(','),
-          authApis: getStore<string>('test_apis')?.split(','),
+          authLimits: getStore<string>(storage.dev.limit)?.split(','),
+          authApis: getStore<string>(storage.dev.api)?.split(','),
         }
         break
       default:
@@ -88,11 +91,8 @@ export default (props: Props) => {
     toggleDrawer()
   }
 
-  // Editor 存在类型错误提示
-  const reqConf: any = {}
-
   return (
-    <Portal container={() => document.getElementById('app-header-left')}>
+    <Portal container={() => $(containerSelector).get(0)}>
       <Drawer
         closeOnOutside
         theme={theme}
@@ -104,7 +104,6 @@ export default (props: Props) => {
         <Spinner overlay show={show && loading} size="lg" />
         {show && (
           <Editor
-            requireConfig={reqConf}
             editorDidMount={onEditorMounted}
             options={{ readOnly: true }}
             editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}

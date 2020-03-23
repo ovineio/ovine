@@ -27,10 +27,10 @@ function wrapCommand(fn) {
 program.version(require('../package.json').version).usage('<command> [options]')
 
 program
-  .command('init [siteName] [template] [rootDir]')
+  .command('init [siteName] [rootDir]')
   .description('Initialize website')
-  .action((siteName, template, rootDir = '.') => {
-    wrapCommand(init)(path.resolve(rootDir), siteName, template)
+  .action((siteName, rootDir = '.') => {
+    wrapCommand(init)(path.resolve(rootDir), siteName)
   })
 
 program.arguments('<command>').action((cmd) => {

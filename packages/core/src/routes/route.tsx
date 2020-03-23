@@ -4,16 +4,23 @@
 
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
-import isFunction from 'lodash/isFunction'
-import map from 'lodash/map'
-import React, { createContext, lazy, useContext, useMemo, Suspense } from 'react'
+import { isFunction, map } from 'lodash'
+import React, {
+  createContext,
+  lazy,
+  useContext,
+  useMemo,
+  Suspense,
+  useState,
+  useEffect,
+} from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import { app } from '@/app'
 import NotFound from '@/components/404'
 import { Amis } from '@/components/amis/schema'
+import { LayoutLazyFallback } from '@/components/aside_layout/loading'
 import ErrorBoundary from '@/components/error_boundary'
-import { LayoutLazyFallback } from '@/components/layout/loading'
 import { isSubStr } from '@/utils/tool'
 
 import {
@@ -24,9 +31,14 @@ import {
   getRoutePath,
   currPath,
 } from './exports'
-import { getAuthRoutes } from './limit'
 import { checkLimitByKeys } from './limit/exports'
-import { CheckLimitFunc, PresetComponentProps, PresetCtxState, PresetRouteProps } from './types'
+import {
+  CheckLimitFunc,
+  PresetComponentProps,
+  PresetCtxState,
+  PresetRouteProps,
+  RouteItem,
+} from './types'
 
 const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 
@@ -54,21 +66,41 @@ export const getPageAsync = (option: PresetRouteProps) => {
 }
 
 // 登录路由拦截
-export const PrivateRoute = ({ children, ...rest }: any) => {
+export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
+  const [isAuth, setAuth] = useState<boolean | null>(null)
+  useEffect(() => {
+    const authState = isFunction(onAuth) ? onAuth() : true
+    if (authState.then) {
+      authState.then((res: boolean) => {
+        setAuth(res)
+      })
+    } else {
+      setAuth(authState)
+    }
+  }, [])
+
+  if (isAuth === null) {
+    return null
+  }
+
   return (
     <Route
       {...rest}
       render={({ location }) => {
-        return app.user.isLogin() ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: getRoutePath(app.constants.login.route),
-              state: { from: location },
-            }}
-          />
-        )
+        if (isAuth) {
+          return children
+        }
+        if (redirect) {
+          return (
+            <Redirect
+              to={{
+                pathname: redirect,
+                state: { from: location },
+              }}
+            />
+          )
+        }
+        return null
       }}
     />
   )
@@ -176,7 +208,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
 const NotFoundRoute = () => {
   let Component = NotFound
   try {
-    Component = require(`~/${currPath(app.constants.notFound.pagePath, '404')}`)
+    Component = require(`~/pages/${currPath(app.constants.notFound.pagePath, '404')}`)
   } catch (e) {
     //
   }
@@ -185,17 +217,17 @@ const NotFoundRoute = () => {
 }
 
 // 将 routeConfig 转换为 route
-export const AppMenuRoutes = () => {
-  const routes: any = []
+export const AppMenuRoutes = (props: { authRoutes: RouteItem[] }) => {
+  const menuRoutes: any = []
 
-  getAuthRoutes().forEach(({ children }) => {
+  props.authRoutes.forEach(({ children }) => {
     if (!children) {
       return
     }
 
     eachTree(children, (item) => {
       if (item.path && !item.limitOnly) {
-        routes.push(<PrestRoute key={routes.length + 1} withSuspense={false} {...item} />)
+        menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} withSuspense={false} {...item} />)
       }
     })
   })
@@ -204,7 +236,7 @@ export const AppMenuRoutes = () => {
     <ErrorBoundary type="page">
       <Suspense fallback={<LayoutLazyFallback />}>
         <Switch>
-          {routes}
+          {menuRoutes}
           <NotFoundRoute />
         </Switch>
       </Suspense>
