@@ -11,8 +11,8 @@
     "help": "rt-cli -h"
   },
   "dependencies": {
-    "@rtadmin/core": "/Users/careytoboo/zone/github/rt-admin/packages/core",
-    "@rtadmin/cli": "/Users/careytoboo/zone/github/rt-admin/packages/cli",
+    "@rtadmin/core": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/core?cli",
+    "@rtadmin/cli": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/cli?cli",
     "immer": "^5.3.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
