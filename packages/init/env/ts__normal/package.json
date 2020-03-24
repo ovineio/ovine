@@ -8,9 +8,7 @@
     "build": "rt-cli build",
     "scss": "rt-cli scss",
     "dll": "rt-cli dll",
-    "help": "rt-cli -h",
-    "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
-    "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix"
+    "help": "rt-cli -h"
   },
   "dependencies": {
     "@rtadmin/core": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/core?cli",
@@ -27,30 +25,7 @@
     "@types/react": "^16.8.6",
     "@types/lodash": "^4.14.149",
     "@types/styled-components": "^5.0.0",
-    "@types/react-router-dom": "^5.1.0",
-    "@typescript-eslint/eslint-plugin": "^2.22.0",
-    "@typescript-eslint/parser": "^2.22.0",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.0.1",
-    "eslint-config-prettier": "^6.7.0",
-    "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-react": "^7.16.0",
-    "eslint-plugin-react-hooks": "^2.3.0",
-    "prettier": "^1.19.1",
-    "husky": "^4.2.3",
-    "lint-staged": "^10.0.7"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{json,md}": "yarn pretty",
-    "*.{js,jsx,ts,tsx}": "yarn eslint"
-  },
-  "engines": {
-    "node": ">=10.9.0"
+    "@types/react-router-dom": "^5.1.0"
   },
   "browserslist": {
     "production": [
@@ -63,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=10.9.0"
   }
 }

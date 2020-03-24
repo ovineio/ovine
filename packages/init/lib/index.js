@@ -126,7 +126,6 @@ function init(rootDir, siteName) {
                         logStartCreate(false);
                         console.log("Cloning Git template: " + chalk_1["default"].cyan(template));
                         if (shelljs_1["default"].exec("git clone --recursive " + template + " " + dest, { silent: true }).code !== 0) {
-                            spinner.stop();
                             throw new Error(chalk_1["default"].red("Cloning Git template: " + template + " failed!"));
                         }
                     }
@@ -158,8 +157,7 @@ function init(rootDir, siteName) {
                             return isDir || reg.test(currItem);
                         });
                         // copy env files
-                        copyDirSync(libDir + "/env", dest, function (currItem, parentPath) {
-                            console.log('file==', currItem, parentPath);
+                        copyDirSync(libDir + "/env", dest, function (currItem) {
                             if (
                             // ts not copy es_**/ files
                             (useTs && /^es_/.test(currItem)) ||
@@ -177,8 +175,7 @@ function init(rootDir, siteName) {
                         });
                     }
                     catch (err) {
-                        spinner.stop();
-                        console.log('Copying template files failed!');
+                        spinner.fail(chalk_1["default"].red('Copying template files failed!'));
                         throw err;
                     }
                     _a.label = 9;
@@ -194,8 +191,7 @@ function init(rootDir, siteName) {
                     return [3 /*break*/, 12];
                 case 11:
                     err_1 = _a.sent();
-                    spinner.stop();
-                    console.log(chalk_1["default"].red('Failed to update package.json'));
+                    spinner.fail(chalk_1["default"].red('Failed to update package.json'));
                     throw err_1;
                 case 12:
                     if (!(!fs_extra_1["default"].pathExistsSync(path_1["default"].join(dest, '.gitignore')) &&
@@ -210,10 +206,9 @@ function init(rootDir, siteName) {
                     }
                     pkgManager = useYarn ? 'yarn' : 'npm';
                     cdPath = path_1["default"].join(process.cwd(), name) === dest ? name : path_1["default"].relative(process.cwd(), name);
-                    spinner.stop();
+                    spinner.succeed(chalk_1["default"].green("Success! Created " + chalk_1["default"].cyan(cdPath)));
                     console.log();
                     console.log();
-                    console.log("Success! Created " + chalk_1["default"].cyan(cdPath));
                     console.log('Inside that directory, you can run several commands:');
                     console.log();
                     console.log(chalk_1["default"].cyan("  " + pkgManager + " dev"));
@@ -262,7 +257,9 @@ function copyDirSync(src, dest, handle) {
             copyDirSync(itemPath, dest + "/" + destName, handle);
         }
         else if (stat.isFile()) {
-            fs_extra_1["default"].copyFileSync(itemPath, dest + "/" + destName);
+            var destFile = dest + "/" + destName;
+            spinner.text = chalk_1["default"].grey("Created file: " + destFile);
+            fs_extra_1["default"].copyFileSync(itemPath, destFile);
         }
     });
 }
@@ -270,7 +267,7 @@ function logStartCreate(showSpinner) {
     var startStr = 'Creating new project...';
     console.log();
     if (showSpinner) {
-        spinner.start(chalk_1["default"].cyan(startStr));
+        spinner = spinner.start(chalk_1["default"].cyan(startStr));
     }
     else {
         console.log(chalk_1["default"].cyan(startStr));

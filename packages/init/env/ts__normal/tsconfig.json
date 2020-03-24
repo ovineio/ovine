@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "esNext",
+    "module": "ES6",
     "lib": ["dom", "es2017"],
+    "moduleResolution": "Node",
     "noImplicitAny": false,
     "jsx": "react",
     "outDir": "dist",
@@ -16,7 +17,6 @@
       "@types/lodash",
       "@types/styled-components",
       "@types/react-router-dom",
-      "@rtadmin/core/lib",
       "amis/lib"
     ],
     "typeRoots": ["./typings"]

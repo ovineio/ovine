@@ -4,11 +4,11 @@ import figlet from 'figlet'
 import fs from 'fs'
 import fse from 'fs-extra'
 import inquirer from 'inquirer'
-import ora from 'ora'
+import ora, { Ora } from 'ora'
 import path from 'path'
 import shell from 'shelljs'
 
-const spinner = ora()
+let spinner: Ora = ora()
 const libName = 'rtadmin'
 
 export async function init(rootDir: string, siteName?: string): Promise<void> {
@@ -81,7 +81,6 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
     logStartCreate(false)
     console.log(`Cloning Git template: ${chalk.cyan(template)}`)
     if (shell.exec(`git clone --recursive ${template} ${dest}`, { silent: true }).code !== 0) {
-      spinner.stop()
       throw new Error(chalk.red(`Cloning Git template: ${template} failed!`))
     }
   }
@@ -115,8 +114,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
     })
 
     // copy env files
-    copyDirSync(`${libDir}/env`, dest, (currItem: string, parentPath: string) => {
-      console.log('file==', currItem, parentPath)
+    copyDirSync(`${libDir}/env`, dest, (currItem: string) => {
       if (
         // ts not copy es_**/ files
         (useTs && /^es_/.test(currItem)) ||
@@ -136,8 +134,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
       return true
     })
   } catch (err) {
-    spinner.stop()
-    console.log('Copying template files failed!')
+    spinner.fail(chalk.red('Copying template files failed!'))
     throw err
   }
 
@@ -149,8 +146,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
       private: true,
     })
   } catch (err) {
-    spinner.stop()
-    console.log(chalk.red('Failed to update package.json'))
+    spinner.fail(chalk.red('Failed to update package.json'))
     throw err
   }
 
@@ -170,10 +166,9 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
   // Display the most elegant way to cd.
   const cdPath = path.join(process.cwd(), name) === dest ? name : path.relative(process.cwd(), name)
 
-  spinner.stop()
+  spinner.succeed(chalk.green(`Success! Created ${chalk.cyan(cdPath)}`))
   console.log()
   console.log()
-  console.log(`Success! Created ${chalk.cyan(cdPath)}`)
   console.log('Inside that directory, you can run several commands:')
   console.log()
   console.log(chalk.cyan(`  ${pkgManager} dev`))
@@ -227,7 +222,9 @@ function copyDirSync(
     if (stat.isDirectory()) {
       copyDirSync(itemPath, `${dest}/${destName}`, handle)
     } else if (stat.isFile()) {
-      fse.copyFileSync(itemPath, `${dest}/${destName}`)
+      const destFile = `${dest}/${destName}`
+      spinner.text = chalk.grey(`Created file: ${destFile}`)
+      fse.copyFileSync(itemPath, destFile)
     }
   })
 }
@@ -236,7 +233,7 @@ function logStartCreate(showSpinner: boolean) {
   const startStr = 'Creating new project...'
   console.log()
   if (showSpinner) {
-    spinner.start(chalk.cyan(startStr))
+    spinner = spinner.start(chalk.cyan(startStr))
   } else {
     console.log(chalk.cyan(startStr))
   }

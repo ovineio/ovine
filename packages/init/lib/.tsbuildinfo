@@ -686,7 +686,7 @@
         "signature": "71daca42a04d95330492cd961998ee208070524a7198859913d1e07dcdb849c8"
       },
       "../src/index.ts": {
-        "version": "20d97d994bcbb127e00a02370d104bc60395490c3c3cbed303ead46fa4174567",
+        "version": "5cfa8f23fbeac28f860d8bb92d9cb3dfdafec8f35dbe87bc91265740eb0b007f",
         "signature": "12ce72c7d99e2c6ec9020ea44c5a84e26f422921877c1a2ef415174bbbc134c5"
       },
       "../src/types.d.ts": {
@@ -720,7 +720,6 @@
         "../@types"
       ],
       "incremental": true,
-      "watch": true,
       "configFilePath": "../tsconfig.json"
     },
     "referencedMap": {
