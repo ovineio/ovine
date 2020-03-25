@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { DefaultTheme } from 'styled-components';
+import * as Types from "../utils/types";
 declare type Themes = {
     default: DefaultTheme;
     [theme: string]: Types.DeepPartial<DefaultTheme>;
@@ -17,4 +18,3 @@ export declare class AppTheme {
     getAllThemes(): Types.ObjectOf<DefaultTheme>;
 }
 export {};
-//# sourceMappingURL=theme.d.ts.map

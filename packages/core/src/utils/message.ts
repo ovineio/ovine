@@ -8,16 +8,18 @@ import isNone from 'lodash/isUndefined'
 
 import { message } from '@/constants'
 
+import { ObjectOf, ValueCtrl } from './types'
+
 const { storeRoot } = message
 
 type Key = string | string[]
 export type Handler<T = any> = (data: T, key?: string) => void
 
-const observer: Types.ObjectOf<Handler[]> = {}
-const source: Types.ObjectOf<any> = {}
+const observer: ObjectOf<Handler[]> = {}
+const source: ObjectOf<any> = {}
 
 // 格式化存储 key 格式
-const storeKeyCtrl: Types.ValueCtrl<string> = (type, value = '') => {
+const storeKeyCtrl: ValueCtrl<string> = (type, value = '') => {
   const isStoreKey = value.indexOf(storeRoot) === 0
   if (type === 'set') {
     return isStoreKey ? value : `${storeRoot}${value}`

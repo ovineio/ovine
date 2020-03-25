@@ -12,4 +12,3 @@ export declare type RtCssProps = RendererProps & {
     tag?: keyof JSX.IntrinsicElements | React.ComponentType<any>;
 };
 export {};
-//# sourceMappingURL=rt_css.d.ts.map

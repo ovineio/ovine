@@ -6,4 +6,3 @@ declare type State = {
 export declare const useAppContext: () => Pick<State, "lang">;
 export declare const App: () => JSX.Element;
 export {};
-//# sourceMappingURL=index.d.ts.map

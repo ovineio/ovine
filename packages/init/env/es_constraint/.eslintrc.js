@@ -19,6 +19,7 @@ module.exports = {
     curly: [WARNING, 'all'],
     semi: [ERROR, 'never'],
     quotes: [ERROR, 'single'],
+    'no-template-curly-in-string': OFF,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     'no-unused-expressions': OFF,

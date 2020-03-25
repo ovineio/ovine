@@ -1,11 +1,13 @@
 import { LoggerConfig } from '@/utils/logger'
 
+import { ClassMethod, DeepPartial, Map } from '@/utils/types'
+
 import { AppRequest } from './request'
 import { AppTheme } from './theme'
 
 type Env = {
   mode: string
-  domains: Types.Map<string, string>
+  domains: Map<string, string>
   isRelease?: boolean
   isProd?: boolean
   logger?: LoggerConfig
@@ -13,7 +15,7 @@ type Env = {
 
 export type EnvConfig = {
   default: Env
-  [env: string]: Types.DeepPartial<Env>
+  [env: string]: DeepPartial<Env>
 }
 
 export interface AppConfig {
@@ -36,10 +38,6 @@ export interface AppDefInstance extends Omit<AppConfig, 'env'> {
     isMock: boolean
   }
   entry: any[]
-  request: Types.ClassMethod<AppRequest, 'request'>
+  request: ClassMethod<AppRequest, 'request'>
   theme: AppTheme
-}
-
-declare module '@rtadmin/core/app/instance' {
-  export interface AppInstance extends AppDefInstance {}
 }

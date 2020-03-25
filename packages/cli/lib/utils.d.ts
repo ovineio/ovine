@@ -37,4 +37,3 @@ export declare function globalStore<T = any>(type: 'get' | 'set', key: string, v
 export declare function isCliDev(): boolean;
 export declare function getCliDevRootDir(): string;
 export declare function getModulePath(siteDir: string, lib: string, required?: boolean): string;
-//# sourceMappingURL=utils.d.ts.map

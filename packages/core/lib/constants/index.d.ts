@@ -29,4 +29,3 @@ export declare const storage: {
         api: string;
     };
 };
-//# sourceMappingURL=index.d.ts.map

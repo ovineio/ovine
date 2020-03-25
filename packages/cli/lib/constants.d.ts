@@ -21,4 +21,3 @@ export declare const esLintFileName = ".eslintrc.js";
 export declare const tsLintConfFileName = "tslint.json";
 export declare const tsConfFileName = "tsconfig.json";
 export declare const babelConfigFileName = "babel.config.js";
-//# sourceMappingURL=constants.d.ts.map

@@ -4,4 +4,3 @@ declare type CssProps = DefaultTheme & {
 };
 export declare const crudCss: ({ tableWidth, ns, colors }: CssProps) => import("styled-components").FlattenSimpleInterpolation;
 export {};
-//# sourceMappingURL=styled.d.ts.map

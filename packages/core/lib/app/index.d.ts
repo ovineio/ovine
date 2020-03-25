@@ -1,8 +1,9 @@
 import "./includes";
-import { AppInstance } from '@rtadmin/core/app/instance';
+import { AppInstance } from '@rtadmin/core/lib/app/instance';
+import * as Types from "../utils/types";
 import { AppRequest } from "./request";
 import { AppTheme } from "./theme";
-import { AppConfig } from "./types";
+import { AppConfig, AppDefInstance } from "./types";
 declare class AppProxy {
     constructor();
 }
@@ -17,6 +18,5 @@ declare class App extends AppProxy {
     private setEnv;
     private setRequest;
 }
-declare const app: AppInstance & App;
+declare const app: AppInstance & Omit<AppDefInstance, keyof AppInstance> & App;
 export { app, AppRequest, AppTheme };
-//# sourceMappingURL=index.d.ts.map

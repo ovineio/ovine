@@ -10,13 +10,14 @@
     "url": "https://github.com/CareyToboo/rt-admin/issues"
   },
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "yarn clean && tsc",
     "dev": "tsc -w",
-    "clean:tmp": "rm -rf ./tmp/*",
-    "test:base:normal": "rm -rf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
-    "test:base:constraint": "rm -rf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
-    "test:ts:normal": "rm -rf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
-    "test:ts:constraint": "rm -rf ./tmp/ts_constraint && node ./bin/index.js init ts_constraint ./tmp"
+    "clean": "rimraf ./lib",
+    "clean:tmp": "rimraf ./tmp/*",
+    "test:base:normal": "rimraf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
+    "test:base:constraint": "rimraf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
+    "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
+    "test:ts:constraint": "rimraf ./tmp/ts_constraint && node ./bin/index.js init ts_constraint ./tmp"
   },
   "bin": {
     "rt-init": "bin/index.js"

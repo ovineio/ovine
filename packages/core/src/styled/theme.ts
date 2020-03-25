@@ -2,9 +2,10 @@ import { theme as setAmisTheme } from 'amis'
 
 import { app } from '@/app'
 import { themeNamePrefix, storage, message } from '@/constants'
-import { getThemeCss } from '@/routes/exports'
+import { getThemeCssAsync } from '@/routes/exports'
 import { publish } from '@/utils/message'
 import { setStore } from '@/utils/store'
+import * as Types from '@/utils/types'
 
 const loadingCls = 'theme-is-loading' // 异步加载CSS，会导致页面抖动
 
@@ -23,16 +24,17 @@ export const changeAppTheme = (theme: string) => {
   }
 
   $('body').addClass(bodyCls)
-  getThemeCss(theme)
-  publish(message.appTheme, theme)
-  setStore(storage.appTheme, theme)
-  if (loading) {
-    loadedCss[theme] = true
-    setTimeout(() => {
-      $('body').removeClass(bodyCls)
-      pace.stop()
-    }, 1000)
-  }
+  getThemeCssAsync(theme).then(() => {
+    publish(message.appTheme, theme)
+    setStore(storage.appTheme, theme)
+    if (loading) {
+      loadedCss[theme] = true
+      setTimeout(() => {
+        $('body').removeClass(bodyCls)
+        pace.stop()
+      }, 1000)
+    }
+  })
 }
 
 export const initAppTheme = () => {
@@ -40,11 +42,11 @@ export const initAppTheme = () => {
 
   // 非amis主题 都需要注册
   Object.values(app.theme.getAllThemes())
-    .filter((item) => !/cxd|default|dark/.test(item.name))
-    .forEach((item) => {
+    .filter((item: any) => !/cxd|default|dark/.test(item.name))
+    .forEach((item: any) => {
       setAmisTheme(item.name, {
         classPrefix: item.ns,
       })
     })
-  getThemeCss(storedTheme)
+  getThemeCssAsync(storedTheme)
 }

@@ -28,4 +28,3 @@ export declare function getDllBabelConfig(siteDir: string): {
     plugins: string[];
     extends: string;
 };
-//# sourceMappingURL=babel.d.ts.map

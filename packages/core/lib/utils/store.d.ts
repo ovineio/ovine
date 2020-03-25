@@ -9,4 +9,3 @@ export declare function setSessionStore(key: string, value: any): void;
 export declare function getSessionStore<T>(key: string): T | undefined;
 export declare function setGlobal(key: string, value: any): void;
 export declare function getGlobal<T>(key: string): T | undefined;
-//# sourceMappingURL=store.d.ts.map

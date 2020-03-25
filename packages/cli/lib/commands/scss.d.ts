@@ -4,4 +4,3 @@ declare type Options = {
 };
 export declare function scss(siteDir: string, options?: Options): Promise<void>;
 export {};
-//# sourceMappingURL=scss.d.ts.map

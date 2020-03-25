@@ -36,4 +36,3 @@ export declare const normalizeLink: (option: {
     search: any;
     hash: any;
 };
-//# sourceMappingURL=func.d.ts.map

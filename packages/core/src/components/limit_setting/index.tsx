@@ -15,6 +15,8 @@ import { useImmer } from '@/utils/hooks'
 import { getStore, setStore } from '@/utils/store'
 import { cls, isSubStr } from '@/utils/tool'
 
+import { ObjectOf } from '@/utils/types'
+
 import { StyledLimit } from './styled'
 
 // TODO：
@@ -33,7 +35,7 @@ const LimitSetting = (props: any) => {
     visitedTabs: [],
     selectedVal: '',
   })
-  const storeRef = useRef<Types.ObjectOf<string>>({})
+  const storeRef = useRef<ObjectOf<string>>({})
 
   const { activeTab, visitedTabs, selectedVal, isUnfolded } = state
   const { name: limitName, isDevLimit = false, limits = '' } = data
@@ -224,7 +226,7 @@ function resolveLimitMenus(
 function getAllAuthLimitStr(
   menusConfig: any[],
   visitedTabs: number[],
-  store: Types.ObjectOf<string>
+  store: ObjectOf<string>
 ): string {
   const limitValue: string[] = []
 

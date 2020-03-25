@@ -13,4 +13,3 @@ export declare const subscribe: (key: Key, handler: Handler<any>) => {
 };
 export declare const subscribeOnce: <T>(key: string, handler: Handler<any>) => void;
 export {};
-//# sourceMappingURL=message.d.ts.map

@@ -687,7 +687,7 @@
       },
       "../src/index.ts": {
         "version": "5cfa8f23fbeac28f860d8bb92d9cb3dfdafec8f35dbe87bc91265740eb0b007f",
-        "signature": "12ce72c7d99e2c6ec9020ea44c5a84e26f422921877c1a2ef415174bbbc134c5"
+        "signature": "6aeb9d9986bcce5cb450624855b5c843440afca7a55bde291eee2dbfee4ebce2"
       },
       "../src/types.d.ts": {
         "version": "be644250e4835dd2ede3d95ba54ed146c7dda24ea9704b2237afc846150d8246",
@@ -697,7 +697,6 @@
     "options": {
       "module": 1,
       "declaration": true,
-      "declarationMap": true,
       "strict": true,
       "strictNullChecks": true,
       "strictFunctionTypes": true,
@@ -2344,291 +2343,6 @@
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/async_hooks.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/buffer.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/events/index.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/cluster.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/console.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/constants.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/os.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/dgram.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/domain.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/http2.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/https.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/inspector.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/module.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/os.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/path.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/perf_hooks.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/async_hooks.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/process.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tty.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/punycode.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/querystring.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/repl.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/string_decoder.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/timers.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/trace_events.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/tty.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/querystring.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/v8.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/worker_threads.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/zlib.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../../../node_modules/@types/fs-extra/node_modules/@types/node/base.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/globals.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/assert.d.ts",
@@ -2673,23 +2387,6 @@
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts"
-      ],
-      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/globals.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/globals.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
       "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/index.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/base.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
@@ -2705,513 +2402,475 @@
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/subscription.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/async_hooks.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/types.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/perf_hooks.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/async_hooks.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/subscriber.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/buffer.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/operator.d.ts": [
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/events/index.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/observable/iif.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/observable/throwerror.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/shelljs/index.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts",
+        "../../../node_modules/@types/glob/index.d.ts",
+        "../../../node_modules/@types/shelljs/node_modules/@types/node/ts3.2/index.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/observable.d.ts": [
-        "../../../node_modules/rxjs/internal/operator.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable/iif.d.ts",
-        "../../../node_modules/rxjs/internal/observable/throwerror.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/cluster.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/subject.d.ts": [
-        "../../../node_modules/rxjs/internal/operator.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/console.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/observable/connectableobservable.d.ts": [
-        "../../../node_modules/rxjs/internal/subject.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/constants.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/os.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/operators/groupby.d.ts": [
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/subject.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/symbol/observable.d.ts": [
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/crypto.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/behaviorsubject.d.ts": [
-        "../../../node_modules/rxjs/internal/subject.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/https.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/replaysubject.d.ts": [
-        "../../../node_modules/rxjs/internal/subject.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/http2.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tls.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/dgram.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/asyncsubject.d.ts": [
-        "../../../node_modules/rxjs/internal/subject.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/dns.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/action.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/tty.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/process.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/tty.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/http.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/asapscheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/domain.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/asap.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asapscheduler.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/async.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+      "../../../node_modules/@types/glob/index.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/minimatch/index.d.ts",
+        "../../../node_modules/@types/glob/node_modules/@types/node/ts3.2/index.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/queuescheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/worker_threads.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/queue.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/queuescheduler.d.ts",
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/animationframescheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+      "../../../node_modules/@types/through/index.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/through/node_modules/@types/node/ts3.2/index.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/animationframe.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/animationframescheduler.d.ts",
+      "../../../node_modules/@types/inquirer/index.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/rxjs/index.d.ts",
+        "../../../node_modules/@types/through/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts",
+        "../../../node_modules/@types/inquirer/lib/objects/choices.d.ts",
+        "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/checkbox.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/confirm.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/editor.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/expand.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/list.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/number.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/password.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/rawlist.d.ts",
+        "../../../node_modules/@types/inquirer/lib/ui/bottom-bar.d.ts",
+        "../../../node_modules/@types/inquirer/lib/ui/prompt.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/events.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/readline.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/utils.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/scheduler/virtualtimescheduler.d.ts": [
-        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/notification.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/pipe.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/noop.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/identity.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/isobservable.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/argumentoutofrangeerror.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/emptyerror.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/objectunsubscribederror.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/unsubscriptionerror.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/util/timeouterror.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/bindcallback.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/bindnodecallback.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/innersubscriber.d.ts": [
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/outersubscriber.d.ts": [
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/combinelatest.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
-        "../../../node_modules/rxjs/internal/operator.d.ts",
-        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/concat.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/defer.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/empty.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/forkjoin.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/from.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/fromevent.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/fromeventpattern.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/observable/fromevent.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/generate.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/interval.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/merge.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/never.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/of.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/onerrorresumenext.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/pairs.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/subscription.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/partition.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/race.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/operator.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
-        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/range.d.ts": [
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/timer.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/using.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/observable/zip.d.ts": [
-        "../../../node_modules/rxjs/internal/observable.d.ts",
-        "../../../node_modules/rxjs/internal/operator.d.ts",
-        "../../../node_modules/rxjs/internal/types.d.ts",
-        "../../../node_modules/rxjs/internal/subscriber.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/rxjs/internal/scheduled/scheduled.d.ts": [
+      "../../../node_modules/@types/inquirer/lib/utils/utils.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
         "../../../node_modules/rxjs/index.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/rxjs/internal/config.d.ts": [
+      "../../../node_modules/@types/inquirer/lib/ui/prompt.d.ts": [
+        "../../../node_modules/rxjs/index.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/ui/bottom-bar.d.ts": [
+        "../../../node_modules/@types/through/index.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/rawlist.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/password.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/number.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/list.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/expand.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/editor.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/rxjs/index.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/confirm.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/checkbox.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/rxjs/index.d.ts",
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/objects/choices.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts",
+        "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts": [
+        "../../../node_modules/@types/inquirer/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/zlib.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/v8.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/utils/readline.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/utils/events.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/rxjs/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts": [
+        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/repl.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/types.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/minimatch/index.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/ora/index.d.ts": [
+        "../../../node_modules/cli-spinners/index.d.ts",
+        "../../../node_modules/@types/node/ts3.2/index.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/cli-spinners/index.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
@@ -3278,264 +2937,604 @@
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/through/index.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/through/node_modules/@types/node/ts3.2/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/objects/choices.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts",
-        "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/rxjs/index.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/checkbox.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/confirm.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/editor.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/rxjs/index.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/expand.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/list.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/number.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/password.d.ts": [
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/prompts/rawlist.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/ui/bottom-bar.d.ts": [
-        "../../../node_modules/@types/through/index.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/ui/prompt.d.ts": [
-        "../../../node_modules/rxjs/index.d.ts",
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/ui/baseui.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/inquirer/lib/utils/events.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+      "../../../node_modules/rxjs/internal/scheduled/scheduled.d.ts": [
         "../../../node_modules/rxjs/index.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/inquirer/lib/utils/readline.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
+      "../../../node_modules/rxjs/internal/config.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/inquirer/lib/utils/utils.d.ts": [
-        "../../../node_modules/@types/inquirer/index.d.ts",
-        "../../../node_modules/rxjs/index.d.ts",
+      "../../../node_modules/rxjs/internal/observable/zip.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/operator.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/inquirer/index.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/rxjs/index.d.ts",
-        "../../../node_modules/@types/through/index.d.ts",
-        "../../../node_modules/@types/inquirer/lib/objects/choice.d.ts",
-        "../../../node_modules/@types/inquirer/lib/objects/choices.d.ts",
-        "../../../node_modules/@types/inquirer/lib/objects/separator.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/base.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/checkbox.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/confirm.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/editor.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/expand.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/input.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/list.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/number.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/password.d.ts",
-        "../../../node_modules/@types/inquirer/lib/prompts/rawlist.d.ts",
-        "../../../node_modules/@types/inquirer/lib/ui/bottom-bar.d.ts",
-        "../../../node_modules/@types/inquirer/lib/ui/prompt.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/events.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/paginator.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/readline.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/screen-manager.d.ts",
-        "../../../node_modules/@types/inquirer/lib/utils/utils.d.ts",
+      "../../../node_modules/rxjs/internal/observable/using.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/cli-spinners/index.d.ts": [
+      "../../../node_modules/rxjs/internal/observable/timer.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/ora/index.d.ts": [
-        "../../../node_modules/cli-spinners/index.d.ts",
-        "../../../node_modules/@types/node/ts3.2/index.d.ts",
+      "../../../node_modules/rxjs/internal/observable/range.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/minimatch/index.d.ts": [
+      "../../../node_modules/rxjs/internal/observable/race.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/operator.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
+        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/glob/index.d.ts": [
+      "../../../node_modules/rxjs/internal/observable/partition.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/pairs.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/onerrorresumenext.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/of.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/never.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/merge.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/interval.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/generate.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/fromeventpattern.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/observable/fromevent.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/fromevent.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/from.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/forkjoin.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/empty.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/defer.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/concat.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/combinelatest.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
+        "../../../node_modules/rxjs/internal/operator.d.ts",
+        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/outersubscriber.d.ts": [
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/innersubscriber.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/innersubscriber.d.ts": [
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/outersubscriber.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/bindnodecallback.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/bindcallback.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/timeouterror.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/unsubscriptionerror.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/objectunsubscribederror.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/emptyerror.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/argumentoutofrangeerror.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/isobservable.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/identity.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/noop.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/util/pipe.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/notification.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/virtualtimescheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/animationframe.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/animationframescheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/animationframescheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/queue.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/queuescheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/queuescheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/async.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/asap.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asapscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/asapscheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/asyncscheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
+        "../../../node_modules/rxjs/internal/scheduler/asyncaction.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler/action.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/scheduler.d.ts": [
+        "../../../node_modules/rxjs/internal/scheduler/action.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/asyncsubject.d.ts": [
+        "../../../node_modules/rxjs/internal/subject.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/replaysubject.d.ts": [
+        "../../../node_modules/rxjs/internal/subject.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/behaviorsubject.d.ts": [
+        "../../../node_modules/rxjs/internal/subject.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/symbol/observable.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/operators/groupby.d.ts": [
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/subject.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/connectableobservable.d.ts": [
+        "../../../node_modules/rxjs/internal/subject.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/subject.d.ts": [
+        "../../../node_modules/rxjs/internal/operator.d.ts",
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable.d.ts": [
+        "../../../node_modules/rxjs/internal/operator.d.ts",
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/observable/iif.d.ts",
+        "../../../node_modules/rxjs/internal/observable/throwerror.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/throwerror.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/observable/iif.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/types.d.ts": [
+        "../../../node_modules/rxjs/internal/observable.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/operator.d.ts": [
+        "../../../node_modules/rxjs/internal/subscriber.d.ts",
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/subscriber.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/rxjs/internal/subscription.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/rxjs/internal/subscription.d.ts": [
+        "../../../node_modules/rxjs/internal/types.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/globals.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/globals.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/vm.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/querystring.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/module.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/trace_events.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/timers.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/string_decoder.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/querystring.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/punycode.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/path.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/os.d.ts": [
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/fs-extra/node_modules/@types/node/inspector.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/minimatch/index.d.ts",
-        "../../../node_modules/@types/glob/node_modules/@types/node/ts3.2/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/shelljs/index.d.ts": [
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/child_process.d.ts",
-        "../../../node_modules/@types/glob/index.d.ts",
-        "../../../node_modules/@types/shelljs/node_modules/@types/node/ts3.2/index.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/types.d.ts": [
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/fs-extra/node_modules/@types/node/util.d.ts",
@@ -3544,36 +3543,6 @@
     },
     "semanticDiagnosticsPerFile": [
       "../../../node_modules/typescript/lib/lib.d.ts",
-      "../../../node_modules/typescript/lib/lib.es5.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2016.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.d.ts",
-      "../../../node_modules/typescript/lib/lib.dom.d.ts",
-      "../../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
-      "../../../node_modules/typescript/lib/lib.scripthost.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2016.array.include.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.object.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.string.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.intl.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.intl.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.promise.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2020.bigint.d.ts",
-      "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
       "../../../node_modules/chalk/index.d.ts",
       "../../../node_modules/@types/fs-extra/node_modules/@types/node/globals.d.ts",
       "../../../node_modules/@types/fs-extra/node_modules/@types/node/assert.d.ts",
@@ -3714,8 +3683,38 @@
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
       "../../../node_modules/@types/shelljs/index.d.ts",
+      "../src/index.ts",
       "../src/types.d.ts",
-      "../src/index.ts"
+      "../../../node_modules/typescript/lib/lib.es2015.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2016.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.d.ts",
+      "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.bigint.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "../../../node_modules/typescript/lib/lib.scripthost.d.ts",
+      "../../../node_modules/typescript/lib/lib.webworker.importscripts.d.ts",
+      "../../../node_modules/typescript/lib/lib.dom.d.ts",
+      "../../../node_modules/typescript/lib/lib.es5.d.ts"
     ]
   },
   "version": "3.8.3"

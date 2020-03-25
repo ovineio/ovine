@@ -1,5 +1,7 @@
 import { DefaultTheme } from 'styled-components'
 
+import * as Types from '@/utils/types'
+
 export const cxdTheme: Types.DeepPartial<DefaultTheme> = {
   ns: 'cxd-',
   name: 'cxd',

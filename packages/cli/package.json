@@ -20,7 +20,8 @@
     "rt-cli": "bin/index.js"
   },
   "scripts": {
-    "tsc": "tsc && node cpoy_to_lib.js"
+    "clean": "rimraf ./lib",
+    "tsc": "yarn clean && tsc && node cpoy_to_lib.js"
   },
   "bugs": {
     "url": "https://github.com/CareyToboo/rt-admin/issues"

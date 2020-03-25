@@ -1,3 +1,4 @@
+import * as Req from "./request/types";
 declare type MockListStoreOption<T = {}> = {
     generator: (index: number) => T;
     idField?: string;
@@ -6,7 +7,7 @@ declare type MockListStoreOption<T = {}> = {
 declare type Updater<T = {}> = Partial<T> | ((d: Partial<T>) => Partial<T>);
 declare type OperationOption<S = {}, P = {}> = {
     updater?: Updater<S>;
-    response?: Req.ServerApiRes<P>;
+    response?: Req.ReqServerApiRes<P>;
 };
 export declare class MockListStore<S = {}, P = S> {
     private list;
@@ -14,10 +15,10 @@ export declare class MockListStore<S = {}, P = S> {
     constructor(option: MockListStoreOption<S>);
     getList(): S[];
     search(query?: (list: S[]) => S[]): S[];
-    add(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S>;
-    updateById(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S>;
-    deleteById(data: P, option: OperationOption<S, P>): Req.ServerApiRes<S>;
-    deleteBy(predicate: (data: P) => boolean, option: OperationOption<S, P>): Req.ServerApiRes<S>;
+    add(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S>;
+    updateById(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S>;
+    deleteById(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S>;
+    deleteBy(predicate: (data: P) => boolean, option: OperationOption<S, P>): Req.ReqServerApiRes<S>;
     private generator;
     private resolveOption;
     private getItemInfo;
@@ -34,4 +35,3 @@ export declare const mockResError: (...args: any[]) => {
     error: any;
 };
 export {};
-//# sourceMappingURL=mock.d.ts.map

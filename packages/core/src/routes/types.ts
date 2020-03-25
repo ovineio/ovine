@@ -2,6 +2,8 @@ import { LinkItem } from 'amis/lib/components/AsideNav'
 import { RouteProps } from 'react-router-dom'
 
 import { AmisProps } from '@/components/amis/schema'
+import { ReqOption } from '@/utils/request/types'
+import * as Types from '@/utils/types'
 
 export type Limit = {
   label: string
@@ -22,7 +24,7 @@ export type PagePreset = {
   limits?: Types.ObjectOf<Limit>
   // 页面内所有异步请求
   apis?: Types.ObjectOf<
-    Req.Option &
+    ReqOption &
       LimitSchema & {
         key?: string
       }

@@ -1,6 +1,8 @@
 import { DefaultTheme } from 'styled-components'
 
-export const darkTheme: Types.DeepPartial<DefaultTheme> = {
+import { DeepPartial } from '@/utils/types'
+
+export const darkTheme: DeepPartial<DefaultTheme> = {
   ns: 'dark-',
   name: 'dark',
   text: '暗黑主题',

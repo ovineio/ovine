@@ -6,6 +6,7 @@ import isArray from 'lodash/isArray'
 
 import logger from '@/utils/logger'
 import { isSubStr } from '@/utils/tool'
+import * as Types from '@/utils/types'
 
 import { CheckLimitFunc } from '../types'
 

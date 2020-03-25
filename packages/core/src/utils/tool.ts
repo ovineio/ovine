@@ -1,6 +1,8 @@
 import { isArray, isObject, map, random, isFunction } from 'lodash'
 import { createElement } from 'react'
 
+import * as Types from '@/utils/types'
+
 /**
  * 模版替换字符串 {}
  * @param template String 待替换字符串

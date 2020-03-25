@@ -6,4 +6,3 @@ declare type ReqOptions = {
 export declare class AppRequest<T = {}, K = {}> extends Request<T & ReqOptions, K> {
 }
 export {};
-//# sourceMappingURL=request.d.ts.map

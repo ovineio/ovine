@@ -17,4 +17,3 @@ declare type Props = {
 };
 declare const _default: React.FunctionComponent<Props>;
 export default _default;
-//# sourceMappingURL=head_item.d.ts.map

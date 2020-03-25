@@ -1,7 +1,14 @@
 __fixtures__
 
 dist
+lib
+build
+backup
 node_modules
+static
 
-/backup
-/website/docs/build
+.rtadmin
+
+/packages/init/tmp
+/packages/init/templates
+/packages/init/env

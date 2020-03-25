@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import * as Types from "./types";
 /**
  * 模版替换字符串 {}
  * @param template String 待替换字符串
@@ -45,4 +46,3 @@ export declare function json2reactFactory(mapper: Types.ObjectOf<any> | ((type: 
     type: string;
     children?: any;
 }) => string | number | import("react").ReactElement<{}, string | ((props: any) => import("react").ReactElement<any, string | any | (new (props: any) => import("react").Component<any, any, any>)> | null) | (new (props: any) => import("react").Component<any, any, any>)> | null;
-//# sourceMappingURL=tool.d.ts.map

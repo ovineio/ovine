@@ -52,9 +52,11 @@ export function getPageMockSource(option) {
     return undefined;
 }
 // 异步获取主题 css 文件
-export function getThemeCss(theme) {
+export function getThemeCssAsync(theme) {
     return __awaiter(this, void 0, void 0, function* () {
-        require(/* webpackChunkName: "theme_[request]" */ `@generated/styles/themes/${theme}.css`);
+        return import(
+        /* webpackChunkName: "theme_[request]" */
+        `@generated/styles/themes/${theme}.css`);
     });
 }
 // 异步获取页面文件

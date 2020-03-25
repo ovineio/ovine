@@ -3,14 +3,16 @@ import './includes'
 
 import { defaultsDeep, get, isFunction, set } from 'lodash'
 
-import { AppInstance } from '@rtadmin/core/app/instance'
+import { AppInstance } from '@rtadmin/core/lib/app/instance'
 
 import { defaultEnvMode } from '@/constants'
 import { isSubStr } from '@/utils/tool'
 
+import * as Types from '@/utils/types'
+
 import { AppRequest } from './request'
 import { AppTheme } from './theme'
-import { AppConfig, EnvConfig } from './types'
+import { AppConfig, EnvConfig, AppDefInstance } from './types'
 
 const source: any = {}
 
@@ -192,6 +194,6 @@ class App extends AppProxy {
   }
 }
 
-const app: AppInstance & App = new App() as any
+const app: AppInstance & Omit<AppDefInstance, keyof AppInstance> & App = new App() as any
 
 export { app, AppRequest, AppTheme }

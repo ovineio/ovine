@@ -4,6 +4,7 @@
  */
 
 import { app } from '@/app'
+import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
@@ -37,7 +38,7 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
 }
 
 // 获取 mock。默认为  pages/xxx/mock.ts 存在该文件，将自动注入mock到prest每一个 api
-export function getPageMockSource(option: PageFileOption): Req.MockSource | undefined {
+export function getPageMockSource(option: PageFileOption): ReqMockSource | undefined {
   const filePath = getPageFilePath(option)
 
   try {
@@ -53,9 +54,11 @@ export function getPageMockSource(option: PageFileOption): Req.MockSource | unde
 }
 
 // 异步获取主题 css 文件
-export async function getThemeCss(theme: string) {
-  require(/* webpackChunkName: "theme_[request]" */
-  `@generated/styles/themes/${theme}.css`)
+export async function getThemeCssAsync(theme: string) {
+  return import(
+    /* webpackChunkName: "theme_[request]" */
+    `@generated/styles/themes/${theme}.css`
+  )
 }
 
 // 异步获取页面文件

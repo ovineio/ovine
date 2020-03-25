@@ -1,6 +1,8 @@
 import { LinkItem } from 'amis/lib/components/AsideNav';
 import { RouteProps } from 'react-router-dom';
 import { AmisProps } from "../components/amis/schema";
+import { ReqOption } from "../utils/request/types";
+import * as Types from "../utils/types";
 export declare type Limit = {
     label: string;
     icon?: string;
@@ -14,7 +16,7 @@ export declare type LimitSchema = {
 export declare type PagePreset = {
     nodePath?: string;
     limits?: Types.ObjectOf<Limit>;
-    apis?: Types.ObjectOf<Req.Option & LimitSchema & {
+    apis?: Types.ObjectOf<ReqOption & LimitSchema & {
         key?: string;
     }>;
 };
@@ -51,4 +53,3 @@ export declare type CheckLimitFunc = (limitKeys?: string | string[], option?: {
     limits?: any;
 }) => boolean;
 export declare type PresetCtxState = PagePreset;
-//# sourceMappingURL=types.d.ts.map

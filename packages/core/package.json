@@ -4,8 +4,9 @@
   "description": "Build flexible admin system with json.",
   "private": false,
   "scripts": {
-    "tsc": "ttsc",
-    "dev": "ttsc -w"
+    "tsc": "yarn clean && ttsc",
+    "dev": "ttsc -w",
+    "clean": "rimraf ./lib"
   },
   "keywords": [
     "aims",

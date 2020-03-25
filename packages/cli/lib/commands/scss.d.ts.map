@@ -1,1 +1,0 @@
-{"version":3,"file":"scss.d.ts","sourceRoot":"","sources":["../../src/commands/scss.ts"],"names":[],"mappings":"AAWA,aAAK,OAAO,GAAG;IACb,OAAO,CAAC,EAAE,OAAO,CAAA;IACjB,KAAK,CAAC,EAAE,OAAO,CAAA;CAChB,CAAA;AACD,wBAAsB,IAAI,CAAC,OAAO,EAAE,MAAM,EAAE,OAAO,GAAE,OAAY,GAAG,OAAO,CAAC,IAAI,CAAC,CAyEhF"}

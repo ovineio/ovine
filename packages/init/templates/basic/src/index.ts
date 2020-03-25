@@ -3,12 +3,34 @@ import { coreStatic, storage } from '@rtadmin/core/lib/constants'
 import { setAppLimits } from '@rtadmin/core/lib/routes/limit/exports'
 import { getStore } from '@rtadmin/core/lib/utils/store'
 
+import { mockSource as loginMock } from './pages/login/mock'
+
 app.create({
   env: {
-    // 环境变量
-    localhost: {}, // 本地开发
-    staging: {}, // 测试环境
-    production: {}, // 生产环境
+    // 默认配置
+    default: {
+      domains: {
+        api: 'https://test-api.com',
+      },
+    },
+    // 本地开发
+    localhost: {
+      domains: {
+        api: 'https://test-api.com',
+      },
+    },
+    // 测试环境
+    staging: {
+      domains: {
+        api: 'https://test-api.com',
+      },
+    },
+    // 生产环境
+    production: {
+      domains: {
+        api: 'https://prod-api.com',
+      },
+    },
   },
   entry: [
     {
@@ -20,9 +42,12 @@ app.create({
       type: 'private-route', // 私有路由
       path: '/',
       redirect: '/login',
-      onAuth: () => {
-        // 验证
-        setAppLimits(getStore(storage.dev.limit) || '')
+      onAuth: async () => {
+        const userInfo = await app.request<{ limit: string }>({
+          url: 'GET api/v1/user_info',
+          mockSource: loginMock,
+        })
+        setAppLimits(userInfo.data.limit || getStore(storage.dev.limit) || '')
         return true
       },
       children: {

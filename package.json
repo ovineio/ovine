@@ -12,7 +12,7 @@
     "build:demo": "yarn workspace rt_example deploy",
     "changelog": "lerna-changelog",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
-    "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix",
+    "eslint": "eslint --cache --fix \"**/*.{js,jsx,ts,tsx}\"",
     "lerna": "lerna",
     "test": "jest --colors --errorOnDeprecated --expand",
     "jest:clear": "jest --clearCache",
@@ -55,10 +55,11 @@
     "lerna-changelog": "^1.0.0",
     "lint-staged": "^10.0.7",
     "prettier": "^1.19.1",
+    "rimraf": "^3.0.2",
+    "styled-components": "^5.0.0",
     "ttypescript": "^1.5.10",
     "typescript": "^3.8.2",
-    "typescript-transform-paths": "^1.1.14",
-    "styled-components": "^5.0.0"
+    "typescript-transform-paths": "^1.1.14"
   },
   "engines": {
     "node": ">=10.9.0"

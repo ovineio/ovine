@@ -48,4 +48,3 @@ export interface ConfigureWebpackUtils {
     getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader;
 }
 export {};
-//# sourceMappingURL=types.d.ts.map

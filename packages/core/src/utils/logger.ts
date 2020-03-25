@@ -4,6 +4,7 @@
  */
 
 /* eslint-disable no-console */
+import * as Types from '@/utils/types'
 
 type Level = 'log' | 'info' | 'warn' | 'error'
 

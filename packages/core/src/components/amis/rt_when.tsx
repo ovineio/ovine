@@ -40,6 +40,6 @@ const RtWhen = (props: Props) => {
 }
 
 Renderer({
-  test: /(^|\/)rt\-when$/,
+  test: /(^|\/)rt-when$/,
   name: 'rt-when',
 })(RtWhen as RendererComponent)

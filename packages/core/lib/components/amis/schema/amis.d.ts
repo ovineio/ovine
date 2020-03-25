@@ -12,4 +12,3 @@ declare type Option = {
 };
 declare const _default: (option: Option) => JSX.Element;
 export default _default;
-//# sourceMappingURL=amis.d.ts.map

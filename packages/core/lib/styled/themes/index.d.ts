@@ -7,4 +7,3 @@ declare const themes: {
     dark: any;
 };
 export default themes;
-//# sourceMappingURL=index.d.ts.map

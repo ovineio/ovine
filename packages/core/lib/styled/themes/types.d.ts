@@ -11,4 +11,3 @@ export interface AppThemeVariable {
         border: string;
     };
 }
-//# sourceMappingURL=types.d.ts.map

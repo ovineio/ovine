@@ -37,4 +37,3 @@ export declare class Logger {
 declare const logger: Logger;
 export declare const setConfig: (conf: Partial<Config>) => void;
 export default logger;
-//# sourceMappingURL=logger.d.ts.map

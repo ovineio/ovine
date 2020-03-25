@@ -1,6 +1,7 @@
 /**
  * APP 权限相关工具方法
  */
+import * as Types from "../../utils/types";
 import { CheckLimitFunc } from "../types";
 export declare const convertLimitStr: (limitStr?: string) => Types.ObjectOf<boolean>;
 export declare const getAppLimits: () => Types.ObjectOf<boolean>;
@@ -17,4 +18,3 @@ export declare const checkLimitByNodePath: (nodePath: string, limits?: any) => a
  * @param option nodePath 校验节点。 limits 权限模版，用检查节点
  */
 export declare const checkLimitByKeys: CheckLimitFunc;
-//# sourceMappingURL=exports.d.ts.map

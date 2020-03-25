@@ -6,4 +6,3 @@ declare type Props = LayoutCommProps & Partial<HeaderProps> & {
 };
 declare const _default: (props: Props) => JSX.Element;
 export default _default;
-//# sourceMappingURL=header.d.ts.map

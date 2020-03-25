@@ -22,4 +22,3 @@ declare class ErrorBoundary extends React.Component<Props, State> {
     render(): any;
 }
 export default ErrorBoundary;
-//# sourceMappingURL=index.d.ts.map

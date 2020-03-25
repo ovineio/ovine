@@ -5,4 +5,3 @@ declare type Props = {
 };
 declare const _default: ({ theme, asideMenus }: Props) => JSX.Element;
 export default _default;
-//# sourceMappingURL=aside.d.ts.map

@@ -1,7 +1,7 @@
 import { theme as setAmisTheme } from 'amis';
 import { app } from "../app";
 import { themeNamePrefix, storage, message } from "../constants";
-import { getThemeCss } from "../routes/exports";
+import { getThemeCssAsync } from "../routes/exports";
 import { publish } from "../utils/message";
 import { setStore } from "../utils/store";
 const loadingCls = 'theme-is-loading'; // 异步加载CSS，会导致页面抖动
@@ -18,16 +18,17 @@ export const changeAppTheme = (theme) => {
         bodyCls += ` ${loadingCls}`;
     }
     $('body').addClass(bodyCls);
-    getThemeCss(theme);
-    publish(message.appTheme, theme);
-    setStore(storage.appTheme, theme);
-    if (loading) {
-        loadedCss[theme] = true;
-        setTimeout(() => {
-            $('body').removeClass(bodyCls);
-            pace.stop();
-        }, 1000);
-    }
+    getThemeCssAsync(theme).then(() => {
+        publish(message.appTheme, theme);
+        setStore(storage.appTheme, theme);
+        if (loading) {
+            loadedCss[theme] = true;
+            setTimeout(() => {
+                $('body').removeClass(bodyCls);
+                pace.stop();
+            }, 1000);
+        }
+    });
 };
 export const initAppTheme = () => {
     $('body').addClass(`${themeNamePrefix}${storedTheme}`);
@@ -39,5 +40,5 @@ export const initAppTheme = () => {
             classPrefix: item.ns,
         });
     });
-    getThemeCss(storedTheme);
+    getThemeCssAsync(storedTheme);
 };

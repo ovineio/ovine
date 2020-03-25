@@ -7,6 +7,7 @@ import map from 'lodash/map'
 
 import { routeLimitKey } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
+import * as Types from '@/utils/types'
 
 import { getRouteConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'

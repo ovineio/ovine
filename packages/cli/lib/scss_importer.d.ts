@@ -6,4 +6,3 @@ declare function importer(this: any, url: string, prev: string): false | {
     contents?: undefined;
 } | null;
 export = importer;
-//# sourceMappingURL=scss_importer.d.ts.map

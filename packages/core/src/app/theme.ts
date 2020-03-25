@@ -5,6 +5,7 @@ import { DefaultTheme, withTheme } from 'styled-components'
 import { storage } from '@/constants'
 import presetThemes from '@/styled/themes'
 import { getStore } from '@/utils/store'
+import * as Types from '@/utils/types'
 
 type Themes = {
   default: DefaultTheme

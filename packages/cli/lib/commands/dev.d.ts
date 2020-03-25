@@ -7,4 +7,3 @@ declare type Options = Partial<DevCliOptions> & {
 };
 export declare function dev(siteDir: string, options?: Options): Promise<void>;
 export {};
-//# sourceMappingURL=dev.d.ts.map

@@ -5,4 +5,3 @@ export declare const amisResAdapter: (res: any) => {
         data: any;
     };
 };
-//# sourceMappingURL=exports.d.ts.map

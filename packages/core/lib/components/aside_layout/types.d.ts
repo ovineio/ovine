@@ -29,4 +29,3 @@ export declare type LayoutProps = {
     footer?: RtSchema;
     routes?: RouteItem[];
 };
-//# sourceMappingURL=types.d.ts.map

@@ -1,6 +1,7 @@
 import { Schema } from 'amis/lib/types'
 
 import { LimitSchema, PagePreset } from '@/routes/types'
+import * as Types from '@/utils/types'
 
 export type SchemaPreset = PagePreset & {
   // 所有操作列表

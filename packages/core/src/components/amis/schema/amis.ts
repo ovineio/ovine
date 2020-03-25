@@ -1,7 +1,6 @@
 import { confirm, render, toast } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
-import cloneDeep from 'lodash/cloneDeep'
 import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
@@ -34,7 +33,6 @@ export default (option: Option) => {
     richTextToken: false,
     // 请求模块
     fetcher: (reqOpts: any) => {
-      console.log('~~~==', cloneDeep(reqOpts))
       return app.request(reqOpts).then(amisResAdapter)
     },
     // 是否取消 ajax请求

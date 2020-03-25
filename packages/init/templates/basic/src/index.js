@@ -76,7 +76,6 @@ app.create({
                   {
                     label: '管理员权限',
                     nodePath: 'user_limit',
-                    pathToComponent: 'system/user_limit',
                   },
                   {
                     label: '系统操作日志',
