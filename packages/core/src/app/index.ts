@@ -6,6 +6,7 @@ import { defaultsDeep, get, isFunction, set } from 'lodash'
 import { AppInstance } from '@rtadmin/core/lib/app/instance'
 
 import { defaultEnvMode } from '@/constants'
+import { getPageFileAsync } from '@/routes/exports'
 import { isSubStr } from '@/utils/tool'
 
 import * as Types from '@/utils/types'
@@ -19,6 +20,9 @@ const source: any = {}
 const initConfig: AppConfig = {
   request: new AppRequest(),
   theme: new AppTheme(),
+  styled: {
+    globalStyle: '',
+  },
   env: {
     default: {
       mode: defaultEnvMode,
@@ -146,7 +150,11 @@ class App extends AppProxy {
     }
     set(source, 'entry', entry)
     this.isEntrySetUp = true
-    import(/* webpackChunkName: "app_entry" */ './app').then(({ initApp }) => {
+    import(
+      `./app${''}`
+      /* webpackMode: "eager" */
+      /* webpackChunkName: "app_entry" */
+    ).then(({ initApp }) => {
       initApp()
     })
   }
@@ -189,11 +197,11 @@ class App extends AppProxy {
       isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
       domains: get(source, 'env.domains') || initEnv.domains,
     })
-
-    set(source, 'request', requestIns.request.bind(requestIns))
+    const reqInsFunc = requestIns.request.bind(requestIns)
+    set(source, 'request', reqInsFunc)
   }
 }
 
 const app: AppInstance & Omit<AppDefInstance, keyof AppInstance> & App = new App() as any
 
-export { app, AppRequest, AppTheme }
+export { app, AppRequest, getPageFileAsync, AppTheme }

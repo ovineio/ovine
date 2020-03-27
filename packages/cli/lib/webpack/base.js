@@ -117,8 +117,9 @@ function createBaseConfig(options) {
             minimize: isProd,
             splitChunks: {
                 // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
-                name: false,
                 automaticNameDelimiter: '_',
+                minSize: 0,
+                chunks: 'all',
                 cacheGroups: {
                     "default": false,
                     vendors: false,
@@ -126,15 +127,38 @@ function createBaseConfig(options) {
                         chunks: 'all',
                         name: 'app_vendor',
                         test: /[\\/]node_modules[\\/]/,
-                        priority: 8,
+                        priority: 20,
                         minChunks: 1,
-                        reuseExistingChunk: false
+                        reuseExistingChunk: true
                     },
                     appCommon: {
                         chunks: 'all',
                         name: 'app_common',
-                        priority: 7,
-                        minChunks: 2
+                        test: /[\\/]src[\\/]((?!pages).*)/,
+                        priority: 19,
+                        minChunks: 2,
+                        reuseExistingChunk: true
+                    },
+                    // pagePresets: {
+                    //   chunks: 'all',
+                    //   name: 'page_presets',
+                    //   test: /[\\/]src[\\/]pages[\\/].*[\\/]preset\.[j|t]sx?$/,
+                    //   priority: 18,
+                    //   minChunks: 1,
+                    //   reuseExistingChunk: true,
+                    // },
+                    pages: {
+                        chunks: 'all',
+                        test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
+                        name: function (mod) {
+                            var resolveMod = mod.context.match(/p_[\\/]src[\\/]pages[\\/](.*)$/);
+                            var modPath = !resolveMod ? 'app_common' : resolveMod[1].replace(/[\\/]/g, '_');
+                            return modPath;
+                        },
+                        priority: 17,
+                        minChunks: 1,
+                        enforce: true,
+                        reuseExistingChunk: true
                     }
                 }
             }
@@ -218,7 +242,7 @@ function createBaseConfig(options) {
                     tslint: !fs_extra_1["default"].existsSync(siteDir + "/" + tsLintConfFileName)
                         ? undefined
                         : siteDir + "/" + tsLintConfFileName,
-                    reportFiles: [srcDir + "/src/**/*.{ts,tsx}", siteDir + "/typings/**/*.{ts,tsx}"],
+                    reportFiles: [siteDir + "/src/**/*.{ts,tsx}", siteDir + "/typings/**/*.{ts,tsx}"],
                     silent: true
                 }),
             new webpack_1.DllReferencePlugin({

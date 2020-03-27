@@ -23,6 +23,6 @@ const RtWhen = (props) => {
     return !schema ? null : render('body', schema);
 };
 Renderer({
-    test: /(^|\/)rt\-when$/,
+    test: /(^|\/)rt-when$/,
     name: 'rt-when',
 })(RtWhen);

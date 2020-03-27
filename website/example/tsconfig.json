@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "ES6",
+    "module": "ESNext",
     "lib": ["dom", "es2017"],
     "moduleResolution": "Node",
     "noImplicitAny": false,
@@ -10,8 +10,8 @@
     "rootDir": ".",
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"],
-      "@rtadmin/core/lib/*": ["../../../packages/core/lib/*"]
+      "~/*": ["./*"]
+      // "@rtadmin/core/lib/*": ["../../../packages/core/lib/*"]
     },
     "types": [
       "@types/react",

@@ -1,5 +1,4 @@
 import { confirm, render, toast } from 'amis';
-import cloneDeep from 'lodash/cloneDeep';
 import { app } from "../../../app";
 import logger from "../../../utils/logger";
 import { amisResAdapter } from "../exports";
@@ -17,7 +16,6 @@ export default (option) => {
         richTextToken: false,
         // 请求模块
         fetcher: (reqOpts) => {
-            console.log('~~~==', cloneDeep(reqOpts));
             return app.request(reqOpts).then(amisResAdapter);
         },
         // 是否取消 ajax请求

@@ -1,3 +1,4 @@
 - You might have more than one copy of React in the same app
   - describe: https://github.com/facebook/react/issues/13991#issuecomment-435135293
   - fixed: https://github.com/facebook/react/issues/13991#issuecomment-449597362
+- webpack.SplitChunks.minSize 会将小包合并，再测试打包时，一定将其设置为 0。

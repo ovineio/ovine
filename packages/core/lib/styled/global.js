@@ -1,8 +1,9 @@
 import isFunction from 'lodash/isFunction';
 import { createGlobalStyle, css } from 'styled-components';
-const getSiteGlobalStyle = (props) => {
+import { app } from "../app";
+const getSiteStyle = (props) => {
     try {
-        const siteStyle = require('~/styled/global');
+        const siteStyle = app.styled.globalStyle;
         return !isFunction(siteStyle) ? siteStyle : siteStyle(props);
     }
     catch (_) {
@@ -68,6 +69,6 @@ const GlobalStyle = createGlobalStyle `
   `}
 
   /** site 全局样式 */
-  ${({ theme }) => getSiteGlobalStyle(theme)}
+  ${({ theme }) => getSiteStyle(theme)}
 `;
 export default GlobalStyle;

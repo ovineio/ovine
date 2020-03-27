@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
 
+    "removeComments": false,
     "declaration": true,
     // "declarationMap": true,
 

@@ -21,7 +21,8 @@
   },
   "scripts": {
     "clean": "rimraf ./lib",
-    "tsc": "yarn clean && tsc && node cpoy_to_lib.js"
+    "tsc": "yarn clean && tsc && node cpoy_to_lib.js",
+    "dev": "tsc -w"
   },
   "bugs": {
     "url": "https://github.com/CareyToboo/rt-admin/issues"

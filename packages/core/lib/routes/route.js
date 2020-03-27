@@ -17,13 +17,13 @@ import { eachTree } from 'amis/lib/utils/helper';
 import { isFunction, map } from 'lodash';
 import React, { createContext, lazy, useContext, useMemo, Suspense, useState, useEffect, } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { app } from "../app";
+import { app, getPageFileAsync } from "../app";
 import NotFound from "../components/404";
 import { Amis } from "../components/amis/schema";
 import { LayoutLazyFallback } from "../components/aside_layout/loading";
 import ErrorBoundary from "../components/error_boundary";
 import { isSubStr } from "../utils/tool";
-import { getNodePath, getPageFileAsync, getPageMockSource, getPagePreset, getRoutePath, currPath, } from "./exports";
+import { getNodePath, getPageMockSource, getPagePreset, getRoutePath, currPath } from "./exports";
 import { checkLimitByKeys } from "./limit/exports";
 const PageSpinner = React.createElement(Spinner, { overlay: true, show: true, size: "lg", key: "pageLoading" });
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件

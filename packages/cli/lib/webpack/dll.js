@@ -79,7 +79,12 @@ function createDllConfig(options) {
         module: {
             rules: [
                 {
-                    test: /amis\/lib\/components\/Editor.js$/,
+                    test: /\.[t|j]sx?$/,
+                    exclude: /[\\/]amis[\\/]lib[\\/]components[\\/]Editor/,
+                    use: babelLoader
+                },
+                {
+                    test: /[\\/]amis[\\/]lib[\\/]components[\\/]Editor/,
                     use: [
                         babelLoader,
                         {
@@ -87,14 +92,10 @@ function createDllConfig(options) {
                             options: {
                                 search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
                                 flags: 'm',
-                                replace: "function filterUrl(url) {return " + ("" + publicPath + staticLibDirPath) + " + url.substring(1);"
+                                replace: "function filterUrl(url) {return '" + ("" + publicPath + staticLibDirPath + "/") + "' + url.substring(1);"
                             }
                         },
                     ]
-                },
-                {
-                    test: /\.js|jsx$/,
-                    use: [babelLoader]
                 },
                 {
                     test: /\.css$/,

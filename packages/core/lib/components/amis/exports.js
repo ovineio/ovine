@@ -11,7 +11,6 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 // 请求返回值 格式转化
 export const amisResAdapter = (res) => {
-    console.log('==', res);
     const { code = 0, data: resData, msg, message } = res, rest = __rest(res, ["code", "data", "msg", "message"]);
     const response = {
         status: code,

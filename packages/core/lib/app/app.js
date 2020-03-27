@@ -1,6 +1,7 @@
 import defaultsDeep from 'lodash/defaultsDeep';
 import React from 'react';
 import { render } from 'react-dom';
+import "../routes/exports";
 import { App } from "../components/app";
 import { appRootId } from "../constants";
 import { initAppTheme } from "../styled/theme";

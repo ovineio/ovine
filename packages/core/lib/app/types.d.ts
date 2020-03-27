@@ -1,3 +1,4 @@
+import { DefaultTheme } from 'styled-components';
 import { LoggerConfig } from "../utils/logger";
 import { ClassMethod, DeepPartial, Map } from "../utils/types";
 import { AppRequest } from "./request";
@@ -19,6 +20,9 @@ export interface AppConfig {
     env: EnvConfig;
     entry: any[];
     amis: any;
+    styled: {
+        globalStyle: string | ((theme: DefaultTheme) => any);
+    };
     constants: {
         baseUrl: string;
         notFound: {

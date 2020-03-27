@@ -16,21 +16,14 @@ import React, {
 } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import { app } from '@/app'
+import { app, getPageFileAsync } from '@/app'
 import NotFound from '@/components/404'
 import { Amis } from '@/components/amis/schema'
 import { LayoutLazyFallback } from '@/components/aside_layout/loading'
 import ErrorBoundary from '@/components/error_boundary'
 import { isSubStr } from '@/utils/tool'
 
-import {
-  getNodePath,
-  getPageFileAsync,
-  getPageMockSource,
-  getPagePreset,
-  getRoutePath,
-  currPath,
-} from './exports'
+import { getNodePath, getPageMockSource, getPagePreset, getRoutePath, currPath } from './exports'
 import { checkLimitByKeys } from './limit/exports'
 import {
   CheckLimitFunc,

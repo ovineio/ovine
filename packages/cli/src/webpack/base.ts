@@ -2,7 +2,7 @@ import { version as cacheLoaderVersion } from 'cache-loader/package.json'
 import CleanPlugin from 'clean-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
-import fs from 'fs-extra'
+import fse from 'fs-extra'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
@@ -60,7 +60,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     options: getBabelConfig(siteDir),
   }
 
-  const useTs = fs.existsSync(`${siteDir}/${tsConfFileName}`)
+  const useTs = fse.existsSync(`${siteDir}/${tsConfFileName}`)
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
@@ -112,7 +112,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       modules: [
         path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
-        path.resolve(fs.realpathSync(process.cwd()), 'node_modules'),
+        path.resolve(fse.realpathSync(process.cwd()), 'node_modules'),
       ],
     },
     optimization: {
@@ -125,8 +125,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       minimize: isProd,
       splitChunks: {
         // Since the chunk name includes all origin chunk names it’s recommended for production builds with long term caching to NOT include [name] in the filenames
-        name: false,
         automaticNameDelimiter: '_',
+        minSize: 0,
+        chunks: 'all',
         cacheGroups: {
           default: false, // disabled default configuration
           vendors: false, // disabled splitChunks vendors configuration
@@ -134,15 +135,38 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             chunks: 'all',
             name: 'app_vendor',
             test: /[\\/]node_modules[\\/]/,
-            priority: 8,
+            priority: 20,
             minChunks: 1,
-            reuseExistingChunk: false,
+            reuseExistingChunk: true,
           },
           appCommon: {
             chunks: 'all',
             name: 'app_common',
-            priority: 7,
+            test: /[\\/]src[\\/]((?!pages).*)/,
+            priority: 19,
             minChunks: 2,
+            reuseExistingChunk: true,
+          },
+          // pagePresets: {
+          //   chunks: 'all',
+          //   name: 'page_presets',
+          //   test: /[\\/]src[\\/]pages[\\/].*[\\/]preset\.[j|t]sx?$/,
+          //   priority: 18,
+          //   minChunks: 1,
+          //   reuseExistingChunk: true,
+          // },
+          pages: {
+            chunks: 'all',
+            test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
+            name: (mod: any) => {
+              const resolveMod = mod.context.match(/p_[\\/]src[\\/]pages[\\/](.*)$/)
+              const modPath = !resolveMod ? 'app_common' : resolveMod[1].replace(/[\\/]/g, '_')
+              return modPath
+            },
+            priority: 17,
+            minChunks: 1,
+            enforce: true,
+            reuseExistingChunk: true,
           },
         },
       },
@@ -224,14 +248,14 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       useTs &&
         new TsCheckerPlugin({
           tsconfig: `${siteDir}/${tsConfFileName}`,
-          eslint: fs.existsSync(`${siteDir}/${esLintFileName}`),
+          eslint: fse.existsSync(`${siteDir}/${esLintFileName}`),
           eslintOptions:
-            fs.existsSync(`${siteDir}/${esLintFileName}`) &&
+            fse.existsSync(`${siteDir}/${esLintFileName}`) &&
             require(`${siteDir}/${esLintFileName}`),
-          tslint: !fs.existsSync(`${siteDir}/${tsLintConfFileName}`)
+          tslint: !fse.existsSync(`${siteDir}/${tsLintConfFileName}`)
             ? undefined
             : `${siteDir}/${tsLintConfFileName}`,
-          reportFiles: [`${srcDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
+          reportFiles: [`${siteDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
           silent: true,
         }),
       new DllReferencePlugin({
@@ -293,7 +317,7 @@ function getCopyPlugin(siteDir: string) {
     },
   ]
 
-  if (fs.pathExistsSync(siteStaticDir)) {
+  if (fse.pathExistsSync(siteStaticDir)) {
     copyFiles.unshift({
       from: siteStaticDir,
       to: outStaticDir,
