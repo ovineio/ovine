@@ -38,7 +38,7 @@ var babel_1 = require("./babel");
 var log_plugin_1 = __importDefault(require("./plugins/log_plugin"));
 var libName = constants.libName, generatedDirName = constants.generatedDirName, staticDirName = constants.staticDirName, tsConfFileName = constants.tsConfFileName, tsLintConfFileName = constants.tsLintConfFileName, webpackConfFileName = constants.webpackConfFileName, dllVendorDirPath = constants.dllVendorDirPath, dllManifestFile = constants.dllManifestFile, dllVendorFileName = constants.dllVendorFileName, dllAssetsFile = constants.dllAssetsFile, staticLibDirPath = constants.staticLibDirPath, esLintFileName = constants.esLintFileName;
 function createBaseConfig(options) {
-    var outDir = options.outDir, srcDir = options.srcDir, genDir = options.genDir, siteDir = options.siteDir, publicPath = options.publicPath, env = options.env, bundleAnalyzer = options.bundleAnalyzer, mock = options.mock, siteConfig = options.siteConfig;
+    var outDir = options.outDir, srcDir = options.srcDir, genDir = options.genDir, siteDir = options.siteDir, publicPath = options.publicPath, env = options.env, bundleAnalyzer = options.bundleAnalyzer, mock = options.mock, siteConfig = options.siteConfig, _a = options.dll, dll = _a === void 0 ? true : _a;
     var isProd = utils_1.globalStore('get', 'isProd') || false;
     var cacheLoader = {
         loader: 'cache-loader',
@@ -133,32 +133,30 @@ function createBaseConfig(options) {
                     },
                     appCommon: {
                         chunks: 'all',
-                        name: 'app_common',
                         test: /[\\/]src[\\/]((?!pages).*)/,
+                        name: 'app_common',
                         priority: 19,
                         minChunks: 2,
                         reuseExistingChunk: true
                     },
-                    // pagePresets: {
-                    //   chunks: 'all',
-                    //   name: 'page_presets',
-                    //   test: /[\\/]src[\\/]pages[\\/].*[\\/]preset\.[j|t]sx?$/,
-                    //   priority: 18,
-                    //   minChunks: 1,
-                    //   reuseExistingChunk: true,
-                    // },
                     pages: {
-                        chunks: 'all',
+                        chunks: 'async',
                         test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
+                        // test: (mod: any) => {
+                        //   const isPages = /[\\/]src[\\/]pages[\\/]((?!preset).*)/.test(mod.context)
+                        //   return isPages
+                        // },
                         name: function (mod) {
-                            var resolveMod = mod.context.match(/p_[\\/]src[\\/]pages[\\/](.*)$/);
-                            var modPath = !resolveMod ? 'app_common' : resolveMod[1].replace(/[\\/]/g, '_');
+                            // console.log('mod.context~~', mod.context)
+                            var resolveMod = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/);
+                            var modPath = !resolveMod
+                                ? 'pages_common'
+                                : "p_" + resolveMod[1].replace(/[\\/]/g, '_');
                             return modPath;
                         },
-                        priority: 17,
+                        priority: 18,
                         minChunks: 1,
-                        enforce: true,
-                        reuseExistingChunk: true
+                        enforce: true
                     }
                 }
             }
@@ -242,12 +240,13 @@ function createBaseConfig(options) {
                     tslint: !fs_extra_1["default"].existsSync(siteDir + "/" + tsLintConfFileName)
                         ? undefined
                         : siteDir + "/" + tsLintConfFileName,
-                    reportFiles: [siteDir + "/src/**/*.{ts,tsx}", siteDir + "/typings/**/*.{ts,tsx}"],
+                    reportFiles: ['src/**/*.{ts,tsx}', 'typings/**/*.{ts,tsx}'],
                     silent: true
                 }),
-            new webpack_1.DllReferencePlugin({
-                manifest: siteDir + "/" + dllManifestFile
-            }),
+            dll &&
+                new webpack_1.DllReferencePlugin({
+                    manifest: siteDir + "/" + dllManifestFile
+                }),
             new mini_css_extract_plugin_1["default"]({
                 filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
                 chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].css' : 'chunks/[name].css',
@@ -255,7 +254,7 @@ function createBaseConfig(options) {
                 // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
                 ignoreOrder: true
             }),
-            new html_webpack_plugin_1["default"](__assign(__assign({}, lodash_1["default"].pick(siteConfig.template, ['head', 'postBody', 'preBody'])), { title: siteConfig.title, favIcon: siteConfig.favicon, staticLibPath: "" + publicPath + staticLibDirPath + "/", template: path_1["default"].resolve(__dirname, './template.ejs'), filename: outDir + "/index.html", dllVendorCss: getDllDistFile(siteDir, 'css'), dllVendorJs: getDllDistFile(siteDir, 'js') })),
+            new html_webpack_plugin_1["default"](__assign(__assign({}, lodash_1["default"].pick(siteConfig.template, ['head', 'postBody', 'preBody'])), { title: siteConfig.title, favIcon: siteConfig.favicon, staticLibPath: "" + publicPath + staticLibDirPath + "/", template: path_1["default"].resolve(__dirname, './template.ejs'), filename: outDir + "/index.html", dllVendorCss: getDllDistFile(siteDir, 'css'), dllVendorJs: dll && getDllDistFile(siteDir, 'js') })),
         ].filter(Boolean)
     };
     var config = utils_1.mergeWebpackConfig(baseConfig, siteDir + "/" + webpackConfFileName);

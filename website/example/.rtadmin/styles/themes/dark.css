@@ -23,6 +23,9 @@ pre {
 .markdown-body {
   color: #f3f1f1; }
 
+html {
+  background: green; }
+
 /* Reset
   =============== */
 html {

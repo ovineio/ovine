@@ -8,7 +8,8 @@
     "build": "rt-cli build",
     "scss": "rt-cli scss",
     "dll": "rt-cli dll",
-    "help": "rt-cli -h"
+    "help": "rt-cli -h",
+    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?"
   },
   "dependencies": {
     "@rtadmin/core": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/core?cli",

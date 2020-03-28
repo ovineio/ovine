@@ -78,7 +78,7 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
     )}`
     // console.log('siteCmd===>\n', siteCmd, '\n')
     shell.exec(siteCmd, scssCmdOpts, (_, __, stderr) => {
-      if (stderr) {
+      if (stderr && !/No input file/.test(stderr)) {
         console.error(chalk.red(stderr))
         return
       }

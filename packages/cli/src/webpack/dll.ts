@@ -22,6 +22,7 @@ const {
   dllAssetsFile,
   libName,
   staticLibDirPath,
+  dllVendorDirPath,
 } = constants
 
 const dllName = '[name]_[hash:6]'
@@ -122,7 +123,7 @@ export function createDllConfig(options: ConfigOptions) {
             {
               loader: 'url-loader',
               options: {
-                publicPath: `${publicPath}${dllDirPath}/`,
+                publicPath: `${publicPath}${dllVendorDirPath}/`,
                 limit: 2000, // 低于2K 使用 base64
                 name: '[name]_[contenthash:6].[ext]',
               },
@@ -137,7 +138,7 @@ export function createDllConfig(options: ConfigOptions) {
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
-      publicPath: `${publicPath}${dllDirPath}/`,
+      publicPath: `${publicPath}${dllVendorDirPath}/`,
     },
     plugins: [
       new LogPlugin({

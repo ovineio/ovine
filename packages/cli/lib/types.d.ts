@@ -8,7 +8,7 @@ export declare type SiteConfig = {
     publicPath: string;
     favicon: string;
     title: string;
-    env: string[];
+    envModes: string[];
     devServerProxy: any;
     staticFileExt?: string;
     template?: TemplateConfig;
@@ -24,6 +24,7 @@ export declare type DevCliOptions = CliOptions & {
     port: string;
     host: string;
     open: boolean;
+    dll: boolean;
 };
 export declare type BuildCliOptions = CliOptions & {
     bundleAnalyzer: boolean;

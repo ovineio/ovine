@@ -44,6 +44,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     bundleAnalyzer,
     mock,
     siteConfig,
+    dll = true,
   } = options
 
   const isProd = globalStore('get', 'isProd') || false
@@ -141,11 +142,31 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           },
           appCommon: {
             chunks: 'all',
-            name: 'app_common',
             test: /[\\/]src[\\/]((?!pages).*)/,
+            name: 'app_common',
             priority: 19,
             minChunks: 2,
             reuseExistingChunk: true,
+          },
+          pages: {
+            chunks: 'async',
+            test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
+            // test: (mod: any) => {
+            //   const isPages = /[\\/]src[\\/]pages[\\/]((?!preset).*)/.test(mod.context)
+            //   return isPages
+            // },
+            name: (mod: any) => {
+              // console.log('mod.context~~', mod.context)
+              const resolveMod = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
+              const modPath = !resolveMod
+                ? 'pages_common'
+                : `p_${resolveMod[1].replace(/[\\/]/g, '_')}`
+              return modPath
+            },
+            priority: 18,
+            minChunks: 1,
+            enforce: true,
+            // reuseExistingChunk: true,
           },
           // pagePresets: {
           //   chunks: 'all',
@@ -155,19 +176,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           //   minChunks: 1,
           //   reuseExistingChunk: true,
           // },
-          pages: {
-            chunks: 'all',
-            test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
-            name: (mod: any) => {
-              const resolveMod = mod.context.match(/p_[\\/]src[\\/]pages[\\/](.*)$/)
-              const modPath = !resolveMod ? 'app_common' : resolveMod[1].replace(/[\\/]/g, '_')
-              return modPath
-            },
-            priority: 17,
-            minChunks: 1,
-            enforce: true,
-            reuseExistingChunk: true,
-          },
         },
       },
     },
@@ -255,12 +263,13 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           tslint: !fse.existsSync(`${siteDir}/${tsLintConfFileName}`)
             ? undefined
             : `${siteDir}/${tsLintConfFileName}`,
-          reportFiles: [`${siteDir}/src/**/*.{ts,tsx}`, `${siteDir}/typings/**/*.{ts,tsx}`],
+          reportFiles: ['src/**/*.{ts,tsx}', 'typings/**/*.{ts,tsx}'],
           silent: true,
         }),
-      new DllReferencePlugin({
-        manifest: `${siteDir}/${dllManifestFile}`,
-      } as any),
+      dll &&
+        new DllReferencePlugin({
+          manifest: `${siteDir}/${dllManifestFile}`,
+        } as any),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
         chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].css' : 'chunks/[name].css',
@@ -276,7 +285,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
         dllVendorCss: getDllDistFile(siteDir, 'css'),
-        dllVendorJs: getDllDistFile(siteDir, 'js'),
+        dllVendorJs: dll && getDllDistFile(siteDir, 'js'),
       }),
     ].filter(Boolean) as any[],
   }

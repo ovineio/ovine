@@ -9,6 +9,7 @@ var __rest = (this && this.__rest) || function (s, e) {
         }
     return t;
 };
+import { uuid } from 'amis/lib/utils/helper';
 import { isArray, isObject, map, random, isFunction } from 'lodash';
 import { createElement } from 'react';
 /**
@@ -185,7 +186,10 @@ export function json2reactFactory(mapper) {
         if (!hasSchemaType) {
             throw new Error('schema.type must be a non-empty string');
         }
-        const componentChildren = children && [].concat(children).map(j2r.bind(null));
+        if (!props.key) {
+            props.key = uuid();
+        }
+        const componentChildren = children && [].concat(children).map(j2r);
         const componentType = isFunction(mapper) ? mapper(schemaType, props) : mapper[schemaType];
         const createArgs = [componentType || schemaType, props].concat(componentChildren);
         return createElement.apply(createElement, createArgs);

@@ -4,7 +4,7 @@
  */
 
 import { Renderer } from 'amis'
-import { RendererComponent, RendererProps } from 'amis/lib/factory'
+import { RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
 import { evalExpression, evalJS } from 'amis/lib/utils/tpl'
 
@@ -42,4 +42,4 @@ const RtWhen = (props: Props) => {
 Renderer({
   test: /(^|\/)rt-when$/,
   name: 'rt-when',
-})(RtWhen as RendererComponent)
+})(RtWhen as any)

@@ -11,7 +11,14 @@ module.exports = {
     jest: true,
     jquery: true,
   },
-  settings: {},
+  settings: {
+    // https://github.com/benmosher/eslint-plugin-import#resolvers
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     allowImportExportEverywhere: true,
@@ -48,7 +55,7 @@ module.exports = {
     'import/extensions': OFF,
     'import/prefer-default-export': OFF,
     'react-hooks/rules-of-hooks': ERROR,
-    'import/no-unresolved': [ERROR, { ignore: ['^@/*', '^~/*'] }], // Ignore certain webpack alias because it can't be resolved
+    'import/no-unresolved': [ERROR, { ignore: ['^@/*', '^~/*', '_', '__'] }], // Ignore certain webpack alias because it can't be resolved
     'import/order': [
       // sort import groups
       ERROR,

@@ -16,14 +16,21 @@ import React, {
 } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import { app, getPageFileAsync } from '@/app'
+import { app } from '@/app'
 import NotFound from '@/components/404'
 import { Amis } from '@/components/amis/schema'
 import { LayoutLazyFallback } from '@/components/aside_layout/loading'
 import ErrorBoundary from '@/components/error_boundary'
 import { isSubStr } from '@/utils/tool'
 
-import { getNodePath, getPageMockSource, getPagePreset, getRoutePath, currPath } from './exports'
+import {
+  getNodePath,
+  getPageMockSource,
+  getPagePreset,
+  getRoutePath,
+  currPath,
+  getPageFileAsync,
+} from './exports'
 import { checkLimitByKeys } from './limit/exports'
 import {
   CheckLimitFunc,
@@ -199,13 +206,19 @@ export const PrestRoute = (props: PresetRouteProps) => {
 }
 
 const NotFoundRoute = () => {
-  let Component = NotFound
-  try {
-    Component = require(`~/pages/${currPath(app.constants.notFound.pagePath, '404')}`)
-  } catch (e) {
-    //
+  let Component: any = NotFound
+  const notFoundFilePath = app.constants.notFound.pagePath
+  if (notFoundFilePath) {
+    try {
+      Component = lazy(() =>
+        getPageFileAsync({
+          nodePath: currPath(notFoundFilePath, '404'),
+        })
+      )
+    } catch (_) {
+      Component = NotFound
+    }
   }
-
   return <Route path="*" component={Component} />
 }
 

@@ -35,8 +35,8 @@ const RtCrud = (props) => {
     const { css: getCss, render, className, htmlClassName, tableWidth = 800 } = props;
     const amisCurd = {
         className,
-        type: 'rt-css',
         htmlClassName,
+        type: 'rt-css',
         css: (theme) => css `
       ${crudCss(Object.assign(Object.assign({}, theme), { tableWidth }))};
       ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};

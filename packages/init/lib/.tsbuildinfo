@@ -696,6 +696,7 @@
     },
     "options": {
       "module": 1,
+      "removeComments": false,
       "declaration": true,
       "strict": true,
       "strictNullChecks": true,

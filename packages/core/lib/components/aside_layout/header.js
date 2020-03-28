@@ -29,7 +29,8 @@ export default (props) => {
     const renderItems = () => {
         const lefts = [];
         const rights = [];
-        items.forEach((item) => {
+        items.forEach((item, index) => {
+            item.key = index;
             if (get(item, 'align') === 'right') {
                 rights.push(item);
             }
@@ -40,8 +41,8 @@ export default (props) => {
         return (React.createElement("div", { className: "collapse navbar-collapse" },
             React.createElement("div", { "data-code": showDevItem || 'true', className: "navbar-nav mr-auto" },
                 React.createElement(HeadItem, { faIcon: asideFolded ? 'indent' : 'dedent', tip: `${asideFolded ? '展开' : '收起'}侧边栏`, onClick: toggleAside }),
-                lefts.map(j2r.bind(null))),
-            rights.map(j2r.bind(null))));
+                lefts.map(j2r)),
+            rights.map(j2r)));
     };
     const renderBrand = () => {
         const { logo, title, link, className: brandCls = '' } = brand;

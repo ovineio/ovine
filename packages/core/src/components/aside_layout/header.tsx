@@ -42,7 +42,8 @@ export default (props: Props) => {
   const renderItems = () => {
     const lefts: any[] = []
     const rights: any = []
-    items.forEach((item) => {
+    items.forEach((item, index) => {
+      item.key = index
       if (get(item, 'align') === 'right') {
         rights.push(item)
       } else {
@@ -58,9 +59,9 @@ export default (props: Props) => {
             tip={`${asideFolded ? '展开' : '收起'}侧边栏`}
             onClick={toggleAside}
           />
-          {lefts.map(j2r.bind(null))}
+          {lefts.map(j2r)}
         </div>
-        {rights.map(j2r.bind(null))}
+        {rights.map(j2r)}
       </div>
     )
   }

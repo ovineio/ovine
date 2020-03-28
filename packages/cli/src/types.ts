@@ -10,7 +10,7 @@ export type SiteConfig = {
   publicPath: string
   favicon: string
   title: string
-  env: string[]
+  envModes: string[]
   devServerProxy: any
   staticFileExt?: string
   template?: TemplateConfig
@@ -29,6 +29,7 @@ export type DevCliOptions = CliOptions & {
   port: string
   host: string
   open: boolean
+  dll: boolean
 }
 
 export type BuildCliOptions = CliOptions & {

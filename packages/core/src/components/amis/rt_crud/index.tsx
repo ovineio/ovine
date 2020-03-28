@@ -54,8 +54,8 @@ const RtCrud = (props: RtCrudProps) => {
 
   const amisCurd: any = {
     className,
-    type: 'rt-css',
     htmlClassName,
+    type: 'rt-css',
     css: (theme: DefaultTheme) => css`
       ${crudCss({ ...theme, tableWidth })};
       ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};

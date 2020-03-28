@@ -22,7 +22,7 @@ var utils_1 = require("../utils");
 var babel_1 = require("./babel");
 var log_plugin_1 = __importDefault(require("./plugins/log_plugin"));
 var chalk = require("chalk");
-var webpackDllConfFileName = constants.webpackDllConfFileName, dllDirPath = constants.dllDirPath, dllVendorFileName = constants.dllVendorFileName, dllManifestFile = constants.dllManifestFile, dllAssetsFile = constants.dllAssetsFile, libName = constants.libName, staticLibDirPath = constants.staticLibDirPath;
+var webpackDllConfFileName = constants.webpackDllConfFileName, dllDirPath = constants.dllDirPath, dllVendorFileName = constants.dllVendorFileName, dllManifestFile = constants.dllManifestFile, dllAssetsFile = constants.dllAssetsFile, libName = constants.libName, staticLibDirPath = constants.staticLibDirPath, dllVendorDirPath = constants.dllVendorDirPath;
 var dllName = '[name]_[hash:6]';
 var dllModules = [
     'react',
@@ -108,7 +108,7 @@ function createDllConfig(options) {
                         {
                             loader: 'url-loader',
                             options: {
-                                publicPath: "" + publicPath + dllDirPath + "/",
+                                publicPath: "" + publicPath + dllVendorDirPath + "/",
                                 limit: 2000,
                                 name: '[name]_[contenthash:6].[ext]'
                             }
@@ -123,7 +123,7 @@ function createDllConfig(options) {
             filename: dllName + ".js",
             chunkFilename: 'chunk_[name]_[chunkhash:6].js',
             library: dllName,
-            publicPath: "" + publicPath + dllDirPath + "/"
+            publicPath: "" + publicPath + dllVendorDirPath + "/"
         },
         plugins: [
             new log_plugin_1["default"]({

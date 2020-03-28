@@ -1,3 +1,4 @@
+import { uuid } from 'amis/lib/utils/helper'
 import { isArray, isObject, map, random, isFunction } from 'lodash'
 import { createElement } from 'react'
 
@@ -219,14 +220,17 @@ export function json2reactFactory(
     }
 
     const { type: schemaType, children, ...props } = schema
-
     const hasSchemaType = schemaType && typeof schemaType === 'string' && schemaType.trim() !== ''
 
     if (!hasSchemaType) {
       throw new Error('schema.type must be a non-empty string')
     }
 
-    const componentChildren: any[] = children && [].concat(children).map(j2r.bind(null))
+    if (!props.key) {
+      props.key = uuid()
+    }
+
+    const componentChildren: any[] = children && [].concat(children).map(j2r)
     const componentType = isFunction(mapper) ? mapper(schemaType, props) : mapper[schemaType]
 
     const createArgs: any = [componentType || schemaType, props].concat(componentChildren)

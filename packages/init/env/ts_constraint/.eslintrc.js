@@ -11,7 +11,14 @@ module.exports = {
     jest: true,
     jquery: true,
   },
-  settings: {},
+  settings: {
+    // https://github.com/benmosher/eslint-plugin-import#resolvers
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     allowImportExportEverywhere: true,

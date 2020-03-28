@@ -9,6 +9,7 @@
     "scss": "rt-cli scss",
     "dll": "rt-cli dll",
     "help": "rt-cli -h",
+    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
     "eslint": "eslint --cache \"**/*.{js,jsx}\" --fix"
   },

@@ -4,6 +4,7 @@
 
 import chokidar from 'chokidar'
 import express from 'express'
+import _ from 'lodash'
 import path from 'path'
 import portfinder from 'portfinder'
 import { prepareUrls } from 'react-dev-utils/WebpackDevServerUtils'
@@ -130,12 +131,15 @@ function reloadDevServer(options: any) {
     ignoreInitial: true,
   })
   ;['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach((event) => {
-    fsWatcher.on(event, () => {
-      fsWatcher.close().then(() => {
-        devServer.close(() => {
-          dev(siteDir, { ...cliOptions, isReload: true })
+    fsWatcher.on(
+      event,
+      _.throttle(() => {
+        fsWatcher.close().then(() => {
+          devServer.close(() => {
+            dev(siteDir, { ...cliOptions, isReload: true })
+          })
         })
-      })
-    })
+      }, 1200)
+    )
   })
 }

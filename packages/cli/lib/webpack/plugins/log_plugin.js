@@ -2,7 +2,12 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 const WebpackBar = require('webpackbar')
 
 function showError(arr) {
-  console.log(`\n\n${arr.join('')}`)
+  arr.forEach((err) => {
+    // fix: Errors appear duplicated with 'fork-ts-checker-webpack-plugin'
+    if (!/TS\d*: /.test(err)) {
+      console.log(`\n\n${err}`)
+    }
+  })
 }
 
 class LogPlugin extends WebpackBar {

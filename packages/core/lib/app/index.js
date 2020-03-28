@@ -2,7 +2,6 @@
 import "./includes";
 import { defaultsDeep, get, isFunction, set } from 'lodash';
 import { defaultEnvMode } from "../constants";
-import { getPageFileAsync } from "../routes/exports";
 import { isSubStr } from "../utils/tool";
 import { AppRequest } from "./request";
 import { AppTheme } from "./theme";
@@ -27,7 +26,7 @@ const initConfig = {
             : process.env.PUBLIC_PATH || '/',
         notFound: {
             route: '/404',
-            pagePath: '/404',
+            pagePath: '',
         },
     },
     entry: [
@@ -161,4 +160,4 @@ class App extends AppProxy {
     }
 }
 const app = new App();
-export { app, AppRequest, getPageFileAsync, AppTheme };
+export { app, AppRequest, AppTheme };

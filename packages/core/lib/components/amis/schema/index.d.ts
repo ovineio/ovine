@@ -8,5 +8,5 @@ export declare type AmisProps = {
     option?: RenderOptions;
 };
 declare type Props = AmisProps & RouteComponentProps<any>;
-export declare const Amis: React.ComponentClass<Pick<Props, "schema" | "props" | "option">, any> & import("react-router").WithRouterStatics<(props: Props) => JSX.Element>;
+export declare const Amis: React.ComponentClass<Pick<Props, "option" | "props" | "schema">, any> & import("react-router").WithRouterStatics<(props: Props) => JSX.Element>;
 export {};

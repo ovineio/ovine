@@ -55,6 +55,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var chokidar_1 = __importDefault(require("chokidar"));
 var express_1 = __importDefault(require("express"));
+var lodash_1 = __importDefault(require("lodash"));
 var path_1 = __importDefault(require("path"));
 var portfinder_1 = __importDefault(require("portfinder"));
 var WebpackDevServerUtils_1 = require("react-dev-utils/WebpackDevServerUtils");
@@ -176,12 +177,12 @@ function reloadDevServer(options) {
         ignoreInitial: true
     });
     ['add', 'change', 'unlink', 'addDir', 'unlinkDir'].forEach(function (event) {
-        fsWatcher.on(event, function () {
+        fsWatcher.on(event, lodash_1["default"].throttle(function () {
             fsWatcher.close().then(function () {
                 devServer.close(function () {
                     dev(siteDir, __assign(__assign({}, cliOptions), { isReload: true }));
                 });
             });
-        });
+        }, 1200));
     });
 }

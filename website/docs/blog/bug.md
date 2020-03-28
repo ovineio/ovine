@@ -1,4 +1,12 @@
 - You might have more than one copy of React in the same app
   - describe: https://github.com/facebook/react/issues/13991#issuecomment-435135293
   - fixed: https://github.com/facebook/react/issues/13991#issuecomment-449597362
-- webpack.SplitChunks.minSize 会将小包合并，再测试打包时，一定将其设置为 0。
+- webpack.SplitChunks.minSize 会将小包合并，在测试打包时，一定将其设置为 0。
+- splitChunks 是文件拆分，和按需动态异步加载没有关系。在处理异步加载未拆文件时，可用 splitChunks.cacheGroup.name 返回不同的文件名与 enforce=true,来强制拆分文件。
+- webpack 多个'rules' 匹配到相同文件时，处理不明确。会导致非续期打包，因此合理运用 `exclude`、`include`来匹配具体文件，避免。
+- commander 包会自动转义
+  - 默认值为布尔值
+  - '--a-b' => 'ab'
+  - '--no-a' => 'a'
+  - '--a-b <abc>' => 'abc'
+- require(`../a/${var}`) 变量名，一定要慎重。会将模块所有引入代码，import 动态加载无效。

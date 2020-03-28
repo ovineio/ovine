@@ -95,7 +95,7 @@ function scss(siteDir, options) {
                 siteCmd = nodeScssCmd + " " + siteScss + " -o " + destStyles + " " + importer + " " + useWatch + " " + includePaths([amisScss, libScss]);
                 // console.log('siteCmd===>\n', siteCmd, '\n')
                 shelljs_1["default"].exec(siteCmd, scssCmdOpts, function (_, __, stderr) {
-                    if (stderr) {
+                    if (stderr && !/No input file/.test(stderr)) {
                         console.error(chalk.red(stderr));
                         return;
                     }

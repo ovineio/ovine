@@ -17,13 +17,13 @@ import { eachTree } from 'amis/lib/utils/helper';
 import { isFunction, map } from 'lodash';
 import React, { createContext, lazy, useContext, useMemo, Suspense, useState, useEffect, } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import { app, getPageFileAsync } from "../app";
+import { app } from "../app";
 import NotFound from "../components/404";
 import { Amis } from "../components/amis/schema";
 import { LayoutLazyFallback } from "../components/aside_layout/loading";
 import ErrorBoundary from "../components/error_boundary";
 import { isSubStr } from "../utils/tool";
-import { getNodePath, getPageMockSource, getPagePreset, getRoutePath, currPath } from "./exports";
+import { getNodePath, getPageMockSource, getPagePreset, getRoutePath, currPath, getPageFileAsync, } from "./exports";
 import { checkLimitByKeys } from "./limit/exports";
 const PageSpinner = React.createElement(Spinner, { overlay: true, show: true, size: "lg", key: "pageLoading" });
 // 根据 path，pathToComponent  参数 懒加载 `pages/xxx` 组件
@@ -133,11 +133,16 @@ export const PrestRoute = (props) => {
 };
 const NotFoundRoute = () => {
     let Component = NotFound;
-    try {
-        Component = require(`~/pages/${currPath(app.constants.notFound.pagePath, '404')}`);
-    }
-    catch (e) {
-        //
+    const notFoundFilePath = app.constants.notFound.pagePath;
+    if (notFoundFilePath) {
+        try {
+            Component = lazy(() => getPageFileAsync({
+                nodePath: currPath(notFoundFilePath, '404'),
+            }));
+        }
+        catch (_) {
+            Component = NotFound;
+        }
     }
     return React.createElement(Route, { path: "*", component: Component });
 };
