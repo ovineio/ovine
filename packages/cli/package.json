@@ -1,11 +1,8 @@
 {
   "name": "@rtadmin/cli",
-  "description": "Easy to build admin system with json schema.",
   "version": "0.0.0-alpha.1",
-  "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
+  "description": "Easy to build admin system with json schema.",
+  "private": false,
   "keywords": [
     "react",
     "webpack",
@@ -16,6 +13,11 @@
     "type": "git",
     "url": "https://github.com/CareyToboo/rt-admin.git"
   },
+  "bugs": {
+    "url": "https://github.com/CareyToboo/rt-admin/issues"
+  },
+  "author": "carey toboos",
+  "license": "ISC",
   "bin": {
     "rt-cli": "bin/index.js"
   },
@@ -23,9 +25,6 @@
     "clean": "rimraf ./lib",
     "tsc": "yarn clean && tsc && node cpoy_to_lib.js",
     "dev": "tsc -w"
-  },
-  "bugs": {
-    "url": "https://github.com/CareyToboo/rt-admin/issues"
   },
   "dependencies": {
     "@babel/core": "^7.7.4",

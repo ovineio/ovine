@@ -2,12 +2,18 @@
   "name": "@rtadmin/init",
   "version": "0.0.0-alpha.1",
   "description": "Apply rt-admin template more easily.",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/CareyToboo/rt-admin.git"
   },
   "bugs": {
     "url": "https://github.com/CareyToboo/rt-admin/issues"
+  },
+  "author": "carey toboos",
+  "license": "ISC",
+  "bin": {
+    "rt-init": "bin/index.js"
   },
   "scripts": {
     "tsc": "yarn clean && tsc",
@@ -20,13 +26,6 @@
     "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
     "test:ts:constraint": "rimraf ./tmp/ts_constraint && node ./bin/index.js init ts_constraint ./tmp"
   },
-  "bin": {
-    "rt-init": "bin/index.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "license": "MIT",
   "dependencies": {
     "chalk": "^3.0.0",
     "commander": "^4.0.1",

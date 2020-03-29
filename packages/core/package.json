@@ -1,12 +1,14 @@
 {
   "name": "@rtadmin/core",
-  "version": "0.0.1",
+  "version": "0.0.0-alpha.1",
   "description": "Build flexible admin system with json.",
   "private": false,
-  "scripts": {
-    "tsc": "yarn clean && ttsc",
-    "dev": "ttsc -w",
-    "clean": "rimraf ./lib"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CareyToboo/rt-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CareyToboo/rt-admin/issues"
   },
   "keywords": [
     "aims",
@@ -16,6 +18,11 @@
   ],
   "author": "carey toboos",
   "license": "ISC",
+  "scripts": {
+    "tsc": "yarn clean && ttsc",
+    "dev": "ttsc -w",
+    "clean": "rimraf ./lib"
+  },
   "peerDependencies": {
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
