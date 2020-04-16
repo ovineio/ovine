@@ -1,0 +1,63 @@
+{
+  "name": "template",
+  "version": "0.0.0",
+  "description": "your awesome project.",
+  "private": true,
+  "scripts": {
+    "dev": "rt-cli dev",
+    "build": "rt-cli build",
+    "scss": "rt-cli scss",
+    "dll": "rt-cli dll",
+    "help": "rt-cli -h",
+    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?",
+    "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
+    "eslint": "eslint --cache \"**/*.{js,jsx}\" --fix"
+  },
+  "dependencies": {
+    "@rtadmin/core": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/core?v0.0.1-alpha.2",
+    "@rtadmin/cli": "https://gitpkg.now.sh/CareyToboo/rt-admin/packages/cli?v0.0.1-alpha.2",
+    "immer": "^5.3.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "prettier": "^1.19.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,md}": "yarn pretty",
+    "*.{js,jsx,ts,tsx}": "yarn eslint"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

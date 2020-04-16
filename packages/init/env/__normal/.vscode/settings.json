@@ -1,0 +1,5 @@
+{
+  "editor.tabSize": 2,
+  "editor.foldingStrategy": "indentation",
+  "cSpell.ignoreWords": ["rtadmin", "immer", "tsbuildinfo"]
+}

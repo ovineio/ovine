@@ -1,0 +1,162 @@
+@mixin zoom-motion($className, $keyframeName, $duration: $animation-duration-base) {
+  @include make-motion($className, $keyframeName, $duration);
+  .#{className}-enter,
+  .#{className}-appear {
+    transform: scale(0); // need this by yiminghe
+    opacity: 0;
+    animation-timing-function: $ease-out-circ;
+  }
+  .#{className}-leave {
+    animation-timing-function: $ease-in-out-circ;
+  }
+}
+
+// For Modal, Select choosen item
+@include zoom-motion('zoom', libZoom);
+// For Popover, Popconfirm, Dropdown
+@include zoom-motion('zoom-big', libZoomBig);
+// For Tooltip
+@include zoom-motion('zoom-big-fast', libZoomBig, $animation-duration-fast);
+
+@include zoom-motion('zoom-up', libZoomUp);
+@include zoom-motion('zoom-down', libZoomDown);
+@include zoom-motion('zoom-left', libZoomLeft);
+@include zoom-motion('zoom-right', libZoomRight);
+
+@keyframes libZoomIn {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes libZoomOut {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes libZoomBigIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes libZoomBigOut {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes libZoomUpIn {
+  0% {
+    transform: scale(0.8);
+    transform-origin: 50% 0%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 50% 0%;
+  }
+}
+
+@keyframes libZoomUpOut {
+  0% {
+    transform: scale(1);
+    transform-origin: 50% 0%;
+  }
+  100% {
+    transform: scale(0.8);
+    transform-origin: 50% 0%;
+    opacity: 0;
+  }
+}
+
+@keyframes libZoomLeftIn {
+  0% {
+    transform: scale(0.8);
+    transform-origin: 0% 50%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 0% 50%;
+  }
+}
+
+@keyframes libZoomLeftOut {
+  0% {
+    transform: scale(1);
+    transform-origin: 0% 50%;
+  }
+  100% {
+    transform: scale(0.8);
+    transform-origin: 0% 50%;
+    opacity: 0;
+  }
+}
+
+@keyframes libZoomRightIn {
+  0% {
+    transform: scale(0.8);
+    transform-origin: 100% 50%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 100% 50%;
+  }
+}
+
+@keyframes libZoomRightOut {
+  0% {
+    transform: scale(1);
+    transform-origin: 100% 50%;
+  }
+  100% {
+    transform: scale(0.8);
+    transform-origin: 100% 50%;
+    opacity: 0;
+  }
+}
+
+@keyframes libZoomDownIn {
+  0% {
+    transform: scale(0.8);
+    transform-origin: 50% 100%;
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 50% 100%;
+  }
+}
+
+@keyframes libZoomDownOut {
+  0% {
+    transform: scale(1);
+    transform-origin: 50% 100%;
+  }
+  100% {
+    transform: scale(0.8);
+    transform-origin: 50% 100%;
+    opacity: 0;
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% var opts = htmlWebpackPlugin.options; %>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta app-version="<%=opts.version%>" />
+  <title><%=opts.title || 'RT-ADMIN'%></title>
+  <link type="image/x-icon" rel="shortcut icon" href="<%=opts.favIcon || `${opts.staticLibPath}core/favicon.ico`%>" />
+  <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css" />
+  <script data-pace-options='{"elements": true, "ajax": false }' src="<%=opts.staticLibPath%>core/pace.min.js"></script>
+  <% if(opts.dllVendorCss) { %>
+  <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
+  <% } %>
+  <%- opts.head %>
+  </script>
+</head>
+
+<body>
+  <%- opts.preBody %>
+  <div id="app-root" class="app-root"></div>
+  <% if(opts.dllVendorJs) { %>
+  <script src="<%=opts.dllVendorJs%>"></script>
+  <% } %>
+  <%- opts.postBody %>
+</body>
+
+</html>

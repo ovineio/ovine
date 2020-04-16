@@ -1,0 +1,15 @@
+__fixtures__
+
+dist
+lib
+build
+backup
+assets
+static
+node_modules
+
+.rtadmin
+
+/packages/init/tmp
+/packages/init/templates
+/packages/init/env

@@ -1,0 +1,42 @@
+{
+  "name": "@rtadmin/init",
+  "version": "0.0.1-alpha.2",
+  "description": "Apply rt-admin template more easily.",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CareyToboo/rt-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CareyToboo/rt-admin/issues"
+  },
+  "author": "carey toboos",
+  "license": "ISC",
+  "bin": {
+    "rt-init": "bin/index.js"
+  },
+  "scripts": {
+    "tsc": "yarn clean && tsc",
+    "dev": "tsc -w",
+    "clean": "rimraf ./lib",
+    "clean:tmp": "rimraf ./tmp/*",
+    "cp:env": "rm -rf ./env/.rtadmin && cp -rf ./base_normal/.rtadmin ./env",
+    "test:base:normal": "rimraf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
+    "test:base:constraint": "rimraf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
+    "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
+    "test:ts:constraint": "rimraf ./tmp/ts_constraint && node ./bin/index.js init ts_constraint ./tmp"
+  },
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "commander": "^4.0.1",
+    "figlet": "^1.3.0",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.0",
+    "ora": "^4.0.3",
+    "semver": "^6.3.0",
+    "shelljs": "^0.8.3"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  }
+}

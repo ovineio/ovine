@@ -1,0 +1,75 @@
+{
+  "name": "@rtadmin/example",
+  "version": "0.0.1-beta.1",
+  "description": "your awesome project.",
+  "private": true,
+  "scripts": {
+    "dev": "rt-cli dev",
+    "dev:lib": "export DEV_LIB=true && rt-cli dev --no-dll",
+    "build": "rt-cli build --mock",
+    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?",
+    "scss": "rt-cli scss",
+    "dll": "rt-cli dll",
+    "help": "rt-cli -h",
+    "clean": "rm -rf ./node_modules/.cache",
+    "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
+    "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix",
+    "core:dev": "cd ../../packages/core && yarn dev",
+    "cli:dev": "cd ../../packages/core && yarn dev",
+    "cp:lib:cli": "rm -rf ./node_modules/@rtadmin/cli && cp -rf ../../packages/cli ./node_modules/@rtadmin/cli",
+    "cp:lib:core": "rm -rf ./node_modules/@rtadmin/core && cp -rf ../../packages/core ./node_modules/@rtadmin/core",
+    "test:build": "yarn cp:lib:cli && yarn cp:lib:core && rt-cli build --bundle-analyzer"
+  },
+  "dependencies": {
+    "@rtadmin/cli": "file:../../packages/cli",
+    "@rtadmin/core": "file:../../packages/core",
+    "immer": "^5.3.2",
+    "lodash": "^4.17.15",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.149",
+    "@types/react": "^16.8.6",
+    "@types/react-router-dom": "^5.1.0",
+    "@types/styled-components": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,md}": "yarn pretty",
+    "*.{js,jsx,ts,tsx}": "yarn eslint"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

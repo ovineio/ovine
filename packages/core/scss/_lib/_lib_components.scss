@@ -1,0 +1,11 @@
+.#{$ns}LibDropdown {
+  ul {
+    background-color: $DropDown-menu-bg;
+  }
+  li {
+    &:hover {
+      color: $DropDown-menuItem-onHover-color;
+      background-color: $DropDown-menuItem-onHover-bg;
+    }
+  }
+}

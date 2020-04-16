@@ -1,0 +1,18 @@
+# common
+.DS_Store
+.idea
+.cache-loader
+.eslintcache
+.tmp
+
+npm-debug.log
+yarn-error.log
+deploy.sh
+
+lib
+dist
+node_modules
+
+# workspace
+/website/docs/build
+/packages/init/tmp/*
