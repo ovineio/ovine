@@ -41,6 +41,9 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
       }
     }
   }
+  .${ns}Table-content {
+    overflow: hidden;
+  }
   @media (min-width: ${breakpoints.md}px) {
     .lib-crud {
       display: flex;
@@ -104,6 +107,7 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
       }
     }
   }
+
   @media (max-width: ${breakpoints.md - 1}px) {
     .${ns}Table-content {
       min-height: 300px;

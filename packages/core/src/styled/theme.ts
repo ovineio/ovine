@@ -13,8 +13,8 @@ const dispatchLink = (theme: string, callback?: () => void) => {
     rel: 'stylesheet',
     type: 'text/css',
     'data-theme': theme,
-    href: require(`@generated/styles/themes/${theme}.css`),
     onLoad: callback,
+    href: require(`@generated/styles/themes/${theme}.css`),
   }
   $('<link/>', linkAttr).appendTo('head')
 }

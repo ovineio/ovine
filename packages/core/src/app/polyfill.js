@@ -1,18 +1,14 @@
 /**
- * 浏览器兼容文件
+ * amis 浏览器兼容文件
  */
 
 import 'core-js/es/object'
 import 'core-js/es/array'
-
 import 'core-js/es/symbol'
 import 'core-js/es/set'
 import 'core-js/es/map'
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import 'promise/polyfill'
+import 'promise/polyfill' // eslint-disable-line
 import 'proxy-polyfill'
-
 import 'abortcontroller-polyfill/dist/abortcontroller-polyfill-only'
 
 if (!Element.prototype.matches) {

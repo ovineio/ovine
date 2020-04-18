@@ -5,7 +5,13 @@ export const schema = {
   api: '$preset.apis.list',
   filterTogglable: true,
   filter: '$preset.forms.filter',
-  headerToolbar: ['filter-toggler', 'columns-toggler'],
+  headerToolbar: [
+    'filter-toggler',
+    {
+      type: 'columns-toggler',
+      align: 'left',
+    },
+  ],
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   perPageField: 'size',
   pageField: 'page',

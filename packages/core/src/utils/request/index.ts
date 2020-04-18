@@ -25,17 +25,23 @@ function requestErrorCtrl(this: Request, option: Types.ReqUnionOption, response:
 
   log.info('requestErrorCtrl', { response, error })
 
-  if (this.onError) {
-    this.onError({ option, response, error })
-  }
+  const errorSource = { option, response, error }
+
+  let withInsErrorHook
 
   if (onError) {
-    onError({ option, response, error })
+    withInsErrorHook = onError(errorSource)
+  }
+
+  if (withInsErrorHook !== false && this.onError) {
+    this.onError(errorSource)
   }
 
   if (this.onFinish) {
-    this.onFinish({ option, response, error })
+    this.onFinish(errorSource)
   }
+
+  throw errorSource
 }
 
 // 模拟数据
@@ -55,17 +61,17 @@ async function mockSourceCtrl(this: Request, option: Types.ReqUnionOption) {
   let origin: any = typeof mockSourceGen === 'function' ? mockSourceGen(option) : mockSourceGen
   const mockResponse: any = typeof Response !== 'undefined' ? new Response() : {}
 
-  if (this.onResponse) {
-    origin = this.onResponse({ option, response: mockResponse, source: origin })
+  if (this.onSuccess) {
+    origin = this.onSuccess({ option, response: mockResponse, source: origin })
   }
 
   const source = !sourceKey ? origin : get(origin, sourceKey)
 
   // mock 最终返回结果
-  let data = !onSuccess ? source : await onSuccess(source, option)
+  const data = !onSuccess ? source : await onSuccess(source, option)
 
   if (this.onFinish) {
-    data = this.onFinish({ option, response: mockResponse, source: data })
+    this.onFinish({ option, response: mockResponse, source: data })
   }
 
   if (mockTimeout) {
@@ -135,21 +141,24 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqUnionOption) {
         return
       }
 
-      let origin = await response.json()
+      try {
+        let origin = await response.json()
 
-      if (this.onResponse) {
-        origin = this.onResponse({ option, response, source: origin })
+        if (this.onSuccess) {
+          origin = this.onSuccess({ option, response, source: origin })
+        }
+
+        const source = !sourceKey ? origin : get(origin, sourceKey)
+        const data = !onSuccess ? source : await onSuccess(source, option)
+
+        if (this.onFinish) {
+          this.onFinish({ option, response, source })
+        }
+
+        return data
+      } catch (error) {
+        requestErrorCtrl.call(this, option, response, error)
       }
-
-      let source = !sourceKey ? origin : get(origin, sourceKey)
-
-      if (this.onFinish) {
-        source = this.onFinish({ option, response, source })
-      }
-
-      const data = !onSuccess ? source : await onSuccess(source, option)
-
-      return data
     })
 
   return result
@@ -157,7 +166,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqUnionOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): Types.ReqFetchOption {
-  const { data = {}, body, headers, fetchOption: fetchOpt = {} } = option
+  const { data = {}, json = true, body, headers = {}, fetchOption: fetchOpt = {} } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
   const hasBody = !/GET|HEAD/.test(method)
@@ -166,14 +175,15 @@ function getFetchOption(this: Request, option: Types.ReqOption): Types.ReqFetchO
     ...fetchOpt,
     url,
     method,
-    headers: {
-      Accept: 'application/json',
-      ...headers,
-    },
+    headers,
     credentials: 'include',
   }
 
-  if (!body && !fetchOption.headers['Content-Type']) {
+  if (json && !fetchOption.headers.Accept) {
+    fetchOption.headers.Accept = 'application/json'
+  }
+
+  if (json && !body && !fetchOption.headers['Content-Type']) {
     fetchOption.headers['Content-Type'] = 'application/json; charset=utf-8'
   }
 
@@ -232,26 +242,33 @@ export class Request<T = {}, K = {}> {
     this.setConfig(config)
   }
 
+  // 配置的域名
   public domains: { [domain: string]: string } = {}
 
+  // 是否是 发版环境
   public isRelease?: boolean
 
-  public onRequest?: (option: Types.ReqUnionOption) => Types.ReqUnionOption
-
+  // 请求预处理阶段
   public onPreRequest?: (option: Types.ReqOption) => Types.ReqOption
 
+  // 发送请求前
+  public onRequest?: (option: Types.ReqUnionOption) => Types.ReqUnionOption
+
+  // 错误回调
   public onError?: (option: {
     option: Types.ReqUnionOption
     response: Response
     error?: any
   }) => any
 
-  public onResponse?: (option: {
+  // 请求成功回调
+  public onSuccess?: (option: {
     option: Types.ReqUnionOption
     response: Response
     source?: any
   }) => any
 
+  // 请求结束回调
   public onFinish?: (option: {
     option: Types.ReqUnionOption
     response: Response
@@ -284,11 +301,12 @@ export class Request<T = {}, K = {}> {
       return
     }
 
-    const query: any = getQuery('', option.url)
+    const query: any = url && getQuery('', url)
 
     if (query) {
-      // eslint-disable-next-line
-      parsedOption.url = url.split('?')[0]
+      if (url) {
+        parsedOption.url = url.split('?')[0] // eslint-disable-line
+      }
       parsedOption.data = { ...query, ...params }
     }
 

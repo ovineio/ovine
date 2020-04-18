@@ -41,7 +41,7 @@ request.onRequest = (option) => {
 }
 
 // 接收到请求正常结果 回调
-request.onResponse = ({ source = {}, option }) => {
+request.onSuccess = ({ source = {}, option }) => {
   const { code, data } = source
   const { api } = option
 

@@ -1,5 +1,6 @@
 /**
  * APP 权限配置表处理
+ * TODO: 添加 unit test
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
@@ -94,7 +95,9 @@ export const getLimitMenus = (refresh: boolean = false) => {
         const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
         const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
 
+        // 设置API默认选项
         apiItem.actionAddr = `${nodePath}${strDelimiter}${presetApiNeeds?.join(',')}`
+        apiItem.api = apiItem.url || ''
 
         store.actionAddrMap[
           apiItem.actionAddr

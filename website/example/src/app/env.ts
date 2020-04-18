@@ -8,7 +8,7 @@ export const env = {
   // 本地开发
   localhost: {
     domains: {
-      api: 'http://3ierac.natappfree.cc',
+      api: 'http://fi2csz.natappfree.cc',
     },
     logger: {
       moduleName: '.*',

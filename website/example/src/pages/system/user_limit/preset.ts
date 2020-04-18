@@ -5,18 +5,32 @@ export default {
     $page: {
       label: '查看列表',
     },
-    viewItem: {
-      label: '列表详细',
+    editItem: {
+      label: '编辑角色',
     },
     addItem: {
-      label: '添加',
+      label: '添加角色',
+      needs: ['editItem'],
     },
-    editItem: {
-      label: '编辑',
+    editLimit: {
+      label: '编辑权限',
+      needs: ['editItem'],
+    },
+    listMember: {
+      label: '成员管理',
+      needs: ['editItem'],
+    },
+    removeMember: {
+      label: '移除成员',
+      needs: ['listMember'],
+    },
+    addMember: {
+      label: '添加成员',
+      needs: ['removeMember'],
     },
     delItem: {
-      label: '删除',
-      needs: ['viewItem', 'addItem', 'editItem'],
+      label: '删除角色',
+      needs: ['addItem'],
     },
   },
   apis: {
@@ -39,6 +53,21 @@ export default {
       mockSource,
       url: 'DELETE rtapi/system/limit/$id',
       limits: 'delItem',
+    },
+    listMember: {
+      mockSource,
+      url: 'GET rtapi/system/limit/$id/member',
+      limits: 'listMember',
+    },
+    addMember: {
+      mockSource,
+      url: 'POST rtapi/system/limit/$id/member',
+      limits: 'addMember',
+    },
+    removeMember: {
+      mockSource,
+      url: 'DELETE rtapi/system/limit/$id/member',
+      limits: 'removeMember',
     },
   },
 }

@@ -1,17 +1,8 @@
-/**
- * Copyright (c) 2017-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 module.exports = {
   docs: {
-    项目介绍: ['overview', 'acknowledgements'],
-    快速上手: ['guides/basic-tutorial'],
-    // 基础概念: ['concepts/nodes'],
-    // 渲染器: [ ],
-    // 组件: ['api/helpers'],
-    // 高级功能: ['api/helpers'],
+    介绍: ['intro/overview', 'intro/related', 'intro/faq'],
+    指南: ['guides/start', 'guides/basic', 'guides/theme'],
+    基础模块: ['modules/request', 'modules/message', 'modules/logger'],
+    进阶指南: ['advance/cli'],
   },
 }

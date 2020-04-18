@@ -1,3 +1,4 @@
+import { RenderOptions } from 'amis/lib/factory'
 import { DefaultTheme } from 'styled-components'
 
 import { LoggerConfig } from '@/utils/logger'
@@ -24,7 +25,10 @@ export interface AppConfig {
   theme: any
   env: EnvConfig
   entry: any[]
-  amis: any
+  amis: RenderOptions & {
+    definitions?: any
+    apiResAdapter?: (res: any) => any
+  }
   styled: {
     globalStyle: string | ((theme: DefaultTheme) => any)
   }

@@ -13,7 +13,7 @@ import { ObjectOf, ValueCtrl } from './types'
 const { storeRoot } = message
 
 type Key = string | string[]
-export type Handler<T = any> = (data: T, key?: string) => void
+export type Handler<T = any> = (data: T, key: string) => void
 
 const observer: ObjectOf<Handler[]> = {}
 const source: ObjectOf<any> = {}
@@ -29,7 +29,7 @@ const storeKeyCtrl: ValueCtrl<string> = (type, value = '') => {
 }
 
 // 更改 store 值,就会自动 publish 消息
-export const store = new Proxy<any>(
+export const observeStore = new Proxy<any>(
   {},
   {
     get(_, key: string) {
@@ -56,16 +56,18 @@ export const store = new Proxy<any>(
 )
 
 // 发送消息
-export const publish = <T>(key: Key, value: T) => {
+export function publish<T>(key: Key, value?: T) {
+  const msgValue: any = typeof value === 'undefined' ? {} : value
+
   const keyToObserver = (obsKey: string) => {
     const sourceKey = storeKeyCtrl('get', obsKey)
     if (sourceKey && !isNone(source[sourceKey])) {
-      source[sourceKey] = value
+      source[sourceKey] = msgValue
     }
 
     if (!isNone(observer[obsKey])) {
       observer[obsKey].forEach((handler: Handler<T>) => {
-        handler(value, obsKey)
+        handler(msgValue, obsKey)
       })
     }
   }
@@ -78,14 +80,18 @@ export const publish = <T>(key: Key, value: T) => {
 }
 
 // 取消订阅
-export const unsubscribe = (key: Key, handler: Handler) => {
+export function unsubscribe(key: Key, handler?: Handler) {
   const offObserver = (offKey: string) => {
     if (!isNone(observer[offKey])) {
-      observer[offKey].forEach((obsHandler: Handler, index) => {
-        if (obsHandler === handler) {
-          observer[offKey].splice(index, 1)
-        }
-      })
+      if (!handler) {
+        observer[offKey] = []
+      } else {
+        observer[offKey].forEach((obsHandler: Handler, index) => {
+          if (obsHandler === handler) {
+            observer[offKey].splice(index, 1)
+          }
+        })
+      }
     }
   }
 
@@ -97,7 +103,7 @@ export const unsubscribe = (key: Key, handler: Handler) => {
 }
 
 // 消息订阅
-export const subscribe = (key: Key, handler: Handler) => {
+export function subscribe(key: Key, handler: Handler) {
   const cacheObserverHandlers = (mapKey: string) => {
     if (isNone(observer[mapKey])) {
       observer[mapKey] = []
@@ -131,7 +137,7 @@ export const subscribe = (key: Key, handler: Handler) => {
 }
 
 // 订阅一次，就销毁
-export const subscribeOnce = <T>(key: string, handler: Handler) => {
+export function subscribeOnce<T>(key: string, handler: Handler) {
   const listener = subscribe(key, (data: T) => {
     handler(data, key)
     listener.unsubscribe()

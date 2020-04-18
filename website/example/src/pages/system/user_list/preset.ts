@@ -14,6 +14,12 @@ export default {
     editItem: {
       label: '编辑',
     },
+    editMembers: {
+      label: '管理成员',
+    },
+    editLimit: {
+      label: '管理权限',
+    },
     delItem: {
       label: '删除',
       needs: ['viewItem', 'addItem', 'editItem'],

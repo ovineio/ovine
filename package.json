@@ -6,11 +6,9 @@
   ],
   "scripts": {
     "start:doc": "yarn workspace @rtadmin/docs start",
-    "deploy:doc": "yarn workspace @rtadmin/docs deploy",
     "start:demo": "yarn workspace @rtadmin/example dev",
     "dev:demo": "yarn workspace @rtadmin/example dev:lib",
     "dev:core": "yarn workspace @rtadmin/core dev",
-    "build:demo": "yarn workspace @rtadmin/example deploy",
     "changelog": "lerna-changelog",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
     "eslint": "eslint --cache --fix \"**/*.{js,jsx,ts,tsx}\"",

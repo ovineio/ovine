@@ -17,7 +17,7 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
   const { verbose = false, watch = false } = options
 
   const nodeScssCmd = getNodeScssCmd()
-  const scssCmdOpts = { async: true, silent: !verbose }
+  const scssCmdOpts = { async: true, silent: watch ? false : !verbose }
   if (!nodeScssCmd) {
     console.log(
       chalk.yellowBright('You need install `node-sass` module as devDependencies or globally...')
@@ -25,7 +25,11 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
     return
   }
 
-  console.log(chalk.blue('Build scss to css files...'))
+  if (watch) {
+    console.log(chalk.blue('watch scss files changes...'))
+  } else {
+    console.log(chalk.blue('Build scss to css files...'))
+  }
 
   const amisScss = getModulePath(siteDir, 'amis/scss/themes', true)
   const libScss = getModulePath(siteDir, `lib/core/${scssDirName}`, true)
@@ -58,32 +62,41 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
   }
 
   // build libScss
-  const libCmd = `${nodeScssCmd} ${libScss} -o ${destStyles} ${importer} ${includePaths(
+  const libCmd = `${nodeScssCmd} ${libScss} ${useWatch} -o ${destStyles} ${importer} ${includePaths(
     !hasSiteScss ? [amisScss] : [amisScss, siteScss]
   )}`
   // console.log('libCmd===>\n', libCmd, '\n')
-  shell.exec(libCmd, scssCmdOpts, (_, __, stderr) => {
-    if (stderr) {
+  shell.exec(libCmd, scssCmdOpts, (_, stdout, stderr) => {
+    if (stderr && !/No input file/.test(stderr)) {
       console.error(chalk.red(stderr))
       return
     }
     copyFiles(libScss, destStyles)
-    logSuccess('lib')
+    if (watch) {
+      console.log(stdout)
+    } else {
+      logSuccess('lib')
+    }
   })
 
   // build siteScss
   if (hasSiteScss) {
-    const siteCmd = `${nodeScssCmd} ${siteScss} -o ${destStyles} ${importer} ${useWatch} ${includePaths(
+    const siteCmd = `${nodeScssCmd} ${siteScss} ${useWatch} -o ${destStyles} ${importer}  ${includePaths(
       [amisScss, libScss]
     )}`
-    // console.log('siteCmd===>\n', siteCmd, '\n')
-    shell.exec(siteCmd, scssCmdOpts, (_, __, stderr) => {
+    // console.log('siteCmd===>\n', siteCmd, '\n')s
+    shell.exec(siteCmd, scssCmdOpts, (_, stdout, stderr) => {
       if (stderr && !/No input file/.test(stderr)) {
         console.error(chalk.red(stderr))
         return
       }
+
       copyFiles(siteScss, destStyles)
-      logSuccess('site')
+      if (watch) {
+        console.log(stdout)
+      } else {
+        logSuccess('site')
+      }
     })
   }
 }

@@ -9,7 +9,7 @@ export type ReqErrorHook<S = {}, P = {}> = (option: {
   response?: Response
   option?: ReqUnionOption<S, P>
   error?: any
-}) => void
+}) => undefined | boolean
 
 export type ReqFetchOption = Omit<RequestInit, 'method'> & {
   url: string
@@ -30,6 +30,7 @@ export type ReqOption<S = {}, P = {}> = {
   data?: Partial<P> // {}
   headers?: HeadersInit
   body?: BodyInit | null
+  json?: boolean // true
   token?: 'none' | 'auto' | 'force' // none
   sourceKey?: string // ''
   expired?: number // 秒数 0

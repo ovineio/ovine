@@ -26,13 +26,11 @@ export const convertLimitStr = (limitStr: string = '') => {
   return tpl
 }
 
-export const getAppLimits = () => {
-  return store
+export const setAppLimits = (limitStr: string) => {
+  store = convertLimitStr(limitStr)
 }
 
-export const setAppLimits = (limitVal: string) => {
-  store = convertLimitStr(limitVal)
-}
+export const getAppLimits = () => store
 
 /**
  * 循环调用时一定要, 传 limits 参数

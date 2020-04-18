@@ -22,7 +22,6 @@ export const schema = {
       name: 'desc',
       label: '角色描述',
       type: 'text',
-      sortable: true,
     },
     {
       name: 'createTime',
@@ -41,7 +40,7 @@ export const schema = {
       label: '操作',
       width: 100,
       buttons: [
-        '$preset.actions.persons',
+        '$preset.actions.members',
         '$preset.actions.edit',
         '$preset.actions.editLimit',
         '$preset.actions.del',
@@ -53,26 +52,14 @@ export const schema = {
       controls: [
         {
           type: 'text',
-          name: 'username',
+          name: 'name',
           label: '角色名',
           required: true,
         },
         {
           type: 'text',
-          name: 'password',
-          label: '登录密码',
-          requiredOn: 'typeof data.id === "undefined"',
-        },
-        {
-          type: 'text',
-          name: 'nickname',
-          label: '名称',
-          required: true,
-        },
-        {
-          type: 'text',
           name: 'desc',
-          label: '描述',
+          label: '角色描述',
           required: true,
         },
       ],
@@ -83,14 +70,9 @@ export const schema = {
       add: {
         type: 'button',
         label: '添加',
-        level: 'link',
-        actionType: 'dialog',
-        dialog: '$preset.forms.add',
-      },
-      persons: {
-        type: 'button',
-        label: '成员列表',
-        level: 'link',
+        icon: 'fa fa-plus pull-left',
+        size: 'sm',
+        primary: true,
         actionType: 'dialog',
         dialog: '$preset.forms.add',
       },
@@ -99,21 +81,29 @@ export const schema = {
         label: '编辑',
         level: 'link',
         actionType: 'dialog',
-        dialog: '$preset.forms.add',
+        dialog: '$preset.forms.edit',
+      },
+      members: {
+        type: 'button',
+        label: '成员管理',
+        level: 'link',
+        actionType: 'dialog',
+        dialog: '$preset.forms.editMembers',
       },
       editLimit: {
         type: 'button',
-        label: '编辑权限',
+        label: '权限管理',
         level: 'link',
         actionType: 'dialog',
-        dialog: '$preset.forms.add',
+        dialog: '$preset.forms.editLimit',
       },
       del: {
         type: 'button',
-        label: '删除',
+        actionType: 'ajax',
         level: 'link',
-        actionType: 'dialog',
-        dialog: '$preset.forms.add',
+        label: '删除',
+        confirmText: '您确认要删除?',
+        api: '$preset.apis.del',
       },
     },
     forms: {
@@ -160,6 +150,110 @@ export const schema = {
       },
       edit: {
         title: '编辑',
+        body: {
+          type: 'form',
+          name: 'sample-edit-form',
+          api: '$preset.apis.edit',
+          $ref: 'updateControls',
+        },
+      },
+      editMembers: {
+        title: '角色成员管理',
+        size: 'lg',
+        bodyClassName: 'p-n',
+        actions: [],
+        body: {
+          type: 'lib-crud',
+          api: '$preset.apis.list',
+          filterTogglable: true,
+          filter: '$preset.forms.filter',
+          headerToolbar: [
+            'bulkActions',
+            {
+              type: 'tpl',
+              tpl: '当前有 ${total} 条数据。',
+              className: 'v-middle',
+            },
+            'pagination',
+          ],
+          footerToolbar: [],
+          perPageField: 'size',
+          pageField: 'page',
+          bulkActions: [
+            {
+              label: '添加成员',
+              actionType: 'dialog',
+              dialog: {
+                title: '批量编辑',
+                name: 'sample-bulk-edit',
+                body: {
+                  type: 'form',
+                  api: 'https://houtai.baidu.com/api/sample/bulkUpdate2',
+                  controls: [
+                    {
+                      type: 'hidden',
+                      name: 'ids',
+                    },
+                    {
+                      type: 'text',
+                      name: 'engine',
+                      label: 'Engine',
+                    },
+                  ],
+                },
+              },
+            },
+            {
+              label: '移除成员',
+              actionType: 'ajax',
+              api: 'delete:https://houtai.baidu.com/api/sample/${ids|raw}',
+              confirmText: '确定要批量删除?',
+            },
+          ],
+          columns: [
+            {
+              name: 'id',
+              label: 'ID',
+              type: 'text',
+            },
+            {
+              name: 'name',
+              label: '角色名',
+              type: 'text',
+            },
+            {
+              name: 'desc',
+              label: '角色描述',
+              type: 'text',
+            },
+            {
+              name: 'createTime',
+              label: '创建时间',
+              type: 'datetime',
+              width: 150,
+            },
+            {
+              name: 'updateTime',
+              label: '更新时间',
+              type: 'datetime',
+              width: 150,
+            },
+            // {
+            //   type: 'operation',
+            //   label: '操作',
+            //   width: 100,
+            //   buttons: [
+            //     '$preset.actions.members',
+            //     '$preset.actions.edit',
+            //     '$preset.actions.editLimit',
+            //     '$preset.actions.del',
+            //   ],
+            // },
+          ],
+        },
+      },
+      editLimit: {
+        title: '权限管理',
         body: {
           type: 'form',
           name: 'sample-edit-form',

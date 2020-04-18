@@ -1,5 +1,5 @@
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
-import isEmpty from 'lodash/isEmpty'
+import { isEmpty } from 'lodash'
 import React, { useMemo } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'

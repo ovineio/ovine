@@ -121,10 +121,6 @@ export const convertToAmisSchema = (
       return
     }
 
-    if (presetVal.url) {
-      presetVal.api = presetVal.url
-    }
-
     if (!isKeyRef) {
       schema[key] = presetVal
       return
@@ -155,7 +151,8 @@ export const resolveLibSchema = (schema: LibSchema) => {
   return reformSchema
 }
 
-export const envResolver = (option: {
+// 自定义解析器
+export const libResolver = (option: {
   path: string
   schema?: Schema
   props?: any
@@ -180,6 +177,19 @@ export const wrapCss = (schema: LibSchema) => {
     htmlClassName,
     type: 'lib-css',
     body: rest,
+  }
+}
+
+export const libApiResAdapter = (res: any = {}) => {
+  const { code = 0, data: resData, msg, message, ...rest } = res
+  const response = {
+    status: code,
+    msg: msg || message || '',
+    data: resData || rest,
+  }
+
+  return {
+    data: response,
   }
 }
 

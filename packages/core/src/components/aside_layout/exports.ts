@@ -1,8 +1,8 @@
 import { message } from '@/constants'
-import { store } from '@/utils/message'
+import { observeStore } from '@/utils/message'
 
 export const toggleLayoutLoading = (toggle: boolean) => {
-  store[message.layoutSpinner] = toggle
+  observeStore[message.layoutSpinner] = toggle
 }
 
 const pace = (window as any).Pace

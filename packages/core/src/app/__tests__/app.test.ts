@@ -64,9 +64,6 @@ describe('core app tests.', () => {
 
   test('app.register request.', async () => {
     const request: any = new AppRequest()
-    request.userTokenCtrl = (option: any) => {
-      return option
-    }
     app.register('request', request)
     const result = await app.request({
       api: 'test/api',

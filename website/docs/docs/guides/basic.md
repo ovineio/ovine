@@ -1,8 +1,10 @@
 ---
-id: basic-tutorial
-title: 基础示例
+id: basic
+title: 基本应用
 ---
 
 ## 新建路由
+
 ## 新建页面
+
 ## 添加组件

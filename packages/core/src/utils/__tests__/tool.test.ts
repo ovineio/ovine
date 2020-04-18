@@ -43,6 +43,15 @@ const testCases = {
   choice: new Map<[any[]], SimpleOutType>([
     [[[1, 2, 3]], { assert: (val) => [1, 2, 3].includes(val) }],
   ]),
+
+  isExpired: new Map<[string | number, number?], SimpleOutType>([
+    [[new Date('2020-01-01 10:00:00').valueOf()], { value: true }],
+    [[new Date('2030-01-01 10:00:00').valueOf()], { value: false }],
+    [
+      [new Date('2030-01-01 10:00:00').valueOf(), new Date('2020-01-01 10:00:00').valueOf()],
+      { value: false },
+    ],
+  ]),
 }
 
 map(testCases, (cases: Map<any, any>, funcName: string) => {

@@ -6,6 +6,8 @@ const ignorePatterns = [
   '/packages/cli/lib',
   '/packages/core/lib',
   '/packages/init/lib',
+  '/packages/init/env',
+  '/packages/init/templates',
   '/packages/craft/lib',
 ]
 

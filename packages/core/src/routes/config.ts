@@ -1,5 +1,6 @@
 /**
- * App 全局 menus 配置
+ * App route 配置
+ * TODO: 添加 unit test
  */
 
 import { mapTree } from 'amis/lib/utils/helper'
