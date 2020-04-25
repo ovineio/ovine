@@ -3,6 +3,9 @@
   "version": "0.0.1-alpha.3",
   "description": "Easy to build admin system with json schema.",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "react",
     "webpack",
