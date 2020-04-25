@@ -1,6 +1,6 @@
 {
   "name": "@rtadmin/core",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "Build flexible admin system with json.",
   "private": false,
   "repository": {

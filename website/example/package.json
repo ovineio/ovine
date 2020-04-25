@@ -1,6 +1,6 @@
 {
   "name": "@rtadmin/example",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-alpha.3",
   "description": "your awesome project.",
   "private": true,
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "@rtadmin/docs",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-alpha.3",
   "private": true,
   "scripts": {
     "start": "docusaurus start",

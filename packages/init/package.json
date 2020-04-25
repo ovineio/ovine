@@ -1,6 +1,6 @@
 {
   "name": "@rtadmin/init",
-  "version": "0.0.1-alpha.2",
+  "version": "0.0.1-alpha.3",
   "description": "Apply rt-admin template more easily.",
   "private": false,
   "repository": {
