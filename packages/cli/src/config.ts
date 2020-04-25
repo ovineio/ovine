@@ -12,7 +12,14 @@ import { LoadContext, SiteConfig } from './types'
 
 const requiredFields = ['publicPath', 'favicon', 'title']
 
-const optionalFields = ['envModes', 'template', 'staticFileExt', 'devServerProxy']
+const optionalFields = [
+  'envModes',
+  'isSplitCode',
+  'splitCodeRoutes',
+  'template',
+  'staticFileExt',
+  'devServerProxy',
+]
 
 const defaultConfig = {
   template: {},

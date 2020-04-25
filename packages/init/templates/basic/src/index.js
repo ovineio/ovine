@@ -1,7 +1,5 @@
-import { app } from '@rtadmin/core/lib/app'
-import { coreStatic, storage } from '@rtadmin/core/lib/constants'
-import { setAppLimits } from '@rtadmin/core/lib/routes/limit/exports'
-import { getStore } from '@rtadmin/core/lib/utils/store'
+import { app } from '@core/app'
+import { coreStatic } from '@core/constants'
 
 app.create({
   env: {
@@ -21,8 +19,6 @@ app.create({
       path: '/',
       redirect: '/login',
       onAuth: () => {
-        // 验证
-        setAppLimits(getStore(storage.dev.limit || ''))
         return true
       },
       children: {
@@ -63,25 +59,6 @@ app.create({
                 label: '快速开始',
                 icon: 'fa fa-coffee',
                 nodePath: 'start',
-              },
-              {
-                label: '系统管理',
-                icon: 'fa fa-wrench',
-                nodePath: 'system',
-                children: [
-                  {
-                    label: '管理员用户',
-                    nodePath: 'user_list',
-                  },
-                  {
-                    label: '管理员权限',
-                    nodePath: 'user_limit',
-                  },
-                  {
-                    label: '系统操作日志',
-                    nodePath: 'user_log',
-                  },
-                ],
               },
             ],
           },

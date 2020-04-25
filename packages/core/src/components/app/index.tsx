@@ -1,6 +1,7 @@
 import { AlertComponent, ToastComponent } from 'amis'
+import { uuid } from 'amis/lib/utils/helper'
 import get from 'lodash/get'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Switch, Route, Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
@@ -42,15 +43,22 @@ const j2r = json2reactFactory({
 
 export const useAppContext = () => useContext(AppContext)
 
+// 如何第一次 不异步加载 加载 一个默认的
+
 export const App = () => {
   const [state, setState] = useImmer<State>(initState)
+  const hotUpdate = useState('init')[1]
   const { theme } = state
 
   useEffect(() => {
     log.log('App Mounted.')
   }, [])
 
-  useSubscriber([message.appTheme, message.appLang], (newValue: string, key) => {
+  useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: string, key) => {
+    if (key === message.dev.hot) {
+      hotUpdate(uuid())
+      return
+    }
     setState((d) => {
       switch (key) {
         case message.appTheme:

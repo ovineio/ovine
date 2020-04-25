@@ -4,6 +4,7 @@
 
 import isArray from 'lodash/isArray'
 
+import { app } from '@/app'
 import logger from '@/utils/logger'
 import { isSubStr } from '@/utils/tool'
 import * as Types from '@/utils/types'
@@ -38,6 +39,9 @@ export const getAppLimits = () => store
  * @param limits 权限模版，用检查节点
  */
 export const checkLimitByNodePath = (nodePath: string, limits: any = getAppLimits()) => {
+  if (app.env.disableLimit) {
+    return true
+  }
   // 子权限存在，父权限一定存在
   return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
 }

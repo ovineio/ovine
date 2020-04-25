@@ -37,6 +37,7 @@ export const itemUserSchema = {
     api: apis.info,
     body: {
       type: 'lib-dropdown',
+      className: 'clickable',
       body: {
         type: 'html',
         html: `

@@ -13,6 +13,7 @@ export const staticLibDirPath = `${staticDirName}/${libName}`
 export const stylesDirName = 'styles'
 export const scssDirName = 'scss'
 export const libThemes = ['default', 'cdx', 'dark']
+export const cssAssetsFile = `${generatedDirName}/css_assets.json`
 
 // dll config
 export const dllVendorFileName = 'vendor'

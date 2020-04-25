@@ -1,10 +1,11 @@
+import AssetsPlugin from 'assets-webpack-plugin'
 import { version as cacheLoaderVersion } from 'cache-loader/package.json'
 import CleanPlugin from 'clean-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import fse from 'fs-extra'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import _ from 'lodash'
+import _, { get } from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } from 'webpack'
@@ -30,6 +31,7 @@ const {
   dllAssetsFile,
   staticLibDirPath,
   esLintFileName,
+  cssAssetsFile,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -69,7 +71,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
       !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
-      `${srcDir}/index`,
+      isProd ? `${srcDir}/index` : `${getModulePath(siteDir, 'lib/core/lib/app/entry.js', true)}`,
     ].filter(Boolean) as string[],
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
@@ -108,6 +110,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       alias: {
         '~': srcDir,
         '@generated': genDir,
+        '@core': '@rtadmin/core/lib',
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       modules: [
@@ -151,22 +154,39 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           pages: {
             chunks: 'async',
             test: /[\\/]src[\\/]pages[\\/]((?!preset).*)/,
+            priority: 18,
+            minChunks: 1,
+            enforce: true,
             // test: (mod: any) => {
             //   const isPages = /[\\/]src[\\/]pages[\\/]((?!preset).*)/.test(mod.context)
             //   return isPages
             // },
+            // reuseExistingChunk: true,
             name: (mod: any) => {
               // console.log('mod.context~~', mod.context)
-              const resolveMod = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
-              const modPath = !resolveMod
-                ? 'pages_common'
-                : `p_${resolveMod[1].replace(/[\\/]/g, '_')}`
+              const resolvedPath = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
+              const commonName = 'pages_common'
+              const { splitCodeRoutes = [], isSplitCode } = siteConfig
+
+              let modPath = commonName
+              // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
+
+              if (isSplitCode === false) {
+                modPath = commonName
+              } else if (splitCodeRoutes.length) {
+                if (!resolvedPath) {
+                  modPath = commonName
+                } else {
+                  splitCodeRoutes.forEach((route) => {
+                    modPath =
+                      route !== resolvedPath[1]
+                        ? commonName
+                        : `p_${resolvedPath[1].replace(/[\\/]/g, '_')}`
+                  })
+                }
+              }
               return modPath
             },
-            priority: 18,
-            minChunks: 1,
-            enforce: true,
-            // reuseExistingChunk: true,
           },
           // pagePresets: {
           //   chunks: 'all',
@@ -297,6 +317,14 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
+      new AssetsPlugin({
+        manifestFirst: true,
+        includeAllFileTypes: false,
+        fileTypes: ['css'],
+        filename: cssAssetsFile,
+        fullPath: false,
+        path: siteDir,
+      }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
         title: siteConfig.title,
@@ -304,6 +332,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
+        themeScript: getThemeScript(siteDir),
         dllVendorCss: getDllDistFile(siteDir, 'css'),
         dllVendorJs: dll && getDllDistFile(siteDir, 'js'),
       }),
@@ -326,7 +355,12 @@ function excludeJS(modulePath: string) {
 function getDllDistFile(siteDir: string, type: string) {
   const { publicPath } = loadContext(siteDir)
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
-  const assetJson = require(`${siteDir}/${dllAssetsFile}`)
+  const dllFile = `${siteDir}/${dllAssetsFile}`
+  const assetJson = fse.existsSync(dllFile) && require(dllFile)
+
+  if (!assetJson) {
+    return ''
+  }
 
   return `${dllBasePath}${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
 }
@@ -371,4 +405,38 @@ function getCopyPlugin(siteDir: string) {
   }
 
   return new CopyPlugin(copyFiles)
+}
+
+function getThemeScript(siteDir: string) {
+  const { publicPath } = loadContext(siteDir)
+  const assetsFile = `${siteDir}/${cssAssetsFile}`
+  const cssAssets = get(fse.existsSync(assetsFile) && require(assetsFile), '.css') || []
+  const themes = cssAssets.map((i) => `${publicPath}${i}`)
+
+  if (!themes.length) {
+    return ''
+  }
+
+  return `
+    <script>
+      (function() {
+        var themes = "${themes}".split(',');
+        var theme = (localStorage.getItem('appThemeStore') || '').replace(/"/g, '') || 'default';
+        var currThemeLink = '';
+        for (var i = 0; i < themes.length; i++) {
+          if (themes[i].indexOf('themes/'+theme) > -1) {
+            currThemeLink = themes[i];
+            break;
+          }
+        }
+        var head = document.head || document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        head.appendChild(link);
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.dataset.theme = theme;
+        link.href= currThemeLink;
+      })();
+    </script>
+  `.replace(/\n\s{2,}/g, '')
 }

@@ -1,12 +1,13 @@
 /**
  * 自定义 crud 组件
+ * 固定 table height 存在BUG，需要其他方式支持
  */
 
 import { Renderer } from 'amis'
-import { get } from 'lodash'
+// import { get } from 'lodash'
 import { css, DefaultTheme } from 'styled-components'
 
-import { breakpoints } from '@/constants'
+// import { breakpoints } from '@/constants'
 
 import { LibCssProps } from '../lib_css'
 
@@ -14,18 +15,18 @@ import { crudCss } from './styled'
 
 const getAmisCrudSchema = (props: any) => {
   const { tableClassName = '', filter, headerToolbar = [], ...rest } = props
-  const isSmScreen = window.innerWidth < breakpoints.md
+  // const isSmScreen = window.innerWidth < breakpoints.md
 
   // 在小屏幕中 自动加入分页
-  if (
-    isSmScreen &&
-    !headerToolbar.find((i: any) => i === 'pagination' || get(i, 'type') === 'pagination')
-  ) {
-    headerToolbar.push({
-      type: 'pagination',
-      align: 'right',
-    })
-  }
+  // if (
+  //   isSmScreen &&
+  //   !headerToolbar.find((i: any) => i === 'pagination' || get(i, 'type') === 'pagination')
+  // ) {
+  //   headerToolbar.push({
+  //     type: 'pagination',
+  //     align: 'right',
+  //   })
+  // }
 
   const crudSchema: any = {
     keepItemSelectionOnPageChange: true,
@@ -33,7 +34,7 @@ const getAmisCrudSchema = (props: any) => {
     type: 'crud',
     className: 'lib-crud r',
     tableClassName: `lib-crud-table ${tableClassName}`,
-    affixHeader: isSmScreen,
+    // affixHeader: isSmScreen,
     headerToolbar,
     filter: {
       ...filter,
@@ -50,14 +51,14 @@ export type LibCrudProps = LibCssProps & {
   tableWidth?: number
 }
 const LibCrud = (props: LibCrudProps) => {
-  const { css: getCss, render, className, htmlClassName, tableWidth = 800 } = props
+  const { css: getCss, render, className, htmlClassName } = props
 
   const amisCurd: any = {
     className,
     htmlClassName,
     type: 'lib-css',
     css: (theme: DefaultTheme) => css`
-      ${crudCss({ ...theme, tableWidth })};
+      ${crudCss(theme)};
       ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};
     `,
     body: getAmisCrudSchema(props),

@@ -10,7 +10,8 @@
     "rootDir": ".",
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "@core/*": ["../node_modules/@rtadmin/core/lib/*"]
     },
   },
   "exclude": ["node_modules", "__tests__", "lib"]

@@ -5,6 +5,7 @@
     "source.fixAll.eslint": true,
     "source.fixAll": true
   },
+  "editor.foldingStrategy": "indentation",
   "editor.formatOnSave": true,
   "typescript.updateImportsOnFileMove.enabled": "prompt",
   "cSpell.ignoreWords": [

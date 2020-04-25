@@ -26,7 +26,6 @@ function initLogger(config: any = {}) {
 
 function renderApp() {
   const $mounted = document.getElementById(appRootId) || document.createElement('div')
-
   render(<App />, $mounted)
 }
 
@@ -34,10 +33,4 @@ export function initApp(env: any = {}) {
   initLogger(env.logger)
   initAppTheme()
   renderApp()
-}
-
-// Hot Module Replacement API
-const { hot } = module as any
-if (hot) {
-  hot.accept('../components/app', renderApp)
 }

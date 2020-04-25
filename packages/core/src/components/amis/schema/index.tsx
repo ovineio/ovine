@@ -4,6 +4,9 @@ import React, { useMemo } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
+import { storage } from '@/constants'
+import { getGlobal, setGlobal } from '@/utils/store'
+
 import renderAmis from './amis'
 import { resolveLibSchema, wrapCss } from './func'
 import { LibSchema } from './types'
@@ -28,7 +31,15 @@ export const Amis = withRouter((props: Props) => {
     if (!preset || isEmpty(preset)) {
       return cssSchema
     }
-    return resolveLibSchema(cssSchema)
+    const codeStore = getGlobal<any>(storage.dev.code) || {}
+    const libSchema = resolveLibSchema(cssSchema)
+    if (codeStore.enable) {
+      setGlobal(storage.dev.code, {
+        enable: true,
+        schema: libSchema,
+      })
+    }
+    return libSchema
   }, [schema])
 
   return (

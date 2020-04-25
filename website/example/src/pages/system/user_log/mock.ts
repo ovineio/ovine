@@ -1,6 +1,6 @@
 import { uuid } from 'amis/lib/utils/helper'
 
-import { MockListStore } from '@rtadmin/core/lib/utils/mock'
+import { MockListStore } from '@core/utils/mock'
 
 const generator = (i) => ({
   id: i,

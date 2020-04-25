@@ -1,14 +1,18 @@
-import ActionAddrCell from './action_addr_cell'
+import { ActionAddrCell } from './cells'
 
 export const schema = {
   type: 'lib-crud',
   api: '$preset.apis.list',
-  filterTogglable: true,
   filter: '$preset.forms.filter',
+  filterTogglable: true,
   headerToolbar: [
     'filter-toggler',
     {
       type: 'columns-toggler',
+      align: 'left',
+    },
+    {
+      type: 'pagination',
       align: 'left',
     },
   ],

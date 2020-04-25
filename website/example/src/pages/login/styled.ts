@@ -1,6 +1,6 @@
 import { css } from 'styled-components'
 
-import { inline } from '@rtadmin/core/lib/styled/utils'
+import { inline } from '@core/styled/utils'
 
 export const loginCss = ({ colors }) => css`
   .login-wrapper {

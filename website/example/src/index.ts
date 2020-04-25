@@ -1,4 +1,4 @@
-import { app } from '@rtadmin/core/lib/app'
+import { app } from '@core/app'
 
 import { entry } from './app/entry'
 import { env } from './app/env'

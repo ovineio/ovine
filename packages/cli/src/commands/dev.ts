@@ -70,7 +70,10 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     compress: true,
     clientLogLevel: 'error',
     hot: true,
-    hotOnly: false,
+    // hotOnly: true,
+    // injectClient: false,
+    // injectHot: false,
+    // transportMode: 'ws',
     quiet: true,
     proxy: siteConfig.devServerProxy,
     headers: {

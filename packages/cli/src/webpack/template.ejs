@@ -13,17 +13,17 @@
   <% if(opts.dllVendorCss) { %>
   <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
   <% } %>
-  <%- opts.head %>
-  </script>
+  <%= opts.themeScript %>
+  <%= opts.head %>
 </head>
 
 <body>
-  <%- opts.preBody %>
+  <%= opts.preBody %>
   <div id="app-root" class="app-root"></div>
   <% if(opts.dllVendorJs) { %>
   <script src="<%=opts.dllVendorJs%>"></script>
   <% } %>
-  <%- opts.postBody %>
+  <%= opts.postBody %>
 </body>
 
 </html>

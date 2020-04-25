@@ -43,7 +43,7 @@ const LibDropdown = (props: any) => {
 
   return (
     <StyledDropdown ref={$wrapperRef} className={`${classPrefix}LibDropdown ${className}`}>
-      <div className="dropdown-body">{body && render('body', body)}</div>
+      {body && render('body', body)}
       {items && (
         <ul className="dropdown-menu m-t-xs r b">
           {items.map((item: any, index: number) => {

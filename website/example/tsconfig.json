@@ -11,7 +11,8 @@
     "baseUrl": "./src",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": ["./*"],
+      "@core/*": ["../node_modules/@rtadmin/core/lib/*"]
     },
     "types": [
       "@types/react",

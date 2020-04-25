@@ -123,7 +123,7 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
   const devRootDir = getCliDevRootDir()
 
   const isLib = lib.indexOf('lib/') === 0
-  const libPath = !isLib ? lib : lib.split('lib/')[1]
+  const libPath = !isLib ? lib : lib.replace(/^lib\//, '')
   const prodPath = `node_modules/${!isLib ? '' : `@${libName}/`}${libPath}`
 
   const libPaths = [

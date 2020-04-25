@@ -1,7 +1,7 @@
 import { uuid } from 'amis/lib/utils/helper'
 import React, { useState, useEffect } from 'react'
 
-import { subscribe } from '@rtadmin/core/lib/utils/message'
+import { subscribe } from '@core/utils/message'
 
 import { msgKeys } from '~/app/constants'
 import { request } from '~/app/request'

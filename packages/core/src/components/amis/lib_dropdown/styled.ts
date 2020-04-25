@@ -31,8 +31,4 @@ export const StyledDropdown = styled.div`
       }
     }
   }
-
-  .dropdown-body {
-    cursor: pointer;
-  }
 `

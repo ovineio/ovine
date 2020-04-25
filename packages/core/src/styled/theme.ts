@@ -5,7 +5,7 @@ import { storage, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { setStore } from '@/utils/store'
 
-const { name: storedTheme } = app.theme.getTheme()
+// const { name: storedTheme } = app.theme.getTheme()
 
 const dispatchLink = (theme: string, callback?: () => void) => {
   $('head link[data-theme]').remove()
@@ -21,7 +21,7 @@ const dispatchLink = (theme: string, callback?: () => void) => {
 
 export const changeAppTheme = (theme: string) => {
   const $body = $('body')
-  $body.css('opacity', 0)
+  $body.removeClass('is-modalOpened').css('opacity', 0)
   dispatchLink(theme, () => {
     publish(message.appTheme, theme)
     setStore(storage.appTheme, theme)
@@ -41,5 +41,5 @@ export const initAppTheme = () => {
       })
     })
 
-  dispatchLink(storedTheme)
+  // dispatchLink(storedTheme)
 }

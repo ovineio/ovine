@@ -2,17 +2,16 @@ import { css, DefaultTheme } from 'styled-components'
 
 import { breakpoints } from '@/constants'
 
-type CssProps = DefaultTheme & {
-  tableWidth: number
-}
-
-export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
+export const crudCss = ({ ns, colors }: DefaultTheme) => css`
   height: 100%;
   padding: 15px 0 0;
   .lib-crud {
     margin: 0 15px 15px;
     padding: 15px;
     background-color: ${colors.layoutHeaderBg};
+    &>.${ns}Form {
+      padding-bottom: 6px;
+    }
   }
   .lib-crud-table {
     td {
@@ -44,12 +43,18 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
   .${ns}Table-content {
     overflow: hidden;
   }
-  @media (min-width: ${breakpoints.md}px) {
+  .${ns}Crud-body {
+    margin-bottom: 0;
+  }
+  /* @media (min-width: ${breakpoints.md}px) {
     .lib-crud {
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
       height: calc(100% - 15px);
+      .${ns}Table-checkCell {
+        width: 20px;
+      }
       & > .${ns}Form {
         flex: 0 0 auto;
         margin-bottom: 10px;
@@ -79,7 +84,6 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
 
     .lib-crud-table {
       height: 100%;
-      min-width: ${tableWidth}px;
       thead,
       tbody {
         tr {
@@ -106,7 +110,7 @@ export const crudCss = ({ tableWidth, ns, colors }: CssProps) => css`
         }
       }
     }
-  }
+  } */
 
   @media (max-width: ${breakpoints.md - 1}px) {
     .${ns}Table-content {

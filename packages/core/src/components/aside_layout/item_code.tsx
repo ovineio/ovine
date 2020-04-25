@@ -1,24 +1,28 @@
 import { Drawer, Spinner } from 'amis'
-import { Editor } from 'amis/lib/components'
+import { Editor, toast } from 'amis/lib/components'
 import { RendererProps } from 'amis/lib/factory'
 import { cloneDeep, isObject, isFunction, map } from 'lodash'
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
 
 import { storage } from '@/constants'
 import { getRouteConfig } from '@/routes/config'
-import { getStore } from '@/utils/store'
+import { getStore, getGlobal, setGlobal } from '@/utils/store'
 import { ObjectOf } from '@/utils/types'
 
-type CodeType = 'route' | 'page' | 'limit'
+type CodeType = 'init' | 'route' | 'page' | 'limit'
 
 export default (props: RendererProps) => {
   const { render, theme } = props
 
   const [show, toggle] = useState(false)
-  const [code, setCode] = useState<CodeType>('page')
+  const [code, setCode] = useState<CodeType>('init')
   const [loading, toggleLoading] = useState(false)
 
   const storeRef = useRef<ObjectOf<any>>({})
+
+  useEffect(() => {
+    setGlobal(storage.dev.code, { enable: true })
+  }, [])
 
   const toggleDrawer = () => toggle((t) => !t)
 
@@ -34,10 +38,10 @@ export default (props: RendererProps) => {
       return storeRef.current[code]
     }
     switch (code) {
-      // case 'page':
-      //   json = cloneDeep(schema)
-      //   transSchema(json)
-      //   break
+      case 'page':
+        json = getGlobal(storage.dev.code) || {}
+        transSchema(json.schema && cloneDeep(json.schema))
+        break
       case 'route':
         json = cloneDeep(getRouteConfig())
         transSchema(json)
@@ -57,11 +61,18 @@ export default (props: RendererProps) => {
 
   const viewCode = (codeType: CodeType) => {
     setCode(codeType)
+
+    if (codeType === 'page' && !cachedSchema) {
+      toast.info('当前页面无数据')
+      return
+    }
+
     toggleDrawer()
   }
 
   const dropDownSchema = {
     type: 'lib-dropdown',
+    className: 'lh-1',
     body: {
       type: 'button',
       iconOnly: true,

@@ -10,6 +10,7 @@ import { AppTheme } from './theme'
 type Env = {
   mode: string
   domains: Map<string, string>
+  disableLimit?: boolean
   isRelease?: boolean
   isProd?: boolean
   logger?: LoggerConfig

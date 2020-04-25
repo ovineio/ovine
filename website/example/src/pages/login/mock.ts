@@ -1,6 +1,6 @@
-import { storage } from '@rtadmin/core/lib/constants'
-import { ReqMockSourceGen } from '@rtadmin/core/lib/utils/request/types'
-import { getStore } from '@rtadmin/core/lib/utils/store'
+import { storage } from '@core/constants'
+import { ReqMockSourceGen } from '@core/utils/request/types'
+import { getStore } from '@core/utils/store'
 
 // 开发时使用的全部权限
 const fakeLimit =

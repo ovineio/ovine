@@ -1,8 +1,8 @@
 import { get } from 'lodash'
 
-import { AppRequest } from '@rtadmin/core/lib/app'
-import logger from '@rtadmin/core/lib/utils/logger'
-import { getStore } from '@rtadmin/core/lib/utils/store'
+import { AppRequest } from '@core/app'
+import logger from '@core/utils/logger'
+import { getStore } from '@core/utils/store'
 
 import { storeKeys } from './constants'
 import { logout } from './user'

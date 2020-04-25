@@ -4,8 +4,9 @@
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
-import { get, map } from 'lodash'
+import { get, map, isEmpty } from 'lodash'
 
+import { app } from '@/app'
 import { routeLimitKey, strDelimiter } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
 import * as Types from '@/utils/types'
@@ -132,13 +133,13 @@ export const getLimitMenus = (refresh: boolean = false) => {
 // 2. 去除侧边栏隐藏 菜单项
 const filterRoutesConfig = (type: 'aside' | 'route') => {
   const limits = getAppLimits()
-  if (!Object.keys(limits).length) {
+  const { disableLimit } = app.env
+  if (!disableLimit && isEmpty(limits)) {
     return []
   }
 
   const nodes = filterTree<RouteItem>(getRouteConfig(true), ({ sideVisible, nodePath }) => {
-    const auth = checkLimitByNodePath(nodePath, limits)
-
+    const auth = disableLimit ? true : checkLimitByNodePath(nodePath, limits)
     if (nodePath === '/') {
       return true
     }

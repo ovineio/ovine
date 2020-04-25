@@ -14,6 +14,8 @@ export type SiteConfig = {
   devServerProxy: any
   staticFileExt?: string
   template?: TemplateConfig
+  isSplitCode?: boolean // is split code by route
+  splitCodeRoutes?: string[] // witch route page should be split
 }
 
 export type SiteContext = {

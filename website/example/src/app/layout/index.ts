@@ -1,4 +1,4 @@
-import { coreStatic } from '@rtadmin/core/lib/constants'
+import { coreStatic } from '@core/constants'
 
 import { routes } from '../routes'
 import { itemUserSchema } from './item_user'

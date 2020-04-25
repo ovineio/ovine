@@ -5,7 +5,8 @@ import { defaultsDeep, get, isFunction, set } from 'lodash'
 
 import { AppInstance } from '@rtadmin/core/lib/app/instance'
 
-import { defaultEnvMode } from '@/constants'
+import { defaultEnvMode, message } from '@/constants'
+import { publish } from '@/utils/message'
 import { isSubStr } from '@/utils/tool'
 
 import * as Types from '@/utils/types'
@@ -15,6 +16,8 @@ import { AppTheme } from './theme'
 import { AppConfig, EnvConfig, AppDefInstance } from './types'
 
 const source: any = {}
+
+const { hot } = module as any
 
 const initConfig: AppConfig = {
   request: new AppRequest(),
@@ -68,6 +71,7 @@ function checkAppGetter(key: string, value?: any) {
     default:
   }
 }
+
 class AppProxy {
   constructor() {
     const that: any = this
@@ -95,11 +99,11 @@ class App extends AppProxy {
     if (config.env) {
       this.setEnv(config.env)
     }
-    if (config.entry) {
-      this.setEntry(config.entry)
-    }
     if (config.request) {
       this.setRequest(config.request)
+    }
+    if (config.entry) {
+      this.setEntry(config.entry)
     }
   }
 
@@ -146,12 +150,17 @@ class App extends AppProxy {
 
   private setEntry(entry: any[]) {
     if (this.isEntrySetUp) {
-      throw new Error('App "entry" already set up. Can not reset.')
+      if (!hot) {
+        throw new Error('App "entry" already set up. Can not reset.')
+      }
+      set(source, 'entry', entry)
+      publish(message.dev.hot)
+      return
     }
     set(source, 'entry', entry)
     this.isEntrySetUp = true
     import(
-      `./app${''}`
+      `./app${''}` // for te build
       /* webpackMode: "eager" */
       /* webpackChunkName: "app_entry" */
     ).then(({ initApp }) => {
@@ -165,7 +174,7 @@ class App extends AppProxy {
   }
 
   private setEnv(value: Types.DeepPartial<EnvConfig>) {
-    if (this.isEnvSetUp) {
+    if (!hot && this.isEnvSetUp) {
       throw new Error('App "env" already set up. Can not reset.')
     }
     const mode = process.env.ENV || defaultEnvMode
@@ -191,7 +200,6 @@ class App extends AppProxy {
   private setRequest(requestIns: AppRequest) {
     const initEnv = initConfig.env.default
     checkAppGetter('requestFunc', requestIns)
-
     // 设置request环境变量
     requestIns.setConfig({
       isRelease: get(source, 'env.isRelease') || initEnv.isRelease,

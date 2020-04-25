@@ -1,6 +1,6 @@
-import { coreStatic } from '@rtadmin/core/lib/constants'
-import { publish } from '@rtadmin/core/lib/utils/message'
-import { setStore, clearStore } from '@rtadmin/core/lib/utils/store'
+import { coreStatic } from '@core/constants'
+import { publish } from '@core/utils/message'
+import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
 

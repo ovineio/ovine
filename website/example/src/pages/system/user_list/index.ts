@@ -1,9 +1,23 @@
 export const schema = {
   type: 'lib-crud',
   api: '$preset.apis.list',
-  filterTogglable: true,
   filter: '$preset.forms.filter',
-  headerToolbar: ['filter-toggler', 'columns-toggler', '$preset.actions.add'],
+  filterTogglable: true,
+  headerToolbar: [
+    'filter-toggler',
+    {
+      type: 'columns-toggler',
+      align: 'left',
+    },
+    {
+      type: 'pagination',
+      align: 'left',
+    },
+    {
+      $preset: 'actions.add',
+      align: 'right',
+    },
+  ],
   footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
   perPageField: 'size',
   pageField: 'page',

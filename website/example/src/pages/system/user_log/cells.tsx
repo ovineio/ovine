@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { strDelimiter } from '@rtadmin/core/lib/constants'
-import { getActionAddrMap } from '@rtadmin/core/lib/routes/limit'
+import { strDelimiter } from '@core/constants'
+import { getActionAddrMap } from '@core/routes/limit'
 
-export default (props) => {
+export const ActionAddrCell = (props) => {
   const { actionAddr } = props.data
   const addrMap = getActionAddrMap()
   const [actionPath, actionItems] = (addrMap[actionAddr] || '').split(strDelimiter)

@@ -52,6 +52,15 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 0;
   }
 
+  .clickable {
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .lh-1 {
+    line-height: 1;
+  }
+
   /** lib 主题相关的全局样式 */
   ${({ theme: { ns, colors } }) => css`
     body > div {
