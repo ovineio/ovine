@@ -21,7 +21,7 @@
     "admin-template"
   ],
   "author": "carey toboos",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "tsc": "yarn clean && ttsc",
     "dev": "ttsc -w",

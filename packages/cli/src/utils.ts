@@ -109,7 +109,7 @@ export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T
 }
 
 export function isCliDev() {
-  return __dirname.indexOf(libRootPath) > -1
+  return __dirname.indexOf(`@${libRootPath}`) === -1 && __dirname.indexOf(libRootPath) > -1
 }
 
 export function getCliDevRootDir() {

@@ -20,7 +20,7 @@
     "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "author": "carey toboos",
-  "license": "ISC",
+  "license": "MIT",
   "bin": {
     "ovine": "bin/index.js"
   },
