@@ -1,5 +1,4 @@
 import { app } from '@core/app'
-import { coreStatic } from '@core/constants'
 
 app.create({
   env: {
@@ -27,7 +26,7 @@ app.create({
           showDevItem: false,
           brand: {
             // 公司品牌
-            logo: `${coreStatic}/logo.png`,
+            logo: '/static/logo.png',
             title: 'Ovine',
             link: {
               title: 'dashboard',
