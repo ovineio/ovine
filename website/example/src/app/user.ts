@@ -1,10 +1,10 @@
 import { toast } from 'amis'
 
-import { app } from '@rtadmin/core/lib/app'
-import { storage } from '@rtadmin/core/lib/constants'
-import { routerHistory } from '@rtadmin/core/lib/routes/exports'
-import { setAppLimits } from '@rtadmin/core/lib/routes/limit/exports'
-import { clearStore, getStore } from '@rtadmin/core/lib/utils/store'
+import { app } from '@core/app'
+import { storage } from '@core/constants'
+import { routerHistory } from '@core/routes/exports'
+import { setAppLimits } from '@core/routes/limit/exports'
+import { clearStore, getStore } from '@core/utils/store'
 
 import { mockSource as loginMock } from '~/pages/login/mock'
 

@@ -27,8 +27,8 @@ app.create({
           showDevItem: false,
           brand: {
             // 公司品牌
-            logo: `${coreStatic}/favicon.ico`,
-            title: 'RT-ADMIN',
+            logo: `${coreStatic}/logo.png`,
+            title: 'Ovine',
             link: {
               title: 'dashboard',
               href: '/',

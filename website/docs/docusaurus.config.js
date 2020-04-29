@@ -1,12 +1,12 @@
 // TODO: 优化文档UI
 
 module.exports = {
-  title: 'RT-ADMIN',
+  title: 'Ovine',
   tagline: '用JSON构建管理系统',
   favicon: 'img/favicon.ico',
   organizationName: 'CareyToboo', // Usually your GitHub org/user name.
-  projectName: 'rt-admin', // Usually your repo name.
-  url: 'https://careytoboo.github.io/rt-admin',
+  projectName: 'ovine', // Usually your repo name.
+  url: 'https://careytoboo.github.io/ovine',
   baseUrl: '/rtdocs/',
   scripts: ['https://buttons.github.io/buttons.js'],
   themeConfig: {
@@ -20,7 +20,7 @@ module.exports = {
       theme: require('prism-react-renderer/themes/shadesOfPurple'),
     },
     navbar: {
-      title: 'RT-ADMIN',
+      title: 'Ovine',
       // hideOnScroll: true,
       logo: {
         alt: 'SiteLogo',
@@ -28,12 +28,12 @@ module.exports = {
       },
       links: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
-        { label: '演示项目', position: 'left', href: 'https://rt-admin.igroupes.com/' },
+        { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/' },
       ],
     },
     footer: {
       style: 'light',
-      copyright: `Copyright © ${new Date().getFullYear()} CareyToboo RtAdmin.`,
+      copyright: `Copyright © ${new Date().getFullYear()} CareyToboo Ovine.`,
     },
   },
   presets: [

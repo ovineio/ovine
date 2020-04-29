@@ -1,5 +1,5 @@
 {
-  "name": "@rtadmin/core",
+  "name": "@ovine/core",
   "version": "0.0.1-alpha.3",
   "description": "Build flexible admin system with json.",
   "private": false,
@@ -8,16 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CareyToboo/rt-admin.git"
+    "url": "https://github.com/CareyToboo/ovine.git"
   },
   "bugs": {
-    "url": "https://github.com/CareyToboo/rt-admin/issues"
+    "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "keywords": [
     "aims",
-    "rt-admin",
+    "ovine",
     "react",
-    "typescript"
+    "typescript",
+    "admin-template"
   ],
   "author": "carey toboos",
   "license": "ISC",

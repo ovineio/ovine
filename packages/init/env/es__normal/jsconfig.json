@@ -11,7 +11,7 @@
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"],
-      "@core/*": ["../node_modules/@rtadmin/core/lib/*"]
+      "@core/*": ["../node_modules/@ovine/core/lib/*"]
     },
   },
   "exclude": ["node_modules", "__tests__", "lib"]

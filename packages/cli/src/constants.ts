@@ -1,5 +1,5 @@
-export const libName = 'rtadmin'
-export const libRootPath = '/rt-admin'
+export const libName = 'ovine'
+export const libRootPath = '/ovine'
 export const outDirName = 'dist'
 export const defaultPort = 7050
 

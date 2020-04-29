@@ -139,11 +139,11 @@ function Navbar() {
           <a
             target="blank"
             className={`navbar__item ${styles.githubButton}`}
-            href="https://github.com/CareyToboo/rt-admin"
+            href="https://github.com/CareyToboo/ovine"
           >
             <img
               alt="github starts"
-              src="https://img.shields.io/github/stars/CareyToboo/rt-admin?style=social"
+              src="https://img.shields.io/github/stars/CareyToboo/ovine?style=social"
             />
           </a>
         </div>

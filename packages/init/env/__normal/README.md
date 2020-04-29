@@ -16,7 +16,7 @@ yarn dll # build webpack dll files. Most cases don't need it.
 ```
 
 ## Projects Are Mainly Dependent On
-  - [rt-admin](https://github.com/CareyToboo/rt-admin) the main core lib.
+  - [ovine](https://github.com/CareyToboo/ovine) the main core lib.
   - [amis](https://baidu.github.io/amis/docs/getting-started) extend the amis lib.
   - [styled-components](https://styled-components.com) css styles in js.
   - [font-awesome](http://fontawesome.dashgame.com) all icons out of box.
@@ -29,4 +29,4 @@ yarn dll # build webpack dll files. Most cases don't need it.
   - `search node_modules` - search file from `node_modules`
   - `code spell checker` - for words spell check
 
-> Any Issues? [Let Me Know](https://github.com/CareyToboo/rt-admin).
+> Any Issues? [Let Me Know](https://github.com/CareyToboo/ovine).

@@ -88,7 +88,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       maxAssetSize: 400 * 1000,
       assetFilter: (filePath) => {
         // Filter genDir or theme files
-        const isLibFiles = /static\/rtadmin/.test(filePath)
+        const isLibFiles = /static\/ovine/.test(filePath)
         const isThemeStyles = /themes\/.*\.css/.test(filePath)
         return !isLibFiles && !isThemeStyles
       },
@@ -110,7 +110,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       alias: {
         '~': srcDir,
         '@generated': genDir,
-        '@core': '@rtadmin/core/lib',
+        '@core': '@ovine/core/lib',
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       modules: [
@@ -232,10 +232,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           use: (isProd ? [MiniCssExtractPlugin.loader] : [cacheLoader, 'style-loader']).concat([
             'css-loader',
           ]),
-          exclude: /\.rtadmin\/styles\/themes/,
+          exclude: /\.ovine\/styles\/themes/,
         },
         {
-          test: /\.rtadmin\/styles\/themes\/.*\.css$/,
+          test: /\.ovine\/styles\/themes\/.*\.css$/,
           use: [
             {
               loader: 'file-loader',
@@ -279,7 +279,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     },
     plugins: [
       new LogPlugin({
-        name: `${libName}-${isProd ? 'build' : 'dev'}`,
+        name: `${libName}-${isProd ? 'Build' : 'Dev'}`,
       }),
       new CleanPlugin(),
       getCopyPlugin(siteDir),
@@ -345,9 +345,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 }
 
 function excludeJS(modulePath: string) {
-  // Don't transpile node_modules except any @rtadmin npm package
+  // Don't transpile node_modules except any @ovine npm package
   const isNodeModules = /node_modules/.test(modulePath)
-  const isLibModules = /node_modules\/@rtadmin\/.*\.[j|t]sx?$/.test(modulePath)
+  const isLibModules = /node_modules\/@ovine\/.*\.[j|t]sx?$/.test(modulePath)
 
   return isLibModules ? false : isNodeModules
 }

@@ -8,12 +8,5 @@
   "editor.foldingStrategy": "indentation",
   "editor.formatOnSave": true,
   "typescript.updateImportsOnFileMove.enabled": "prompt",
-  "cSpell.ignoreWords": [
-    "rtadmin",
-    "immer",
-    "abortcontroller",
-    "glyphicon",
-    "toboos",
-    "tsbuildinfo"
-  ]
+  "cSpell.ignoreWords": ["immer", "abortcontroller", "glyphicon", "toboos", "tsbuildinfo"]
 }

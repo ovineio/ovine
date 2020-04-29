@@ -6,7 +6,7 @@ export const publicUrl = process.env.PUBLIC_PATH || '/'
 export const routeLimitKey = '$page'
 export const appRootId = 'app-root'
 export const defaultEnvMode = 'localhost'
-export const coreStatic = `${publicUrl}static/rtadmin/core`
+export const coreStatic = `${publicUrl}static/ovine/core`
 export const strDelimiter = '@##@'
 
 // 屏幕尺寸定义

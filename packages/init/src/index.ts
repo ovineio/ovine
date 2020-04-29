@@ -9,7 +9,7 @@ import path from 'path'
 import shell from 'shelljs'
 
 let spinner: Ora = ora()
-const libName = 'rtadmin'
+const libName = 'ovine'
 
 export async function init(rootDir: string, siteName?: string): Promise<void> {
   const useYarn = hasYarn()

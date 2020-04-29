@@ -1,5 +1,3 @@
-import { coreStatic } from '@core/constants'
-
 import { routes } from '../routes'
 import { itemUserSchema } from './item_user'
 
@@ -9,8 +7,8 @@ export const layout = {
   header: {
     brand: {
       // 公司品牌
-      logo: `${coreStatic}/favicon.ico`,
-      title: 'RT-ADMIN',
+      logo: '/static/images/logo_line_white.png',
+      title: 'Ovine',
       link: {
         title: 'dashboard',
         href: '/',

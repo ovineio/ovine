@@ -142,7 +142,7 @@ export function createDllConfig(options: ConfigOptions) {
     },
     plugins: [
       new LogPlugin({
-        name: `${libName}-dll`,
+        name: `${libName}-Dll`,
       }),
       new CleanPlugin(),
       new MiniCssExtractPlugin({

@@ -2306,8 +2306,8 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@rtadmin/cli@file:packages/cli":
-  version "0.0.1-alpha.2"
+"@ovine/cli@file:packages/cli":
+  version "0.0.1-alpha.3"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2358,6 +2358,17 @@
     webpack-dev-server "^3.9.0"
     webpack-merge "^4.2.2"
     webpackbar "^4.0.0"
+
+"@ovine/core@file:packages/core":
+  version "0.0.1-alpha.3"
+  dependencies:
+    abortcontroller-polyfill "^1.4.0"
+    amis "1.0.10"
+    animate.css "^3.7.2"
+    bootstrap "^4.4.1"
+    core-js "^3.6.4"
+    highlight.js "^9.18.1"
+    proxy-polyfill "^0.3.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"

@@ -1,30 +1,37 @@
 {
-  "name": "@rtadmin/init",
+  "name": "@ovine/init",
   "version": "0.0.1-alpha.3",
-  "description": "Apply rt-admin template more easily.",
+  "description": "Apply ovine template more easily.",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/CareyToboo/rt-admin.git"
+    "url": "https://github.com/CareyToboo/ovine.git"
   },
   "bugs": {
-    "url": "https://github.com/CareyToboo/rt-admin/issues"
+    "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "author": "carey toboos",
   "license": "ISC",
   "bin": {
-    "rt-init": "bin/index.js"
+    "ovine-init": "bin/index.js"
   },
+  "keywords": [
+    "aims",
+    "ovine",
+    "react",
+    "typescript",
+    "admin-template"
+  ],
   "scripts": {
     "tsc": "yarn clean && tsc",
     "dev": "tsc -w",
     "clean": "rimraf ./lib",
     "clean:tmp": "rimraf ./tmp/*",
     "cli": "node ../cli/bin/index.js",
-    "gen:env": "rm -rf ./env/.rtadmin && yarn cli dll env && yarn cli scss env",
+    "gen:env": "rm -rf ./env/.ovine && yarn cli dll env && yarn cli scss env",
     "test:base:normal": "rimraf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
     "test:base:constraint": "rimraf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
     "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",

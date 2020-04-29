@@ -2,6 +2,6 @@ __tests__
 
 dist
 node_modules
-.rtadmin
+.ovine
 
 /static/

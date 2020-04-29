@@ -4,11 +4,18 @@
     "packages/*",
     "website/*"
   ],
+  "keywords": [
+    "aims",
+    "ovine",
+    "react",
+    "typescript",
+    "admin-template"
+  ],
   "scripts": {
-    "start:doc": "yarn workspace @rtadmin/docs start",
-    "start:demo": "yarn workspace @rtadmin/example dev",
-    "dev:demo": "yarn workspace @rtadmin/example dev:lib",
-    "dev:core": "yarn workspace @rtadmin/core dev",
+    "start:doc": "yarn workspace @ovine/docs start",
+    "start:demo": "yarn workspace @ovine/example dev",
+    "dev:demo": "yarn workspace @ovine/example dev:lib",
+    "dev:core": "yarn workspace @ovine/core dev",
     "changelog": "lerna-changelog",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
     "eslint": "eslint --cache --fix \"**/*.{js,jsx,ts,tsx}\"",

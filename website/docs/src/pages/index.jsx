@@ -8,11 +8,7 @@ import styles from './styles.module.css'
 
 function Home() {
   return (
-    <Layout
-      permalink="/"
-      title="用JSON快速构建管理系统"
-      description="RT-ADMIN 用JSON快速构建管理系统"
-    >
+    <Layout permalink="/" title="用JSON快速构建管理系统" description="Ovine 用JSON快速构建管理系统">
       <div className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroProjectTagline}>

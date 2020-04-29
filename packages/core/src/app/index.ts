@@ -3,7 +3,7 @@ import './includes'
 
 import { defaultsDeep, get, isFunction, set } from 'lodash'
 
-import { AppInstance } from '@rtadmin/core/lib/app/instance'
+import { AppInstance } from '@ovine/core/lib/app/instance'
 
 import { defaultEnvMode, message } from '@/constants'
 import { publish } from '@/utils/message'

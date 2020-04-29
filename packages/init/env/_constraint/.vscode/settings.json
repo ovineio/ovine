@@ -6,5 +6,5 @@
     "source.fixAll": true
   },
   "editor.formatOnSave": true,
-  "cSpell.ignoreWords": ["rtadmin", "immer", "tsbuildinfo"]
+  "cSpell.ignoreWords": ["ovine", "immer", "tsbuildinfo"]
 }

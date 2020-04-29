@@ -4,7 +4,7 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "changelog": {
-    "repo": "CareyToboo/rt-admin",
+    "repo": "CareyToboo/ovine",
     "labels": {
       "tag: new feature": ":rocket: New Feature",
       "tag: breaking change": ":boom: Breaking Change",

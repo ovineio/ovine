@@ -15397,8 +15397,8 @@ a.text-dark:hover, a.text-dark:focus {
  * -------------------------- */
 @font-face {
   font-family: 'FontAwesome';
-  src: url(/static/rtadmin/dll/fontawesome-webfont_674f50.eot);
-  src: url(/static/rtadmin/dll/fontawesome-webfont_674f50.eot?#iefix&v=4.7.0) format('embedded-opentype'), url(/static/rtadmin/dll/fontawesome-webfont_af7ae5.woff2) format('woff2'), url(/static/rtadmin/dll/fontawesome-webfont_fee66e.woff) format('woff'), url(/static/rtadmin/dll/fontawesome-webfont_b06871.ttf) format('truetype'), url(/static/rtadmin/dll/fontawesome-webfont_912ec6.svg#fontawesomeregular) format('svg');
+  src: url(/static/ovine/dll/fontawesome-webfont_674f50.eot);
+  src: url(/static/ovine/dll/fontawesome-webfont_674f50.eot?#iefix&v=4.7.0) format('embedded-opentype'), url(/static/ovine/dll/fontawesome-webfont_af7ae5.woff2) format('woff2'), url(/static/ovine/dll/fontawesome-webfont_fee66e.woff) format('woff'), url(/static/ovine/dll/fontawesome-webfont_b06871.ttf) format('truetype'), url(/static/ovine/dll/fontawesome-webfont_912ec6.svg#fontawesomeregular) format('svg');
   font-weight: normal;
   font-style: normal;
 }

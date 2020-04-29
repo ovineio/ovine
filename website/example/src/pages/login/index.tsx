@@ -1,4 +1,3 @@
-import { coreStatic } from '@core/constants'
 import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
@@ -19,8 +18,8 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="login-title">
-          <img src="${`${coreStatic}/favicon.ico`}" />
-            <p>RT-ADMIN 管理后台系统</p>
+          <img src="/static/images/logo_line_white.png" />
+            <p>Ovine 管理后台系统</p>
           </h6>
         `,
       },

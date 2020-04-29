@@ -1,5 +1,5 @@
 /**
- * rt-when 条件渲染器
+ * lib-when 条件渲染器
  * 用于不同条件，渲染不同组件的情况
  */
 
@@ -41,6 +41,6 @@ const LibWhen = (props: Props) => {
 }
 
 Renderer({
-  test: /(^|\/)rt-when$/,
-  name: 'rt-when',
+  test: /(^|\/)lib-when$/,
+  name: 'lib-when',
 })(LibWhen as any)

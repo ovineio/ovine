@@ -1,1 +1,1 @@
-declare module '@generated' // .rtadmin/*
+declare module '@generated' // .ovine/*

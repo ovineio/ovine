@@ -11,7 +11,7 @@ module.exports = {
             qs: path.resolve(__dirname, '../../node_modules/qs/dist/qs'),
             react: path.resolve(__dirname, '../../node_modules/react'),
             'react-dom': path.resolve(__dirname, '../../node_modules/react-dom'),
-            '@rtadmin/core': path.resolve(__dirname, '../../packages/core'),
+            '@ovine/core': path.resolve(__dirname, '../../packages/core'),
           },
   },
 }
