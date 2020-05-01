@@ -89,7 +89,7 @@ const libOptions: any = {
   isCurrentUrl: (to: string) => {
     const { href } = normalizeLink({ to })
     log.log('isCurrentUrl', href)
-    return href === window.location.href
+    return href === window.location.href.replace(window.location.origin, '')
   },
   // 实现，内容复制。
   copy: (contents: string, options?: { shutup: boolean }) => {

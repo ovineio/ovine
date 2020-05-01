@@ -8,11 +8,13 @@ import map from 'lodash/map'
 import React from 'react'
 
 import { app } from '@/app'
-
 import { Amis } from '@/components/amis/schema'
 import LimitSetting from '@/components/limit_setting'
+import { storage } from '@/constants'
+import { setAppLimits } from '@/routes/limit/exports'
 import { changeAppTheme } from '@/styled/theme'
 import { useImmer } from '@/utils/hooks'
+import { getStore, setStore } from '@/utils/store'
 
 import HeadItem from './head_item'
 
@@ -55,7 +57,18 @@ export default (props: Props) => {
       isDevLimit: true,
     },
     body: {
-      component: LimitSetting,
+      component: () => (
+        <LimitSetting
+          authLimit={getStore<string>(storage.dev.limit) || ''}
+          saveConfirmText="权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。"
+          onSaveLimit={(data) => {
+            setStore(storage.dev.limit, data.authLimit)
+            setStore(storage.dev.api, data.authApi)
+            setAppLimits(data.authLimit)
+            window.location.reload()
+          }}
+        />
+      ),
     },
     actions: [],
   }

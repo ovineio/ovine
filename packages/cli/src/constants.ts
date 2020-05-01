@@ -1,5 +1,5 @@
 export const libName = 'ovine'
-export const libRootPath = '/ovine'
+export const libRootPath = `/${libName}`
 export const outDirName = 'dist'
 export const defaultPort = 7050
 

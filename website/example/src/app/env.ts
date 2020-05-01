@@ -1,6 +1,7 @@
 export const env = {
   // 默认配置
   default: {
+    // disableLimit: true,
     domains: {
       api: 'https://test-api.com',
     },

@@ -2,6 +2,9 @@ import { app } from '@core/app'
 
 app.create({
   env: {
+    default: {
+      disableLimit: true,
+    },
     // 环境变量
     localhost: {}, // 本地开发
     staging: {}, // 测试环境

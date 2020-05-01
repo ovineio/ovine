@@ -18,7 +18,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="login-title">
-          <img src="/static/images/logo_line_white.png" />
+          <img src="/static/images/logo_grey.png" />
             <p>Ovine 管理后台系统</p>
           </h6>
         `,
@@ -32,7 +32,6 @@ export const schema = {
     apis: {
       login: {
         url: 'POST rtapi/user/login',
-        mock: false,
         mockSource,
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')

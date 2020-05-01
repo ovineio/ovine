@@ -41,6 +41,7 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.7"
   },
+  "license": "MIT",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

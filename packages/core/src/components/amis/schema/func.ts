@@ -230,6 +230,7 @@ export const normalizeLink = (option: { location?: any; to?: any }) => {
     }
     pathname = paths.concat(pathname).join('/')
   }
+
   return {
     href: pathname + search + hash,
     pathname,

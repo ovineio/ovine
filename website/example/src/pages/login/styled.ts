@@ -16,7 +16,7 @@ export const loginCss = ({ colors }) => css`
 
     img {
       ${inline()};
-      width: 30px;
+      width: 50px;
     }
     p {
       ${inline()};

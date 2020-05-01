@@ -38,39 +38,4 @@ describe('core app tests.', () => {
   test('app.create', () => {
     expect(app.env.domains.api).toBeDefined()
   })
-
-  test('app.register theme with error value.', () => {
-    expect(() => {
-      app.register('theme', 'theme')
-      app.theme.getAppTheme()
-    }).toThrow()
-  })
-
-  test('app.register theme.', () => {
-    app.register(
-      'theme',
-      new AppTheme('testTheme', {
-        default: {
-          testProp: 'green',
-        },
-        testTheme: {
-          testProp: 'red',
-        },
-      })
-    )
-    expect(Object.keys(app.theme.getAllThemes()).includes('testTheme')).toBeTruthy()
-    expect(app.theme.getTheme().testProp).toBe('red')
-  })
-
-  test('app.register request.', async () => {
-    const request: any = new AppRequest()
-    app.register('request', request)
-    const result = await app.request({
-      api: 'test/api',
-      mockSource: {
-        test: 1,
-      },
-    })
-    expect(result.test).toBe(1)
-  })
 })

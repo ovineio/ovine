@@ -17,6 +17,7 @@ import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
 
 import { getBabelConfig } from './babel'
 import LogPlugin from './plugins/log_plugin'
+import HtmlHooksPlugin from './plugins/html_hooks_plugin'
 
 const {
   libName,
@@ -319,11 +320,17 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       }),
       new AssetsPlugin({
         manifestFirst: true,
+        keepInMemory: !isProd,
         includeAllFileTypes: false,
         fileTypes: ['css'],
-        filename: cssAssetsFile,
+        filename: cssAssetsFile.split('/')[1],
         fullPath: false,
-        path: siteDir,
+        path: `${siteDir}/${cssAssetsFile.split('/')[0]}`,
+      }),
+      new HtmlHooksPlugin({
+        keepInMemory: !isProd,
+        indexHtml: `${outDir}/index.html`,
+        getThemeScript: (options: any) => getThemeScript({ siteDir, ...options }),
       }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
@@ -332,7 +339,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        themeScript: getThemeScript(siteDir),
         dllVendorCss: getDllDistFile(siteDir, 'css'),
         dllVendorJs: dll && getDllDistFile(siteDir, 'js'),
       }),
@@ -407,10 +413,11 @@ function getCopyPlugin(siteDir: string) {
   return new CopyPlugin(copyFiles)
 }
 
-function getThemeScript(siteDir: string) {
+function getThemeScript(options: any) {
+  const { siteDir, localFs } = options
   const { publicPath } = loadContext(siteDir)
-  const assetsFile = `${siteDir}/${cssAssetsFile}`
-  const cssAssets = get(fse.existsSync(assetsFile) && require(assetsFile), '.css') || []
+  const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
+  const cssAssets = get(assetsJson, '.css') || []
   const themes = cssAssets.map((i) => `${publicPath}${i}`)
 
   if (!themes.length) {

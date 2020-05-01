@@ -12,17 +12,35 @@ import { isSubStr, retryPromise } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
 
-export const routerHistory = createBrowserHistory()
+const baseUrl = app.constants.baseUrl || '/'
+
+export const routerHistory = createBrowserHistory(
+  baseUrl === '/'
+    ? undefined
+    : {
+        basename: baseUrl.slice(0, -1),
+      }
+)
 
 // 计算 路由 path
-export function getRoutePath(path: string) {
-  return `${app.constants.baseUrl || '/'}${currPath(path)}`
+export function getRoutePath(path: string, origin: boolean = false) {
+  const currPthStr = currPath(path)
+  const pathStr = `/${currPthStr}`
+  const withBaseUrl = isSubStr(pathStr, baseUrl, 0)
+
+  let routePath = `${withBaseUrl ? '/' : baseUrl}${currPthStr}`
+  if (origin) {
+    routePath = pathStr.replace(new RegExp(`^${baseUrl}`), '/')
+  }
+
+  return routePath
 }
 
 // 获取pages内组件文件在项目内的物理路径，用于 webpack 懒加载文件与打包
 export function getPageFilePath(option: PageFileOption) {
   const { pathToComponent, path = '' } = option
-  const componentPath = typeof pathToComponent === 'string' ? pathToComponent : getRoutePath(path)
+  const componentPath = typeof pathToComponent === 'string' ? pathToComponent : path
+
   return currPath(componentPath)
 }
 

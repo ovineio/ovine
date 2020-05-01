@@ -28,6 +28,7 @@
     "@types/styled-components": "^5.0.0",
     "@types/react-router-dom": "^5.1.0"
   },
+  "license": "MIT",
   "browserslist": {
     "production": [
       ">0.2%",

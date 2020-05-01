@@ -10,9 +10,10 @@ import path from 'path'
 import { outDirName, configFileName, generatedDirName, srcDirName } from './constants'
 import { LoadContext, SiteConfig } from './types'
 
-const requiredFields = ['publicPath', 'favicon', 'title']
+const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
+  'publicPath',
   'envModes',
   'isSplitCode',
   'splitCodeRoutes',
@@ -22,6 +23,7 @@ const optionalFields = [
 ]
 
 const defaultConfig = {
+  publicPath: '/',
   template: {},
   devServerProxy: {},
 }
@@ -55,6 +57,14 @@ export function loadConfig(siteDir: string): SiteConfig {
   // Don't allow unrecognized fields.
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
+
+  const { publicPath } = config
+
+  if (typeof publicPath !== 'string' || publicPath.substr(-1) !== '/') {
+    throw new Error(
+      `publicPath: "${publicPath}" is not allowed. The "publicPath" must be string endWith "/". eg: "/subPath/"`
+    )
+  }
 
   if (unrecognizedFields.length) {
     throw new Error(

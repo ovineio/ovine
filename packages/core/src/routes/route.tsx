@@ -176,7 +176,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
 
   const routePath = getRoutePath(path)
   if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
-    return <Redirect to={getRoutePath(app.constants.notFound.route)} />
+    return <Redirect to={app.constants.notFound.route} />
   }
 
   const RouteComponent = (

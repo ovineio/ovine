@@ -2,8 +2,6 @@ import { AsideNav } from 'amis'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { getRoutePath } from '@/routes/exports'
-
 type Props = {
   theme: string
   asideMenus: any[]
@@ -11,7 +9,7 @@ type Props = {
 export default ({ theme, asideMenus }: Props) => {
   const location = useLocation()
   const isActive = (link: any) => {
-    return link.path && !!(getRoutePath(link.path) === location.pathname)
+    return link.path && !!(link.path === location.pathname)
   }
   return (
     <AsideNav theme={theme} renderLink={renderNav} isActive={isActive} navigations={asideMenus} />
@@ -63,6 +61,6 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
     // eslint-disable-next-line
     <a> {children} </a>
   ) : (
-    <Link to={getRoutePath(path)}>{children}</Link>
+    <Link to={path}>{children}</Link>
   )
 }

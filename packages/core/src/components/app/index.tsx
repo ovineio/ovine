@@ -88,7 +88,7 @@ export const App = () => {
       <AppContext.Provider value={state}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />
-          <Switch>{app.entry.map(j2r)}</Switch>
+          <Switch>{j2r(app.entry)}</Switch>
         </ThemeProvider>
       </AppContext.Provider>
     </Router>

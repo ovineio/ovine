@@ -113,9 +113,7 @@ export function isCliDev() {
 }
 
 export function getCliDevRootDir() {
-  const rootPathIdx = __dirname.indexOf(libRootPath)
-  const devRootDir = __dirname.substring(0, rootPathIdx) + libRootPath
-  return devRootDir
+  return __dirname.substring(0, __dirname.indexOf(libRootPath)) + libRootPath
 }
 
 export function getModulePath(siteDir: string, lib: string, required: boolean = false) {
@@ -140,11 +138,11 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
     libPaths.push(`${devRootDir}/${prodPath}`)
   }
 
-  const result = libPaths.filter((corePath) => fs.pathExistsSync(corePath))[0]
+  const modulePath = libPaths.find((corePath) => fs.pathExistsSync(corePath))
 
-  if (!result && required) {
+  if (!modulePath && required) {
     throw new Error(`Can not find path: ${lib}.\nSearched paths:\n${libPaths.join('\n')}`)
   }
 
-  return result
+  return modulePath
 }

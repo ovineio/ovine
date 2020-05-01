@@ -1,7 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import './includes'
-
-import { defaultsDeep, get, isFunction, set } from 'lodash'
+import { defaultsDeep, get, set } from 'lodash'
 
 import { AppInstance } from '@ovine/core/lib/app/instance'
 
@@ -71,7 +70,6 @@ function checkAppGetter(key: string, value?: any) {
     default:
   }
 }
-
 class AppProxy {
   constructor() {
     const that: any = this
@@ -92,60 +90,26 @@ class App extends AppProxy {
 
   private isEntrySetUp = false
 
-  private registers: any[] = []
-
   public create(config: Types.DeepPartial<AppConfig>) {
     Object.assign(source, defaultsDeep(config, initConfig))
-    if (config.env) {
-      this.setEnv(config.env)
-    }
-    if (config.request) {
-      this.setRequest(config.request)
-    }
-    if (config.entry) {
-      this.setEntry(config.entry)
-    }
-  }
 
-  public register<K extends keyof AppInstance, V extends AppInstance[K]>(
-    key: K,
-    value: (() => V) | V
-  ): void {
-    if ((key as string).indexOf('.') > -1) {
+    const { env, request, entry, constants } = source
+    const { baseUrl } = constants || {}
+    if (typeof baseUrl !== 'string' || baseUrl.substr(-1) !== '/') {
       throw new Error(
-        `Can not register nest key. You should register the key in this list:\n [${Object.keys(
-          initConfig
-        )}]`
+        `publicPath: "${baseUrl}" is not allowed. The "baseUrl" must be string endWith "/". eg: "/subPath/"`
       )
     }
 
-    // 回调 取值，确保 app.env 已经被设置
-    const getValue = () => (isFunction(value) ? (value as any)() : value)
-
-    if (key === 'env') {
-      this.setEnv(getValue())
-      return
+    if (env) {
+      this.setEnv(env)
     }
-
-    const setValue = () => {
-      switch (key) {
-        case 'request':
-          this.setRequest(getValue())
-          break
-        case 'entry':
-          this.setEntry(getValue())
-          break
-        default:
-          set(source, key, getValue())
-      }
+    if (request) {
+      this.setRequest(request)
     }
-
-    if (!this.isEnvSetUp) {
-      this.registers.push(setValue)
-      return
+    if (entry) {
+      this.setEntry(entry)
     }
-
-    setValue()
   }
 
   private setEntry(entry: any[]) {
@@ -160,17 +124,12 @@ class App extends AppProxy {
     set(source, 'entry', entry)
     this.isEntrySetUp = true
     import(
-      `./app${''}` // for te build
+      `./app${''}` // fix: ts build will remove comments
       /* webpackMode: "eager" */
       /* webpackChunkName: "app_entry" */
     ).then(({ initApp }) => {
       initApp(source.env)
     })
-  }
-
-  private dispatchRegisters() {
-    this.registers.forEach((register) => register())
-    this.registers = []
   }
 
   private setEnv(value: Types.DeepPartial<EnvConfig>) {
@@ -181,6 +140,7 @@ class App extends AppProxy {
     const isMock = process.env.MOCK
     const isRelease =
       !isMock && process.env.NODE_ENV === 'production' && get(value, `${mode}.isProd`)
+
     const env = defaultsDeep(
       {
         isMock,
@@ -190,11 +150,11 @@ class App extends AppProxy {
         isRelease,
       },
       value.default,
-      initConfig.env
+      initConfig.env.default
     )
+
     set(source, 'env', env)
     this.isEnvSetUp = true
-    this.dispatchRegisters()
   }
 
   private setRequest(requestIns: AppRequest) {
@@ -205,8 +165,8 @@ class App extends AppProxy {
       isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
       domains: get(source, 'env.domains') || initEnv.domains,
     })
-    const reqInsFunc = requestIns.request.bind(requestIns)
-    set(source, 'request', reqInsFunc)
+    const insRequest = requestIns.request.bind(requestIns)
+    set(source, 'request', insRequest)
   }
 }
 
