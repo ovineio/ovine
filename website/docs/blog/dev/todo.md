@@ -1,1 +1,4 @@
 - 测试 BUG，优化好配置参数的入口，给予合理提示。
+- 测试 CLI，dev,build,scss,dll，没有 BUG 就直接发布 0.0.2
+- 进一步完善 DEMO 与 文档
+- 思考后端 API 实现，使用 nest 还是 java

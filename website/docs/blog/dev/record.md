@@ -29,5 +29,10 @@
 - 循环依赖问题
   - a -> b , b -> a 。这种情况，就将公共地方抽出一个 c, 变成 a -> c, b -> c 。或者使用消息机制，使用 on,emit 模式。
 - jest 相关
+
   - tsconfig.js 'paths' alias. [github issue](https://github.com/kulshekhar/ts-jest/issues/414)
   - Handling Static Assets. [jest doc](https://jestjs.io/docs/en/webpack)
+
+- lerna 项目管理
+  - 更改 version: yarn lerna version prepatch --no-push
+  - 发布 包到 npm: yarn lerna publish from-package
