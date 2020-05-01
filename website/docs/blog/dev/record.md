@@ -34,5 +34,6 @@
   - Handling Static Assets. [jest doc](https://jestjs.io/docs/en/webpack)
 
 - lerna 项目管理
+  - 每次发包之前需要更改版本号 publish.
   - 更改 version: yarn lerna version prepatch --no-push
   - 发布 包到 npm: yarn lerna publish from-package

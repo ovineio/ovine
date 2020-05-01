@@ -1,4 +1,3 @@
-## RT-INIT 初始化项目
+## @ovine/init 初始化工具
 
-- basic 最基本的代码模版
-- advance 所有功能 user,limit,route,
+初始化 ovine 项目生成模版
