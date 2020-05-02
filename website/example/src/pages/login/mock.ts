@@ -31,7 +31,7 @@ export const mockSource: ReqMockSourceGen<any> = {
   'GET rtapi/user/info': () => {
     // return {
     //   code: 10022,
-    //   message: '模拟用户token过期'
+    //   message: '模拟用户token过期',
     // }
 
     return {

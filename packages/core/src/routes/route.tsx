@@ -65,6 +65,7 @@ export const getPageAsync = (option: PresetRouteProps) => {
 // 登录路由拦截
 export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
   const [isAuth, setAuth] = useState<boolean | null>(null)
+
   useEffect(() => {
     const authState = isFunction(onAuth) ? onAuth() : true
     if (authState.then) {
@@ -97,7 +98,7 @@ export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
             />
           )
         }
-        return null
+        return <div>unauthorized route.</div>
       }}
     />
   )

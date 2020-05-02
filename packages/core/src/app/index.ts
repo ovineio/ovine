@@ -17,6 +17,7 @@ const source: any = {}
 
 const { hot } = module as any
 
+// TODO: 如果已经登录后，再次进入 /login 页面，不会做任何处理
 const initConfig: AppConfig = {
   request: new AppRequest(),
   theme: new AppTheme(),

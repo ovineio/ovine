@@ -4,7 +4,7 @@
   "description": "your awesome project.",
   "private": true,
   "scripts": {
-    "dev": "ovine dev",
+    "dev": "ovine dev --mock",
     "dev:lib": "export DEV_LIB=true && ovine dev --no-dll",
     "build": "ovine build --mock",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",

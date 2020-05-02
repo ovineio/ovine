@@ -37,7 +37,7 @@ cli
   .option('-p, --port <port>', 'Use specified port (default: 7050)')
   .option('--host <host>', 'Use specified host (default: localhost)')
   .option('--env <env>', 'Set app environment mode (default: localhost)')
-  .option('--mock', 'Use mock environment (default: true)')
+  .option('--mock', 'Use mock environment (default: false)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option('--no-dll', 'Do not use dll reference files. (default: false)')
   .action((siteDir = '.', options) => {
@@ -45,18 +45,17 @@ cli
       port = defaultPort,
       host = 'localhost',
       env = 'localhost',
-      mock = true,
+      mock = false,
       open = true,
       dll: useDll = true,
     } = options
-    const isMock = mock || !/production|release/.test(env)
     wrapCommand(dev)(path.resolve(siteDir), {
       port,
       host,
       env,
       open,
+      mock,
       dll: useDll,
-      mock: isMock,
     })
   })
 

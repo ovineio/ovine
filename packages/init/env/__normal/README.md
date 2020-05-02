@@ -11,8 +11,8 @@ yarn build # build bundle files
 yarn help # more cli information
 
 # optional command
-yarn scss # build scss files, need Manual installation 'node-sass'
-yarn dll # build webpack dll files. Most cases don't need it.
+yarn scss # build scss files
+yarn dll # build webpack dll files
 ```
 
 ## Projects Are Mainly Dependent On
@@ -20,7 +20,7 @@ yarn dll # build webpack dll files. Most cases don't need it.
   - [amis](https://baidu.github.io/amis/docs/getting-started) extend the amis lib.
   - [styled-components](https://styled-components.com) css styles in js.
   - [font-awesome](http://fontawesome.dashgame.com) all icons out of box.
-  - [bootstrap](https://getbootstrap.com/docs/4.4/getting-started/introduction) full bootstrap functions.
+  - [bootstrap](https://getbootstrap.com/docs/4.4/getting-started/introduction) full bootstrap features.
 
 ## Vscode Plugins You May Need
   - `eslint` - es code linter

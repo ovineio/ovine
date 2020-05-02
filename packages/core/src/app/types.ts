@@ -38,6 +38,7 @@ export interface AppConfig {
       route: string
       pagePath: string
     }
+    loginRoute?: string
   }
   entry: any[]
 }

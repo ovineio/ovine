@@ -4,7 +4,7 @@
   "description": "your awesome project.",
   "private": true,
   "scripts": {
-    "dev": "ovine dev",
+    "dev": "ovine dev --mock",
     "build": "ovine build",
     "scss": "ovine scss",
     "dll": "ovine dll",

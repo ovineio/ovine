@@ -6,6 +6,9 @@ import { request } from './app/request'
 
 app.create({
   env,
-  entry,
   request,
+  constants: {
+    loginRoute: '/login',
+  },
+  entry,
 })

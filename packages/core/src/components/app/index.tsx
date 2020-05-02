@@ -52,6 +52,12 @@ export const App = () => {
 
   useEffect(() => {
     log.log('App Mounted.')
+    const currRoute = routerHistory.location.pathname
+    const { loginRoute } = app.constants
+    // 第一次进入登录页面时 重定向到首页进行 鉴权
+    if (loginRoute === currRoute) {
+      routerHistory.push('/')
+    }
   }, [])
 
   useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: string, key) => {

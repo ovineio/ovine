@@ -292,7 +292,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
-        INIT_THEME: initTheme,
+        INIT_THEME: initTheme || 'default',
         MOCK: mock,
         ENV: env,
       }),

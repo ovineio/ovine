@@ -4,11 +4,28 @@ app.create({
   env: {
     default: {
       disableLimit: true,
+      domains: {
+        api: 'https://test-api.com',
+      },
     },
-    // 环境变量
-    localhost: {}, // 本地开发
-    staging: {}, // 测试环境
-    production: {}, // 生产环境
+    // 本地开发
+    localhost: {
+      domains: {
+        api: 'https://dev-api.com',
+      },
+    },
+    // 测试环境
+    staging: {
+      domains: {
+        api: 'https://test-api.com',
+      },
+    },
+    // 生产环境
+    production: {
+      domains: {
+        api: 'https://prod-api.com',
+      },
+    },
   },
   entry: [
     {
