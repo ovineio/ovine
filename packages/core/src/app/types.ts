@@ -25,7 +25,6 @@ export interface AppConfig {
   request: any
   theme: any
   env: EnvConfig
-  entry: any[]
   amis: RenderOptions & {
     definitions?: any
     apiResAdapter?: (res: any) => any
@@ -40,6 +39,7 @@ export interface AppConfig {
       pagePath: string
     }
   }
+  entry: any[]
 }
 
 export interface AppDefInstance extends Omit<AppConfig, 'env'> {

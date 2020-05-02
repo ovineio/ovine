@@ -207,8 +207,7 @@ export function json2reactFactory(
 
     if (isArray(entrySchema)) {
       return entrySchema.map(renderElement)
-    } else {
-      return renderElement
     }
+    return renderElement
   }
 }

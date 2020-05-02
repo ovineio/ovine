@@ -7,7 +7,7 @@
     "dev": "ovine dev",
     "dev:lib": "export DEV_LIB=true && ovine dev --no-dll",
     "build": "ovine build --mock",
-    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?",
+    "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "scss": "ovine scss",
     "dll": "ovine dll",
     "ovine": "ovine",

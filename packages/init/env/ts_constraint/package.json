@@ -9,6 +9,7 @@
     "scss": "ovine scss",
     "dll": "ovine dll",
     "ovine": "ovine",
+    "clean": "rimraf ./dist ./node_modules/.cache",
     "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
     "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix"
@@ -35,6 +36,7 @@
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "prettier": "^1.19.1",

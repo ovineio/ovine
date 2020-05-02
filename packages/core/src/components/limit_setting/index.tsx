@@ -16,8 +16,8 @@ import { cls, isSubStr } from '@/utils/tool'
 
 import { ObjectOf } from '@/utils/types'
 
-import { StyledLimit } from './styled'
 import { Amis } from '../amis/schema'
+import { StyledLimit } from './styled'
 
 // TODO：
 // 设置项足够多的时候， 搜索 tree， 显示tab，并滚动条对应到节点位置，并高亮显示
@@ -30,10 +30,11 @@ type State = {
 type Props = {
   authLimit?: string
   onSaveLimit?: (data: { authApi: string; authLimit: string }) => void
+  onCancel?: () => void
   saveConfirmText?: string
 }
 const LimitSetting = (props: Props) => {
-  const { authLimit: initLimit = '', onSaveLimit, saveConfirmText } = props
+  const { authLimit: initLimit = '', onSaveLimit, onCancel, saveConfirmText } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
@@ -142,6 +143,7 @@ const LimitSetting = (props: Props) => {
         actionType: 'cancel',
         tooltipPlacement: 'top',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
+        onAction: onCancel,
       },
     ],
   }

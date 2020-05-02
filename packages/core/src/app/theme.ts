@@ -24,8 +24,8 @@ export class AppTheme {
 
   private initTheme = 'default'
 
-  constructor(initTheme?: string, appThemes?: Themes) {
-    this.initTheme = getStore<string>(storage.appTheme) || initTheme || 'default'
+  constructor(appThemes?: Themes) {
+    this.initTheme = getStore<string>(storage.appTheme) || process.env.INIT_THEME || 'default'
     this.themes = defaultsDeep(appThemes, this.themes)
   }
 

@@ -5,7 +5,7 @@ import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import fse from 'fs-extra'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import _, { get } from 'lodash'
+import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } from 'webpack'
@@ -16,8 +16,8 @@ import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
 
 import { getBabelConfig } from './babel'
-import LogPlugin from './plugins/log_plugin'
 import HtmlHooksPlugin from './plugins/html_hooks_plugin'
+import LogPlugin from './plugins/log_plugin'
 
 const {
   libName,
@@ -49,6 +49,15 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     siteConfig,
     dll = true,
   } = options
+
+  const { envModes, initTheme } = siteConfig
+
+  // "envModes" must contains "env"
+  if (envModes && env && !envModes.includes(env)) {
+    throw new Error(
+      `env: "${env}" is not allowed. The "env" must be one of "envModes": ${envModes}.`
+    )
+  }
 
   const isProd = globalStore('get', 'isProd') || false
 
@@ -167,25 +176,21 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
               // console.log('mod.context~~', mod.context)
               const resolvedPath = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
               const commonName = 'pages_common'
-              const { splitCodeRoutes = [], isSplitCode } = siteConfig
+              const { splitCodeRoutes, isSplitCode } = siteConfig
 
               let modPath = commonName
               // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
 
-              if (isSplitCode === false) {
-                modPath = commonName
-              } else if (splitCodeRoutes.length) {
-                if (!resolvedPath) {
-                  modPath = commonName
-                } else {
-                  splitCodeRoutes.forEach((route) => {
-                    modPath =
-                      route !== resolvedPath[1]
-                        ? commonName
-                        : `p_${resolvedPath[1].replace(/[\\/]/g, '_')}`
-                  })
-                }
+              if (isSplitCode !== false && resolvedPath && _.isArray(splitCodeRoutes)) {
+                splitCodeRoutes.some((route: string) => {
+                  if (route === resolvedPath[1]) {
+                    modPath = `p_${resolvedPath[1].replace(/[\\/]/g, '_')}`
+                    return true
+                  }
+                  return false
+                })
               }
+
               return modPath
             },
           },
@@ -253,7 +258,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         {
           test: new RegExp(
             `\\.${`png,jpg,gif,ttf,ico,woff,woff2,eot,svg${
-              !siteConfig.staticFileExt ? '' : `,${siteConfig.staticFileExt}`
+              !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
             }`.replace(/,/gi, '|')}$`
           ),
           exclude: [/node_modules/, /\/qs\//],
@@ -287,6 +292,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
+        INIT_THEME: initTheme,
         MOCK: mock,
         ENV: env,
       }),
@@ -330,7 +336,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new HtmlHooksPlugin({
         keepInMemory: !isProd,
         indexHtml: `${outDir}/index.html`,
-        getThemeScript: (options: any) => getThemeScript({ siteDir, ...options }),
+        getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
       }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
@@ -414,11 +420,19 @@ function getCopyPlugin(siteDir: string) {
 }
 
 function getThemeScript(options: any) {
-  const { siteDir, localFs } = options
+  const { siteDir, localFs, initTheme } = options
+
   const { publicPath } = loadContext(siteDir)
   const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
-  const cssAssets = get(assetsJson, '.css') || []
+  const cssAssets = _.get(assetsJson, '.css') || []
   const themes = cssAssets.map((i) => `${publicPath}${i}`)
+
+  let presetTheme = ''
+  if (initTheme) {
+    if (themes.some((theme) => theme.indexOf(`themes/${initTheme}`) > -1)) {
+      presetTheme = initTheme
+    }
+  }
 
   if (!themes.length) {
     return ''
@@ -428,7 +442,7 @@ function getThemeScript(options: any) {
     <script>
       (function() {
         var themes = "${themes}".split(',');
-        var theme = (localStorage.getItem('appThemeStore') || '').replace(/"/g, '') || 'default';
+        var theme = (localStorage.getItem('appThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
         var currThemeLink = '';
         for (var i = 0; i < themes.length; i++) {
           if (themes[i].indexOf('themes/'+theme) > -1) {

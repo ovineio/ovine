@@ -7,7 +7,6 @@ import { AppInstance } from '@ovine/core/lib/app/instance'
 import { defaultEnvMode, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { isSubStr } from '@/utils/tool'
-
 import * as Types from '@/utils/types'
 
 import { AppRequest } from './request'
@@ -70,6 +69,7 @@ function checkAppGetter(key: string, value?: any) {
     default:
   }
 }
+
 class AppProxy {
   constructor() {
     const that: any = this
@@ -85,6 +85,7 @@ class AppProxy {
     return proxy
   }
 }
+
 class App extends AppProxy {
   private isEnvSetUp = false
 
@@ -144,6 +145,7 @@ class App extends AppProxy {
     const env = defaultsDeep(
       {
         isMock,
+        mode,
       },
       value[mode],
       {

@@ -1,5 +1,5 @@
 const fs = require('fs')
-const validateOptions = require('schema-utils')
+const validateOptions = require('schema-utils') // eslint-disable-line
 
 const schema = {
   type: 'object',

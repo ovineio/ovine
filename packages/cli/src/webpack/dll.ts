@@ -82,7 +82,7 @@ function setDllVendorModules(config) {
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { publicPath, siteDir, bundleAnalyzer } = options
+  const { publicPath, siteDir, siteConfig, bundleAnalyzer } = options
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -117,7 +117,11 @@ export function createDllConfig(options: ConfigOptions) {
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
-          test: /\.png|jpg|gif|ttf|woff|woff2|eot|svg$/,
+          test: new RegExp(
+            `\\.${`png,jpg,gif,ttf,ico,woff,woff2,eot,svg${
+              !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
+            }`.replace(/,/gi, '|')}$`
+          ),
           exclude: /\/qs\//,
           use: [
             {

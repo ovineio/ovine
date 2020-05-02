@@ -68,6 +68,15 @@
     "typescript": "^3.8.2",
     "typescript-transform-paths": "^1.1.14"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,md}": "yarn pretty",
+    "*.{js,jsx,ts,tsx}": "yarn eslint"
+  },
   "engines": {
     "node": ">=10.9.0"
   },

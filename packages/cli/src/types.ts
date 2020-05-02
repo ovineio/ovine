@@ -7,13 +7,14 @@ type TemplateConfig = {
 }
 
 export type SiteConfig = {
-  publicPath: string
   favicon: string
   title: string
-  envModes: string[]
+  publicPath: string
   devServerProxy: any
-  staticFileExt?: string
+  envModes?: string[]
+  staticFileExts?: string[]
   template?: TemplateConfig
+  initTheme?: string
   isSplitCode?: boolean // is split code by route
   splitCodeRoutes?: string[] // witch route page should be split
 }

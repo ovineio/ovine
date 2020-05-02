@@ -9,7 +9,8 @@
     "scss": "ovine scss",  
     "dll": "ovine dll",
     "ovine": "ovine",
-    "open:dist": "http-server ./dist -i -g -o / -p 7051 -P http://0.0.0.0:7051?"
+    "clean": "rimraf ./dist ./node_modules/.cache",
+    "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?"
   },
   "dependencies": {
     "@ovine/core": "^0.0.1",

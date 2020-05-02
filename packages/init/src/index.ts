@@ -126,6 +126,11 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
         return false
       }
 
+      // fixed: ".gitignore" is omit by npm registry
+      if (currItem === 'gitignore') {
+        return '.gitignore'
+      }
+
       // delete the es_*,ts_* dir name
       if (/(_constraint|_normal)$/.test(currItem)) {
         return ''

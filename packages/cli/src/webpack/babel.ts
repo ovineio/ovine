@@ -50,7 +50,17 @@ function extendsConfig(siteDir: string) {
 export function getBabelConfig(siteDir: string) {
   return {
     ...extendsConfig(siteDir),
-    presets: ['@babel/preset-env', '@babel/preset-react'],
+    presets: [
+      [
+        '@babel/preset-env',
+        {
+          targets: {
+            esmodules: true,
+          },
+        },
+      ],
+      '@babel/preset-react',
+    ],
     plugins: [
       'babel-plugin-macros',
       ['babel-plugin-styled-components', styledConfig],

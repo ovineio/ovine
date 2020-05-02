@@ -30,7 +30,7 @@ app.create({
           brand: {
             // 公司品牌
             logo: '/static/logo.png',
-            title: 'OvineN',
+            title: 'Ovine',
             link: {
               title: 'dashboard',
               href: '/',

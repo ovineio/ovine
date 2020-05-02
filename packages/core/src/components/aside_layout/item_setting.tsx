@@ -53,14 +53,12 @@ export default (props: Props) => {
     onClose: toggleLimitDialog,
     size: 'md',
     showCloseButton: false,
-    data: {
-      isDevLimit: true,
-    },
     body: {
       component: () => (
         <LimitSetting
           authLimit={getStore<string>(storage.dev.limit) || ''}
           saveConfirmText="权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。"
+          onCancel={toggleLimitDialog}
           onSaveLimit={(data) => {
             setStore(storage.dev.limit, data.authLimit)
             setStore(storage.dev.api, data.authApi)
