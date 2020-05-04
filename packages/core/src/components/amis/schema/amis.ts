@@ -31,20 +31,23 @@ const libOptions: any = {
   },
   // 消息提示
   notify: (msgType: string = 'error', msg: string = '') => {
-    log.log('notify', msgType, msg)
+    log.log('notify', { msgType, msg })
     // 默认跳过表单错误 提示
     if (/表单验证失败/.test(msg)) {
       return
     }
     const tipMsg = (toast as any)[msgType]
-    const isError = msgType === 'error'
-    let msgTitle = msgType === 'error' ? '系统异常' : '系统提示'
-    let msgText = msg || `未知${isError ? '异常' : '提示'}`
-    if (msg.indexOf('[') === 0 && msg.indexOf('] ') > 0) {
-      const end = msg.indexOf('] ')
-      msgText = msg.substr(end + 1)
-      msgTitle = msg.substring(1, end)
+    let msgTitle = msgType === 'error' ? '系统错误' : '提示'
+    let msgText = '系统发生未知异常'
+    if (msg && typeof msg === 'string') {
+      msgText = msg
+      if (msg.indexOf('[') === 0 && msg.indexOf('] ') > 0) {
+        const end = msg.indexOf('] ')
+        msgText = msg.substr(end + 1)
+        msgTitle = msg.substring(1, end)
+      }
     }
+
     if (tipMsg) {
       tipMsg(msgText, msgTitle)
     }

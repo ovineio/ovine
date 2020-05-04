@@ -18,6 +18,11 @@ export const routes = [
         nodePath: 'start',
       },
       {
+        label: '撒的eee',
+        icon: 'fa fa-coffee',
+        nodePath: 'aew',
+      },
+      {
         label: '系统管理',
         icon: 'fa fa-wrench',
         nodePath: 'system',
@@ -28,7 +33,7 @@ export const routes = [
           },
           {
             label: '管理员角色',
-            nodePath: 'user_limit',
+            nodePath: 'user_role',
           },
           {
             label: '系统操作日志',

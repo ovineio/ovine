@@ -1,3 +1,6 @@
+import limit from './limit'
+import members from './members'
+
 export const schema = {
   type: 'lib-crud',
   api: '$preset.apis.list',
@@ -14,6 +17,10 @@ export const schema = {
       align: 'left',
     },
     {
+      $preset: 'actions.members',
+      align: 'right',
+    },
+    {
       $preset: 'actions.add',
       align: 'right',
     },
@@ -28,37 +35,14 @@ export const schema = {
       type: 'text',
     },
     {
-      name: 'username',
-      label: '登录账号',
-      type: 'text',
-    },
-    {
-      name: 'nickname',
-      label: '名称',
-      type: 'text',
-      sortable: true,
-    },
-    {
-      name: 'avatar',
-      label: '头像',
-      type: 'tpl',
-      tpl: '<img style="width:30px;" src="${avatar}" />',
-      popOver: {
-        body: '<div class="w-xxl"><img class="w-full" src="${avatar}"/></div>',
-      },
-    },
-    {
-      name: 'roleId',
+      name: 'name',
       label: '角色名',
-      type: 'tpl',
-      tpl: '<%= !data.roleId ? "-" : data.roleName + " (" + data.roleId +")" %>',
+      type: 'text',
     },
     {
       name: 'desc',
-      label: '用户描述',
-      type: 'tpl',
-      tpl: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
-      width: 150,
+      label: '角色描述',
+      type: 'text',
     },
     {
       name: 'createTime',
@@ -76,34 +60,33 @@ export const schema = {
       type: 'operation',
       label: '操作',
       width: 100,
-      buttons: ['$preset.actions.edit', '$preset.actions.del'],
+      buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],
     },
   ],
   definitions: {
+    roleAutoComplete: {
+      type: 'select',
+      name: 'roleIds',
+      label: '角色名',
+      placeholder: '请选择角色',
+      searchPromptText: '输入角色ID/角色名',
+      clearable: true,
+      multiple: true,
+      searchable: true,
+      autoComplete: '$preset.apis.filterRole',
+    },
     updateControls: {
       controls: [
         {
           type: 'text',
-          name: 'username',
-          label: '登录账号',
-          required: true,
-        },
-        {
-          type: 'text',
-          name: 'password',
-          label: '登录密码',
-          requiredOn: 'typeof data.id === "undefined"',
-        },
-        {
-          type: 'text',
-          name: 'nickname',
-          label: '名称',
+          name: 'name',
+          label: '角色名',
           required: true,
         },
         {
           type: 'text',
           name: 'desc',
-          label: '描述',
+          label: '角色描述',
           required: true,
         },
       ],
@@ -112,56 +95,68 @@ export const schema = {
   preset: {
     actions: {
       add: {
+        limits: 'addIRole',
         type: 'button',
-        align: 'right',
-        actionType: 'dialog',
         label: '添加',
         icon: 'fa fa-plus pull-left',
         size: 'sm',
         primary: true,
+        actionType: 'dialog',
         dialog: '$preset.forms.add',
       },
-      edit: {
+      members: {
+        limits: 'listMember',
         type: 'button',
-        icon: 'fa fa-pencil',
-        tooltip: '编辑',
+        label: '成员管理',
+        icon: 'fa fa-users pull-left',
+        size: 'sm',
+        primary: true,
+        actionType: 'dialog',
+        dialog: members,
+      },
+      edit: {
+        limits: 'editRole',
+        type: 'button',
+        label: '编辑',
+        level: 'link',
         actionType: 'dialog',
         dialog: '$preset.forms.edit',
       },
-      del: {
+      editLimit: {
+        limits: 'editLimit',
         type: 'button',
-        icon: 'fa fa-times text-danger',
+        label: '编辑权限',
+        level: 'link',
+        actionType: 'dialog',
+        dialog: {
+          title: '编辑权限',
+          size: 'md',
+          // showCloseButton: false,
+          actions: [],
+          body: {
+            type: 'service',
+            api: '$preset.apis.getLimit',
+            body: {
+              component: limit,
+            },
+          },
+        },
+      },
+      del: {
+        limits: 'delRole',
+        type: 'button',
         actionType: 'ajax',
-        tooltip: '删除',
+        level: 'link',
+        label: '删除',
         confirmText: '您确认要删除?',
-        api: '$preset.apis.del',
+        api: '$preset.apis.delRole',
       },
     },
     forms: {
       filter: {
         controls: [
           {
-            type: 'text',
-            name: 'keywords',
-            label: '关键字',
-            placeholder: 'ID/登录账号/名称',
-          },
-          {
-            type: 'select',
-            name: 'cat',
-            label: '角色名',
-            placeholder: '请选择角色',
-            clearable: true,
-            options: [
-              {
-                label: 'Option A',
-                value: 'a',
-              },
-              {
-                label: 'Option B',
-                value: 'b',
-              },
-            ],
+            $ref: 'roleAutoComplete',
           },
           {
             type: 'submit',
@@ -175,7 +170,7 @@ export const schema = {
         body: {
           type: 'form',
           name: 'sample-edit-form',
-          api: '$preset.apis.add',
+          api: '$preset.apis.addRole',
           $ref: 'updateControls',
         },
       },
@@ -184,7 +179,7 @@ export const schema = {
         body: {
           type: 'form',
           name: 'sample-edit-form',
-          api: '$preset.apis.edit',
+          api: '$preset.apis.editRole',
           $ref: 'updateControls',
         },
       },

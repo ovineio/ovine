@@ -7,7 +7,7 @@ const generator = (i) => ({
   createTime: Date.now(),
   actionAddr: uuid(),
   handlerId: i,
-  handlerName: `昵称-${i}`,
+  handlerName: `名称-${i}`,
   result: 0,
   failDesc: 'failDesc',
   detail:

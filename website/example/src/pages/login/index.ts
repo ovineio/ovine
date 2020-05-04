@@ -3,9 +3,9 @@ import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
 
-import Code from './code'
+import authCode from './code'
 import { mockSource } from './mock'
-import { loginCss } from './styled'
+import loginCss from './styled'
 
 export const schema = {
   type: 'page',
@@ -41,10 +41,12 @@ export const schema = {
           publish(msgKeys.updateAuthLoginCode, '')
           if (code === 0) {
             setStore(storeKeys.auth, data)
+            source.msg = '您已登录登录本系统'
           } else {
             clearStore(storeKeys.auth)
-            throw Error(msg || '登录异常')
+            source.msg = msg || '登录异常'
           }
+          return source
         },
       },
     },
@@ -58,9 +60,6 @@ export const schema = {
         autoFocus: false,
         api: '$preset.apis.login',
         redirect: '/',
-        messages: {
-          saveSuccess: '欢迎您登录本系统～',
-        },
         controls: [
           {
             type: 'text',
@@ -99,7 +98,7 @@ export const schema = {
                 type: 'wrapper',
                 labelClassName: 'w-auto',
                 mode: 'inline',
-                component: Code,
+                component: authCode,
               },
             ],
           },

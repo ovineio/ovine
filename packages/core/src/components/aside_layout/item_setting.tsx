@@ -53,6 +53,7 @@ export default (props: Props) => {
     onClose: toggleLimitDialog,
     size: 'md',
     showCloseButton: false,
+    actions: [],
     body: {
       component: () => (
         <LimitSetting
@@ -68,7 +69,6 @@ export default (props: Props) => {
         />
       ),
     },
-    actions: [],
   }
 
   const settingPanelProps = {

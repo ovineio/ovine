@@ -1,5 +1,3 @@
-import mockSource from './mock'
-
 export default {
   limits: {
     $page: {
@@ -27,23 +25,19 @@ export default {
   },
   apis: {
     list: {
-      mockSource,
-      url: 'GET rtapi/system/user',
+      url: 'GET rtapi/system/user/item',
       limits: '$page',
     },
     add: {
-      mockSource,
-      url: 'POST rtapi/system/user',
+      url: 'POST rtapi/system/user/item',
       limits: 'addItem',
     },
     edit: {
-      mockSource,
-      url: 'PUT rtapi/system/user/$id',
+      url: 'PUT rtapi/system/user/item/$id',
       limits: 'editItem',
     },
     del: {
-      mockSource,
-      url: 'DELETE rtapi/system/user/$id',
+      url: 'DELETE rtapi/system/user/item/$id',
       limits: 'delItem',
     },
   },

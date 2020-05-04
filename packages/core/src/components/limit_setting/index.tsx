@@ -48,7 +48,7 @@ const LimitSetting = (props: Props) => {
 
   useEffect(() => {
     initData()
-  }, [])
+  }, [initLimit])
 
   function initData() {
     setState((d) => {
@@ -133,14 +133,14 @@ const LimitSetting = (props: Props) => {
         type: 'button',
         icon: 'fa fa-check text-success',
         tooltipPlacement: 'top',
-        actionType: 'cancel',
+        actionType: 'close',
         confirmText: saveConfirmText,
         onAction: onSaveClick,
       },
       {
         type: 'button',
         icon: 'fa fa-times text-danger',
-        actionType: 'cancel',
+        actionType: 'close',
         tooltipPlacement: 'top',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
         onAction: onCancel,

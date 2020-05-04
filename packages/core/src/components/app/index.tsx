@@ -1,5 +1,4 @@
 import { AlertComponent, ToastComponent } from 'amis'
-import { uuid } from 'amis/lib/utils/helper'
 import get from 'lodash/get'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { Switch, Route, Router } from 'react-router-dom'
@@ -61,8 +60,9 @@ export const App = () => {
   }, [])
 
   useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: string, key) => {
+    // 用于热更新
     if (key === message.dev.hot) {
-      hotUpdate(uuid())
+      hotUpdate(newValue)
       return
     }
     setState((d) => {

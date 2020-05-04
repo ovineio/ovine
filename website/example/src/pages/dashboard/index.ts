@@ -1,4 +1,4 @@
 export const schema = {
   type: 'page',
-  body: 'dashboard',
+  body: 'amis dashboard hello world',
 }

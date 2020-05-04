@@ -27,13 +27,12 @@ const resolveRouteConfig = (nodes: RouteItem[]) => {
 }
 
 export function setRoutesConfig(routes: RouteItem[]) {
-  routesConfig = resolveRouteConfig(routes)
-  return routesConfig
+  routesConfig = resolveRouteConfig(cloneDeep(routes))
 }
 
 // 防止修改原始数据
-export function getRouteConfig(fresh?: boolean) {
-  if (fresh) {
+export function getRouteConfig(refresh?: boolean) {
+  if (refresh) {
     return cloneDeep(routesConfig)
   }
   return routesConfig

@@ -9,7 +9,7 @@ export default {
   apis: {
     list: {
       mockSource,
-      url: 'GET rtapi/system/log',
+      url: 'GET rtapi/system/log/item',
       limits: '$page',
     },
   },

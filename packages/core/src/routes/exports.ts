@@ -63,6 +63,10 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
 export function getPageMockSource(option: PageFileOption): ReqMockSource | undefined {
   const filePath = getPageFilePath(option)
 
+  if (!app.env.isMock) {
+    return undefined
+  }
+
   try {
     const pagePest = require(`~/pages/${filePath}/mock`)
     /* webpackInclude: /pages[\\/].*[\\/]mock\.[t|j]sx?$/ */

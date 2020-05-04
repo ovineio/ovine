@@ -5,7 +5,7 @@ import { MockListStore } from '@core/utils/mock'
 const generator = (i) => ({
   id: i,
   username: uuid(),
-  nickname: `昵称-${i}`,
+  nickname: `名称-${i}`,
   avatar: 'http://img0.imgtn.bdimg.com/it/u=2939704571,4273557359&fm=26&gp=0.jpg',
   limitName: `权限名称-${i}`,
   desc:

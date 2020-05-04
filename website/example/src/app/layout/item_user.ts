@@ -80,7 +80,7 @@ export const itemUserSchema = {
                 {
                   type: 'static',
                   name: 'nickname',
-                  label: '昵称',
+                  label: '名称',
                   value: '文本',
                   quickEdit: true,
                 },

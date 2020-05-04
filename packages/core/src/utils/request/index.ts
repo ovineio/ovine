@@ -292,7 +292,7 @@ export class Request<T = {}, K = {}> {
 
   // eslint-disable-next-line
   public async request(this: any, option: any): Promise<any> {
-    const { data: params, url = '', api } = option
+    const { data: params, url = '', api, onPreRequest } = option
     let parsedOption = option
 
     parsedOption.api = api || url
@@ -312,6 +312,10 @@ export class Request<T = {}, K = {}> {
 
     if (this.onPreRequest) {
       parsedOption = this.onPreRequest(parsedOption)
+    }
+
+    if (onPreRequest) {
+      parsedOption = onPreRequest(parsedOption)
     }
 
     const unionOption = { ...parsedOption, ...getFetchOption.call(this, parsedOption) }

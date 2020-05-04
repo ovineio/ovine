@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import { isPlainObject } from 'lodash'
 
 import { AppRequest } from '@core/app'
 import logger from '@core/utils/logger'
@@ -13,7 +13,7 @@ export const request = new AppRequest()
 
 // 请求准备阶段 回调
 request.onPreRequest = (option) => {
-  option.mock = true // 全局控制是否开启 mock
+  option.mock = false // 全局控制是否开启 mock
   return option
 }
 
@@ -42,7 +42,7 @@ request.onRequest = (option) => {
 
 // 接收到请求正常结果 回调
 request.onSuccess = ({ source = {}, option }) => {
-  const { code, data } = source
+  const { code, data = {} } = source
   const { api } = option
 
   // 退出接口，不处理
@@ -55,9 +55,13 @@ request.onSuccess = ({ source = {}, option }) => {
   }
 
   // 列表接口适配
-  if (get(data, 'list')) {
-    data.total = data.count || 0
-    data.items = data.list
+  if (isPlainObject(data) && data.list) {
+    const { list, count, ...rest } = data
+    source.data = {
+      ...rest,
+      total: count || 0,
+      items: list,
+    }
   }
 
   return source

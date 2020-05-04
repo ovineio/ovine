@@ -38,6 +38,7 @@ export type ReqOption<S = {}, P = {}> = {
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
   mockTimeout?: number // 300
+  onPreRequest?: (option: ReqOption) => ReqOption
   onRequest?: (option: ReqUnionOption) => ReqUnionOption
   onSuccess?: ReqSuccessHook<S, P> // 接口成功回调
   onError?: ReqErrorHook<S, P> // 接口失败回调

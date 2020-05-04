@@ -4,7 +4,7 @@
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
-import { get, map, isEmpty } from 'lodash'
+import { get, map, isEmpty, cloneDeep } from 'lodash'
 
 import { app } from '@/app'
 import { routeLimitKey, strDelimiter } from '@/constants'
@@ -15,6 +15,8 @@ import { getRouteConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'
 
 import { checkLimitByNodePath, getAppLimits } from './exports'
+
+const isHotUpdate = !!(module as any).hot
 
 // 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {
@@ -58,16 +60,16 @@ const store: StoreType = {
 }
 
 // 权限配置表
-export const getLimitMenus = (refresh: boolean = false) => {
+export const getLimitMenus = (refresh: boolean = isHotUpdate) => {
   if (!refresh && store.limitMenus.length) {
     return store.limitMenus
   }
 
-  store.limitMenus = mapTree(getRouteConfig() as LimitMenuItem[], (item) => {
-    const newItem = { ...item }
+  store.limitMenus = mapTree(getRouteConfig(refresh) as LimitMenuItem[], (item) => {
+    const newItem = item
     const { nodePath, nodeLabel } = newItem
 
-    const preset = getPagePreset(item)
+    const preset = cloneDeep(getPagePreset(item))
 
     const { limits, apis } = preset || {}
 
@@ -161,8 +163,8 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
 }
 
 // 可用权限
-export const getAuthRoutes = (): RouteItem[] => {
-  if (store.authRoutes?.length) {
+export const getAuthRoutes = (refresh: boolean = isHotUpdate): RouteItem[] => {
+  if (!refresh && store.authRoutes?.length) {
     return store.authRoutes
   }
   store.authRoutes = filterRoutesConfig('route') as any
@@ -170,8 +172,8 @@ export const getAuthRoutes = (): RouteItem[] => {
 }
 
 // 侧边栏 展示菜单配置
-export const getAsideMenus = (): RouteItem[] => {
-  if (store.asideMenus?.length) {
+export const getAsideMenus = (refresh: boolean = isHotUpdate): RouteItem[] => {
+  if (!refresh && store.asideMenus?.length) {
     return store.asideMenus
   }
   store.asideMenus = filterRoutesConfig('aside') as any

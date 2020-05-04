@@ -1,4 +1,9 @@
 export const schema = {
   type: 'page',
-  body: '演示页面，你可以从这个页面开始尝试随意编辑JSON。',
+  title: '标题',
+  remark: '提示 Tip',
+  body: '内容部分. 可以使用 \\${var} 获取变量。如: `\\$date`: ${date}',
+  aside: '边栏部分',
+  toolbar: '工具栏',
+  initApi: 'https://houtai.baidu.com/api/mock2/page/initData',
 }

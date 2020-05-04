@@ -65,7 +65,8 @@ export const schema = {
     {
       name: 'detail',
       label: '操作内容',
-      type: 'text',
+      type: 'json',
+      levelExpand: 0,
     },
   ],
   preset: {
@@ -76,7 +77,7 @@ export const schema = {
             type: 'text',
             name: 'keywords',
             label: '关键字',
-            placeholder: '请输入账号/昵称',
+            placeholder: '请输入账号/名称',
           },
           {
             type: 'select',

@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import './includes'
+import { uuid } from 'amis/lib/utils/helper'
 import { defaultsDeep, get, set } from 'lodash'
 
 import { AppInstance } from '@ovine/core/lib/app/instance'
@@ -120,7 +121,7 @@ class App extends AppProxy {
         throw new Error('App "entry" already set up. Can not reset.')
       }
       set(source, 'entry', entry)
-      publish(message.dev.hot)
+      publish(message.dev.hot, uuid())
       return
     }
     set(source, 'entry', entry)

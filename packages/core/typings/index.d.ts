@@ -8,6 +8,7 @@ declare module 'whatwg-fetch'
 declare module 'qs'
 
 declare const $: any
+
 declare module 'react-dom' {
   export const render: any
   export const createPortal: any

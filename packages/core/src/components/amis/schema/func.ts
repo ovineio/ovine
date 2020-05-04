@@ -182,14 +182,14 @@ export const wrapCss = (schema: LibSchema) => {
 
 export const libApiResAdapter = (res: any = {}) => {
   const { code = 0, data: resData, msg, message, ...rest } = res
-  const response = {
+  const tipMsg = msg || message
+  const amisRes = {
     status: code,
-    msg: msg || message || '',
+    msg: tipMsg,
     data: resData || rest,
   }
-
   return {
-    data: response,
+    data: amisRes,
   }
 }
 

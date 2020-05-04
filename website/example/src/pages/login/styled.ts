@@ -1,8 +1,8 @@
-import { css } from 'styled-components'
+import { css, DefaultTheme } from 'styled-components'
 
 import { inline } from '@core/styled/utils'
 
-export const loginCss = ({ colors }) => css`
+export default ({ colors }: DefaultTheme) => css`
   .login-wrapper {
     width: 450px;
     margin: 12% auto 0;

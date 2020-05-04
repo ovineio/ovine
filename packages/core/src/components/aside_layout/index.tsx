@@ -3,7 +3,6 @@
  */
 
 import { Layout } from 'amis'
-import { cloneDeep } from 'lodash'
 import React, { useMemo } from 'react'
 
 import { withAppTheme } from '@/app/theme'
@@ -37,11 +36,11 @@ export default withAppTheme<LayoutProps>((props) => {
   const headerProps = { ...header, ...state, setLayout: setState }
 
   const { AuthRoutes, renderAside } = useMemo(() => {
-    setRoutesConfig(cloneDeep(routes))
+    setRoutesConfig(routes)
     getLimitMenus()
     const configs = {
-      authRoutes: getAuthRoutes(),
-      asideMenus: getAsideMenus(),
+      authRoutes: getAuthRoutes(true),
+      asideMenus: getAsideMenus(true),
     }
     log.log('routeConfig', configs)
     return {
