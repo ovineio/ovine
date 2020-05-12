@@ -2,9 +2,9 @@ import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
+import { userMock } from '~/app/user/mock'
 
 import authCode from './code'
-import { mockSource } from './mock'
 import loginCss from './styled'
 
 export const schema = {
@@ -32,7 +32,7 @@ export const schema = {
     apis: {
       login: {
         url: 'POST rtapi/user/login',
-        mockSource,
+        mockSource: userMock,
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')
         },
@@ -68,8 +68,6 @@ export const schema = {
             placeholder: '请输入用户名',
             label: '用户名',
             size: 'full',
-            value: 'admin',
-            description: '体验账户名: admin',
           },
           {
             type: 'password',
@@ -78,8 +76,6 @@ export const schema = {
             required: true,
             placeholder: '请输入密码',
             size: 'full',
-            value: 'admin123',
-            description: '体验密码: admin123',
           },
           {
             type: 'group',
@@ -102,12 +98,22 @@ export const schema = {
               },
             ],
           },
-          {
-            type: 'checkbox',
-            name: 'remember',
-            label: '记住登录',
-            value: true,
-          },
+          [
+            {
+              type: 'checkbox',
+              name: 'remember',
+              label: '记住登录',
+              value: true,
+            },
+            {
+              type: 'button',
+              level: 'link',
+              actionType: 'link',
+              link: '/register',
+              inputClassName: 'no-shadow',
+              label: '注册体验账号',
+            },
+          ],
           {
             type: 'submit',
             level: 'primary',

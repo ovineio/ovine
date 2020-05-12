@@ -1,4 +1,4 @@
-import { app, AppTheme, AppRequest } from '../index'
+import { app } from '../index'
 
 const testAppConfig = {
   env: {

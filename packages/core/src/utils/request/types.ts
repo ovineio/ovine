@@ -23,7 +23,7 @@ export type ReqUnionOption<S = {}, P = {}> = ReqOption<S, P> & ReqFetchOption
 export type ReqMockSource<S = {}, P = {}> = { [key: string]: ReqMockSourceGen<S, P> }
 
 export type ReqOption<S = {}, P = {}> = {
-  api: string // 请求原始api字符串
+  api?: string // 请求原始api字符串
   url?: string // 默认与 api 一样
   method?: ReqMethod // get
   domain?: string // 'api'
@@ -38,6 +38,7 @@ export type ReqOption<S = {}, P = {}> = {
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
   mockTimeout?: number // 300
+  actionAddr?: string // 操作地址，不存在时默认为 api
   onPreRequest?: (option: ReqOption) => ReqOption
   onRequest?: (option: ReqUnionOption) => ReqUnionOption
   onSuccess?: ReqSuccessHook<S, P> // 接口成功回调

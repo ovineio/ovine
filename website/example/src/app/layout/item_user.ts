@@ -1,24 +1,26 @@
 import { css, DefaultTheme } from 'styled-components'
 
-import { mockSource as userMock } from '~/pages/login/mock'
+import { userMock } from '~/app/user/mock'
 
 import { logout } from '../user'
 
 const apis = {
   info: {
     url: 'GET rtapi/user/info',
-    mock: false,
+    expired: 1,
     mockSource: userMock,
   },
   update: {
     url: 'PUT rtapi/user/info',
-    mock: false,
     mockSource: userMock,
   },
   password: {
     url: 'PUT rtapi/user/password',
-    mock: false,
     mockSource: userMock,
+  },
+  uploadAvatar: {
+    url: 'POST rtapi/file/image',
+    json: false,
   },
 }
 
@@ -70,9 +72,13 @@ export const itemUserSchema = {
                 {
                   type: 'image',
                   label: '头像',
-                  autoUpload: false,
                   name: 'avatar',
-                  reciever: 'rtapi/file/upload',
+                  reciever: apis.uploadAvatar,
+                  autoUpload: false,
+                  maxLength: 1,
+                  maxSize: 1024 * 300,
+                  width: 200,
+                  height: 200,
                   crop: {
                     aspectRatio: 1,
                   },
@@ -89,6 +95,13 @@ export const itemUserSchema = {
                   name: 'signature',
                   label: '个性签名',
                   quickEdit: true,
+                },
+                {
+                  name: 'parentId',
+                  type: 'tpl',
+                  label: '创建者',
+                  hiddenOn: '!data.parentId',
+                  tpl: '<%= data.parentNickname  + " (" + data.parentId + ")" %>',
                 },
               ],
             },

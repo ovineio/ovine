@@ -13,7 +13,7 @@ const fakeUserData = {
   limit: getStore(storage.dev.limit) || fakeLimit,
 }
 
-export const mockSource: ReqMockSourceGen<any> = {
+export const userMock: ReqMockSourceGen<any> = {
   'POST rtapi/user/login': () => {
     // return {
     //   code: 1,

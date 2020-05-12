@@ -21,8 +21,6 @@ const GlobalStyle = createGlobalStyle`
     position: relative;
     width: 100%;
     height: 100%;
-    opacity: 1;
-    transition: 'opacity' 100ms ease-in;
   }
 
   .glyphicon {
@@ -57,8 +55,14 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
-  .lh-1 {
+  .l-h-1 {
     line-height: 1;
+  }
+
+  .sub-h-full {
+    & > *:only-child {
+      height: 100%;
+    }
   }
 
   /** lib 主题相关的全局样式 */
@@ -74,6 +78,14 @@ const GlobalStyle = createGlobalStyle`
 
     .${ns}DateRangePicker {
       align-items: center;
+    }
+
+    .${ns}Drawer {
+      &.hide-close-button {
+        .${ns}Drawer-close {
+          display: none;
+        }
+      }
     }
   `}
 

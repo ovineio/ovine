@@ -17,6 +17,10 @@ const log = logger.getLogger('lib:routes:limit:exports')
 
 // 将字符串格式的权限数据，转为对象类型，可大大减少权限匹配的时间
 export const convertLimitStr = (limitStr: string = '') => {
+  if (limitStr === app.constants.rootLimitFlag) {
+    return { [app.constants.rootLimitFlag]: true }
+  }
+
   const tpl: Types.ObjectOf<boolean> = {}
   const limits = limitStr?.split(',')
 
@@ -39,7 +43,8 @@ export const getAppLimits = () => store
  * @param limits 权限模版，用检查节点
  */
 export const checkLimitByNodePath = (nodePath: string, limits: any = getAppLimits()) => {
-  if (app.env.disableLimit) {
+  // 不需要校验权限 全部返回 true
+  if (app.env.disableLimit || limits[app.constants.rootLimitFlag]) {
     return true
   }
   // 子权限存在，父权限一定存在

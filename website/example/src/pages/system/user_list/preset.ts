@@ -3,8 +3,8 @@ export default {
     $page: {
       label: '查看列表',
     },
-    viewItem: {
-      label: '列表详细',
+    viewTree: {
+      label: '查看关系图',
     },
     addItem: {
       label: '添加',
@@ -12,18 +12,29 @@ export default {
     editItem: {
       label: '编辑',
     },
-    editMembers: {
-      label: '管理成员',
-    },
-    editLimit: {
-      label: '管理权限',
-    },
     delItem: {
       label: '删除',
-      needs: ['viewItem', 'addItem', 'editItem'],
+      needs: ['viewTree', 'addItem', 'editItem'],
     },
   },
   apis: {
+    filterRole: {
+      url: 'GET rtapi/system/role/filter?filter=$term',
+      mock: true,
+      sourceKey: 'data.items',
+      onSuccess: (source = []) => {
+        const options = source.map((i = {}) => {
+          return {
+            label: `${i.name} (${i.id})`,
+            value: i.id,
+          }
+        })
+        return {
+          code: 0,
+          data: { options },
+        }
+      },
+    },
     list: {
       url: 'GET rtapi/system/user/item',
       limits: '$page',
@@ -39,6 +50,10 @@ export default {
     del: {
       url: 'DELETE rtapi/system/user/item/$id',
       limits: 'delItem',
+    },
+    treeChart: {
+      url: 'GET rtapi/system/user/tree',
+      limits: 'viewTree',
     },
   },
 }

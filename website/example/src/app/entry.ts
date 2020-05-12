@@ -8,6 +8,11 @@ export const entry = [
     pathToComponent: true,
   },
   {
+    type: 'preset-route', // 路由组件
+    path: '/register',
+    pathToComponent: true,
+  },
+  {
     type: 'private-route', // 私有路由
     path: '/',
     redirect: '/login',

@@ -88,6 +88,7 @@ export default (props: Props) => {
       <HeadItem itemProps={cofItemProps} />
       <Drawer
         closeOnOutside
+        className="hide-close-button"
         size="sm"
         theme={theme.name}
         onHide={toggleSetting}

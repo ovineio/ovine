@@ -17,7 +17,7 @@ const generator = (i) => ({
 const mockStore = new MockListStore({ generator })
 
 const mockSource = {
-  'GET rtapi/system/log': () => {
+  'GET rtapi/system/log/item': () => {
     const items = mockStore.search()
     return {
       data: {

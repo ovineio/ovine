@@ -19,7 +19,7 @@ const defaultItem = generator(0)
 const mockStore = new MockListStore({ generator })
 
 const mockSource = {
-  'GET rtapi/system/user': () => {
+  'GET rtapi/system/user/item': () => {
     const items = mockStore.search()
     return {
       data: {
@@ -28,21 +28,62 @@ const mockSource = {
       },
     }
   },
-  'POST rtapi/system/user': ({ data = defaultItem }) => {
+  'GET rtapi/system/user/tree': () => {
+    return {
+      data: {
+        nickname: 'flare',
+        children: [
+          {
+            nickname: 'flex',
+            children: [{ nickname: 'FlareVis', id: 4116 }],
+          },
+          {
+            nickname: 'scale',
+            children: [
+              { nickname: 'IScaleMap', id: 2105 },
+              { nickname: 'LinearScale', id: 1316 },
+              { nickname: 'LogScale', id: 3151 },
+              { nickname: 'OrdinalScale', id: 3770 },
+              {
+                nickname: 'QuantileScale',
+                id: 2435,
+                children: [
+                  { nickname: 'IScaleMap', id: 2105 },
+                  { nickname: 'LinearScale', id: 1316 },
+                  { nickname: 'LogScale', id: 3151 },
+                  { nickname: 'OrdinalScale', id: 3770 },
+                ],
+              },
+              { nickname: 'QuantitativeScale', id: 4839 },
+              { nickname: 'RootScale', id: 1756 },
+              { nickname: 'Scale', id: 4268 },
+              { nickname: 'ScaleType', id: 1821 },
+              { nickname: 'TimeScale', id: 5833 },
+            ],
+          },
+          {
+            nickname: 'display',
+            children: [{ nickname: 'DirtySprite', id: 8833 }],
+          },
+        ],
+      },
+    }
+  },
+  'POST rtapi/system/user/item': ({ data = defaultItem }) => {
     return mockStore.updateById(data, {
       updater: {
         createTime: Date.now(),
       },
     })
   },
-  'PUT rtapi/system/user/$id': ({ data = defaultItem }) => {
+  'PUT rtapi/system/user/item/$id': ({ data = defaultItem }) => {
     return mockStore.add(data, {
       updater: {
         updateTime: Date.now(),
       },
     })
   },
-  'DELETE rtapi/system/user/$id': ({ data = defaultItem }) => {
+  'DELETE rtapi/system/user/item/$id': ({ data = defaultItem }) => {
     return mockStore.deleteById(data, {})
   },
 }

@@ -128,7 +128,7 @@ const PrestComponent = (props: PresetComponentProps) => {
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
     const mockSource = getPageMockSource(fileOption)
-    const pagePreset = getPagePreset(fileOption) || {}
+    const pagePreset = cloneDeep(getPagePreset(fileOption)) || {}
     const nodePath = getNodePath(fileOption)
 
     pagePreset.nodePath = nodePath
@@ -136,7 +136,7 @@ const PrestComponent = (props: PresetComponentProps) => {
     map(pagePreset.apis, (api) => {
       const { mock, mockSource: apiMockSource, url = '' } = api
       // 自动注入规则
-      if (mock === true && !apiMockSource && mockSource) {
+      if (mock !== false && !apiMockSource && mockSource) {
         api.mockSource = mockSource[url] || mockSource
       }
     })

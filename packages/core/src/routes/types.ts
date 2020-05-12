@@ -36,7 +36,8 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
   Pick<RouteProps, 'component' | 'exact' | 'sensitive' | 'strict'> &
   PagePreset & {
     nodePath: string
-    nodeLabel?: string
+    nodeLabel?: string // 节点面包屑 label
+    limitLabel?: string // 权限label
     badge?: number
     badgeClassName?: string
     pathToComponent?: boolean | string
@@ -45,14 +46,9 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     limitOnly?: boolean // 该配置只为权限
   }
 
-export type LimitMenuItem = Omit<RouteItem, 'apis'> &
+export type LimitMenuItem = RouteItem &
   Limit & {
     disabled?: boolean
-    apis?: Types.ObjectOf<{
-      url: string
-      key?: string
-      limits?: string | string[]
-    }>
   }
 
 export type PageFileOption = Partial<Pick<RouteItem, 'path' | 'pathToComponent' | 'nodePath'>>

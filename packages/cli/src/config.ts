@@ -15,7 +15,6 @@ const requiredFields = ['favicon', 'title']
 const optionalFields = [
   'publicPath',
   'envModes',
-  'isSplitCode',
   'splitCodeRoutes',
   'template',
   'initTheme',

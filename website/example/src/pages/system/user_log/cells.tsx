@@ -1,23 +1,24 @@
+import { get } from 'lodash'
 import React from 'react'
 
 import { strDelimiter } from '@core/constants'
-import { getActionAddrMap } from '@core/routes/limit'
+import { getActionAddrMap } from '@core/routes/config'
 
 export const ActionAddrCell = (props) => {
   const { actionAddr } = props.data
   const addrMap = getActionAddrMap()
-  const [actionPath, actionItems] = (addrMap[actionAddr] || '').split(strDelimiter)
+  const [actionPath, actionItems] = (get(addrMap, `${actionAddr}.label`) || '').split(strDelimiter)
 
   return (
-    <div>
+    <td>
       {!actionPath ? (
         '-'
       ) : (
         <>
           <span>{actionPath}</span>
-          <span>{actionItems}</span>
+          <span className="p-l-sm">{actionItems}</span>
         </>
       )}
-    </div>
+    </td>
   )
 }

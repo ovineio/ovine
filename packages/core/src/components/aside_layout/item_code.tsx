@@ -43,7 +43,7 @@ export default (props: RendererProps) => {
         transSchema(json.schema && cloneDeep(json.schema))
         break
       case 'route':
-        json = cloneDeep(getRouteConfig())
+        json = getRouteConfig(true)
         transSchema(json)
         break
       case 'limit':
@@ -72,7 +72,7 @@ export default (props: RendererProps) => {
 
   const dropDownSchema = {
     type: 'lib-dropdown',
-    className: 'lh-1',
+    className: 'l-h-1',
     body: {
       type: 'button',
       iconOnly: true,

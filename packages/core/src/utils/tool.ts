@@ -63,8 +63,10 @@ export function isExpired(expiredTime: string | number, baseTime: number = Date.
   if (!expiredTime) {
     return true
   }
-
-  return baseTime - Number(new Date(expiredTime).valueOf()) > 0
+  const time = /^\d*$/.test(`${expiredTime}`)
+    ? Number(expiredTime)
+    : new Date(expiredTime).valueOf()
+  return baseTime - time > 0
 }
 
 /**

@@ -4,7 +4,7 @@
 
 import { Tab, Tabs, Tree } from 'amis'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
-import map from 'lodash/map'
+import { map } from 'lodash'
 import React, { useEffect, useRef, useMemo } from 'react'
 
 import { routeLimitKey } from '@/constants'
@@ -96,12 +96,6 @@ const LimitSetting = (props: Props) => {
         authLimit,
       })
     }
-    // if (isDevLimit) {
-    //   setStore(storage.dev.limit, authLimit)
-    //   setStore(storage.dev.api, authApi)
-    //   setAppLimits(authLimit)
-    //   window.location.reload()
-    // }
   }
 
   const buttonsSchema = {
@@ -136,6 +130,7 @@ const LimitSetting = (props: Props) => {
         actionType: 'close',
         confirmText: saveConfirmText,
         onAction: onSaveClick,
+        close: true,
       },
       {
         type: 'button',
@@ -144,6 +139,7 @@ const LimitSetting = (props: Props) => {
         tooltipPlacement: 'top',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
         onAction: onCancel,
+        close: true,
       },
     ],
   }
@@ -160,7 +156,12 @@ const LimitSetting = (props: Props) => {
               return null
             }
             return (
-              <Tab key={index} title={item.label} icon={item.icon} eventKey={index}>
+              <Tab
+                key={index}
+                title={item.limitLabel || item.label}
+                icon={item.icon}
+                eventKey={index}
+              >
                 <Tree
                   {...props}
                   hideRoot
@@ -270,7 +271,7 @@ function getAllAuthApiStr(menusConfig: any[], limitValue: string) {
     }
 
     Object.values(apis).forEach((apiItem) => {
-      const { url, key, limits: needs } = apiItem
+      const { url = '', key, limits: needs } = apiItem
       const auth = !needs ? true : checkLimitByKeys(needs, { nodePath, limits })
       if (auth) {
         authApis[key || url] = true

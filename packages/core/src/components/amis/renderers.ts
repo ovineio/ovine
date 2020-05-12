@@ -5,6 +5,7 @@ import './lib_crud'
 import './lib_css'
 import './lib_when'
 import './lib_dropdown'
+import './lib_renderer'
 
 // TODO: 添加 table-cell 文字折叠展示
 // TODO: 添加 lib-limit-setting 渲染器

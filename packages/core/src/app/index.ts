@@ -7,10 +7,10 @@ import { AppInstance } from '@ovine/core/lib/app/instance'
 
 import { defaultEnvMode, message } from '@/constants'
 import { publish } from '@/utils/message'
+import { Request } from '@/utils/request'
 import { isSubStr } from '@/utils/tool'
 import * as Types from '@/utils/types'
 
-import { AppRequest } from './request'
 import { AppTheme } from './theme'
 import { AppConfig, EnvConfig, AppDefInstance } from './types'
 
@@ -20,7 +20,7 @@ const { hot } = module as any
 
 // TODO: 如果已经登录后，再次进入 /login 页面，不会做任何处理
 const initConfig: AppConfig = {
-  request: new AppRequest(),
+  request: new Request(),
   theme: new AppTheme(),
   styled: {
     globalStyle: '',
@@ -37,6 +37,7 @@ const initConfig: AppConfig = {
     baseUrl: isSubStr(process.env.PUBLIC_PATH || '', 'http', 0)
       ? '/'
       : process.env.PUBLIC_PATH || '/',
+    rootLimitFlag: '*',
     notFound: {
       route: '/404',
       pagePath: '',
@@ -62,9 +63,9 @@ function checkAppGetter(key: string, value?: any) {
       }
       break
     case 'requestFunc':
-      if (!(val instanceof AppRequest)) {
+      if (!(val instanceof Request)) {
         throw new Error(
-          'You should register request with AppRequest instance.\neg. app.register("request", new AppRequest())'
+          'You should register request with Request instance.\neg. app.register("request", new Request())'
         )
       }
       break
@@ -121,7 +122,7 @@ class App extends AppProxy {
         throw new Error('App "entry" already set up. Can not reset.')
       }
       set(source, 'entry', entry)
-      publish(message.dev.hot, uuid())
+      publish(message.dev.hot, { hotKey: uuid() })
       return
     }
     set(source, 'entry', entry)
@@ -161,19 +162,20 @@ class App extends AppProxy {
     this.isEnvSetUp = true
   }
 
-  private setRequest(requestIns: AppRequest) {
+  private setRequest(requestIns: Request) {
     const initEnv = initConfig.env.default
     checkAppGetter('requestFunc', requestIns)
-    // 设置request环境变量
-    requestIns.setConfig({
+    // 设置 request 环境变量
+    const requestConfig = {
       isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
       domains: get(source, 'env.domains') || initEnv.domains,
-    })
-    const insRequest = requestIns.request.bind(requestIns)
-    set(source, 'request', insRequest)
+    }
+
+    requestIns.setConfig(requestConfig)
+    set(source, 'request', requestIns.request.bind(requestIns))
   }
 }
 
 const app: AppInstance & Omit<AppDefInstance, keyof AppInstance> & App = new App() as any
 
-export { app, AppRequest, AppTheme }
+export { app, AppTheme }

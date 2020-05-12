@@ -2,67 +2,70 @@ import limit from './limit'
 import members from './members'
 
 export const schema = {
-  type: 'lib-crud',
-  api: '$preset.apis.list',
-  filter: '$preset.forms.filter',
-  filterTogglable: true,
-  headerToolbar: [
-    'filter-toggler',
-    {
-      type: 'columns-toggler',
-      align: 'left',
-    },
-    {
-      type: 'pagination',
-      align: 'left',
-    },
-    {
-      $preset: 'actions.members',
-      align: 'right',
-    },
-    {
-      $preset: 'actions.add',
-      align: 'right',
-    },
-  ],
-  footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
-  perPageField: 'size',
-  pageField: 'page',
-  columns: [
-    {
-      name: 'id',
-      label: 'ID',
-      type: 'text',
-    },
-    {
-      name: 'name',
-      label: '角色名',
-      type: 'text',
-    },
-    {
-      name: 'desc',
-      label: '角色描述',
-      type: 'text',
-    },
-    {
-      name: 'createTime',
-      label: '创建时间',
-      type: 'datetime',
-      width: 150,
-    },
-    {
-      name: 'updateTime',
-      label: '更新时间',
-      type: 'datetime',
-      width: 150,
-    },
-    {
-      type: 'operation',
-      label: '操作',
-      width: 100,
-      buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],
-    },
-  ],
+  type: 'page',
+  body: {
+    type: 'lib-crud',
+    api: '$preset.apis.list',
+    filter: '$preset.forms.filter',
+    filterTogglable: true,
+    headerToolbar: [
+      'filter-toggler',
+      {
+        type: 'columns-toggler',
+        align: 'left',
+      },
+      {
+        type: 'pagination',
+        align: 'left',
+      },
+      {
+        $preset: 'actions.members',
+        align: 'right',
+      },
+      {
+        $preset: 'actions.add',
+        align: 'right',
+      },
+    ],
+    footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
+    perPageField: 'size',
+    pageField: 'page',
+    columns: [
+      {
+        name: 'id',
+        label: 'ID',
+        type: 'text',
+      },
+      {
+        name: 'name',
+        label: '角色名',
+        type: 'text',
+      },
+      {
+        name: 'desc',
+        label: '角色描述',
+        type: 'text',
+      },
+      {
+        name: 'createTime',
+        label: '创建时间',
+        type: 'datetime',
+        width: 150,
+      },
+      {
+        name: 'updateTime',
+        label: '更新时间',
+        type: 'datetime',
+        width: 150,
+      },
+      {
+        type: 'operation',
+        label: '操作',
+        width: 110,
+        buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],
+      },
+    ],
+  },
   definitions: {
     roleAutoComplete: {
       type: 'select',

@@ -7,7 +7,7 @@ import React, { useMemo } from 'react'
 
 import { withAppTheme } from '@/app/theme'
 import { setRoutesConfig } from '@/routes/config'
-import { getAuthRoutes, getAsideMenus, getLimitMenus } from '@/routes/limit'
+import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer } from '@/utils/hooks'
 
@@ -37,10 +37,9 @@ export default withAppTheme<LayoutProps>((props) => {
 
   const { AuthRoutes, renderAside } = useMemo(() => {
     setRoutesConfig(routes)
-    getLimitMenus()
     const configs = {
-      authRoutes: getAuthRoutes(true),
-      asideMenus: getAsideMenus(true),
+      authRoutes: getAuthRoutes(),
+      asideMenus: getAsideMenus(),
     }
     log.log('routeConfig', configs)
     return {

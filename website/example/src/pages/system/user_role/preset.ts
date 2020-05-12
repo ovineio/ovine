@@ -6,7 +6,7 @@ export default {
     editRole: {
       label: '编辑角色',
     },
-    addIRole: {
+    addRole: {
       label: '添加角色',
       needs: ['editRole'],
     },
@@ -31,7 +31,6 @@ export default {
     list: {
       url: 'GET rtapi/system/role/item',
       limits: '$page',
-      mock: true,
     },
     filterRole: {
       url: 'GET rtapi/system/role/filter?filter=$term',
@@ -79,10 +78,6 @@ export default {
       url: 'GET rtapi/system/user/item',
       limits: 'listMember',
       mock: true,
-      // data: {
-      //   page: '${page}',
-      //   size: '${size}',
-      // },
     },
     editMember: {
       url: 'PUT rtapi/system/role/member',

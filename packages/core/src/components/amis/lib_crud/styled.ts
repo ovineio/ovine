@@ -3,10 +3,7 @@ import { css, DefaultTheme } from 'styled-components'
 import { breakpoints } from '@/constants'
 
 export const crudCss = ({ ns, colors }: DefaultTheme) => css`
-  height: 100%;
-  padding: 15px 0 0;
   .lib-crud {
-    margin: 0 15px 15px;
     padding: 15px;
     background-color: ${colors.layoutHeaderBg};
     &>.${ns}Form {

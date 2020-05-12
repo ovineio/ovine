@@ -184,10 +184,12 @@ function getFetchOption(this: Request, option: Types.ReqOption): Types.ReqFetchO
   }
 
   if (json && !body && !fetchOption.headers['Content-Type']) {
-    fetchOption.headers['Content-Type'] = 'application/json; charset=utf-8'
+    fetchOption.headers['Content-Type'] = 'application/json;charset=utf-8'
   }
 
-  if (hasBody) {
+  if (data instanceof FormData && !body) {
+    fetchOption.body = data
+  } else if (hasBody) {
     fetchOption.body = body || JSON.stringify(data)
   }
 
@@ -222,7 +224,7 @@ export function getUrlByOption(
   }
 
   // 存在模版标记 tag
-  if (/\{/.test(realUrl)) {
+  if (/\$/.test(realUrl)) {
     realUrl = filter(realUrl, data)
   }
 
@@ -291,11 +293,13 @@ export class Request<T = {}, K = {}> {
   ): Promise<Types.ReqServerApiRes<MixObject<S, K>> | undefined>
 
   // eslint-disable-next-line
-  public async request(this: any, option: any): Promise<any> {
-    const { data: params, url = '', api, onPreRequest } = option
+  public async request(option: any): Promise<any> {
+    const { data: params, url = '', actionAddr, api, onPreRequest } = option
     let parsedOption = option
 
     parsedOption.api = api || url
+    parsedOption.actionAddr = actionAddr || parsedOption.api
+
     if (!option.api) {
       log.error('request option.api 不存在', option)
       return

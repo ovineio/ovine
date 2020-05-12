@@ -1,5 +1,3 @@
-import mockSource from './mock'
-
 export default {
   limits: {
     $page: {
@@ -8,7 +6,6 @@ export default {
   },
   apis: {
     list: {
-      mockSource,
       url: 'GET rtapi/system/log/item',
       limits: '$page',
     },

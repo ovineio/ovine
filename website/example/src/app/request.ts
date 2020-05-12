@@ -1,7 +1,7 @@
 import { isPlainObject } from 'lodash'
 
-import { AppRequest } from '@core/app'
 import logger from '@core/utils/logger'
+import { Request } from '@core/utils/request'
 import { getStore } from '@core/utils/store'
 
 import { storeKeys } from './constants'
@@ -9,11 +9,11 @@ import { logout } from './user'
 
 const log = logger.getLogger('app:request')
 
-export const request = new AppRequest()
+export const request = new Request()
 
 // 请求准备阶段 回调
 request.onPreRequest = (option) => {
-  option.mock = false // 全局控制是否开启 mock
+  option.mock = true // 全局控制是否开启 mock
   return option
 }
 

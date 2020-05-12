@@ -17,7 +17,7 @@ const schema = {
 }
 
 class HtmlHooksPlugin {
-  options = {}
+  // options = {}
 
   constructor(options = {}) {
     validateOptions(schema, options, 'HtmlHooksPlugin')

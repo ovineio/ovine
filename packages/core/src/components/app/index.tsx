@@ -1,6 +1,6 @@
 import { AlertComponent, ToastComponent } from 'amis'
 import get from 'lodash/get'
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import { Switch, Route, Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
@@ -9,7 +9,7 @@ import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
 import AsideLayout from '@/components/aside_layout'
 import { message } from '@/constants'
-import { routerHistory } from '@/routes/exports'
+import { getRouterHistory } from '@/routes/exports'
 import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
@@ -19,6 +19,8 @@ import { json2reactFactory } from '@/utils/tool'
 type State = {
   theme: string
   lang: string
+  hotKey: string
+  history: any
 }
 
 const log = logger.getLogger('lib:components:app')
@@ -26,9 +28,13 @@ const log = logger.getLogger('lib:components:app')
 const initState = {
   theme: app.theme.getTheme().name,
   lang: 'zh_CN',
+  hotKey: '',
+  history: getRouterHistory(),
 }
 
-type AppContext = Omit<State, 'theme'>
+type AppContext = {
+  lang: string
+}
 
 const AppContext = createContext<AppContext>(initState)
 
@@ -46,27 +52,25 @@ export const useAppContext = () => useContext(AppContext)
 
 export const App = () => {
   const [state, setState] = useImmer<State>(initState)
-  const hotUpdate = useState('init')[1]
-  const { theme } = state
+  const { theme, history } = state
 
   useEffect(() => {
     log.log('App Mounted.')
-    const currRoute = routerHistory.location.pathname
+    const currRoute = history.location.pathname
     const { loginRoute } = app.constants
     // 第一次进入登录页面时 重定向到首页进行 鉴权
     if (loginRoute === currRoute) {
-      routerHistory.push('/')
+      history.push('/')
     }
   }, [])
 
-  useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: string, key) => {
-    // 用于热更新
-    if (key === message.dev.hot) {
-      hotUpdate(newValue)
-      return
-    }
+  useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: any, key) => {
     setState((d) => {
       switch (key) {
+        case message.dev.hot:
+          d.hotKey = newValue.hotKey
+          d.history = getRouterHistory()
+          break
         case message.appTheme:
           d.theme = newValue
           break
@@ -88,7 +92,7 @@ export const App = () => {
   }
 
   return (
-    <Router history={routerHistory}>
+    <Router history={history}>
       <ToastComponent closeButton theme={theme} timeout={1500} className="m-t-xl" />
       <AlertComponent theme={theme} />
       <AppContext.Provider value={state}>

@@ -1,15 +1,16 @@
 export const env = {
   // 默认配置
   default: {
-    disableLimit: true,
+    disableLimit: false,
     domains: {
       api: 'https://rt-admin.igroupes.com',
     },
   },
   // 本地开发
   localhost: {
+    disableLimit: true,
     domains: {
-      // api: 'http://7f2ixa.natappfree.cc',
+      api: 'http://zxq.natapp1.cc',
     },
     logger: {
       moduleName: '.*',

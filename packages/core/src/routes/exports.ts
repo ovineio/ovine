@@ -12,18 +12,27 @@ import { isSubStr, retryPromise } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
 
-const baseUrl = app.constants.baseUrl || '/'
+let routerHistory: any = null
 
-export const routerHistory = createBrowserHistory(
-  baseUrl === '/'
-    ? undefined
-    : {
-        basename: baseUrl.slice(0, -1),
-      }
-)
+export const getRouterHistory = (refresh?: boolean) => {
+  if (!refresh && routerHistory) {
+    return routerHistory
+  }
+  const baseUrl = app.constants.baseUrl || '/'
+  routerHistory = createBrowserHistory(
+    baseUrl === '/'
+      ? undefined
+      : {
+          basename: baseUrl.slice(0, -1),
+        }
+  )
+
+  return routerHistory
+}
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
+  const baseUrl = app.constants.baseUrl || '/'
   const currPthStr = currPath(path)
   const pathStr = `/${currPthStr}`
   const withBaseUrl = isSubStr(pathStr, baseUrl, 0)

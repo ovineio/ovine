@@ -173,21 +173,20 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             // },
             // reuseExistingChunk: true,
             name: (mod: any) => {
-              // console.log('mod.context~~', mod.context)
               const resolvedPath = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
               const commonName = 'pages_common'
-              const { splitCodeRoutes, isSplitCode } = siteConfig
+              const { splitCodeRoutes } = siteConfig
 
               let modPath = commonName
-              // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
 
-              if (isSplitCode !== false && resolvedPath && _.isArray(splitCodeRoutes)) {
-                splitCodeRoutes.some((route: string) => {
-                  if (route === resolvedPath[1]) {
-                    modPath = `p_${resolvedPath[1].replace(/[\\/]/g, '_')}`
-                    return true
+              // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
+              if (resolvedPath && _.isArray(splitCodeRoutes)) {
+                splitCodeRoutes.some(({ test, name }) => {
+                  if (!(test instanceof RegExp) || !name || !test.test(resolvedPath[1])) {
+                    return false
                   }
-                  return false
+                  modPath = name // `p_${resolvedPath[1].replace(/[\\/]/g, '_')}`
+                  return true
                 })
               }
 

@@ -4,10 +4,9 @@
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
-import { get, map, isEmpty, cloneDeep } from 'lodash'
+import { map, isEmpty, pick, cloneDeep } from 'lodash'
 
-import { app } from '@/app'
-import { routeLimitKey, strDelimiter } from '@/constants'
+import { routeLimitKey } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
 import * as Types from '@/utils/types'
 
@@ -15,8 +14,6 @@ import { getRouteConfig } from '../config'
 import { Limit, LimitMenuItem, RouteItem } from '../types'
 
 import { checkLimitByNodePath, getAppLimits } from './exports'
-
-const isHotUpdate = !!(module as any).hot
 
 // 处理 preset.limits.needs 配置的数据
 const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[] => {
@@ -49,33 +46,82 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
 type StoreType = {
   asideMenus: any[]
   authRoutes: any[]
-  actionAddrMap: Types.ObjectOf<string>
   limitMenus: LimitMenuItem[]
 }
 const store: StoreType = {
   asideMenus: [],
   authRoutes: [],
   limitMenus: [],
-  actionAddrMap: {},
+}
+
+// 过滤掉 配置路由信息
+// 1. 去除无权限路由
+// 2. 去除侧边栏隐藏 菜单项
+const filterRoutesConfig = (type: 'aside' | 'route') => {
+  const limits = getAppLimits()
+
+  if (isEmpty(limits)) {
+    return []
+  }
+
+  const nodes = filterTree<RouteItem>(getRouteConfig(true), (item) => {
+    const { sideVisible, nodePath, limitOnly } = item
+    const auth = checkLimitByNodePath(nodePath, limits)
+    if (nodePath === '/') {
+      return true
+    }
+
+    switch (type) {
+      case 'aside':
+        return auth && limitOnly !== true && sideVisible !== false
+      default:
+        return auth
+    }
+  })
+
+  // if (type === 'aside') {
+  //   // 去除顶层 无用 label 显示
+  //   return nodes.filter(({ nodePath, children }) => nodePath === '/' && !!children?.length)
+  // }
+  return nodes
+}
+
+// 可用权限
+export const getAuthRoutes = (): RouteItem[] => {
+  if (store.authRoutes?.length) {
+    return store.authRoutes
+  }
+  store.authRoutes = filterRoutesConfig('route') as any
+
+  return store.authRoutes
+}
+
+// 侧边栏 展示菜单配置
+export const getAsideMenus = (): RouteItem[] => {
+  if (store.asideMenus?.length) {
+    return store.asideMenus
+  }
+  store.asideMenus = filterRoutesConfig('aside') as any
+  return store.asideMenus
 }
 
 // 权限配置表
-export const getLimitMenus = (refresh: boolean = isHotUpdate) => {
+export const getLimitMenus = (refresh?: boolean) => {
   if (!refresh && store.limitMenus.length) {
     return store.limitMenus
   }
 
-  store.limitMenus = mapTree(getRouteConfig(refresh) as LimitMenuItem[], (item) => {
-    const newItem = item
-    const { nodePath, nodeLabel } = newItem
+  store.limitMenus = mapTree(cloneDeep(getAuthRoutes()) as LimitMenuItem[], (item) => {
+    const { nodePath } = item
 
-    const preset = cloneDeep(getPagePreset(item))
+    // TODO: react state readonly 不允许修改，preset.apis 修改 需要优化，如何保证只是首次修改。
+    const preset = getPagePreset(item) || pick(item, ['apis', 'limits'])
 
-    const { limits, apis } = preset || {}
+    const { limits, apis } = preset
 
     // limits 表示 当前节点 有子权限
     if (limits) {
-      newItem.children = map(limits, ({ icon, label, description }, key) => {
+      item.children = map(limits, ({ icon, label, description }, key) => {
         const needs =
           key === routeLimitKey
             ? undefined
@@ -98,87 +144,23 @@ export const getLimitMenus = (refresh: boolean = isHotUpdate) => {
         const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
         const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
 
-        // 设置API默认选项
-        apiItem.actionAddr = `${nodePath}${strDelimiter}${presetApiNeeds?.join(',')}`
-        apiItem.api = apiItem.url || ''
-
-        store.actionAddrMap[
-          apiItem.actionAddr
-        ] = `${nodeLabel}${strDelimiter}${presetApiNeeds
-          ?.map((i) => get(limits, `${i}.label`))
-          .join(',')}`
-
         allApis[apiKey] = {
           url,
           key: apiAuthKey,
           limits: presetApiNeeds?.concat(routeLimitKey),
         }
       })
-      newItem.apis = {
-        ...newItem.apis,
+      item.apis = {
+        ...item.apis,
         ...allApis,
       }
     }
 
     // 添加默认 icon
-    newItem.icon = newItem.icon ? newItem.icon : 'fa fa-code-fork'
+    item.icon = item.icon ? item.icon : 'fa fa-code-fork'
 
-    // console.log('-----', routePath, newItem)
-    return newItem
+    return item
   })
 
   return store.limitMenus
 }
-
-// 过滤掉 配置路由信息
-// 1. 去除无权限路由
-// 2. 去除侧边栏隐藏 菜单项
-const filterRoutesConfig = (type: 'aside' | 'route') => {
-  const limits = getAppLimits()
-  const { disableLimit } = app.env
-  if (!disableLimit && isEmpty(limits)) {
-    return []
-  }
-
-  const nodes = filterTree<RouteItem>(getRouteConfig(true), ({ sideVisible, nodePath }) => {
-    const auth = disableLimit ? true : checkLimitByNodePath(nodePath, limits)
-    if (nodePath === '/') {
-      return true
-    }
-
-    switch (type) {
-      case 'aside':
-        return auth && sideVisible !== false
-      default:
-        return auth
-    }
-  })
-
-  if (type === 'aside') {
-    // 去除顶层 无用 label 显示
-    return nodes.filter(({ nodePath, children }) => nodePath === '/' && !!children?.length)
-  }
-
-  return nodes
-}
-
-// 可用权限
-export const getAuthRoutes = (refresh: boolean = isHotUpdate): RouteItem[] => {
-  if (!refresh && store.authRoutes?.length) {
-    return store.authRoutes
-  }
-  store.authRoutes = filterRoutesConfig('route') as any
-  return store.authRoutes
-}
-
-// 侧边栏 展示菜单配置
-export const getAsideMenus = (refresh: boolean = isHotUpdate): RouteItem[] => {
-  if (!refresh && store.asideMenus?.length) {
-    return store.asideMenus
-  }
-  store.asideMenus = filterRoutesConfig('aside') as any
-  return store.asideMenus
-}
-
-// 获取地址映射关系
-export const getActionAddrMap = () => store.actionAddrMap

@@ -34,6 +34,10 @@ export default ({ colors }: DefaultTheme) => css`
     }
   }
 
+  .cxd-Form-label {
+    padding-left: 40px;
+  }
+
   .code-img {
     height: 34px;
     cursor: pointer;
