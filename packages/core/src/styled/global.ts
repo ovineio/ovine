@@ -23,26 +23,6 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
   }
 
-  .glyphicon {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    &-th:before {
-      content: "\f009";
-    }
-    &-sort:before {
-      content: "\f0ec";
-      transform: rotate(90deg);
-    }
-    &-remove:before {
-      content: "\f00d";
-    }
-  }
-
   .form-control-static {
     min-height: 34px;
     padding-top: 7px;
@@ -63,6 +43,36 @@ const GlobalStyle = createGlobalStyle`
     & > *:only-child {
       height: 100%;
     }
+  }
+
+  /** 适配 bootstrap 升级 */
+  .glyphicon {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    &-th:before {
+      content: "\f009";
+    }
+    &-sort:before {
+      content: "\f0ec";
+      transform: rotate(90deg);
+    }
+    &-remove:before {
+      content: "\f00d";
+    }
+  }
+
+  [role=button] {
+    cursor: pointer;
+  }
+
+  a:not([href]) {
+    color: #fff;
+    text-decoration: initial;
   }
 
   /** lib 主题相关的全局样式 */

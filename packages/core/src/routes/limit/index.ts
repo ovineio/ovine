@@ -6,8 +6,9 @@
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import { map, isEmpty, pick, cloneDeep } from 'lodash'
 
-import { routeLimitKey } from '@/constants'
+import { routeLimitKey, message } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
+import { subscribe } from '@/utils/message'
 import * as Types from '@/utils/types'
 
 import { getRouteConfig } from '../config'
@@ -53,6 +54,12 @@ const store: StoreType = {
   authRoutes: [],
   limitMenus: [],
 }
+
+subscribe(message.updateRouteStore, () => {
+  store.asideMenus = []
+  store.authRoutes = []
+  store.limitMenus = []
+})
 
 // 过滤掉 配置路由信息
 // 1. 去除无权限路由

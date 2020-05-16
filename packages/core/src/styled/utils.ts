@@ -8,8 +8,9 @@ export const inline = (vertical: string = 'middle') => css`
   vertical-align: ${vertical};
 `
 
-export const ellipsis = (display?: string) => {
+export const ellipsis = (maxWdith?: string, display?: string) => {
   return css`
+    max-width: ${maxWdith || 'inherit'};
     display: ${display || 'inline-block'};
     white-space: nowrap;
     overflow: hidden;

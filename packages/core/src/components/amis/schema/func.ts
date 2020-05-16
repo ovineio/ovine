@@ -91,8 +91,8 @@ export const convertToAmisSchema = (
   const { nodePath } = preset
 
   map(schema, (value, key) => {
-    // apis 配置不处理
-    if (key === 'apis') {
+    // apis,limits 字段 不处理
+    if (key === 'apis' || key === 'limits') {
       return
     }
 

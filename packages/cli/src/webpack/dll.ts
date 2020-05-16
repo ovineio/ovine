@@ -9,6 +9,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
+import { editorFileReg, factoryFileReg, fixEditorLoader, fixFactoryLoader } from './amis'
 import { getDllBabelConfig } from './babel'
 import LogPlugin from './plugins/log_plugin'
 
@@ -21,7 +22,6 @@ const {
   dllManifestFile,
   dllAssetsFile,
   libName,
-  staticLibDirPath,
   dllVendorDirPath,
 } = constants
 
@@ -95,22 +95,16 @@ export function createDllConfig(options: ConfigOptions) {
       rules: [
         {
           test: /\.[t|j]sx?$/,
-          exclude: /[\\/]amis[\\/]lib[\\/]components[\\/]Editor/,
+          exclude: [editorFileReg, factoryFileReg],
           use: babelLoader,
         },
         {
-          test: /[\\/]amis[\\/]lib[\\/]components[\\/]Editor/,
-          use: [
-            babelLoader,
-            {
-              loader: 'string-replace-loader', // transform amis editor worker files
-              options: {
-                search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
-                flags: 'm',
-                replace: `function filterUrl(url) {return '${`${publicPath}${staticLibDirPath}/`}' + url.substring(1);`,
-              },
-            },
-          ],
+          test: editorFileReg,
+          use: [babelLoader, fixEditorLoader({ publicPath })],
+        },
+        {
+          test: factoryFileReg,
+          use: [babelLoader, fixFactoryLoader()],
         },
         {
           test: /\.css$/,
@@ -135,6 +129,11 @@ export function createDllConfig(options: ConfigOptions) {
           ],
         },
       ],
+    },
+    resolve: {
+      alias: {
+        'react-dom': '@hot-loader/react-dom',
+      },
     },
     output: {
       pathinfo: false,

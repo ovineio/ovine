@@ -1,4 +1,4 @@
-import limit from './limit'
+// import limit from './limit'
 import members from './members'
 
 export const schema = {
@@ -132,17 +132,18 @@ export const schema = {
         level: 'link',
         actionType: 'dialog',
         dialog: {
-          title: '编辑权限',
-          size: 'md',
-          // showCloseButton: false,
-          actions: [],
-          body: {
-            type: 'service',
-            api: '$preset.apis.getLimit',
-            body: {
-              component: limit,
-            },
+          type: 'lib-limit-setting',
+          saveConfirmText: '您正在修改的角色是【$name】，提交后将不可重置，是否确认提交？',
+          button: {
+            actionType: 'drawer',
           },
+          modal: {
+            postion: 'right',
+            resizable: true,
+            className: 'hide-close-button',
+          },
+          initApi: '$preset.apis.getLimit',
+          api: '$preset.apis.editLimit',
         },
       },
       del: {

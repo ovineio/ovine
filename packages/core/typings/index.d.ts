@@ -5,6 +5,7 @@ declare module '*.jpeg'
 declare module '~/*'
 declare module 'react-overlays'
 declare module 'whatwg-fetch'
+declare module 'react-hot-loader'
 declare module 'qs'
 
 declare const $: any

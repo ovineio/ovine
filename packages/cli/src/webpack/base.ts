@@ -15,6 +15,7 @@ import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
 
+import { editorFileReg, fixEditorLoader, factoryFileReg, fixFactoryLoader } from './amis'
 import { getBabelConfig } from './babel'
 import HtmlHooksPlugin from './plugins/html_hooks_plugin'
 import LogPlugin from './plugins/log_plugin'
@@ -80,8 +81,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     entry: [
       // Instead of the default WebpackDevServer client, we use a custom one
       // like CRA to bring better experience.
-      !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
-      isProd ? `${srcDir}/index` : `${getModulePath(siteDir, 'lib/core/lib/app/entry.js', true)}`,
+      // !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
+      'react-hot-loader/patch',
+      // `${srcDir}/index`,
+      `${getModulePath(siteDir, 'lib/core/lib/app/entry.js', true)}`,
     ].filter(Boolean) as string[],
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
@@ -215,6 +218,14 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           test: /\.jsx?$/,
           exclude: excludeJS,
           use: [cacheLoader, babelLoader],
+        },
+        {
+          test: editorFileReg,
+          use: [babelLoader, fixEditorLoader({ publicPath })],
+        },
+        {
+          test: factoryFileReg,
+          use: [babelLoader, fixFactoryLoader()],
         },
         useTs && {
           test: /\.tsx?$/,
@@ -356,6 +367,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 }
 
 function excludeJS(modulePath: string) {
+  // exclude fixed amis file
+  if ([editorFileReg, factoryFileReg].some((reg) => reg.test(modulePath))) {
+    return true
+  }
+
   // Don't transpile node_modules except any @ovine npm package
   const isNodeModules = /node_modules/.test(modulePath)
   const isLibModules = /node_modules\/@ovine\/.*\.[j|t]sx?$/.test(modulePath)

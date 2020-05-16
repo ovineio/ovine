@@ -1,24 +1,20 @@
 /* eslint-disable max-classes-per-file */
-import './includes'
-import { uuid } from 'amis/lib/utils/helper'
+import { createBrowserHistory } from 'history'
 import { defaultsDeep, get, set } from 'lodash'
 
-import { AppInstance } from '@ovine/core/lib/app/instance'
+import { AppInstance } from '@ovine/core/lib/app/instance/type'
 
-import { defaultEnvMode, message } from '@/constants'
-import { publish } from '@/utils/message'
+import { defaultEnvMode, storage } from '@/constants'
 import { Request } from '@/utils/request'
+import { setGlobal } from '@/utils/store'
 import { isSubStr } from '@/utils/tool'
 import * as Types from '@/utils/types'
 
 import { AppTheme } from './theme'
-import { AppConfig, EnvConfig, AppDefInstance } from './types'
+import { AppConfig, EnvConfig, AppDefInstance, AppMountedProps } from './types'
 
 const source: any = {}
 
-const { hot } = module as any
-
-// TODO: 如果已经登录后，再次进入 /login 页面，不会做任何处理
 const initConfig: AppConfig = {
   request: new Request(),
   theme: new AppTheme(),
@@ -53,20 +49,15 @@ const initConfig: AppConfig = {
 }
 
 function checkAppGetter(key: string, value?: any) {
-  const val = value || get(source, key)
   switch (key) {
     case 'theme':
-      if (!(val instanceof AppTheme)) {
-        throw new Error(
-          'You should register theme with AppTheme instance.\neg. app.register("theme", new AppTheme())'
-        )
+      if (!(value instanceof AppTheme)) {
+        throw new Error('You should register theme with AppTheme instance.')
       }
       break
     case 'requestFunc':
-      if (!(val instanceof Request)) {
-        throw new Error(
-          'You should register request with Request instance.\neg. app.register("request", new Request())'
-        )
+      if (!(value instanceof Request)) {
+        throw new Error('You should register request with Request instance.')
       }
       break
     default:
@@ -76,13 +67,10 @@ function checkAppGetter(key: string, value?: any) {
 class AppProxy {
   constructor() {
     const that: any = this
-    const proxy = new Proxy<AppInstance>(that, {
+    const proxy = new Proxy<any>(that, {
       get(_, key: string) {
-        checkAppGetter(key)
-        if (key in that) {
-          return that[key]
-        }
-        return get(source, key) || get(initConfig, key)
+        const value = key in that ? that[key] : get(source, key) || get(initConfig, key)
+        return value
       },
     })
     return proxy
@@ -90,19 +78,17 @@ class AppProxy {
 }
 
 class App extends AppProxy {
-  private isEnvSetUp = false
+  routerHistory: any
 
-  private isEntrySetUp = false
+  public create(appConfig: any) {
+    const prevBaseUrl = get(source, 'constants.baseUrl') || initConfig.constants.baseUrl
 
-  public create(config: Types.DeepPartial<AppConfig>) {
-    Object.assign(source, defaultsDeep(config, initConfig))
-
-    const { env, request, entry, constants } = source
+    Object.assign(source, defaultsDeep(appConfig, initConfig))
+    const { env, request, constants } = source
     const { baseUrl } = constants || {}
-    if (typeof baseUrl !== 'string' || baseUrl.substr(-1) !== '/') {
-      throw new Error(
-        `publicPath: "${baseUrl}" is not allowed. The "baseUrl" must be string endWith "/". eg: "/subPath/"`
-      )
+
+    if (this.checkBaseUrl(prevBaseUrl, baseUrl)) {
+      this.createRouterHistory(baseUrl)
     }
 
     if (env) {
@@ -111,35 +97,33 @@ class App extends AppProxy {
     if (request) {
       this.setRequest(request)
     }
-    if (entry) {
-      this.setEntry(entry)
-    }
   }
 
-  private setEntry(entry: any[]) {
-    if (this.isEntrySetUp) {
-      if (!hot) {
-        throw new Error('App "entry" already set up. Can not reset.')
-      }
-      set(source, 'entry', entry)
-      publish(message.dev.hot, { hotKey: uuid() })
-      return
+  public createRouterHistory(baseUrl: string) {
+    this.routerHistory = createBrowserHistory(
+      baseUrl === '/'
+        ? undefined
+        : {
+            basename: baseUrl.slice(0, -1),
+          }
+    )
+  }
+
+  private checkBaseUrl(prevBaseUrl: string, baseUrl: string) {
+    if (typeof baseUrl !== 'string' || baseUrl.substr(-1) !== '/' || baseUrl[0] !== '/') {
+      throw new Error(
+        `baseUrl: "${baseUrl}" is not allowed. The "baseUrl" must be string startWith "/" and endWith "/". eg: "/subPath/"`
+      )
     }
-    set(source, 'entry', entry)
-    this.isEntrySetUp = true
-    import(
-      `./app${''}` // fix: ts build will remove comments
-      /* webpackMode: "eager" */
-      /* webpackChunkName: "app_entry" */
-    ).then(({ initApp }) => {
-      initApp(source.env)
-    })
+
+    if (this.routerHistory && baseUrl !== prevBaseUrl) {
+      window.location.href = baseUrl
+    }
+
+    return !this.routerHistory
   }
 
   private setEnv(value: Types.DeepPartial<EnvConfig>) {
-    if (!hot && this.isEnvSetUp) {
-      throw new Error('App "env" already set up. Can not reset.')
-    }
     const mode = process.env.ENV || defaultEnvMode
     const isMock = process.env.MOCK
     const isRelease =
@@ -159,7 +143,6 @@ class App extends AppProxy {
     )
 
     set(source, 'env', env)
-    this.isEnvSetUp = true
   }
 
   private setRequest(requestIns: Request) {
@@ -176,6 +159,7 @@ class App extends AppProxy {
   }
 }
 
-const app: AppInstance & Omit<AppDefInstance, keyof AppInstance> & App = new App() as any
+export type AppInsType = AppInstance & AppMountedProps & Omit<AppDefInstance, keyof AppInstance>
 
-export { app, AppTheme }
+export const app: AppInsType = new App() as any
+setGlobal(storage.appInstance, app)

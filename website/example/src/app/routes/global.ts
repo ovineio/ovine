@@ -1,5 +1,7 @@
 import { LimitMenuItem } from '@core/routes/types'
 
+import { apis } from '../common/apis'
+
 export const globalLimits: LimitMenuItem = {
   nodePath: '/_global',
   limitLabel: '全局权限',
@@ -11,21 +13,21 @@ export const globalLimits: LimitMenuItem = {
       nodePath: '/system',
       label: '系统信息',
       limits: {
-        roleFilter: {
-          label: '管理员角色Filter',
+        sysRoleIdPicker: {
+          label: '管理员角色筛选',
         },
-        userInfoModal: {
+        sysUserInfoModal: {
           label: '管理员信息弹窗',
         },
       },
       apis: {
-        roleFilter: {
-          url: 'GET rtapi/system/role/item',
-          limits: 'roleFilter',
+        roleId: {
+          url: apis.sysRoleId.url,
+          limits: 'sysRoleIdPicker',
         },
         userInfo: {
-          url: 'GET rtapi/system/role/item',
-          limits: 'userInfoModal',
+          url: apis.sysUserInfo.url,
+          limits: 'sysUserInfoModal',
         },
       },
     },

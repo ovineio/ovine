@@ -1,8 +1,6 @@
 import { toast } from 'amis'
 
 import { app } from '@core/app'
-// import { storage } from '@core/constants'
-import { getRouterHistory } from '@core/routes/exports'
 import { setAppLimits } from '@core/routes/limit/exports'
 import { clearStore, getStore } from '@core/utils/store'
 
@@ -50,23 +48,15 @@ export function getUserInfo(callback?: (info: any) => void) {
 export function logout(option?: { tip?: string; useApi?: boolean }) {
   const { tip = '您已经成功退出登录', useApi = false } = option || {}
 
-  const onFinish = (source = {}) => {
-    toast.info(tip, '系统提示')
-    clearStore(storeKeys.auth)
-    getRouterHistory().push('/login')
-    return source
-  }
+  app.routerHistory.push('/login')
+  toast.info(tip, '系统提示')
+  clearStore(storeKeys.auth)
 
-  if (!useApi) {
-    onFinish()
-    return
+  if (useApi) {
+    app.request({
+      url: 'POST rtapi/user/logout',
+    })
   }
-
-  app.request({
-    url: 'POST rtapi/user/logout',
-    onSuccess: onFinish,
-    onError: onFinish,
-  })
 }
 
 export function isLogin() {

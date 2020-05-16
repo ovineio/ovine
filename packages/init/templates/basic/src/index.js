@@ -1,6 +1,4 @@
-import { app } from '@core/app'
-
-app.create({
+const config = {
   env: {
     default: {
       disableLimit: true,
@@ -85,4 +83,6 @@ app.create({
       },
     },
   ],
-})
+}
+
+export default config

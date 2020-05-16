@@ -1,15 +1,14 @@
 import { AlertComponent, ToastComponent } from 'amis'
 import get from 'lodash/get'
 import React, { createContext, useContext, useEffect } from 'react'
+import { hot } from 'react-hot-loader/root'
 import { Switch, Route, Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
 
 import { app } from '@/app'
-
 import { Amis } from '@/components/amis/schema'
 import AsideLayout from '@/components/aside_layout'
 import { message } from '@/constants'
-import { getRouterHistory } from '@/routes/exports'
 import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
@@ -20,23 +19,17 @@ type State = {
   theme: string
   lang: string
   hotKey: string
-  history: any
 }
 
 const log = logger.getLogger('lib:components:app')
-
-const initState = {
-  theme: app.theme.getTheme().name,
-  lang: 'zh_CN',
-  hotKey: '',
-  history: getRouterHistory(),
-}
 
 type AppContext = {
   lang: string
 }
 
-const AppContext = createContext<AppContext>(initState)
+const AppContext = createContext<AppContext>({
+  lang: 'zh_CN',
+})
 
 const j2r = json2reactFactory({
   route: Route,
@@ -48,19 +41,22 @@ const j2r = json2reactFactory({
 
 export const useAppContext = () => useContext(AppContext)
 
-// 如何第一次 不异步加载 加载 一个默认的
+export const App = hot(() => {
+  const [state, setState] = useImmer<State>({
+    theme: app.theme.getTheme().name,
+    lang: 'zh_CN',
+    hotKey: '',
+  })
 
-export const App = () => {
-  const [state, setState] = useImmer<State>(initState)
-  const { theme, history } = state
+  const { theme } = state
 
   useEffect(() => {
     log.log('App Mounted.')
-    const currRoute = history.location.pathname
+    const currRoute = app.routerHistory.location.pathname
     const { loginRoute } = app.constants
     // 第一次进入登录页面时 重定向到首页进行 鉴权
     if (loginRoute === currRoute) {
-      history.push('/')
+      app.routerHistory.push('/')
     }
   }, [])
 
@@ -69,7 +65,6 @@ export const App = () => {
       switch (key) {
         case message.dev.hot:
           d.hotKey = newValue.hotKey
-          d.history = getRouterHistory()
           break
         case message.appTheme:
           d.theme = newValue
@@ -92,7 +87,7 @@ export const App = () => {
   }
 
   return (
-    <Router history={history}>
+    <Router history={app.routerHistory}>
       <ToastComponent closeButton theme={theme} timeout={1500} className="m-t-xl" />
       <AlertComponent theme={theme} />
       <AppContext.Provider value={state}>
@@ -103,4 +98,4 @@ export const App = () => {
       </AppContext.Provider>
     </Router>
   )
-}
+})

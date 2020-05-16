@@ -1,10 +1,10 @@
 import { confirm, render, toast } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
+
 import { Action } from 'amis/lib/types'
 import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
-import { getRouterHistory } from '@/routes/exports'
 import logger from '@/utils/logger'
 
 import { normalizeLink, libApiResAdapter } from './func'
@@ -86,7 +86,7 @@ export default (option: Option) => {
       const { href } = normalizeLink({ to })
       log.log('jumpTo', { href, to, action, ctx })
 
-      getRouterHistory().push(href)
+      app.routerHistory.push(href)
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace: boolean = false) => {
@@ -99,7 +99,7 @@ export default (option: Option) => {
         window.history.replaceState(null, '', href)
         return
       }
-      getRouterHistory().push(href)
+      app.routerHistory.push(href)
     },
     // 判断目标地址是否为当前页面。
     isCurrentUrl: (to: string) => {
@@ -112,9 +112,9 @@ export default (option: Option) => {
       log.log('copy', contents, options)
     },
     // HTMLElement 决定弹框容器。
-    // getModalContainer: () => {
-    //   log.log('getModalContainer')
-    // },
+    getModalContainer: () => {
+      return document.getElementById('modal-root')
+    },
     // Promise<Function>  可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
     // 大型组件可能需要异步加载。比如：富文本编辑器
     loadRenderer: (loaderSchema: any, path: string) => {

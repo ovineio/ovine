@@ -43,6 +43,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
+    'react/jsx-no-target-blank': OFF,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-one-expression-per-line': OFF,

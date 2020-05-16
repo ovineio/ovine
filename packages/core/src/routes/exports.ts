@@ -4,31 +4,11 @@
  * TODO: 添加 unit test
  */
 
-import { createBrowserHistory } from 'history'
-
 import { app } from '@/app'
 import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
-
-let routerHistory: any = null
-
-export const getRouterHistory = (refresh?: boolean) => {
-  if (!refresh && routerHistory) {
-    return routerHistory
-  }
-  const baseUrl = app.constants.baseUrl || '/'
-  routerHistory = createBrowserHistory(
-    baseUrl === '/'
-      ? undefined
-      : {
-          basename: baseUrl.slice(0, -1),
-        }
-  )
-
-  return routerHistory
-}
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {

@@ -62,6 +62,7 @@ export function getBabelConfig(siteDir: string) {
       '@babel/preset-react',
     ],
     plugins: [
+      'react-hot-loader/babel',
       'babel-plugin-macros',
       ['babel-plugin-styled-components', styledConfig],
       '@babel/plugin-syntax-dynamic-import',

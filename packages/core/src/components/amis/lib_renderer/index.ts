@@ -1,17 +1,28 @@
 import { Renderer } from 'amis'
 
-import libRenderer from './renderer'
+import { RendererProps } from 'amis/lib/factory'
 
-const LibRenderer = (props: any) => {
-  const { key, render } = props
-  const renderer = libRenderer.getAllRenderers()[key]
+import { ObjectOf } from '@/utils/types'
+
+const renderers: ObjectOf<any> = {}
+
+export const libRenderer = {
+  getAllRenderers: () => renderers,
+  register: (key: any, renderer: (props: RendererProps) => any) => {
+    renderers[key] = renderer
+  },
+}
+
+const LibRenderer = (props: RendererProps) => {
+  const { renderer: key, render } = props
+  const renderer = renderers[key]
   if (!renderer) {
     return null
   }
-  return render(renderer(props))
+  return render('body', renderer(props))
 }
 
 Renderer({
-  test: /(^\/)lib-rennderer/,
+  test: /(^|\/)lib-renderer/,
   name: 'lib-renderer',
 })(LibRenderer as any)

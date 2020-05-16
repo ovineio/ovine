@@ -28,8 +28,13 @@
 - require(`../a/${var}`) 变量名，一定要慎重。会将模块 /a/xxx 所有引入代码，使 import 动态加载无效。
 - yarn 报错。 Browserslist: caniuse-lite is outdated. Please run next command `yarn upgrade`
   For what it's worth, it should be sufficient to search caniuse-lite@ in your yarn.lock, delete just those entries, and reinstall. That avoids the versions floating for all your other packages.
-- 循环依赖问题
-  - a -> b , b -> a 。这种情况，就将公共地方抽出一个 c, 变成 a -> c, b -> c 。或者使用消息机制，使用 on,emit 模式。
+- 循环依赖问题方案
+
+  - 抽离公共代码为一个单独模块
+  - 使用消息机制，使用 on,emit 模式
+  - 使用 全局变量模式
+  - 使用代码懒加载
+
 - jest 相关
 
   - tsconfig.js 'paths' alias. [github issue](https://github.com/kulshekhar/ts-jest/issues/414)
@@ -45,6 +50,19 @@
   - dll 目录 使用 cdn 配置
 
 - lerna 项目管理
+
   - 每次发包之前需要更改版本号 publish.
   - 更改 version: yarn lerna version prepatch --no-push
   - 发布 包到 npm: yarn lerna publish from-package
+
+- react-hot-loader 不更新组件
+
+  - 一定要注意是否使用了缓存，缓存数据每次都是一致的，因此永远不会更新组件
+  - 由于同时使用了 webpack HotModuleReplacementPlugin 与 react-hot-loader 因此某些更新会触发两次渲染。[issue](https://github.com/gaearon/react-hot-loader/issues/713)
+
+- webpack hot replace 当主渲染逻辑报错时，会自动刷新。如果发现热更新无法使用。出现一致刷新的情况，需要注意检查是否热更新时有报错。
+
+- react-router 不要重新调用 `createBrowserHistory`否则会`You cannot change <Router history>` 报错，router 的跳转将失效，因此要注意在热更新的时候特殊处理。[issue](https://github.com/reactjs/react-router-redux/issues/179)
+
+- amis 使用 @renderer 注册渲染器时，热更新时，会报错。重复渲染
+  - drawer 渲染器 closeOnOutside 会导致 子弹窗意外关闭

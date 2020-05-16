@@ -3,6 +3,7 @@
  */
 
 import { Tab, Tabs, Tree } from 'amis'
+import { RendererProps } from 'amis/lib/factory'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import { map } from 'lodash'
 import React, { useEffect, useRef, useMemo } from 'react'
@@ -27,14 +28,20 @@ type State = {
   selectedVal: string
   visitedTabs: number[]
 }
-type Props = {
-  authLimit?: string
-  onSaveLimit?: (data: { authApi: string; authLimit: string }) => void
-  onCancel?: () => void
-  saveConfirmText?: string
+export type AuthLimitData = {
+  authApi: string
+  authLimit: string
 }
-const LimitSetting = (props: Props) => {
-  const { authLimit: initLimit = '', onSaveLimit, onCancel, saveConfirmText } = props
+export type LimitSettingProps = Partial<RendererProps> & {
+  limit?: string
+  saveConfirmText?: string
+  className?: string
+  onSave?: (authLimitData: AuthLimitData) => void
+  onCancel?: () => void
+}
+
+const LimitSetting = (props: LimitSettingProps) => {
+  const { limit: initLimit = '', className, saveConfirmText, onSave, onCancel, render } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
@@ -90,11 +97,17 @@ const LimitSetting = (props: Props) => {
     const authApi = getAllAuthApiStr(menuConfig, selectedVal)
     const authLimit = getAllAuthLimitStr(menuConfig, visitedTabs, storeRef.current)
 
-    if (onSaveLimit) {
-      onSaveLimit({
+    if (onSave) {
+      onSave({
         authApi,
         authLimit,
       })
+    }
+  }
+
+  const onCancelClick = () => {
+    if (onCancel) {
+      onCancel()
     }
   }
 
@@ -126,28 +139,24 @@ const LimitSetting = (props: Props) => {
       {
         type: 'button',
         icon: 'fa fa-check text-success',
-        tooltipPlacement: 'top',
         actionType: 'close',
         confirmText: saveConfirmText,
         onAction: onSaveClick,
-        close: true,
       },
       {
         type: 'button',
         icon: 'fa fa-times text-danger',
         actionType: 'close',
-        tooltipPlacement: 'top',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
-        onAction: onCancel,
-        close: true,
+        onAction: onCancelClick,
       },
     ],
   }
 
   return (
-    <StyledLimit>
+    <StyledLimit className={className}>
       <div className="action-btns">
-        <Amis schema={buttonsSchema} />
+        {render ? render('body', buttonsSchema) : <Amis schema={buttonsSchema} />}
       </div>
       <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
         {resolveLimitMenus(menuConfig, { limitValue: selectedVal, isUnfolded }).map(

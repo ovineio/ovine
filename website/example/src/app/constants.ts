@@ -1,5 +1,6 @@
 export const storeKeys = {
-  auth: 'AUTH',
+  auth: 'auth',
+  schemaEditor: 'schemaEditor',
 }
 
 export const msgKeys = {

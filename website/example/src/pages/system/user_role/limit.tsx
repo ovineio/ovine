@@ -12,7 +12,7 @@ export default (props: any) => {
 
   return (
     <LimitSetting
-      authLimit={limit}
+      limit={limit}
       saveConfirmText={`您正在修改的角色是【${name}】，提交后将不可重置，是否确认提交？`}
       onCancel={() => {
         store.closeDialog()

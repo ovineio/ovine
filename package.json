@@ -23,7 +23,8 @@
     "lerna": "lerna",
     "test": "jest --colors --errorOnDeprecated --expand",
     "jest:clear": "jest --clearCache",
-    "tsc": "lerna run tsc --no-private"
+    "tsc": "lerna run tsc --no-private",
+    "gen:init:env": "yarn workspace @ovine/init gen:env"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",

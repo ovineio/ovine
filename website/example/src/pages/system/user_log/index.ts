@@ -1,7 +1,7 @@
 import { map } from 'lodash'
 
+import { strDelimiter } from '@core/constants'
 import { getActionAddrMap } from '@core/routes/config'
-import { strDelimiter } from '@ovine/core/lib/constants'
 
 import { ActionAddrCell } from './cells'
 
@@ -47,8 +47,11 @@ export const schema = {
       {
         name: 'handlerId',
         label: '操作人ID',
-        type: 'text',
-        sortable: true,
+        type: 'lib-renderer',
+        renderer: 'sysUserInfoModal',
+        data: {
+          id: '$handlerId',
+        },
       },
       {
         name: 'handlerName',

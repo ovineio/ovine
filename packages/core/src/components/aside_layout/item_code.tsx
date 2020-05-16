@@ -16,7 +16,7 @@ export default (props: RendererProps) => {
 
   const [show, toggle] = useState(false)
   const [code, setCode] = useState<CodeType>('init')
-  const [loading, toggleLoading] = useState(false)
+  const [loading, toggleLoading] = useState(true)
 
   const storeRef = useRef<ObjectOf<any>>({})
 

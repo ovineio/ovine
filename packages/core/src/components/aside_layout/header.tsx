@@ -81,7 +81,7 @@ export default (props: Props) => {
         </button>
         {brand && renderBrand()}
       </div>
-      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-lg`}>
+      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>
         <Amis schema={itemsSchema} />
       </div>
     </>

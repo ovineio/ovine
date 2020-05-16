@@ -22,11 +22,13 @@ export const withAppTheme: WithAppTheme = withTheme as any
 export class AppTheme {
   private themes: Types.ObjectOf<DefaultTheme> = presetThemes
 
-  private initTheme = 'default'
-
   constructor(appThemes?: Themes) {
-    this.initTheme = getStore<string>(storage.appTheme) || process.env.INIT_THEME || 'default'
     this.themes = defaultsDeep(appThemes, this.themes)
+  }
+
+  getName() {
+    const currTheme = getStore<string>(storage.appTheme) || process.env.INIT_THEME || 'default'
+    return currTheme
   }
 
   initThemes(appThemes: Themes) {
@@ -34,9 +36,10 @@ export class AppTheme {
   }
 
   getTheme(): DefaultTheme {
+    const currTheme = this.getName()
     return {
       name: 'default',
-      ...this.themes[this.initTheme],
+      ...this.themes[currTheme],
     }
   }
 

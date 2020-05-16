@@ -4,7 +4,7 @@ import { MockListStore } from '@core/utils/mock'
 
 const generator = (i) => ({
   id: i,
-  createTime: Date.now(),
+  createTime: Date.now() / 1000,
   actionAddr: uuid(),
   handlerId: i,
   handlerName: `名称-${i}`,

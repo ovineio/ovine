@@ -24,9 +24,11 @@ export const StyledLimit = styled.div`
         margin-left: 20px;
       }
     }
-    .${ns}Tabs {
-      &-content > div {
-        height: 380px;
+
+    &.limit-modal-drawer {
+      .${ns}Tabs-pane {
+        position: absolute;
+        height: calc(100% - 190px);
         overflow-y: auto;
       }
     }

@@ -2,14 +2,13 @@
  * APP 系统设置
  */
 
-import { toast, Drawer } from 'amis'
+import { toast } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import map from 'lodash/map'
 import React from 'react'
 
 import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
-import LimitSetting from '@/components/limit_setting'
 import { storage } from '@/constants'
 import { setAppLimits } from '@/routes/limit/exports'
 import { changeAppTheme } from '@/styled/theme'
@@ -33,83 +32,13 @@ export default (props: Props) => {
   const [state, setState] = useImmer<State>(initState)
   const { theme } = props
 
-  const { settingVisible, limitVisible } = state
+  const { settingVisible } = state
 
   const toggleSetting = () => {
     setState((d) => {
       d.settingVisible = !d.settingVisible
     })
   }
-  const toggleLimitDialog = () => {
-    setState((d) => {
-      d.limitVisible = !d.limitVisible
-    })
-  }
-
-  const limitDialog = {
-    type: 'dialog',
-    title: '测试权限设置',
-    show: limitVisible,
-    onClose: toggleLimitDialog,
-    size: 'md',
-    showCloseButton: false,
-    actions: [],
-    body: {
-      component: () => (
-        <LimitSetting
-          authLimit={getStore<string>(storage.dev.limit) || ''}
-          saveConfirmText="权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。"
-          onCancel={toggleLimitDialog}
-          onSaveLimit={(data) => {
-            setStore(storage.dev.limit, data.authLimit)
-            setStore(storage.dev.api, data.authApi)
-            setAppLimits(data.authLimit)
-            window.location.reload()
-          }}
-        />
-      ),
-    },
-  }
-
-  const settingPanelProps = {
-    theme,
-    toggleSetting,
-    toggleLimitDialog,
-  }
-
-  const cofItemProps = {
-    faIcon: 'cog',
-    tip: '设置',
-    onClick: toggleSetting,
-  }
-
-  return (
-    <>
-      <HeadItem itemProps={cofItemProps} />
-      <Drawer
-        closeOnOutside
-        className="hide-close-button"
-        size="sm"
-        theme={theme.name}
-        onHide={toggleSetting}
-        show={settingVisible}
-        position="right"
-      >
-        <SettingPanel {...settingPanelProps} />
-      </Drawer>
-      <Amis schema={limitDialog} />
-    </>
-  )
-}
-
-type SettingProps = {
-  theme: string
-  toggleSetting: () => void
-  toggleLimitDialog: () => void
-}
-
-const SettingPanel = (option: SettingProps) => {
-  const { theme, toggleSetting, toggleLimitDialog } = option
 
   const onClearCache = () => {
     toggleSetting()
@@ -139,12 +68,26 @@ const SettingPanel = (option: SettingProps) => {
         name: '',
         className: 'from-item-button',
         body: {
-          type: 'button',
-          icon: 'fa fa-lock',
-          label: '编辑权限',
-          onClick: () => {
-            toggleSetting()
-            toggleLimitDialog()
+          type: 'lib-limit-setting',
+          saveConfirmText:
+            '权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。',
+          button: {
+            actionType: 'drawer',
+          },
+          modal: {
+            title: '测试环境设置权限',
+            postion: 'right',
+            resizable: true,
+            className: 'hide-close-button',
+          },
+          getLimit: () => {
+            return getStore<string>(storage.dev.limit) || ''
+          },
+          onSave: (data: any) => {
+            setStore(storage.dev.limit, data.authLimit)
+            setStore(storage.dev.api, data.authApi)
+            setAppLimits(data.authLimit)
+            window.location.reload()
           },
         },
       },
@@ -152,22 +95,30 @@ const SettingPanel = (option: SettingProps) => {
   }
 
   const schema = {
-    css: `
+    type: 'drawer',
+    size: 'sm',
+    actions: [],
+    show: settingVisible,
+    onClose: toggleSetting,
+    position: 'right',
+    title: {
+      type: 'wrapper',
+      className: 'no-padder no-bg-c',
+      body: {
+        type: 'html',
+        html: '<div><i class="fa fa-cog p-r-xs"></i><span>系统设置</span></div>',
+      },
+    },
+    body: {
+      type: 'lib-css',
+      css: `
       .from-item-button {
         .form-control-static {
           padding: 0;
         }
       }
     `,
-    type: 'wrapper',
-    className: 'no-bg-c',
-    body: [
-      {
-        type: 'html',
-        html:
-          '<div class="m-t-xs m-b-lg"><i class="fa fa-cog p-r-xs"></i><span>系统设置</span></div>',
-      },
-      {
+      body: {
         type: 'form',
         mode: 'horizontal',
         horizontal: { left: 'col-sm-4', right: 'col-sm-8' },
@@ -202,8 +153,19 @@ const SettingPanel = (option: SettingProps) => {
           ...devItems,
         ],
       },
-    ],
+    },
   }
 
-  return <Amis schema={schema} />
+  const cofItemProps = {
+    faIcon: 'cog',
+    tip: '设置',
+    onClick: toggleSetting,
+  }
+
+  return (
+    <>
+      <HeadItem theme={theme} itemProps={cofItemProps} />
+      <Amis schema={schema} />
+    </>
+  )
 }

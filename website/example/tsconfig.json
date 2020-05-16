@@ -12,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["./*"],
-      "@core/*": ["../node_modules/@ovine/core/lib/*"]
+      "@core/*": ["../../../packages/core/lib/*"]
     },
     "types": [
       "@types/react",

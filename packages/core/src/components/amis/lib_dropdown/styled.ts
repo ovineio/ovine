@@ -3,11 +3,11 @@ import styled from 'styled-components'
 export const StyledDropdown = styled.div`
   position: relative;
   ul {
-    display: node;
+    display: none;
     position: absolute;
     left: 0;
     top: 100%;
-    min-width: 100%;
+    min-width: 50px;
     padding: 4px 0px;
     color: inherit;
   }

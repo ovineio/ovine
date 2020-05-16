@@ -1,5 +1,7 @@
 import { css, DefaultTheme } from 'styled-components'
 
+import { ellipsis } from '@core/styled/utils'
+
 import { userMock } from '~/app/user/mock'
 
 import { logout } from '../user'
@@ -26,12 +28,6 @@ const apis = {
 
 export const itemUserSchema = {
   type: 'lib-css',
-  css: (theme: DefaultTheme) => css`
-    .${theme.ns}Spinner {
-      width: 25px !important;
-      height: 25px !important;
-    }
-  `,
   align: 'right',
   body: {
     type: 'service',
@@ -42,14 +38,14 @@ export const itemUserSchema = {
       className: 'clickable',
       body: {
         type: 'html',
+        className: 'item-user-content',
         html: `
         <img
           className="w-2x m-r-xs"
           src="$avatar"
           alt="avatar"
-          style="width: 28px; height: 28px;"
         />
-        <span style="display:inline-block;vertical-align: middle;">$nickname</span>
+        <span>$nickname</span>
       `,
       },
       items: [
@@ -171,4 +167,22 @@ export const itemUserSchema = {
       ],
     },
   },
+  css: (theme: DefaultTheme) => css`
+    .${theme.ns}Spinner {
+      width: 25px !important;
+      height: 25px !important;
+    }
+    .item-user-content {
+      display: inline-block;
+      min-width: 80px;
+      img {
+        width: 28px;
+        height: 28px;
+      }
+      span {
+        ${ellipsis('100px')};
+        vertical-align: middle;
+      }
+    }
+  `,
 }

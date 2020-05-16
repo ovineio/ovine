@@ -1,4 +1,5 @@
 import { RenderOptions } from 'amis/lib/factory'
+import { History } from 'history'
 import { DefaultTheme } from 'styled-components'
 
 import { LoggerConfig } from '@/utils/logger'
@@ -52,4 +53,8 @@ export interface AppDefInstance extends Omit<AppConfig, 'env'> {
   entry: any[]
   request: ClassMethod<Request, 'request'>
   theme: AppTheme
+}
+
+export type AppMountedProps = {
+  routerHistory: History<History.PoorMansUnknown>
 }

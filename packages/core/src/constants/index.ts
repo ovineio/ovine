@@ -24,6 +24,7 @@ export const message = {
   layoutSpinner: '$store/layoutSpinner',
   appTheme: 'appThemeMsg',
   appLang: 'appLangMsg',
+  updateRouteStore: 'updateRouteStoreMsg',
   dev: {
     hot: 'hotReloadMsg',
   },
@@ -31,6 +32,7 @@ export const message = {
 
 // 存储相关的 key
 export const storage = {
+  appInstance: 'appInstanceStore',
   userInfo: 'userInfoStore',
   appTheme: 'appThemeStore',
   appLimit: 'appLimitStore',

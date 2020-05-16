@@ -128,7 +128,7 @@ export const schema = {
         size: 'sm',
         primary: true,
         dialog: {
-          title: '新增',
+          title: '新增31',
           body: {
             type: 'form',
             name: 'sample-edit-form',

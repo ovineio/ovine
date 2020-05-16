@@ -35,12 +35,6 @@ export const StyledLayout = styled.div`
       color: #fff;
     }
   }
-
-  .app-layout-body {
-    position: relative;
-    width: 100%;
-    height: inherit;
-  }
 `
 
 export const SearchInput = styled.div`

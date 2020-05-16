@@ -117,7 +117,7 @@ export const schema = {
           {
             type: 'submit',
             level: 'primary',
-            label: '登录',
+            label: '登录3',
             inputClassName: 'w-lg',
           },
         ],

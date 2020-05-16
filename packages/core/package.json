@@ -31,14 +31,14 @@
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "@hot-loader/react-dom": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",
     "whatwg-fetch": "^3.0.0"
   },
   "resolutions": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",

@@ -61,12 +61,11 @@ export type PresetRouteProps = Omit<RouteProps, 'path'> &
 
 export type PageProps = Omit<RouteItem, keyof PagePreset> & PresetRouteProps
 
-export type PresetComponentProps = PresetRouteProps &
-  PageFileOption & {
-    LazyFileComponent?: any
-    RouteComponent?: any
-    lazyFileAmisProps?: AmisProps
-  }
+export type PresetComponentProps = PresetRouteProps & {
+  LazyFileComponent?: any
+  RouteComponent?: any
+  lazyFileAmisProps?: AmisProps
+}
 
 export type CheckLimitFunc = (
   limitKeys?: string | string[],
