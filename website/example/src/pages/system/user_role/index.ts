@@ -1,4 +1,3 @@
-// import limit from './limit'
 import members from './members'
 
 export const schema = {
@@ -61,23 +60,12 @@ export const schema = {
       {
         type: 'operation',
         label: '操作',
-        width: 110,
+        width: 70,
         buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],
       },
     ],
   },
   definitions: {
-    roleAutoComplete: {
-      type: 'select',
-      name: 'roleIds',
-      label: '角色名',
-      placeholder: '请选择角色',
-      searchPromptText: '输入角色ID/角色名',
-      clearable: true,
-      multiple: true,
-      searchable: true,
-      autoComplete: '$preset.apis.filterRole',
-    },
     updateControls: {
       controls: [
         {
@@ -120,16 +108,16 @@ export const schema = {
       edit: {
         limits: 'editRole',
         type: 'button',
-        label: '编辑',
-        level: 'link',
+        icon: 'fa fa-pencil',
+        tooltip: '删除',
         actionType: 'dialog',
         dialog: '$preset.forms.edit',
       },
       editLimit: {
         limits: 'editLimit',
         type: 'button',
-        label: '编辑权限',
-        level: 'link',
+        icon: 'fa fa-unlock-alt',
+        tooltip: '编辑权限',
         actionType: 'dialog',
         dialog: {
           type: 'lib-limit-setting',
@@ -149,9 +137,9 @@ export const schema = {
       del: {
         limits: 'delRole',
         type: 'button',
+        icon: 'fa fa-times text-danger',
         actionType: 'ajax',
-        level: 'link',
-        label: '删除',
+        tooltip: '删除',
         confirmText: '您确认要删除?',
         api: '$preset.apis.delRole',
       },
@@ -160,7 +148,7 @@ export const schema = {
       filter: {
         controls: [
           {
-            $ref: 'roleAutoComplete',
+            $ref: 'sysRoleIdPicker',
           },
           {
             type: 'submit',

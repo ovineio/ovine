@@ -120,6 +120,7 @@ export default (option: Option) => {
     loadRenderer: (loaderSchema: any, path: string) => {
       log.log('loadRenderer', loaderSchema, path)
     },
+    // rendererResolver: libResolver,
   }
 
   if (definitions) {

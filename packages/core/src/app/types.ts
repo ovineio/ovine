@@ -40,6 +40,7 @@ export interface AppConfig {
       route: string
       pagePath: string
     }
+    toastDuration?: number
     loginRoute?: string
     actionAddrMap?: ObjectOf<string>
   }

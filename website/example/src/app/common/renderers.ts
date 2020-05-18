@@ -1,10 +1,24 @@
-import { libRenderer } from '@core/components/amis/lib_renderer'
+import { addLibRenderer } from '@core/components/amis/lib_renderer'
 import { checkLimitByNodePath } from '@core/routes/limit/exports'
 
 import { apis } from './apis'
 import { limits } from './limits'
 
-libRenderer.register('sysUserInfoModal', ({ data = {} }) => {
+export const definitions = {
+  sysRoleIdPicker: {
+    type: 'select',
+    name: 'roleIds',
+    clearable: true,
+    multiple: true,
+    searchable: true,
+    label: '角色名',
+    placeholder: '请选择角色',
+    searchPromptText: '输入角色ID/角色名',
+    autoComplete: apis.sysRoleId,
+  },
+}
+
+addLibRenderer('sysUserInfoModal', ({ data = {} }) => {
   const { id } = data
   if (!/^\d*$/.test(id)) {
     return '--'

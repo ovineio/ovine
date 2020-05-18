@@ -52,6 +52,8 @@
   - request TS 类型丢失 [todo]
   - userItem 宽度太小导致不能正常下拉 [完成]
 
+  - userLog Addr 如果出现频修改前端展示，操作路径会出现错误，建议 key/Value 同时存储防止编辑出现异常
+
 - 准备发版本
 
   - 为所有功能添加 mock,防止 API 开发意外

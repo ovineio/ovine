@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import { Drawer, Spinner } from 'amis'
 import { Editor, toast } from 'amis/lib/components'
 import { RendererProps } from 'amis/lib/factory'
 import { cloneDeep, isObject, isFunction, map } from 'lodash'
-import React, { useState, useRef, useMemo, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
+import { app } from '@/app'
 import { storage } from '@/constants'
 import { getRouteConfig } from '@/routes/config'
 import { getStore, getGlobal, setGlobal } from '@/utils/store'
@@ -15,7 +17,6 @@ export default (props: RendererProps) => {
   const { render, theme } = props
 
   const [show, toggle] = useState(false)
-  const [code, setCode] = useState<CodeType>('init')
   const [loading, toggleLoading] = useState(true)
 
   const storeRef = useRef<ObjectOf<any>>({})
@@ -32,14 +33,14 @@ export default (props: RendererProps) => {
     }
   }
 
-  const cachedSchema = useMemo(() => {
+  const getCodeString = (type: string) => {
     let json: any = {}
-    if (storeRef.current[code]) {
-      return storeRef.current[code]
-    }
-    switch (code) {
+    switch (type) {
       case 'page':
         json = getGlobal(storage.dev.code) || {}
+        if (!json.schema) {
+          return false
+        }
         transSchema(json.schema && cloneDeep(json.schema))
         break
       case 'route':
@@ -53,20 +54,20 @@ export default (props: RendererProps) => {
         }
         break
       default:
+        return false
     }
-    const jsonStr = JSON.stringify(json)
-    storeRef.current[code] = jsonStr
+    const jsonStr = JSON.stringify(json.schema || json)
     return jsonStr
-  }, [code])
+  }
 
   const viewCode = (codeType: CodeType) => {
-    setCode(codeType)
+    const codeString = getCodeString(codeType)
+    storeRef.current.codeString = codeString
 
-    if (codeType === 'page' && !cachedSchema) {
-      toast.info('当前页面无数据')
+    if (codeType === 'page' && !codeString) {
+      toast.info('当前页面无数据', '系统提示')
       return
     }
-
     toggleDrawer()
   }
 
@@ -105,6 +106,10 @@ export default (props: RendererProps) => {
     ],
   }
 
+  if (app.env.isRelease) {
+    return null
+  }
+
   return (
     <>
       <Drawer
@@ -122,7 +127,7 @@ export default (props: RendererProps) => {
             options={{ readOnly: true }}
             editorTheme={theme === 'dark' ? 'vs-dark' : 'vs'}
             language="json"
-            value={cachedSchema}
+            value={storeRef.current.codeString}
           />
         )}
       </Drawer>

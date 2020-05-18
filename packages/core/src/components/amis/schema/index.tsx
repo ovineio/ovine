@@ -1,6 +1,6 @@
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { isEmpty } from 'lodash'
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
@@ -25,14 +25,26 @@ export const Amis = withRouter((props: Props) => {
   const { schema, props: amisProps, option = {}, history } = props
 
   const { preset } = schema
+  const codeStore = getGlobal<any>(storage.dev.code) || {}
+
+  useEffect(() => {
+    return () => {
+      if (codeStore.enable) {
+        setGlobal(storage.dev.code, {
+          enable: true,
+          schema: false,
+        })
+      }
+    }
+  }, [])
 
   const envSchema: LibSchema = useMemo(() => {
     const cssSchema = wrapCss(schema)
-    if (!preset || isEmpty(preset)) {
+    if (!preset) {
       return cssSchema
     }
-    const codeStore = getGlobal<any>(storage.dev.code) || {}
-    const libSchema = resolveLibSchema(cssSchema)
+    const libSchema = isEmpty(preset) ? cssSchema : resolveLibSchema(cssSchema)
+
     if (codeStore.enable) {
       setGlobal(storage.dev.code, {
         enable: true,

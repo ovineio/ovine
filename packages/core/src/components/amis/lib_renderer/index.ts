@@ -6,11 +6,8 @@ import { ObjectOf } from '@/utils/types'
 
 const renderers: ObjectOf<any> = {}
 
-export const libRenderer = {
-  getAllRenderers: () => renderers,
-  register: (key: any, renderer: (props: RendererProps) => any) => {
-    renderers[key] = renderer
-  },
+export const addLibRenderer = (key: string, renderer: (props: RendererProps) => any) => {
+  renderers[key] = renderer
 }
 
 const LibRenderer = (props: RendererProps) => {

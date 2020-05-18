@@ -16,7 +16,7 @@ const defaultItem = generator(0)
 const mockStore = new MockListStore({ generator })
 
 const mockSource = {
-  'GET rtapi/system/limit': () => {
+  'GET rtapi/system/role/item': () => {
     const items = mockStore.search()
     return {
       data: {
@@ -25,21 +25,33 @@ const mockSource = {
       },
     }
   },
-  'POST rtapi/system/limit': ({ data = defaultItem }) => {
+  'POST rtapi/system/role/item/$id': ({ data = defaultItem }) => {
     return mockStore.updateById(data, {
       updater: {
         createTime: Date.now(),
       },
     })
   },
-  'PUT rtapi/system/limit/$id': ({ data = defaultItem }) => {
+  'PUT rtapi/system/role/item/$id': ({ data = defaultItem }) => {
     return mockStore.add(data, {
       updater: {
         updateTime: Date.now(),
       },
     })
   },
-  'DELETE rtapi/system/limit/$id': ({ data = defaultItem }) => {
+  'DELETE rtapi/system/role/item/$id': ({ data = defaultItem }) => {
+    return mockStore.deleteById(data, {})
+  },
+  'GET rtapi/system/role/item/$id/limit': ({ data = defaultItem }) => {
+    return mockStore.deleteById(data, {})
+  },
+  'PUT rtapi/system/role/item/$id/limit': ({ data = defaultItem }) => {
+    return mockStore.deleteById(data, {})
+  },
+  'GET rtapi/system/user/item': ({ data = defaultItem }) => {
+    return mockStore.deleteById(data, {})
+  },
+  'PUT rtapi/system/role/member': ({ data = defaultItem }) => {
     return mockStore.deleteById(data, {})
   },
 }

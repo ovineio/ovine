@@ -1,7 +1,7 @@
 import { times } from 'lodash'
 
 export const commonMock = {
-  'GET rtapi/system/role/item': () => {
+  sysRoleId: () => {
     return {
       data: {
         list: times(20, (i) => ({
@@ -11,7 +11,7 @@ export const commonMock = {
       },
     }
   },
-  'GET rtapi/system/user/item/$id': ({ data = {} }: any) => {
+  sysUserInfo: ({ data = {} }: any) => {
     return {
       data: {
         avatar: 'https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg',

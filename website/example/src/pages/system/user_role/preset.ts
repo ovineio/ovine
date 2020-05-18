@@ -32,23 +32,6 @@ export default {
       url: 'GET rtapi/system/role/item',
       limits: '$page',
     },
-    filterRole: {
-      url: 'GET rtapi/system/role/filter?filter=$term',
-      mock: true,
-      sourceKey: 'data.items',
-      onSuccess: (source = []) => {
-        const options = source.map((i = {}) => {
-          return {
-            label: `${i.name} (${i.id})`,
-            value: i.id,
-          }
-        })
-        return {
-          code: 0,
-          data: { options },
-        }
-      },
-    },
     addRole: {
       url: 'POST rtapi/system/role/item/$id',
       limits: 'addRole',

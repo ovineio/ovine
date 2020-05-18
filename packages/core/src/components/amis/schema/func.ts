@@ -2,7 +2,6 @@ import { resolveRenderer } from 'amis'
 import { RendererConfig } from 'amis/lib/factory'
 import { Schema } from 'amis/lib/types'
 import { get, isArray, isEmpty, isObject, map } from 'lodash'
-import { DefaultTheme } from 'styled-components'
 
 import { checkLimitByKeys } from '@/routes/limit/exports'
 import logger from '@/utils/logger'
@@ -152,13 +151,7 @@ export const resolveLibSchema = (schema: LibSchema) => {
 }
 
 // 自定义解析器
-export const libResolver = (option: {
-  path: string
-  schema?: Schema
-  props?: any
-  theme: DefaultTheme
-}): null | RendererConfig => {
-  const { path, schema, props } = option
+export const libResolver = (path: string, schema?: Schema, props?: any): null | RendererConfig => {
   return resolveRenderer(path, schema, props)
 }
 

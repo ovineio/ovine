@@ -37,7 +37,7 @@ const members = {
           placeholder: 'ID/登录账号/名称',
         },
         {
-          $ref: 'roleAutoComplete',
+          $ref: 'sysRoleIdPicker',
         },
         {
           type: 'submit',

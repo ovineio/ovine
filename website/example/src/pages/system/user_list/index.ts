@@ -83,7 +83,7 @@ export const schema = {
       {
         type: 'operation',
         label: '操作',
-        width: 100,
+        width: 60,
         buttons: ['$preset.actions.edit', '$preset.actions.del'],
       },
     ],
@@ -128,7 +128,7 @@ export const schema = {
         size: 'sm',
         primary: true,
         dialog: {
-          title: '新增31',
+          title: '新增',
           body: {
             type: 'form',
             name: 'sample-edit-form',
@@ -181,15 +181,7 @@ export const schema = {
             placeholder: 'ID/登录账号/名称',
           },
           {
-            type: 'select',
-            name: 'roleIds',
-            label: '角色名',
-            placeholder: '请选择角色',
-            searchPromptText: '输入角色ID/角色名',
-            clearable: true,
-            multiple: true,
-            searchable: true,
-            autoComplete: '$preset.apis.filterRole',
+            $ref: 'sysRoleIdPicker',
           },
           {
             type: 'submit',
