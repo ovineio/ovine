@@ -64,7 +64,7 @@ export function normalizeUrl(rawUrls: string[]): string {
   return str
 }
 
-export function compileWebpack(config: Configuration): Promise<any> {
+export function compileWebpack(config: any): Promise<any> {
   return new Promise((resolve, reject) => {
     const compiler = webpack(config)
     compiler.run((err, stats) => {

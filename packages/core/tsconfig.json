@@ -7,6 +7,7 @@
     "lib": ["es6", "dom"],
     "skipLibCheck": true,
     "incremental": true,
+    "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "jsx": "react",
     "rootDir": "src",

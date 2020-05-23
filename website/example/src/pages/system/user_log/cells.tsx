@@ -7,7 +7,8 @@ import { getActionAddrMap } from '@core/routes/config'
 export const ActionAddrCell = (props) => {
   const { actionAddr } = props.data
   const addrMap = getActionAddrMap()
-  const [actionPath, actionItems] = (get(addrMap, `${actionAddr}.label`) || '').split(strDelimiter)
+  const label = (get(addrMap, `${actionAddr}.label`) || '') as string
+  const [actionPath, actionItems] = label.split(strDelimiter)
 
   return (
     <td>

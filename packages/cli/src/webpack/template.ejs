@@ -13,6 +13,9 @@
   <% if(opts.dllVendorCss) { %>
   <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
   <% } %>
+  <% if(!opts.isProd) { %>
+  <script> var _isWebpackDevServer = true; </script>
+  <% } %>
   <script id="themeScript"></script>
   <%= opts.head %>
 </head>

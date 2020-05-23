@@ -33,6 +33,7 @@ const initConfig: AppConfig = {
     baseUrl: isSubStr(process.env.PUBLIC_PATH || '', 'http', 0)
       ? '/'
       : process.env.PUBLIC_PATH || '/',
+    toastDuration: 1200,
     rootLimitFlag: '*',
     notFound: {
       route: '/404',
@@ -147,6 +148,7 @@ class App extends AppProxy {
 
   private setRequest(requestIns: Request) {
     const initEnv = initConfig.env.default
+
     checkAppGetter('requestFunc', requestIns)
     // 设置 request 环境变量
     const requestConfig = {

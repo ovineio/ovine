@@ -16,17 +16,11 @@ export const fixEditorLoader = ({ publicPath }: any) => ({
   },
 })
 
-/**
- *
- * if (config.storeType && config.component) {}
- * ===>
- * if (!module.hot && config.storeType && config.component) {}
- */
 export const fixFactoryLoader = () => ({
-  loader: 'string-replace-loader', // transform amis editor worker files
+  loader: 'string-replace-loader',
   options: {
     search: '\\~rendererNames\\.indexOf\\(config\\.name\\)',
     flags: 'm',
-    replace: '!module.hot && ~rendererNames.indexOf(config.name)',
+    replace: '!window._isWebpackDevServer && ~rendererNames.indexOf(config.name)',
   },
 })

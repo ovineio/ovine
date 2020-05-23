@@ -65,4 +65,7 @@
 - react-router 不要重新调用 `createBrowserHistory`否则会`You cannot change <Router history>` 报错，router 的跳转将失效，因此要注意在热更新的时候特殊处理。[issue](https://github.com/reactjs/react-router-redux/issues/179)
 
 - amis 使用 @renderer 注册渲染器时，热更新时，会报错。重复渲染
+
   - drawer 渲染器 closeOnOutside 会导致 子弹窗意外关闭
+
+- yarn workspace 对项目的依赖包做了 处理，相同依赖包都会被提升到 ROOT 文件夹，因此要完整测试 开发好的包需要另外建立一个文件夹

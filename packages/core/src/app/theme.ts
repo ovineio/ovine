@@ -37,10 +37,11 @@ export class AppTheme {
 
   getTheme(): DefaultTheme {
     const currTheme = this.getName()
-    return {
-      name: 'default',
-      ...this.themes[currTheme],
-    }
+    return (
+      this.themes[currTheme] || {
+        name: 'default',
+      }
+    )
   }
 
   getAllThemes() {

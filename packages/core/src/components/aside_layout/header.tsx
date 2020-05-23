@@ -4,8 +4,6 @@ import { get, map } from 'lodash'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-// import { json2reactFactory } from '@/utils/tool'
-
 import { Amis } from '../amis/schema'
 import HeadItem from './head_item'
 import ItemCode from './item_code'
@@ -94,6 +92,35 @@ const presetComponents: any = {
   'item-setting': ItemSetting,
   'item-dev-code': ItemCode,
 }
+
+type ItemProps = {
+  render: any
+  item: SchemaNode
+}
+const ItemComponent = (props: ItemProps) => {
+  const { render, item } = props
+
+  const getPresetComponent = (i: SchemaNode) => {
+    let preset = null
+    map(presetComponents, (Component, type) => {
+      if (i === type || get(i, 'type') === type) {
+        preset = (renderProps: RendererProps) => <Component {...renderProps} itemProps={item} />
+      }
+    })
+    return preset
+  }
+
+  const preset = getPresetComponent(item)
+
+  if (!preset) {
+    return render('body', item)
+  }
+
+  return render('body', {
+    type: 'wrapper',
+    component: preset,
+  })
+}
 type HeadItemsProps = {
   toggleAside: () => void
   asideFolded: boolean
@@ -113,28 +140,6 @@ function HeadItems(props: HeadItemsProps) {
     }
   })
 
-  const getPresetComponent = (item: SchemaNode) => {
-    let preset = null
-    map(presetComponents, (Component, type) => {
-      if (item === type || get(item, 'type') === type) {
-        preset = (renderProps: RendererProps) => <Component {...renderProps} itemProps={item} />
-      }
-    })
-    return preset
-  }
-
-  const renderItem = (item: SchemaNode) => {
-    const preset = getPresetComponent(item)
-    if (!preset) {
-      return render('body', item)
-    }
-
-    return render('body', {
-      type: 'wrapper',
-      component: preset,
-    })
-  }
-
   const asideItemProps = {
     faIcon: asideFolded ? 'indent' : 'dedent',
     tip: `${asideFolded ? '展开' : '收起'}侧边栏`,
@@ -145,9 +150,13 @@ function HeadItems(props: HeadItemsProps) {
     <div className="collapse navbar-collapse">
       <div className="navbar-nav mr-auto">
         <HeadItem itemProps={asideItemProps} />
-        {lefts.map(renderItem)}
+        {lefts.map((item, index) => (
+          <ItemComponent key={index} render={render} item={item} />
+        ))}
       </div>
-      {rights.map(renderItem)}
+      {rights.map((item, index) => (
+        <ItemComponent key={index} render={render} item={item} />
+      ))}
     </div>
   )
 }

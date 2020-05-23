@@ -21,7 +21,7 @@ import useThemeContext from '@theme/hooks/useThemeContext'
 
 import styles from './styles.module.css'
 
-function NavLink({ activeBasePath, to, href, label, position, ...props }) {
+function NavLink({ activeBasePath, to, href, label, ...props }) {
   const toUrl = useBaseUrl(to)
   const activeBaseUrl = useBaseUrl(activeBasePath)
 

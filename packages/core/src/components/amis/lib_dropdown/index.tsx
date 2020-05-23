@@ -1,5 +1,6 @@
 import { Renderer } from 'amis'
-import React, { useEffect, useRef } from 'react'
+import { RendererProps } from 'amis/lib/factory'
+import React from 'react'
 
 import { StyledDropdown } from './styled'
 
@@ -9,11 +10,26 @@ const animation = {
   duration: 200,
 }
 
-const LibDropdown = (props: any) => {
-  const { items, body, render, classPrefix, className = '', hover = {} } = props
-  const $wrapperRef = useRef(null)
+type Props = RendererProps & {
+  items?: any
+  hover?: any
+  body?: any
+}
 
-  useEffect(() => {
+@Renderer({
+  test: /(^|\/)lib-dropdown$/,
+  name: 'lib-dropdown',
+})
+export class LibDropdown extends React.Component<Props> {
+  $wrapperRef: any
+
+  constructor(props: Props) {
+    super(props)
+    this.$wrapperRef = React.createRef()
+  }
+
+  componentDidMount() {
+    const { hover } = this.props
     const config = {
       sensitivity: 3, // number = sensitivity threshold (must be 1 or higher)
       interval: 200, // number = milliseconds for onMouseOver polling interval
@@ -38,28 +54,27 @@ const LibDropdown = (props: any) => {
       }, animation.duration)
     }
 
-    $($wrapperRef.current).hoverIntent(config)
-  }, [])
+    $(this.$wrapperRef.current).hoverIntent(config)
+  }
 
-  return (
-    <StyledDropdown ref={$wrapperRef} className={`${classPrefix}LibDropdown ${className}`}>
-      {body && render('body', body)}
-      {items && (
-        <ul className="dropdown-menu m-t-xs r b">
-          {items.map((item: any, index: number) => {
-            return (
-              <li key={index} className="dropdown-item">
-                {render('body', item)}
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </StyledDropdown>
-  )
+  render() {
+    const { items, body, render, classPrefix, className = '' } = this.props
+
+    return (
+      <StyledDropdown ref={this.$wrapperRef} className={`${classPrefix}LibDropdown ${className}`}>
+        {body && render('body', body)}
+        {items && (
+          <ul className="dropdown-menu m-t-xs r b">
+            {items.map((item: any, index: number) => {
+              return (
+                <li key={index} className="dropdown-item">
+                  {render('body', item)}
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </StyledDropdown>
+    )
+  }
 }
-
-Renderer({
-  test: /(^|\/)lib-dropdown$/,
-  name: 'lib-dropdown',
-})(LibDropdown as any)

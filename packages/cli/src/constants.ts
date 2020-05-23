@@ -1,9 +1,11 @@
+// lib
 export const libName = 'ovine'
 export const libRootPath = `/${libName}`
-export const outDirName = 'dist'
-export const defaultPort = 7050
 
+// basic
+export const defaultPort = 7050
 export const srcDirName = 'src'
+export const outDirName = 'dist'
 export const staticDirName = 'static'
 export const configFileName = `${libName}.config.js`
 export const generatedDirName = `.${libName}`
@@ -17,10 +19,11 @@ export const cssAssetsFile = `${generatedDirName}/css_assets.json`
 
 // dll config
 export const dllVendorFileName = 'vendor'
+export const dllReactFileName = 'react'
 export const dllVendorDirPath = `${staticLibDirPath}/dll`
 export const dllDirPath = `${generatedDirName}/${staticDirName}/dll`
-export const dllManifestFile = `${generatedDirName}/dll_manifest.json`
-export const dllAssetsFile = `${generatedDirName}/dll_assets.json`
+export const dllManifestFile = `${generatedDirName}/dll_[name]_manifest.json`
+export const dllAssetsFile = `${generatedDirName}/dll_[name]_assets.json`
 
 // config files
 export const webpackConfFileName = 'webpack.config.js'

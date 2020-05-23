@@ -28,8 +28,6 @@ const {
 const dllName = '[name]_[hash:6]'
 
 const dllModules = [
-  'react',
-  'react-dom',
   'react-router-dom',
   'immer',
   'styled-components',
@@ -96,7 +94,7 @@ export function createDllConfig(options: ConfigOptions) {
         {
           test: /\.[t|j]sx?$/,
           exclude: [editorFileReg, factoryFileReg],
-          use: babelLoader,
+          use: [babelLoader],
         },
         {
           test: editorFileReg,
@@ -112,11 +110,11 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: new RegExp(
-            `\\.${`png,jpg,gif,ttf,ico,woff,woff2,eot,svg${
+            `\\.${`png,jpg,gif,ttf,woff,woff2,eot,svg${
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
             }`.replace(/,/gi, '|')}$`
           ),
-          exclude: /\/qs\//,
+          exclude: [/\/qs\//, /\/icons\//],
           use: [
             {
               loader: 'url-loader',
@@ -145,7 +143,7 @@ export function createDllConfig(options: ConfigOptions) {
     },
     plugins: [
       new LogPlugin({
-        name: `${libName}-Dll`,
+        name: `${libName}-VendorDll`,
       }),
       new CleanPlugin(),
       new MiniCssExtractPlugin({
@@ -156,14 +154,12 @@ export function createDllConfig(options: ConfigOptions) {
         path: `${siteDir}/${dllManifestFile}`,
         name: dllName,
       }),
-      // 把带hash的dll插入到html中 https://github.com/ztoben/assets-webpack-plugin
       new AssetsPlugin({
-        filename: dllAssetsFile,
+        filename: dllAssetsFile.replace('[name]', dllVendorFileName),
         fullPath: false,
         path: siteDir,
       }),
     ],
-    // 关闭文件大小报警，具体情况，可查看分析工具
     performance: {
       hints: false,
     },

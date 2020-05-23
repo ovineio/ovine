@@ -88,7 +88,12 @@ export const App = hot(() => {
 
   return (
     <Router history={app.routerHistory}>
-      <ToastComponent closeButton theme={theme} timeout={1500} className="m-t-xl" />
+      <ToastComponent
+        closeButton
+        theme={theme}
+        timeout={app.constants.toastDuration}
+        className="m-t-xl"
+      />
       <AlertComponent theme={theme} />
       <AppContext.Provider value={state}>
         <ThemeProvider theme={getTheme()}>

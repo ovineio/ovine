@@ -4,7 +4,7 @@
  */
 
 import { Renderer } from 'amis'
-// import { get } from 'lodash'
+import React from 'react'
 import { css, DefaultTheme } from 'styled-components'
 
 // import { breakpoints } from '@/constants'
@@ -47,27 +47,27 @@ const getAmisCrudSchema = (props: any) => {
   return crudSchema
 }
 
-export type LibCrudProps = LibCssProps & {
-  tableWidth?: number
-}
-const LibCrud = (props: LibCrudProps) => {
-  const { css: getCss, render, className, htmlClassName } = props
+export type LibCrudProps = LibCssProps
 
-  const amisCurd: any = {
-    className,
-    htmlClassName,
-    type: 'lib-css',
-    css: (theme: DefaultTheme) => css`
-      ${crudCss(theme)};
-      ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};
-    `,
-    body: getAmisCrudSchema(props),
-  }
-
-  return render('body', amisCurd)
-}
-
-Renderer({
+@Renderer({
   test: /(^|\/)lib-crud$/,
   name: 'lib-crud',
-})(LibCrud)
+})
+export class LibCrud extends React.Component<LibCrudProps> {
+  render() {
+    const { css: getCss, render, className, htmlClassName } = this.props
+
+    const amisCurd: any = {
+      className,
+      htmlClassName,
+      type: 'lib-css',
+      css: (theme: DefaultTheme) => css`
+        ${crudCss(theme)};
+        ${!getCss ? null : typeof getCss === 'string' ? getCss : getCss(theme)};
+      `,
+      body: getAmisCrudSchema(this.props),
+    }
+
+    return render('body', amisCurd)
+  }
+}

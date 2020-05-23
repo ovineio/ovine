@@ -8,7 +8,7 @@ backup
 static
 node_modules
 
-.ovine
+/.ovine
 
 /packages/init/tmp
 /packages/init/templates

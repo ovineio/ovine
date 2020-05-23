@@ -124,11 +124,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         '~': srcDir,
         '@generated': genDir,
         '@core': '@ovine/core/lib',
+        'react-dom': '@hot-loader/react-dom',
       },
       // This allows you to set a fallback for where Webpack should look for modules.
       modules: [
-        path.resolve(__dirname, '..', '..', 'node_modules'),
         'node_modules',
+        path.resolve(__dirname, '../../node_modules'),
         path.resolve(fse.realpathSync(process.cwd()), 'node_modules'),
       ],
     },
@@ -325,7 +326,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         }),
       dll &&
         new DllReferencePlugin({
-          manifest: `${siteDir}/${dllManifestFile}`,
+          manifest: `${siteDir}/${dllManifestFile}`.replace('[name]', dllVendorFileName),
         } as any),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
@@ -350,6 +351,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
+        isProd,
         title: siteConfig.title,
         favIcon: siteConfig.favicon,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
@@ -382,7 +384,8 @@ function excludeJS(modulePath: string) {
 function getDllDistFile(siteDir: string, type: string) {
   const { publicPath } = loadContext(siteDir)
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
-  const dllFile = `${siteDir}/${dllAssetsFile}`
+
+  const dllFile = `${siteDir}/${dllAssetsFile.replace('[name]', dllVendorFileName)}`
   const assetJson = fse.existsSync(dllFile) && require(dllFile)
 
   if (!assetJson) {
