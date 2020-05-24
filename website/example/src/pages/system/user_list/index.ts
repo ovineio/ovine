@@ -127,6 +127,7 @@ export const schema = {
         icon: 'fa fa-plus pull-left',
         size: 'sm',
         primary: true,
+        limits: 'addItem',
         dialog: {
           title: '新增',
           body: {
@@ -140,6 +141,7 @@ export const schema = {
       tree: {
         type: 'button',
         align: 'right',
+        limits: 'viewTree',
         actionType: 'drawer',
         label: '成员关系图',
         icon: 'fa fa-sitemap pull-left',
@@ -148,6 +150,7 @@ export const schema = {
         drawer: '$preset.forms.tree',
       },
       edit: {
+        limits: 'editItem',
         type: 'button',
         icon: 'fa fa-pencil',
         tooltip: '编辑',
@@ -163,6 +166,7 @@ export const schema = {
         },
       },
       del: {
+        limits: 'delItem',
         type: 'button',
         icon: 'fa fa-times text-danger',
         actionType: 'ajax',

@@ -5,8 +5,6 @@ import { storage, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { setStore } from '@/utils/store'
 
-// const { name: storedTheme } = app.theme.getTheme()
-
 const dispatchLink = (theme: string, callback?: () => void) => {
   $('head link[data-theme]').remove()
   const linkAttr = {
@@ -40,6 +38,4 @@ export const initAppTheme = () => {
         classPrefix: item.ns,
       })
     })
-
-  // dispatchLink(storedTheme)
 }

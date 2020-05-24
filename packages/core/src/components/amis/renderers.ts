@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { Renderer } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
+import React from 'react'
 
 import './lib_crud'
 import './lib_css'
@@ -8,7 +9,6 @@ import './lib_when'
 import './lib_dropdown'
 import './lib_renderer'
 import './lib_limit_setting'
-import React from 'react'
 
 // TODO: 添加 table-cell 文字折叠展示
 // TODO: 添加 lib-limit-setting 渲染器

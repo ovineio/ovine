@@ -19,7 +19,7 @@ export default {
   },
   apis: {
     filterRole: {
-      url: 'GET rtapi/system/role/filter?filter=$term',
+      url: 'GET ovapi/system/role/filter?filter=$term',
       mock: true,
       sourceKey: 'data.items',
       onSuccess: (source = []) => {
@@ -36,23 +36,23 @@ export default {
       },
     },
     list: {
-      url: 'GET rtapi/system/user/item',
+      url: 'GET ovapi/system/user/item',
       limits: '$page',
     },
     add: {
-      url: 'POST rtapi/system/user/item',
+      url: 'POST ovapi/system/user/item',
       limits: 'addItem',
     },
     edit: {
-      url: 'PUT rtapi/system/user/item/$id',
+      url: 'PUT ovapi/system/user/item/$id',
       limits: 'editItem',
     },
     del: {
-      url: 'DELETE rtapi/system/user/item/$id',
+      url: 'DELETE ovapi/system/user/item/$id',
       limits: 'delItem',
     },
     treeChart: {
-      url: 'GET rtapi/system/user/tree',
+      url: 'GET ovapi/system/user/tree',
       limits: 'viewTree',
     },
   },

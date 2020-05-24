@@ -10,7 +10,7 @@ const targetCards = [
   {
     title: '登录人数',
     intro: '每天登录系统的管理员人数',
-    kpi: 'userCount',
+    kpi: 'loginCount',
   },
   {
     title: '新增加人数',
@@ -53,6 +53,14 @@ export const schema = {
             name: 'tab-rain',
             api: {
               $preset: 'apis.chart',
+              data: {
+                startDate: '$daterange.0',
+                endDate: '$daterange.1',
+              },
+              // onPreRequest: (source: any) => {
+              //   console.log('@@@---', source)
+              //   return source
+              // },
               onSuccess: reqSucHooks.onBarChartSuc,
             },
             body: {
@@ -71,7 +79,7 @@ export const schema = {
                       type: 'chart',
                       className: 'rain-chart',
                       name: 'rain-chart',
-                      height: 300,
+                      height: 295,
                       source: '${chart}',
                     },
                   ],
@@ -124,15 +132,17 @@ export const schema = {
         wrapWithPanel: false,
         mode: 'inline',
         target: 'tab-rain',
+        actions: [],
         controls: [
           {
             type: 'date-range',
             label: '时间范围',
             name: 'daterange',
+            format: 'YYYY-MM-DD',
+            joinValues: false,
           },
           { type: 'submit', label: '搜索' },
         ],
-        actions: [],
       },
     },
   },
@@ -158,8 +168,8 @@ function renderTargetCards(cardInfos: any[]) {
           className: 'card-info no-bg',
           body: [
             {
-              type: 'html',
-              html: ` <div>${title}</div><p>\${${kpi}.num}</p>`,
+              type: 'tpl',
+              tpl: ` <div>${title}</div><p><%= data?.${kpi}?.num || "0"%></p>`,
             },
             {
               type: 'button',

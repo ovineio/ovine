@@ -38,6 +38,7 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': OFF,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
+    'react/jsx-no-target-blank': OFF,
     'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,

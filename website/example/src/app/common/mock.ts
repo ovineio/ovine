@@ -1,7 +1,7 @@
 import { times } from 'lodash'
 
-export const commonMock = {
-  sysRoleId: () => {
+export default {
+  'GET ovapi/system/role/filter': () => {
     return {
       data: {
         list: times(20, (i) => ({
@@ -11,7 +11,7 @@ export const commonMock = {
       },
     }
   },
-  sysUserInfo: ({ data = {} }: any) => {
+  'GET ovapi/system/user/item/$id': ({ data = {} }: any) => {
     return {
       data: {
         avatar: 'https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg',

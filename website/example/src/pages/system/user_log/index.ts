@@ -49,9 +49,7 @@ export const schema = {
         label: '操作人ID',
         type: 'lib-renderer',
         renderer: 'sysUserInfoModal',
-        data: {
-          id: '$handlerId',
-        },
+        userIdKey: 'handlerId',
       },
       {
         name: 'handlerName',

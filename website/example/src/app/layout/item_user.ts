@@ -8,20 +8,20 @@ import { logout } from '../user'
 
 const apis = {
   info: {
-    url: 'GET rtapi/user/info',
+    url: 'GET ovapi/user/info',
     expired: 1,
     mockSource: userMock,
   },
   update: {
-    url: 'PUT rtapi/user/info',
+    url: 'PUT ovapi/user/info',
     mockSource: userMock,
   },
   password: {
-    url: 'PUT rtapi/user/password',
+    url: 'PUT ovapi/user/password',
     mockSource: userMock,
   },
   uploadAvatar: {
-    url: 'POST rtapi/file/image',
+    url: 'POST ovapi/file/image',
     json: false,
   },
 }

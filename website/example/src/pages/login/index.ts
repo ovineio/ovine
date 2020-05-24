@@ -18,7 +18,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="login-title">
-          <img src="/static/images/logo_grey.png" />
+          <img src="/demo/static/images/logo_grey.png" />
             <p>Ovine 管理后台系统</p>
           </h6>
         `,
@@ -31,7 +31,7 @@ export const schema = {
   preset: {
     apis: {
       login: {
-        url: 'POST rtapi/user/login',
+        url: 'POST ovapi/user/login',
         mockSource: userMock,
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')
@@ -117,7 +117,7 @@ export const schema = {
           {
             type: 'submit',
             level: 'primary',
-            label: '登录3',
+            label: '登录',
             inputClassName: 'w-lg',
           },
         ],

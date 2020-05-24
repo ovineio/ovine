@@ -15,7 +15,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="register-title">
-          <img src="/static/images/logo_grey.png" />
+          <img src="/demo/static/images/logo_grey.png" />
             <p>Ovine 注册新账号</p>
           </h6>
         `,
@@ -28,7 +28,7 @@ export const schema = {
   preset: {
     apis: {
       register: {
-        url: 'POST rtapi/user/demo_register',
+        url: 'POST ovapi/user/demo_register',
         mockSource: userMock,
         onSuccess: (source) => {
           const { code, msg, data } = source
@@ -99,7 +99,7 @@ export const schema = {
           {
             type: 'submit',
             level: 'primary',
-            label: '注册并登录1',
+            label: '注册并登录',
             inputClassName: 'w-md',
           },
         ],

@@ -23,7 +23,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
   .target-card {
     .card-info {
       position: relative;
-      padding: 15px 15px 0;
+      padding: 0px 15px 0;
       height: 75px;
       h6 {
         font-size: 14px;
@@ -36,7 +36,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
     .tip-icon {
       position: absolute;
       right: 15px;
-      top: 15px;
+      top: 0;
       height: auto;
       padding: 0;
     }
@@ -60,11 +60,6 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
         background-size: cover !important;
         border-radius: 2px;
       }
-    }
-
-    .rain-table {
-      height: 300px;
-      overflow: auto;
     }
   }
 
@@ -90,7 +85,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
       background-color: transparent;
     }
     .${ns}Table-table {
-      height: 100%;
+      height: 380px;
       min-width: 300px;
       thead,
       tbody {
@@ -102,9 +97,9 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
         }
       }
       tbody {
-        background-color: ${colors.layoutHeaderBg};
+        /* background-color: ${colors.layoutHeaderBg}; */
         display: block;
-        overflow-y: scroll;
+        overflow-y: auto;
         height: 100%;
       }
       th {

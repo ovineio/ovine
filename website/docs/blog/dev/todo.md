@@ -72,6 +72,14 @@
   - 增加 init 初始化项目 核心内容
   - 准要的文档内容一定要补齐
 
+- 修改 bootstrap4
+
+  - a:not([href]) BUG
+
+- 对接 DEMO 所有 API，发布 DEMO
+- 写文档
+- 发布 NPM
+
 * 本周计划
   - 写文档
   - 优化代码

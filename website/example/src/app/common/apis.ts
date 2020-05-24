@@ -1,12 +1,12 @@
 // 自定义的API
 
-import { commonMock } from './mock'
+import mockSource from './mock'
 
 export const apis = {
   sysRoleId: {
-    url: 'GET rtapi/system/role/filter',
+    url: 'GET ovapi/system/role/filter',
     sourceKey: 'data.items',
-    mockSource: commonMock.sysRoleId,
+    mockSource,
     onSuccess: (source = []) => {
       const options = source.map((i = {}) => {
         return {
@@ -21,7 +21,8 @@ export const apis = {
     },
   },
   sysUserInfo: {
-    url: 'GET rtapi/system/user/item/$id',
-    mockSource: commonMock.sysUserInfo,
+    url: 'GET ovapi/system/user/item/$id',
+    api: 'GET ovapi/system/user/item/$id',
+    mockSource,
   },
 }

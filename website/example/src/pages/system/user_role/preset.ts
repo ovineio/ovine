@@ -29,41 +29,41 @@ export default {
   },
   apis: {
     list: {
-      url: 'GET rtapi/system/role/item',
+      url: 'GET ovapi/system/role/item',
       limits: '$page',
     },
     addRole: {
-      url: 'POST rtapi/system/role/item/$id',
+      url: 'POST ovapi/system/role/item/$id',
       limits: 'addRole',
       mock: true,
     },
     editRole: {
-      url: 'PUT rtapi/system/role/item/$id',
+      url: 'PUT ovapi/system/role/item/$id',
       limits: 'editRole',
       mock: true,
     },
     delRole: {
-      url: 'DELETE rtapi/system/role/item/$id',
+      url: 'DELETE ovapi/system/role/item/$id',
       limits: 'delRole',
       mock: true,
     },
     getLimit: {
-      url: 'GET rtapi/system/role/item/$id/limit',
+      url: 'GET ovapi/system/role/item/$id/limit',
       limits: 'editLimit',
       mock: true,
     },
     editLimit: {
-      url: 'PUT rtapi/system/role/item/$id/limit',
+      url: 'PUT ovapi/system/role/item/$id/limit',
       limits: 'editLimit',
       mock: true,
     },
     listMember: {
-      url: 'GET rtapi/system/user/item',
+      url: 'GET ovapi/system/user/item',
       limits: 'listMember',
       mock: true,
     },
     editMember: {
-      url: 'PUT rtapi/system/role/member',
+      url: 'PUT ovapi/system/role/member',
       limits: 'editMember',
       mock: true,
       onPreRequest: (source) => {

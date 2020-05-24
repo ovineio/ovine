@@ -18,23 +18,24 @@ export const definitions = {
   },
 }
 
-addLibRenderer('sysUserInfoModal', ({ data = {} }) => {
-  const { id } = data
-  if (!/^\d*$/.test(id)) {
+addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
+  const userId = data[userIdKey]
+
+  if (!/^\d*$/.test(userId)) {
     return '--'
   }
 
   const isAuth = checkLimitByNodePath(limits.global.sysUserInfoModal)
 
   if (!isAuth) {
-    return id
+    return userId
   }
 
   return {
     type: 'action',
     level: 'link',
     className: 'no-shadow',
-    label: `${id}`,
+    label: `${userId}`,
     actionType: 'dialog',
     dialog: {
       title: '系统用户信息',
@@ -42,7 +43,10 @@ addLibRenderer('sysUserInfoModal', ({ data = {} }) => {
       closeOnEsc: true,
       body: {
         type: 'service',
-        api: apis.sysUserInfo,
+        api: {
+          ...apis.sysUserInfo,
+          url: apis.sysUserInfo.url.replace('$id', userId),
+        },
         body: {
           type: 'form',
           wrapWithPanel: false,

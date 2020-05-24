@@ -25,10 +25,18 @@ export const StyledLimit = styled.div`
       }
     }
 
-    &.limit-modal-drawer {
+    &.limit-drawer-normal {
       .${ns}Tabs-pane {
         position: absolute;
         height: calc(100% - 190px);
+        overflow-y: auto;
+      }
+    }
+
+    &.limit-drawer-service {
+      .${ns}Tabs-pane {
+        position: absolute;
+        height: calc(100% - 100px);
         overflow-y: auto;
       }
     }

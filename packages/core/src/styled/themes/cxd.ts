@@ -10,7 +10,7 @@ export const cxdTheme: Types.DeepPartial<DefaultTheme> = {
     bodyBg: '#fff',
     text: '#666',
     layoutHeaderBg: '#f5f5f5',
-    linkHover: 'rgb(0, 0, 0)',
+    linkHover: 'rgb(18, 140, 238)',
     border: '#e8ebee',
     echart: [
       '#36a2db',

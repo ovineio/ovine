@@ -19,7 +19,7 @@ const defaultItem = generator(0)
 const mockStore = new MockListStore({ generator })
 
 const mockSource = {
-  'GET rtapi/system/user/item': () => {
+  'GET ovapi/system/user/item': () => {
     const items = mockStore.search()
     return {
       data: {
@@ -28,7 +28,7 @@ const mockSource = {
       },
     }
   },
-  'GET rtapi/system/user/tree': () => {
+  'GET ovapi/system/user/tree': () => {
     return {
       data: {
         nickname: 'flare',
@@ -69,21 +69,21 @@ const mockSource = {
       },
     }
   },
-  'POST rtapi/system/user/item': ({ data = defaultItem }) => {
+  'POST ovapi/system/user/item': ({ data = defaultItem }) => {
     return mockStore.updateById(data, {
       updater: {
         createTime: Date.now(),
       },
     })
   },
-  'PUT rtapi/system/user/item/$id': ({ data = defaultItem }) => {
+  'PUT ovapi/system/user/item/$id': ({ data = defaultItem }) => {
     return mockStore.add(data, {
       updater: {
         updateTime: Date.now(),
       },
     })
   },
-  'DELETE rtapi/system/user/item/$id': ({ data = defaultItem }) => {
+  'DELETE ovapi/system/user/item/$id': ({ data = defaultItem }) => {
     return mockStore.deleteById(data, {})
   },
 }

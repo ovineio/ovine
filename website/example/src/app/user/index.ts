@@ -11,7 +11,7 @@ let userInfo = {}
 
 export async function onAuth() {
   app.request({
-    url: 'POST rtapi/stat/data',
+    url: 'POST ovapi/stat/data',
     data: { code: 100001 },
   })
   try {
@@ -31,7 +31,7 @@ export async function onAuth() {
 
 export async function fetchUserInfo() {
   return app.request<any>({
-    url: 'GET rtapi/user/info',
+    url: 'GET ovapi/user/info',
     expired: 1,
     mockSource: userMock,
     mock: false,
@@ -54,7 +54,7 @@ export function logout(option?: { tip?: string; useApi?: boolean }) {
 
   if (useApi) {
     app.request({
-      url: 'POST rtapi/user/logout',
+      url: 'POST ovapi/user/logout',
     })
   }
 }

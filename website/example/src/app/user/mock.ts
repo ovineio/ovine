@@ -14,7 +14,7 @@ const fakeUserData = {
 }
 
 export const userMock: ReqMockSourceGen<any> = {
-  'POST rtapi/user/login': () => {
+  'POST ovapi/user/login': () => {
     // return {
     //   code: 1,
     //   message: '模拟登录出错'
@@ -28,7 +28,7 @@ export const userMock: ReqMockSourceGen<any> = {
       },
     }
   },
-  'GET rtapi/user/info': () => {
+  'GET ovapi/user/info': () => {
     // return {
     //   code: 10022,
     //   message: '模拟用户token过期',
@@ -39,13 +39,13 @@ export const userMock: ReqMockSourceGen<any> = {
       data: fakeUserData,
     }
   },
-  'PUT rtapi/user/info': ({ data }) => {
+  'PUT ovapi/user/info': ({ data }) => {
     Object.assign(fakeUserData, data)
     return {
       code: 0,
     }
   },
-  'PUT rtapi/user/password': () => {
+  'PUT ovapi/user/password': () => {
     return {
       code: 0,
     }

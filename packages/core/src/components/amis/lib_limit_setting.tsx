@@ -16,7 +16,7 @@ type Props = RendererProps &
     getLimit?: () => string
   }
 
-Renderer({
+@Renderer({
   test: /(^|\/)lib-limit-setting$/,
   name: 'lib-limit-setting',
 })
@@ -59,7 +59,13 @@ export class LibLimitSetting extends React.Component<Props> {
         const onSave = (authData: AuthLimitData) => {
           const fetchData = { ...initData, ...authData }
           if (isEffectiveApi(api, fetchData)) {
-            env.fetcher(api, fetchData)
+            if (typeof api !== 'string') {
+              api.qsOptions = {
+                encode: false,
+              }
+              api.data = fetchData
+            }
+            env.fetcher(api)
           }
           if (this.props.onSave) {
             this.props.onSave(authData)
@@ -74,7 +80,7 @@ export class LibLimitSetting extends React.Component<Props> {
         return (
           <LimitSetting
             {...amisProps}
-            className={`limit-modal-${actionType}`}
+            className={`limit-drawer-${isEffectiveApi(initApi) ? 'service' : 'normal'} `}
             limit={getLimit ? getLimit() : limitData.limit || ''}
             saveConfirmText={filter(saveConfirmText, initData)}
             onSave={onSave}
@@ -92,6 +98,7 @@ export class LibLimitSetting extends React.Component<Props> {
           ? limitComponent
           : {
               type: 'service',
+              className: 'h-full',
               api: initApi,
               body: limitComponent,
             },

@@ -8,7 +8,7 @@ const prest: PagePreset = {
   },
   apis: {
     chart: {
-      url: 'GET rtapi/stat/data',
+      url: 'GET ovapi/stat/data',
     },
   },
 }

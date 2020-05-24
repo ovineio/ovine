@@ -1,4 +1,4 @@
-import { last } from 'lodash'
+import { last, maxBy } from 'lodash'
 
 import { app } from '@ovine/core/lib/app'
 
@@ -78,6 +78,8 @@ export const onKpiChartSuc = (source) => {
 
 export const onBarChartSuc: any = (source) => {
   const { items: list = [] } = source.data
+  const maxUser = !list.length ? 10 : maxBy(list, (i: any) => i.loginCount).loginCount + 20
+  const maxCount = !list.length ? 10 : maxBy(list, (i: any) => i.showCount).loginCount + 20
 
   return {
     table: list,
@@ -94,7 +96,7 @@ export const onBarChartSuc: any = (source) => {
       },
       legend: {
         left: 10,
-        data: ['蒸发量', '降水量', '平均温度'],
+        data: ['登录人数', '新增人数', '浏览次数'],
       },
       grid: {
         left: '0%',
@@ -116,43 +118,43 @@ export const onBarChartSuc: any = (source) => {
       yAxis: [
         {
           type: 'value',
-          name: '水量',
+          name: '人数',
           show: false,
           min: 0,
-          max: 250,
-          interval: 50,
+          max: maxUser,
+          interval: maxUser / 10,
           axisLabel: {
-            formatter: '{value} ml',
+            formatter: '{value} 人',
           },
         },
         {
           type: 'value',
-          name: '温度',
+          name: '次数',
           show: false,
           min: 0,
-          max: 25,
-          interval: 5,
+          max: maxCount,
+          interval: maxCount / 10,
           axisLabel: {
-            formatter: '{value} °C',
+            formatter: '{value} 次',
           },
         },
       ],
       series: [
         {
-          name: '蒸发量',
+          name: '登录人数',
           type: 'bar',
-          data: list.map((i: any) => i.evaporation),
+          data: list.map((i: any) => i.loginCount),
         },
         {
-          name: '降水量',
+          name: '新增人数',
           type: 'bar',
-          data: list.map((i: any) => i.water),
+          data: list.map((i: any) => i.registerCount),
         },
         {
-          name: '平均温度',
+          name: '浏览次数',
           type: 'line',
           yAxisIndex: 1,
-          data: list.map((i: any) => i.avg_temperature),
+          data: list.map((i: any) => i.showCount),
         },
       ],
     },

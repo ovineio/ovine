@@ -13,7 +13,7 @@ export const request = new Request()
 
 // 请求准备阶段 回调
 request.onPreRequest = (option) => {
-  option.mock = true // 全局控制是否开启 mock
+  option.mock = false // 全局控制是否开启 mock
   return option
 }
 
@@ -46,7 +46,7 @@ request.onSuccess = ({ source = {}, option }) => {
   const { api } = option
 
   // 退出接口，不处理
-  if (api !== 'POST rtapi/user/logout') {
+  if (api !== 'POST ovapi/user/logout') {
     if (code === 10023 || code === 10022) {
       logout({
         tip: '当前用户登录过期，请重新登录',

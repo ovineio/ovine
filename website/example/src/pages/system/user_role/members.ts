@@ -48,6 +48,7 @@ const members = {
     },
     bulkActions: [
       {
+        limits: 'editMember',
         label: '批量变更角色',
         icon: 'fa fa-gavel pull-left',
         primary: true,
@@ -63,7 +64,7 @@ const members = {
                 name: 'ids',
               },
               {
-                $ref: 'roleAutoComplete',
+                $ref: 'sysRoleIdPicker',
                 required: true,
                 multiple: false,
                 name: 'newRoleId',
@@ -85,21 +86,21 @@ const members = {
                 option: '更改成员角色为破坏操作，必须确认后才可提交。',
               },
             ],
-            actions: [
-              {
-                label: '取消',
-                actionType: 'close',
-                type: 'button',
-              },
-              {
-                label: '确认',
-                actionType: 'confirm',
-                type: 'button',
-                level: 'primary',
-                disabledOn: '!data.confirmAction',
-              },
-            ],
           },
+          actions: [
+            {
+              label: '取消',
+              actionType: 'close',
+              type: 'button',
+            },
+            {
+              label: '确认',
+              actionType: 'confirm',
+              type: 'button',
+              level: 'primary',
+              disabledOn: '!data.confirmAction',
+            },
+          ],
         },
       },
     ],

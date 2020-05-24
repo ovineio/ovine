@@ -3,14 +3,14 @@ export const env = {
   default: {
     disableLimit: false,
     domains: {
-      api: 'https://rt-admin.igroupes.com',
+      api: 'https://ovine.igroupes.com',
     },
   },
   // 本地开发
   localhost: {
-    disableLimit: true,
+    disableLimit: false,
     domains: {
-      api: 'http://zxq.natapp1.cc',
+      // api: 'http://zxq.natapp1.cc',
     },
     logger: {
       moduleName: '.*',
@@ -19,13 +19,13 @@ export const env = {
   // 测试环境
   staging: {
     domains: {
-      api: 'https://test-api.com',
+      api: 'https://ovine.igroupes.com',
     },
   },
   // 生产环境
   production: {
     domains: {
-      api: 'https://prod-api.com',
+      api: 'https://ovine.igroupes.com',
     },
   },
 }

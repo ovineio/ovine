@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
- .section {
+.section {
   padding: 72px 0;
 }
 
@@ -62,7 +62,6 @@
 .heroProjectKeywords {
   color: var(--ifm-color-primary);
 }
-
 
 .heroLogo {
   float: right;

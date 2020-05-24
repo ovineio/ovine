@@ -22,7 +22,10 @@ function Home() {
             with <span className={styles.heroProjectKeywords}> json</span> schema
           </h1>
           <div className={styles.indexCtas}>
-            <Link className={styles.indexCtasGetStartedButton} to={useBaseUrl('docs/introduction')}>
+            <Link
+              className={styles.indexCtasGetStartedButton}
+              to={useBaseUrl('docs/intro/overview')}
+            >
               Get Started
             </Link>
           </div>
@@ -40,8 +43,7 @@ function Home() {
               />
               <h3 className="padding-top--md">强大JSON配置</h3>
               <p className="padding-horiz--md">
-                路由、权限、页面、组件都由 json
-                配置，可简单、快速的生成复杂的管理页面。支持通过代码生成 json
+                路由、权限、页面、组件都由 json 配置，可简单、快速的生成复杂的管理页面。支持 json
                 数据渲染组件。也可无缝接入自定义组件。
               </p>
             </div>
@@ -65,8 +67,8 @@ function Home() {
               />
               <h3 className="padding-top--md">可扩展自定义主题</h3>
               <p className="padding-horiz--md">
-                内置三套主题可选。主题采用 scss
-                变量定义，可非常方便修改现有主题或者定制属于自己的新的主题。
+                内置三套主题可选。共有1000+ scss
+                样式变量可供设置，可非常方便修改现有主题样式，或者根据自定义需求添加一套新的主题样式。
               </p>
             </div>
           </div>
@@ -91,7 +93,12 @@ function Home() {
                 className={styles.featureImage}
                 src={useBaseUrl('img/baidu.svg')}
               />
-              <h3 className="padding-top--md">基于百度Amis框架</h3>
+              <h3 className="padding-top--md">
+                基于百度
+                <a href="https://github.com/baidu/amis" title="amis源码" target="_blank">
+                  Amis框架
+                </a>
+              </h3>
               <p className="padding-horiz--md">
                 本项目依赖百度 amis 框架二次封装。该框架由百度 FEX
                 团队开发，已广泛应用于企业级项目中，经得起实践的考验。

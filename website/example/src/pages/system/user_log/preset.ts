@@ -6,7 +6,7 @@ export default {
   },
   apis: {
     list: {
-      url: 'GET rtapi/system/log/item',
+      url: 'GET ovapi/system/log/item',
       limits: '$page',
     },
   },

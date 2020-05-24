@@ -7,8 +7,7 @@ module.exports = {
   organizationName: 'CareyToboo', // Usually your GitHub org/user name.
   projectName: 'ovine', // Usually your repo name.
   url: 'https://careytoboo.github.io/ovine',
-  baseUrl: '/rtdocs/',
-  scripts: ['https://buttons.github.io/buttons.js'],
+  baseUrl: '/org/',
   themeConfig: {
     algolia: {
       apiKey: 'e641d82b10af84aa818e883b1035c3b4',
@@ -28,7 +27,7 @@ module.exports = {
       },
       links: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
-        { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/' },
+        { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/' },
       ],
     },
     footer: {

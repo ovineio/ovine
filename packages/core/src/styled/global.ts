@@ -70,11 +70,6 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
 
-  a:not([href]) {
-    color: #fff;
-    text-decoration: initial;
-  }
-
   /** lib 主题相关的全局样式 */
   ${({ theme: { ns, colors } }) => css`
     body > div {
