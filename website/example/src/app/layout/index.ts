@@ -20,10 +20,9 @@ export const layout = {
       },
       {
         type: 'head-item',
-        // align: 'right',
         faIcon: 'question-circle',
         tip: '查看文档',
-        href: 'https://baidu.com',
+        href: 'https://ovine.igroupes.com/org/',
       },
       {
         type: 'item-search-menu',
@@ -48,7 +47,6 @@ export const layout = {
         `,
         },
       },
-
       itemUserSchema,
       {
         type: 'item-setting',

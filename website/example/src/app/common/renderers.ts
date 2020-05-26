@@ -14,7 +14,7 @@ export const definitions = {
     label: '角色名',
     placeholder: '请选择角色',
     searchPromptText: '输入角色ID/角色名',
-    autoComplete: apis.sysRoleId,
+    source: apis.sysRoleId,
   },
 }
 

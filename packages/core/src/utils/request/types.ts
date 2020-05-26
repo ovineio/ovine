@@ -31,6 +31,7 @@ export type ReqOption<S = {}, P = {}> = {
   headers?: HeadersInit
   body?: BodyInit | null
   json?: boolean // true
+  qsOptions?: object
   token?: 'none' | 'auto' | 'force' // none
   sourceKey?: string // ''
   expired?: number // 秒数 0

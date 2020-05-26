@@ -5,9 +5,7 @@
 /* eslint-disable consistent-return */
 import { qsstringify } from 'amis/lib/utils/helper' // eslint-disable-line
 import { filter } from 'amis/lib/utils/tpl'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
-import omitBy from 'lodash/omitBy'
+import { get, isEmpty, omitBy } from 'lodash'
 import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
@@ -200,12 +198,11 @@ export function getUrlByOption(
   this: Types.ReqConfig,
   option: Types.ReqOption & Partial<Types.ReqConfig>
 ) {
-  const { url = '', data = {}, method = 'GET', domain = 'api', domains } = option
+  const { url = '', data = {}, method = 'GET', domain = 'api', qsOptions, domains } = option
 
   let realUrl = url
 
   const urlOption = { url, method: method.toUpperCase() }
-  const params = omitBy(data as any, (item) => item === undefined || item === null)
 
   if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(realUrl)) {
     urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as Types.ReqMethod
@@ -229,8 +226,19 @@ export function getUrlByOption(
   }
 
   if (urlOption.method === 'GET' && !isEmpty(data)) {
-    const queryParams = omitBy(params, (item) => item === 'undefined' || item === '')
-    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams)}`
+    // 过滤无效重复 查询参数
+    const queryParams = omitBy(data, (item, key) => {
+      const isNull = item === undefined || item === null || item === 'undefined' || item === ''
+      const queryStr = realUrl.split('?')[1] || ''
+      if (isNull || queryStr.indexOf(`${key}=`) > -1) {
+        return true
+      }
+    })
+
+    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, {
+      encode: false, // 防止多次 encode
+      ...qsOptions,
+    })}`
   }
 
   urlOption.url = realUrl

@@ -12,6 +12,12 @@ export const schema = {
     api: '$preset.apis.list',
     filter: '$preset.forms.filter',
     filterTogglable: true,
+    perPageAvailable: [50, 100, 200],
+    defaultParams: {
+      size: 50,
+    },
+    perPageField: 'size',
+    pageField: 'page',
     headerToolbar: [
       'filter-toggler',
       {
@@ -24,8 +30,6 @@ export const schema = {
       },
     ],
     footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
-    perPageField: 'size',
-    pageField: 'page',
     columns: [
       {
         name: 'id',
@@ -84,7 +88,7 @@ export const schema = {
         controls: [
           {
             type: 'datetime',
-            name: 'starTtime',
+            name: 'startTime',
             label: '开始时间',
             format: 'YYYY-MM-DD HH:mm:ss',
           },

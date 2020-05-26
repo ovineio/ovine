@@ -7,6 +7,12 @@ export const schema = {
     api: '$preset.apis.list',
     filter: '$preset.forms.filter',
     filterTogglable: true,
+    perPageField: 'size',
+    pageField: 'page',
+    perPageAvailable: [50, 100, 200],
+    defaultParams: {
+      size: 50,
+    },
     headerToolbar: [
       'filter-toggler',
       {
@@ -27,8 +33,6 @@ export const schema = {
       },
     ],
     footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
-    perPageField: 'size',
-    pageField: 'page',
     columns: [
       {
         name: 'id',
