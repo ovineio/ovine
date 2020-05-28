@@ -12,7 +12,6 @@ import logger from '@/utils/logger'
 import { getSessionStore, setSessionStore } from '@/utils/store'
 import { isExpired, getQuery, timeout } from '@/utils/tool'
 
-import { MixObject } from '../types'
 import * as Types from './types'
 
 const log = logger.getLogger('lib:utils:request')
@@ -247,7 +246,7 @@ export function getUrlByOption(
 }
 
 // 使用 class 能够更容易重写 request 的一些回调值
-export class Request<T = {}, K = {}> {
+export class Request<IS = {}, IP = {}> {
   constructor(config?: Types.ReqConfig) {
     this.setConfig(config)
   }
@@ -292,13 +291,13 @@ export class Request<T = {}, K = {}> {
     this.isRelease = isRelease
   }
 
-  public getUrlByOption(option: MixObject<Types.ReqOption<K>, T>) {
+  public getUrlByOption(option: Types.ReqOption<IS, IP>) {
     return getUrlByOption.call(this, option as any)
   }
 
   public async request<S = {}, P = {}>(
-    option: MixObject<Types.ReqOption<MixObject<S, K>, P>, T>
-  ): Promise<Types.ReqServerApiRes<MixObject<S, K>> | undefined>
+    option: Types.ReqOption<S | IS, P | IP>
+  ): Promise<Types.ReqServerApiRes<S | IS> | undefined>
 
   // eslint-disable-next-line
   public async request(option: any): Promise<any> {
@@ -330,7 +329,7 @@ export class Request<T = {}, K = {}> {
       parsedOption = onPreRequest(parsedOption)
     }
 
-    const unionOption = { ...parsedOption, ...getFetchOption.call(this, parsedOption) }
+    const unionOption = { ...parsedOption, ...getFetchOption.call(this as any, parsedOption) }
 
     // 命中缓存 直接返回
     const cachedResponse = cacheSourceCtrl('get', unionOption)
@@ -339,13 +338,13 @@ export class Request<T = {}, K = {}> {
     }
 
     // mock数据拦截
-    const mockSource = await mockSourceCtrl.call(this, unionOption)
+    const mockSource = await mockSourceCtrl.call(this as any, unionOption)
     if (mockSource !== 'none') {
       cacheSourceCtrl('set', unionOption, mockSource)
       return mockSource
     }
 
-    const result = await fetchSourceCtrl.call(this, unionOption)
+    const result = await fetchSourceCtrl.call(this as any, unionOption)
 
     cacheSourceCtrl('set', unionOption, result)
 

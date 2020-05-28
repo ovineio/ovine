@@ -12,12 +12,12 @@
 
 - webpack plugin 需要学习插件编写，如果遇到 webpack loader,或者 plugin 问题，需要仔细研读文档，再 github 源码和 issue，或者在 node_modules 目录下打日志，仔细分析问题。[webpackPlugin 文档](https://webpack.js.org/api/compiler-hooks/)
 
-- You might have more than one copy of React in the same app
+- You might have more than one copy of React in the same app。同一个应用中，引入了多个 React 包。
 
   - describe: https://github.com/facebook/react/issues/13991#issuecomment-435135293
   - fixed: https://github.com/facebook/react/issues/13991#issuecomment-449597362
 
-- webpack.SplitChunks.minSize 会将小包合并，在测试打包时，一定将其设置为 0。
+- webpack.SplitChunks.minSize 会将小包合并，在测试打包配置是否有效时，一定将其设置为 0。
 - splitChunks 是文件拆分，和按需动态异步加载没有关系。在处理异步加载未拆文件时，可用 splitChunks.cacheGroup.name 返回不同的文件名与 enforce=true,来强制拆分文件。
 - webpack 多个'rules' 匹配到相同文件时，处理不明确。会导致非预期打包，因此可使用 `exclude`、`include`来匹配具体文件，避免 loader 处理不明确的情况。
 - commander 包会自动转义
