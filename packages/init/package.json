@@ -31,7 +31,7 @@
     "clean": "rimraf ./lib",
     "clean:tmp": "rimraf ./tmp/*",
     "cli": "node ../cli/bin/index.js",
-    "gen:env": "rm -rf ./env/.ovine && yarn cli dll env && yarn cli scss env && sed -i '' 's/\\\"\\.\\.\\/\\./\\\"/g' ./env/.ovine/dll_manifest.json",
+    "gen:env": "rm -rf ./env/.ovine && yarn cli dll env && yarn cli scss env && sed -i '' 's/\\\"\\.\\.\\/\\./\\\"/g' ./env/.ovine/dll_vendor_manifest.json",
     "test:base:normal": "rimraf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
     "test:base:constraint": "rimraf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
     "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
