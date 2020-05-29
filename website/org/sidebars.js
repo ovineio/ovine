@@ -6,8 +6,9 @@ module.exports = {
     进阶指南: [
       'advance/cli',
       'advance/routes',
+      'advance/configurations',
       'advance/limit',
-      'advance/coutome',
+      'advance/custom',
       'advance/mock',
       'advance/theme',
     ],

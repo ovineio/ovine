@@ -1,4 +1,4 @@
 ---
 id: mock
-title: mock数据
+title: Mock 数据
 ---

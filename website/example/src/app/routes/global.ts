@@ -15,9 +15,11 @@ export const globalLimits: LimitMenuItem = {
       limits: {
         sysRoleIdPicker: {
           label: '管理员角色筛选',
+          needs: [],
         },
         sysUserInfoModal: {
           label: '管理员信息弹窗',
+          needs: [],
         },
       },
       apis: {

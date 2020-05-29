@@ -131,10 +131,12 @@ export const getLimitMenus = (refresh?: boolean) => {
 
     // limits 表示 当前节点 有子权限
     if (limits) {
-      item.children = map(limits, ({ icon, label, description }, key) => {
+      item.children = map(limits, ({ needs: originNeeds, icon, label, description }, key) => {
         const needs =
           key === routeLimitKey
             ? undefined
+            : originNeeds?.length === 0
+            ? []
             : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
 
         return {

@@ -1,4 +1,4 @@
 ---
 id: cli
-title: CLI命令
+title: Cli 命令
 ---

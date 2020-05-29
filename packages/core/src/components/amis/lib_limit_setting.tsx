@@ -52,7 +52,7 @@ export class LibLimitSetting extends React.Component<Props> {
 
     const modalProps = {
       title: '设置权限',
-      size: 'md',
+      size: 'lg',
       showCloseButton: false,
       actions: [],
       ...modal,
