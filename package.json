@@ -13,8 +13,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start:doc": "yarn workspace @ovine/org start",
-    "start:demo": "yarn workspace @ovine/example start",
+    "dev:org": "yarn workspace @ovine/org start",
     "dev:demo": "yarn workspace @ovine/example dev:lib",
     "dev:core": "yarn workspace @ovine/core dev",
     "changelog": "lerna-changelog",

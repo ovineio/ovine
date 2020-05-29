@@ -13,6 +13,11 @@ type Props = RendererProps &
   LimitSettingProps & {
     button?: any
     modal?: any
+    messages?: {
+      initFailed: string
+      saveFailed: string
+      saveSuccess: string
+    }
     getLimit?: () => string
   }
 
@@ -29,6 +34,7 @@ export class LibLimitSetting extends React.Component<Props> {
       data,
       initApi,
       api,
+      messages,
       saveConfirmText,
       getLimit,
       render,
@@ -65,7 +71,20 @@ export class LibLimitSetting extends React.Component<Props> {
               }
               api.data = fetchData
             }
-            env.fetcher(api)
+            env
+              .fetcher(api)
+              .then((res) => {
+                const { status, msg } = res
+                const hasError = status !== 0
+                if (!hasError) {
+                  env.notify('success', messages?.saveSuccess || '保存成功')
+                } else {
+                  env.notify('error', messages?.saveFailed || msg || '保存失败')
+                }
+              })
+              .catch(() => {
+                env.notify('error', messages?.saveFailed || '保存失败')
+              })
           }
           if (this.props.onSave) {
             this.props.onSave(authData)
@@ -99,6 +118,9 @@ export class LibLimitSetting extends React.Component<Props> {
           : {
               type: 'service',
               className: 'h-full',
+              messages: {
+                fetchFailed: messages?.initFailed,
+              },
               api: initApi,
               body: limitComponent,
             },

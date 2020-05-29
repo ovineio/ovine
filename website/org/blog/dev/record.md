@@ -52,8 +52,12 @@
 - lerna 项目管理
 
   - 每次发包之前需要更改版本号 publish.
-  - 更改 version: yarn lerna version prepatch --no-push
+  - 更改 version: yarn lerna version prerelease --no-push prerelease
   - 发布 包到 npm: yarn lerna publish from-package
+  - 发包步骤
+    - npm config set registry http://registry.npmjs.org
+    - npm login
+    - npm config set registry https://registry.npm.taobao.org
 
 - react-hot-loader 不更新组件
 

@@ -1,6 +1,6 @@
 ---
 id: basic
-title: 基本应用
+title: 基础使用
 ---
 
 ## 新建路由

@@ -56,6 +56,11 @@ export default {
       url: 'PUT ovapi/system/role/item/$id/limit',
       limits: 'editLimit',
       mock: true,
+      onPreRequest: (source) => {
+        const { id, authApi: api = '', authLimit: limit = '' } = source.data
+        source.data = { id, api, limit }
+        return source
+      },
     },
     listMember: {
       url: 'GET ovapi/system/user/item',

@@ -14,11 +14,12 @@ import { StyledStart } from './styled'
 const templateSchema = JSON.stringify(
   {
     type: 'page',
-    title: '点击右下角编辑按钮，更改schmea渲染组件',
-    remark: '提示 Tip',
-    body: '内容部分. 可以使用 \\${var} 获取变量。如: `\\$date`: ${date}',
-    aside: '边栏部分',
-    toolbar: '工具栏',
+    title: '点击右下角按钮，编辑schema',
+    body: {
+      type: 'alert',
+      body: '只有正确的JSON格式，才能被正常渲染～',
+      level: 'success',
+    },
   },
   undefined,
   2
@@ -110,7 +111,7 @@ export default () => {
           theme={theme}
           level="danger"
           placement="top"
-          tooltip="编辑页面"
+          tooltip="编辑schema"
           onClick={toggleDrawer}
         >
           <i className="fa fa-edit" />

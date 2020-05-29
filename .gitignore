@@ -4,6 +4,7 @@
 .cache-loader
 .eslintcache
 .tmp
+.ovine
 
 npm-debug.log
 yarn-error.log

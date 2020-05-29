@@ -66,6 +66,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  
   [role=button] {
     cursor: pointer;
   }

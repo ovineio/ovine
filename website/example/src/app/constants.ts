@@ -10,7 +10,7 @@ export const msgKeys = {
 export const appConstants = {
   loginRoute: '/login',
   actionAddrMap: {
-    'POST ovapi/user/login': '管理员登录',
-    'POST ovapi/user/logout': '管理员退出登录',
+    'POST ovapi/user/login': '管理员登录系统',
+    'POST ovapi/user/logout': '管理员退出系统',
   },
 }

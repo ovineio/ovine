@@ -6,6 +6,7 @@
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import { map, isEmpty, pick, cloneDeep } from 'lodash'
 
+import { app } from '@/app'
 import { routeLimitKey, message } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
 import { subscribe } from '@/utils/message'
@@ -67,7 +68,9 @@ subscribe(message.updateRouteStore, () => {
 const filterRoutesConfig = (type: 'aside' | 'route') => {
   const limits = getAppLimits()
 
-  if (isEmpty(limits)) {
+  // 不校验权限 并且 limits 数据为空时
+  if (!app.env.disableLimit && isEmpty(limits)) {
+    // 页面路由什么都没有
     return []
   }
 
