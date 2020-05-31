@@ -43,6 +43,7 @@ let onlySelfFlag: boolean | Types.NullValue = null
 
 // 判断 生产环境
 const isRelease = () => {
+  // TODO 添加线上环境日志配置修改
   return process.env.NODE_ENV === 'production' && !debugConfig.enable
 }
 
@@ -110,6 +111,7 @@ export class Logger {
     }
   }
 
+  // TODO: 同步 timeFn 比较鸡肋,换成异步时间打印
   private time<T>(label: string, timeFn: () => T, debugOption: Option): T {
     const start = Date.now()
     const result = timeFn()

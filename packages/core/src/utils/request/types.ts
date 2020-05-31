@@ -38,7 +38,7 @@ export type ReqOption<S = {}, P = {}> = {
   fetchOption?: Omit<RequestInit, 'header' | 'body'>
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
-  mockTimeout?: number // 300
+  mockDelay?: number // 300
   actionAddr?: string // 操作地址，不存在时默认为 api
   onPreRequest?: (option: ReqOption) => ReqOption
   onRequest?: (option: ReqUnionOption) => ReqUnionOption

@@ -1,4 +1,4 @@
-import defaultsDeep from 'lodash/defaultsDeep'
+import { defaultsDeep } from 'lodash'
 import { FunctionComponent } from 'react'
 import { DefaultTheme, withTheme } from 'styled-components'
 

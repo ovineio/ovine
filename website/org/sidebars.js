@@ -5,12 +5,12 @@ module.exports = {
     基础模块: ['modules/request', 'modules/message', 'modules/logger'],
     进阶指南: [
       'advance/cli',
-      'advance/routes',
-      'advance/configurations',
       'advance/limit',
-      'advance/custom',
-      'advance/mock',
       'advance/theme',
+      'advance/mock',
+      'advance/custom',
+      'advance/renderers',
+      'advance/configurations',
     ],
   },
 }

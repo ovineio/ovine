@@ -43,7 +43,7 @@ function requestErrorCtrl(this: Request, option: Types.ReqUnionOption, response:
 
 // 模拟数据
 async function mockSourceCtrl(this: Request, option: Types.ReqUnionOption) {
-  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockTimeout = 300 } = option
+  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockDelay = 300 } = option
 
   if (this.isRelease || !mock || !mockSource) {
     return 'none'
@@ -71,8 +71,8 @@ async function mockSourceCtrl(this: Request, option: Types.ReqUnionOption) {
     this.onFinish({ option, response: mockResponse, source: data })
   }
 
-  if (mockTimeout) {
-    await timeout(mockTimeout)
+  if (mockDelay) {
+    await timeout(mockDelay)
   }
 
   log.log('mockSource', option.url, data, option)
