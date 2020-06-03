@@ -1,5 +1,5 @@
 import * as reqSucHooks from './req'
-import { dashboardCss } from './styled'
+import dashboardCss from './styled'
 
 const targetCards = [
   {
@@ -37,7 +37,6 @@ export const schema = {
       body: {
         type: 'grid',
         className: 'dash-grid',
-        limits: 'target',
         columns: renderTargetCards(targetCards),
       },
     },
@@ -54,13 +53,9 @@ export const schema = {
             api: {
               $preset: 'apis.chart',
               data: {
-                startDate: '$daterange.0',
-                endDate: '$daterange.1',
+                startDate: '$dateRange.0',
+                endDate: '$dateRange.1',
               },
-              // onPreRequest: (source: any) => {
-              //   console.log('@@@---', source)
-              //   return source
-              // },
               onSuccess: reqSucHooks.onBarChartSuc,
             },
             body: {
@@ -89,7 +84,7 @@ export const schema = {
                   lg: 6,
                   affixHeader: false,
                   columnsTogglable: false,
-                  className: 'rain-table m-b-none',
+                  className: 'bar-table m-b-none',
                   source: '${table}',
                   columns: [
                     {
@@ -137,7 +132,7 @@ export const schema = {
           {
             type: 'date-range',
             label: '时间范围',
-            name: 'daterange',
+            name: 'dateRange',
             format: 'YYYY-MM-DD',
             joinValues: false,
           },

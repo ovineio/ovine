@@ -30,6 +30,10 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 0;
   }
 
+  .form-line-break-json {
+    
+  }
+
   .clickable {
     user-select: none;
     cursor: pointer;
@@ -75,6 +79,16 @@ const GlobalStyle = createGlobalStyle`
   ${({ theme: { ns, colors } }) => css`
     body > div {
       color: ${colors.text};
+    }
+
+    .line-break-json {
+      .${ns}JsonField {
+        width: 100%;
+        span {
+          white-space: normal;
+          word-break: all;
+        }
+      }
     }
 
     .${ns}Chart {

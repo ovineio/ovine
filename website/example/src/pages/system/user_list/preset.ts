@@ -18,23 +18,6 @@ export default {
     },
   },
   apis: {
-    filterRole: {
-      url: 'GET ovapi/system/role/filter?filter=$term',
-      mock: true,
-      sourceKey: 'data.items',
-      onSuccess: (source = []) => {
-        const options = source.map((i = {}) => {
-          return {
-            label: `${i.name} (${i.id})`,
-            value: i.id,
-          }
-        })
-        return {
-          code: 0,
-          data: { options },
-        }
-      },
-    },
     list: {
       url: 'GET ovapi/system/user/item',
       limits: '$page',

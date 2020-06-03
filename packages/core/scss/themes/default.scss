@@ -25,9 +25,8 @@ $Layout-aside-onAcitve-bg: darken($info, 5%);
 $Modal-title-lineHeight: 1;
 
 // site default theme scss
-@import './_default.scss';
 @import './themes/_default.scss';
 
 // amis lib scss
-@import '../_lib/components';
+@import '../_lib/_amis_components';
 @import '../_lib/global';

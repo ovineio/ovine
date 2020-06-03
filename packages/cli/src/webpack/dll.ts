@@ -9,7 +9,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
-import { editorFileReg, factoryFileReg, fixEditorLoader, fixFactoryLoader } from './amis'
+import * as amis from './amis'
 import { getDllBabelConfig } from './babel'
 import LogPlugin from './plugins/log_plugin'
 
@@ -37,11 +37,13 @@ const dllModules = [
   'bootstrap/dist/js/bootstrap.bundle.js',
   'bootstrap/dist/css/bootstrap.css',
   'animate.css/animate.css',
-  'highlight.js/styles/shades-of-purple.css',
   'font-awesome/css/font-awesome.css',
+
+  'highlight.js/styles/shades-of-purple.css',
   'react-datetime/css/react-datetime.css',
   'video-react/dist/video-react.css',
   'cropperjs/dist/cropper.css',
+  'tinymce/skins/ui/oxide/skin.css',
   'froala-editor/css/froala_style.min.css',
   'froala-editor/css/froala_editor.pkgd.min.css',
 ]
@@ -78,6 +80,8 @@ function setDllVendorModules(config) {
   }
 }
 
+const { editorFileReg, factoryFileReg, froalaEditorReg } = amis
+
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
   const { publicPath, siteDir, siteConfig, bundleAnalyzer } = options
@@ -93,16 +97,20 @@ export function createDllConfig(options: ConfigOptions) {
       rules: [
         {
           test: /\.[t|j]sx?$/,
-          exclude: [editorFileReg, factoryFileReg],
+          exclude: [editorFileReg, editorFileReg],
           use: [babelLoader],
         },
         {
           test: editorFileReg,
-          use: [babelLoader, fixEditorLoader({ publicPath })],
+          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
         },
         {
           test: factoryFileReg,
-          use: [babelLoader, fixFactoryLoader()],
+          use: [babelLoader, amis.fixFactoryLoader()],
+        },
+        {
+          test: froalaEditorReg,
+          use: [babelLoader, amis.fixFroalaLoader()],
         },
         {
           test: /\.css$/,

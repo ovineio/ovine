@@ -15,7 +15,7 @@ import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
 
-import { editorFileReg, fixEditorLoader, factoryFileReg, fixFactoryLoader } from './amis'
+import * as amis from './amis'
 import { getBabelConfig } from './babel'
 import HtmlHooksPlugin from './plugins/html_hooks_plugin'
 import LogPlugin from './plugins/log_plugin'
@@ -221,12 +221,16 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           use: [cacheLoader, babelLoader],
         },
         {
-          test: editorFileReg,
-          use: [babelLoader, fixEditorLoader({ publicPath })],
+          test: amis.editorFileReg,
+          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
         },
         {
-          test: factoryFileReg,
-          use: [babelLoader, fixFactoryLoader()],
+          test: amis.factoryFileReg,
+          use: [babelLoader, amis.fixFactoryLoader()],
+        },
+        {
+          test: amis.froalaEditorReg,
+          use: [babelLoader, amis.fixFroalaLoader()],
         },
         useTs && {
           test: /\.tsx?$/,
@@ -370,7 +374,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
 function excludeJS(modulePath: string) {
   // exclude fixed amis file
-  if ([editorFileReg, factoryFileReg].some((reg) => reg.test(modulePath))) {
+  const { editorFileReg, factoryFileReg, froalaEditorReg } = amis
+  if ([editorFileReg, factoryFileReg, froalaEditorReg].some((reg) => reg.test(modulePath))) {
     return true
   }
 

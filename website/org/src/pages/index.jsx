@@ -18,8 +18,8 @@ function Home() {
               src={useBaseUrl('img/dashboard.svg')}
             />
             Build <span className={styles.heroProjectKeywords}>complex</span> admin system{' '}
-            <span className={styles.heroProjectKeywords}>blazing fast, </span>
-            with <span className={styles.heroProjectKeywords}> json</span> schema
+            <span className={styles.heroProjectKeywords}>blazing fast </span>
+            with <span className={styles.heroProjectKeywords}> json</span>
           </h1>
           <div className={styles.indexCtas}>
             <Link

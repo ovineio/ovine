@@ -23,9 +23,9 @@ export default () => {
     showInput: false,
   })
 
-  const asideMenus = getAsideMenus()
   const history = useHistory()
   const $searchRef = useRef<any>(null)
+  const asideMenus = getAsideMenus()
 
   const { showInput } = state
 
@@ -77,10 +77,17 @@ export default () => {
           label: '',
           className: cls('m-n', { active: showInput }),
           inputClassName: 'inline',
+          clearable: false,
           searchable: true,
           valueField: 'nodePath',
           placeholder: '搜索侧边栏...',
-          options: asideMenus,
+          options: asideMenus.map((item) => {
+            const { label, limitLabel } = item
+            return {
+              ...item,
+              label: label || limitLabel || '未知节点',
+            }
+          }),
         },
       ],
       onChange: (formValue: any) => {

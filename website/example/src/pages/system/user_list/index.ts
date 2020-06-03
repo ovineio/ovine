@@ -124,6 +124,7 @@ export const schema = {
   preset: {
     actions: {
       add: {
+        limits: 'addItem',
         type: 'button',
         align: 'right',
         actionType: 'dialog',
@@ -131,7 +132,6 @@ export const schema = {
         icon: 'fa fa-plus pull-left',
         size: 'sm',
         primary: true,
-        limits: 'addItem',
         dialog: {
           title: '新增',
           body: {
@@ -143,9 +143,9 @@ export const schema = {
         },
       },
       tree: {
+        limits: 'viewTree',
         type: 'button',
         align: 'right',
-        limits: 'viewTree',
         actionType: 'drawer',
         label: '成员关系图',
         icon: 'fa fa-sitemap pull-left',
@@ -203,8 +203,8 @@ export const schema = {
         size: 'md',
         title: '您创建的管理员关系图',
         actions: [],
-        closeOnOutside: true,
-        className: 'hide-close-button',
+        // closeOnOutside: true,
+        // className: 'hide-close-button',
         bodyClassName: 'sub-h-full',
         body: {
           type: 'chart',

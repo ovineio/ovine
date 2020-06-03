@@ -48,7 +48,7 @@ const members = {
     },
     bulkActions: [
       {
-        limits: 'editMember',
+        limits: 'editLimit',
         label: '批量变更角色',
         icon: 'fa fa-gavel pull-left',
         primary: true,

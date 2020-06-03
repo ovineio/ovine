@@ -9,6 +9,7 @@ const prest: PagePreset = {
   apis: {
     chart: {
       url: 'GET ovapi/stat/data',
+      limits: '$page',
     },
   },
 }

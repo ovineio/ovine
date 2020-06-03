@@ -8,7 +8,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { app } from '@/app'
 import { storage } from '@/constants'
 import { getRouteConfig } from '@/routes/config'
-import { getStore, getGlobal, setGlobal } from '@/utils/store'
+import { getAppLimits } from '@/routes/limit/exports'
+import { getGlobal, setGlobal } from '@/utils/store'
 import { ObjectOf } from '@/utils/types'
 
 type CodeType = 'init' | 'route' | 'page' | 'limit'
@@ -48,10 +49,7 @@ export default (props: RendererProps) => {
         transSchema(json)
         break
       case 'limit':
-        json = {
-          authLimits: getStore<string>(storage.dev.limit)?.split(','),
-          authApis: getStore<string>(storage.dev.api)?.split(','),
-        }
+        json = getAppLimits()
         break
       default:
         return false

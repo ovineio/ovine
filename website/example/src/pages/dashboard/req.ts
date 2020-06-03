@@ -78,6 +78,7 @@ export const onKpiChartSuc = (source) => {
 
 export const onBarChartSuc: any = (source) => {
   const { items: list = [] } = source.data
+  const charList = list.reverse()
   const maxUser = !list.length ? 10 : maxBy(list, (i: any) => i.loginCount).loginCount + 20
   const maxCount = !list.length ? 10 : maxBy(list, (i: any) => i.showCount).loginCount + 20
 
@@ -109,7 +110,7 @@ export const onBarChartSuc: any = (source) => {
         {
           type: 'category',
           show: false,
-          data: list.map((i: any) => i.date),
+          data: charList.map((i: any) => i.date),
           axisPointer: {
             type: 'shadow',
           },
@@ -143,18 +144,18 @@ export const onBarChartSuc: any = (source) => {
         {
           name: '登录人数',
           type: 'bar',
-          data: list.map((i: any) => i.loginCount),
+          data: charList.map((i: any) => i.loginCount),
         },
         {
           name: '新增人数',
           type: 'bar',
-          data: list.map((i: any) => i.registerCount),
+          data: charList.map((i: any) => i.registerCount),
         },
         {
           name: '浏览次数',
           type: 'line',
           yAxisIndex: 1,
-          data: list.map((i: any) => i.showCount),
+          data: charList.map((i: any) => i.showCount),
         },
       ],
     },

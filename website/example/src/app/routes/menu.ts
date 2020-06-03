@@ -19,6 +19,21 @@ export const menuRoutes: LimitMenuItem = {
       nodePath: 'start',
     },
     {
+      label: 'DEMO应用',
+      icon: 'fa fa-paint-brush',
+      nodePath: 'application',
+      children: [
+        {
+          label: '热更新管理',
+          nodePath: 'hot',
+        },
+        {
+          label: '文档管理',
+          nodePath: 'doc',
+        },
+      ],
+    },
+    {
       label: '系统管理',
       icon: 'fa fa-wrench',
       nodePath: 'system',

@@ -1,6 +1,6 @@
 import { css, DefaultTheme } from 'styled-components'
 
-export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
+export default ({ colors, ns }: DefaultTheme) => css`
   .dash-grid {
     margin: 0 -8px;
     & > div {
@@ -79,7 +79,7 @@ export const dashboardCss = ({ colors, ns }: DefaultTheme) => css`
       }
     }
   }
-  .rain-table {
+  .bar-table {
     border-color: ${colors.border};
     .${ns}Table-contentWrap {
       background-color: transparent;

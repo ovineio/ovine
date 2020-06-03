@@ -70,12 +70,7 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
             },
             {
               type: 'static',
-              name: 'signature',
-              label: '个性签名',
-            },
-            {
-              type: 'static',
-              name: 'remark',
+              name: 'desc',
               label: '备注',
             },
             {

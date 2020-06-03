@@ -37,17 +37,21 @@ export const schema = {
       {
         name: 'id',
         label: 'ID',
+        width: 80,
         type: 'text',
       },
       {
         name: 'name',
         label: '角色名',
+        width: 120,
         type: 'text',
       },
       {
         name: 'desc',
         label: '角色描述',
-        type: 'text',
+        type: 'tpl',
+        width: 300,
+        tpl: '<span class="text-ellipsis" title="${desc}">${desc}</span>',
       },
       {
         name: 'createTime',
@@ -90,7 +94,7 @@ export const schema = {
   preset: {
     actions: {
       add: {
-        limits: 'addIRole',
+        limits: 'addRole',
         type: 'button',
         label: '添加',
         icon: 'fa fa-plus pull-left',

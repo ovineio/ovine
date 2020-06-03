@@ -217,7 +217,7 @@ $Button--default-color: #000;
 $Button--default-onHover-bg: $white;
 $Button--default-onHover-border: $primary;
 $Button--default-onHover-color: $primary;
-$Button--default-onActive-bg: #108cee0d;
+$Button--default-onActive-bg: #f6fbff;
 $Button--default-onActive-border: $primary;
 $Button--default-onActive-color: $primary;
 
@@ -369,6 +369,7 @@ $Wizard-badge-marginRight: px2rem(6px);
 // Tabs
 $Tabs-linkFontSize: px2rem(14px);
 $Tabs--card-onActive-borderColor: $white;
+$Tabs--card-bg: $Table-thead-bg;
 $Tabs--radio-bg: $white;
 
 // Pagination
@@ -489,14 +490,26 @@ $Card-actions-onHover-bg: white;
 $Card-actions-onHover-color: $primary;
 $Card-actions-onChecked-onHover-bg: $white;
 
+// Combo
+$Combo--horizontal-dragger-top: px2rem(5px);
+
+// ListMenu
+$ListMenu-borderWidth: 0;
+$ListMenu-borderRadius: 0;
+$ListMenu-item-height: px2rem(30px);
+$ListMenu-item-color: #333;
+$ListMenu-item--onHover-color: #000;
+$ListMenu-item--onHover-bg: #eaf6fe;
+
+$Transfer-title-bg: $Table-thead-bg;
+
 // lib core redefined
 $Spinner-bg: null;
 $DropDown-menuItem-onHover-bg: #eaf6fe;
 
 // site cxd theme scss
-@import './_cxd.scss';
 @import './themes/_cxd.scss';
 
 // amis lib scss
-@import '../_lib/components';
+@import '../_lib/_amis_components';
 @import '../_lib/global';

@@ -1,3 +1,33 @@
+as
+
+---
+
+### 本周开发任务
+
+#### 开发任务
+
+- 修复 NPM 包 BUG
+- 完善 DEMO
+- 完整测试权限
+- 安装测试 NPM 包，并用 NPM 编写 TEMPLATE
+- 将写好的 TEMPLATE 重新发不到 npm 包中
+- 再次测试 新的 TEMPLATE 是否正常
+
+#### 调研任务
+
+将 简道云官网 看透，思考如何实现 Ovine
+craft.js react-diagram fluent-ui 调研
+workbox 调研
+
+---
+
+### 下周开发任务
+
+- 完整测试 NPM 包
+- 推广 Ovine
+
+---
+
 NPM 包模版代码存在 BUG 需要修复
 
 - 写文档,写 teplate

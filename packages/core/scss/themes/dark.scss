@@ -123,6 +123,8 @@ $Wizard-steps-bg: $background-head;
 $Wizard-steps-li-onActive-arrow-bg: $Panel-bg;
 $Wizard-steps-li-onActive-bg: $Panel-bg;
 
+$Transfer-title-bg: #2f2f2f;
+
 button[disabled],
 html input[disabled] {
   cursor: not-allowed;
@@ -160,9 +162,8 @@ $text-color: #b4b6bd;
 $DropDown-menu-bg: #565656;
 
 // site dark theme scss
-@import './_dark.scss';
 @import './themes/_dark.scss';
 
 // amis lib scss
-@import '../_lib/components';
+@import '../_lib/_amis_components';
 @import '../_lib/global';

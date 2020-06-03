@@ -59,13 +59,12 @@ export default (props: Props) => {
   }
 
   let devItems: any[] = []
-  if (!app.env.isRelease) {
+  if (app.env.mode === 'localhost') {
     devItems = [
       { type: 'divider' },
       {
         type: 'lib-blank',
         label: '测试权限',
-        name: '',
         className: 'from-item-button',
         body: {
           type: 'lib-limit-setting',
