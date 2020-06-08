@@ -46,8 +46,8 @@
     }
   },
   "lint-staged": {
-    "*.{json,md}": "yarn pretty",
-    "*.{js,jsx,ts,tsx}": "yarn eslint"
+    "*.{md,yml,json,yaml,css}": "yarn pretty",
+    "*.{js,jsx}": "yarn eslint"
   },
   "engines": {
     "node": ">=10.9.0"

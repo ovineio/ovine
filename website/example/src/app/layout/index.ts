@@ -1,9 +1,16 @@
+/**
+ * 布局配置
+ */
+
 import routes from '../routes/index'
 import { itemUserSchema } from './item_user'
 
+/**
+ * 目前布局这块没有权限控制逻辑
+ */
 export const layout = {
   routes,
-  type: 'aside-layout',
+  type: 'aside-layout', // 侧边栏布局
   header: {
     brand: {
       // 公司品牌
@@ -14,9 +21,10 @@ export const layout = {
         href: '/',
       },
     },
+    // 头部 工具项
     items: [
       {
-        type: 'item-dev-code',
+        type: 'item-dev-code', // 查看页面JSON， release 环境不会显示。
       },
       {
         type: 'head-item',
@@ -25,10 +33,10 @@ export const layout = {
         href: 'https://ovine.igroupes.com/org/',
       },
       {
-        type: 'item-search-menu',
+        type: 'item-search-menu', // 所有侧边栏
       },
       {
-        type: 'head-item',
+        type: 'head-item', // head-item
         align: 'right',
         body: {
           type: 'html',
@@ -47,9 +55,9 @@ export const layout = {
         `,
         },
       },
-      itemUserSchema,
+      itemUserSchema, // 用户头像展示扩展
       {
-        type: 'item-setting',
+        type: 'item-setting', // 系统设置
         align: 'right',
       },
     ],

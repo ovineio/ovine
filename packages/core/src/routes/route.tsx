@@ -126,7 +126,7 @@ const PrestComponent = (props: PresetComponentProps) => {
 
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
-    const mockSource = getPageMockSource(fileOption)
+    const mockSource = !app.env.isMock ? {} : cloneDeep(getPageMockSource(fileOption))
     const pagePreset = cloneDeep(getPagePreset(fileOption)) || {}
     const nodePath = getNodePath(fileOption)
 

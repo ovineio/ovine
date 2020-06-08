@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
   <% } %>
   <% if(!opts.isProd) { %>
-  <script> var _isWebpackDevServer = true; </script>
+  <script> var IS_WEBPACK_DEV_SERVER = true; var IS_SCSS_UPDATE = <%= opts.scssUpdate %>; </script>
   <% } %>
   <script id="themeScript"></script>
   <%= opts.head %>

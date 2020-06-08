@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css, DefaultTheme } from 'styled-components'
 
 import { ellipsis } from '@/styled/utils'
 
@@ -7,7 +7,7 @@ export const StyledLayout = styled.div`
   height: 100%;
   width: 100%;
 
-  ${({ theme: { ns, colors } }) => css`
+  ${({ theme: { ns, colors } }: { theme: DefaultTheme }) => css`
     .${ns}Layout {
       height: 100%;
       &-body {

@@ -18,18 +18,19 @@ type Env = {
 }
 
 export type EnvConfig = {
-  default: Env
   [env: string]: DeepPartial<Env>
+}
+
+export type AppAmis = RenderOptions & {
+  definitions?: any
+  apiResAdapter?: (res: any) => any
 }
 
 export interface AppConfig {
   request: any
   theme: any
   env: EnvConfig
-  amis: RenderOptions & {
-    definitions?: any
-    apiResAdapter?: (res: any) => any
-  }
+  amis: AppAmis
   styled: {
     globalStyle: string | ((theme: DefaultTheme) => any)
   }
@@ -46,7 +47,6 @@ export interface AppConfig {
   }
   entry: any[]
 }
-
 export interface AppDefInstance extends Omit<AppConfig, 'env'> {
   env: Env & {
     isMock: boolean

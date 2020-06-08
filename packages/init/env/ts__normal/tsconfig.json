@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "ES6",
+    "module": "ESNext",
     "lib": ["dom", "es2017"],
     "moduleResolution": "Node",
     "noImplicitAny": false,
@@ -9,6 +9,7 @@
     "outDir": "dist",
     "rootDir": ".",
     "baseUrl": "./src",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["./*"],
       "@core/*": ["../node_modules/@ovine/core/lib/*"]
@@ -22,5 +23,6 @@
     ],
     "typeRoots": ["./typings"]
   },
+  "include": ["./src", "./typings"],
   "exclude": ["node_modules", "__tests__", "lib"]
 }

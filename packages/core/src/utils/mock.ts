@@ -40,6 +40,10 @@ export class MockListStore<S = {}, P = S> {
     this.idField = idField
   }
 
+  public setList(list: S[]) {
+    this.list = list
+  }
+
   public getList() {
     return this.list
   }

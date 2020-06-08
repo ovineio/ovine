@@ -4,7 +4,7 @@
  */
 
 import { filterTree, mapTree } from 'amis/lib/utils/helper'
-import { map, isEmpty, pick, cloneDeep } from 'lodash'
+import { map, isEmpty, pick, cloneDeep, get } from 'lodash'
 
 import { app } from '@/app'
 import { routeLimitKey, message } from '@/constants'
@@ -35,7 +35,7 @@ const resolveLimitNeeds = (key: string, limits: Types.ObjectOf<Limit>): string[]
   }
 
   // 添加默认 $page 页面权限
-  if (!checked[routeLimitKey]) {
+  if (limits[routeLimitKey] && !checked[routeLimitKey]) {
     checked[routeLimitKey] = true
     needs.push(routeLimitKey)
   }
@@ -131,12 +131,10 @@ export const getLimitMenus = (refresh?: boolean) => {
 
     // limits 表示 当前节点 有子权限
     if (limits) {
-      item.children = map(limits, ({ needs: originNeeds, icon, label, description }, key) => {
+      item.children = map(limits, ({ icon, label, description }, key) => {
         const needs =
           key === routeLimitKey
             ? undefined
-            : originNeeds?.length === 0
-            ? []
             : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
 
         return {
@@ -153,13 +151,16 @@ export const getLimitMenus = (refresh?: boolean) => {
     if (apis) {
       const allApis: any = {}
       map(apis, (apiItem, apiKey) => {
-        const { key: apiAuthKey, url, limits: apiNeeds } = apiItem
-        const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
+        const { key: apiAuthKey, url, limits: apiLimits } = apiItem
+        const presetApiLimits =
+          !apiLimits || typeof apiLimits === 'string' ? [apiLimits] : apiLimits
 
         allApis[apiKey] = {
           url,
           key: apiAuthKey,
-          limits: presetApiNeeds?.concat(routeLimitKey),
+          limits: !get(limits, routeLimitKey)
+            ? presetApiLimits
+            : presetApiLimits?.concat(routeLimitKey),
         }
       })
       item.apis = {

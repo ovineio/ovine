@@ -20,7 +20,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
     .readdirSync(templatesDir)
     .filter((d) => !d.startsWith('.') && !d.startsWith('README'))
 
-  const gitChoice = 'Git repository'
+  const gitChoice = 'Git Repository'
   const templateChoices = [...templates, gitChoice]
 
   let name = siteName
@@ -110,7 +110,8 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
     copyDirSync(`${templatesDir}/${template}`, dest, (currItem: string) => {
       const reg = useTs ? /\.tsx?$/ : /\.jsx?$/
       const isDir = currItem.indexOf('.') === -1
-      return isDir || reg.test(currItem)
+      const esReg = /\.[j|t]sx?$/
+      return isDir || reg.test(currItem) || !esReg.test(currItem)
     })
 
     // copy env files
@@ -147,24 +148,12 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
   try {
     await updatePkg(`${dest}/package.json`, {
       name,
-      version: '0.0.0',
+      version: '0.0.1',
       private: true,
     })
   } catch (err) {
     spinner.fail(chalk.red('Failed to update package.json'))
     throw err
-  }
-
-  // We need to rename the gitignore file to .gitignore
-  if (
-    !fse.pathExistsSync(path.join(dest, '.gitignore')) &&
-    fse.pathExistsSync(path.join(dest, 'gitignore'))
-  ) {
-    await fse.move(path.join(dest, 'gitignore'), path.join(dest, '.gitignore'))
-  }
-
-  if (fse.pathExistsSync(path.join(dest, 'gitignore'))) {
-    fse.removeSync(path.join(dest, 'gitignore'))
   }
 
   const pkgManager = useYarn ? 'yarn' : 'npm'
@@ -176,7 +165,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
   console.log()
   console.log('Inside that directory, you can run several commands:')
   console.log()
-  console.log(chalk.cyan(`  ${pkgManager} dev`))
+  console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}start`))
   console.log('    Starts the development server.')
   console.log()
   console.log(chalk.cyan(`  ${pkgManager} ${useYarn ? '' : 'run '}build`))
@@ -186,7 +175,7 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
   console.log()
   console.log(chalk.cyan('  cd'), cdPath)
   console.log(`  ${chalk.cyan(`${pkgManager} install`)}`)
-  console.log(`  ${chalk.cyan(`${pkgManager} dev`)}`)
+  console.log(`  ${chalk.cyan(`${pkgManager} ${useYarn ? '' : 'run '}start`)}`)
 
   console.log()
   console.log('Happy hacking!')

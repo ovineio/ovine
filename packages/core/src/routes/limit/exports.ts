@@ -66,7 +66,7 @@ export const checkLimitByKeys: CheckLimitFunc = (limitKeys, option) => {
   const checkAr = typeof limitKeys === 'string' ? [limitKeys] : limitKeys
 
   if (!isArray(checkAr)) {
-    log.warn('checkLimitByKeys limitKeys 必须是字符串', limitKeys)
+    log.warn('limitKeys 必须是字符串，或者字符串数组', limitKeys)
     return false
   }
 

@@ -12,9 +12,9 @@ const log = logger.getLogger('dev:amisSchema:utils')
 
 // schema 配置，必须 type, limits 同时存在才会校验权限
 const checkSchemaLimit = (schema: LibSchema, nodePath?: string) => {
-  const { type, limits, limitsLogic = 'and' } = schema || {}
+  const { limits, limitsLogic = 'and' } = schema || {}
 
-  if (!type || !limits) {
+  if (!limits) {
     return true
   }
 
@@ -32,9 +32,10 @@ export const filterSchemaLimit = (
   schema: LibSchema,
   option: {
     nodePath?: string
+    isDefinitions?: boolean
   }
 ) => {
-  const { nodePath } = option
+  const { nodePath, isDefinitions } = option
 
   if (!isObject(schema)) {
     return
@@ -66,11 +67,17 @@ export const filterSchemaLimit = (
     }
 
     if (!checkSchemaLimit(val, nodePath)) {
-      delete (schema as any)[key]
+      if (isDefinitions) {
+        schema[key] = {
+          type: 'lib-omit',
+        }
+      } else {
+        delete (schema as any)[key]
+      }
       return
     }
 
-    filterSchemaLimit(val, { nodePath })
+    filterSchemaLimit(val, { nodePath, isDefinitions: key === 'definitions' })
   })
 }
 

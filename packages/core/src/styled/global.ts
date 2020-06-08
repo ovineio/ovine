@@ -49,7 +49,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  /** 适配 bootstrap 升级 */
+  /** 适配 bootstrap 升级,等 amis 官方升级搭配 4.0+ 就可以 */
   .glyphicon {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -70,10 +70,17 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  a.rdtBtnConfirm {
+    color: #fff;
+    &:hover {
+      color: #fff;
+    }
+  }
   
   [role=button] {
     cursor: pointer;
   }
+
 
   /** lib 主题相关的全局样式 */
   ${({ theme: { ns, colors } }) => css`

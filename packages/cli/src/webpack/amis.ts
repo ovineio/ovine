@@ -23,7 +23,7 @@ export const fixFactoryLoader = () => ({
   options: {
     search: '\\~rendererNames\\.indexOf\\(config\\.name\\)',
     flags: 'm',
-    replace: '!window._isWebpackDevServer && ~rendererNames.indexOf(config.name)',
+    replace: '!window.IS_WEBPACK_DEV_SERVER && ~rendererNames.indexOf(config.name)',
   },
 })
 

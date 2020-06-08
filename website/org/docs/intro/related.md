@@ -15,7 +15,8 @@ title: 项目依赖
 
 ### 一系列其他依赖包
 
-Amis 依赖了大量组件相关基础依赖包，Ovine 也依赖很多 Cli 相关的依赖包，因此虽然没有写在 package.json 里面，但是也可以直接 import 使用的。这里列出主要可以直接使用的依赖包。更详细的可以使用`vscode serach node_modules plugin`查询。
+Amis 依赖了大量组件相关基础依赖包，Ovine 也依赖很多 Cli 相关的依赖包，因此虽然没有写在 package.json 里面，但是也可以直接 `import` 使用的。这里列出主要可以直接使用的依赖包。更详细的可以使用`vscode serach node_modules plugin`查询。
 
 - `lodash` 函数工具库
 - `jquery` dom 操作等
+- `react mobx` 状态管理

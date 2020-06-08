@@ -4,6 +4,7 @@ import React, { useMemo, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
+import { app } from '@/app'
 import { storage } from '@/constants'
 import { getGlobal, setGlobal } from '@/utils/store'
 
@@ -23,7 +24,7 @@ type Props = AmisProps & RouteComponentProps<any>
 
 export const Amis = withRouter((props: Props) => {
   const { schema, props: amisProps, option = {}, history } = props
-
+  const { definitions } = app.amis
   const { preset } = schema
   const codeStore = getGlobal<any>(storage.dev.code) || {}
 
@@ -39,6 +40,13 @@ export const Amis = withRouter((props: Props) => {
   }, [])
 
   const envSchema: LibSchema = useMemo(() => {
+    if (definitions) {
+      schema.definitions = {
+        ...definitions,
+        ...schema.definitions,
+      }
+    }
+
     const cssSchema = wrapCss(schema)
     if (!preset) {
       return cssSchema

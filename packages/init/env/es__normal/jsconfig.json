@@ -12,7 +12,8 @@
     "paths": {
       "~/*": ["./*"],
       "@core/*": ["../node_modules/@ovine/core/lib/*"]
-    },
+    }
   },
+  "include": ["./src", "./typings"],
   "exclude": ["node_modules", "__tests__", "lib"]
 }

@@ -49,6 +49,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     mock,
     siteConfig,
     dll = true,
+    scssUpdate = false,
   } = options
 
   const { envModes, initTheme } = siteConfig
@@ -253,10 +254,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           use: (isProd ? [MiniCssExtractPlugin.loader] : [cacheLoader, 'style-loader']).concat([
             'css-loader',
           ]),
-          exclude: /\.ovine\/styles\/themes/,
+          exclude: scssUpdate ? undefined : /\.ovine[\\/]styles[\\/]themes/,
         },
-        {
-          test: /\.ovine\/styles\/themes\/.*\.css$/,
+        !scssUpdate && {
+          test: /\.ovine[\\/]styles[\\/]themes[\\/].*\.css$/,
           use: [
             {
               loader: 'file-loader',
@@ -348,14 +349,16 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         fullPath: false,
         path: `${siteDir}/${cssAssetsFile.split('/')[0]}`,
       }),
-      new HtmlHooksPlugin({
-        keepInMemory: !isProd,
-        indexHtml: `${outDir}/index.html`,
-        getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
-      }),
+      !scssUpdate &&
+        new HtmlHooksPlugin({
+          keepInMemory: !isProd,
+          indexHtml: `${outDir}/index.html`,
+          getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
+        }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
         isProd,
+        scssUpdate,
         title: siteConfig.title,
         favIcon: siteConfig.favicon,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,

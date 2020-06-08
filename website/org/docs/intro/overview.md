@@ -3,7 +3,7 @@ id: overview
 title: 介绍
 ---
 
-#### **Ovine** 支持使用 `Json Schema` 构建完整的管理系统。
+#### **Ovine** 支持使用 `Json` 构建完整的管理系统界面。
 
 > 基于 [Amis](https://github.com/baidu/amis) 框架二次开发。 QQ 交流群：1037291990
 

@@ -1,5 +1,5 @@
 {
   "editor.tabSize": 2,
   "editor.foldingStrategy": "indentation",
-  "cSpell.ignoreWords": ["immer", "tsbuildinfo"]
+  "cSpell.ignoreWords": ["ovapi", "immer", "tsbuildinfo"]
 }

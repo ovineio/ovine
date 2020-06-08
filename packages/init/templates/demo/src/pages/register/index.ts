@@ -1,0 +1,147 @@
+import { css, DefaultTheme } from 'styled-components'
+
+import { setStore, clearStore } from '@core/utils/store'
+
+import { storeKeys } from '~/app/constants'
+import { userMock } from '~/app/user/mock'
+
+export const schema = {
+  type: 'page',
+  body: {
+    type: 'wrapper',
+    className: 'register-wrapper b r-2x',
+    body: [
+      {
+        type: 'html',
+        html: `
+          <h6 class="register-title">
+          <img src="/static/images/logo_grey.png" />
+            <p>Ovine 注册新账号</p>
+          </h6>
+        `,
+      },
+      {
+        $preset: 'forms.loginForm',
+      },
+    ],
+  },
+  preset: {
+    apis: {
+      register: {
+        url: 'POST ovapi/user/demo_register',
+        mockSource: userMock,
+        onSuccess: (source) => {
+          const { code, msg, data } = source
+          if (code === 0) {
+            setStore(storeKeys.auth, data)
+            source.msg = '您已登录登录本系统'
+          } else {
+            clearStore(storeKeys.auth)
+            source.msg = msg || '注册异常'
+          }
+          return source
+        },
+      },
+    },
+    forms: {
+      loginForm: {
+        type: 'form',
+        className: 'register-form',
+        title: '',
+        mode: 'horizontal',
+        wrapWithPanel: false,
+        autoFocus: false,
+        horizontal: {
+          left: 'col-sm-3',
+          right: 'col-sm-8',
+        },
+        api: '$preset.apis.register',
+        redirect: '/',
+        controls: [
+          {
+            type: 'text',
+            name: 'username',
+            required: true,
+            placeholder: '请输入用户名',
+            label: '用户名',
+            size: 'full',
+          },
+          {
+            type: 'password',
+            name: 'password',
+            label: '密码',
+            required: true,
+            placeholder: '请输入密码',
+            size: 'full',
+          },
+          {
+            type: 'password',
+            name: 'confirmPassword',
+            label: '确认密码',
+            required: true,
+            placeholder: '再次输入密码',
+            size: 'full',
+            validations: {
+              equalsField: 'password',
+            },
+            validationErrors: {
+              equalsField: '两次密码输入不一致',
+            },
+          },
+          {
+            type: 'button',
+            level: 'link',
+            actionType: 'link',
+            link: '/login',
+            inputClassName: 'pull-right no-shadow',
+            label: '返回登录',
+          },
+          {
+            type: 'submit',
+            level: 'primary',
+            label: '注册并登录',
+            inputClassName: 'w-md',
+          },
+        ],
+      },
+    },
+  },
+  css: ({ colors }: DefaultTheme) => css`
+    .register-wrapper {
+      width: 450px;
+      margin: 12% auto 0;
+      background-color: ${colors.layoutHeaderBg};
+    }
+
+    .register-title {
+      margin: 0 0 15px 0px;
+      font-size: 30px;
+      text-align: center;
+
+      img {
+        display: inline-block;
+        width: 50px;
+        vertical-align: middle;
+      }
+      p {
+        display: inline-block;
+        margin: 0;
+        vertical-align: middle;
+      }
+    }
+
+    .register-form {
+      padding-top: 15px;
+
+      .is-error {
+        label {
+          color: #58666e;
+        }
+      }
+    }
+
+    .cxd-Form-label {
+      padding-left: 40px;
+    }
+  `,
+}

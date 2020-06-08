@@ -6,9 +6,9 @@ The project description here.
 
 ```bash
 # there are examples of 'yarn', you also can use 'npm'.
-yarn dev # start dev server
+yarn start # start dev server
 yarn build # build bundle files
-yarn help # more cli information
+yarn ovine help # more ovine cli information
 
 # optional command
 yarn scss # build scss files

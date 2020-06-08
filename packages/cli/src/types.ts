@@ -36,6 +36,7 @@ export type DevCliOptions = CliOptions & {
   host: string
   open: boolean
   dll: boolean
+  scssUpdate: boolean
 }
 
 export type BuildCliOptions = CliOptions & {

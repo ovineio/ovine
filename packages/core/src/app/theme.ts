@@ -8,7 +8,6 @@ import { getStore } from '@/utils/store'
 import * as Types from '@/utils/types'
 
 type Themes = {
-  default: DefaultTheme
   [theme: string]: Types.DeepPartial<DefaultTheme>
 }
 

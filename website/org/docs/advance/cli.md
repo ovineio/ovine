@@ -15,8 +15,8 @@ Ovine Cli 工具由 `@ovine/cli` 包提供，二次封装了 webpack 一系列�
 
 预计将要添加的功能
 
-- 集成 [Workbox]() 优化文件缓存
-- 添加 'add page' 快速添加页面功能
+- 集成 [Workbox](https://developers.google.cn/web/tools/workbox/guides/get-started) 优化文件缓存
+- 添加 `add page` 快速添加页面功能
 
 > 将 `ovine` 添加到 `package.json scripts` 中，可简单使用 `yarn ovine` 执行以下命令
 
@@ -44,11 +44,15 @@ Ovine Cli 工具由 `@ovine/cli` 包提供，二次封装了 webpack 一系列�
 
 #### --mock 是否开启 mock 数据功能
 
-默认 true
+默认 false
 
 #### --env 当前应用环境
 
 默认 localhost
+
+#### --scss 开启 scss 更新
+
+默认 false
 
 #### --no-dll 不启用 dll
 

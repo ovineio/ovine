@@ -2,7 +2,7 @@
  * APP 权限设置模块
  */
 
-import { Tab, Tabs, Tree } from 'amis'
+import { Tab, Tabs, Tree, toast } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import { eachTree, mapTree } from 'amis/lib/utils/helper'
 import { map } from 'lodash'
@@ -14,7 +14,6 @@ import { checkLimitByKeys, convertLimitStr } from '@/routes/limit/exports'
 import { LimitMenuItem } from '@/routes/types'
 import { useImmer } from '@/utils/hooks'
 import { cls, isSubStr } from '@/utils/tool'
-
 import { ObjectOf } from '@/utils/types'
 
 import { Amis } from '../amis/schema'
@@ -94,8 +93,8 @@ const LimitSetting = (props: LimitSettingProps) => {
   }
 
   const onSaveClick = () => {
-    const authApi = getAllAuthApiStr(menuConfig, selectedVal)
     const authLimit = getAllAuthLimitStr(menuConfig, visitedTabs, storeRef.current)
+    const authApi = getAllAuthApiStr(menuConfig, authLimit)
 
     if (onSave) {
       onSave({
@@ -132,7 +131,12 @@ const LimitSetting = (props: LimitSettingProps) => {
           {
             type: 'button',
             label: '重置',
-            onClick: initData,
+            tooltip: '只能重置未提交的部分',
+            tooltipPlacement: 'top',
+            onClick: () => {
+              initData()
+              toast.success('重置成功', '提示')
+            },
           },
         ],
       },
@@ -142,6 +146,8 @@ const LimitSetting = (props: LimitSettingProps) => {
         actionType: 'close',
         confirmText: saveConfirmText,
         onAction: onSaveClick,
+        tooltip: '提交',
+        tooltipPlacement: 'top',
       },
       {
         type: 'button',
@@ -149,6 +155,8 @@ const LimitSetting = (props: LimitSettingProps) => {
         actionType: 'close',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
         onAction: onCancelClick,
+        tooltip: '取消',
+        tooltipPlacement: 'top',
       },
     ],
   }
@@ -252,13 +260,13 @@ function getAllAuthLimitStr(
 
   map(store, (value, storeTab) => {
     const index = Number(storeTab)
-    if (visitedTabs.findIndex((tab) => tab === index) > -1) {
+    if (value && visitedTabs.findIndex((tab) => tab === index) > -1) {
       limitValue.push(value)
       return
     }
     eachTree(menusConfig[index]?.children || [], (item) => {
       const limits = convertLimitStr(value)
-      if (limits[item.nodePath]) {
+      if (item.nodePath && limits[item.nodePath]) {
         limitValue.push(item.nodePath)
       }
     })
@@ -280,8 +288,9 @@ function getAllAuthApiStr(menusConfig: any[], limitValue: string) {
     }
 
     Object.values(apis).forEach((apiItem) => {
-      const { url = '', key, limits: needs } = apiItem
-      const auth = !needs ? true : checkLimitByKeys(needs, { nodePath, limits })
+      const { url = '', key, limits: apiLimits } = apiItem
+      const auth = !apiLimits ? true : checkLimitByKeys(apiLimits, { nodePath, limits })
+      // console.log('@@==', auth, apiLimits)
       if (auth) {
         authApis[key || url] = true
       }

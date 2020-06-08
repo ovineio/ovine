@@ -6,5 +6,5 @@
     "source.fixAll": true
   },
   "editor.formatOnSave": true,
-  "cSpell.ignoreWords": ["ovine", "immer", "tsbuildinfo"]
+  "cSpell.ignoreWords": ["ovapi", "immer", "tsbuildinfo"]
 }

@@ -23,7 +23,7 @@ type Option = {
 
 export default (option: Option) => {
   const { schema, props, theme, option: amisOption } = option
-  const { definitions, apiResAdapter, ...appSettings } = app.amis
+  const { apiResAdapter, ...appSettings } = app.amis
   const libOptions: any = {
     session: 'global',
     // number 固底间距 顶部间距
@@ -121,13 +121,6 @@ export default (option: Option) => {
       log.log('loadRenderer', loaderSchema, path)
     },
     // rendererResolver: libResolver,
-  }
-
-  if (definitions) {
-    schema.definitions = {
-      ...definitions,
-      ...schema.definitions,
-    }
   }
 
   return render(schema, props, {

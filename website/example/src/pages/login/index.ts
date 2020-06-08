@@ -1,3 +1,7 @@
+/**
+ * 登录页面
+ */
+
 import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
@@ -18,7 +22,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="login-title">
-          <img src="/demo/static/images/logo_grey.png" />
+            <img src="/demo/static/images/logo_grey.png" />
             <p>Ovine 管理后台系统</p>
           </h6>
         `,

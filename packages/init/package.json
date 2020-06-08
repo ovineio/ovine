@@ -32,10 +32,10 @@
     "clean:tmp": "rimraf ./tmp/*",
     "cli": "node ../cli/bin/index.js",
     "gen:env": "rm -rf ./env/.ovine && yarn cli dll env && yarn cli scss env && sed -i '' 's/\\\"\\.\\.\\/\\./\\\"/g' ./env/.ovine/dll_vendor_manifest.json",
-    "test:base:normal": "rimraf ./tmp/base_normal && node ./bin/index.js init base_normal ./tmp",
-    "test:base:constraint": "rimraf ./tmp/base_constraint && node ./bin/index.js init base_constraint ./tmp",
+    "test:js:normal": "rimraf ./tmp/js_normal && node ./bin/index.js init js_normal ./tmp",
+    "test:js:eslint": "rimraf ./tmp/js_eslint && node ./bin/index.js init js_eslint ./tmp",
     "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",
-    "test:ts:constraint": "rimraf ./tmp/ts_constraint && node ./bin/index.js init ts_constraint ./tmp"
+    "test:ts:eslint": "rimraf ./tmp/ts_eslint && node ./bin/index.js init ts_eslint ./tmp"
   },
   "dependencies": {
     "chalk": "^3.0.0",
