@@ -1,6 +1,6 @@
 {
   "name": "@ovine/org",
-  "version": "0.0.1-alpha.10",
+  "version": "0.0.1-alpha.11",
   "private": true,
   "scripts": {
     "start": "docusaurus start -p 7052",
