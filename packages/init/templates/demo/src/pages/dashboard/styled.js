@@ -1,3 +1,5 @@
+import { css } from 'styled-components'
+
 export default ({ colors, ns }) => css`
   .dash-grid {
     margin: 0 -8px;

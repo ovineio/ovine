@@ -9,7 +9,7 @@ import { setStore, getStore } from '@/utils/store'
 const dispatchLink = (theme: string, callback?: () => void) => {
   // 当开启 scss 编译时，才会每次热更新更新文件，主要用于主题调试
   if ((window as any).IS_SCSS_UPDATE) {
-    // require(`@generated/styles/themes/${theme}.css`)
+    require(`@generated/styles/themes/${theme}.css`)
     if (callback) {
       callback()
     }

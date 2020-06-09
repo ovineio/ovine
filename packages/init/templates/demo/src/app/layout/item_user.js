@@ -171,7 +171,7 @@ export const itemUserSchema = {
       ],
     },
   },
-  css: (theme: DefaultTheme) => css`
+  css: (theme) => css`
     .${theme.ns}Spinner {
       width: 25px !important;
       height: 25px !important;

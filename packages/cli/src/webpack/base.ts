@@ -340,15 +340,16 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/pull/422 for more reasoning
         ignoreOrder: true,
       }),
-      new AssetsPlugin({
-        manifestFirst: true,
-        keepInMemory: !isProd,
-        includeAllFileTypes: false,
-        fileTypes: ['css'],
-        filename: cssAssetsFile.split('/')[1],
-        fullPath: false,
-        path: `${siteDir}/${cssAssetsFile.split('/')[0]}`,
-      }),
+      !scssUpdate &&
+        new AssetsPlugin({
+          manifestFirst: true,
+          keepInMemory: !isProd,
+          includeAllFileTypes: false,
+          fileTypes: ['css'],
+          filename: cssAssetsFile.split('/')[1],
+          fullPath: false,
+          path: `${siteDir}/${cssAssetsFile.split('/')[0]}`,
+        }),
       !scssUpdate &&
         new HtmlHooksPlugin({
           keepInMemory: !isProd,

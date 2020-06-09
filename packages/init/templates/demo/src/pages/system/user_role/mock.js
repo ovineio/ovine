@@ -60,7 +60,7 @@ const mockSource = {
   'DELETE ovapi/system/role/item/$id': ({ data = defRoleItem }) => {
     return roleMockStore.deleteById(data, {})
   },
-  'GET ovapi/system/role/item/$id/limit': ({ data }) => {
+  'GET ovapi/system/role/item/$id/limit': () => {
     return {
       data: mockLimitStore,
     }

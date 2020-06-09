@@ -15,7 +15,7 @@ export default {
       },
     }
   },
-  'GET ovapi/system/user/item/$id': ({ data = {} }: any) => {
+  'GET ovapi/system/user/item/$id': ({ data = {} }) => {
     return {
       data: {
         avatar: 'https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg',
