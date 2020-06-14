@@ -3,9 +3,10 @@
  */
 
 /* eslint-disable consistent-return */
-import { qsstringify } from 'amis/lib/utils/helper' // eslint-disable-line
+import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, isEmpty, omitBy } from 'lodash'
+import { get, isPlainObject, isFunction, omitBy } from 'lodash'
+import map from 'lodash/map'
 import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
@@ -17,71 +18,80 @@ import * as Types from './types'
 const log = logger.getLogger('lib:utils:request')
 
 // 请求错误集中处理， 必须 throw 错误
-function requestErrorCtrl(this: Request, option: Types.ReqUnionOption, response: any, error: any) {
+function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, response?: any) {
   const { onError } = option
 
-  log.info('requestErrorCtrl', { response, error })
+  log.info('requestErrorCtrl', { error, option, response })
 
   const errorSource = { option, response, error }
 
-  let withInsErrorHook
+  let withInsErrorHook = true
 
+  // 如果返回 false，则不调用 全局的错误处理
   if (onError) {
-    withInsErrorHook = onError(errorSource)
+    withInsErrorHook = !!onError(response, option, error)
   }
 
   if (withInsErrorHook !== false && this.onError) {
-    this.onError(errorSource)
+    this.onError(response, option, error)
   }
 
   if (this.onFinish) {
-    this.onFinish(errorSource)
+    this.onFinish(response, option, error)
   }
 
   throw errorSource
 }
 
+// 请求成功集中处理
+async function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOption) {
+  if (this.onSuccess) {
+    const res = wrapResponse(response)
+    const resData = await this.onSuccess(res.data, option, res)
+    response.data = resData
+  }
+
+  if (option.onSuccess) {
+    const res = wrapResponse(response)
+    const resData = await option.onSuccess(res.data, option, res)
+    response.data = resData
+  }
+
+  if (this.onFinish) {
+    this.onFinish(wrapResponse(response), option)
+  }
+}
+
 // 模拟数据
-async function mockSourceCtrl(this: Request, option: Types.ReqUnionOption) {
-  const { mockSource, onSuccess, sourceKey = '', api, url, mock = true, mockDelay = 300 } = option
+async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
+  const { mockSource, api, url, mock = true, mockDelay = 300 } = option
 
   if (this.isRelease || !mock || !mockSource) {
     return 'none'
   }
 
-  const apiStr = api || url
+  const apiStr = api || url || ''
 
   // mock数据生成方式
   const mockSourceGen = get(mockSource, apiStr) ? (mockSource as any)[apiStr] : mockSource
 
   // mock 原始数据
-  let origin: any = typeof mockSourceGen === 'function' ? mockSourceGen(option) : mockSourceGen
-  const mockResponse: any = typeof Response !== 'undefined' ? new Response() : {}
+  const origin: any = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
+  const fakeRes: any = { data: origin }
 
-  if (this.onSuccess) {
-    origin = this.onSuccess({ option, response: mockResponse, source: origin })
-  }
-
-  const source = !sourceKey ? origin : get(origin, sourceKey)
-
-  // mock 最终返回结果
-  const data = !onSuccess ? source : await onSuccess(source, option)
-
-  if (this.onFinish) {
-    this.onFinish({ option, response: mockResponse, source: data })
-  }
+  await requestSuccessCtrl.call(this, fakeRes, option)
 
   if (mockDelay) {
     await timeout(mockDelay)
   }
 
-  log.log('mockSource', option.url, data, option)
+  log.log('mockSource', option.url, fakeRes.data, option)
 
-  return data
+  return fakeRes
 }
 
 // 只缓存 GET 请求
-const cacheSourceCtrl = (type: 'set' | 'get', option: Types.ReqUnionOption, resource?: any) => {
+function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?: any) {
   const { url = '', expired = 0, method = 'GET' } = option || {}
 
   if (!expired || method !== 'GET') {
@@ -97,7 +107,7 @@ const cacheSourceCtrl = (type: 'set' | 'get', option: Types.ReqUnionOption, reso
     }
     // 所有数据按照 字符串缓存
     setSessionStore(url, resource)
-    setSessionStore(timestampKey, (Date.now() + expired * 1000).toString())
+    setSessionStore(timestampKey, (Date.now() + expired).toString())
     return
   }
 
@@ -114,16 +124,22 @@ const cacheSourceCtrl = (type: 'set' | 'get', option: Types.ReqUnionOption, reso
   }
 }
 
-// 发出请求
-async function fetchSourceCtrl(this: Request, option: Types.ReqUnionOption) {
-  const { url, sourceKey, onRequest, onSuccess } = option
+// 发出 fetch 请求
+async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
+  const { url, onUploadProgress, body, config = {} } = option
 
-  let reqOption = !this.onRequest ? option : this.onRequest(option)
-  reqOption = !onRequest ? reqOption : onRequest(reqOption)
+  if (
+    (onUploadProgress || config?.onUploadProgress) &&
+    body &&
+    typeof XMLHttpRequest !== 'undefined'
+  ) {
+    const result = await uploadWithProgress.call(this, option)
+    return result
+  }
 
-  const result = await fetch(url, reqOption)
+  const result = await fetch(url, option)
     .catch((error: any) => {
-      requestErrorCtrl.call(this, option, {}, error)
+      requestErrorCtrl.call(this, error, option, wrapResponse())
     })
     .then(async (response: any) => {
       // 当 fetch 发生错误时 不做任何处理
@@ -133,79 +149,248 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqUnionOption) {
 
       const status = Number(response.status)
 
-      if (status <= 100 || status >= 400) {
-        requestErrorCtrl.call(this, option, response, new Error('status <= 100 || status >= 400'))
-        return
-      }
-
       try {
-        let origin = await response.json()
+        const origin = await response.json()
 
-        if (this.onSuccess) {
-          origin = this.onSuccess({ option, response, source: origin })
+        response.data = origin
+
+        if (status <= 100 || status >= 400) {
+          requestErrorCtrl.call(
+            this,
+            new Error('status <= 100 || status >= 400'),
+            option,
+            wrapResponse(response)
+          )
+          return
         }
 
-        const source = !sourceKey ? origin : get(origin, sourceKey)
-        const data = !onSuccess ? source : await onSuccess(source, option)
+        await requestSuccessCtrl.call(this, response, option)
 
-        if (this.onFinish) {
-          this.onFinish({ option, response, source })
-        }
-
-        return data
+        return response
       } catch (error) {
-        requestErrorCtrl.call(this, option, response, error)
+        requestErrorCtrl.call(this, error, option, wrapResponse(response))
       }
     })
 
   return result
 }
 
+// fetch 不支持 onUploadProgress, 使用用原生的 xhr
+function uploadWithProgress(this: Request, option: Types.ReqOption) {
+  const errorCtrl = requestErrorCtrl.bind(this)
+  const successCtrl = requestSuccessCtrl.bind(this)
+
+  return new Promise((resolve) => {
+    const { onUploadProgress, config, method = '', url = '', headers = {}, body } = option
+    const uploadProgress = config.onUploadProgress || onUploadProgress
+
+    let xhr: XMLHttpRequest | null = new XMLHttpRequest()
+
+    xhr.open(method.toLowerCase(), url, true)
+
+    map(headers, (header, key) => {
+      if (xhr) {
+        xhr.setRequestHeader(key, header)
+      }
+    })
+
+    function onXhrError(this: any, text: string) {
+      errorCtrl(
+        new Error(text),
+        option,
+        wrapResponse(
+          {
+            data: xhr?.response || xhr?.responseText,
+            status: this.status,
+            statusText: xhr?.statusText,
+          },
+          true
+        )
+      )
+      xhr = null
+    }
+
+    xhr.onreadystatechange = function() {
+      if (!xhr || xhr.readyState !== 4) {
+        return
+      }
+      if (xhr.status === 0 && !(xhr.responseURL && xhr.responseURL.indexOf('file:') === 0)) {
+        return
+      }
+
+      const responseHeaders = xhr?.getAllResponseHeaders() || {}
+      const response: any = {
+        data: xhr.response || xhr.responseText,
+        status: xhr.status,
+        statusText: xhr.statusText,
+        headers: responseHeaders,
+      }
+
+      if (this.status <= 100 || this.status >= 400) {
+        errorCtrl(new Error('status <= 100 || status >= 400'), option, wrapResponse(response, true))
+      } else {
+        successCtrl(wrapResponse(response, true), option).then(() => {
+          resolve(response)
+        })
+      }
+    }
+
+    xhr.onerror = function() {
+      onXhrError.call(this, 'Network Error')
+    }
+
+    xhr.ontimeout = function() {
+      onXhrError.call(this, 'TimeOut Error')
+    }
+
+    if (xhr.upload && uploadProgress) {
+      xhr.upload.onprogress = uploadProgress
+    }
+
+    xhr.send(body)
+  })
+}
+
 // 获取 fetch 参数
-function getFetchOption(this: Request, option: Types.ReqOption): Types.ReqFetchOption {
-  const { data = {}, json = true, body, headers = {}, fetchOption: fetchOpt = {} } = option
+function getFetchOption(this: Request, option: Types.ReqOption): any {
+  const {
+    headers = {},
+    data,
+    body,
+    fetchOptions,
+    dataType = 'json',
+    qsOptions = {
+      encode: false,
+      arrayFormat: 'indices',
+      encodeValuesOnly: false,
+    },
+  } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
-  const hasBody = !/GET|HEAD/.test(method)
 
-  const fetchOption: Types.ReqFetchOption = {
-    ...fetchOpt,
+  // 自行实现取消请求的回调
+  const { cancelExecutor } = option.config || {}
+
+  let signal = null
+  if (cancelExecutor && typeof AbortController !== 'undefined') {
+    const controller = new AbortController()
+    signal = controller.signal
+    cancelExecutor(() => {
+      controller.abort()
+    })
+  }
+
+  // fetch 请求参数封装
+  let fetchBody = body
+  const fetchHeaders = headers
+  if (!fetchBody && data && !/GET|HEAD|OPTIONS/.test(method)) {
+    if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
+      fetchBody = data
+    } else if (hasFile(data) || dataType === 'form-data') {
+      fetchBody = object2formData(data, qsOptions)
+    } else if (dataType === 'form') {
+      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
+      fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
+    } else if (dataType === 'json') {
+      fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
+      fetchHeaders['Content-Type'] = 'application/json'
+    }
+  }
+
+  const fetchOption = {
+    ...fetchOptions,
+    signal,
     url,
     method,
-    headers,
+    headers: fetchHeaders,
+    body: fetchBody,
     credentials: 'include',
-  }
-
-  if (json && !fetchOption.headers.Accept) {
-    fetchOption.headers.Accept = 'application/json'
-  }
-
-  if (json && !body && !fetchOption.headers['Content-Type']) {
-    fetchOption.headers['Content-Type'] = 'application/json;charset=utf-8'
-  }
-
-  if (data instanceof FormData && !body) {
-    fetchOption.body = data
-  } else if (hasBody) {
-    fetchOption.body = body || JSON.stringify(data)
   }
 
   return fetchOption
 }
 
+// 确保 data 一定是对象
+function wrapResponse(response?: any, transJson?: boolean) {
+  if (!response) {
+    const fakeRes: any = { data: {} }
+    return fakeRes
+  }
+  if (typeof response.data === 'undefined') {
+    response.data = {}
+  } else if (!isPlainObject(response.data)) {
+    if (!transJson) {
+      response.data = { value: response.data }
+      return response
+    }
+    try {
+      response.data = JSON.parse(response.data)
+      return response
+    } catch (_) {
+      //
+    }
+  }
+
+  return response
+}
+
+// 获取请求参数
+async function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
+  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = option
+  let opt = option
+
+  opt.api = api || url
+  opt.actionAddr = actionAddr || opt.api
+
+  if (!option.api) {
+    log.error('request option.api 不存在', option)
+    requestErrorCtrl.call(this, new Error('option.api 不存在'), wrapResponse())
+  }
+
+  const query: any = url && getQuery('', url)
+
+  if (query) {
+    if (url) {
+      opt.url = url.split('?')[0] // eslint-disable-line
+    }
+    opt.data = { ...query, ...params }
+  }
+
+  if (this.onPreRequest) {
+    opt = await this.onPreRequest(opt)
+  }
+
+  if (onPreRequest) {
+    opt = await onPreRequest(opt)
+  }
+
+  let reqOption = { ...opt, ...getFetchOption.call(this as any, opt) }
+
+  if (this.onRequest) {
+    reqOption = await this.onRequest(reqOption)
+  }
+  if (onRequest) {
+    reqOption = await onRequest(reqOption)
+  }
+
+  return reqOption
+}
+
+// 获取url参数
 export function getUrlByOption(
   this: Types.ReqConfig,
   option: Types.ReqOption & Partial<Types.ReqConfig>
 ) {
-  const { url = '', data = {}, method = 'GET', domain = 'api', qsOptions, domains } = option
+  const { url = '', qsOptions, data, method = 'GET', domain = 'api', domains } = option
 
   let realUrl = url
 
   const urlOption = { url, method: method.toUpperCase() }
 
-  if (/[GET|POST|PUT|DELETE|PATCH|HEAD] /.test(realUrl)) {
-    urlOption.method = `${(/^.*? /.exec(url) || [])[0]}`.replace(' ', '') as Types.ReqMethod
-    realUrl = realUrl.replace(/^.*? /, '')
+  if (/[GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS] /.test(realUrl)) {
+    const [apiMethod, apiStr] = realUrl.split(' ')
+    urlOption.method = apiMethod as Types.ReqMethod
+    realUrl = apiStr
   }
 
   const apiDomains = domains || this.domains || {}
@@ -224,7 +409,7 @@ export function getUrlByOption(
     realUrl = filter(realUrl, data)
   }
 
-  if (urlOption.method === 'GET' && !isEmpty(data)) {
+  if (urlOption.method === 'GET' && isPlainObject(data)) {
     // 过滤无效重复 查询参数
     const queryParams = omitBy(data, (item, key) => {
       const isNull = item === undefined || item === null || item === 'undefined' || item === ''
@@ -234,10 +419,7 @@ export function getUrlByOption(
       }
     })
 
-    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, {
-      encode: false, // 防止多次 encode
-      ...qsOptions,
-    })}`
+    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, qsOptions)}`
   }
 
   urlOption.url = realUrl
@@ -261,95 +443,59 @@ export class Request<IS = {}, IP = {}> {
   public onPreRequest?: (option: Types.ReqOption) => Types.ReqOption
 
   // 发送请求前
-  public onRequest?: (option: Types.ReqUnionOption) => Types.ReqUnionOption
+  public onRequest?: (option: Types.ReqOption) => Types.ReqOption
 
   // 错误回调
-  public onError?: (option: {
-    option: Types.ReqUnionOption
-    response: Response
-    error?: any
-  }) => any
+  public onError?: (response: Types.ReqResponse, option: Types.ReqOption, error: Error) => any
 
   // 请求成功回调
-  public onSuccess?: (option: {
-    option: Types.ReqUnionOption
-    response: Response
-    source?: any
-  }) => any
+  public onSuccess?: (data: any, option: Types.ReqOption, response: Types.ReqResponse) => any
 
   // 请求结束回调
-  public onFinish?: (option: {
-    option: Types.ReqUnionOption
-    response: Response
-    error?: any
-    source?: any
-  }) => void
+  public onFinish?: (response: Types.ReqResponse, option: Types.ReqOption, error?: Error) => void
 
+  // 设置配置
   public setConfig(config?: Types.ReqConfig) {
     const { domains = {}, isRelease } = config || {}
     this.domains = domains
     this.isRelease = isRelease
   }
 
+  // 解析请求参数
   public getUrlByOption(option: Types.ReqOption<IS, IP>) {
     return getUrlByOption.call(this, option as any)
   }
 
+  // 请求
   public async request<S = {}, P = {}>(
     option: Types.ReqOption<S | IS, P | IP>
-  ): Promise<Types.ReqServerApiRes<S | IS> | undefined>
+  ): Promise<Types.ReqResponse<S | IS> | undefined>
 
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-dupe-class-members
   public async request(option: any): Promise<any> {
-    const { data: params, url = '', actionAddr, api, onPreRequest } = option
-    let parsedOption = option
-
-    parsedOption.api = api || url
-    parsedOption.actionAddr = actionAddr || parsedOption.api
-
-    if (!option.api) {
-      log.error('request option.api 不存在', option)
-      return
-    }
-
-    const query: any = url && getQuery('', url)
-
-    if (query) {
-      if (url) {
-        parsedOption.url = url.split('?')[0] // eslint-disable-line
-      }
-      parsedOption.data = { ...query, ...params }
-    }
-
-    if (this.onPreRequest) {
-      parsedOption = this.onPreRequest(parsedOption)
-    }
-
-    if (onPreRequest) {
-      parsedOption = onPreRequest(parsedOption)
-    }
-
-    const unionOption = { ...parsedOption, ...getFetchOption.call(this as any, parsedOption) }
+    const reqOption = await getReqOption.call(this as any, option)
 
     // 命中缓存 直接返回
-    const cachedResponse = cacheSourceCtrl('get', unionOption)
+    const cachedResponse = cacheSourceCtrl('get', reqOption)
     if (cachedResponse) {
-      return cachedResponse
+      return {
+        data: cachedResponse,
+      }
     }
 
     // mock数据拦截
-    const mockSource = await mockSourceCtrl.call(this as any, unionOption)
+    const mockSource = await mockSourceCtrl.call(this as any, reqOption)
     if (mockSource !== 'none') {
-      cacheSourceCtrl('set', unionOption, mockSource)
+      cacheSourceCtrl('set', reqOption, mockSource.data)
       return mockSource
     }
 
-    const result = await fetchSourceCtrl.call(this as any, unionOption)
+    const response = await fetchSourceCtrl.call(this as any, reqOption)
 
-    cacheSourceCtrl('set', unionOption, result)
+    cacheSourceCtrl('set', reqOption, response.data)
 
-    log.log('[apiSource]', unionOption.url, result, unionOption)
+    log.log('[apiSource]', reqOption.url, response.data, reqOption)
 
-    return result
+    return response
   }
 }

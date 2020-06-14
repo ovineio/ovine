@@ -4,6 +4,13 @@
 
 import { times } from 'lodash'
 
+const fakeUserInfo = {
+  avatar: 'https://www.biaobaiju.com/uploads/20180225/23/1519573791-gcmpiQFtAk.jpg',
+  nickname: '梦醒十分2',
+  signature: '就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～',
+  limit: '*',
+}
+
 export default {
   'GET ovapi/system/role/filter': () => {
     return {
@@ -26,6 +33,33 @@ export default {
         remark: '这个家伙就知道睡觉。',
         updateTime: Date.now() / 1000,
       },
+    }
+  },
+  'GET ovapi/user/info': () => {
+    // return {
+    //   code: 10022,
+    //   message: '模拟用户token过期',
+    // }
+
+    return {
+      code: 0,
+      data: fakeUserInfo,
+    }
+  },
+  'PUT ovapi/user/info': ({ data }) => {
+    Object.assign(fakeUserInfo, data)
+    return {
+      code: 0,
+    }
+  },
+  'PUT ovapi/user/password': () => {
+    return {
+      code: 0,
+    }
+  },
+  'POST ovapi/stat/data': () => {
+    return {
+      code: 0,
     }
   },
 }

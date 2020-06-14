@@ -4,11 +4,11 @@
   "description": "your awesome project.",
   "private": true,
   "scripts": {
-    "start": "ovine dev  --mock",
+    "start": "ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
     "dev:lib": "rm -rf ./node_modules/@ovine/core && export DEV_LIB=true && ovine dev --no-dll --mock",
     "build": "ovine build --mock",
-    "build:staging": "ovine build --env=staging",
+    "build:staging": "ovine build",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "scss": "ovine scss",
     "dll": "ovine dll",
@@ -20,6 +20,7 @@
     "cli:dev": "cd ../../packages/core && yarn dev",
     "cp:lib:cli": "rm -rf ./node_modules/@ovine/cli && cp -rf ../../packages/cli ./node_modules/@ovine/cli",
     "cp:lib:core": "rm -rf ./node_modules/@ovine/core && cp -rf ../../packages/core ./node_modules/@ovine/core",
+    "cp:lib": "yarn cp:lib:cli && yarn cp:lib:core",
     "test:build": "yarn cp:lib:cli && yarn cp:lib:core && ovine build --bundle-analyzer"
   },
   "dependencies": {

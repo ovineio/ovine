@@ -9,7 +9,7 @@ export type Limit = {
   label: string
   icon?: string
   needs?: string[]
-  description?: string
+  desc?: string
 }
 
 export type LimitSchema = {

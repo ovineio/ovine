@@ -180,19 +180,6 @@ export const wrapCss = (schema: LibSchema) => {
   }
 }
 
-export const libApiResAdapter = (res: any = {}) => {
-  const { code = 0, data: resData, msg, message, ...rest } = res
-  const tipMsg = msg || message
-  const amisRes = {
-    status: code,
-    msg: tipMsg,
-    data: resData || rest,
-  }
-  return {
-    data: amisRes,
-  }
-}
-
 // amis 官方 格式化项目内 链接
 export const normalizeLink = (option: { location?: any; to?: any }) => {
   const { location = window.location, to: toLink } = option

@@ -1,62 +1,66 @@
-export type ReqMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'TRACE' | 'HEAD'
+export type ReqMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'PATCH' | 'HEAD' | 'OPTIONS'
 
-export type ReqSuccessHook<S = {}, P = {}> = (
-  source: ReqServerApiRes<S>,
-  unionOption: ReqUnionOption<S, P>
-) => ReqServerApiRes<S>
+export type ReqSuccessHook<S = any, P = any> = (
+  data: S,
+  option: ReqOption<S, P>,
+  response: ReqResponse<S>
+) => S
 
-export type ReqErrorHook<S = {}, P = {}> = (option: {
-  response?: Response
-  option?: ReqUnionOption<S, P>
-  error?: any
-}) => undefined | boolean
-
-export type ReqFetchOption = Omit<RequestInit, 'method'> & {
-  url: string
-  method: ReqMethod
-  headers?: any
-  body?: any
+export type ReqResponse<S = any> = Partial<Response> & {
+  data: ReqApiRes<S>
 }
 
-export type ReqUnionOption<S = {}, P = {}> = ReqOption<S, P> & ReqFetchOption
+export type ReqErrorHook<S = any, P = any> = (
+  response: ReqApiRes<S>,
+  option: ReqOption<S, P>,
+  error: Error
+) => undefined | boolean
 
-export type ReqMockSource<S = {}, P = {}> = { [key: string]: ReqMockSourceGen<S, P> }
+export type ReqMockSource<S = any, P = any> = { [key: string]: ReqMockSourceGen<S, P> }
 
-export type ReqOption<S = {}, P = {}> = {
+export type ReqOption<S = any, P = any> = Omit<
+  RequestInit,
+  'headers' | 'body' | 'method' | 'cache'
+> & {
   api?: string // 请求原始api字符串
   url?: string // 默认与 api 一样
   method?: ReqMethod // get
   domain?: string // 'api'
-  data?: Partial<P> // {}
-  headers?: HeadersInit
+  data?: Partial<P> // any
+  headers?: any
   body?: BodyInit | null
-  json?: boolean // true
-  qsOptions?: object
+  dataType?: 'json' | 'form-data' | 'form'
   token?: 'none' | 'auto' | 'force' // none
-  sourceKey?: string // ''
-  expired?: number // 秒数 0
-  fetchOption?: Omit<RequestInit, 'header' | 'body'>
+  expired?: number // 毫秒 0
+  fetchOptions?: Omit<RequestInit, 'header' | 'body'>
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
   mockDelay?: number // 300
   actionAddr?: string // 操作地址，不存在时默认为 api
+  actionDesc?: string // 操作描述文案 与操作地址对应
+  isEnvFetcher?: boolean
+  onUploadProgress?: (event: { loaded: number; total: number }) => void
   onPreRequest?: (option: ReqOption) => ReqOption
-  onRequest?: (option: ReqUnionOption) => ReqUnionOption
+  onRequest?: (option: ReqOption) => ReqOption
   onSuccess?: ReqSuccessHook<S, P> // 接口成功回调
   onError?: ReqErrorHook<S, P> // 接口失败回调
   [key: string]: any // 用户扩展字段
 }
 
-export type ReqMockSourceGen<S = {}, P = {}> =
-  | ((options: ReqUnionOption<S, P>) => object)
-  | ReqServerApiRes<S>
+export type ReqMockSourceGen<S = any, P = any> =
+  | ((options: ReqOption<S, P>) => object)
+  | ReqApiRes<S>
 
-export type ReqServerApiRes<T> = T & {
+export type ReqApiRes<T> = {
   code?: number
   data?: T
+  status?: number
+  msgTimeout?: number
   msg?: string
   message?: string
   error?: any
+  errors?: any
+  [key: string]: any
 }
 
 export type ReqConfig = {

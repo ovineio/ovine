@@ -4,7 +4,7 @@ import { DefaultTheme } from 'styled-components'
 
 import { LoggerConfig } from '@/utils/logger'
 import { Request } from '@/utils/request'
-import { ClassMethod, DeepPartial, Map, ObjectOf } from '@/utils/types'
+import { ClassMethod, DeepPartial, Map } from '@/utils/types'
 
 import { AppTheme } from './theme'
 
@@ -23,7 +23,6 @@ export type EnvConfig = {
 
 export type AppAmis = RenderOptions & {
   definitions?: any
-  apiResAdapter?: (res: any) => any
 }
 
 export interface AppConfig {
@@ -43,7 +42,6 @@ export interface AppConfig {
     }
     toastDuration?: number
     loginRoute?: string
-    actionAddrMap?: ObjectOf<string>
   }
   entry: any[]
 }

@@ -3,7 +3,6 @@ import { css } from 'styled-components'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys } from '~/app/constants'
-import { userMock } from '~/app/user/mock'
 
 export const schema = {
   type: 'page',
@@ -15,7 +14,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="register-title">
-          <img src="/static/images/logo_grey.png" />
+          <img src="/demo/static/images/logo_grey.png" />
             <p>Ovine 注册新账号</p>
           </h6>
         `,
@@ -29,7 +28,6 @@ export const schema = {
     apis: {
       register: {
         url: 'POST ovapi/user/demo_register',
-        mockSource: userMock,
         onSuccess: (source) => {
           const { code, msg, data } = source
           if (code === 0) {

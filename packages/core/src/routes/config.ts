@@ -6,7 +6,6 @@
 import { mapTree, eachTree } from 'amis/lib/utils/helper'
 import { cloneDeep, last, pick, map, get, omitBy } from 'lodash'
 
-import { app } from '@/app'
 import { strDelimiter, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { ObjectOf } from '@/utils/types'
@@ -19,6 +18,7 @@ type StoreType = {
   actionAddrMap: ObjectOf<{
     label: string
     api: string
+    actionDesc?: string
   }>
 }
 const store: StoreType = {
@@ -57,7 +57,7 @@ const resolePreset = (config: RouteItem[]) => {
     }
 
     map(apis, (apiItem) => {
-      const { limits: apiNeeds, actionAddr } = apiItem
+      const { limits: apiNeeds, actionDesc, actionAddr } = apiItem
       const presetApiNeeds = typeof apiNeeds === 'string' ? [apiNeeds] : apiNeeds
 
       // 设置API默认选项
@@ -65,6 +65,7 @@ const resolePreset = (config: RouteItem[]) => {
       apiItem.api = apiItem.url || ''
 
       store.actionAddrMap[apiItem.actionAddr] = {
+        actionDesc,
         api: apiItem.api,
         label: `${nodeLabel}${strDelimiter}${presetApiNeeds
           ?.map((i) => get(limits, `${i}.label`) || '--')
@@ -72,13 +73,6 @@ const resolePreset = (config: RouteItem[]) => {
       }
     })
   })
-
-  // 处理-配置添加的 actionAddrMap
-  if (app.constants.actionAddrMap) {
-    map(app.constants.actionAddrMap, (label, key) => {
-      store.actionAddrMap[key] = { label, api: key }
-    })
-  }
 
   return config
 }
@@ -97,12 +91,12 @@ export function getRouteConfig(refresh?: boolean) {
 }
 
 type ActionAddrOption = {
-  omitGetReq: boolean
+  ignoreGet: boolean
 }
 export function getActionAddrMap(option?: ActionAddrOption) {
-  const { omitGetReq = true } = option || {}
+  const { ignoreGet = true } = option || {}
 
-  if (omitGetReq) {
+  if (ignoreGet) {
     return omitBy(store.actionAddrMap, ({ api }) => api.indexOf('GET ') === 0)
   }
 

@@ -4,7 +4,7 @@
 
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
-import { isFunction, map, cloneDeep } from 'lodash'
+import { isFunction, map, cloneDeep, get } from 'lodash'
 import React, {
   createContext,
   lazy,
@@ -127,7 +127,8 @@ const PrestComponent = (props: PresetComponentProps) => {
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
     const mockSource = !app.env.isMock ? {} : cloneDeep(getPageMockSource(fileOption))
-    const pagePreset = cloneDeep(getPagePreset(fileOption)) || {}
+    const pagePreset =
+      cloneDeep(getPagePreset(fileOption)) || get(lazyFileAmisProps, 'schema.preset') || {}
     const nodePath = getNodePath(fileOption)
 
     pagePreset.nodePath = nodePath

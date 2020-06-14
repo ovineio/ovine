@@ -5,12 +5,13 @@
  * 请求模块: https://ovine.igroupes.com/org/docs/modules/request
  */
 
-import { isPlainObject } from 'lodash'
+import { get } from 'lodash'
 
 import logger from '@core/utils/logger'
 import { Request } from '@core/utils/request'
 import { getStore } from '@core/utils/store'
 
+import { apis } from './common/apis'
 import { storeKeys } from './constants'
 import { logout } from './user'
 
@@ -27,35 +28,35 @@ request.onPreRequest = (option) => {
 
 // 请求发送前 回调
 request.onRequest = (option) => {
-  try {
-    const { key, token } = getStore(storeKeys.auth) || {}
-    const { actionAddr } = option
+  const { key, token } = getStore(storeKeys.auth) || {}
+  const { actionAddr, headers = {} } = option
 
-    // 开启携带 cookies 信息
-    option.credentials = 'include'
+  // 开启携带 cookies 信息
+  option.credentials = 'include'
 
-    // 携带用户鉴权信息
-    if (key) {
-      option.headers[key] = token
-    }
-
-    // 操作地址
-    if (actionAddr) {
-      option.headers['X-ACTION-ADDR'] = actionAddr
-    }
-  } catch (error) {
-    log.error('onRequest', error)
+  // demo api 携带用户鉴权信息，具体鉴权需自行实现
+  if (key) {
+    headers[key] = token
   }
+
+  // 操作地址
+  if (actionAddr) {
+    headers['X-ACTION-ADDR'] = actionAddr
+  }
+
+  option.headers = headers
+
   return option
 }
 
 // 接收到请求正常结果 回调
-request.onSuccess = ({ source = {}, option }) => {
-  const { code, data = {} } = source
+request.onSuccess = (source, option) => {
+  const { code = 0, msg, message } = source
   const { api } = option
 
   // 退出接口，不处理
-  if (api !== 'POST ovapi/user/logout') {
+  if (api !== apis.selfLogout.url) {
+    // token 异常 code 处理
     if (code === 10023 || code === 10022) {
       logout({
         tip: '当前用户登录过期，请重新登录',
@@ -63,21 +64,27 @@ request.onSuccess = ({ source = {}, option }) => {
     }
   }
 
-  // 列表接口适配
-  if (isPlainObject(data) && data.list) {
-    const { list, count, ...rest } = data
-    source.data = {
-      ...rest,
+  // demo api 对  amis 整体接口适配
+  const apiSource = {
+    ...source,
+    status: code,
+    msg: msg || message,
+  }
+
+  // demo api 对 amis curd 接口适配
+  if (get(apiSource, 'data.list')) {
+    const { list, count, ...restList } = apiSource.data
+    apiSource.data = {
+      ...restList,
       total: count || 0,
       items: list,
     }
   }
 
-  return source
+  return apiSource
 }
 
 // 请求发送错误错误 回调
-request.onError = (option) => {
-  const { error, ...reset } = option
-  log.warn('请求发送出现错误', { option: reset }, error)
+request.onError = (response, option, error) => {
+  log.warn('请求发送出现错误', { response, option }, error)
 }

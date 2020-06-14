@@ -21,9 +21,20 @@ export const fixEditorLoader = ({ publicPath }: any) => ({
 export const fixFactoryLoader = () => ({
   loader: 'string-replace-loader',
   options: {
-    search: '\\~rendererNames\\.indexOf\\(config\\.name\\)',
-    flags: 'm',
-    replace: '!window.IS_WEBPACK_DEV_SERVER && ~rendererNames.indexOf(config.name)',
+    multiple: [
+      {
+        // 添加 热跟新支持
+        search: '\\~rendererNames\\.indexOf\\(config\\.name\\)',
+        flags: 'm',
+        replace: '!window.IS_WEBPACK_DEV_SERVER && ~rendererNames.indexOf(config.name)',
+      },
+      // {
+      //   // 去掉多余的请求封装
+      //   search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
+      //   flags: 'm',
+      //   replace: '() => { console.log(123) }',
+      // },
+    ],
   },
 })
 
