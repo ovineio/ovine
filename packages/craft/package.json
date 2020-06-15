@@ -1,0 +1,40 @@
+{
+  "name": "@ovine/craft",
+  "version": "0.0.1-alpha.11",
+  "description": "Apply ovine template more easily.",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "tsc": "yarn clean && tsc",
+    "dev": "tsc -w",
+    "clean": "rimraf ./lib",
+    "clean:tmp": "rimraf ./tmp/*",
+    "cli": "node ../cli/bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CareyToboo/ovine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CareyToboo/ovine/issues"
+  },
+  "author": "carey toboos",
+  "license": "MIT",
+  "keywords": [
+    "aims",
+    "ovine",
+    "react",
+    "typescript",
+    "admin-template"
+  ],
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
+  "devDependencies": {
+    "@craftjs/core": "^0.1.0-beta.7",
+    "@fluentui/react": "^7.120.0"
+  }
+}
