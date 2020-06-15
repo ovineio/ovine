@@ -203,7 +203,7 @@ export const normalizeLink = (option: { location?: any; to?: any }) => {
 
   if (!pathname) {
     pathname = location.pathname
-  } else if (pathname[0] !== '/') {
+  } else if (pathname[0] !== '/' && !/^https?:\/\//.test(pathname)) {
     const relativeBase = location.pathname
     const paths = relativeBase.split('/')
     paths.pop()

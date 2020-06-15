@@ -1,4 +1,4 @@
-import { confirm, render, toast } from 'amis'
+import { confirm, render, toast, alert } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 
 import { Action } from 'amis/lib/types'
@@ -69,6 +69,7 @@ export default (option: Option) => {
     // 实现警告提示。
     alert: (msg: string) => {
       log.log('alert', msg)
+      alert(msg)
     },
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
@@ -84,11 +85,20 @@ export default (option: Option) => {
       return confirm(confirmText, confirmTitle)
     },
     // 实现页面跳转
-    jumpTo: (to: string, action?: Action, ctx?: object) => {
-      const { href } = normalizeLink({ to })
-      log.log('jumpTo', { href, to, action, ctx })
+    jumpTo: (to: string, action: Action, ctx?: object) => {
+      const { href: link } = normalizeLink({ to })
+      const { blank } = action || {}
+      log.log('jumpTo', { to, action, ctx })
 
-      app.routerHistory.push(href)
+      if (/^https?:\/\//.test(link)) {
+        if (!blank) {
+          window.location.replace(link)
+        } else {
+          window.open(link, '_blank')
+        }
+      } else {
+        app.routerHistory.push(link)
+      }
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace: boolean = false) => {

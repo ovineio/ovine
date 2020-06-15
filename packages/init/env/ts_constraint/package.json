@@ -43,7 +43,8 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "prettier": "^1.19.1",
     "husky": "^4.2.3",
-    "lint-staged": "^10.0.7"
+    "lint-staged": "^10.0.7",
+    "typescript": "^3.9.5"
   },
   "license": "MIT",
   "husky": {
