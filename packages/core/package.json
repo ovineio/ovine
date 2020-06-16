@@ -46,7 +46,6 @@
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "core-js": "^3.6.4",
-    "highlight.js": "^9.18.1",
     "proxy-polyfill": "^0.3.0"
   },
   "engines": {

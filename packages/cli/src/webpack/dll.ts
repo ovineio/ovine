@@ -39,7 +39,6 @@ const dllModules = [
   'animate.css/animate.css',
   'font-awesome/css/font-awesome.css',
 
-  'highlight.js/styles/shades-of-purple.css',
   'react-datetime/css/react-datetime.css',
   'video-react/dist/video-react.css',
   'cropperjs/dist/cropper.css',
@@ -114,7 +113,12 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: /\.css$/,
+          exclude: [amis.bootStropCss],
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: amis.bootStropCss,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', amis.fixBootStropCss()],
         },
         {
           test: new RegExp(

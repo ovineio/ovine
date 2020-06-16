@@ -7,6 +7,7 @@ import { staticLibDirPath } from '../constants'
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
 export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.js/
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
+export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
 
 export const fixEditorLoader = ({ publicPath }: any) => ({
   loader: 'string-replace-loader', // transform amis editor worker files
@@ -45,5 +46,15 @@ export const fixFroalaLoader = () => ({
     search: '\\.forEach\\(function \\(init\\) \\{ return init\\(\\); \\}\\)',
     flags: 'm',
     replace: '',
+  },
+})
+
+// a:not[href] is not good.
+export const fixBootStropCss = () => ({
+  loader: 'string-replace-loader',
+  options: {
+    search: 'a\\:not\\(\\[href\\]\\)',
+    flags: 'm',
+    replace: '.ignore-anothref',
   },
 })

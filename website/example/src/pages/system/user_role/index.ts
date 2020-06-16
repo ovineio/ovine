@@ -73,7 +73,7 @@ export const schema = {
       {
         type: 'operation',
         label: '操作',
-        width: 80,
+        width: 92,
         limits: ['editRole', 'editLimit', 'delRole'],
         limitsLogic: 'or',
         buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],

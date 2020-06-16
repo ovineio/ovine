@@ -31,6 +31,7 @@ export default () => {
 
   const toggleInput = (toggle?: any) => {
     const isShow = typeof toggle === 'boolean' ? toggle : !showInput
+
     setState((d) => {
       d.showInput = isShow
     })
@@ -39,6 +40,7 @@ export default () => {
         $($searchRef.current)
           .find('input')
           .click()
+          .focus()
       }, 100)
     }
   }
@@ -53,7 +55,7 @@ export default () => {
       const $input = $search.find('input')
       if (!$input.val()) {
         if ($search.find('.is-opened').length) {
-          $input.click()
+          $search.find('div[class$="PopOver-overlay"]').click()
         }
         setState((d) => {
           d.showInput = false
@@ -80,7 +82,7 @@ export default () => {
           clearable: false,
           searchable: true,
           valueField: 'nodePath',
-          placeholder: '搜索侧边栏...',
+          placeholder: ' ',
           options: asideMenus.map((item) => {
             const { label, limitLabel } = item
             return {

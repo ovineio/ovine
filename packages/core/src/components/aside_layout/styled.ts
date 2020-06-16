@@ -39,12 +39,13 @@ export const StyledLayout = styled.div`
 
 export const SearchInput = styled.div`
   position: relative;
-  top: 5px;
+  top: 2px;
+  height: 34px;
   ${({ theme: { ns } }) => css`
     .${ns}TreeSelect-arrow {
       display: none;
     }
-    .${ns}TreeSelect-input {
+    .${ns}TreeSelect {
       width: 0;
       display: none;
       border-width: 0 0 1px 0;
@@ -60,7 +61,7 @@ export const SearchInput = styled.div`
       border-radius: 2px;
     }
     .active {
-      .${ns}TreeSelect-input {
+      .${ns}TreeSelect {
         display: flex;
         width: 180px;
       }
