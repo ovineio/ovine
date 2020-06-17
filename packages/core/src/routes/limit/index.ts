@@ -131,7 +131,7 @@ export const getLimitMenus = (refresh?: boolean) => {
 
     // limits 表示 当前节点 有子权限
     if (limits) {
-      item.children = map(limits, ({ icon, label, description }, key) => {
+      item.children = map(limits, ({ icon, label }, key) => {
         const needs =
           key === routeLimitKey
             ? undefined
@@ -139,7 +139,6 @@ export const getLimitMenus = (refresh?: boolean) => {
 
         return {
           label,
-          description,
           needs,
           icon: icon || 'fa fa-code',
           nodePath: `${nodePath}/${key}`,

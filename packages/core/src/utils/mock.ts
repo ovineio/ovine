@@ -21,10 +21,10 @@ type Updater<T = {}> = Partial<T> | ((d: Partial<T>) => Partial<T>)
 
 type OperationOption<S = {}, P = {}> = {
   updater?: Updater<S>
-  response?: Req.ReqServerApiRes<P>
+  response?: Req.ReqApiRes<P>
 }
 
-const defaultApiRes: Req.ReqServerApiRes<any> = { code: 0 }
+const defaultApiRes: Req.ReqApiRes<any> = { code: 0 }
 
 export class MockListStore<S = {}, P = S> {
   private list: S[] = []
@@ -52,7 +52,7 @@ export class MockListStore<S = {}, P = S> {
     return !query ? this.list : query(this.list)
   }
 
-  public add(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S> {
+  public add(data: P, option: OperationOption<S, P>): Req.ReqApiRes<S> {
     const { updater, response } = this.resolveOption(data, option)
     const itemData = this.getItemData(data)
     const newItem: any = {
@@ -67,7 +67,7 @@ export class MockListStore<S = {}, P = S> {
     return response
   }
 
-  public updateById(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S> {
+  public updateById(data: P, option: OperationOption<S, P>): Req.ReqApiRes<S> {
     const { updater, response } = this.resolveOption(data, option)
     const { idx, itemData } = this.getItemInfo(data)
     if (idx > -1 && this.list[idx]) {
@@ -92,7 +92,7 @@ export class MockListStore<S = {}, P = S> {
   // public batchUpdateBy() {}
   // public batchUpdateById() {}
 
-  public deleteById(data: P, option: OperationOption<S, P>): Req.ReqServerApiRes<S> {
+  public deleteById(data: P, option: OperationOption<S, P>): Req.ReqApiRes<S> {
     const { response } = this.resolveOption(data, option)
     const { idx } = this.getItemInfo(data)
     this.list = produce(this.list, (d) => {
@@ -104,7 +104,7 @@ export class MockListStore<S = {}, P = S> {
   public deleteBy(
     predicate: (data: P) => boolean,
     option: OperationOption<S, P>
-  ): Req.ReqServerApiRes<S> {
+  ): Req.ReqApiRes<S> {
     const { response } = this.resolveOption({} as any, option)
 
     this.list = produce(this.list, (d: any) => {

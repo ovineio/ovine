@@ -5,12 +5,12 @@
 import { addLibRenderer } from '@core/components/amis/lib_renderer'
 import { checkLimitByNodePath } from '@core/routes/limit/exports'
 
+import { limitKeys } from '../constants'
 import { apis } from './apis'
-import { limits } from './limits'
 
 export const definitions = {
   sysRoleIdPicker: {
-    limits: limits.global.sysRoleIdPicker,
+    limits: limitKeys.global.sysRoleIdPicker,
     type: 'select',
     name: 'roleIds',
     clearable: true,
@@ -31,7 +31,7 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
   }
 
   // 校验是否具有 权限
-  const isAuth = checkLimitByNodePath(limits.global.sysUserInfoModal)
+  const isAuth = checkLimitByNodePath(limitKeys.global.sysUserInfoModal)
 
   if (!isAuth) {
     return userId

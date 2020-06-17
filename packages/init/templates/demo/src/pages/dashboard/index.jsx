@@ -123,7 +123,7 @@ export const schema = {
         type: 'form',
         title: '过滤条件',
         className: 'tab-filter',
-        submitOnInit: true,
+        submitOnInit: false,
         wrapWithPanel: false,
         mode: 'inline',
         target: 'tab-rain',

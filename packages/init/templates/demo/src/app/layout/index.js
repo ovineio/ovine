@@ -6,7 +6,7 @@ import routes from '../routes/index'
 import { itemUserSchema } from './item_user'
 
 /**
- * 目前布局这块不能使用权限控制逻辑
+ * 目前布局这块没有权限控制逻辑
  */
 export const layout = {
   routes,
@@ -33,10 +33,10 @@ export const layout = {
         href: 'https://ovine.igroupes.com/org/',
       },
       {
-        type: 'item-search-menu', // 所有侧边栏
+        type: 'item-search-menu', // 搜索侧边栏
       },
       {
-        type: 'head-item', // head-item
+        type: 'head-item', // 头部工具项
         align: 'right',
         body: {
           type: 'html',

@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.0.1-alpha.11",
+  "version": "0.0.1",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
@@ -72,7 +72,7 @@
     "terser-webpack-plugin": "^2.2.1",
     "thread-loader": "^2.1.2",
     "ts-loader": "^5.4.5",
-    "typescript": "^3.7.5",
+    "typescript": "^3.9.5",
     "url-loader": "^1.1.2",
     "wait-file": "^1.0.5",
     "webpack": "^4.41.2",

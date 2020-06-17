@@ -13,6 +13,7 @@ const prest = {
   apis: {
     chart: {
       url: 'GET ovapi/stat/data',
+      cache: 500,
       limits: '$page',
     },
   },

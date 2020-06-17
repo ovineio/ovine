@@ -10,10 +10,10 @@ import { app } from '@core/app'
 import { setAppLimits } from '@core/routes/limit/exports'
 import { clearStore, getStore } from '@core/utils/store'
 
-import { storeKeys } from '../constants'
-import { userMock } from './mock'
+import { apis } from './common/apis'
+import { storeKeys } from './constants'
 
-let userInfo = {}
+let userInfo: any = {}
 
 /**
  * 系统登录的鉴权方法，返回值 true 表示，用户可以正常访问， false 表示需要 重新登录。
@@ -21,31 +21,26 @@ let userInfo = {}
 export async function onAuth() {
   // demo 项目用于统计的接口，可以自行删除
   app.request({
-    url: 'POST ovapi/stat/data',
+    url: apis.pageStat.url,
     data: { code: 100001 },
   })
   try {
-    const source = await fetchUserInfo()
-    const { code, data } = source
-    if (code === 0) {
-      userInfo = data || {}
-      // 从用户信息中获取权限，并设置到应用中
-      setAppLimits(data.limit)
+    await fetchUserInfo()
+    // 从用户信息中获取权限，并设置到应用中
+    if (userInfo.limit) {
+      setAppLimits(userInfo.limit)
       return true
     }
   } catch (_) {
     //
   }
-
   return false
 }
 
 export async function fetchUserInfo() {
-  return app.request<any>({
-    url: 'GET ovapi/user/info',
-    expired: 1,
-    mockSource: userMock,
-    mock: false,
+  return app.request(apis.getSelfInfo).then((source) => {
+    userInfo = source.data.data
+    return userInfo
   })
 }
 
@@ -64,9 +59,7 @@ export function logout(option?: { tip?: string; useApi?: boolean }) {
   clearStore(storeKeys.auth)
 
   if (useApi) {
-    app.request({
-      url: 'POST ovapi/user/logout',
-    })
+    app.request(apis.selfLogout)
   }
 }
 

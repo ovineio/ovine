@@ -50,6 +50,9 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /** 适配 bootstrap 升级,等 amis 官方升级搭配 4.0+ 就可以 */
+  svg.icon {
+    top: 0 !important;
+  }
   .glyphicon {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -69,13 +72,6 @@ const GlobalStyle = createGlobalStyle`
       content: "\f00d";
     }
   }
-
-  a.rdtBtnConfirm {
-    color: #fff;
-    &:hover {
-      color: #fff;
-    }
-  }
   
   [role=button] {
     cursor: pointer;
@@ -83,6 +79,7 @@ const GlobalStyle = createGlobalStyle`
 
 
   /** lib 主题相关的全局样式 */
+  /** amis 兼容  */
   ${({ theme: { ns, colors } }) => css`
     body > div {
       color: ${colors.text};
@@ -112,6 +109,26 @@ const GlobalStyle = createGlobalStyle`
         .${ns}Drawer-close {
           display: none;
         }
+      }
+    }
+
+    .${ns}Crud-pager {
+      & > div {
+        white-space: nowrap;
+      }
+    }
+
+    /** 1.0.14 Tree BUG */
+    .${ns}Tree-itemIcon {
+      line-height: 30px;
+      &.${ns}Tree-leafIcon {
+        svg {
+          display: block;
+          margin-top: 8px;
+        }
+      }
+      svg {
+        display: none;
       }
     }
   `}

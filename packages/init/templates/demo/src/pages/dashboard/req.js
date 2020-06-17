@@ -85,7 +85,7 @@ export const onBarChartSuc = (source) => {
   const maxUser = !list.length ? 10 : maxBy(list, (i) => i.loginCount).loginCount + 20
   const maxCount = !list.length ? 10 : maxBy(list, (i) => i.showCount).showCount + 20
 
-  return {
+  source.data = {
     table: [...list].reverse(),
     chart: {
       color: getChartColor(),
@@ -163,4 +163,6 @@ export const onBarChartSuc = (source) => {
       ],
     },
   }
+
+  return source
 }

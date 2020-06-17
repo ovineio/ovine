@@ -11,5 +11,4 @@ import { definitions } from './common/renderers'
 
 export const amis: AppAmis = {
   definitions, // ovine 扩展可用全局的定义，使用 $ref 引用
-  // apiResAdapter 用于重写 ovine 内部对请求返回值的扩展
 }

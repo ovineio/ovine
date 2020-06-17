@@ -114,31 +114,29 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
       return isDir || reg.test(currItem) || !esReg.test(currItem)
     })
 
-    // copy env files
-    copyDirSync(`${libDir}/env`, dest, (currItem: string) => {
-      if (
-        // ts not copy es_**/ files
-        (useTs && /^es_/.test(currItem)) ||
-        // es not copy ts_**/ files
-        (!useTs && /^ts_/.test(currItem)) ||
-        // without eslint not copy *_constraint/** files
-        (!useLint && /_constraint$/.test(currItem))
-      ) {
-        return false
-      }
+    fs.readdirSync(`${libDir}/env`)
+      .sort((a, b) => a.localeCompare(b))
+      .forEach((i) => {
+        if (
+          // ts not copy es_**/ files
+          (useTs && /^es_/.test(i)) ||
+          // es not copy ts_**/ files
+          (!useTs && /^ts_/.test(i)) ||
+          // without eslint not copy *_constraint/** files
+          (!useLint && /_constraint$/.test(i))
+        ) {
+          return
+        }
 
-      // fixed: ".gitignore" is omit by npm registry
-      if (currItem === 'gitignore') {
-        return '.gitignore'
-      }
-
-      // delete the es_*,ts_* dir name
-      if (/(_constraint|_normal)$/.test(currItem)) {
-        return ''
-      }
-
-      return true
-    })
+        if (/(_constraint|_normal)$/.test(i)) {
+          copyDirSync(`${libDir}/env/${i}`, dest, (currItem: string) => {
+            // fixed: ".gitignore" is omit by npm registry
+            return currItem === 'gitignore' ? '.gitignore' : true
+          })
+        } else {
+          copyDirSync(`${libDir}/env/${i}`, `${dest}/${i}`)
+        }
+      })
   } catch (err) {
     spinner.fail(chalk.red('Copying template files failed!'))
     throw err
@@ -201,6 +199,14 @@ function copyDirSync(
   handle?: (currItem: string, parentPath: string) => string | boolean
 ) {
   fse.ensureDirSync(dest)
+  const srcStat = fs.statSync(src)
+  if (srcStat.isFile()) {
+    fse.copySync(src, `${dest}/${path.parse(src).base}`, {
+      overwrite: true,
+    })
+    return
+  }
+
   fs.readdirSync(src).forEach((item) => {
     const itemPath = `${src}/${item}`
     const stat = fs.statSync(itemPath)
@@ -218,7 +224,9 @@ function copyDirSync(
     } else if (stat.isFile()) {
       const destFile = `${dest}/${destName}`
       spinner.text = chalk.grey(`Created file: ${destFile}`)
-      fse.copyFileSync(itemPath, destFile)
+      fse.copySync(itemPath, destFile, {
+        overwrite: true,
+      })
     }
   })
 }

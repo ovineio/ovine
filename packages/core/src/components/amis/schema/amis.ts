@@ -1,13 +1,14 @@
-import { confirm, render, toast } from 'amis'
+import { confirm, render, toast, alert } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 
 import { Action } from 'amis/lib/types'
+import { get } from 'lodash'
 import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
 import logger from '@/utils/logger'
 
-import { normalizeLink, libApiResAdapter } from './func'
+import { normalizeLink } from './func'
 import { LibSchema } from './types'
 
 const log = logger.getLogger('lib:components:amis:schema')
@@ -23,7 +24,8 @@ type Option = {
 
 export default (option: Option) => {
   const { schema, props, theme, option: amisOption } = option
-  const { apiResAdapter, ...appSettings } = app.amis
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { definitions, ...appSettings } = app.amis
   const libOptions: any = {
     session: 'global',
     // number 固底间距 顶部间距
@@ -33,10 +35,10 @@ export default (option: Option) => {
     // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     richTextToken: false,
     // 是否取消 ajax请求
-    isCancel: (value: any) => {
-      log.log('isCancel', value.name, value.name === 'AbortError')
-      if (value.name === 'AbortError') {
-        log.info('isCancel 请求被终止', value)
+    isCancel: (reson: any) => {
+      const isCancel = get(reson, 'error.name') === 'AbortError'
+      if (isCancel) {
+        log.info('isCancel 请求被终止')
         return true
       }
       return false
@@ -67,6 +69,7 @@ export default (option: Option) => {
     // 实现警告提示。
     alert: (msg: string) => {
       log.log('alert', msg)
+      alert(msg)
     },
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
@@ -82,11 +85,20 @@ export default (option: Option) => {
       return confirm(confirmText, confirmTitle)
     },
     // 实现页面跳转
-    jumpTo: (to: string, action?: Action, ctx?: object) => {
-      const { href } = normalizeLink({ to })
-      log.log('jumpTo', { href, to, action, ctx })
+    jumpTo: (to: string, action: Action, ctx?: object) => {
+      const { href: link } = normalizeLink({ to })
+      const { blank } = action || {}
+      log.log('jumpTo', { to, action, ctx })
 
-      app.routerHistory.push(href)
+      if (/^https?:\/\//.test(link)) {
+        if (!blank) {
+          window.location.replace(link)
+        } else {
+          window.open(link, '_blank')
+        }
+      } else {
+        app.routerHistory.push(link)
+      }
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace: boolean = false) => {
@@ -124,7 +136,10 @@ export default (option: Option) => {
   }
 
   return render(schema, props, {
-    fetcher: (reqOpts: any) => app.request(reqOpts).then(apiResAdapter || libApiResAdapter),
+    fetcher: (reqOpts: any) => {
+      reqOpts.isEnvFetcher = true
+      return app.request(reqOpts)
+    },
     ...libOptions,
     ...appSettings,
     ...amisOption,

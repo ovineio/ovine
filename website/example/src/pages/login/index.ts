@@ -6,7 +6,6 @@ import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
-import { userMock } from '~/app/user/mock'
 
 import authCode from './code'
 import loginCss from './styled'
@@ -36,7 +35,6 @@ export const schema = {
     apis: {
       login: {
         url: 'POST ovapi/user/login',
-        mockSource: userMock,
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')
         },

@@ -18,6 +18,13 @@
     "paths": {
       "@/*": ["./*"]
     },
+    "types": [
+      "@types/react",
+      "@types/lodash",
+      "@types/styled-components",
+      "@types/react-router-dom",
+      "@types/node"
+    ],
     "plugins": [
       {
         "transform": "typescript-transform-paths"
@@ -28,5 +35,6 @@
       }
     ]
   },
-  "include": ["./src", "./typings"]
+  "include": ["./src", "./typings"],
+  "exclude": ["**/__tests__/**/*"]
 }

@@ -22,7 +22,6 @@ $Form-input-borderColor: #cfdadd;
 // lib core redefined
 $Layout-aside-onHover-bg: lighten($info, 5%);
 $Layout-aside-onAcitve-bg: darken($info, 5%);
-$Modal-title-lineHeight: 1;
 
 // site default theme scss
 @import './themes/_default.scss';

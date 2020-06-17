@@ -96,10 +96,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       filename: isProd ? '[name]_[contenthash:6].js' : '[name].js',
       chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].js' : 'chunks/[name].js',
     },
-    // Don't throw warning when asset created is over 250kb
+    // throw warning when asset created is over 1.5 M
     performance: {
-      maxEntrypointSize: 400 * 1000,
-      maxAssetSize: 400 * 1000,
+      maxEntrypointSize: 1500 * 1024,
+      maxAssetSize: 1024 * 1024,
       assetFilter: (filePath) => {
         // Filter genDir or theme files
         const isLibFiles = /static\/ovine/.test(filePath)

@@ -6,7 +6,6 @@ import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
-import { userMock } from '~/app/user/mock'
 
 import authCode from './code'
 import loginCss from './styled'
@@ -22,7 +21,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="login-title">
-          <img src="/static/images/logo_grey.png" />
+            <img src="/static/images/logo_grey.png" />
             <p>Ovine 管理后台系统</p>
           </h6>
         `,
@@ -36,7 +35,6 @@ export const schema = {
     apis: {
       login: {
         url: 'POST ovapi/user/login',
-        mockSource: userMock,
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')
         },

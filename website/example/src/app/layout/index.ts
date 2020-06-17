@@ -33,10 +33,10 @@ export const layout = {
         href: 'https://ovine.igroupes.com/org/',
       },
       {
-        type: 'item-search-menu', // 所有侧边栏
+        type: 'item-search-menu', // 搜索侧边栏
       },
       {
-        type: 'head-item', // head-item
+        type: 'head-item', // 头部工具项
         align: 'right',
         body: {
           type: 'html',

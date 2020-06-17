@@ -1,9 +1,4 @@
-import { map } from 'lodash'
-
-import { strDelimiter } from '@core/constants'
-import { getActionAddrMap } from '@core/routes/config'
-
-import { ActionAddrCell } from './cells'
+import { ActionAddrCell, getActionAddrData } from './custom'
 
 export const schema = {
   type: 'page',
@@ -128,12 +123,7 @@ export const schema = {
             label: '操作路径',
             clearable: true,
             searchable: true,
-            options: map(getActionAddrMap(), (item, value) => {
-              return {
-                value,
-                label: item.label.replace(strDelimiter, ' '),
-              }
-            }),
+            options: getActionAddrData(true),
           },
           {
             type: 'text',

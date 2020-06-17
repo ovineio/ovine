@@ -71,13 +71,13 @@ export function compileWebpack(config: any): Promise<any> {
       if (err) {
         reject(err)
       }
-      if (stats.hasErrors()) {
+      if (stats?.hasErrors()) {
         stats.toJson('errors-only').errors.forEach((e) => {
           console.error(e)
         })
         reject(new Error('Failed to compile with errors.'))
       }
-      if (stats.hasWarnings()) {
+      if (stats?.hasWarnings()) {
         stats.toJson('errors-warnings').warnings.forEach((warning) => {
           console.warn(warning)
         })

@@ -1,5 +1,5 @@
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
-import { isEmpty } from 'lodash'
+import { isEmpty, cloneDeep } from 'lodash'
 import React, { useMemo, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
@@ -42,7 +42,7 @@ export const Amis = withRouter((props: Props) => {
   const envSchema: LibSchema = useMemo(() => {
     if (definitions) {
       schema.definitions = {
-        ...definitions,
+        ...cloneDeep(definitions),
         ...schema.definitions,
       }
     }

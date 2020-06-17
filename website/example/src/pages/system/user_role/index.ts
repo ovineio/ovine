@@ -1,4 +1,4 @@
-import { limits } from '~/app/common/limits'
+import { limitKeys } from '~/app/constants'
 
 import members from './members'
 
@@ -9,7 +9,7 @@ export const schema = {
     api: '$preset.apis.list',
     filter: {
       $preset: 'forms.filter',
-      limits: `${limits.global.sysRoleIdPicker}`,
+      limits: `${limitKeys.global.sysRoleIdPicker}`,
     },
     filterTogglable: true,
     perPageAvailable: [50, 100, 200],
@@ -73,7 +73,7 @@ export const schema = {
       {
         type: 'operation',
         label: '操作',
-        width: 80,
+        width: 92,
         limits: ['editRole', 'editLimit', 'delRole'],
         limitsLogic: 'or',
         buttons: ['$preset.actions.edit', '$preset.actions.editLimit', '$preset.actions.del'],

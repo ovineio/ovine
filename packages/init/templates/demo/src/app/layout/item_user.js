@@ -2,33 +2,12 @@
  * 顶部栏，用户头像扩展
  */
 
-import { css, DefaultTheme } from 'styled-components'
+import { css } from 'styled-components'
 
 import { ellipsis } from '@core/styled/utils'
 
-import { userMock } from '~/app/user/mock'
-
+import { apis } from '../common/apis'
 import { logout } from '../user'
-
-const apis = {
-  info: {
-    url: 'GET ovapi/user/info',
-    expired: 1,
-    mockSource: userMock,
-  },
-  update: {
-    url: 'PUT ovapi/user/info',
-    mockSource: userMock,
-  },
-  password: {
-    url: 'PUT ovapi/user/password',
-    mockSource: userMock,
-  },
-  uploadAvatar: {
-    url: 'POST ovapi/file/image',
-    json: false,
-  },
-}
 
 export const itemUserSchema = {
   type: 'lib-css',
@@ -36,7 +15,7 @@ export const itemUserSchema = {
   body: {
     type: 'service',
     name: 'headItemUserInfo',
-    api: apis.info,
+    api: apis.getSelfInfo,
     body: {
       type: 'lib-dropdown',
       className: 'clickable',
@@ -63,7 +42,7 @@ export const itemUserSchema = {
             title: '您的个人信息',
             body: {
               type: 'form',
-              api: apis.update,
+              api: apis.editSelfInfo,
               messages: {
                 fetchSuccess: '个人信息修改成功',
               },
@@ -73,7 +52,7 @@ export const itemUserSchema = {
                   type: 'image',
                   label: '头像',
                   name: 'avatar',
-                  reciever: apis.uploadAvatar,
+                  reciever: apis.uploadImg,
                   autoUpload: false,
                   maxLength: 1,
                   maxSize: 1024 * 300,
@@ -118,7 +97,7 @@ export const itemUserSchema = {
             size: 'sm',
             body: {
               type: 'form',
-              api: apis.password,
+              api: apis.changeSelfPwd,
               messages: {
                 saveSuccess: '[密码修改成功] 请使用新密码重新登录',
                 saveFailed: '密码修改失败',
@@ -163,10 +142,7 @@ export const itemUserSchema = {
           level: 'link',
           icon: 'fa fa-reply',
           label: '退出登录',
-          onClick: () =>
-            logout({
-              useApi: true,
-            }),
+          onClick: () => logout({ useApi: true }),
         },
       ],
     },
