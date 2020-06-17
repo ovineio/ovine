@@ -37,9 +37,6 @@ export const crudCss = ({ ns, colors }: DefaultTheme) => css`
       }
     }
   }
-  .${ns}Table-content {
-    overflow: hidden;
-  }
   .${ns}Crud-body {
     margin-bottom: 0;
   }
@@ -108,10 +105,4 @@ export const crudCss = ({ ns, colors }: DefaultTheme) => css`
       }
     }
   } */
-
-  @media (max-width: ${breakpoints.md - 1}px) {
-    .${ns}Table-content {
-      min-height: 300px;
-    }
-  }
 `

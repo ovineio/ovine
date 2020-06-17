@@ -112,6 +112,12 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .${ns}Crud-pager {
+      & > div {
+        white-space: nowrap;
+      }
+    }
+
     /** 1.0.14 Tree BUG */
     .${ns}Tree-itemIcon {
       line-height: 30px;
