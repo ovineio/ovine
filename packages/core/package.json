@@ -1,6 +1,6 @@
 {
   "name": "@ovine/core",
-  "version": "0.0.1-alpha.12",
+  "version": "0.0.1",
   "description": "Build flexible admin system with json.",
   "private": false,
   "publishConfig": {
