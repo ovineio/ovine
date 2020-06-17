@@ -14,7 +14,7 @@ export const schema = {
         type: 'html',
         html: `
           <h6 class="register-title">
-          <img src="/demo/static/images/logo_grey.png" />
+          <img src="/static/images/logo_grey.png" />
             <p>Ovine 注册新账号</p>
           </h6>
         `,
