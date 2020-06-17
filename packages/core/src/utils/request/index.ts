@@ -258,7 +258,7 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
     data,
     body,
     fetchOptions,
-    dataType = 'json',
+    contentType = 'json',
     qsOptions = {
       encode: false,
       arrayFormat: 'indices',
@@ -286,12 +286,12 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
   if (!fetchBody && data && !/GET|HEAD|OPTIONS/.test(method)) {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
-    } else if (hasFile(data) || dataType === 'form-data') {
+    } else if (hasFile(data) || contentType === 'form-data') {
       fetchBody = object2formData(data, qsOptions)
-    } else if (dataType === 'form') {
+    } else if (contentType === 'form') {
       fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
-    } else if (dataType === 'json') {
+    } else if (contentType === 'json') {
       fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
       fetchHeaders['Content-Type'] = 'application/json'
     }
@@ -446,7 +446,7 @@ export class Request<IS = {}, IP = {}> {
   public onRequest?: (option: Types.ReqOption) => Types.ReqOption
 
   // 错误回调
-  public onError?: (response: Types.ReqResponse, option: Types.ReqOption, error: Error) => any
+  public onError?: (response: Types.ReqResponse, option: Types.ReqOption, error: Error) => void
 
   // 请求成功回调
   public onSuccess?: (data: any, option: Types.ReqOption, response: Types.ReqResponse) => any

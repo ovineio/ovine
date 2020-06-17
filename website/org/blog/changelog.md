@@ -3,12 +3,19 @@ id: changelog
 title: 版本更新日志
 ---
 
+### 0.0.1 --- 2020.6.17
+
+- 发布 Ovine 正式基础版本
+
 ### 0.0.1-alpha.12
 
-- 修复 windows 系统 使用 `@ovine/init` 初始化项目后 `build` 出现异常的问题
 - 重构 `request` 模块，尽量与 `amis` 自带的 api 模块兼容
-- 去除不必要配置 `constants.actionAddrMap`需要用带此功能自行实现
+- 去除不必要配置 `constants.actionAddrMap` 需要用此功能需自行实现
 - 重新整理了 `init` 项目的结构
+- 更新到 `amis 1.0.14` 最新版
+- 修复一系列已知道 BUG
+  - 修复 windows 系统 使用 `@ovine/init` 初始化项目后 `build` 出现异常的问题
+  - actionType 为 `url` 时无法跳转
 
 ### 0.0.1-alpha.11
 

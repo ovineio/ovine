@@ -51,7 +51,6 @@ export type AppConfig = {
   amis?: RenderOptions & {
     // Amis 的渲染配置
     definitions?: any
-    apiResAdapter?: (res: any) => any
   }
   request?: Request // 请求模块配置
   theme?: AppTheme // 主题模块配置
@@ -70,7 +69,6 @@ export type AppConfig = {
     }
     toastDuration?: number // Toast 提示持续时间
     loginRoute?: string // 登录路由
-    actionAddrMap?: ObjectOf<string> // 用于识别操作路径
   }
 }
 
@@ -130,7 +128,7 @@ export type RouteItem = {
       label: string
       icon?: string
       needs?: string[]
-      description?: string
+      desc?: string
     }
   }
   apis?: {
@@ -184,7 +182,7 @@ export type SchemaPreset = {
       label: string // 权限标签
       icon?: string // 权限icon
       needs?: string[] // 定义权限依赖
-      description?: string // 权限描述
+      desc?: string // 权限描述
     }
   }
   // 页面内所有异步请求
@@ -194,7 +192,6 @@ export type SchemaPreset = {
       limits?: string | string[] // 接口需要的权限
       // 权限运算逻辑，limits 中所有列举的接口，and，全部满足，or 满足一个即可
       limitsLogic?: 'and' | 'or'
-      actionAddr?: string // 操作路径标识，主要是用来做日志记录
     }
   }
   // 所有操作列表

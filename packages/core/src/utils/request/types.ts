@@ -29,9 +29,9 @@ export type ReqOption<S = any, P = any> = Omit<
   data?: Partial<P> // any
   headers?: any
   body?: BodyInit | null
-  dataType?: 'json' | 'form-data' | 'form'
+  contentType?: 'json' | 'form-data' | 'form'
   token?: 'none' | 'auto' | 'force' // none
-  expired?: number // 毫秒 0
+  expired?: number // 毫秒数 0
   fetchOptions?: Omit<RequestInit, 'header' | 'body'>
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
