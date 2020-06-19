@@ -18,6 +18,11 @@ export const entry = [
     pathToComponent: true,
   },
   {
+    type: 'preset-route', // 路由组件
+    path: '/craft',
+    pathToComponent: true,
+  },
+  {
     type: 'private-route', // 鉴权路由
     path: '/',
     redirect: '/login',

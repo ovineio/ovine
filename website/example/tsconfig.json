@@ -12,7 +12,8 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["./*"],
-      "@core/*": ["../../../packages/core/lib/*"]
+      "@core/*": ["../../../packages/core/lib/*"],
+      "@craft/*": ["../../../packages/craft/lib/*"]
     },
     "types": [
       "@types/react",

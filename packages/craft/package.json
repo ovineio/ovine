@@ -1,17 +1,15 @@
 {
   "name": "@ovine/craft",
   "version": "0.0.1-alpha.11",
-  "description": "Apply ovine template more easily.",
+  "description": "Ovine json editor.",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "tsc": "yarn clean && tsc",
-    "dev": "tsc -w",
-    "clean": "rimraf ./lib",
-    "clean:tmp": "rimraf ./tmp/*",
-    "cli": "node ../cli/bin/index.js"
+    "tsc": "yarn clean && ttsc",
+    "dev": "ttsc -w",
+    "clean": "rimraf ./lib"
   },
   "repository": {
     "type": "git",
@@ -29,12 +27,30 @@
     "typescript",
     "admin-template"
   ],
+  "peerDependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
+    "immer": "^5.3.2",
+    "lodash": "^4.17.15",
+    "react": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "resolutions": {
+    "react": "^16.8.6",
+    "@hot-loader/react-dom": "^16.8.6"
+  },
+  "dependencies": {
+    "@craftjs/core": "^0.1.0-beta.7",
+    "@fluentui/react": "^7.120.0"
+  },
   "engines": {
     "node": ">=10.9.0"
   },
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
-  "devDependencies": {
-    "@craftjs/core": "^0.1.0-beta.7",
-    "@fluentui/react": "^7.120.0"
-  }
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
 }

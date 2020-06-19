@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "target": "es6",
+    "module": "ESNext",
+    "lib": ["es6", "dom"],
+    "skipLibCheck": true,
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "jsx": "react",
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "./src",
+    "noImplicitReturns": false,
+    "typeRoots": ["./typings"],
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "types": [
+      "@types/react",
+      "@types/lodash",
+      "@types/styled-components",
+      "@types/react-router-dom",
+      "@types/node"
+    ],
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
+  },
+  "include": ["./src", "./typings"],
+  "exclude": ["**/__tests__/**/*"]
+}
