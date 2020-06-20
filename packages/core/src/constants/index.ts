@@ -18,27 +18,27 @@ export const breakpoints = {
   xl: 1200,
 }
 
+// core 需要用的一些关键字均使用 libXXX 开头，防止与开发者业务冲突
+
 // 消息通知相关的 key
 export const message = {
   storeRoot: '$store/',
-  layoutSpinner: '$store/layoutSpinner',
-  appTheme: 'appThemeMsg',
-  appLang: 'appLangMsg',
-  updateRouteStore: 'updateRouteStoreMsg',
-  dev: {
-    hot: 'hotReloadMsg',
-  },
+  layoutSpinner: '$store/libLayoutSpinner',
+  appTheme: 'libAppThemeMsg',
+  appLang: 'libAppLangMsg',
+  updateRouteStore: 'libUpdateRouteStoreMsg',
 }
 
 // 存储相关的 key
 export const storage = {
-  appInstance: 'appInstanceStore',
-  userInfo: 'userInfoStore',
-  appTheme: 'appThemeStore',
-  appLimit: 'appLimitStore',
+  appInstance: 'libAppInsStore',
+  userInfo: 'libUserInfoStore',
+  // 注意此处修改 cli 的主题有用到 libAppThemeStore 字符串，修改的时候切记一起改，
+  appTheme: 'libAppThemeStore',
+  appLimit: 'libAppLimitStore',
   dev: {
-    code: 'devCodeGlobal',
-    limit: 'devLimitStore',
-    api: 'devApiStore',
+    code: 'libDevCodeGlobal',
+    limit: 'libDevLimitStore',
+    api: 'libDevApiStore',
   },
 }

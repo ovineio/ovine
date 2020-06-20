@@ -469,7 +469,7 @@ function getThemeScript(options: any) {
     <script>
       (function() {
         var themes = "${themes}".split(',');
-        var theme = (localStorage.getItem('appThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
+        var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
         var currThemeLink = '';
         for (var i = 0; i < themes.length; i++) {
           if (themes[i].indexOf('themes/'+theme) > -1) {

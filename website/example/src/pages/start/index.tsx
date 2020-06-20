@@ -91,7 +91,7 @@ export default () => {
         closeOnOutside
         overlay={false}
         theme={theme}
-        size="md"
+        size="lg"
         onHide={toggleDrawer}
         show={drawerVisible}
         position="right"
