@@ -41,8 +41,7 @@
     "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
-    "@craftjs/core": "^0.1.0-beta.7",
-    "@fluentui/react": "^7.120.0"
+    "@craftjs/core": "^0.1.0-beta.7"
   },
   "engines": {
     "node": ">=10.9.0"
