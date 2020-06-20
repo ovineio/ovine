@@ -23,17 +23,17 @@ const styledConfig = {
   styledComponents: styledComponents[NODE_ENV] || styledComponents.development,
 }
 
-function importPlugin(moduleName, dirName = '') {
-  return [
-    'babel-plugin-import',
-    {
-      libraryName: moduleName,
-      libraryDirectory: '',
-      camel2DashComponentName: false,
-    },
-    dirName,
-  ]
-}
+// function importPlugin(moduleName, dirName = '') {
+//   return [
+//     'babel-plugin-import',
+//     {
+//       libraryName: moduleName,
+//       libraryDirectory: '',
+//       camel2DashComponentName: false,
+//     },
+//     dirName,
+//   ]
+// }
 
 function extendsConfig(siteDir: string) {
   const configFile = path.resolve(siteDir, babelConfigFileName)
@@ -66,7 +66,7 @@ export function getBabelConfig(siteDir: string) {
       'babel-plugin-macros',
       ['babel-plugin-styled-components', styledConfig],
       '@babel/plugin-syntax-dynamic-import',
-      importPlugin('lodash'),
+      // importPlugin('lodash'),
     ],
   }
 }

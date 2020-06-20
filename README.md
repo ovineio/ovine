@@ -56,6 +56,8 @@
 - 适合外包项目、私活
 - 最后，我希望它适合你，节约你宝贵的时间 ^\_^ ～
 
+### [OVINE 版本日志](https://ovine.igroupes.com/org/blog/changelog/)
+
 ### TODO
 
 - 第一阶段

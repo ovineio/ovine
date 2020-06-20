@@ -23,6 +23,9 @@ export const StyledLimit = styled.div`
       &-sublist {
         margin-left: 20px;
       }
+      &-item-icons {
+        display: none;
+      }
     }
 
     &.limit-drawer-normal {

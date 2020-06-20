@@ -2,7 +2,7 @@ import { css, DefaultTheme } from 'styled-components'
 
 export default ({ colors }: DefaultTheme) => css`
   .login-wrapper {
-    width: 450px;
+    max-width: 450px;
     margin: 12% auto 0;
     background-color: ${colors.layoutHeaderBg};
   }
@@ -11,7 +11,7 @@ export default ({ colors }: DefaultTheme) => css`
     margin: 0 0 15px 0px;
     font-size: 30px;
     text-align: center;
-
+    white-space: nowrap;
     img {
       width: 50px;
       display: inline-block;
@@ -35,11 +35,16 @@ export default ({ colors }: DefaultTheme) => css`
   }
 
   .cxd-Form-label {
-    padding-left: 40px;
+    text-align: right !important;
+  }
+
+  .code-input {
+    min-width: 10rem;
   }
 
   .code-img {
     height: 34px;
+    margin-left: 10px;
     cursor: pointer;
   }
 `

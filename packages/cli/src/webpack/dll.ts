@@ -34,11 +34,12 @@ const dllModules = [
   'whatwg-fetch',
   'qs',
   'amis',
+  'lodash',
   'bootstrap/dist/js/bootstrap.bundle.js',
+
   'bootstrap/dist/css/bootstrap.css',
   'animate.css/animate.css',
   'font-awesome/css/font-awesome.css',
-
   'react-datetime/css/react-datetime.css',
   'video-react/dist/video-react.css',
   'cropperjs/dist/cropper.css',
