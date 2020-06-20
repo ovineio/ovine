@@ -18,7 +18,6 @@ import { json2reactFactory } from '@/utils/tool'
 type State = {
   theme: string
   lang: string
-  hotKey: string
 }
 
 const log = logger.getLogger('lib:components:app')
@@ -45,7 +44,6 @@ export const App = hot(() => {
   const [state, setState] = useImmer<State>({
     theme: app.theme.getTheme().name,
     lang: 'zh_CN',
-    hotKey: '',
   })
 
   const { theme } = state
@@ -63,9 +61,6 @@ export const App = hot(() => {
   useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: any, key) => {
     setState((d) => {
       switch (key) {
-        case message.dev.hot:
-          d.hotKey = newValue.hotKey
-          break
         case message.appTheme:
           d.theme = newValue
           break

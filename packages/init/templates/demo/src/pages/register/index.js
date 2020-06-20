@@ -47,12 +47,11 @@ export const schema = {
         className: 'register-form',
         title: '',
         mode: 'horizontal',
-        wrapWithPanel: false,
-        autoFocus: false,
         horizontal: {
           left: 'col-sm-3',
           right: 'col-sm-8',
         },
+        wrapWithPanel: false,
         api: '$preset.apis.register',
         redirect: '/',
         controls: [
@@ -98,7 +97,11 @@ export const schema = {
             type: 'submit',
             level: 'primary',
             label: '注册并登录',
-            inputClassName: 'w-md',
+            inputClassName: 'w-full',
+            horizontal: {
+              left: 'col-sm-2',
+              right: 'col-sm-9',
+            },
           },
         ],
       },
@@ -106,7 +109,7 @@ export const schema = {
   },
   css: ({ colors }) => css`
     .register-wrapper {
-      width: 450px;
+      max-width: 450px;
       margin: 12% auto 0;
       background-color: ${colors.layoutHeaderBg};
     }
@@ -139,7 +142,7 @@ export const schema = {
     }
 
     .cxd-Form-label {
-      padding-left: 40px;
+      text-align: right !important;
     }
   `,
 }

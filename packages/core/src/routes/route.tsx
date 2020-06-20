@@ -232,19 +232,15 @@ export const AppMenuRoutes = (props: { authRoutes: RouteItem[] }) => {
 
     eachTree(children, (item) => {
       if (item.path && !item.limitOnly) {
-        menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} withSuspense={false} {...item} />)
+        menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} {...item} />)
       }
     })
   })
 
   return (
-    <ErrorBoundary type="page">
-      <Suspense fallback="">
-        <Switch>
-          {menuRoutes}
-          <NotFoundRoute />
-        </Switch>
-      </Suspense>
-    </ErrorBoundary>
+    <Switch>
+      {menuRoutes}
+      <NotFoundRoute />
+    </Switch>
   )
 }

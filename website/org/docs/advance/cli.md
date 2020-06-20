@@ -91,16 +91,20 @@ Ovine 默认采用 `css in js` 方式写样式。但是 `amis` 使用的 `scss` 
 
 ### Ovine 版本升级
 
-由于 Ovine 是一个应用型的框架，对 `Amis` 进行了封装，并内置了一些常用功能。如果想升级 `Amis`，必须升级 `Ovine`。升级 `Ovine` 需进行以下操作。
+[Ovine 版本更新日志](/org/blog/changelog/)
 
-- 更新 `Ovine` 相关包
+由于 Ovine 是一个应用型的框架，对 `Amis` 进行了封装，并内置了一些常用功能。如果想升级 `Amis`，必须升级 `Ovine`相关 npm 包。升级 `Ovine` 需进行以下操作。
+
+- 更新 `Ovine` 相关 npm 包
 
   - `yarn upgrade @ovine/cli` 更新 cli 工具
   - `yarn upgrade @ovine/core` 更新 core 包
 
-当 ovine 更新了 amis 版本时，需要额外进行下列步骤
+- 当 `Ovine` 更新了 `Amis` 版本时，需要额外进行下列步骤
 
-- `ovine dll` 编译 dll 静态资源文件
-- `ovine scss` 编译 amis 样式
+- `yarn ovine dll` 编译 Dll 静态资源文件
+- `yarn ovine scss` 编译 Amis 样式
+
+- 当 `Ovine` 只更改了 Dll 相关配置时，仅需要执行 `yarn ovine dll` 即可
 
 > 除了更新这些，如果有重大改版，还需要对应代码细节，进行代码改动。

@@ -15,17 +15,6 @@ type Props = {
   children: any
 }
 
-// const refreshPage = () => {
-//   const hash = uuid()
-//   const url = window.location.href
-//   const refreshUrl =
-//     url.indexOf('_refresh=') > -1
-//       ? `${url.split('_refresh=')[0]}_refresh=${hash}` // 存在 _refresh 直接替换
-//       : `${url}${url.indexOf('?') === -1 ? '?' : '&'}_refresh=${uuid()})}` // 否则添加一个刷新值
-
-//   window.location.href = refreshUrl
-// }
-
 const log = logger.getLogger('lib:components:ErrorBoundary')
 
 type State = {
@@ -48,6 +37,16 @@ class ErrorBoundary extends React.Component<Props, State> {
     log.error('componentDidCatch:', error, errorInfo)
   }
 
+  // 每次更新清空错误状态
+  public getSnapshotBeforeUpdate(_: any, prevState: State) {
+    if (prevState.hasError) {
+      this.setState({
+        hasError: false,
+        error: {},
+      })
+    }
+  }
+
   // 页面内组件加载错误
   private renderCompError() {
     return <div>组件错误</div>
@@ -56,7 +55,6 @@ class ErrorBoundary extends React.Component<Props, State> {
   // 页面加载错误
   private renderPageError() {
     const { error } = this.state
-
     return (
       <StyledErrorPage>
         <div className="inner">
@@ -79,7 +77,6 @@ class ErrorBoundary extends React.Component<Props, State> {
   public render() {
     const { children, type = 'component' } = this.props
     const { hasError } = this.state
-
     if (hasError) {
       switch (type) {
         case 'page':
@@ -92,5 +89,16 @@ class ErrorBoundary extends React.Component<Props, State> {
     return children
   }
 }
+
+// const ErrorBoundaryWrap = (props: Props) => {
+//   const { children, type } = props
+
+//   // hot热更新环境不处理 error提示
+//   if ((module as any).hot) {
+//     return children
+//   }
+
+//   return <ErrorBoundary type={type}>{children}</ErrorBoundary>
+// }
 
 export default ErrorBoundary
