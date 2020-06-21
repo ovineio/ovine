@@ -45,7 +45,6 @@ export default (props: Props) => {
     localStorage.clear()
     sessionStorage.clear()
     toast.success('缓存已经被清理', '操作成功')
-    // setTimeout(userLogout, 1000)
   }
 
   const onChangeTheme = (choseTheme: string, prevTheme?: string) => {
@@ -145,7 +144,7 @@ export default (props: Props) => {
               type: 'button',
               icon: 'fa fa-trash-o',
               label: '清除',
-              confirmText: '本地缓存数据将被删除，需要重新登录，确认清除？',
+              confirmText: '本地缓存数据将被删除，确认清除？',
               onAction: onClearCache,
             },
           },

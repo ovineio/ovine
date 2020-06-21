@@ -58,7 +58,7 @@ export const App = hot(() => {
     }
   }, [])
 
-  useSubscriber([message.appTheme, message.appLang, message.dev.hot], (newValue: any, key) => {
+  useSubscriber([message.appTheme, message.appLang], (newValue: any, key) => {
     setState((d) => {
       switch (key) {
         case message.appTheme:

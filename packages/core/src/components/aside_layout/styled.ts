@@ -54,10 +54,9 @@ export const SearchInput = styled.div`
     .${ns}TreeSelect-value {
       ${ellipsis()};
     }
-    .${ns}Tree {
-      width: 350px;
+    .${ns}TreeSelect-popover .${ns}Tree {
+      min-width: 350px;
       margin-top: 6px;
-      border-color: #dedede;
       border-radius: 2px;
     }
     .active {

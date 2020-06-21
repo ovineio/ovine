@@ -128,13 +128,19 @@ export async function init(rootDir: string, siteName?: string): Promise<void> {
           return
         }
 
+        const srcPath = `${libDir}/env/${i}`
+        const srcStat = fs.statSync(srcPath)
         if (/(_constraint|_normal)$/.test(i)) {
-          copyDirSync(`${libDir}/env/${i}`, dest, (currItem: string) => {
+          copyDirSync(srcPath, dest, (currItem: string) => {
             // fixed: ".gitignore" is omit by npm registry
             return currItem === 'gitignore' ? '.gitignore' : true
           })
-        } else {
-          copyDirSync(`${libDir}/env/${i}`, `${dest}/${i}`)
+        } else if (srcStat.isDirectory()) {
+          copyDirSync(srcPath, `${dest}/${i}`)
+        } else if (srcStat.isFile()) {
+          fse.copySync(srcPath, `${dest}/${i}`, {
+            overwrite: true,
+          })
         }
       })
   } catch (err) {
@@ -199,14 +205,6 @@ function copyDirSync(
   handle?: (currItem: string, parentPath: string) => string | boolean
 ) {
   fse.ensureDirSync(dest)
-  const srcStat = fs.statSync(src)
-  if (srcStat.isFile()) {
-    fse.copySync(src, `${dest}/${path.parse(src).base}`, {
-      overwrite: true,
-    })
-    return
-  }
-
   fs.readdirSync(src).forEach((item) => {
     const itemPath = `${src}/${item}`
     const stat = fs.statSync(itemPath)
