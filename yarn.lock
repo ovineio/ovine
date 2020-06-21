@@ -2368,7 +2368,7 @@
     "@types/node" ">= 8"
 
 "@ovine/cli@file:packages/cli":
-  version "0.0.1"
+  version "0.0.2"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2422,7 +2422,7 @@
     webpackbar "^4.0.0"
 
 "@ovine/core@file:packages/core":
-  version "0.0.1"
+  version "0.0.2"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
     amis "1.0.14"
@@ -9975,6 +9975,11 @@ jest@^25.1.0:
     "@jest/core" "^25.5.4"
     import-local "^3.0.2"
     jest-cli "^25.5.4"
+
+jquery.fancytree@^2.35.0:
+  version "2.35.0"
+  resolved "https://registry.npmjs.org/jquery.fancytree/-/jquery.fancytree-2.35.0.tgz#5151279eb6817d470112bf7435e128d7569d2ae5"
+  integrity sha512-eRNWU8z69UQWc3+M2IvMGPpqTZ5ZsWAR0/N/a0O7eRbjM8StC0RGUc+xg4BNL4W6hFlWeuVT7eP2T8rLW7l05A==
 
 jquery@>=1.11.0, jquery@^3.2.1:
   version "3.5.1"

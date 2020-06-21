@@ -33,6 +33,12 @@ export const layout = {
         href: 'https://ovine.igroupes.com/org/',
       },
       {
+        type: 'head-item',
+        faIcon: 'edit',
+        tip: '体验编辑器',
+        href: '/demo/craft',
+      },
+      {
         type: 'item-search-menu', // 搜索侧边栏
       },
       {

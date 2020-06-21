@@ -1,4 +1,4 @@
-import { theme as setAmisTheme } from 'amis'
+import { theme as setAmisTheme, setDefaultTheme } from 'amis'
 import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
@@ -8,6 +8,7 @@ import { setStore, getStore } from '@/utils/store'
 
 const dispatchLink = (theme: string, callback?: () => void) => {
   // 当开启 scss 编译时，才会每次热更新更新文件，主要用于主题调试
+  setDefaultTheme(theme)
   if ((window as any).IS_SCSS_UPDATE) {
     require(`@generated/styles/themes/${theme}.css`)
     if (callback) {
@@ -39,8 +40,9 @@ export const changeAppTheme = (theme: string) => {
 }
 
 export const initAppTheme = () => {
+  const theme = getStore<string>(storage.appTheme) || 'default'
   if ((window as any).IS_SCSS_UPDATE) {
-    dispatchLink(getStore(storage.appTheme) || 'default')
+    dispatchLink(theme)
   }
   // 非amis主题 都需要注册
   Object.values(app.theme.getAllThemes())

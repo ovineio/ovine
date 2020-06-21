@@ -16,7 +16,8 @@
     "noImplicitReturns": false,
     "typeRoots": ["./typings"],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@core/*": ["../../core/lib/*"]
     },
     "types": [
       "@types/react",
