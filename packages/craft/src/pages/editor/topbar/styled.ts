@@ -8,6 +8,7 @@ export const StyledTopBar = styled.div`
   padding: 0px 15px;
   background-color: #4b4b4b;
   color: #fff;
+  box-shadow: rgba(100, 100, 100, 0.2) 0px 2px 3px 0px;
 
   ul {
     display: flex;
@@ -37,9 +38,11 @@ export const StyledTopBar = styled.div`
     padding-top: 2px;
     line-height: 1;
     cursor: pointer;
+    user-select: none;
     .fa {
       display: block;
       font-size: 16px;
+      font-weight: 100;
     }
     span {
       margin-top: 8px;

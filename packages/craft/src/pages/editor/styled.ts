@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const StyledEditor = styled.div`
   width: 100%;
   height: 100%;
-  background: #e0e0e0;
+  background: #f5f5f5;
   .craft-content {
     position: absolute;
     top: 50px;
