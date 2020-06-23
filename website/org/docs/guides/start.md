@@ -3,20 +3,11 @@ id: start
 title: 快速开始
 ---
 
-本项目依赖了大量的第三方依赖包，此过程会因为网络环境，或者镜像源的不同，时间会有差异，也有可能会中断。如果安装包存在异常，可参考切换为淘宝镜像源。
-
-```bash
-## 切换为淘宝镜像源, 可能不是最新包
-npm config set registry http://registry.npm.taobao.org/
-## 还原为官方镜像
-npm config set registry https://registry.npmjs.org/
-```
-
 > 官方推荐使用 yarn 作为包管理工具
 
-## 创建应用
+## 创建应用命令
 
-执行执行以下命令，可以方便快捷的创建 Ovine 应用。
+依次按步骤执行以下命令，可以方便快捷的创建 Ovine 应用。（不要一次性执行四条）
 
 ```bash
 # !! my-app 是你想创建应用的名字，也就是文件夹名。可以按照自己需要修改。
@@ -30,7 +21,18 @@ yarn start
 如果 npx 命令执行错，请使用 `yarn global add npx` 安装 最新版 npx，然后再次执行上述命令。
 :::
 
-> 尽量使用 `npx` 来初始化构建项目，保证初始化使用的`@ovine/init`包是最新的版本。点击了解更多 [npx 使用介绍](http://www.ruanyifeng.com/blog/2019/02/npx.html)
+> 尽量使用 `npx` 来初始化构建项目，保证初始化使用的`@ovine/init`包是最新的版本。 [npx 使用介绍](http://www.ruanyifeng.com/blog/2019/02/npx.html)
+
+本项目依赖了大量的第三方依赖包，此过程会因为网络环境，或者镜像源的不同，时间会有差异，也有可能会中断。如果安装包存在异常，可参考切换为淘宝镜像源。
+
+```bash
+## 切换为淘宝镜像源, 可能不是最新包
+npm config set registry http://registry.npm.taobao.org/
+## 还原为官方镜像
+npm config set registry https://registry.npmjs.org/
+```
+
+## 创建步骤介绍
 
 ### 初始化项目
 
@@ -46,8 +48,8 @@ npx @ovine/init init my-app
   - `demo` 官方提供的 demo 项目模版，与官方 demo 类似，可直接上手开发
   - `Git repository` 直接拉取 git 仓库代码作为模版
 
-- 选择是否使用 Typescript
-- 选择是否使用 Eslint
+- 选择是否使用 Typescript?
+- 选择是否使用 Eslint?
 
 完成上述步骤，将创建一个 Ovine 应用
 

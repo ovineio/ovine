@@ -5,7 +5,7 @@ title: 渲染器列表
 
 Ovine 页面是通过 Json 配置出来的。这些配置都是由渲染器模型来解析的。灵活掌握这些渲染器配置能够快速写出各种各样的页面。
 
-开始之前，请您一定要先阅读 [Amis 渲染器基本用法](https://baidu.github.io/amis/docs/basic?perPage=5&page=1)
+开始之前，请一定要先阅读 [Amis 渲染器基本用法](https://baidu.github.io/amis/docs/basic?perPage=5&page=1)
 
 ### Amis 内置渲染器列表
 
@@ -97,7 +97,7 @@ Ovine 页面是通过 Json 配置出来的。这些配置都是由渲染器模�
 - [Tabs](https://baidu.github.io/amis/docs/renderers/Tabs): 标签页
 - [Grid](https://baidu.github.io/amis/docs/renderers/Grid): Grid 布局
 - [HBox](https://baidu.github.io/amis/docs/renderers/HBox): HBox 布局
-- iFrame： 如果需要内嵌外部站点，可用 iframe 来实现
+- [iFrame](https://baidu.github.io/amis/docs/renderers/iFrame)： 如果需要内嵌外部站点，可用 iframe 来实现
 - [Nav](https://baidu.github.io/amis/docs/renderers/Nav): 菜单栏
 - [Tasks](https://baidu.github.io/amis/docs/renderers/Tasks): 任务操作集合，类似于 orp 上线
 - [QRCode](https://baidu.github.io/amis/docs/renderers/QRCode): 二维码显示组件
@@ -105,7 +105,7 @@ Ovine 页面是通过 Json 配置出来的。这些配置都是由渲染器模�
 
 ### Ovine 扩展渲染器列表
 
-扩展的渲染器都是 `lib-xxx` 前缀。建议应用内扩展可以使用 `app-xxx`。当渲染器过多时，可以迅速去对应的地方找到文档。
+以下是 Ovine 封装的一些渲染器，均在 Demo 项目中有使用到。扩展的渲染器都是 `lib-xxx` 前缀。建议应用内扩展可以使用 `app-xxx`。当渲染器过多时，可以迅速去对应的地方找到文档。
 
 - [lib-css](#lib-css): 添加 Css 自定义样
 - [lib-crud](#lib-crud): 封装了 Amis Crud 渲染器，更加紧凑，适合表格页面
@@ -116,100 +116,362 @@ Ovine 页面是通过 Json 配置出来的。这些配置都是由渲染器模�
 - [lib-blank](#lib-blank): 不渲染当前节点，但渲染子节点
 - [lib-omit](#lib-omit): 不渲染当前节点及子节点
 
-### 其他渲染器
-
-#### 页面配置中 entry 中可配置的渲染器
-
-- `preset-route` 经过封装的普通路由
-
-```
-
-```
-
-- `private-route` 用于登陆鉴权的路由
-
-```
-
-```
-
-- `aside-layout` 侧边栏布局
-
-```
-
-```
-
-- `amis-render` amis 渲染器,可使用任何 amis 的渲染器
-
-#### `aside-layout` 中 items 可配置的渲染器
-
-- `head-item` 普通的头部项
-
-```
-
-```
-
-- `item-search-menu` 搜索侧边栏
-
-```
-
-```
-
-- `item-setting` 系统设置
-
-```
-
-```
-
-- `item-dev-code` 显示配置代码
-
-```
-
-```
-
 #### lib-css
 
-```
+样式渲染器，可以方便的给组件添加样式，支持定义好的主题变量。建议在 JSON 最顶层使用一次该渲染器即可，无需在每个需要自定义样式的组件都写一次。[查看样式写法](https://styled-components.com/)
 
-```
+```ts
+type Props = {
+  css?: string | CssType // 样式字符串
+  htmlClassName?: string // 页面样式
+  tag?: keyof JSX.IntrinsicElements | React.ComponentType<any> // 当前组件的 tagName
+}
 
-#### lib-crud
+// 普通 css 的写法
+{
+  css: `
+    .xxx {
+      background: color;
+    }
+  `
+}
 
-```
-
+// 需要主题变量的 css 写法
+{
+  css: (theme) => `
+    .${theme.ns}xxx {
+      background: color;
+    }
+  `
+}
 ```
 
 #### lib-dropdown
 
-```
+极简的一个下拉列表，主要用于有鼠标悬浮展示下拉菜单场景的地方。
 
+```ts
+type Props = {
+  items?: AmisSchema[] // 控制下拉的一些菜单项，基本是 amis actions渲染器组成。
+  hover?: {
+    // 控制鼠标悬浮的一些参数,
+    // 文档 https://github.com/briancherne/jquery-hoverIntent
+    sensitivity: number
+    interval: number
+    timeout: number
+  }
+  body?: AmisSchema // 下拉列表的内容
+}
+
+// 使用举例
+{
+  type: 'lib-dropdown',
+  body: {
+    type: 'button',
+    iconOnly: true,
+    icon: 'fa fa-code',
+    level: 'link',
+  },
+  items: [
+    {
+      type: 'button',
+      level: 'link',
+      icon: 'fa fa-file-code-o',
+      label: '本页面JSON',
+    },
+    {
+      type: 'button',
+      level: 'link',
+      icon: 'fa fa-code-fork',
+      label: 'APP路由配置',
+    },
+    {
+      type: 'button',
+      level: 'link',
+      icon: 'fa fa-unlock',
+      label: '当前拥有权限',
+    },
+  ],
+}
 ```
 
 #### lib-limit-setting
 
-```
+权限控制面板渲染器。主要是用于，将展示所有可供操作的权限，并将用户选择的权限提交给后端。
 
+```ts
+type Porps = {
+  limit?: string // 权限字符串，可有 initApi 获取
+  saveConfirmText?: string // 保存权限时的提示
+  className?: string // 样式
+  initApi?: ReqOption // 获取权限的 api
+  api?: ReqOption // 保存权限的 api
+  messages?: { // 接口消息提示
+    initFailed: string // 初始化失败的提示
+    saveFailed: string // 保存失败的提示
+    saveSuccess: string // 保存成功的提示
+  }
+  button?: AmisSchema // 权限按钮。 amis 的 Action 渲染器
+  modal?: AmisSchema // 权限弹框。amis 的 Dialog 渲染器
+  getLimit?: () => string
+  onSave?: (authLimitData: AuthLimitData) => void // 保存时的回调
+  onCancel?: () => void // 取消时的回调
+}
+
+type AuthLimitData = {
+  authApi: string // 所有的接口字符串数组
+  authLimit: string // 所有的前端权限字符串数组
+}
+
+// initApi 接口返回格式要求
+{
+  data: {
+    limit: 'xxx' // 保存时的，提交给后端的 authLimit 字段值。
+  }
+}
+
+// 使用举例
+{
+  initApi: '$preset.apis.getLimit',
+  api: '$preset.apis.editLimit',
+  type: 'lib-limit-setting',
+  saveConfirmText: '您正在修改的角色是【$name】，提交后将不可重置，是否确认提交？',
+  button: {
+    actionType: 'drawer',
+    iconOnly: true,
+    icon: 'fa fa-unlock-alt',
+    level: 'link',
+    label: '',
+    tooltip: '编辑权限',
+  },
+  modal: {
+    postion: 'right',
+    resizable: true,
+    className: 'hide-close-button',
+  },
+}
 ```
 
 #### lib-renderer
 
-```
+主要用于封装一些全局的简单渲染器，只需要参数，就就能转换为其他的 JSON 渲染器的场景。
 
+```ts
+// 注册一个 lib-renderer
+import { addLibRenderer } from '@core/components/amis/lib_renderer'
+
+// userInfoModal 渲染器, 可以方便全局使用
+addLibRenderer('userInfoModal', ({ id }) => ({
+  type: 'action',
+  level: 'link',
+  label: '查看用户信息',
+  className: 'no-shadow',
+  actionType: 'dialog',
+  dialog: {
+    title: '系统用户信息',
+     body: {
+        type: 'service',
+        api: `api/${id}`,
+        body: {
+            type: 'form',
+            controls: [{
+              type: 'text',
+              name: 'nickname',
+              label: '名称',
+            }]
+        }
+     }
+  }
+})
+
+// 使用 lib-renderer
+{
+  type: 'lib-renderer',
+  renderer: 'userInfoModal', // 为注册的渲染 key
+  id: '123'
+}
 ```
 
 #### lib-when
 
-```
+条件渲染器，主要用于需要根据数据动态显示不同内容地方。
 
+```ts
+type Props = {
+  condition?: string // 条件表达式 类似 amis 的，disabledOn 等表达式。
+  ifTrue?: AmisSchema // 结果 === true 时渲染的JSON内容
+  ifFalse?: SchemaNode // 结果 === false 时渲染的JSON内容
+  cases?: Array<
+    // 如果表达式时不是 true/false 时，需要配置不同场景渲染
+    SchemaNode & {
+      value: any // 当表达式 === value 时，需要渲染的JSON内容
+    }
+  >
+}
+
+// 使用举例，是否存在 data.a 进行不同显示
+{
+  condition: 'data.a',
+  ifTrue: {
+    type: 'button',
+    label: '按钮'
+  },
+  ifFalse: {
+    type: 'html',
+    html: '-'
+  },
+}
+
+// 使用举例, 根据 data.a 值不同的结果进行渲染
+{
+  condition: 'data.a',
+  cases:[{
+    value: '1',
+     type: 'button',
+    label: '情况1'
+  },{
+    value: '2',
+    type: 'html',
+    html: '情况2'
+  }]
+}
 ```
 
 #### lib-blank
 
-```
+直接渲染 schema.body, 用于渲染器存在 key 值冲突时，很少情况下会使用。
 
-```
+````ts
+// 举例， table 列配置中，需要 label 表示，列名。但是列里面需要显示一个按钮。按钮也需要 label 表示，按钮名。因此存在冲突。
+{
+  type: 'lib-blank',
+  label: '列名',
+  body: {
+    type: 'button',
+    label: '按钮名'
+  },
+}
+``
+
+#### lib-crud
+
+```ts
+````
 
 #### lib-omit
 
+动态处理 schema 时，过滤某个节点组件。这个用的很少，主要是 lib 中有使用到。
+
+### 特定场景中使用的渲染器
+
+> 由于配置较多，也是 Ovine 项目都必要用的渲染器，因此具体使用请查看 Demo 代码。
+
+#### 页面配置中 entry 中可配置的渲染器
+
+---
+
+- `preset-route` 经过封装的路由
+
+```ts
+type Props = {
+  path?: string // 真实页面路由
+  nodePath: string // 节点路径
+  pathToComponent?: boolean | string // 路由对应 pages 文件目录下的路径，懒加载时候有效
+  withSuspense?: boolean // 是否需要 Suspense 包装
+  fallback?: any // 懒加载文件时占位
+  component?: React.Component // 该节点非懒加载路由
+  exact?: boolean // 完全匹配路由
+  sensitive?: boolean // 是否大小写敏感
+  strict?: boolean // 是否校验末尾 “
+  children?: any // 子组件
+}
 ```
 
+- `private-route` 用于鉴权的路由
+
+```ts
+
+type Props = {
+  onAuth: boolean | Promise<Boolean> | () => boolean // 认证回调
+  redirect: string // 认证失败回跳路由
+  path?: string // 真实页面路由
+  component?: React.Component // 该节点非懒加载路由
+  exact?: boolean // 完全匹配路由
+  sensitive?: boolean // 是否大小写敏感
+  strict?: boolean // 是否校验末尾
+  children?: any // 子组件
+}
+
+```
+
+- `aside-layout` 侧边栏布局
+  [route 路由配置](/org/docs/advance/configurations#路由配置)
+
+```ts
+type Props = {
+  header?: {
+    // 头部配置
+    brand: {
+      // 公司品牌
+      logo: string // LOGO
+      title: string // 公司名
+      className?: string // 样式
+      link?: {
+        // 是否需要点击调转
+        title?: string // 链接显示提示文案
+        href: string // 跳转地址
+      }
+    }
+    showDevItems?: boolean // 是否在开发时 显示查看代码按钮
+    items?: any[] // 头部工具项
+  }
+  footer?: AmisSchema // 任何 Amis 支持的配置
+  routes?: RouteItem[] // 路由配置组成的数组
+  children?: any // 子组件
+}
+```
+
+- `amis-render` amis 渲染器,可使用任何 amis 的渲染器
+
+#### `aside-layout` 中 `header.items` 可配置的渲染器
+
+---
+
+- `head-item` 普通的头部工具项
+
+```ts
+type Props = {
+  className?: string // 样式
+  icon?: string // 需要显示的图标
+  faIcon?: string // font-awesome 图标，会字符串拼接`fa fa-${faIcon}`
+  tip?: string // 提示文案
+  onClick?: any // 点击事件
+  href?: string // 需要跳转的链接
+  body?: AmisSchema // 任何 Amis Json
+  children?: any // 子组件
+}
+```
+
+- `item-search-menu` 搜索侧边栏按钮
+
+```ts
+type Props = {
+  align?: 'left' | 'right' // 图标的排列方式
+}
+```
+
+- `item-setting` 系统设置按钮
+
+```ts
+type Props = {
+  align?: 'left' | 'right' // 图标的排列方式
+}
+```
+
+- `item-dev-code` 显示配置代码按钮
+
+```ts
+type Props = {
+  align?: 'left' | 'right' // 图标的排列方式
+}
 ```
