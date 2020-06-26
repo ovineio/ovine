@@ -100,11 +100,11 @@ Ovine 默认采用 `css in js` 方式写样式。但是 `amis` 使用的 `scss` 
   - `yarn upgrade @ovine/cli` 更新 cli 工具
   - `yarn upgrade @ovine/core` 更新 core 包
 
-- 当 `Ovine` 更新了 `Amis` 版本时，需要额外进行下列步骤
+- 当 `Ovine` npm 包内更新了 `Amis` 版本时，需要额外进行下列步骤
 
-- `yarn ovine dll` 编译 Dll 静态资源文件
-- `yarn ovine scss` 编译 Amis 样式
+  - `yarn ovine dll` 编译 Dll 静态资源文件
+  - `yarn ovine scss` 编译 Amis 样式
 
 - 当 `Ovine` 只更改了 Dll 相关配置时，仅需要执行 `yarn ovine dll` 即可
 
-> 除了更新这些，如果有重大改版，还需要对应代码细节，进行代码改动。
+> 除了更新这些，如果有重大改版，还需要对应代码细节，进行代码改动。具体需要改动的内容，都会在版本日志中注明。

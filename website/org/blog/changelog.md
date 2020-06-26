@@ -3,7 +3,7 @@ id: changelog
 title: 版本更新日志
 ---
 
-[Ovine 版本更新文档](/org/docs/advance/cli#ovine-版本升级)
+[如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 
 ### 0.0.2 ---- 2020.6.20
 
