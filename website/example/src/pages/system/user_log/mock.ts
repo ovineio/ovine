@@ -13,7 +13,7 @@ const generator = (i) => ({
   detail: { mockLog: { id: i + 20 } },
 })
 
-const mockStore = new MockListStore({ generator })
+const mockStore = new MockListStore({ generator, count: 100 })
 
 const mockSource = {
   'GET ovapi/system/log/item': () => {

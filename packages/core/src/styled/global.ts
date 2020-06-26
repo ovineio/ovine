@@ -53,26 +53,6 @@ const GlobalStyle = createGlobalStyle`
   svg.icon {
     top: 0 !important;
   }
-  .glyphicon {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    &-th:before {
-      content: "\f009";
-    }
-    &-sort:before {
-      content: "\f0ec";
-      transform: rotate(90deg);
-    }
-    &-remove:before {
-      content: "\f00d";
-    }
-  }
-  
   [role=button] {
     cursor: pointer;
   }
@@ -129,6 +109,16 @@ const GlobalStyle = createGlobalStyle`
       }
       svg {
         display: none;
+      }
+    }
+
+    /** 分页图标兼容问题 */
+    .${ns}Pagination {
+      &-prev,
+      &-next {
+        svg {
+          margin-top: -2px;
+        }
       }
     }
   `}

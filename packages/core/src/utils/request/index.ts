@@ -253,20 +253,15 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const {
-    headers = {},
-    data,
-    body,
-    fetchOptions,
-    contentType = 'json',
-    qsOptions = {
-      encode: false,
-      arrayFormat: 'indices',
-      encodeValuesOnly: false,
-    },
-  } = option
+  const { headers = {}, data, body, fetchOptions, contentType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
+  const qsOpts = {
+    encode: false,
+    arrayFormat: 'indices',
+    encodeValuesOnly: false,
+    ...qsOptions,
+  }
 
   // 自行实现取消请求的回调
   const { cancelExecutor } = option.config || {}
@@ -287,9 +282,9 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
     } else if (hasFile(data) || contentType === 'form-data') {
-      fetchBody = object2formData(data, qsOptions)
+      fetchBody = object2formData(data, qsOpts)
     } else if (contentType === 'form') {
-      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
+      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOpts)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
     } else if (contentType === 'json') {
       fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
@@ -386,6 +381,12 @@ export function getUrlByOption(
   let realUrl = url
 
   const urlOption = { url, method: method.toUpperCase() }
+  const qsOpts = {
+    encode: false,
+    arrayFormat: 'indices',
+    encodeValuesOnly: false,
+    ...qsOptions,
+  }
 
   if (/[GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS] /.test(realUrl)) {
     const [apiMethod, apiStr] = realUrl.split(' ')
@@ -419,7 +420,7 @@ export function getUrlByOption(
       }
     })
 
-    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, qsOptions)}`
+    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, qsOpts)}`
   }
 
   urlOption.url = realUrl

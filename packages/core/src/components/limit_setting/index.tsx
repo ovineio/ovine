@@ -35,12 +35,12 @@ export type LimitSettingProps = Partial<RendererProps> & {
   limit?: string
   saveConfirmText?: string
   className?: string
-  onSave?: (authLimitData: AuthLimitData) => void
-  onCancel?: () => void
+  onSaveClick?: (authLimitData: AuthLimitData) => void
+  onCancelClick?: () => void
 }
 
 const LimitSetting = (props: LimitSettingProps) => {
-  const { limit: initLimit = '', className, saveConfirmText, onSave, onCancel, render } = props
+  const { limit: initLimit = '', className, saveConfirmText, onCancelClick, render } = props
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
@@ -96,17 +96,11 @@ const LimitSetting = (props: LimitSettingProps) => {
     const authLimit = getAllAuthLimitStr(menuConfig, visitedTabs, storeRef.current)
     const authApi = getAllAuthApiStr(menuConfig, authLimit)
 
-    if (onSave) {
-      onSave({
+    if (props.onSaveClick) {
+      props.onSaveClick({
         authApi,
         authLimit,
       })
-    }
-  }
-
-  const onCancelClick = () => {
-    if (onCancel) {
-      onCancel()
     }
   }
 
