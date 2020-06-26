@@ -45,6 +45,8 @@ title: 介绍
   - 生成 Mock 数据方便，可完全独立于后端 API，进行业务开发
   - Mock 数据与真实 API 数据，无缝切换
 
+> [一些常见问题](/org/docs/intro/faq)
+
 ## [预览演示项目](https://ovine.igroupes.com/)
 
 ##### 个性化主题
