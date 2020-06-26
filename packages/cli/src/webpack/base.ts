@@ -273,9 +273,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         },
         {
           test: new RegExp(
-            `\\.${`gif,png,jpg,ttf,ico,woff,woff2,eot,svg${
+            `\\.${`(gif,png,jpg,ttf,ico,woff,woff2,eot,svg${
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
-            }`.replace(/,/gi, '|')}$`
+            }`.replace(/,/gi, '|')})$`
           ),
           exclude: [/[\\/]qs[\\/]/],
           use: [

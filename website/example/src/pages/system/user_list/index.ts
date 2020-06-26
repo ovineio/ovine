@@ -253,7 +253,7 @@ export const schema = {
                         align: 'left',
                       },
                     },
-                    expandAndCollapse: false,
+                    expandAndCollapse: true,
                     animationDuration: 550,
                     animationDurationUpdate: 750,
                   },

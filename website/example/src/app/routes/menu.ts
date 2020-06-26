@@ -39,10 +39,6 @@ export const menuRoutes: LimitMenuItem = {
           label: '文档管理',
           nodePath: 'doc', // 对应 src/pages/application/doc
         },
-        {
-          label: '测试',
-          nodePath: 'giftText', // 对应 src/pages/application/doc
-        },
       ],
     },
     {
