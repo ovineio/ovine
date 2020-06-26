@@ -108,3 +108,91 @@ Ovine 默认采用 `css in js` 方式写样式。但是 `amis` 使用的 `scss` 
 - 当 `Ovine` 只更改了 Dll 相关配置时，仅需要执行 `yarn ovine dll` 即可
 
 > 除了更新这些，如果有重大改版，还需要对应代码细节，进行代码改动。具体需要改动的内容，都会在版本日志中注明。
+
+## 部署 Ovine 应用
+
+Ovine 是单页面应用，使用 [browserHistory](https://blog.csdn.net/wangweiren_get/article/details/96423020) 模式，作为页面路由。构建好项目后，将打包好的文件拷贝到在服务器对应目录中，需要做一些简单配置，即可直接访问。推荐使用 `nginx` 作为部署 web 服务器配置。其他软件作为服务器均可。
+
+以下就 `nginx` 简单配置为例。 [nginx 入门](https://zhuanlan.zhihu.com/p/33418520)
+
+#### 将项目部署在域名的根目录下。 即 `https://app.com/` 为项目首页
+
+- 构建项目 `yarn build`
+
+  - 此步骤，可以传入 `env` 环境。如： `yarn build --env=staging` 等，表示不同环境的构建
+  - 此步骤将构建项目，并将所有文件进行打包 `/my-app/dist/` 目录。
+
+- 将构建好的文件拷贝到服务器中。将 `/my-app/dist/*` 拷贝到 `/path-to/my-app/`
+
+  - 类 linux 系统同步文件 `rsync -a --delete /my-app/dist/* user@192.168.10.10:/path-to/my-app/`
+  - windows 可采用其他方式，将文件同步到服务器中
+
+- 编写域名根目录 `nginx` 配置
+
+  ```bash
+  server {
+    # 一堆其他配置，比如 端口，https，缓存，日志文件等
+    server_name app.com; # 域名配置
+    location / {
+      root   /path-to/my-app; # 项目目录
+      index  index.html; # index文件
+      try_files $uri $uri/ /index.html; # !!单页应用最重要配置，文件不存在，回退到 index.html
+    }
+    # 一堆其他配置, 比如 api 代理等
+  }
+  ```
+
+- 启动或重启 `nginx`
+
+> 此处使用 nginx 默认安装目录为命令路径，仅作为参考。
+
+```bash
+# 检查配置是否正确
+sudo /usr/local/nginx/sbin/nginx -t
+
+# 启动nginx
+sudo /usr/local/nginx/sbin/nginx
+
+# 重启 nginx
+sudo /usr/local/nginx/sbin/nginx -s reload
+```
+
+---
+
+#### 将项目部署在域名的子目录下。 即 `https://app.com/sub-path/` 为项目首页
+
+其他步骤与上述类似，主要 `ovine` 配置与 `nginx` 配置不同。
+
+- **在 `ovine.config.js`文件 添加 `publicPath` 配置**
+
+```js
+// ovine.config.js 文件
+module.exports = {
+  publicPath: '/subPath/', // 必须以斜线结尾
+  // ... 其他配置
+}
+```
+
+- **重新执行 `yarn dll` 命令。只要修改 `publicPath` 就需要重新执行该命令。**
+
+- 构建项目 `yarn build`
+
+- 将构建好的文件拷贝到服务器中。 将 `/my-app/dist/*` 拷贝到 `/path-to/my-app/sub-path`
+
+- **域名子目录 `nginx` 配置。注意 `sub-path`**
+
+```bash
+  server {
+    # 一堆其他配置，比如 端口，https，缓存，日志文件等
+    server_name app.com; # 域名配置
+    location /sub-path { # 子目录
+      root   /path-to/my-app; # 项目目录
+      index  index.html; # index文件
+      try_files $uri $uri/ /sub-path/index.html; # !!单页应用最重要配置，文件不存在，回退到 sub-path/index.html
+    }
+    # 一堆其他配置, 比如 api 代理等
+  }
+
+```
+
+- 启动或重启 `nginx`
