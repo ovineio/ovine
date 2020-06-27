@@ -98,6 +98,7 @@ export type ReqOption<S = {}, P = {}> = {
   contentType?: 'json' | 'form-data' | 'form' // 请求体类型
   token?: 'none' | 'auto' | 'force' // 是否需要token 标示。
   expired?: number // 超时时间内的相同请求，会使用缓存数据。毫秒数，默认0
+  qsOptions?: any // 用于处理参数转为字符串，可查看文档: https://github.com/ljharb/qs
   fetchOptions?: Omit<RequestInit, 'header' | 'body'> // fetch参数
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // mock数据生成器
@@ -136,15 +137,12 @@ export default {
 }
 ```
 
-#### 在页面配置 Json 中应用
+#### 在 Json 配置中应用
 
-```js
-// 有 api 的地方均可使用 ReqOption 选项
+- 有 api 的地方均可使用 ReqOption 选项
+- `preset.js` 文件 `apis` 字段配置中，可使用 ReqOption 选项
 
-// preset.js 文件中
-```
-
-#### 在逻辑 Js 中应用
+#### 在 Js 逻辑中应用
 
 在项目任何地方都可以使用 `app.request` 来请求数据。参数是 `ReqOption`
 

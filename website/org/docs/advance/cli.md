@@ -168,7 +168,7 @@ sudo /usr/local/nginx/sbin/nginx -s reload
 ```js
 // ovine.config.js 文件
 module.exports = {
-  publicPath: '/subPath/', // 必须以斜线结尾
+  publicPath: '/sub-path/', // 必须以斜线结尾
   // ... 其他配置
 }
 ```

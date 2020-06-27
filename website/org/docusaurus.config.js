@@ -9,11 +9,11 @@ module.exports = {
   url: 'https://careytoboo.github.io/ovine',
   baseUrl: '/org/',
   themeConfig: {
-    // algolia: {
-    //   apiKey: 'e641d82b10af84aa818e883b1035c3b4',
-    //   indexName: 'craft-js',
-    //   algoliaOptions: {}, // Optional, if provided by Algolia
-    // },
+    algolia: {
+      apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',
+      indexName: 'igroupes_ovine',
+      algoliaOptions: {}, // Optional, if provided by Algolia
+    },
     prism: {
       // eslint-disable-next-line
       theme: require('prism-react-renderer/themes/shadesOfPurple'),
