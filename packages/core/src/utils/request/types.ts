@@ -33,12 +33,13 @@ export type ReqOption<S = any, P = any> = Omit<
   token?: 'none' | 'auto' | 'force' // none
   expired?: number // 毫秒数 0
   fetchOptions?: Omit<RequestInit, 'header' | 'body'>
+  qsOptions?: any // 请求参数处理
   mock?: boolean // 是否启用 mock
   mockSource?: ReqMockSourceGen // 数据生成器
   mockDelay?: number // 300
   actionAddr?: string // 操作地址，不存在时默认为 api
   actionDesc?: string // 操作描述文案 与操作地址对应
-  isEnvFetcher?: boolean
+  isEnvFetcher?: boolean // 是否是 amis env 发出的请求
   onUploadProgress?: (event: { loaded: number; total: number }) => void
   onPreRequest?: (option: ReqOption) => ReqOption
   onRequest?: (option: ReqOption) => ReqOption

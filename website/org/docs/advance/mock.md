@@ -63,6 +63,8 @@ export default {
 
 很多业务都是有 Js 编写，并不是在路由页面，则需要手动引入。
 
+> 千万不要使用 `mockSource.xxx`，调用 mock.js 文件的属性，否则非 mock 环境中会报错。
+
 ```js
 
 // mock.js
@@ -87,7 +89,7 @@ import mockSource from './mock'
 
 const getUserInfo = () => {
   return app.request({
-    mockSource
+    mockSource // 一定不要使用 mockSource.xxxx，否则非 mock 环境中会报错。
     mock: true, // 是否开启mock数据，可以灵活切换
     url: 'GET user/info',
   })

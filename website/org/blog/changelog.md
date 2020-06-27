@@ -3,7 +3,15 @@ id: changelog
 title: 版本更新日志
 ---
 
-[Ovine 版本更新文档](/org/docs/advance/cli#ovine-版本升级)
+[如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
+
+### 0.0.3 ---- 2020.6.26
+
+- 修复 `url-loader` 正则文件匹配错误
+- 修复 `url-loader` 排除了 `node_modules` 目录，因此会导致第三方包的资源文件引入报错
+- 修复权限面板编辑时，弹窗提示报错 `QuckApiSchma is required`
+- 修复 Table 分页时，数字与图标没有对齐
+- 修复 `GET` 请求参数包含特殊字符，会被 encode 两次的问题
 
 ### 0.0.2 ---- 2020.6.20
 

@@ -29,7 +29,6 @@ export type HeaderProps = {
 
 export type LayoutProps = {
   children?: any
-  layoutKey?: string
   header?: HeaderProps
   footer?: LibSchema
   routes?: RouteItem[]

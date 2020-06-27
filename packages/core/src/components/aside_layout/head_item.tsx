@@ -9,13 +9,9 @@ import React, { cloneElement } from 'react'
 import { Amis } from '../amis/schema'
 
 type HeadItemProps = {
-  trigger?: 'click' | 'focus'
   className?: string
-  tooltipClassName?: string
-  triggerContent?: any
   icon?: string
   faIcon?: string
-  bsIcon?: string
   children?: any
   tip?: string
   onClick?: any

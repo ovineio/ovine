@@ -102,8 +102,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       maxAssetSize: 1024 * 1024,
       assetFilter: (filePath) => {
         // Filter genDir or theme files
-        const isLibFiles = /static\/ovine/.test(filePath)
-        const isThemeStyles = /themes\/.*\.css/.test(filePath)
+        const isLibFiles = /static[\\/]ovine/.test(filePath)
+        const isThemeStyles = /themes[\\/].*\.css/.test(filePath)
         return !isLibFiles && !isThemeStyles
       },
     },
@@ -274,11 +274,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         },
         {
           test: new RegExp(
-            `\\.${`png,jpg,gif,ttf,ico,woff,woff2,eot,svg${
+            `\\.${`(gif,png,jpg,ttf,ico,woff,woff2,eot,svg${
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
-            }`.replace(/,/gi, '|')}$`
+            }`.replace(/,/gi, '|')})$`
           ),
-          exclude: [/node_modules/, /\/qs\//],
+          exclude: [/[\\/]qs[\\/]/],
           use: [
             {
               loader: 'url-loader',
@@ -386,7 +386,7 @@ function excludeJS(modulePath: string) {
 
   // Don't transpile node_modules except any @ovine npm package
   const isNodeModules = /node_modules/.test(modulePath)
-  const isLibModules = /node_modules\/@ovine\/.*\.[j|t]sx?$/.test(modulePath)
+  const isLibModules = /node_modules[\\/]@ovine[\\/].*\.[j|t]sx?$/.test(modulePath)
 
   return isLibModules ? false : isNodeModules
 }

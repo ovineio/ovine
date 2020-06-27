@@ -46,6 +46,7 @@ export const getPageAsync = (option: PresetRouteProps) => {
   return lazy(() =>
     getPageFileAsync(option).then((file: any) => {
       const { default: content = {}, schema } = file
+
       const compProps: PresetComponentProps = {}
       if (isFunction(content)) {
         compProps.LazyFileComponent = content

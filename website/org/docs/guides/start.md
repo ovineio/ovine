@@ -3,6 +3,28 @@ id: start
 title: 快速开始
 ---
 
+> 官方推荐使用 yarn 作为包管理工具
+
+## 创建应用命令
+
+依次按步骤执行以下命令，可以方便快捷的创建 Ovine 应用。`（不要一次性执行四条）`
+
+```bash
+# !! my-app 是你想创建应用的名字，也就是项目的文件夹名。可以按照自己需要修改。
+npx @ovine/init init my-app
+# linux系统需要将命令替换为: npx @ovine/init@~0.0.1 init my-app
+
+cd my-app # 切换到生成的项目文件夹下
+yarn install # 安装项目依赖
+yarn start # 启动项目
+```
+
+:::info 提示
+如果 npx 命令执行错，请使用 `yarn global add npx` 安装 最新版 npx，然后再次执行上述命令。
+:::
+
+> 尽量使用 `npx` 来初始化构建项目，保证初始化使用的`@ovine/init`包是最新的版本。 [npx 使用介绍](http://www.ruanyifeng.com/blog/2019/02/npx.html)
+
 本项目依赖了大量的第三方依赖包，此过程会因为网络环境，或者镜像源的不同，时间会有差异，也有可能会中断。如果安装包存在异常，可参考切换为淘宝镜像源。
 
 ```bash
@@ -12,29 +34,14 @@ npm config set registry http://registry.npm.taobao.org/
 npm config set registry https://registry.npmjs.org/
 ```
 
-> 官方推荐使用 yarn 作为包管理工具
-
-## 创建应用
-
-执行执行以下命令，可以方便快捷的创建 Ovine 应用。
-
-```bash
-# !! my-app 是你想创建应用的名字，也就是文件夹名。可以按照自己需要修改。
-npx @ovine/init init my-app
-cd my-app
-yarn install
-yarn start
-```
-
-:::info 提示
-如果 npx 命令执行错，请使用 `yarn global add npx` 安装 最新版 npx，然后再次执行上述命令。
-:::
-
-> 尽量使用 `npx` 来初始化构建项目，保证初始化使用的`@ovine/init`包是最新的版本。点击了解更多 [npx 使用介绍](http://www.ruanyifeng.com/blog/2019/02/npx.html)
+## 创建步骤介绍
 
 ### 初始化项目
 
+> !! "my-app" 是你想创建应用的名字，也就是项目的文件夹名，可以按照自己需要修改。
+
 ```bash
+# linux系统需要将命令替换为: npx @ovine/init@~0.0.1 init my-app
 npx @ovine/init init my-app
 ```
 
@@ -46,8 +53,8 @@ npx @ovine/init init my-app
   - `demo` 官方提供的 demo 项目模版，与官方 demo 类似，可直接上手开发
   - `Git repository` 直接拉取 git 仓库代码作为模版
 
-- 选择是否使用 Typescript
-- 选择是否使用 Eslint
+- 选择是否使用 Typescript?
+- 选择是否使用 Eslint?
 
 完成上述步骤，将创建一个 Ovine 应用
 
@@ -58,7 +65,7 @@ cd my-app
 yarn install
 ```
 
-> 为什么不把安装依赖的命令集成在 init 步骤中？由于项目依赖太多第三方包，很多依赖包，版本特别旧。不仅安装时间长，并且会出现大量警告信息。很容易在构建的时候出现网络异常，从而中断创建应用的过程。因为安装包而重新执行初始化的过程会非常繁琐。因此将安装步骤抽离为一个单独的步骤，遇到依赖包问题，可以多次安装。
+> 为什么不把安装依赖的命令集成在 init 步骤中？ 由于项目依赖太多第三方包，很多依赖包，版本特别旧。不仅安装时间长，并且会出现大量警告信息。很容易在构建的时候出现网络异常，从而中断创建应用的过程。因为安装包而重新执行初始化的过程会非常繁琐。因此将安装步骤抽离为一个单独的步骤，遇到依赖包问题，可以多次安装。
 
 ### 运行应用
 
@@ -67,7 +74,7 @@ yarn start    # 开启 devSever
 yarn build    # 构建项目
 ```
 
-Ovine 是一个开箱即用的框架。`@ovine/cli` 提供了开发项目必备的的的 Cli 命令，并将一些常用的写在 `package.json scripts` 中，方便使用。这两个命令是最基本开发命令。更详细的文档请查阅[Cli 命令介绍](/org/docs/advance/cli)
+Ovine 是一个开箱即用的框架。`@ovine/cli` 提供了开发项目必备的的的 Cli 命令，并将一些常用的写在 `package.json scripts` 中，方便使用。这两个命令是最基本开发命令。[Cli 命令介绍](/org/docs/advance/cli)
 
 ## 目录结构
 

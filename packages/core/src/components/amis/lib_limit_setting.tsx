@@ -93,13 +93,8 @@ export class LibLimitSetting extends React.Component<Props> {
                 env.notify('error', messages?.saveFailed || '保存失败')
               })
           }
-          if (this.props.onSave) {
-            this.props.onSave(authData)
-          }
-        }
-        const onCancel = () => {
-          if (this.props.onCancel) {
-            this.props.onCancel()
+          if (this.props.onSaveClick) {
+            this.props.onSaveClick(authData)
           }
         }
 
@@ -109,8 +104,8 @@ export class LibLimitSetting extends React.Component<Props> {
             className={`limit-drawer-${isEffectiveApi(initApi) ? 'service' : 'normal'} `}
             limit={getLimit ? getLimit() : limitData.limit || ''}
             saveConfirmText={filter(saveConfirmText, initData)}
-            onSave={onSave}
-            onCancel={onCancel}
+            onSaveClick={onSave}
+            onCancel={this.props.onCancelClick}
           />
         )
       },

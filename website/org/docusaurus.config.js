@@ -10,8 +10,8 @@ module.exports = {
   baseUrl: '/org/',
   themeConfig: {
     algolia: {
-      apiKey: 'e641d82b10af84aa818e883b1035c3b4',
-      indexName: 'craft-js',
+      apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',
+      indexName: 'igroupes_ovine',
       algoliaOptions: {}, // Optional, if provided by Algolia
     },
     prism: {
@@ -27,6 +27,7 @@ module.exports = {
       },
       links: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
+        { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/' },
       ],
     },

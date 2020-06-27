@@ -123,11 +123,11 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: new RegExp(
-            `\\.${`png,jpg,gif,ttf,woff,woff2,eot,svg${
+            `\\.${`(png,jpg,gif,ttf,woff,woff2,eot,svg${
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
-            }`.replace(/,/gi, '|')}$`
+            }`.replace(/,/gi, '|')})$`
           ),
-          exclude: [/\/qs\//, /\/icons\//],
+          exclude: [/[\\/]qs\//, /[\\/]icons[\\/]/],
           use: [
             {
               loader: 'url-loader',

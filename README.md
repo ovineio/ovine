@@ -31,7 +31,7 @@
     - 路由懒加载、配合 `webpack dll`，页面加载速度快
   - 强大的 mock 方案，实现脱离后端开发，轻松对接
 
-### 项目演示 [[预览 Demo]](https://ovine.igroupes.com/demo/)
+### 项目演示 [[预览]](https://ovine.igroupes.com/demo/)
 
 ##### 个性化主题
 

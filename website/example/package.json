@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "your awesome project.",
   "private": true,
   "scripts": {
@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
-    "@ovine/cli": "/Users/careytoboo/zone/github/ovine/packages/cli",
-    "@ovine/craft": "/Users/careytoboo/zone/github/ovine/packages/craft",
-    "@ovine/core": "/Users/careytoboo/zone/github/ovine/packages/core",
+    "@ovine/cli": "../../packages/cli",
+    "@ovine/core": "../../packages/core",
+    "@ovine/craft": "../../packages/craft",
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
