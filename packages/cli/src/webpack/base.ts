@@ -125,7 +125,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         '~': srcDir,
         '@generated': genDir,
         '@core': '@ovine/core/lib',
-        '@craft': '@ovine/craft/lib',
         'react-dom': '@hot-loader/react-dom',
       },
       // This allows you to set a fallback for where Webpack should look for modules.

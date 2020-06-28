@@ -4,6 +4,7 @@ UI 通过点选的方式简化 JSON 配置过程，通过点选关联数据的�
 
 - [craft 编辑器](https://github.com/prevwong/craft.js)
 - [react-jsonschema-form](https://rjsf-team.github.io/react-jsonschema-form/)
+- [serialize-javascript](https://github.com/yahoo/serialize-javascript)
 
 ### 编辑器
 

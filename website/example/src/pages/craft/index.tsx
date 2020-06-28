@@ -1,3 +1,3 @@
-import Editor from '@craft/pages/editor'
+import Editor from '@ovine/craft/lib/app'
 
 export default Editor
