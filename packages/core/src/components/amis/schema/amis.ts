@@ -8,6 +8,7 @@ import { DefaultTheme } from 'styled-components'
 import { app } from '@/app'
 import logger from '@/utils/logger'
 
+import { libFetcher } from './api'
 import { normalizeLink } from './func'
 import { LibSchema } from './types'
 
@@ -136,10 +137,7 @@ export default (option: Option) => {
   }
 
   return render(schema, props, {
-    fetcher: (reqOpts: any) => {
-      reqOpts.isEnvFetcher = true
-      return app.request(reqOpts)
-    },
+    fetcher: libFetcher,
     ...libOptions,
     ...appSettings,
     ...amisOption,

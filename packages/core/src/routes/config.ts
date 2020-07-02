@@ -4,13 +4,14 @@
  */
 
 import { mapTree, eachTree } from 'amis/lib/utils/helper'
-import { cloneDeep, last, pick, map, get, omitBy } from 'lodash'
+import { cloneDeep, last, pick, map, get } from 'lodash'
 
 import { strDelimiter, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { ObjectOf } from '@/utils/types'
 
 import { getPagePreset } from './exports'
+import { checkLimitByKeys } from './limit/exports'
 import { RouteItem } from './types'
 
 type StoreType = {
@@ -19,6 +20,7 @@ type StoreType = {
     label: string
     api: string
     actionDesc?: string
+    auth?: boolean
   }>
 }
 const store: StoreType = {
@@ -90,15 +92,13 @@ export function getRouteConfig(refresh?: boolean) {
   return store.routesConfig
 }
 
-type ActionAddrOption = {
-  ignoreGet: boolean
-}
-export function getActionAddrMap(option?: ActionAddrOption) {
-  const { ignoreGet = true } = option || {}
-
-  if (ignoreGet) {
-    return omitBy(store.actionAddrMap, ({ api }) => api.indexOf('GET ') === 0)
-  }
+export function getActionAddrMap() {
+  map(store.actionAddrMap, (item: any, key: string) => {
+    const [nodePath = '', limitStr = ''] = key.split(strDelimiter)
+    const limits = limitStr.split(',') || []
+    const auth = !!limits.some((limit: any) => checkLimitByKeys(limit, { nodePath }))
+    item.auth = auth
+  })
 
   return store.actionAddrMap
 }

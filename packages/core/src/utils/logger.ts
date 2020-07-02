@@ -30,7 +30,7 @@ let debugConfig: Config = {
   level: 'log',
   moduleName: '',
   onlyLevel: false,
-  enable: true,
+  enable: false,
   defaultDebugOption: {
     isPrint: true,
     moduleName: '.*',
@@ -149,7 +149,6 @@ export class Logger {
 
     const log = Function.prototype.bind.call(console[level] || console.log, console)
     log.apply(console, logArgs.concat(loggerDetail))
-    // console.log('logArgs->', logArgs);
     // console.log.call(null, ...logArgs.concat(...loggerDetail)) // 该方法不兼容IE9-IE11
   }
 
@@ -175,6 +174,7 @@ export const setConfig = (conf: Partial<Config>): void => {
   if (isRelease()) {
     return
   }
+
   logger.info('lib:logger:config', debugConfig)
 }
 

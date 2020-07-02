@@ -1,7 +1,7 @@
 /**
  * 应用环境配置
  *
- * ovine cli  build/dev  --env=xxx 可以使用对应配置
+ * ovine cli命令:  build/dev  --env=xxx 可以使用对应配置
  * dev 默认环境为 localhost, build 默认环境为 production
  */
 
@@ -17,7 +17,7 @@ export const env = {
   localhost: {
     disableLimit: false,
     domains: {
-      // api: 'http://zxq.natapp1.cc',
+      api: 'https://ovine.igroupes.com',
     },
     // 日志配置
     logger: {

@@ -7,6 +7,7 @@
 import { toast } from 'amis'
 
 import { app } from '@core/app'
+import { routeLimitKey } from '@core/constants'
 import { setAppLimits } from '@core/routes/limit/exports'
 import { clearStore, getStore } from '@core/utils/store'
 
@@ -16,7 +17,35 @@ import { storeKeys } from './constants'
 let userInfo: any = {}
 
 /**
- * 系统登录的鉴权方法，返回值 true 表示，用户可以正常访问， false 表示需要 重新登录。
+ * 检查服务器的接口字符串。-----此处只是demo举例，其他逻辑可以自行添加
+ * 权限相关文档：https://ovine.igroupes.com/org/docs/advance/limit
+ * @param limitStr 从服务器接口获取的权限字符串
+ * @returns 权限字符串是否通过校验
+ */
+function checkAppLimitStr(limitStr: string): boolean {
+  /**
+   * 权限字段检查，如果设置的权限有异常，不能正常登陆，并给予提示。权限异常条件
+   * 1. limitStr 不存在
+   * 2. limitStr 不是根权限标示符 并且 limitStr 中不存在 路由权限 （即没有一个展示路由时）。
+   */
+  if (
+    !limitStr ||
+    (limitStr !== app.constants.rootLimitFlag && limitStr.indexOf(routeLimitKey) === -1)
+  ) {
+    toast.error('当前用户权限异常', '系统提示')
+    return false
+  }
+
+  // 将检查通过的权限字符串，设置到应用中
+  setAppLimits(limitStr)
+
+  return true
+}
+
+/**
+ * 系统登录的鉴权方法。返回值 true: 用户通过登陆认证。 false：不通过登陆认证，需要重新登录。
+ * ---
+ * 此处只是demo举例，其他逻辑可以自行添加
  */
 export async function onAuth() {
   // demo 项目用于统计的接口，可以自行删除
@@ -26,17 +55,15 @@ export async function onAuth() {
   })
   try {
     await fetchUserInfo()
-    // 从用户信息中获取权限，并设置到应用中
-    if (userInfo.limit) {
-      setAppLimits(userInfo.limit)
-      return true
-    }
+    // 检查用户接口权限字符串
+    return checkAppLimitStr(userInfo.limit)
   } catch (_) {
-    //
+    toast.error('获取用户信息异常', '系统提示')
   }
   return false
 }
 
+// 从接口获取用户信息
 export async function fetchUserInfo() {
   return app.request(apis.getSelfInfo).then((source) => {
     userInfo = source.data.data
@@ -44,6 +71,7 @@ export async function fetchUserInfo() {
   })
 }
 
+// 获取缓存的用户信息
 export function getUserInfo(callback?: (info: any) => void) {
   if (callback) {
     fetchUserInfo().then(callback)
@@ -51,6 +79,7 @@ export function getUserInfo(callback?: (info: any) => void) {
   return userInfo
 }
 
+// 退出登录
 export function logout(option?: { tip?: string; useApi?: boolean }) {
   const { tip = '您已经成功退出登录', useApi = false } = option || {}
 
@@ -63,6 +92,7 @@ export function logout(option?: { tip?: string; useApi?: boolean }) {
   }
 }
 
+// 判断用户是否是登陆状态
 export function isLogin() {
   return !!getStore(storeKeys.auth)
 }

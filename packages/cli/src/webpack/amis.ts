@@ -29,12 +29,12 @@ export const fixFactoryLoader = () => ({
         flags: 'm',
         replace: '!window.IS_WEBPACK_DEV_SERVER && ~rendererNames.indexOf(config.name)',
       },
-      // {
-      //   // 去掉多余的请求封装
-      //   search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
-      //   flags: 'm',
-      //   replace: '() => { console.log(123) }',
-      // },
+      {
+        // 去掉多余的请求封装
+        search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
+        flags: 'm',
+        replace: '? options.fetcher ',
+      },
     ],
   },
 })

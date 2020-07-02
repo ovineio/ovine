@@ -92,26 +92,78 @@ export type ReqOption<S = {}, P = {}> = {
   url?: string // 默认与 api 一样
   method?: ReqMethod // 默认都是放在URL中，不需要单独写。默认 GET
   domain?: string // '请求的域名key， 默认 api'
-  data?: Partial<P> // q请求数据
+  data?: Partial<P> // 请求数据
   headers?: any // 请求头
   body?: BodyInit | null // 请求体
-  contentType?: 'json' | 'form-data' | 'form' // 请求体类型
-  token?: 'none' | 'auto' | 'force' // 是否需要token 标示。
+  dataType?: 'json' | 'form-data' | 'form' // 请求体类型
   expired?: number // 超时时间内的相同请求，会使用缓存数据。毫秒数，默认0
-  qsOptions?: any // 用于处理参数转为字符串，可查看文档: https://github.com/ljharb/qs
-  fetchOptions?: Omit<RequestInit, 'header' | 'body'> // fetch参数
-  mock?: boolean // 是否启用 mock
-  mockSource?: ReqMockSourceGen // mock数据生成器
-  mockDelay?: number // mock数据延迟 默认 300
+  qsOptions?: QsOptions // 用于处理参数转为字符串。具体定义查看下方 QsOptions
+  fetchOptions?: FetchOptions // fetch参数。具体定义查看下方 FetchOptions
   actionAddr?: string // 操作地址，不存在时默认为 api
   actionDesc?: string // 操作描述文案 与操作地址对应
   isEnvFetcher?: boolean // 是否是 amis env 发起的请求
+  mock?: boolean // 是否启用 mock
+  mockSource?: object | ((options: ReqOption) => object) // mock数据生成器
+  mockDelay?: number // mock数据延迟 默认 300
   onUploadProgress?: (event: { loaded: number; total: number }) => void // 上传进度回调
   onPreRequest?: (option: ReqOption) => ReqOption // 发起请求回调
   onRequest?: (option: ReqOption) => ReqOption // 请求时回调
   onSuccess?: (data: S, option: ReqOption<S, P>, response: ReqResponse<S>) => S // 接口请求成功回调
   onError?: (response: ReqApiRes<S>, option: ReqOption<S, P>, error: Error) => undefined | boolean // 接口请求失败回调
   [key: string]: any // 自定义扩展字段
+}
+
+// 可自定义的部分 fetch 参数。 fetch 文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Request
+type FetchOptions = {
+  cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'only-if-cached' | 'reload'
+  credentials?: 'include' | 'omit' | 'same-origin'
+  integrity?: string
+  keepalive?: boolean
+  mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
+  redirect?: 'error' | 'follow' | 'manual'
+  referrer?: string
+  referrerPolicy?:
+    | ''
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'same-origin'
+    | 'strict-origin'
+    | 'strict-origin-when-cross-origin'
+    | 'unsafe-url'
+  window?: any
+}
+
+// qs 模块 stringify 方法参数: qs文档: https://github.com/ljharb/qs
+/*
+默认值: {
+  arrayFormat: 'indices',
+  encodeValuesOnly: true
+}
+*/
+type QsOptions = {
+  delimiter?: string
+  strictNullHandling?: boolean
+  skipNulls?: boolean
+  encode?: boolean
+  encoder?: (
+    str: any,
+    defaultEncoder: defaultEncoder,
+    charset: string,
+    type: 'key' | 'value'
+  ) => string
+  filter?: Array<string | number> | ((prefix: string, value: any) => any)
+  arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma'
+  indices?: boolean
+  sort?: (a: any, b: any) => number
+  serializeDate?: (d: Date) => string
+  format?: 'RFC1738' | 'RFC3986'
+  encodeValuesOnly?: boolean
+  addQueryPrefix?: boolean
+  allowDots?: boolean
+  charset?: 'utf-8' | 'iso-8859-1'
+  charsetSentinel?: boolean
 }
 ```
 
