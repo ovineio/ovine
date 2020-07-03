@@ -1,6 +1,8 @@
 /**
- * ‘@core’ 是 '@ovine/core/lib' 的别名
- * ‘～/*’  是 '/src/' 的别名
+ * ovine 应用配置。文档：https://ovine.igroupes.com/org/docs/advance/configurations#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE
+ * 路径别名映射:
+ * '@core/*': '@ovine/core/lib/*'
+ * '～/*': '/src/*'
  */
 
 import { amis } from './app/amis'

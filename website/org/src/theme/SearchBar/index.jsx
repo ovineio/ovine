@@ -6,7 +6,7 @@
  */
 
 import classnames from 'classnames'
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 
 import { useHistory } from '@docusaurus/router'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
@@ -21,6 +21,15 @@ const Search = (props) => {
     themeConfig: { algolia },
   } = siteConfig
   const history = useHistory()
+
+  useEffect(() => {
+    const { localScroll } = window.$
+    localScroll({
+      lazy: true,
+      duration: 300,
+      hash: true,
+    })
+  }, [])
 
   const initAlgolia = () => {
     if (!initialized.current) {

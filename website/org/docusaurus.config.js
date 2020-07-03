@@ -49,4 +49,5 @@ module.exports = {
       },
     ],
   ],
+  scripts: ['/org/scripts/jquery.min.js', '/org/scripts/jquery.localscroll.js'],
 }
