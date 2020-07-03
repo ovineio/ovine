@@ -225,7 +225,6 @@
 		plugin(jQuery);
 	}
 }(function($) {
-	var URI = location.href.replace(/#.*/, ''); // local url without hash
 
 	var $localScroll = $.localScroll = function(settings) {
 		$('body').localScroll(settings);
@@ -250,14 +249,16 @@
 		*/
 	};
 
+	$localScroll.settings = {};
+
 	$.fn.localScroll = function(settings) {
 		settings = $.extend({}, $localScroll.defaults, settings);
+		$localScroll.settings = settings;
 
 		if (settings.autoscroll && settings.hash && location.hash) {
 			if (settings.target) window.scrollTo(0, 0);
 			scroll(0, location, settings);
 		}
-
 		return settings.lazy ?
 			// use event delegation, more links can be added later.
 			this.on(settings.event, 'a,area', function(e) {
@@ -273,6 +274,7 @@
 			.end();
 
 		function filter() {// is this a link that points to an anchor and passes a possible filter ? href is checked to avoid a bug in FF.
+			var URI = location.href.replace(/#.*/, ''); // local url without hash
 			return !!this.href && !!this.hash && this.href.replace(this.hash,'') === URI && (!settings.filter || $(this).is(settings.filter));
 		}
 	};
@@ -281,6 +283,7 @@
 	$localScroll.hash = function() {};
 
 	function scroll(e, link, settings) {
+		var settings = $localScroll.settings;
 		var id = decodeURIComponent(link.hash.slice(1)),
 			elem = document.getElementById(id) || document.getElementsByName(id)[0];
 
@@ -296,7 +299,7 @@
 
 		if (settings.stop) {
 			$target.stop(true); // remove all its animations
-		}
+		}	
 
 		if (settings.hash) {
 			var attr = elem.id === id ? 'id' : 'name',
@@ -317,6 +320,8 @@
 			.scrollTo(elem, settings) // do scroll
 			.trigger('notify.serialScroll',[elem]); // notify serialScroll about this change
 	}
+
+	$localScroll.scroll = scroll;
 
 	// AMD requirement
 	return $localScroll;
