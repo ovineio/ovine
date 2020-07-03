@@ -77,8 +77,8 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const mockSourceGen = get(mockSource, apiStr) ? (mockSource as any)[apiStr] : mockSource
 
   // mock 原始数据
-  const origin: any = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
-  const fakeRes: any = { data: origin }
+  const fakeRes: any = {}
+  fakeRes.data = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
 
   await requestSuccessCtrl.call(this, fakeRes, option)
 
@@ -127,13 +127,9 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
 
 // 发出 fetch 请求
 async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { url, onUploadProgress, body, config = {} } = option
+  const { url, body, config } = option
 
-  if (
-    (onUploadProgress || config?.onUploadProgress) &&
-    body &&
-    typeof XMLHttpRequest !== 'undefined'
-  ) {
+  if (config.onUploadProgress && body && typeof XMLHttpRequest !== 'undefined') {
     const result = await uploadWithProgress.call(this, option)
     return result
   }
@@ -151,9 +147,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       const status = Number(response.status)
 
       try {
-        const origin = await response.json()
-
-        response.data = origin
+        response.data = await response.json()
 
         if (status <= 100 || status >= 400) {
           requestErrorCtrl.call(
@@ -182,12 +176,17 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
   const successCtrl = requestSuccessCtrl.bind(this)
 
   return new Promise((resolve) => {
-    const { onUploadProgress, config, method = '', url = '', headers = {}, body } = option
-    const uploadProgress = config.onUploadProgress || onUploadProgress
+    const { config, method = '', url = '', headers = {}, body } = option
 
     let xhr: XMLHttpRequest | null = new XMLHttpRequest()
 
     xhr.open(method.toLowerCase(), url, true)
+
+    // 兼容 withCredentials 与 credentials 参数
+    const credentials = option.fetchOptions?.credentials
+    if (config.withCredentials || (credentials && credentials !== 'omit')) {
+      xhr.withCredentials = true
+    }
 
     map(headers, (header, key) => {
       if (xhr) {
@@ -244,8 +243,8 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       onXhrError.call(this, 'TimeOut Error')
     }
 
-    if (xhr.upload && uploadProgress) {
-      xhr.upload.onprogress = uploadProgress
+    if (xhr.upload && config.uploadProgress) {
+      xhr.upload.onprogress = config.uploadProgress
     }
 
     xhr.send(body)
@@ -254,12 +253,12 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const { headers = {}, data, body, fetchOptions, dataType = 'json', qsOptions } = option
+  const { headers, data, body, fetchOptions, dataType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
 
   // 自行实现取消请求的回调
-  const { cancelExecutor } = option.config || {}
+  const { cancelExecutor, withCredentials } = option.config
 
   let signal = null
   if (cancelExecutor && typeof AbortController !== 'undefined') {
@@ -300,6 +299,11 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
     body: fetchBody,
   }
 
+  // 兼容 withCredentials 参数
+  if (withCredentials && !fetchOption.credentials) {
+    fetchOption.credentials = 'include'
+  }
+
   return fetchOption
 }
 
@@ -329,18 +333,25 @@ function wrapResponse(response?: any, transJson?: boolean) {
 
 // 获取请求参数
 async function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
-  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = option
-  let opt = option
+  // 对象参数 先填充默认值
+  let opt: Types.ReqOption = {
+    fetchOptions: {},
+    headers: {},
+    config: {},
+    ...option,
+  }
+
+  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = opt
 
   opt.api = api || url
   opt.actionAddr = actionAddr || opt.api
 
   if (!option.url) {
-    log.error('请求模块一定要传 url 参数', option)
-    requestErrorCtrl.call(this, new Error('请求模块一定要传 url 参数'), wrapResponse())
+    log.error('请求一定要传 url 参数', option)
+    requestErrorCtrl.call(this, new Error('请求一定要传 url 参数'), wrapResponse())
   }
 
-  const query: any = url && getQuery('', url)
+  const query: any = getQuery('', url)
 
   if (query) {
     opt.data = { ...query, ...params }
@@ -359,6 +370,7 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   if (this.onRequest) {
     reqOption = await this.onRequest(reqOption)
   }
+
   if (onRequest) {
     reqOption = await onRequest(reqOption)
   }

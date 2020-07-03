@@ -58,7 +58,7 @@ export async function onAuth() {
     // 检查用户接口权限字符串
     return checkAppLimitStr(userInfo.limit)
   } catch (_) {
-    toast.error('获取用户信息异常', '系统提示')
+    //
   }
   return false
 }

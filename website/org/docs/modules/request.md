@@ -3,7 +3,7 @@ id: request
 title: 请求模块
 ---
 
-请求模块是二次封装 [fetch](https://github.com/github/fetch) 模块。对请求的各个阶段可以添加 hooks 回调。
+请求模块是二次封装 [fetch](https://github.com/github/fetch) 模块。既支持对请求的各个阶段可以添加 hooks 回调 `(对JSON配置很友好)`，也支持 `promise` 方式链式调用。
 
 ### Request 类
 
@@ -112,58 +112,41 @@ export type ReqOption<S = {}, P = {}> = {
   onError?: (response: ReqApiRes<S>, option: ReqOption<S, P>, error: Error) => undefined | boolean // 接口请求失败回调
   [key: string]: any // 自定义扩展字段
 }
+```
 
-// 可自定义的部分 fetch 参数。 fetch 文档：https://developer.mozilla.org/zh-CN/docs/Web/API/Request
-type FetchOptions = {
-  cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'only-if-cached' | 'reload'
-  credentials?: 'include' | 'omit' | 'same-origin'
-  integrity?: string
-  keepalive?: boolean
-  mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
-  redirect?: 'error' | 'follow' | 'manual'
-  referrer?: string
-  referrerPolicy?:
-    | ''
-    | 'no-referrer'
-    | 'no-referrer-when-downgrade'
-    | 'origin'
-    | 'origin-when-cross-origin'
-    | 'same-origin'
-    | 'strict-origin'
-    | 'strict-origin-when-cross-origin'
-    | 'unsafe-url'
-  window?: any
-}
+### 与 [Amis Api 选项](https://baidu.github.io/amis/docs/renderers/Types#api) 的区别
 
-// qs 模块 stringify 方法参数: qs文档: https://github.com/ljharb/qs
-/*
-默认值: {
-  arrayFormat: 'indices',
-  encodeValuesOnly: true
-}
-*/
-type QsOptions = {
-  delimiter?: string
-  strictNullHandling?: boolean
-  skipNulls?: boolean
-  encode?: boolean
-  encoder?: (
-    str: any,
-    defaultEncoder: defaultEncoder,
-    charset: string,
-    type: 'key' | 'value'
-  ) => string
-  filter?: Array<string | number> | ((prefix: string, value: any) => any)
-  arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma'
-  indices?: boolean
-  sort?: (a: any, b: any) => number
-  serializeDate?: (d: Date) => string
-  format?: 'RFC1738' | 'RFC3986'
-  encodeValuesOnly?: boolean
-  addQueryPrefix?: boolean
-  allowDots?: boolean
-  charset?: 'utf-8' | 'iso-8859-1'
-  charsetSentinel?: boolean
+注意：Ovine 使用 `fetch` 作为请求库，并未使用 `axios`，因此不能使用 `axios` 很多额外功能。
+
+```ts
+// amis 请求选项
+type ApiObject = {
+  // 特别说明： 必须传入 Ovine 请求URL格式。 `GET XXX/xx` 或者 `POST xxx/xx` 等
+  url: string // 请求  api 地址
+  // 特别说明： Ovine 请求方法都是大写，url 按照格式写，就不需要传这个参数
+  method?: 'get' | 'post' | 'put' | 'patch' | 'delete' // 请求方法
+  data?: object // 数据体, 数据对象。
+  headers?: any // 请求头
+  reload?: string // 是否刷新页面
+  sendOn?: string // 可以配置发送条件比如： this.id 表示当存在 id 值时才发送这个请求。
+  dataType?: 'json' | 'form-data' | 'form' // （multipart/form-data） 格式。当配置为 form 时为 application/x-www-form-urlencoded 格式
+  qsOptions?: QsOptions // 数据转换为字符串时的选项
+  replaceData?: boolean // 返回的数据是否替换掉当前的数据，默认为 false，即：追加，设置成 true 就是完全替换
+  config?: {
+    onUploadProgress?: (event: { loaded: number; total: number }) => void // 上传文件进度回调
+    cancelExecutor?: (cancel: Function) => void // 取消请求的回调
+    withCredentials?: boolean // 是否携带 token
+  }
+
+  /**
+   * Ovine 不支持 Amis 以下参数，主要是因为功能重叠了
+   */
+  // cache 请使用 expired 代替
+  cache?: number
+  // requestAdaptor 请使用 onSuccess 代替
+  requestAdaptor?: (api: ApiObject) => ApiObject
+  // adaptor 请使用 onPreRequest 代替
+  adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any
 }
 ```
 
@@ -219,4 +202,69 @@ app
   .catch(() => {
     console.log('请求发生异常')
   })
+```
+
+### `ReqOption` 关联参数选项
+
+#### `FetchOptions` 选项
+
+可自定义的部分 fetch 参数。[查看 fetch 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/Request)
+
+```ts
+type FetchOptions = {
+  cache?: 'default' | 'force-cache' | 'no-cache' | 'no-store' | 'only-if-cached' | 'reload'
+  credentials?: 'include' | 'omit' | 'same-origin'
+  integrity?: string
+  keepalive?: boolean
+  mode?: 'cors' | 'navigate' | 'no-cors' | 'same-origin'
+  redirect?: 'error' | 'follow' | 'manual'
+  referrer?: string
+  referrerPolicy?:
+    | ''
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'same-origin'
+    | 'strict-origin'
+    | 'strict-origin-when-cross-origin'
+    | 'unsafe-url'
+  window?: any
+}
+```
+
+#### `QsOptions` 选项
+
+qs 模块 stringify 方法参数。[查看 qs 模块文档](https://github.com/ljharb/qs)
+
+```ts
+/*
+默认值: {
+  arrayFormat: 'indices',
+  encodeValuesOnly: true
+}
+*/
+type QsOptions = {
+  delimiter?: string
+  strictNullHandling?: boolean
+  skipNulls?: boolean
+  encode?: boolean
+  encoder?: (
+    str: any,
+    defaultEncoder: defaultEncoder,
+    charset: string,
+    type: 'key' | 'value'
+  ) => string
+  filter?: Array<string | number> | ((prefix: string, value: any) => any)
+  arrayFormat?: 'indices' | 'brackets' | 'repeat' | 'comma'
+  indices?: boolean
+  sort?: (a: any, b: any) => number
+  serializeDate?: (d: Date) => string
+  format?: 'RFC1738' | 'RFC3986'
+  encodeValuesOnly?: boolean
+  addQueryPrefix?: boolean
+  allowDots?: boolean
+  charset?: 'utf-8' | 'iso-8859-1'
+  charsetSentinel?: boolean
+}
 ```
