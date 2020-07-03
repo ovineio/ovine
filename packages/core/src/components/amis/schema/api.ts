@@ -11,6 +11,11 @@ import { normalizeUrl } from '@/utils/request'
 const log = logger.getLogger('lib:amis:api')
 
 /**
+ * 注意：Amis buildApi 方法，不支持 Ovine请求字符串格式。
+ * 因此会将所有请求都处理为 默认 get 请求。除非传入确的小写method，
+ */
+
+/**
  * amis 请求返回值格式
  * @param res 请求返回值
  */
@@ -58,6 +63,9 @@ export const libFetcher = (
   if (!amisApi.url || typeof amisApi.url !== 'string') {
     throw new Error('请求模块一定要传 url 字符串格式参数')
   }
+
+  // 去除末尾多余的 ? 号
+  amisApi.url = amisApi.url.replace(/\?{1,}$/, '')
 
   // 添加参数
   amisApi.api = amisApi.api || amisApi.url
