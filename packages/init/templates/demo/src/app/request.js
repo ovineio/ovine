@@ -29,22 +29,20 @@ request.onPreRequest = (option) => {
 // 请求发送前 回调
 request.onRequest = (option) => {
   const { key, token } = getStore(storeKeys.auth) || {}
-  const { actionAddr, headers = {} } = option
+  const { actionAddr } = option
 
   // 开启携带 cookies 信息
-  option.credentials = 'include'
+  option.fetchOptions.credentials = 'include'
 
   // demo api 携带用户鉴权信息，具体鉴权需自行实现
   if (key) {
-    headers[key] = token
+    option.headers[key] = token
   }
 
   // 操作地址
   if (actionAddr) {
-    headers['X-ACTION-ADDR'] = actionAddr
+    option.headers['X-ACTION-ADDR'] = actionAddr
   }
-
-  option.headers = headers
 
   return option
 }

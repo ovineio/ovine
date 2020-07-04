@@ -89,14 +89,10 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
     }
   })
 
-  // if (type === 'aside') {
-  //   // 去除顶层 无用 label 显示
-  //   return nodes.filter(({ nodePath, children }) => nodePath === '/' && !!children?.length)
-  // }
   return nodes
 }
 
-// 可用权限
+// 可用路由权限---注意页面内操作权限没有校验
 export const getAuthRoutes = (): RouteItem[] => {
   if (store.authRoutes?.length) {
     return store.authRoutes
@@ -121,7 +117,8 @@ export const getLimitMenus = (refresh?: boolean) => {
     return store.limitMenus
   }
 
-  store.limitMenus = mapTree(cloneDeep(getAuthRoutes()) as LimitMenuItem[], (item) => {
+  // 构建权限配置面板菜单结构
+  const limitMenus = mapTree(cloneDeep(getAuthRoutes()) as LimitMenuItem[], (item) => {
     const { nodePath } = item
 
     // TODO: react state readonly 不允许修改，preset.apis 修改 需要优化，如何保证只是首次修改。
@@ -172,6 +169,12 @@ export const getLimitMenus = (refresh?: boolean) => {
     item.icon = item.icon ? item.icon : 'fa fa-code-fork'
 
     return item
+  })
+
+  // 过滤权限
+  const appLimits = getAppLimits()
+  store.limitMenus = filterTree<RouteItem>(limitMenus, ({ nodePath }) => {
+    return nodePath === '/' ? true : checkLimitByNodePath(nodePath, appLimits)
   })
 
   return store.limitMenus

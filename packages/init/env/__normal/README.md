@@ -4,6 +4,8 @@ The project description here.
 
 ## Development Cli Command
 
+[ovine cli doc](https://ovine.igroupes.com/org/docs/advance/cli)
+
 ```bash
 # there are examples of 'yarn', you also can use 'npm'.
 yarn start # start dev server
@@ -29,4 +31,4 @@ yarn dll # build webpack dll files
   - `search node_modules` - search file from `node_modules`
   - `code spell checker` - for words spell check
 
-> Any Issues? [Let Me Know](https://github.com/CareyToboo/ovine).
+> Any Issues? [Let Me Know](https://github.com/CareyToboo/ovine/issues).

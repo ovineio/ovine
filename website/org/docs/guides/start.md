@@ -130,7 +130,7 @@ my-app
 - **ovine.config.js** Ovine 编译配置文件。[查看编译配置](/org/advance/configurations)
   > Ovine 控制 Webpack 编译的一些配置。
 - **/src** 源代码文件目录，主要是手动编写的代码
-  - **/src/index.js** 应用唯一入口文件，主要用于 `export` Ovine 应用配置文件。[查看应用配置](/org/advance/configurations)
+  - **/src/index.js** 应用唯一入口文件，主要用于 `export` Ovine 应用配置文件。[查看应用配置](/org/docs/advance/configurations#应用配置)
   - **/src/pages** 路由页面文件目录
   - **/src/pages/xxx/index.js** 页面文件入口文件，主要是 export 页面 Json，或者自定页面
   - **/src/pages/xxx/preset.js** 页面预设置文件，主要用权限约束

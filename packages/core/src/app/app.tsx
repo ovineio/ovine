@@ -1,4 +1,4 @@
-import { defaultsDeep } from 'lodash'
+import { defaults } from 'lodash'
 import React from 'react'
 import { render } from 'react-dom'
 
@@ -13,11 +13,11 @@ import appConfig from '~/index'
 
 function initLogger(loggerConf: any = {}) {
   const moduleName = getQuery('loggerModule') || loggerConf?.moduleName
-  const debugLevel: any = getQuery('loggerLevel') || loggerConf?.level || 'log'
-  const loggerConfig = defaultsDeep(
+  const loggerLevel: any = getQuery('loggerLevel') || loggerConf?.level || 'log'
+  const loggerConfig = defaults(
     {
       moduleName,
-      level: debugLevel,
+      level: loggerLevel,
       enable: !!moduleName,
     },
     loggerConf

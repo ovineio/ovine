@@ -65,21 +65,8 @@ export class LibLimitSetting extends React.Component<Props> {
         const onSave = (authData: AuthLimitData) => {
           const fetchData = { ...initData, ...authData }
           if (isEffectiveApi(api, fetchData)) {
-            const saveApi: any =
-              typeof api === 'string'
-                ? {
-                    url: api,
-                  }
-                : api
-            saveApi.data = fetchData
-            saveApi.method = 'post'
-            saveApi.qsOptions = {
-              encode: false,
-              arrayFormat: 'indices',
-              encodeValuesOnly: false,
-            }
             env
-              .fetcher(saveApi)
+              .fetcher(api, fetchData)
               .then((res) => {
                 const { status, msg } = res
                 const hasError = status !== 0

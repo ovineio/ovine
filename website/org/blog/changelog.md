@@ -5,6 +5,17 @@ title: 版本更新日志
 
 [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 
+[Ovine 计划表](/org/blog/plan)
+
+### 0.0.4
+
+> 更新此版本后需要执行 `yarn ovine dll`
+
+- 移除 `Amis` 配置中 `env.fetcher` 包裹的 `wrapperFetcher` 方法，所有请求逻辑均由 `Ovine` [请求模块控制](/org/docs/modules/request)
+- 修复 `LimitSetting` 组件，在部分权限情况下，依然展示全部权限选项
+- 调整 `getActionAddrMap` 返回数据。并在模版项目重新自定义了该部分逻辑
+- 模版项目添加了登陆时权限检查功能
+
 ### 0.0.3 ---- 2020.6.26
 
 - 修复 `url-loader` 正则文件匹配错误

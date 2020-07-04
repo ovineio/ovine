@@ -4,6 +4,7 @@ import { DefaultTheme } from 'styled-components'
 
 import { LoggerConfig } from '@/utils/logger'
 import { Request } from '@/utils/request'
+import { ReqOption } from '@/utils/request/types'
 import { ClassMethod, DeepPartial, Map } from '@/utils/types'
 
 import { AppTheme } from './theme'
@@ -50,7 +51,14 @@ export interface AppDefInstance extends Omit<AppConfig, 'env'> {
     isMock: boolean
   }
   entry: any[]
-  request: ClassMethod<Request, 'request'>
+  request: ClassMethod<Request, 'request'> & {
+    getUrlByOption: (
+      option: ReqOption
+    ) => {
+      url: string
+      method: string
+    }
+  }
   theme: AppTheme
 }
 

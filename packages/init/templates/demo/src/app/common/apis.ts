@@ -34,7 +34,7 @@ export const apis = {
     mockSource,
   },
   uploadImg: {
-    url: 'POST ovapi/file/image?',
+    url: 'POST ovapi/file/image',
     actionDesc: '上传图片',
   },
   pageStat: {

@@ -151,13 +151,16 @@ class App extends AppProxy {
 
     checkAppGetter('requestFunc', requestIns)
     // 设置 request 环境变量
-    const requestConfig = {
+
+    requestIns.setConfig({
       isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
       domains: get(source, 'env.domains') || initEnv.domains,
-    }
+    })
 
-    requestIns.setConfig(requestConfig)
-    set(source, 'request', requestIns.request.bind(requestIns))
+    const requestHandle: any = requestIns.request.bind(requestIns)
+    requestHandle.getUrlByOption = requestIns.getUrlByOption.bind(requestIns)
+
+    set(source, 'request', requestHandle)
   }
 }
 

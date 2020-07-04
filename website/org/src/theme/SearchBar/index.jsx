@@ -6,7 +6,7 @@
  */
 
 import classnames from 'classnames'
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
 
 import { useHistory } from '@docusaurus/router'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
@@ -16,11 +16,24 @@ let loaded = false
 const Search = (props) => {
   const initialized = useRef(false)
   const searchBarRef = useRef(null)
+  const store = useRef({})
   const { siteConfig = {} } = useDocusaurusContext()
   const {
     themeConfig: { algolia },
   } = siteConfig
+
   const history = useHistory()
+
+  store.current.pathname = history.location.pathname
+
+  useEffect(() => {
+    window.$.localScroll({
+      lazy: true,
+      duration: 300,
+      hash: true,
+      offset: -70,
+    })
+  }, [])
 
   const initAlgolia = () => {
     if (!initialized.current) {
@@ -35,13 +48,17 @@ const Search = (props) => {
         handleSelected: (_input, _event, suggestion) => {
           // Use an anchor tag to parse the absolute url into a relative url
           // Alternatively, we can use new URL(suggestion.url) but its not supported in IE
-          const a = document.createElement('a')
-          a.href = suggestion.url
+          const link = document.createElement('a')
+          link.href = suggestion.url
 
           // Algolia use closest parent element id #__docusaurus when a h1 page title does not have an id
           // So, we can safely remove it. See https://github.com/facebook/docusaurus/issues/1828 for more details.
-          const routePath = a.hash === '#__docusaurus' ? `${a.pathname}` : `${a.pathname}${a.hash}`
+          const routePath =
+            link.hash === '#__docusaurus' ? `${link.pathname}` : `${link.pathname}${link.hash}`
           history.push(routePath)
+          setTimeout(() => {
+            window.$.localScroll.scroll(0, link)
+          }, 400)
         },
       })
       initialized.current = true

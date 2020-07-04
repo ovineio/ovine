@@ -284,7 +284,6 @@ function getAllAuthApiStr(menusConfig: any[], limitValue: string) {
     Object.values(apis).forEach((apiItem) => {
       const { url = '', key, limits: apiLimits } = apiItem
       const auth = !apiLimits ? true : checkLimitByKeys(apiLimits, { nodePath, limits })
-      // console.log('@@==', auth, apiLimits)
       if (auth) {
         authApis[key || url] = true
       }

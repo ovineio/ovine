@@ -5,8 +5,9 @@
 /* eslint-disable consistent-return */
 import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, isPlainObject, isFunction, omitBy } from 'lodash'
+import { get, isPlainObject, isFunction } from 'lodash'
 import map from 'lodash/map'
+import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
@@ -76,8 +77,8 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const mockSourceGen = get(mockSource, apiStr) ? (mockSource as any)[apiStr] : mockSource
 
   // mock 原始数据
-  const origin: any = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
-  const fakeRes: any = { data: origin }
+  const fakeRes: any = {}
+  fakeRes.data = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
 
   await requestSuccessCtrl.call(this, fakeRes, option)
 
@@ -90,7 +91,7 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   return fakeRes
 }
 
-// 只缓存 GET 请求
+// 缓存请求 只缓存 GET 请求
 function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?: any) {
   const { url = '', expired = 0, method = 'GET' } = option || {}
 
@@ -126,13 +127,9 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
 
 // 发出 fetch 请求
 async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { url, onUploadProgress, body, config = {} } = option
+  const { url, body, config } = option
 
-  if (
-    (onUploadProgress || config?.onUploadProgress) &&
-    body &&
-    typeof XMLHttpRequest !== 'undefined'
-  ) {
+  if (config.onUploadProgress && body && typeof XMLHttpRequest !== 'undefined') {
     const result = await uploadWithProgress.call(this, option)
     return result
   }
@@ -150,9 +147,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       const status = Number(response.status)
 
       try {
-        const origin = await response.json()
-
-        response.data = origin
+        response.data = await response.json()
 
         if (status <= 100 || status >= 400) {
           requestErrorCtrl.call(
@@ -175,18 +170,23 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
   return result
 }
 
-// fetch 不支持 onUploadProgress, 使用用原生的 xhr
+// fetch 添加 onUploadProgress 支持
 function uploadWithProgress(this: Request, option: Types.ReqOption) {
   const errorCtrl = requestErrorCtrl.bind(this)
   const successCtrl = requestSuccessCtrl.bind(this)
 
   return new Promise((resolve) => {
-    const { onUploadProgress, config, method = '', url = '', headers = {}, body } = option
-    const uploadProgress = config.onUploadProgress || onUploadProgress
+    const { config, method = '', url = '', headers = {}, body } = option
 
     let xhr: XMLHttpRequest | null = new XMLHttpRequest()
 
     xhr.open(method.toLowerCase(), url, true)
+
+    // 兼容 withCredentials 与 credentials 参数
+    const credentials = option.fetchOptions?.credentials
+    if (config.withCredentials || (credentials && credentials !== 'omit')) {
+      xhr.withCredentials = true
+    }
 
     map(headers, (header, key) => {
       if (xhr) {
@@ -243,8 +243,8 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       onXhrError.call(this, 'TimeOut Error')
     }
 
-    if (xhr.upload && uploadProgress) {
-      xhr.upload.onprogress = uploadProgress
+    if (xhr.upload && config.uploadProgress) {
+      xhr.upload.onprogress = config.uploadProgress
     }
 
     xhr.send(body)
@@ -253,18 +253,12 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const { headers = {}, data, body, fetchOptions, contentType = 'json', qsOptions } = option
+  const { headers, data, body, fetchOptions, dataType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
-  const qsOpts = {
-    encode: false,
-    arrayFormat: 'indices',
-    encodeValuesOnly: false,
-    ...qsOptions,
-  }
 
   // 自行实现取消请求的回调
-  const { cancelExecutor } = option.config || {}
+  const { cancelExecutor, withCredentials } = option.config
 
   let signal = null
   if (cancelExecutor && typeof AbortController !== 'undefined') {
@@ -275,18 +269,22 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
     })
   }
 
+  /**
+   * amis dataType 逻辑
+   */
+
   // fetch 请求参数封装
   let fetchBody = body
   const fetchHeaders = headers
   if (!fetchBody && data && !/GET|HEAD|OPTIONS/.test(method)) {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
-    } else if (hasFile(data) || contentType === 'form-data') {
-      fetchBody = object2formData(data, qsOpts)
-    } else if (contentType === 'form') {
-      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOpts)
+    } else if (hasFile(data) || dataType === 'form-data') {
+      fetchBody = object2formData(data, qsOptions)
+    } else if (dataType === 'form') {
+      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
-    } else if (contentType === 'json') {
+    } else if (dataType === 'json') {
       fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
       fetchHeaders['Content-Type'] = 'application/json'
     }
@@ -299,7 +297,11 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
     method,
     headers: fetchHeaders,
     body: fetchBody,
-    credentials: 'include',
+  }
+
+  // 兼容 withCredentials 参数
+  if (withCredentials && !fetchOption.credentials) {
+    fetchOption.credentials = 'include'
   }
 
   return fetchOption
@@ -331,23 +333,27 @@ function wrapResponse(response?: any, transJson?: boolean) {
 
 // 获取请求参数
 async function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
-  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = option
-  let opt = option
+  // 对象参数 先填充默认值
+  let opt: Types.ReqOption = {
+    fetchOptions: {},
+    headers: {},
+    config: {},
+    ...option,
+  }
+
+  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = opt
 
   opt.api = api || url
   opt.actionAddr = actionAddr || opt.api
 
-  if (!option.api) {
-    log.error('request option.api 不存在', option)
-    requestErrorCtrl.call(this, new Error('option.api 不存在'), wrapResponse())
+  if (!option.url) {
+    log.error('请求一定要传 url 参数', option)
+    requestErrorCtrl.call(this, new Error('请求一定要传 url 参数'), wrapResponse())
   }
 
-  const query: any = url && getQuery('', url)
+  const query: any = getQuery('', url)
 
   if (query) {
-    if (url) {
-      opt.url = url.split('?')[0] // eslint-disable-line
-    }
     opt.data = { ...query, ...params }
   }
 
@@ -364,6 +370,7 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   if (this.onRequest) {
     reqOption = await this.onRequest(reqOption)
   }
+
   if (onRequest) {
     reqOption = await onRequest(reqOption)
   }
@@ -371,59 +378,70 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   return reqOption
 }
 
-// 获取url参数
+// 处理格式化 URL 字符串
+export function normalizeUrl(urlStr: string, defMethod?: string) {
+  let method = defMethod || 'GET'
+  let url = urlStr
+
+  if (/^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS) /i.test(url)) {
+    const [apiMethod, apiStr] = urlStr.split(' ')
+    method = apiMethod
+    url = apiStr
+  }
+
+  return {
+    url,
+    method: method.toUpperCase() as Types.ReqMethod,
+  }
+}
+
+// 获取 url 参数
 export function getUrlByOption(
   this: Types.ReqConfig,
   option: Types.ReqOption & Partial<Types.ReqConfig>
 ) {
-  const { url = '', qsOptions, data, method = 'GET', domain = 'api', domains } = option
-
-  let realUrl = url
-
-  const urlOption = { url, method: method.toUpperCase() }
-  const qsOpts = {
-    encode: false,
-    arrayFormat: 'indices',
-    encodeValuesOnly: false,
-    ...qsOptions,
-  }
-
-  if (/[GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS] /.test(realUrl)) {
-    const [apiMethod, apiStr] = realUrl.split(' ')
-    urlOption.method = apiMethod as Types.ReqMethod
-    realUrl = apiStr
-  }
+  const { qsOptions, data, domain = 'api', domains } = option
+  const urlOption = normalizeUrl(option.url || '', option.method)
 
   const apiDomains = domains || this.domains || {}
 
-  // url中不存在 '//' 匹配
-  if (!/\/\//.test(realUrl)) {
+  let { url } = urlOption
+
+  // url中不存在 'http' 匹配
+  if (!/^https?:\/\//.test(url)) {
     const urlPrefix = apiDomains[domain]
     if (!urlPrefix) {
       log.error('request.getUrlByOption 解析出错', option)
     }
-    realUrl = `${urlPrefix}/${realUrl}`
+    url = `${urlPrefix}/${url}`
   }
 
-  // 存在模版标记 tag
-  if (/\$/.test(realUrl)) {
-    realUrl = filter(realUrl, data)
+  // 删除多于的斜杠
+  url = url.replace(/(?<!(https?:))(\/{2,})/g, '/')
+
+  const idx = url.indexOf('?')
+  const hashIdx = url.indexOf('#')
+  const hasString = hashIdx !== -1 ? url.substring(hashIdx) : ''
+
+  if (/\$/.test(url)) {
+    url = filter(url, data)
   }
 
-  if (urlOption.method === 'GET' && isPlainObject(data)) {
-    // 过滤无效重复 查询参数
-    const queryParams = omitBy(data, (item, key) => {
-      const isNull = item === undefined || item === null || item === 'undefined' || item === ''
-      const queryStr = realUrl.split('?')[1] || ''
-      if (isNull || queryStr.indexOf(`${key}=`) > -1) {
-        return true
+  // 添加 get 请求参数
+  if (urlOption.method === 'GET' && data) {
+    if (idx !== -1) {
+      const urlParams = parse(url.substring(idx + 1, hashIdx !== -1 ? hashIdx : undefined))
+      const params = {
+        ...urlParams,
+        ...data,
       }
-    })
-
-    realUrl += `${realUrl.indexOf('?') === -1 ? '?' : '&'}${qsstringify(queryParams, qsOpts)}`
+      url = `${url.substring(0, idx)}?${qsstringify(params, qsOptions)}${hasString}`
+    } else {
+      url += `?${qsstringify(data, qsOptions)}${hasString}`
+    }
   }
 
-  urlOption.url = realUrl
+  urlOption.url = url
 
   return urlOption
 }
@@ -474,6 +492,7 @@ export class Request<IS = {}, IP = {}> {
 
   // eslint-disable-next-line no-dupe-class-members
   public async request(option: any): Promise<any> {
+    // 获取请求参数
     const reqOption = await getReqOption.call(this as any, option)
 
     // 命中缓存 直接返回
