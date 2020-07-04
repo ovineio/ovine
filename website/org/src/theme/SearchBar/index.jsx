@@ -58,7 +58,7 @@ const Search = (props) => {
           history.push(routePath)
           setTimeout(() => {
             window.$.localScroll.scroll(0, link)
-          }, 200)
+          }, 400)
         },
       })
       initialized.current = true

@@ -264,6 +264,10 @@
 			this.on(settings.event, 'a,area', function(e) {
 				if (filter.call(this)) {
 					scroll(e, this, settings);
+				} else if(filterSameOrigin.call(this)){
+					setTimeout(() => {
+            scroll(0, this)
+          }, 400)
 				}
 			}) :
 			// bind concretely, to each matching link
@@ -276,6 +280,10 @@
 		function filter() {// is this a link that points to an anchor and passes a possible filter ? href is checked to avoid a bug in FF.
 			var URI = location.href.replace(/#.*/, ''); // local url without hash
 			return !!this.href && !!this.hash && this.href.replace(this.hash,'') === URI && (!settings.filter || $(this).is(settings.filter));
+		}
+
+		function filterSameOrigin() {
+			return !!this.href && !!this.hash && this.host === location.host && (!settings.filter || $(this).is(settings.filter));
 		}
 	};
 

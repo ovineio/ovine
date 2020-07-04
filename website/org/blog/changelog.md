@@ -5,6 +5,8 @@ title: 版本更新日志
 
 [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 
+[Ovine 计划表](/org/blog/plan)
+
 ### 0.0.4
 
 > 更新此版本后需要执行 `yarn ovine dll`

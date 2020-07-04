@@ -5,7 +5,7 @@ title: 主要概念
 
 了解 Ovine 应用的几个概念， 会对使用 `Json Schema` 开发 Admin 系统有大体印象，也会有整体开发思路
 
-> 开始之前请先阅读 [目录结构](/org/docs/guides/start#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84)，如果已经阅读可忽略
+> 开始之前请先阅读 [目录结构](/org/docs/guides/start#目录结构)，如果已经阅读可忽略
 
 ## 渲染器
 
