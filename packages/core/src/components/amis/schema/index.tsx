@@ -23,9 +23,7 @@ export type AmisProps = {
 type Props = AmisProps & RouteComponentProps<any>
 
 export const Amis = withRouter((props: Props) => {
-  const { schema, props: amisProps, option = {}, history } = props
-  const { definitions } = app.amis
-  const { preset } = schema
+  const { schema: rawSchema, props: amisProps, option = {}, history } = props
   const codeStore = getGlobal<any>(storage.dev.code) || {}
 
   useEffect(() => {
@@ -40,18 +38,32 @@ export const Amis = withRouter((props: Props) => {
   }, [])
 
   const envSchema: LibSchema = useMemo(() => {
-    if (definitions) {
-      schema.definitions = {
-        ...cloneDeep(definitions),
-        ...schema.definitions,
+    if (!rawSchema || isEmpty(rawSchema)) {
+      return {
+        type: 'html',
+        html: '请传入有效schema',
       }
     }
 
-    const cssSchema = wrapCss(schema)
-    if (!preset) {
-      return cssSchema
+    // Avoid modify rawSchema of props
+    const schema = cloneDeep({
+      ...rawSchema,
+      // Merge amis global definitions
+      definitions: {
+        ...app.amis.definitions,
+        ...rawSchema.definitions,
+      },
+    })
+
+    const wrappedCssSchema = wrapCss(schema)
+
+    if (!rawSchema.preset) {
+      return wrappedCssSchema
     }
-    const libSchema = isEmpty(preset) ? cssSchema : resolveLibSchema(cssSchema)
+
+    const libSchema = isEmpty(rawSchema.preset)
+      ? wrappedCssSchema
+      : resolveLibSchema(wrappedCssSchema)
 
     if (codeStore.enable) {
       setGlobal(storage.dev.code, {
@@ -60,7 +72,7 @@ export const Amis = withRouter((props: Props) => {
       })
     }
     return libSchema
-  }, [schema])
+  }, [rawSchema])
 
   return (
     <ThemeConsumer>

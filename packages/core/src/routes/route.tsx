@@ -4,7 +4,7 @@
 
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
-import { isFunction, map, cloneDeep, get } from 'lodash'
+import { isFunction, map, get, cloneDeep } from 'lodash'
 import React, {
   createContext,
   lazy,
@@ -51,7 +51,7 @@ export const getPageAsync = (option: PresetRouteProps) => {
       if (isFunction(content)) {
         compProps.LazyFileComponent = content
       } else {
-        content.schema = cloneDeep(schema) || {}
+        content.schema = schema || {}
         compProps.lazyFileAmisProps = content
       }
 
@@ -127,18 +127,17 @@ const PrestComponent = (props: PresetComponentProps) => {
 
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
-    const mockSource = !app.env.isMock ? {} : cloneDeep(getPageMockSource(fileOption))
-    const pagePreset =
-      cloneDeep(getPagePreset(fileOption)) || get(lazyFileAmisProps, 'schema.preset') || {}
+    const mockSource = !app.env.isMock ? {} : getPageMockSource(fileOption)
     const nodePath = getNodePath(fileOption)
+    const rawPagePreset = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
+    const pagePreset = !rawPagePreset ? {} : cloneDeep(rawPagePreset)
 
     pagePreset.nodePath = nodePath
 
     map(pagePreset.apis, (api) => {
-      const { mock, mockSource: apiMockSource, url = '' } = api
       // 自动注入规则
-      if (mock !== false && !apiMockSource && mockSource) {
-        api.mockSource = mockSource[url] || mockSource
+      if (api.mock !== false && !api.mockSource && mockSource) {
+        api.mockSource = mockSource[api.url] || mockSource
       }
     })
 
@@ -158,7 +157,6 @@ const PrestComponent = (props: PresetComponentProps) => {
       ...lazyFileAmisProps.schema.preset,
       ...preset,
     }
-
     Component = <Amis {...rest} {...lazyFileAmisProps} />
   }
 

@@ -7,13 +7,13 @@ import { appRootId, storage } from '@/constants'
 import { initAppTheme } from '@/styled/theme'
 import { setConfig } from '@/utils/logger'
 import { getGlobal } from '@/utils/store'
-import { getQuery } from '@/utils/tool'
+import { getUrlParams } from '@/utils/tool'
 
 import appConfig from '~/index'
 
 function initLogger(loggerConf: any = {}) {
-  const moduleName = getQuery('loggerModule') || loggerConf?.moduleName
-  const loggerLevel: any = getQuery('loggerLevel') || loggerConf?.level || 'log'
+  const moduleName = getUrlParams('loggerModule') || loggerConf?.moduleName || ''
+  const loggerLevel = getUrlParams('loggerLevel') || loggerConf?.level || 'log'
   const loggerConfig = defaults(
     {
       moduleName,

@@ -12,7 +12,7 @@ import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
 import { getSessionStore, setSessionStore } from '@/utils/store'
-import { isExpired, getQuery, timeout } from '@/utils/tool'
+import { isExpired, promisedTimeout } from '@/utils/tool'
 
 import * as Types from './types'
 
@@ -65,7 +65,7 @@ async function requestSuccessCtrl(this: Request, response: any, option: Types.Re
 
 // 模拟数据
 async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { mockSource, api, url, mock = true, mockDelay = 300 } = option
+  const { mockSource, api, url, mock = true, mockDelay = 200 } = option
 
   if (this.isRelease || !mock || !mockSource) {
     return 'none'
@@ -83,7 +83,7 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   await requestSuccessCtrl.call(this, fakeRes, option)
 
   if (mockDelay) {
-    await timeout(mockDelay)
+    await promisedTimeout(mockDelay)
   }
 
   log.log('mockSource', option.url, fakeRes.data, option)
@@ -341,7 +341,7 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
     ...option,
   }
 
-  const { data: params, url = '', actionAddr, api, onPreRequest, onRequest } = opt
+  const { url = '', actionAddr, api, onPreRequest, onRequest } = opt
 
   opt.api = api || url
   opt.actionAddr = actionAddr || opt.api
@@ -349,12 +349,6 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   if (!option.url) {
     log.error('请求一定要传 url 参数', option)
     requestErrorCtrl.call(this, new Error('请求一定要传 url 参数'), wrapResponse())
-  }
-
-  const query: any = getQuery('', url)
-
-  if (query) {
-    opt.data = { ...query, ...params }
   }
 
   if (this.onPreRequest) {
