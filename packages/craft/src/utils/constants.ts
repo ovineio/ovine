@@ -1,1 +1,1 @@
-export const rootNode = 'craft:rooNode'
+export const rootNode = 'lib:craftRootNode'

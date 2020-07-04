@@ -3,6 +3,7 @@ import 'jquery.fancytree'
 
 import React from 'react'
 
+import { Editor } from '@/editor/context'
 import Aside from '@/layout/aside'
 import Code from '@/layout/code'
 import Preview from '@/layout/preview'
@@ -13,14 +14,16 @@ import { StyledEditor, StyledEditorBody } from './styled'
 
 export default () => {
   return (
-    <StyledEditor>
-      <TopBar />
-      <StyledEditorBody>
-        <Aside />
-        <Code />
-        <Preview />
-        <Reference />
-      </StyledEditorBody>
-    </StyledEditor>
+    <Editor>
+      <StyledEditor>
+        <TopBar />
+        <StyledEditorBody>
+          <Aside />
+          <Code />
+          <Preview />
+          <Reference />
+        </StyledEditorBody>
+      </StyledEditor>
+    </Editor>
   )
 }
