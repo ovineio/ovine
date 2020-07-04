@@ -136,7 +136,7 @@ const PrestComponent = (props: PresetComponentProps) => {
 
     map(pagePreset.apis, (api) => {
       // 自动注入规则
-      if (api.mock !== false && !api.mockSource && mockSource) {
+      if (api.url && api.mock !== false && !api.mockSource && mockSource) {
         api.mockSource = mockSource[api.url] || mockSource
       }
     })

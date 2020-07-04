@@ -19,7 +19,7 @@ export const env = {
     domains: {
       api: 'https://ovine.igroupes.com',
     },
-    // // 日志配置
+    // 日志配置
     logger: {
       // 可根据需要写正则匹配
       moduleName: '.*',
@@ -33,6 +33,7 @@ export const env = {
   },
   // 生产环境
   production: {
+    isProd: true,
     domains: {
       api: 'https://ovine.igroupes.com',
     },

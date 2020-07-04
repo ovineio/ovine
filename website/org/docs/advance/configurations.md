@@ -74,7 +74,7 @@ export type AppConfig = {
 
 // 环境配置
 type Env = {
-  mode: string // 环境的模式
+  mode: string // 当前环境标示
   domains: Map<string, string> // 所有的域名
   disableLimit?: boolean // 是否开启权限校验
   isRelease?: boolean // 是否 release 环境
