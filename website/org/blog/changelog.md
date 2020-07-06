@@ -7,7 +7,7 @@ title: 版本更新日志
 
 [Ovine 计划表](/org/blog/plan)
 
-### 0.0.4
+### 0.0.4 ---- 2020.7.6
 
 > 更新此版本后需要执行 `yarn ovine dll`
 
