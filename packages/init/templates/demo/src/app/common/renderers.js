@@ -51,6 +51,7 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
         type: 'service',
         api: {
           ...apis.sysUserInfo,
+          api: apis.sysUserInfo.url,
           url: apis.sysUserInfo.url.replace('$id', userId),
         },
         body: {

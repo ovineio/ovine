@@ -129,6 +129,7 @@ export const schema = {
             type: 'text',
             name: 'handlerFilter',
             label: '操作人',
+            clearable: true,
             placeholder: '输入操作人ID/名称',
           },
           {

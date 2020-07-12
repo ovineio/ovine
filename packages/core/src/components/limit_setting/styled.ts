@@ -31,6 +31,7 @@ export const StyledLimit = styled.div`
     &.limit-drawer-normal {
       .${ns}Tabs-pane {
         position: absolute;
+        width: calc(100% - 16px);
         height: calc(100% - 190px);
         overflow-y: auto;
       }

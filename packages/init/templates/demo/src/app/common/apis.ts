@@ -59,7 +59,6 @@ export const apis = {
   },
   sysUserInfo: {
     url: 'GET ovapi/system/user/item/$id',
-    api: 'GET ovapi/system/user/item/$id',
     actionDesc: '查看操作人信息',
     mockSource,
   },

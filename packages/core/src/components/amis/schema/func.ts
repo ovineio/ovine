@@ -1,7 +1,7 @@
 import { resolveRenderer } from 'amis'
 import { RendererConfig } from 'amis/lib/factory'
 import { Schema } from 'amis/lib/types'
-import { get, isArray, isEmpty, isObject, map } from 'lodash'
+import { get, isArray, isEmpty, isObject, map, isFunction } from 'lodash'
 
 import { checkLimitByKeys } from '@/routes/limit/exports'
 import logger from '@/utils/logger'
@@ -10,7 +10,7 @@ import { LibSchema, SchemaPreset } from './types'
 
 const log = logger.getLogger('dev:amisSchema:utils')
 
-// schema 配置，必须 type, limits 同时存在才会校验权限
+// 校验 schema 权限
 const checkSchemaLimit = (schema: LibSchema, nodePath?: string) => {
   const { limits, limitsLogic = 'and' } = schema || {}
 
@@ -30,12 +30,12 @@ const checkSchemaLimit = (schema: LibSchema, nodePath?: string) => {
 // 过滤无权限操作
 export const filterSchemaLimit = (
   schema: LibSchema,
-  option: {
+  option?: {
     nodePath?: string
     isDefinitions?: boolean
   }
 ) => {
-  const { nodePath, isDefinitions } = option
+  const { nodePath, isDefinitions } = option || {}
 
   if (!isObject(schema)) {
     return
@@ -86,58 +86,67 @@ export const convertToAmisSchema = (
   schema: LibSchema,
   option: {
     preset?: SchemaPreset
+    definitions?: any
   }
 ): LibSchema => {
-  const { preset } = option
+  const { definitions, preset } = option
 
-  if (!preset) {
+  if (!preset && !definitions) {
     return schema
   }
 
-  const { nodePath } = preset
+  const { nodePath } = preset || {}
 
   map(schema, (value, key) => {
-    // apis,limits 字段 不处理
+    // Omit "apis" and "limits"
     if (key === 'apis' || key === 'limits') {
       return
     }
 
     if (isObject(value)) {
-      schema[key] = convertToAmisSchema(value as any, { preset })
+      schema[key] = convertToAmisSchema(value as any, option)
       return
     }
 
-    const presetRefType =
-      key === '$preset'
-        ? 'key'
-        : typeof value === 'string' && value.indexOf('$preset.') === 0
-        ? 'value'
-        : ''
+    // resolve definitions functions keys
+    if (key === '$ref' && isFunction(definitions[value])) {
+      delete schema.$ref
+      const refObj = definitions[value](schema)
+      schema = { ...refObj, ...schema }
+    } else {
+      // resolve preset keys
+      const presetRefType =
+        key === '$preset'
+          ? 'key'
+          : typeof value === 'string' && value.indexOf('$preset.') === 0
+          ? 'value'
+          : ''
 
-    if (!presetRefType) {
-      return
+      if (!presetRefType) {
+        return
+      }
+
+      const isKeyRef = presetRefType === 'key'
+      const presetVal = get(preset, isKeyRef ? value : value.replace('$preset.', ''))
+      const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
+
+      if (!presetVal) {
+        log.warn('$preset 不存在。', logStr)
+        return
+      }
+
+      if (!isKeyRef) {
+        schema[key] = presetVal
+        return
+      }
+
+      if (!isObject(presetVal)) {
+        log.warn('$preset为key时，只能引用object值。', logStr)
+        return
+      }
+      delete schema.$preset
+      schema = { ...presetVal, ...schema }
     }
-
-    const isKeyRef = presetRefType === 'key'
-    const presetVal = get(preset, isKeyRef ? value : value.replace('$preset.', ''))
-    const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
-
-    if (!presetVal) {
-      log.warn('$preset 不存在。', logStr)
-      return
-    }
-
-    if (!isKeyRef) {
-      schema[key] = presetVal
-      return
-    }
-
-    if (!isObject(presetVal)) {
-      log.warn('$preset为key时，只能引用object值。', logStr)
-      return
-    }
-    delete schema.$preset
-    schema = { ...presetVal, ...schema }
   })
 
   return schema
@@ -145,13 +154,14 @@ export const convertToAmisSchema = (
 
 // 处理自定义格式
 export const resolveLibSchema = (schema: LibSchema) => {
-  const { preset = {}, ...rest } = schema
-  const reformSchema = { preset, ...rest }
+  const { preset = {}, definitions, ...rest } = schema
+  const reformSchema = { definitions, preset, ...rest }
 
-  if (isEmpty(preset)) {
+  if (isEmpty(preset) && isEmpty(definitions)) {
     return reformSchema
   }
-  convertToAmisSchema(reformSchema, { preset })
+
+  convertToAmisSchema(reformSchema, { definitions, preset })
   filterSchemaLimit(rest, preset)
 
   return reformSchema
@@ -164,7 +174,7 @@ export const libResolver = (path: string, schema?: Schema, props?: any): null | 
 
 // 顶层有 type 与 css 属性， 自动注入 lib-css
 export const wrapCss = (schema: LibSchema) => {
-  const { css: getCss, tag, htmlClassName, preset, ...rest } = schema
+  const { css: getCss, tag, htmlClassName, definitions, preset, ...rest } = schema
 
   if (!getCss && !tag && !htmlClassName) {
     return schema
@@ -177,6 +187,7 @@ export const wrapCss = (schema: LibSchema) => {
     htmlClassName,
     type: 'lib-css',
     body: rest,
+    definitions,
   }
 }
 

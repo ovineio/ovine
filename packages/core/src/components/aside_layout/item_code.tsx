@@ -37,13 +37,17 @@ export default (props: RendererProps) => {
   const getCodeString = (type: string) => {
     let json: any = {}
     switch (type) {
-      case 'page':
+      case 'page': {
         json = getGlobal(storage.dev.code) || {}
         if (!json.schema) {
           return false
         }
-        transSchema(json.schema && cloneDeep(json.schema))
+        // reorder jsonSchema output
+        const { definitions, preset, ...reset } = json.schema
+        json.schema = { ...reset, definitions, preset }
+        transSchema(cloneDeep(json.schema))
         break
+      }
       case 'route':
         json = getRouteConfig(true)
         transSchema(json)

@@ -411,7 +411,7 @@ export function getUrlByOption(
   }
 
   // 删除多于的斜杠
-  url = url.replace(/(?<!(https?:))(\/{2,})/g, '/')
+  url = url.replace(/\/{2,}/g, '/').replace(/(https?):\//g, '$1://')
 
   const idx = url.indexOf('?')
   const hashIdx = url.indexOf('#')

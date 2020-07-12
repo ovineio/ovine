@@ -1,5 +1,5 @@
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
-import { isEmpty, cloneDeep } from 'lodash'
+import { isEmpty, cloneDeep, isObject } from 'lodash'
 import React, { useMemo, useEffect } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
@@ -38,7 +38,7 @@ export const Amis = withRouter((props: Props) => {
   }, [])
 
   const envSchema: LibSchema = useMemo(() => {
-    if (!rawSchema || isEmpty(rawSchema)) {
+    if (!rawSchema || !isObject(rawSchema) || isEmpty(rawSchema)) {
       return {
         type: 'html',
         html: '请传入有效schema',
@@ -55,15 +55,7 @@ export const Amis = withRouter((props: Props) => {
       },
     })
 
-    const wrappedCssSchema = wrapCss(schema)
-
-    if (!rawSchema.preset) {
-      return wrappedCssSchema
-    }
-
-    const libSchema = isEmpty(rawSchema.preset)
-      ? wrappedCssSchema
-      : resolveLibSchema(wrappedCssSchema)
+    const libSchema = resolveLibSchema(wrapCss(schema))
 
     if (codeStore.enable) {
       setGlobal(storage.dev.code, {

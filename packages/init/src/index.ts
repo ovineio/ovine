@@ -10,18 +10,15 @@ import shell from 'shelljs'
 
 let spinner: Ora = ora()
 const libName = 'ovine'
+const templates = ['demo', 'basic']
 
 export async function init(rootDir: string, siteName?: string): Promise<void> {
   const useYarn = hasYarn()
   const libDir = path.resolve(__dirname, '..')
+
   const templatesDir = `${libDir}/templates`
-
-  const templates = fs
-    .readdirSync(templatesDir)
-    .filter((d) => !d.startsWith('.') && !d.startsWith('README'))
-
   const gitChoice = 'Git Repository'
-  const templateChoices = [...templates, gitChoice]
+  const templateChoices = templates.concat(gitChoice)
 
   let name = siteName
 

@@ -39,7 +39,7 @@ export const StyledLayout = styled.div`
 
 export const SearchInput = styled.div`
   position: relative;
-  top: 2px;
+  top: 4px;
   height: 34px;
   ${({ theme: { ns } }) => css`
     .${ns}TreeSelect-arrow {
