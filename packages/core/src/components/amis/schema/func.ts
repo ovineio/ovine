@@ -109,44 +109,45 @@ export const convertToAmisSchema = (
     }
 
     // resolve definitions functions keys
-    if (key === '$ref' && isFunction(definitions[value])) {
+    if (key === '$ref' && isFunction(get(definitions, value))) {
       delete schema.$ref
-      const refObj = definitions[value](schema)
-      schema = { ...refObj, ...schema }
-    } else {
-      // resolve preset keys
-      const presetRefType =
-        key === '$preset'
-          ? 'key'
-          : typeof value === 'string' && value.indexOf('$preset.') === 0
-          ? 'value'
-          : ''
-
-      if (!presetRefType) {
-        return
-      }
-
-      const isKeyRef = presetRefType === 'key'
-      const presetVal = get(preset, isKeyRef ? value : value.replace('$preset.', ''))
-      const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
-
-      if (!presetVal) {
-        log.warn('$preset 不存在。', logStr)
-        return
-      }
-
-      if (!isKeyRef) {
-        schema[key] = presetVal
-        return
-      }
-
-      if (!isObject(presetVal)) {
-        log.warn('$preset为key时，只能引用object值。', logStr)
-        return
-      }
-      delete schema.$preset
-      schema = { ...presetVal, ...schema }
+      schema = get(definitions, value)(schema) || { type: 'lib-omit' }
+      return
     }
+
+    // resolve preset keys
+    const presetRefType =
+      key === '$preset'
+        ? 'key'
+        : typeof value === 'string' && value.indexOf('$preset.') === 0
+        ? 'value'
+        : ''
+
+    if (!presetRefType) {
+      return
+    }
+
+    const isKeyRef = presetRefType === 'key'
+    const presetVal = get(preset, isKeyRef ? value : value.replace('$preset.', ''))
+    const logStr = ` [${key}: ${value}] 请检查 ${nodePath}/preset 或者 schema.preset`
+
+    if (!presetVal) {
+      log.warn('$preset 不存在。', logStr)
+      return
+    }
+
+    if (!isKeyRef) {
+      schema[key] = presetVal
+      return
+    }
+
+    if (!isObject(presetVal)) {
+      log.warn('$preset为key时，只能引用object值。', logStr)
+      return
+    }
+
+    delete schema.$preset
+    schema = { ...presetVal, ...schema }
   })
 
   return schema

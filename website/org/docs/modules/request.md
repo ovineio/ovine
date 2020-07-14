@@ -3,7 +3,7 @@ id: request
 title: 请求模块
 ---
 
-请求模块是二次封装 [fetch](https://github.com/github/fetch) 模块。既支持对请求的各个阶段可以添加 hooks 回调 `(对JSON配置很友好)`，也支持 `promise` 方式链式调用。
+请求模块是二次封装 [fetch](https://github.com/github/fetch) 模块。既支持对请求的各个阶段可以添加 hooks 回调 `(对Json配置更友好)`，也支持 `promise` 方式链式调用。
 
 ### Request 类
 

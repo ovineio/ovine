@@ -9,9 +9,9 @@ title: 版本更新日志
 
 ### 0.0.5
 
-- 支持 `[Amis Definitions](https://baidu.github.io/amis/docs/renderers/Definitions#definitions)` 添加纯 `Function` 转换
+- 支持 [Amis Definitions](https://baidu.github.io/amis/docs/renderers/Definitions#definitions) 功能使用 `Function` 转换
 - `aside-layout` 中 `header,footer` 配置支持权限过滤
-- 将 `Demo` 变为初始化项目默认选项
+- 将 `demo` 模版变为初始化项目默认选项
 - 修复项目在 `Safari 浏览器` 白屏 BUG
 
 ### 0.0.4 ---- 2020.7.6

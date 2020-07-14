@@ -41,6 +41,14 @@ export default () => {
         commonAction: {
           //
         },
+        // 支持纯方法转换，对于某些需要全局Json转换的场景
+        commonInput: (conf) => {
+          // conf 参数就是当前节点的配置
+          return {
+            type: 'text',
+            label: conf.label,
+          }
+        },
       },
     },
   }
@@ -53,11 +61,17 @@ export default () => {
     type: 'page',
     body: {
       type: 'wrapper',
-      body: {
-        // highlight-next-line
-        $ref: 'commonForm', // 引用设置好的  commonForm 配置
-        title: '你好吗？', // 可覆盖公共 commonForm 配置中的字段
-      },
+      body: [
+        {
+          // highlight-next-line
+          $ref: 'commonForm', // 引用设置好的  commonForm 配置
+          title: '你好吗？', // 可覆盖公共 commonForm 配置中的字段
+        },
+        {
+          $ref: 'commonInput', // 引用 commonInput
+          label: '测试',
+        },
+      ],
     },
   }
   ```
@@ -65,6 +79,8 @@ export default () => {
 ### 使用 `lib-renderer` 自定义简单渲染器
 
 简单渲染器就是指，该渲染器只需啊哟简单逻辑处理，将一些简单的 Json 参数，封装为比较复杂的 Json 参数。特别是某些信息弹窗，需要很长的配置。
+
+> 注意：1. 不支持 `formItem` 渲染器。 2. 定义代码一定要被引入项目中才能生效。
 
 - 添加渲染器
 
@@ -91,16 +107,6 @@ export default () => {
             mode: 'horizontal',
             controls: [
               {
-                type: 'static-image',
-                label: '头像',
-                name: 'avatar',
-              },
-              {
-                type: 'static',
-                name: 'username',
-                label: '登录账号',
-              },
-              {
                 name: 'nickname',
                 label: '名称',
                 type: 'html',
@@ -110,17 +116,6 @@ export default () => {
                 type: 'static',
                 name: 'signature',
                 label: '个性签名',
-              },
-              {
-                type: 'static',
-                name: 'remark',
-                label: '备注',
-              },
-              {
-                type: 'static-date',
-                name: 'updateTime',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                label: '创建时间',
               },
             ],
           },

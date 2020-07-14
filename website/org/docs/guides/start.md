@@ -3,7 +3,7 @@ id: start
 title: 快速开始
 ---
 
-> 官方推荐使用 yarn 作为包管理工具
+> 官方推荐使用 yarn 作为包管理工具 (node 版本 >= 10.9.0)
 
 ## 创建 Ovine 应用
 
@@ -12,7 +12,7 @@ title: 快速开始
 ```bash
 # !! my-app 是你想创建应用的名字，也就是项目的文件夹名。可以按照自己需要修改。
 npx @ovine/init init my-app
-# linux系统需要将命令替换为: npx @ovine/init@~0.0.1 init my-app
+# linux系统需要将此命令替换为: npx @ovine/init@latest init my-app
 
 cd my-app # 切换到生成的项目文件夹下
 yarn install # 安装项目依赖
