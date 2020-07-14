@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
