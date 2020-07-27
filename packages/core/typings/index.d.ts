@@ -15,3 +15,7 @@ declare module 'react-dom' {
   export const createPortal: any
   export const unmountComponentAtNode: any
 }
+
+interface Window {
+  LAZY_FILE_CONTENT: any // 加载远程页面schema的全局中转变量
+}

@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
-    "@ovine/cli": "../../packages/cli",
-    "@ovine/core": "../../packages/core",
+    "@ovine/cli": "file:../../packages/cli",
+    "@ovine/core": "file:../../packages/core",
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",

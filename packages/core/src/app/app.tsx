@@ -27,12 +27,14 @@ function initLogger(loggerConf: any = {}) {
 
 function initApp() {
   const app: any = getGlobal(storage.appInstance)
-  app.create(appConfig)
-  initLogger(app.env.logger)
-  initAppTheme()
+  // 转为异步创建app实例，方便调用hook
+  app.create(appConfig).then(function() {
+    initLogger(app.env.logger)
+    initAppTheme()
 
-  const $mounted = document.getElementById(appRootId) || document.createElement('div')
-  render(<App />, $mounted)
+    const $mounted = document.getElementById(appRootId) || document.createElement('div')
+    render(<App />, $mounted)
+  })
 }
 
 initApp()

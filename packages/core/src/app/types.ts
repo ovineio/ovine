@@ -45,6 +45,10 @@ export interface AppConfig {
     loginRoute?: string
   }
   entry: any[]
+  hook: any // 支持 beforeCreate 和 afterCreated hook  TODO 完善hook函数的定义
+  pagePreset: any // {path: preset} // 页面预设
+  pageMockSource: any // {path: mockSource} // 页面mock来源
+  pageSchema: any // {path: {schema}} // 页面schema
 }
 export interface AppDefInstance extends Omit<AppConfig, 'env'> {
   env: Env & {
