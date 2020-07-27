@@ -25,7 +25,21 @@ function initLogger(loggerConf: any = {}) {
   setConfig(loggerConfig)
 }
 
+/**
+ * 初始化 ovine 全局对象
+ */
+function initOvineGlobal() {
+  window.ovine = {
+    addPageSchemaJs: (pageAlias: string, schema: any) => {
+      const app: any = getGlobal(storage.appInstance)
+      app.asyncPage.schema = app.asyncPage.schema || {}
+      app.asyncPage.schema[pageAlias] = schema
+    },
+  }
+}
+
 function initApp() {
+  initOvineGlobal()
   const app: any = getGlobal(storage.appInstance)
   // 转为异步创建app实例，方便调用hook
   app.create(appConfig).then(function() {

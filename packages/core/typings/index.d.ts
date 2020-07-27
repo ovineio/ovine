@@ -17,5 +17,5 @@ declare module 'react-dom' {
 }
 
 interface Window {
-  LAZY_FILE_CONTENT: any // 加载远程页面schema的全局中转变量
+  ovine: any // ovine 全局对象
 }

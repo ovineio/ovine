@@ -7,10 +7,13 @@
 import { cloneDeep } from 'lodash'
 
 import { app } from '@/app'
+import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise, loadScriptAsync } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
+
+const log = logger.getLogger('lib:routes:exports')
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
@@ -99,12 +102,13 @@ export async function getPageFileAsync(option: PageFileOption) {
       return cloneDeep(app.asyncPage.schema[pageAlias])
     }
     return retryPromise(() => {
-      // 异步加载脚本，规范 window.LAZY_FILE_CONTENT[option.nodePath] = {default?,schema}. 暂时通过全局变量进行传递吧==
+      app.asyncPage.schema = app.asyncPage?.schema || {}
+      // 异步加载脚本，规范 window.ovine.addPageSchemaJs(option.nodePath, {default?,schema})
       return loadScriptAsync(filePath).then(function() {
-        window.LAZY_FILE_CONTENT = window.LAZY_FILE_CONTENT || {}
-        app.asyncPage.schema = app.asyncPage.schema || {}
-        app.asyncPage.schema[pageAlias] = cloneDeep(window.LAZY_FILE_CONTENT[pageAlias])
-        delete window.LAZY_FILE_CONTENT[pageAlias]
+        if (!app.asyncPage.schema[pageAlias]) {
+          log.error(`${filePath} 异步页面加载失败，请检查页面是否符合规范`)
+          return { schema: {} }
+        }
         return cloneDeep(app.asyncPage.schema[pageAlias])
       })
     })

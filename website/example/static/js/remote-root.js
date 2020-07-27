@@ -146,8 +146,7 @@
     },
   }
 
-  window.LAZY_FILE_CONTENT = window.LAZY_FILE_CONTENT || {}
-  window.LAZY_FILE_CONTENT['/remote/root'] = {
+  window.ovine && window.ovine.addPageSchemaJs('/remote/root', {
     schema: schema
-  }
+  })
 })()
