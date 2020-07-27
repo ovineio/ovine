@@ -47,6 +47,13 @@ const initConfig: AppConfig = {
     },
   ],
   amis: {},
+  // 异步数据容器
+  asyncPage: {
+    schema: {}, // {path: {schema}} // 页面schema
+    preset: {}, // {path: preset} // 页面预设
+    mock: {}, // {path: mockSource} // 页面mock来源
+  },
+  hook: {},
 }
 
 function checkAppGetter(key: string, value?: any) {
@@ -81,9 +88,12 @@ class AppProxy {
 class App extends AppProxy {
   routerHistory: any
 
-  public create(appConfig: any) {
+  public async create(appConfig: any) {
     const prevBaseUrl = get(source, 'constants.baseUrl') || initConfig.constants.baseUrl
-
+    if (appConfig.hook?.beforeCreate) {
+      // 等待 beforeCreate hook执行完成
+      await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
+    }
     Object.assign(source, defaultsDeep(appConfig, initConfig))
     const { env, request, constants } = source
     const { baseUrl } = constants || {}
@@ -97,6 +107,11 @@ class App extends AppProxy {
     }
     if (request) {
       this.setRequest(request)
+    }
+
+    if (source.hook?.afterCreated) {
+      // 等待 afterCreated hook执行完成
+      await source.hook.afterCreated.bind(this, this, source)()
     }
   }
 
