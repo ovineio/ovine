@@ -162,3 +162,26 @@ export function json2reactFactory(
     return renderElement
   }
 }
+
+// 异步加载脚本
+export function loadScriptAsync(src: string, async: boolean = true) {
+  return new Promise(function(resolve, reject) {
+    const script = document.createElement('script')
+    if (async) {
+      script.async = true
+    }
+    if (!src.startsWith('http')) {
+      // 相对根目录地址
+      script.src = window.origin + src.substr(1)
+    } else {
+      script.src = src
+    }
+    script.onload = () => {
+      resolve()
+    }
+    script.onerror = (e) => {
+      reject(e)
+    }
+    document.getElementsByTagName('head')[0].appendChild(script)
+  })
+}

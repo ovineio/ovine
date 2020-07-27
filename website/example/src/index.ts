@@ -31,21 +31,21 @@ const config: DeepPartial<AppConfig> = {
   hook: {
     beforeCreate(app, appConfig) {
       return new Promise(function(resolve) {
+        // 可在此配置 entry，实现动态路由
         // 支持页面全局函数hook
         if (window.BEFORE_OVINE_CREATE) {
           window.BEFORE_OVINE_CREATE(app, appConfig, resolve)
         } else {
           resolve()
         }
-        // 可在此配置 entry，实现动态路由
       })
     },
     afterCreated(app, source) {
       // 支持异步操作
       return new Promise(function(resolve) {
-        // 远程页面如果需要 preset 和 mockSource 功能，需要在此添加进 source.pageMockSource 和 source.pagePreset 中，因为 preset 和 mock的获取都是同步操作，无法异步加载，所以需要提前获取
-        source.pageMockSource['/remote/root'] = remotePageMockSource
-        source.pagePreset['/remote/root'] = remotePagePreset
+        // 远程页面如果需要 preset 和 mockSource 功能，需要在此添加进 source.asyncPage.mock 和 source.asyncPage.preset 中，因为 preset 和 mock的获取都是同步操作，无法异步加载，所以需要提前获取
+        source.asyncPage.mock['/remote/root'] = remotePageMockSource
+        source.asyncPage.preset['/remote/root'] = remotePagePreset
         // 支持页面全局函数hook
         if (window.AFTER_OVINE_CREATED) {
           window.AFTER_OVINE_CREATED(app, source, resolve)

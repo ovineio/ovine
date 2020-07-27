@@ -46,9 +46,12 @@ export interface AppConfig {
   }
   entry: any[]
   hook: any // 支持 beforeCreate 和 afterCreated hook  TODO 完善hook函数的定义
-  pagePreset: any // {path: preset} // 页面预设
-  pageMockSource: any // {path: mockSource} // 页面mock来源
-  pageSchema: any // {path: {schema}} // 页面schema
+  // 异步数据容器
+  asyncPage: {
+    schema: any // {path: {schema}} // 页面schema
+    preset: any // {path: preset} // 页面预设
+    mock: any // {path: mockSource} // 页面mock来源
+  }
 }
 export interface AppDefInstance extends Omit<AppConfig, 'env'> {
   env: Env & {

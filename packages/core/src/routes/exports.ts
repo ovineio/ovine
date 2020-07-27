@@ -8,31 +8,9 @@ import { cloneDeep } from 'lodash'
 
 import { app } from '@/app'
 import { ReqMockSource } from '@/utils/request/types'
-import { isSubStr, retryPromise } from '@/utils/tool'
+import { isSubStr, retryPromise, loadScriptAsync } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
-
-// 加载脚本
-export function loadScript(
-  src: string,
-  callback: (this: GlobalEventHandlers, ev: Event) => any,
-  async: boolean = true
-) {
-  const script = document.createElement('script')
-  if (async) {
-    script.async = true
-  }
-  if (!src.startsWith('http')) {
-    const root = app.constants.baseUrl || '/'
-    script.src = root + src.substr(1)
-  } else {
-    script.src = src
-  }
-  if (callback) {
-    script.onload = callback
-  }
-  document.getElementsByTagName('head')[0].appendChild(script)
-}
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
@@ -62,8 +40,8 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
   const filePath = getPageFilePath(option)
 
   if (option.nodePath) {
-    if (app.pagePreset && app.pagePreset[option.nodePath]) {
-      return cloneDeep(app.pagePreset[option.nodePath])
+    if (app.asyncPage?.preset && app.asyncPage.preset[option.nodePath]) {
+      return cloneDeep(app.asyncPage.preset[option.nodePath])
     }
   }
 
@@ -87,8 +65,8 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
   }
 
   if (option.nodePath) {
-    if (app.pageMockSource && app.pageMockSource[option.nodePath]) {
-      return cloneDeep(app.pageMockSource[option.nodePath])
+    if (app.asyncPage?.mock && app.asyncPage.mock[option.nodePath]) {
+      return cloneDeep(app.asyncPage.mock[option.nodePath])
     }
   }
 
@@ -117,21 +95,17 @@ export async function getPageFileAsync(option: PageFileOption) {
       return { schema: {} }
     }
     const pageAlias = `${option.nodePath}`
-    if (app.pageSchema[pageAlias]) {
-      return cloneDeep(app.pageSchema[pageAlias])
+    if (app.asyncPage?.schema && app.asyncPage.schema[pageAlias]) {
+      return cloneDeep(app.asyncPage.schema[pageAlias])
     }
     return retryPromise(() => {
-      // 添加script标签
-      return new Promise(function(resolve) {
-        // 加载脚本，规范 window.LAZY_FILE_CONTENT[option.nodePath] = {default?,schema}. 暂时通过全局变量进行传递吧==
-        loadScript(filePath, function() {
-          window.LAZY_FILE_CONTENT = window.LAZY_FILE_CONTENT || {}
-          app.pageSchema[pageAlias] = cloneDeep(window.LAZY_FILE_CONTENT[pageAlias])
-          delete window.LAZY_FILE_CONTENT[pageAlias]
-          resolve(cloneDeep(app.pageSchema[pageAlias]))
-        })
-        // TODO 超时取消？
-        // setTimeout(reject, 3000);
+      // 异步加载脚本，规范 window.LAZY_FILE_CONTENT[option.nodePath] = {default?,schema}. 暂时通过全局变量进行传递吧==
+      return loadScriptAsync(filePath).then(function() {
+        window.LAZY_FILE_CONTENT = window.LAZY_FILE_CONTENT || {}
+        app.asyncPage.schema = app.asyncPage.schema || {}
+        app.asyncPage.schema[pageAlias] = cloneDeep(window.LAZY_FILE_CONTENT[pageAlias])
+        delete window.LAZY_FILE_CONTENT[pageAlias]
+        return cloneDeep(app.asyncPage.schema[pageAlias])
       })
     })
   }

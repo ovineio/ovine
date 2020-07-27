@@ -47,9 +47,12 @@ const initConfig: AppConfig = {
     },
   ],
   amis: {},
-  pagePreset: {}, // {path: preset} // 页面预设
-  pageMockSource: {}, // {path: mockSource} // 页面mock来源
-  pageSchema: {}, // {path: {schema}} // 页面schema
+  // 异步数据容器
+  asyncPage: {
+    schema: {}, // {path: {schema}} // 页面schema
+    preset: {}, // {path: preset} // 页面预设
+    mock: {}, // {path: mockSource} // 页面mock来源
+  },
   hook: {},
 }
 
@@ -87,7 +90,7 @@ class App extends AppProxy {
 
   public async create(appConfig: any) {
     const prevBaseUrl = get(source, 'constants.baseUrl') || initConfig.constants.baseUrl
-    if (appConfig.hook && appConfig.hook.beforeCreate) {
+    if (appConfig.hook?.beforeCreate) {
       // 等待 beforeCreate hook执行完成
       await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
     }
@@ -106,7 +109,7 @@ class App extends AppProxy {
       this.setRequest(request)
     }
 
-    if (source.hook && source.hook.afterCreated) {
+    if (source.hook?.afterCreated) {
       // 等待 afterCreated hook执行完成
       await source.hook.afterCreated.bind(this, this, source)()
     }
