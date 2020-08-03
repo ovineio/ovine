@@ -88,7 +88,6 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
 export async function getPageFileAsync(option: PageFileOption) {
   const filePath = getPageFilePath(option)
 
-  // 从 window.LAZY_FILE_CONTENT 读取
   if (
     filePath.startsWith('http://') ||
     filePath.startsWith('https://') ||
@@ -98,9 +97,11 @@ export async function getPageFileAsync(option: PageFileOption) {
       return { schema: {} }
     }
     const pageAlias = `${option.nodePath}`
+
     if (app.asyncPage?.schema && app.asyncPage.schema[pageAlias]) {
       return cloneDeep(app.asyncPage.schema[pageAlias])
     }
+
     return retryPromise(() => {
       app.asyncPage.schema = app.asyncPage?.schema || {}
       // 异步加载脚本，规范 window.ovine.addPageSchemaJs(option.nodePath, {default?,schema})

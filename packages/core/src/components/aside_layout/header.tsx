@@ -5,8 +5,8 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 
-import { publish } from '@/utils/message'
 import { message } from '@/constants'
+import { publish } from '@/utils/message'
 
 import { Amis } from '../amis/schema'
 import HeadItem from './head_item'
@@ -158,7 +158,7 @@ function HeadItems(props: { foldItem: any; items: SchemaNode[]; render: any }) {
   return (
     <div className="collapse navbar-collapse">
       <div className="navbar-nav mr-auto">
-        <div className="head-item-fold d-flex"></div>
+        <div className="head-item-fold d-flex" />
         {items.lefts}
       </div>
       {items.rights}

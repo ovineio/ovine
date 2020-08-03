@@ -26,23 +26,18 @@ export const menuRoutes: LimitMenuItem = {
       icon: 'fa fa-coffee',
       nodePath: 'start',
     },
-    {
-      label: '远程页面',
-      icon: 'fa fa-paint-brush',
-      nodePath: 'remote',
-      children: [
-        // {
-        //   label: 'http地址',
-        //   nodePath: 'http',
-        //   pathToComponent: 'http://127.0.0.1/ovine/static/test/remote.js',
-        // },
-        {
-          label: '相对documentRoot的路径',
-          nodePath: 'root',
-          pathToComponent: 'root://static/js/remote-root.js',
-        },
-      ],
-    },
+    // {
+    //   label: '演示内容',
+    //   icon: 'fa fa-paint-brush',
+    //   nodePath: 'test',
+    //   children: [
+    //     {
+    //       label: '远程页面',
+    //       nodePath: 'remote_schema',
+    //       pathToComponent: 'root://static/js/demo_remote_schema.js',
+    //     },
+    //   ],
+    // },
     {
       label: 'DEMO应用',
       icon: 'fa fa-paint-brush',

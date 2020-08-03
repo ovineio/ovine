@@ -287,7 +287,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             {
               loader: 'url-loader',
               options: {
-                publicPath: publicPath,
+                publicPath,
                 limit: 2000,
                 name: !isProd ? '[path][name].[ext]' : 'assets/svgs/[name]_[contenthash:6].[ext]',
               },

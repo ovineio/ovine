@@ -47,6 +47,7 @@ export default withAppTheme<LayoutProps>((props) => {
         case 'toggleAsideFold':
           d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
           break
+        default:
       }
     })
   })

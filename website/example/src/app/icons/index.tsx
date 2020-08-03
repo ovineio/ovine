@@ -5,8 +5,8 @@
 
 import { registerIcon } from 'amis'
 
-import EmptyIcon from './empty.svg'
 import EditIcon from './edit.svg'
+import EmptyIcon from './empty.svg'
 
 registerIcon('empty', EmptyIcon)
 registerIcon('edit', EditIcon)

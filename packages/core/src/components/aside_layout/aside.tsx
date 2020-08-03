@@ -1,8 +1,9 @@
 import { AsideNav } from 'amis'
 import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { publish } from '@/utils/message'
+
 import { message } from '@/constants'
+import { publish } from '@/utils/message'
 
 type Props = {
   theme: string
@@ -67,6 +68,6 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
       <a onClick={routeChildren ? () => toggleExpand(link) : undefined}>{children}</a>
     )
   }
-
-  return active ? <a href="javascript:;"> {children} </a> : <Link to={path}>{children}</Link>
+  // eslint-disable-next-line
+  return active ? <a> {children} </a> : <Link to={path}>{children}</Link>
 }

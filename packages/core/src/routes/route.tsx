@@ -166,10 +166,10 @@ const PrestComponent = (props: PresetComponentProps) => {
 // 处理每个路由，包裹 PrestComponent 组件
 export const PrestRoute = (props: PresetRouteProps) => {
   const {
+    component,
     withSuspense = true,
     fallback = PageSpinner,
     path = '',
-    component,
     exact = true,
     ...rest
   } = props
@@ -178,7 +178,6 @@ export const PrestRoute = (props: PresetRouteProps) => {
   if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
     return <Redirect to={app.constants.notFound.route} />
   }
-
   const RouteComponent = (
     <Route
       {...rest}
