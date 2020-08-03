@@ -5,6 +5,7 @@
     "lib": ["dom", "es2017"],
     "moduleResolution": "Node",
     "noImplicitAny": false,
+    "experimentalDecorators": true,
     "jsx": "react",
     "outDir": "dist",
     "rootDir": ".",

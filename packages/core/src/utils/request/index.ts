@@ -22,7 +22,7 @@ const log = logger.getLogger('lib:utils:request')
 function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, response?: any) {
   const { onError } = option
 
-  log.info('requestErrorCtrl', { error, option, response })
+  // log.info('requestErrorCtrl', { error, option, response })
 
   const errorSource = { option, response, error }
 

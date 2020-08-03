@@ -7,10 +7,11 @@ import { cloneDeep } from 'lodash'
 import React, { useMemo } from 'react'
 
 import { withAppTheme } from '@/app/theme'
+import { message } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
 import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
-import { useImmer } from '@/utils/hooks'
+import { useImmer, useSubscriber } from '@/utils/hooks'
 
 import logger from '@/utils/logger'
 
@@ -35,6 +36,20 @@ export default withAppTheme<LayoutProps>((props) => {
   const { asideFolded, offScreen } = state
 
   const { ns: themeNs, name: themeName } = theme
+
+  useSubscriber<any>([message.asideLayoutCtrl], (msgData = {}) => {
+    const { key, toggle } = msgData
+    setState((d) => {
+      switch (key) {
+        case 'toggleAsideScreen':
+          d.offScreen = typeof toggle === 'boolean' ? toggle : !d.offScreen
+          break
+        case 'toggleAsideFold':
+          d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
+          break
+      }
+    })
+  })
 
   // 过滤 layout 权限
   const layoutConf: any = useMemo(() => {

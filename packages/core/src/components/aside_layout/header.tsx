@@ -1,8 +1,12 @@
 import { RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
 import { get, map } from 'lodash'
-import React from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
+
+import { publish } from '@/utils/message'
+import { message } from '@/constants'
 
 import { Amis } from '../amis/schema'
 import HeadItem from './head_item'
@@ -16,34 +20,12 @@ type Props = LayoutCommProps &
     themeNs: string
   }
 export default (props: Props) => {
-  const { setLayout, asideFolded, themeNs, brand, items = [] } = props
+  const { asideFolded, themeNs, brand, items = [] } = props
+  const [isInit, setInit] = useState(false)
 
-  const toggleAside = () => {
-    setLayout((d) => {
-      d.asideFolded = !d.asideFolded
-    })
-  }
-
-  const headItemsProps = {
-    toggleAside,
-    asideFolded,
-    items,
-  }
-
-  const itemsSchema = {
-    type: 'page',
-    role: 'header',
-    body: {
-      type: 'wrapper',
-      component: (renderProps: any) => <HeadItems {...renderProps} {...headItemsProps} />,
-    },
-  }
-
-  const toggleScreen = () => {
-    setLayout((d) => {
-      d.offScreen = !d.offScreen
-    })
-  }
+  useEffect(() => {
+    setInit(true)
+  }, [])
 
   const renderBrand = () => {
     const { logo, title, link, className: brandCls = '' } = brand as any
@@ -67,21 +49,51 @@ export default (props: Props) => {
     )
   }
 
+  const renderFoldItem = () => {
+    const asideItemProps = {
+      faIcon: asideFolded ? 'indent' : 'dedent',
+      tip: `${asideFolded ? '展开' : '收起'}侧边栏`,
+      onClick: () =>
+        publish(message.asideLayoutCtrl, {
+          key: 'toggleAsideFold',
+        }),
+    }
+    return createPortal(
+      <HeadItem itemProps={asideItemProps} />,
+      $('.navbar-nav>.head-item-fold').get(0)
+    )
+  }
+
+  const headerItems = useMemo(() => {
+    const itemsSchema = {
+      type: 'page',
+      role: 'header',
+      body: {
+        type: 'wrapper',
+        component: (renderProps: any) => <HeadItems items={items} {...renderProps} />,
+      },
+    }
+    return <Amis schema={itemsSchema} />
+  }, [items])
+
   return (
     <>
       <div className={`${themeNs}Layout-brandBar navbar-dark`}>
         <button
           className="navbar-toggler d-block d-sm-none float-right"
           type="button"
-          onClick={toggleScreen}
+          onClick={() =>
+            publish(message.asideLayoutCtrl, {
+              key: 'toggleAsideScreen',
+            })
+          }
         >
           <span className="navbar-toggler-icon" />
         </button>
         {brand && renderBrand()}
       </div>
-      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>
-        <Amis schema={itemsSchema} />
-      </div>
+      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>{headerItems}</div>
+      {isInit && renderFoldItem()}
     </>
   )
 }
@@ -121,42 +133,35 @@ const ItemComponent = (props: ItemProps) => {
     component: preset,
   })
 }
-type HeadItemsProps = {
-  toggleAside: () => void
-  asideFolded: boolean
-  items: SchemaNode[]
-  render: any
-}
-function HeadItems(props: HeadItemsProps) {
-  const { toggleAside, asideFolded, items, render } = props
 
-  const lefts: SchemaNode[] = []
-  const rights: SchemaNode[] = []
-  items.forEach((item) => {
-    if (get(item, 'align') === 'right') {
-      rights.push(item)
-    } else {
-      lefts.push(item)
+function HeadItems(props: { foldItem: any; items: SchemaNode[]; render: any }) {
+  const { items: propItems, render } = props
+
+  const items = useMemo(() => {
+    const lefts: SchemaNode[] = []
+    const rights: SchemaNode[] = []
+    propItems.forEach((item) => {
+      if (get(item, 'align') === 'right') {
+        rights.push(item)
+      } else {
+        lefts.push(item)
+      }
+    })
+    return {
+      lefts: lefts.map((item, index) => <ItemComponent key={index} render={render} item={item} />),
+      rights: rights.map((item, index) => (
+        <ItemComponent key={index} render={render} item={item} />
+      )),
     }
-  })
-
-  const asideItemProps = {
-    faIcon: asideFolded ? 'indent' : 'dedent',
-    tip: `${asideFolded ? '展开' : '收起'}侧边栏`,
-    onClick: toggleAside,
-  }
+  }, [propItems])
 
   return (
     <div className="collapse navbar-collapse">
       <div className="navbar-nav mr-auto">
-        <HeadItem itemProps={asideItemProps} />
-        {lefts.map((item, index) => (
-          <ItemComponent key={index} render={render} item={item} />
-        ))}
+        <div className="head-item-fold d-flex"></div>
+        {items.lefts}
       </div>
-      {rights.map((item, index) => (
-        <ItemComponent key={index} render={render} item={item} />
-      ))}
+      {items.rights}
     </div>
   )
 }

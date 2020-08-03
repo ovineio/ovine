@@ -206,6 +206,7 @@ type Porps = {
   className?: string // 样式
   initApi?: ReqOption // 获取权限的 api
   api?: ReqOption // 保存权限的 api
+  useAllLimit?: boolean // 应用所有权限，默认为 false
   messages?: { // 接口消息提示
     initFailed: string // 初始化失败的提示
     saveFailed: string // 保存失败的提示

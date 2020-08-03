@@ -19,10 +19,7 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
   const nodeScssCmd = getNodeScssCmd()
   const scssCmdOpts = { async: true, silent: watch ? false : !verbose }
   if (!nodeScssCmd) {
-    console.log(
-      chalk.yellowBright('You need install `node-sass` module as devDependencies or globally...')
-    )
-    return
+    throw new Error('You need install `node-sass` module as devDependencies or globally...')
   }
 
   if (watch) {

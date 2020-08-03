@@ -9,6 +9,7 @@
     "outDir": "dist",
     "rootDir": ".",
     "baseUrl": "./src",
+    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["./*"],

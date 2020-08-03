@@ -6,6 +6,7 @@
 
 import { Button, Spinner, Drawer } from 'amis'
 import { Editor } from 'amis/lib/components'
+import { Icon } from 'amis/lib/components/icons'
 import React from 'react'
 
 import { app } from '@core/app'
@@ -120,7 +121,7 @@ export default () => {
           tooltip="编辑schema"
           onClick={toggleDrawer}
         >
-          <i className="fa fa-edit" />
+          <Icon icon="edit" />
         </Button>
       </div>
     </StyledStart>

@@ -13,8 +13,8 @@ export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
   // highlight-end
-  publicPath: string // 项目的静态资源前缀路径，可用于CDN部署
-  devServerProxy: any // devServer的代理设置
+  publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
+  devServerProxy: any // devServer的代理设置，与 webpack dev server proxy 配置一致。文档 https://webpack.docschina.org/configuration/dev-server/#devserverproxy
   envModes?: string[] // 应用环境列表
   initTheme?: string // 初始化主题
   staticFileExts?: string[] // 需要处理的静态资源类型
@@ -36,8 +36,8 @@ export type SiteConfig = {
 
 1. 此文件是在 Node 端运行，因此不能使用 es6 模块方法，请使用 CommonJS 规范。
 2. 在 dev 开发时，每次 `ovine.config.js` 文件变更都将重新运行 `devServer`。请确保编辑没有错误才保存文件，否则会报错。
-
-:::
+3. `publicPath` 修改后需要重新执行 `yarn dll`
+   :::
 
 ## 应用配置
 
@@ -60,7 +60,7 @@ export type AppConfig = {
   }
   constants?: {
     // 覆盖内置常量
-    baseUrl?: string // 页面基础路径
+    baseUrl?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
     rootLimitFlag?: string // 超级管理员权限标示。存在这个标示，将默认不校验任何权限
     notFound?: {
       // 404 页面

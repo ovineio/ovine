@@ -13,6 +13,7 @@ type Props = RendererProps &
   LimitSettingProps & {
     button?: any
     modal?: any
+    useAllLimit?: boolean
     messages?: {
       initFailed: string
       saveFailed: string
@@ -36,6 +37,7 @@ export class LibLimitSetting extends React.Component<Props> {
       api,
       messages,
       saveConfirmText,
+      useAllLimit,
       getLimit,
       render,
     } = this.props
@@ -92,6 +94,7 @@ export class LibLimitSetting extends React.Component<Props> {
             limit={getLimit ? getLimit() : limitData.limit || ''}
             saveConfirmText={filter(saveConfirmText, initData)}
             onSaveClick={onSave}
+            useAllLimit={useAllLimit}
             onCancel={this.props.onCancelClick}
           />
         )

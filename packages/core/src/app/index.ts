@@ -79,7 +79,7 @@ class AppProxy {
 }
 
 class App extends AppProxy {
-  routerHistory: any
+  private routerHistory: any
 
   public create(appConfig: any) {
     const prevBaseUrl = get(source, 'constants.baseUrl') || initConfig.constants.baseUrl

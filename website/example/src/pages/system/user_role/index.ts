@@ -132,6 +132,7 @@ export const schema = {
         limits: 'editLimit',
         type: 'lib-limit-setting',
         saveConfirmText: '您正在修改的角色是【$name】，提交后将不可重置，是否确认提交？',
+        // useAllLimit: true,
         button: {
           actionType: 'drawer',
           iconOnly: true,

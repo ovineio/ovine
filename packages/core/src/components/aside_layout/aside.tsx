@@ -1,16 +1,27 @@
 import { AsideNav } from 'amis'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { publish } from '@/utils/message'
+import { message } from '@/constants'
 
 type Props = {
   theme: string
   asideMenus: any[]
 }
-export default ({ theme, asideMenus }: Props) => {
+export default (props: Props) => {
+  const { theme, asideMenus } = props
   const location = useLocation()
+
+  useEffect(() => {
+    publish(message.asideLayoutCtrl, {
+      key: 'toggleAsideScreen',
+    })
+  }, [location.pathname])
+
   const isActive = (link: any) => {
     return link.path && !!(link.path === location.pathname)
   }
+
   return (
     <AsideNav theme={theme} renderLink={renderNav} isActive={isActive} navigations={asideMenus} />
   )
@@ -57,10 +68,5 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
     )
   }
 
-  return active ? (
-    // eslint-disable-next-line
-    <a> {children} </a>
-  ) : (
-    <Link to={path}>{children}</Link>
-  )
+  return active ? <a href="javascript:;"> {children} </a> : <Link to={path}>{children}</Link>
 }

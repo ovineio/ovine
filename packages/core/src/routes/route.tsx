@@ -127,7 +127,7 @@ const PrestComponent = (props: PresetComponentProps) => {
 
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
-    const mockSource = !app.env.isMock ? {} : getPageMockSource(fileOption)
+    const mockSource = !app.env.isMock ? undefined : getPageMockSource(fileOption)
     const nodePath = getNodePath(fileOption)
     const rawPagePreset = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
     const pagePreset = !rawPagePreset ? {} : cloneDeep(rawPagePreset)

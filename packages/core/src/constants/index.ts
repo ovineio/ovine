@@ -27,6 +27,7 @@ export const message = {
   appTheme: 'libAppThemeMsg',
   appLang: 'libAppLangMsg',
   updateRouteStore: 'libUpdateRouteStoreMsg',
+  asideLayoutCtrl: 'libAsideLayoutCtrlMsg',
 }
 
 // 存储相关的 key

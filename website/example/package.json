@@ -4,9 +4,10 @@
   "description": "your awesome project.",
   "private": true,
   "scripts": {
+    "prepare": "node-sass -v && yarn scss && yarn dll ",
     "start": "ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
-    "dev:lib": "rm -rf ./node_modules/@ovine/core && export DEV_LIB=true && ovine dev --no-dll --mock",
+    "dev:lib": "rm -rf ./node_modules/@ovine/core && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "ovine build --mock",
     "build:staging": "ovine build --env=staging",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
@@ -25,8 +26,8 @@
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
-    "@ovine/cli": "../../packages/cli",
-    "@ovine/core": "../../packages/core",
+    "@ovine/cli": "file:../../packages/cli",
+    "@ovine/core": "file:../../packages/core",
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
