@@ -49,7 +49,7 @@ reqInstance.onRequest = (option: ReqOption): ReqOption => {
 
 // 请求成功回调，对请求成功返回进行统一的拦截
 reqInstance.onSuccess = (data: any, option: ReqOption, response: ReqResponse): any => {
-  // amis 接口数据格式要求 https://baidu.github.io/amis/docs/api#%E6%95%B4%E4%BD%93%E6%A0%BC%E5%BC%8F
+  // amis 接口数据格式要求 https://baidu.github.io/amis/docs/types/api
   // 举例 接口返回值 封装为 amis 要求的结构
   const { code = 0, msg, message } = data // 接口返回的JSON数据
 
@@ -114,7 +114,7 @@ export type ReqOption<S = {}, P = {}> = {
 }
 ```
 
-### 与 [Amis Api 选项](https://baidu.github.io/amis/docs/renderers/Types#api) 的区别
+### 与 [Amis Api 选项](https://baidu.github.io/amis/docs/types/api#%E5%B1%9E%E6%80%A7%E8%A1%A8) 的区别
 
 注意：Ovine 使用 `fetch` 作为请求库，并未使用 `axios`，因此不能使用 `axios` 很多额外功能。
 

@@ -3,27 +3,28 @@ id: changelog
 title: 版本更新日志
 ---
 
-[如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
-
-[Ovine 计划表](/org/blog/plan)
+- [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
+- [Ovine 计划表](/org/blog/plan)
 
 ### 0.0.7
 
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
 - 添加 tsx 对 svg 图标支持
 - 添加 对远程 JS 配置 文件支持
-- 修复 video 渲染器报错
-- 修复部分 UI 细节，按钮图标不垂直剧中等
+- 修复 Video 渲染器报错
+- 修复部分 UI 细节，按钮图标不垂直剧中等问题
 
 ### 0.0.6 ---- 2020.7.14
 
-- 支持 [Amis Definitions](https://baidu.github.io/amis/docs/renderers/Definitions#definitions) 功能使用 `Function` 做 Json 转换
+- 支持 [Amis Definitions](https://baidu.github.io/amis/docs/components/Definitions#definitions) 功能使用 `Function` 做 Json 转换
 - `aside-layout` 中 `header,footer` 配置支持权限过滤
 - 将 `demo` 模版变为初始化项目默认选项
 - 修复项目在 `Safari 浏览器` 白屏 BUG
 
 ### 0.0.4 ---- 2020.7.6
 
-> 更新此版本后需要执行 `yarn ovine dll`
+> 更新此版本后需要执行 `yarn dll`
 
 - 移除 `Amis` 配置中 `env.fetcher` 包裹的 `wrapperFetcher` 方法，所有请求逻辑均由 `Ovine` [请求模块控制](/org/docs/modules/request)
 - 修复 `LimitSetting` 组件，在部分权限情况下，依然展示全部权限选项

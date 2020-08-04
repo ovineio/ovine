@@ -3,7 +3,7 @@ id: overview
 title: 介绍
 ---
 
-#### **Ovine** 支持使用 `Json` 构建完整的管理系统界，基于 [Amis](https://baidu.github.io/amis/docs/intro?page=1) 二次开发。
+#### **Ovine** 支持使用 `Json` 构建完整的管理系统界，基于 [Amis](https://baidu.github.io/amis/docs/index) 二次开发。
 
 - [快速开始使用 Ovine](/org/docs/guides/start)
 - [一些常见问题](/org/docs/intro/faq)

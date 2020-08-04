@@ -9,14 +9,14 @@ title: 主要概念
 
 ## 渲染器
 
-这是 Amis 提出的概念。渲染器就是用`Json Schema`渲染为真实 UI 的组件。 大家可以参考 [Amis 官方文档](https://baidu.github.io/amis/docs/basic?perPage=5&page=1) 进行体验。所有的例子都是可以实时编辑并渲染的。动手编辑一下看看效果。
+这是 Amis 提出的概念。渲染器就是用`Json Schema`渲染为真实 UI 的组件。 大家可以参考 [Amis 官方文档](https://baidu.github.io/amis/docs/components/page) 进行体验。所有的例子都是可以实时编辑并渲染的。动手编辑一下看看效果。
 
 由例子可以看出
 
 - 定义好的渲染器，可以根据 Json 渲染出对应的 UI
 - 渲染器越多越强大便可以配置出各种各样的 UI 页面。
-  - [Amis 渲染器列表](https://baidu.github.io/amis/docs/renderers)
-  - [Amis Demo](https://baidu.github.io/amis/form/mode)
+  - [Amis 渲染器列表](https://baidu.github.io/amis/docs/components/page)
+  - [Amis Demo](https://baidu.github.io/amis/examples/pages/simple)
   - [Ovine Demo](https://ovine.igroupes.com/demo/)
 
 这也是 Ovine 的最主要的核心概念。就是应用渲染器，结合 Webpack 与 React 集成为一个开箱即用的框架。也就是说，Ovine 只是做了上层的应用，本质还是封装了 Amis 的渲染器。
@@ -171,7 +171,7 @@ export default {
 
 - #### `definitions` 引用配置
 
-definitions 是 Amis 官方的一种使用方式。可以定义公用配置，或者做嵌套渲染，使用 `$ref`引用，Ovine 没有做任何修改。[查看 Amis definitions 文档](https://baidu.github.io/amis/docs/renderers/Definitions)
+definitions 是 Amis 官方的一种使用方式。可以定义公用配置，或者做嵌套渲染，使用 `$ref`引用，Ovine 没有做任何修改。[查看 Amis definitions 文档](https://baidu.github.io/amis/docs/components/Definitions)
 
 - #### `preset` 预设配置
 

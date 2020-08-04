@@ -35,4 +35,10 @@ title: 贡献指南
 
 如果需要修改 `packages/core` 中的代码，需要在 `packages/core` 目录下，执行 `yarn dev` 命令实时编译对应的包。可以在 example 项目中，实时预览对应改动，并进行测试。
 
+##### 整体要求：
+
+1. 使用 `TS、TSX` 编写代码与完整类型检查
+2. 文件目录与文件名统一使用**下划线**分割 (声明：虽与主流命名格式有所不同，但本项目按此标准编写，见谅～)
+3. 项目种有使用 `JsLint` 代码风格校验，按要求编写即可
+
 > 需要其他支持？欢迎上 [Github Issues](https://github.com/CareyToboo/ovine/issues) 提出来。或者加 Q 群，直接沟通。
