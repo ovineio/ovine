@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.0.6",
+  "version": "0.0.7-alpha.0",
   "description": "your awesome project.",
   "private": true,
   "scripts": {
@@ -25,9 +25,9 @@
     "test:build": "yarn cp:lib:cli && yarn cp:lib:core && ovine build --bundle-analyzer"
   },
   "dependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
     "@ovine/cli": "file:../../packages/cli",
     "@ovine/core": "file:../../packages/core",
-    "@hot-loader/react-dom": "^16.8.6",
     "immer": "^5.3.2",
     "lodash": "^4.17.15",
     "react": "^16.8.6",

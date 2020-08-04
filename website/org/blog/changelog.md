@@ -7,6 +7,13 @@ title: 版本更新日志
 
 [Ovine 计划表](/org/blog/plan)
 
+### 0.0.7
+
+- 添加 tsx 对 svg 图标支持
+- 添加 对远程 JS 配置 文件支持
+- 修复 video 渲染器报错
+- 修复部分 UI 细节，按钮图标不垂直剧中等
+
 ### 0.0.6 ---- 2020.7.14
 
 - 支持 [Amis Definitions](https://baidu.github.io/amis/docs/renderers/Definitions#definitions) 功能使用 `Function` 做 Json 转换
