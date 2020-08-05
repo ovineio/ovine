@@ -30,9 +30,9 @@ export const crudCss = ({ ns, colors }: DefaultTheme) => css`
       .${ns}Button {
         &--link {
           padding: 0;
-        }
-        &-icon {
-          padding: 5px;
+          .${ns}Button-icon {
+            padding: 5px;
+          }
         }
       }
     }

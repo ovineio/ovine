@@ -12,9 +12,11 @@ interface Props extends RendererProps {
   condition?: string
   ifTrue?: SchemaNode
   ifFalse?: SchemaNode
+  defaultCase?: SchemaNode
   cases?: Array<
     SchemaNode & {
-      value: any
+      condition?: string
+      value?: any
     }
   >
 }
@@ -25,14 +27,31 @@ interface Props extends RendererProps {
 })
 export class LibWhen extends React.Component<Props> {
   render() {
-    const { condition = '', cases, render, data, ifTrue, ifFalse } = this.props
+    const { condition = '', cases, render, defaultCase, data, ifTrue, ifFalse } = this.props
 
     let schema: any = null
 
+    // with multi cases
     if (cases) {
-      schema = cases.find(({ value }) => value === evalJS(condition, data))
-      //
+      schema = cases.find(({ value, condition: itemCondition }) => {
+        // get schema by case item condition
+        if (itemCondition && evalExpression(itemCondition, data)) {
+          return true
+        }
+        // get schema by case value with main condition
+        if (condition && evalJS(condition, data) === value) {
+          return true
+        }
+
+        return false
+      })
+
+      // set defaultCase
+      if (!schema && defaultCase) {
+        schema = defaultCase
+      }
     } else if (ifTrue || ifFalse) {
+      // with bool condition
       const result = evalExpression(condition, data)
       if (result && ifTrue) {
         schema = ifTrue

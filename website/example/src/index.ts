@@ -28,6 +28,7 @@ const config: DeepPartial<AppConfig> = {
   styled: {
     globalStyle,
   },
+  hook: {},
 }
 
 export default config

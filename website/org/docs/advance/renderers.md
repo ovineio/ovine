@@ -203,6 +203,7 @@ type Porps = {
   initApi?: ReqOption // 获取权限的 api
   api?: ReqOption // 保存权限的 api
   useAllLimit?: boolean // 应用所有权限，默认为 false
+  reload?: boolean // 提交成功是否需要刷新 table
   messages?: { // 接口消息提示
     initFailed: string // 初始化失败的提示
     saveFailed: string // 保存失败的提示
@@ -296,12 +297,14 @@ addLibRenderer('userInfoModal', ({ id }) => ({
 ```ts
 type Props = {
   condition?: string // 条件表达式 类似 amis 的，disabledOn 等表达式。
-  ifTrue?: AmisSchema // 结果 === true 时渲染的JSON内容
-  ifFalse?: SchemaNode // 结果 === false 时渲染的JSON内容
+  ifTrue?: AmisSchema // 结果 === true 的 Schema
+  ifFalse?: SchemaNode // 结果 === false 的 Schema
+  defaultCase?: SchemaNode // 所有 cases 都不满足默认时的，仅对 cases 有效 Schema
   cases?: Array<
     // 如果表达式时不是 true/false 时，需要配置不同场景渲染
     SchemaNode & {
-      value: any // 当表达式 === value 时，需要渲染的JSON内容
+      value?: any // 当主表达式 === value 时，需要渲染的JSON内容
+      condition?: string // 当前 case 表达式，为 true 时渲染
     }
   >
 }
@@ -376,7 +379,7 @@ type Props = {
   pathToComponent?: boolean | string // 路由对应 pages 文件目录下的路径，懒加载时候有效
   withSuspense?: boolean // 是否需要 Suspense 包装
   fallback?: any // 懒加载文件时占位
-  component?: React.Component // 该节点非懒加载路由
+  component?: React.Component // 路由节点组件（非懒加载路由）
   exact?: boolean // 完全匹配路由
   sensitive?: boolean // 是否大小写敏感
   strict?: boolean // 是否校验末尾 “
@@ -392,7 +395,7 @@ type Props = {
   onAuth: boolean | Promise<Boolean> | () => boolean // 认证回调
   redirect: string // 认证失败回跳路由
   path?: string // 真实页面路由
-  component?: React.Component // 该节点非懒加载路由
+  component?: React.Component // 路由节点组件（非懒加载路由）
   exact?: boolean // 完全匹配路由
   sensitive?: boolean // 是否大小写敏感
   strict?: boolean // 是否校验末尾

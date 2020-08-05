@@ -37,7 +37,8 @@ export type SiteConfig = {
 1. 此文件是在 Node 端运行，因此不能使用 es6 模块方法，请使用 CommonJS 规范。
 2. 在 dev 开发时，每次 `ovine.config.js` 文件变更都将重新运行 `devServer`。请确保编辑没有错误才保存文件，否则会报错。
 3. `publicPath` 修改后需要重新执行 `yarn dll`
-   :::
+
+:::
 
 ## 应用配置
 
@@ -69,6 +70,11 @@ export type AppConfig = {
     }
     toastDuration?: number // Toast 提示持续时间
     loginRoute?: string // 登录路由
+  }
+  hook: {
+    beforeCreate?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之前的回调
+    afterCreated?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之后的 回调
+    onAppMounted?: () => void // App 被挂载之后回调
   }
 }
 
@@ -113,7 +119,7 @@ export type RouteItem = {
   hidden?: boolean // 隐藏该节点
   open?: boolean // 打开该节点
   active?: boolean // 选中状态
-  component?: React.Component // 该节点非懒加载路由
+  component?: React.Component // 路由节点组件（非懒加载路由）
   exact?: boolean // 完全匹配路由
   sensitive?: boolean // 是否大小写敏感
   strict?: boolean // 是否校验末尾 “/”

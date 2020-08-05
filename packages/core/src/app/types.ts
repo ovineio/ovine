@@ -45,7 +45,11 @@ export interface AppConfig {
     loginRoute?: string
   }
   entry: any[]
-  hook: any // 支持 beforeCreate 和 afterCreated hook  TODO 完善hook函数的定义
+  hook: {
+    beforeCreate?: (app: any, config: AppConfig) => Promise<void>
+    afterCreated?: (app: any, config: AppConfig) => Promise<void>
+    onAppMounted?: () => void
+  }
   // 异步数据容器
   asyncPage: {
     schema: any // {path: {schema}} // 页面schema

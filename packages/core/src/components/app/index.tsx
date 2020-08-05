@@ -56,6 +56,9 @@ export const App = hot(() => {
     if (loginRoute === currRoute) {
       app.routerHistory.push('/')
     }
+    if (app.hook?.onAppMounted) {
+      app.hook?.onAppMounted()
+    }
   }, [])
 
   useSubscriber([message.appTheme, message.appLang], (newValue: any, key) => {
