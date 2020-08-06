@@ -192,6 +192,7 @@ export const schema = {
             type: 'text',
             name: 'filter',
             label: '关键字',
+            clearable: true,
             placeholder: 'ID/登录账号/名称',
           },
           {

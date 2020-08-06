@@ -90,7 +90,7 @@ export default () => {
         position="right"
       >
         <Spinner overlay show={drawerVisible && loading} size="lg" />
-        <a className="p-md" href="https://baidu.github.io/amis/docs/renderers" target="_blank">
+        <a className="p-md" href="https://baidu.github.io/amis/docs/components/page" target="_blank">
           <i className="fa fa-flag p-r-xs" />
           <span>点击查看Amis渲染器手册</span>
         </a>

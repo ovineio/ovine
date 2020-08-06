@@ -112,16 +112,21 @@ export const getAsideMenus = (): RouteItem[] => {
 }
 
 // 权限配置表
-export const getLimitMenus = (refresh?: boolean) => {
+export const getLimitMenus = (option?: {
+  refresh?: boolean // 是否为独立数据
+  useAllLimit?: boolean // 是否全部权限
+}) => {
+  const { refresh = false, useAllLimit = false } = option || {}
   if (!refresh && store.limitMenus.length) {
     return store.limitMenus
   }
 
+  const userRoutes = useAllLimit ? getRouteConfig(true) : cloneDeep(getAuthRoutes())
+
   // 构建权限配置面板菜单结构
-  const limitMenus = mapTree(cloneDeep(getAuthRoutes()) as LimitMenuItem[], (item) => {
+  const limitMenus = mapTree(userRoutes as LimitMenuItem[], (item) => {
     const { nodePath } = item
 
-    // TODO: react state readonly 不允许修改，preset.apis 修改 需要优化，如何保证只是首次修改。
     const preset = getPagePreset(item) || pick(item, ['apis', 'limits'])
 
     const { limits, apis } = preset
@@ -171,7 +176,11 @@ export const getLimitMenus = (refresh?: boolean) => {
     return item
   })
 
-  // 过滤权限
+  if (useAllLimit) {
+    store.limitMenus = limitMenus
+    return store.limitMenus
+  }
+
   const appLimits = getAppLimits()
   store.limitMenus = filterTree<RouteItem>(limitMenus, ({ nodePath }) => {
     return nodePath === '/' ? true : checkLimitByNodePath(nodePath, appLimits)

@@ -5,7 +5,7 @@ import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
 import fse from 'fs-extra'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import _ from 'lodash'
+import _, { pick } from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } from 'webpack'
@@ -233,6 +233,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           test: amis.froalaEditorReg,
           use: [babelLoader, amis.fixFroalaLoader()],
         },
+        {
+          test: amis.videoFileReg,
+          use: [babelLoader, amis.fixVideoLoader()],
+        },
         useTs && {
           test: /\.tsx?$/,
           exclude: excludeJS,
@@ -272,8 +276,27 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           ],
         },
         {
+          test: /\.svg$/, // svg loader for tsx/jsx files
+          issuer: /\.[t|j]sx$/,
+          use: ['@svgr/webpack'],
+        },
+        {
+          test: /\.svg$/, // svg loader for ts/js/css styled files
+          issuer: [/\.css$/, /\.[t|j]s$/],
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                publicPath,
+                limit: 2000,
+                name: !isProd ? '[path][name].[ext]' : 'assets/svgs/[name]_[contenthash:6].[ext]',
+              },
+            },
+          ],
+        },
+        {
           test: new RegExp(
-            `\\.${`(gif,png,jpg,ttf,ico,woff,woff2,eot,svg${
+            `\\.${`(gif,png,jpg,ttf,ico,woff,woff2,eot${
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
             }`.replace(/,/gi, '|')})$`
           ),
@@ -378,8 +401,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
 function excludeJS(modulePath: string) {
   // exclude fixed amis file
-  const { editorFileReg, factoryFileReg, froalaEditorReg } = amis
-  if ([editorFileReg, factoryFileReg, froalaEditorReg].some((reg) => reg.test(modulePath))) {
+  const regs = ['editorFileReg', 'factoryFileReg', 'froalaEditorReg', 'videoFileReg']
+  if (Object.values(pick(amis, regs)).some((reg: any) => reg.test(modulePath))) {
     return true
   }
 

@@ -15,3 +15,7 @@ declare module 'react-dom' {
   export const createPortal: any
   export const unmountComponentAtNode: any
 }
+
+interface Window {
+  ovine: any // ovine 全局对象
+}

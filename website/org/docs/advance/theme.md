@@ -22,7 +22,7 @@ Ovine 采用的是 `css in js` 的方式写样式。主要依赖的是比较流�
 
 如果你不想使用多主题方案，则可以在这里设置一个你需要应用的主题。那么页面将应用该主题。
 
-如果用户可以选择多主题，并且用户选择了自己喜欢的主题，每次加载页面，都会先去获取用户选择过的主题，如果没有选择过，则会应用设置的主题。
+如果用户可以选择多主题，并且用户选择了自己喜欢的主题，每次加载页面，都会先去获取用户选择过的主题，如果没有选择过，则会应用初始化设置的主题。
 
 ```js title="/ovine.config.js 编译配置文件"
 module.exports = {
@@ -35,7 +35,7 @@ module.exports = {
 
 正常使用 `styled components` 包即可。
 
-> 实际上可以不需要时用 `import { css } from 'styled-components'`，因为使用 `css` 会有样式高亮
+> `import { css } from 'styled-components'`，使用 `css` 会有样式高亮与样式提示 (也可以不使用它)
 
 ### 全局样式
 
@@ -46,7 +46,7 @@ export default {
   styled: {
     // highlight-start
     // 全局样式配置。可将 globalStyle 拆为一个单独的文件，更加合理
-    globalStyle: css`
+    globalStyle: () => css`
       body {
         background: red;
       }
@@ -64,7 +64,26 @@ import { css } from 'styled-components'
 export default {
   type: 'page',
   // 字符串方式写样式，和写 scss/less 类似
-  css: css`
+  css: () => css`
+    body {
+      background: red;
+    }
+  `,
+  body: '任何内容',
+}
+```
+
+### 直接使用 `Css` 字符串
+
+```js
+export default {
+  type: 'page',
+  /**
+   * 这样写比较简单，但是不能使用 主题变量，也没有高亮
+   * 非常适合只有几行样式这种场景
+   * 同样和写 scss/less 类似
+   */
+  css: `
     body {
       background: red;
     }
@@ -77,7 +96,8 @@ export default {
 
 ```js
 // styled.js
-export const pageCss = css`
+import { css } from 'styled-components'
+export const pageCss = () => css`
   body {
     background: red;
   }
@@ -93,12 +113,60 @@ export default {
 }
 ```
 
+### `Dialog,Drawer` 弹窗样式控制
+
+由于弹窗类型的渲染使用了 [Portal](https://react.docschina.org/docs/portals.html)，脱离了组件树，因此在页面上设置的 `Css` 并不能控制 `Dialog,Drawer` 等弹窗类型组件内的元素样式。
+
+```ts
+export default {
+  type: 'page',
+  // 不能控制弹窗的样式
+  css: `
+    body {
+      background: red;
+    }
+  `,
+  body: {
+    type: 'action',
+    actionType: 'dialog', // Drawer 渲染器类似
+    dialog: {
+      title: '弹窗',
+      // 弹窗组件的样式 只能使用 global 全局样式控制
+      className: 'info-dialog', // 只能使用 global 全局样式控制
+      bodyClassName: 'info-dialog-body', // 只能使用 global 全局样式控制
+      body: {
+        type: 'lib-css',
+        // 也可以用 () => css`` 方式写样式
+        // 只可控制 弹窗 body 内组件的样式
+        css: `
+          .info-form {
+            background: red;
+          }
+        `,
+        body: {
+          type: 'form',
+          className: 'info-form',
+          controls: [
+            {
+              type: 'text',
+              name: 'text',
+              label: '文本',
+            },
+          ],
+        },
+      },
+    },
+  },
+}
+```
+
 ### 样式中应用主题
 
 在配置项中可以非常方便的使用主题变量。
 
 ```js
 // styled.js
+import { css } from 'styled-components'
 export const pageCss = (theme) => css`
   body {
     background: red;
@@ -114,8 +182,7 @@ export const pageCss = (theme) => css`
 import { pageCss } from './styled.js'
 export default {
   type: 'page',
-  // 字符串方式写样式，和写 scss/less 类似
-  css: pageCss,
+  css: pageCss, // 引入写好的样式
   body: '任何内容',
 }
 ```

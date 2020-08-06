@@ -4,7 +4,7 @@ import dashboardCss from './styled'
 const targetCards = [
   {
     title: '总用户数',
-    intro: '系统内所有管理员数量',
+    intro: '系统内管理员最多时的数量',
     kpi: 'userCount',
   },
   {

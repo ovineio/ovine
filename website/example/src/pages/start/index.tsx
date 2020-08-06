@@ -6,6 +6,7 @@
 
 import { Button, Spinner, Drawer } from 'amis'
 import { Editor } from 'amis/lib/components'
+import { Icon } from 'amis/lib/components/icons'
 import React from 'react'
 
 import { app } from '@core/app'
@@ -97,7 +98,11 @@ export default () => {
         position="right"
       >
         <Spinner overlay show={drawerVisible && loading} size="lg" />
-        <a className="p-md" href="https://baidu.github.io/amis/docs/renderers" target="_blank">
+        <a
+          className="p-md"
+          href="https://baidu.github.io/amis/docs/components/page"
+          target="_blank"
+        >
           <i className="fa fa-flag p-r-xs" />
           <span>点击查看Amis渲染器手册</span>
         </a>
@@ -120,7 +125,7 @@ export default () => {
           tooltip="编辑schema"
           onClick={toggleDrawer}
         >
-          <i className="fa fa-edit" />
+          <Icon icon="edit" />
         </Button>
       </div>
     </StyledStart>

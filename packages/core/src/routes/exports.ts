@@ -4,11 +4,16 @@
  * TODO: 添加 unit test
  */
 
+import { cloneDeep } from 'lodash'
+
 import { app } from '@/app'
+import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
-import { isSubStr, retryPromise } from '@/utils/tool'
+import { isSubStr, retryPromise, loadScriptAsync } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
+
+const log = logger.getLogger('lib:routes:exports')
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
@@ -37,6 +42,12 @@ export function getPageFilePath(option: PageFileOption) {
 export function getPagePreset(option: PageFileOption): PagePreset | undefined {
   const filePath = getPageFilePath(option)
 
+  if (option.nodePath) {
+    if (app.asyncPage?.preset && app.asyncPage.preset[option.nodePath]) {
+      return cloneDeep(app.asyncPage.preset[option.nodePath])
+    }
+  }
+
   try {
     const pagePest = require(`~/pages/${filePath}/preset`)
     /* webpackInclude: /pages[\\/].*[\\/]preset\.[t|j]sx?$/ */
@@ -56,6 +67,12 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
     return undefined
   }
 
+  if (option.nodePath) {
+    if (app.asyncPage?.mock && app.asyncPage.mock[option.nodePath]) {
+      return cloneDeep(app.asyncPage.mock[option.nodePath])
+    }
+  }
+
   try {
     const pagePest = require(`~/pages/${filePath}/mock`)
     /* webpackInclude: /pages[\\/].*[\\/]mock\.[t|j]sx?$/ */
@@ -71,6 +88,32 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
 export async function getPageFileAsync(option: PageFileOption) {
   const filePath = getPageFilePath(option)
 
+  if (
+    filePath.startsWith('http://') ||
+    filePath.startsWith('https://') ||
+    filePath.startsWith('//')
+  ) {
+    if (!option.nodePath) {
+      return { schema: {} }
+    }
+    const pageAlias = `${option.nodePath}`
+
+    if (app.asyncPage?.schema && app.asyncPage.schema[pageAlias]) {
+      return cloneDeep(app.asyncPage.schema[pageAlias])
+    }
+
+    return retryPromise(() => {
+      app.asyncPage.schema = app.asyncPage?.schema || {}
+      // 异步加载脚本，规范 window.ovine.addPageSchemaJs(option.nodePath, {default?,schema})
+      return loadScriptAsync(filePath).then(function() {
+        if (!app.asyncPage.schema[pageAlias]) {
+          log.error(`${filePath} 异步页面加载失败，请检查页面是否符合规范`)
+          return { schema: {} }
+        }
+        return cloneDeep(app.asyncPage.schema[pageAlias])
+      })
+    })
+  }
   return retryPromise(() =>
     import(
       `~/pages/${filePath}/index`
@@ -95,6 +138,13 @@ export function currPath(path?: string, defaultPath: string = '') {
   }
   if (path === '/') {
     return defaultPath
+  }
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('//')) {
+    return path
+  }
+  // 当前根目录
+  if (path.startsWith('root://')) {
+    return window.origin + path.substring(6)
   }
   return !isSubStr(path, '/', 0) ? path : path.substring(1)
 }

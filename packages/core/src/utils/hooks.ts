@@ -2,9 +2,10 @@
  * 公用的hooks 封装
  */
 import produce, { Draft } from 'immer'
-import { useCallback, useEffect, useReducer, useState } from 'react'
+import { useCallback, useRef, useEffect, useReducer, useState } from 'react'
 
 import { subscribe, Handler } from './message'
+import { AnyFunc } from './types'
 
 export type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S
 
@@ -36,4 +37,16 @@ export function useSubscriber<T>(key: string | string[], handler: Handler<T>) {
     const { unsubscribe } = subscribe(key, handler)
     return unsubscribe
   }, [key])
+}
+
+export function usePersistFn<T extends AnyFunc>(fn: T) {
+  const ref = useRef<any>(() => {
+    throw new Error('Cannot call function while rendering.')
+  })
+
+  ref.current = fn
+
+  const persistFn = useCallback(((...args) => ref.current(...args)) as T, [ref])
+
+  return persistFn
 }

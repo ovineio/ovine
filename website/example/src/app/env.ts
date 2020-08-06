@@ -33,6 +33,7 @@ export const env = {
   },
   // 生产环境
   production: {
+    isProd: true,
     domains: {
       api: 'https://ovine.igroupes.com',
     },

@@ -5,6 +5,7 @@
 import { staticLibDirPath } from '../constants'
 
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
+export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
 export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.js/
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
@@ -15,6 +16,25 @@ export const fixEditorLoader = ({ publicPath }: any) => ({
     search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
     flags: 'm',
     replace: `function filterUrl(url) {return '${`${publicPath}${staticLibDirPath}/`}' + url.substring(1);`,
+  },
+})
+
+// module replace
+export const fixVideoLoader = () => ({
+  loader: 'string-replace-loader', // transform amis editor worker files
+  options: {
+    multiple: [
+      {
+        search: ',\\sfunction\\s\\(Hls\\)\\s\\{',
+        flags: 'm',
+        replace: ', function (HlsModule) { var Hls = HlsModule.default;',
+      },
+      {
+        search: ',\\sfunction\\s\\(flvjs\\)\\s\\{',
+        flags: 'm',
+        replace: ', function (flvModule) { var flvjs = flvModule.default;',
+      },
+    ],
   },
 })
 
@@ -53,8 +73,17 @@ export const fixFroalaLoader = () => ({
 export const fixBootStropCss = () => ({
   loader: 'string-replace-loader',
   options: {
-    search: 'a\\:not\\(\\[href\\]\\)',
-    flags: 'm',
-    replace: '.ignore-anothref',
+    multiple: [
+      {
+        search: 'a\\:not\\(\\[href\\]\\)',
+        flags: 'gm',
+        replace: '.ignore-anothref',
+      },
+      {
+        search: 'svg \\{',
+        flags: 'gm',
+        replace: '.ignore-svg {',
+      },
+    ],
   },
 })

@@ -30,10 +30,6 @@ const GlobalStyle = createGlobalStyle`
     margin-bottom: 0;
   }
 
-  .form-line-break-json {
-    
-  }
-
   .clickable {
     user-select: none;
     cursor: pointer;
@@ -50,12 +46,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /** 适配 bootstrap 升级,等 amis 官方升级搭配 4.0+ 就可以 */
-  svg.icon {
+  /* svg.icon {
     top: 0 !important;
   }
   [role=button] {
     cursor: pointer;
-  }
+  } */
 
 
   /** lib 主题相关的全局样式 */
@@ -104,7 +100,7 @@ const GlobalStyle = createGlobalStyle`
       &.${ns}Tree-leafIcon {
         svg {
           display: block;
-          margin-top: 8px;
+          margin-top: 6px;
         }
       }
       svg {
@@ -113,14 +109,14 @@ const GlobalStyle = createGlobalStyle`
     }
 
     /** 分页图标兼容问题 */
-    .${ns}Pagination {
+    /* .${ns}Pagination {
       &-prev,
       &-next {
         svg {
           margin-top: -2px;
         }
       }
-    }
+    } */
   `}
 
   /** site 全局样式 */

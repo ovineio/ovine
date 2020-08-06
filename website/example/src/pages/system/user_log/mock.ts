@@ -7,8 +7,8 @@ const generator = (i) => ({
   createTime: Date.now() / 1000,
   actionAddr: uuid(),
   handlerId: i,
-  handlerName: `名称-${i + 20}`,
-  result: 0,
+  handlerName: `操作人-${i + 20}`,
+  result: 1,
   failDesc: 'failDesc',
   detail: { mockLog: { id: i + 20 } },
 })

@@ -5,7 +5,7 @@ title: 常见问题
 
 ### Ovine 与其他 Admin 框架的区别是什么？
 
-Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框架（或者 UI 框架）的区别就是 Ovine 与他们的区别。 请阅读 [Amis 是什么?](https://baidu.github.io/amis/docs/intro?page=1)
+Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框架（或者 UI 框架）的区别就是 Ovine 与他们的区别。 请阅读 [Amis 是什么?](https://baidu.github.io/amis/docs/index)
 
 ### Ovine 与 Amis 的区别是什么？
 
@@ -16,8 +16,8 @@ Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框�
   - Amis 使用 Fis3 作为开发工具
   - Ovine 使用 Webpack 作为开发工具，符合主流前端生态，减少学习成本
 - 使用方式不一样
-  - Amis 需要自己搭建一系列开发环境，官方虽然提供了 [Amis-Admin](https://github.com/fex-team/amis-admin) 一个 Demo 启动项目，不过很基础，要实现 Ovine 类似功能，需要很多逻辑
-  - Ovine 集成了管理系统常用功能的封装，并且开箱即用，同时远离搭建开发环境的烦恼。
+  - Amis 需要自己搭建一系列开发环境，官方虽然提供了 [Amis-Admin](https://github.com/fex-team/amis-admin) 一个 Demo 启动项目，不过很基础，要实现 Ovine 类似功能，需要花费很多时间
+  - Ovine 集成了管理系统常用功能的封装。并且开箱即用，降低了 Amis 的使用门槛，同时远离搭建开发环境的烦恼
 - 扩展性
   - Amis 扩展性极强，毕竟是基础库，没有很多特定应用上的约束。
   - 由于 Ovine 实现了集成一些功能，因此就多了一些限制，也仅仅是使用 Ovine 功能的限制，但并不会限制你如何去扩展你的应用。
@@ -35,7 +35,7 @@ Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框�
 
 ### Ovine 基本都是 Json 配置，自定义扩展性有保障吗？
 
-凡是配置 UI 的库都会有类似的问题。如果我的需求，所有的存在配置项，都解决不了怎么办？或者产品提出了刁钻的需求，是不是就不能实现了，要换一个系统了！！**完全不存在这个问题**， Amis 实际上就是一系列 React 组件，使用 Json 配置渲染出来了而已。Amis 本质上还是一个 React 组件。Ovine 也是一样，它集成了一系列功能，其实还是一个 React 组件。如果这些配置都满足不了需求，那么直接不用配置，自己纯 DIY 写就行了。React 能实现的，Ovine 就可以。所以不存在这个问题～
+凡是配置 UI 的库都会有类似的问题。如果我的需求，所有的存在配置项，都解决不了怎么办？或者产品提出了刁钻的需求，是不是就不能实现了，要换一个系统了！！**完全不存在这个问题**， Amis 实际上就是一系列 React 组件，使用 Json 配置渲染出来了而已。Amis 本质上还是一个 React 组件。Ovine 也是一样，它在 Amis 基础上集成了一系列功能。如果这些配置都满足不了需求，那么直接不用配置，自己纯 DIY 写就行了。React 能实现的，Ovine 就可以。所以不存在这个问题～
 
 ### 完全没有用过 React 能用 Ovine 吗？
 
@@ -50,15 +50,15 @@ Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框�
 
 ### 是否考虑像 Amis 一样，提供 JsSdk 支持？
 
-Ovine 将不会支持 JsSdk，总归现在写前端项目一般都用主流的开发框架模块化开发，因此，JsSdk 的形式，受限太多了。如果你确实有类似的需求，可以参考 Amis 官方在持续维护 [Amis JsSdk](https://baidu.github.io/amis/docs/getting-started#jssdk) 。
+Ovine 将不会支持 JsSdk，总归现在写前端项目一般都用主流的开发框架模块化开发，因此，JsSdk 的形式，受限太多了。如果你确实有类似的需求，可以参考 Amis 官方在持续维护 [Amis JsSdk](https://baidu.github.io/amis/docs/start/getting-started#sdk) 。
 
 ### 能否在已经存在 Admin 项目中内嵌 Ovine？
 
 不行。Ovine 是一套完整的集成的应用框架，因此只能，使用官方的开发工具。不能嵌入现存的 Admin 系统中。不过你可以采取以下方案解决这个问题。
 
 - 总归项目是要是要重构或者升级的，如果原始项目架构特别老旧，导致需求难以快速实现，早就有重构的打算。那么干脆抽几个周末，将原始项目升级为 Ovine 项目。配合后端修改一下权限实现，还能增强原始项目权限模块。
-- 使用 [Amis 官方 npm 包](https://baidu.github.io/amis/docs/getting-started)， Amis 包支持 Json 渲染组件，可快速接入已有项目中。
-- 使用 [Amis 官方 JsSdk](https://baidu.github.io/amis/docs/getting-started#jssdk)，引入对应的 Js,Css 文件，可以在任何前端项目中直接使用 Json 渲染组件。
+- 使用 [Amis 官方 npm 包](https://baidu.github.io/amis/docs/start/getting-started)， Amis 包支持 Json 渲染组件，可快速接入已有项目中。
+- 使用 [Amis 官方 JsSdk](https://baidu.github.io/amis/docs/start/getting-started#sdk)，引入对应的 Js,Css 文件，可以在任何前端项目中直接使用 Json 渲染组件。
 
 ### 是否支持多语言化？
 
@@ -70,7 +70,7 @@ Amis 已经支持组件多语言，Ovine 在下几个版本中，即将支持。
 
 ### 关于使用 `Ovine` 的后顾之忧？
 
-Amis 是相当成熟的，官网介绍 `已在百度内部编写了 3W+ 页面`，维护时间长达 4 年，目前更新频率非常高，每天近 5 个 Commit。不过，由于 Ovine 目前处于一个比较早期阶段。还没有一个成型的大项目，也没有很多开发者提出 Issue。不过有问题，官方会尽快响应。如果有没有得到回复，可以加入 Q 群，进行讨论。无论是否使用，希望能够推荐更多人了解 Ovine，多一份选择。
+Amis 是相当成熟的框架。官网介绍 `已在百度内部编写了 3W+ 页面`，维护时间长达 4 年，目前更新频率非常高，每天近 5 个 Commit。但 Amis 使用还是存在一定的门槛，Ovine 在 Amis 的基础上做了一些封装，使得 Amis 更加容易上手。现阶段，已有一批开发者在使用了 Ovine，并完成了项目的顺利上线。此外 Ovine 官方正在持续跟进项目，热心解决开发者遇到的任何问题。 非常希望你将 Ovine 做为下一个 Admin 项目的备选方案。如果你觉得 Ovine 还不错，将它推荐给更多人吧～
 
 ---
 

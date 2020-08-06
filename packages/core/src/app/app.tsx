@@ -7,13 +7,13 @@ import { appRootId, storage } from '@/constants'
 import { initAppTheme } from '@/styled/theme'
 import { setConfig } from '@/utils/logger'
 import { getGlobal } from '@/utils/store'
-import { getQuery } from '@/utils/tool'
+import { getUrlParams } from '@/utils/tool'
 
 import appConfig from '~/index'
 
 function initLogger(loggerConf: any = {}) {
-  const moduleName = getQuery('loggerModule') || loggerConf?.moduleName
-  const loggerLevel: any = getQuery('loggerLevel') || loggerConf?.level || 'log'
+  const moduleName = getUrlParams('loggerModule') || loggerConf?.moduleName || ''
+  const loggerLevel = getUrlParams('loggerLevel') || loggerConf?.level || 'log'
   const loggerConfig = defaults(
     {
       moduleName,
@@ -25,14 +25,30 @@ function initLogger(loggerConf: any = {}) {
   setConfig(loggerConfig)
 }
 
-function initApp() {
-  const app: any = getGlobal(storage.appInstance)
-  app.create(appConfig)
-  initLogger(app.env.logger)
-  initAppTheme()
+/**
+ * 初始化 ovine 全局对象
+ */
+function initOvineGlobal() {
+  window.ovine = {
+    addPageSchemaJs: (pageAlias: string, schema: any) => {
+      const app: any = getGlobal(storage.appInstance)
+      app.asyncPage.schema = app.asyncPage.schema || {}
+      app.asyncPage.schema[pageAlias] = schema
+    },
+  }
+}
 
-  const $mounted = document.getElementById(appRootId) || document.createElement('div')
-  render(<App />, $mounted)
+function initApp() {
+  initOvineGlobal()
+  const app: any = getGlobal(storage.appInstance)
+  // 转为异步创建app实例，方便调用hook
+  app.create(appConfig).then(function() {
+    initLogger(app.env.logger)
+    initAppTheme()
+
+    const $mounted = document.getElementById(appRootId) || document.createElement('div')
+    render(<App />, $mounted)
+  })
 }
 
 initApp()

@@ -23,9 +23,9 @@ import { StyledLimit } from './styled'
 // 设置项足够多的时候， 搜索 tree， 显示tab，并滚动条对应到节点位置，并高亮显示
 type State = {
   activeTab: number
-  isUnfolded: boolean
   selectedVal: string
   visitedTabs: number[]
+  isUnfolded?: boolean
 }
 export type AuthLimitData = {
   authApi: string
@@ -35,22 +35,31 @@ export type LimitSettingProps = Partial<RendererProps> & {
   limit?: string
   saveConfirmText?: string
   className?: string
+  useAllLimit?: boolean
   onSaveClick?: (authLimitData: AuthLimitData) => void
   onCancelClick?: () => void
 }
 
 const LimitSetting = (props: LimitSettingProps) => {
-  const { limit: initLimit = '', className, saveConfirmText, onCancelClick, render } = props
+  const {
+    limit: initLimit = '',
+    useAllLimit,
+    className,
+    saveConfirmText,
+    onCancelClick,
+    render,
+  } = props
+
   const [state, setState] = useImmer<State>({
     activeTab: 0,
     isUnfolded: true,
     visitedTabs: [],
     selectedVal: '',
   })
-  const storeRef = useRef<ObjectOf<string>>({})
 
+  const storeRef = useRef<ObjectOf<string>>({})
   const { activeTab, visitedTabs, selectedVal, isUnfolded } = state
-  const menuConfig = useMemo(getLimitMenus, [])
+  const menuConfig = useMemo(() => getLimitMenus({ useAllLimit }), [])
 
   useEffect(() => {
     initData()
@@ -73,12 +82,13 @@ const LimitSetting = (props: LimitSettingProps) => {
     })
   }
 
+  // TODO: 引起 体验不流畅  Tree 折叠BUG
   const onTreeChange = (value: string) => {
     const limitValue = resolveSelectVal(menuConfig, value)
-
     storeRef.current[activeTab] = limitValue
     setState((d) => {
       d.selectedVal = limitValue
+      d.isUnfolded = undefined
       if (!d.visitedTabs.filter((tab) => tab === activeTab).length) {
         d.visitedTabs.push(activeTab)
       }
@@ -88,6 +98,7 @@ const LimitSetting = (props: LimitSettingProps) => {
   const onTabSelect = (tab: string | number) => {
     setState((d) => {
       d.activeTab = Number(tab)
+      d.isUnfolded = undefined
       d.selectedVal = storeRef.current[tab]
     })
   }
@@ -135,22 +146,22 @@ const LimitSetting = (props: LimitSettingProps) => {
         ],
       },
       {
-        type: 'button',
+        type: 'action',
         icon: 'fa fa-check text-success',
         actionType: 'close',
         confirmText: saveConfirmText,
-        onAction: onSaveClick,
         tooltip: '提交',
         tooltipPlacement: 'top',
+        onAction: onSaveClick,
       },
       {
-        type: 'button',
+        type: 'action',
         icon: 'fa fa-times text-danger',
         actionType: 'close',
         confirmText: !visitedTabs.length ? '' : '关闭将视为您主动放弃本次修改。',
-        onAction: onCancelClick,
         tooltip: '取消',
         tooltipPlacement: 'top',
+        onAction: onCancelClick,
       },
     ],
   }
@@ -160,8 +171,8 @@ const LimitSetting = (props: LimitSettingProps) => {
       <div className="action-btns">
         {render ? render('body', buttonsSchema) : <Amis schema={buttonsSchema} />}
       </div>
-      <Tabs {...props} activeKey={activeTab} mode="line" onSelect={onTabSelect}>
-        {resolveLimitMenus(menuConfig, { limitValue: selectedVal, isUnfolded }).map(
+      <Tabs activeKey={activeTab} mode="line" onSelect={onTabSelect}>
+        {resolveLimitMenus(menuConfig, { limitValue: selectedVal }).map(
           (item: any, index: number) => {
             if (!item.children) {
               return null
@@ -174,11 +185,11 @@ const LimitSetting = (props: LimitSettingProps) => {
                 eventKey={index}
               >
                 <Tree
-                  {...props}
                   hideRoot
                   multiple
                   joinValues
                   withChildren
+                  initiallyOpen={isUnfolded}
                   value={selectedVal}
                   valueField="nodePath"
                   options={item.children}
@@ -221,17 +232,14 @@ type LimitItem = LimitMenuItem & {
 }
 
 // 处理 权限配置表
-function resolveLimitMenus(
-  menusConfig: any[],
-  option: { limitValue: string; isUnfolded?: boolean }
-) {
-  const { limitValue, isUnfolded = true } = option
+function resolveLimitMenus(menusConfig: any[], option: { limitValue: string }) {
+  const { limitValue } = option
   const limits = convertLimitStr(limitValue)
 
   return mapTree<LimitItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
 
-    item.unfolded = isUnfolded
+    // item.unfolded = isUnfolded
 
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return item

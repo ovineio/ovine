@@ -14,6 +14,8 @@ import { request } from './app/request'
 import globalStyle from './styled/global'
 import { theme } from './styled/theme'
 
+import './app/icons'
+
 // 应用配置
 const config: DeepPartial<AppConfig> = {
   env, // 必填参数，应用环境配置
@@ -26,6 +28,7 @@ const config: DeepPartial<AppConfig> = {
   styled: {
     globalStyle,
   },
+  hook: {},
 }
 
 export default config

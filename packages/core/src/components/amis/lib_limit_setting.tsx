@@ -13,6 +13,8 @@ type Props = RendererProps &
   LimitSettingProps & {
     button?: any
     modal?: any
+    useAllLimit?: boolean
+    reload?: boolean
     messages?: {
       initFailed: string
       saveFailed: string
@@ -36,6 +38,7 @@ export class LibLimitSetting extends React.Component<Props> {
       api,
       messages,
       saveConfirmText,
+      useAllLimit,
       getLimit,
       render,
     } = this.props
@@ -72,6 +75,9 @@ export class LibLimitSetting extends React.Component<Props> {
                 const hasError = status !== 0
                 if (!hasError) {
                   env.notify('success', messages?.saveSuccess || '保存成功')
+                  if (this.props.reload) {
+                    this.props.onQuery()
+                  }
                 } else {
                   env.notify('error', messages?.saveFailed || msg || '保存失败')
                 }
@@ -92,6 +98,7 @@ export class LibLimitSetting extends React.Component<Props> {
             limit={getLimit ? getLimit() : limitData.limit || ''}
             saveConfirmText={filter(saveConfirmText, initData)}
             onSaveClick={onSave}
+            useAllLimit={useAllLimit}
             onCancel={this.props.onCancelClick}
           />
         )

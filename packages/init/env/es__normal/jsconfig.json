@@ -8,6 +8,8 @@
     "jsx": "react",
     "outDir": "dist",
     "rootDir": ".",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "paths": {
       "~/*": ["./*"],

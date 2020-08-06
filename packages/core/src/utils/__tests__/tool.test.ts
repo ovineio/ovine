@@ -4,7 +4,7 @@ import * as tools from '../tool'
 import { assertSimpleInputOut, SimpleOutType } from './utils'
 
 const testCases = {
-  getQuery: new Map<string[], SimpleOutType>([
+  getUrlParams: new Map<string[], SimpleOutType>([
     [['', 'https://www.baidu.com'], { value: undefined }],
     [['', 'https://www.baidu.com?a'], { value: undefined }],
     [['a', 'https://www.baidu.com?a=b'], { value: 'b' }],
@@ -31,13 +31,6 @@ const testCases = {
     [[['a', 'b'], 'c'], { value: 'a b c' }],
     [['a', { b: true }, 'c'], { value: 'a b c' }],
     [['a', { b: false }, 'c'], { value: 'a c' }],
-  ]),
-
-  formatDate: new Map<[string, any?], SimpleOutType>([
-    [['yyyy-MM-dd'], { assert: (val) => expect(typeof val === 'string').toBe(true) }],
-    [['yyyy-MM-dd', '1585922234496'], { value: '2020-04-03' }],
-    [['yyyy/MM/dd', '1585922234496'], { value: '2020/04/03' }],
-    [['yyyy/MM/dd hh:mm:ss', '1585922234496'], { value: '2020/04/03 21:57:14' }],
   ]),
 
   choice: new Map<[any[]], SimpleOutType>([

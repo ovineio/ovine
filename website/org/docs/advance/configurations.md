@@ -13,8 +13,8 @@ export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
   // highlight-end
-  publicPath: string // 项目的静态资源前缀路径，可用于CDN部署
-  devServerProxy: any // devServer的代理设置
+  publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
+  devServerProxy: any // devServer的代理设置，与 webpack dev server proxy 配置一致。文档 https://webpack.docschina.org/configuration/dev-server/#devserverproxy
   envModes?: string[] // 应用环境列表
   initTheme?: string // 初始化主题
   staticFileExts?: string[] // 需要处理的静态资源类型
@@ -36,6 +36,7 @@ export type SiteConfig = {
 
 1. 此文件是在 Node 端运行，因此不能使用 es6 模块方法，请使用 CommonJS 规范。
 2. 在 dev 开发时，每次 `ovine.config.js` 文件变更都将重新运行 `devServer`。请确保编辑没有错误才保存文件，否则会报错。
+3. `publicPath` 修改后需要重新执行 `yarn dll`
 
 :::
 
@@ -60,7 +61,7 @@ export type AppConfig = {
   }
   constants?: {
     // 覆盖内置常量
-    baseUrl?: string // 页面基础路径
+    baseUrl?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
     rootLimitFlag?: string // 超级管理员权限标示。存在这个标示，将默认不校验任何权限
     notFound?: {
       // 404 页面
@@ -70,11 +71,16 @@ export type AppConfig = {
     toastDuration?: number // Toast 提示持续时间
     loginRoute?: string // 登录路由
   }
+  hook: {
+    beforeCreate?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之前的回调
+    afterCreated?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之后的 回调
+    onAppMounted?: () => void // App 被挂载之后回调
+  }
 }
 
 // 环境配置
 type Env = {
-  mode: string // 环境的模式
+  mode: string // 当前环境标示
   domains: Map<string, string> // 所有的域名
   disableLimit?: boolean // 是否开启权限校验
   isRelease?: boolean // 是否 release 环境
@@ -113,7 +119,7 @@ export type RouteItem = {
   hidden?: boolean // 隐藏该节点
   open?: boolean // 打开该节点
   active?: boolean // 选中状态
-  component?: React.Component // 该节点非懒加载路由
+  component?: React.Component // 路由节点组件（非懒加载路由）
   exact?: boolean // 完全匹配路由
   sensitive?: boolean // 是否大小写敏感
   strict?: boolean // 是否校验末尾 “/”
@@ -208,5 +214,5 @@ export type SchemaPreset = {
 **查看关联资源**
 
 - [ReqOption 类型](/org/docs/modules/request#reqoption-%E9%80%89%E9%A1%B9)
-- [Amis Action 渲染器](https://baidu.github.io/amis/docs/renderers/Action)
-- [Amis from 渲染器](https://baidu.github.io/amis/docs/renderers/Form/Form)
+- [Amis Action 渲染器](https://baidu.github.io/amis/docs/components/action)
+- [Amis from 渲染器](https://baidu.github.io/amis/docs/components/form/index)

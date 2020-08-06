@@ -80,7 +80,7 @@ function setDllVendorModules(config) {
   }
 }
 
-const { editorFileReg, factoryFileReg, froalaEditorReg } = amis
+const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg } = amis
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
@@ -97,7 +97,7 @@ export function createDllConfig(options: ConfigOptions) {
       rules: [
         {
           test: /\.[t|j]sx?$/,
-          exclude: [editorFileReg, editorFileReg],
+          exclude: [editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg],
           use: [babelLoader],
         },
         {
@@ -111,6 +111,10 @@ export function createDllConfig(options: ConfigOptions) {
         {
           test: froalaEditorReg,
           use: [babelLoader, amis.fixFroalaLoader()],
+        },
+        {
+          test: videoFileReg,
+          use: [babelLoader, amis.fixVideoLoader()],
         },
         {
           test: /\.css$/,

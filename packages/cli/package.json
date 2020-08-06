@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.7-alpha.0",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
@@ -35,6 +35,7 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/preset-react": "^7.7.4",
     "@babel/runtime": "^7.7.4",
+    "@svgr/webpack": "^5.4.0",
     "assets-webpack-plugin": "3.9.12",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
@@ -74,7 +75,6 @@
     "ts-loader": "^5.4.5",
     "typescript": "^3.9.5",
     "url-loader": "^1.1.2",
-    "wait-file": "^1.0.5",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.9.0",

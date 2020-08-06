@@ -1,54 +1,8 @@
-// import { uuid } from 'amis/lib/utils/helper'
 import { isArray, isObject, map, random, isFunction, trim } from 'lodash'
+import { parse } from 'qs'
 import { createElement } from 'react'
 
 import * as Types from '@/utils/types'
-
-/**
- * 日期格式化字符串
- * @param formatter String  模版字符串
- * @param dateString? String 日期字符串
- */
-export const formatDate = (formatter: string, date?: string | Date) => {
-  const dateObj = !date
-    ? new Date()
-    : date instanceof Date
-    ? date
-    : new Date(/^\d*$/.test(date) ? Number(date) : date)
-
-  // eslint-disable-next-line
-  if (!(dateObj instanceof Date) || isNaN(dateObj as any)) {
-    return formatter
-  }
-
-  const transObj: any = {
-    'M+': dateObj.getMonth() + 1, // 月份
-    'd+': dateObj.getDate(), // 日
-    'h+': dateObj.getHours(), // 小时
-    'm+': dateObj.getMinutes(), // 分
-    's+': dateObj.getSeconds(), // 秒
-    'q+': Math.floor((dateObj.getMonth() + 3) / 3), // 季度
-    S: dateObj.getMilliseconds(), // 毫秒
-  }
-
-  let fmt = formatter
-
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, `${dateObj.getFullYear()}`.substr(4 - RegExp.$1.length))
-  }
-
-  // eslint-disable-next-line no-restricted-syntax
-  for (const k in transObj) {
-    if (new RegExp(`(${k})`).test(fmt)) {
-      fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? transObj[k] : `00${transObj[k]}`.substr(`${transObj[k]}`.length)
-      )
-    }
-  }
-
-  return fmt
-}
 
 /**
  * 从数组中随机抽取一个
@@ -74,29 +28,23 @@ export function isExpired(expiredTime: string | number, baseTime: number = Date.
  * @param key 需要获取的数据 json[key], 不传为整个json
  * @param url 待解析的url 默认为location.href
  */
-export function getQuery(key: string, url?: string): undefined | string
-export function getQuery(key?: string, url?: string): undefined | string | object {
-  let str = url || window.location.href
+export function getUrlParams(key?: string, url?: string): any | undefined {
+  const str = url || window.location.href
 
-  str = str.indexOf('?') === -1 ? str : str.split('?')[1]
+  const idx = str.indexOf('?')
+  const hashIdx = str.indexOf('#')
 
-  if (!isSubStr(str, '=')) {
+  if (idx === -1) {
     return undefined
   }
 
-  const items = str.split('&')
-  const result: Types.ObjectOf<string> = {}
-
-  items.forEach((v) => {
-    const [queryKey, queryVal] = v.split('=')
-    result[queryKey] = queryVal
-  })
+  const urlParams = parse(str.substring(idx + 1, hashIdx !== -1 ? hashIdx : undefined)) || {}
 
   if (key) {
-    return result[key] || undefined
+    return urlParams[key] || undefined
   }
 
-  return result
+  return urlParams
 }
 
 /**
@@ -164,7 +112,8 @@ export function cls(...args: any[]): string {
   return trim(str)
 }
 
-export function timeout(ms: number) {
+// timeout promise 化
+export function promisedTimeout(ms: number) {
   return new Promise((resolve) => {
     const timer = setTimeout(() => {
       clearTimeout(timer)
@@ -212,4 +161,27 @@ export function json2reactFactory(
     }
     return renderElement
   }
+}
+
+// 异步加载脚本
+export function loadScriptAsync(src: string, async: boolean = true) {
+  return new Promise(function(resolve, reject) {
+    const script = document.createElement('script')
+    if (async) {
+      script.async = true
+    }
+    if (!src.startsWith('http')) {
+      // 相对根目录地址
+      script.src = window.origin + src.substr(1)
+    } else {
+      script.src = src
+    }
+    script.onload = () => {
+      resolve()
+    }
+    script.onerror = (e) => {
+      reject(e)
+    }
+    document.getElementsByTagName('head')[0].appendChild(script)
+  })
 }

@@ -8,7 +8,7 @@
 
 ### 功能
 
-- #### [Amis](https://baidu.github.io/amis/pages/simple)
+- #### [Amis](https://baidu.github.io/amis/examples/pages/simple)
 
   - 基于 `bootstrap`
   - 基于 `typescript` 代码开发友好
@@ -76,7 +76,7 @@
 
 ### 资源
 
-- [amis](https://baidu.github.io/amis/docs/getting-started) 非常感谢百度团队的开源贡献
+- [amis](https://baidu.github.io/amis/docs/start/getting-started) 非常感谢百度团队的开源贡献
 - [font-awesome](http://fontawesome.dashgame.com)
 - [bootstrap](https://v3.bootcss.com/components)
 - [styled-components](https://styled-components.com)
