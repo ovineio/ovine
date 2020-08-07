@@ -97,8 +97,13 @@ export default (option: Option) => {
         } else {
           window.open(link, '_blank')
         }
-      } else {
+        return
+      }
+
+      if (!blank) {
         app.routerHistory.push(link)
+      } else {
+        window.open(`${window.location.origin}${link}`, '_blank')
       }
     },
     // 地址替换，跟 jumpTo 类似。

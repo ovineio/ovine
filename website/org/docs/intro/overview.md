@@ -1,9 +1,11 @@
 ---
 id: overview
-title: 介绍
+title: Ovine
 ---
 
-#### **Ovine** 支持使用 `Json` 构建完整的管理系统界，基于 [Amis](https://baidu.github.io/amis/docs/index) 二次开发。
+#### 一个支持使用 `Json` 构建完整管理系统 UI 的框架，基于 [Amis](https://baidu.github.io/amis/docs/index) 二次开发。
+
+![download](https://img.shields.io/npm/dt/@ovine/core) ![version](https://img.shields.io/npm/v/@ovine/core) ![license](https://img.shields.io/npm/l/@ovine/core)
 
 - [快速开始使用 Ovine](/org/docs/guides/start)
 - [一些常见问题](/org/docs/intro/faq)
@@ -14,13 +16,13 @@ title: 介绍
 管理系统是企业提升工作效率的关键工具之一。核心功能可概括为，账号与权限管理体系、数据表格展示、
 复杂的组合查询，各种数据信息的录入，也就是常说的**增删改查**相关的数据管理操作。管理系统的功能需求明确且具高度相似性、并且 UI 展现形式单一。 Ovine 使用 Json 格式数据，渲染 UI 界面，避免大量重复单一的工作。当对配置规则熟悉之后，可极大的提升前端页面编写效率。
 
-> **题外话:** 管理后台项目是既非常重要，开发起来又相当繁琐。Admin 项目做得好是框架好，做得差，是你代码写得差，也因此 Admin 项目长期处于比较尴尬的地位。此外开发 Admin 需求，公司基本不会安排太多时间，大家都想又快又好。因此能够快速完成业务需求，才是合适的。
+> **题外话:** 管理后台项目是既非常重要，开发起来又相当繁琐。Admin 项目做得好是框架好，做得差，是你代码写得差，也因此 Admin 项目长期处于比较尴尬的地位。此外开发 Admin 需求，企业不会安排太多时间，大家都想又快又好。因此能够快速完成业务需求，才是合适的。
 
 ## 特性
 
 - #### 开箱即用
 
-  - 配套项目生成工具，**几分钟内可以快速构建一个 Admin 应用**
+  - 配套项目生成工具，**3 分钟左右可以快速构建一个 Admin 应用**
   - 无需再额外搭建开发环境
   - 直接上手 Json 配置页面、表单、权限、并对接 API
 
@@ -42,14 +44,15 @@ title: 介绍
 - #### 高可扩展的样式主题
 
   - 可采用 `scss` 变量更改界面样式展示，共 1000+ 可自定义设置的样式变量
-  - 样式使用 `css in js` 可以将样式按照数据的方式数据写入 Json 中，并且支持主题扩展
+  - 样式使用 `css in js` 可以将样式按照数据的方式数据写入 Json 中
+  - 支持添加自定义新主题
 
 - #### 简洁的数据 Mock 方案
 
   - 生成 Mock 数据方便，可完全独立于后端 API，进行业务开发
   - Mock 数据与真实 API 数据，无缝切换
 
-## [预览演示项目](https://ovine.igroupes.com/demo/)
+## [预览演示项目](https://ovine.igroupes.com/demo/login)
 
 ##### 个性化主题
 

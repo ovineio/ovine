@@ -6,6 +6,7 @@ import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
+import LoginBg from '~/components/login_bg'
 
 import authCode from './code'
 import loginCss from './styled'
@@ -13,24 +14,32 @@ import loginCss from './styled'
 export const schema = {
   type: 'page',
   css: loginCss,
-  body: {
-    type: 'wrapper',
-    className: 'login-wrapper b r-2x',
-    body: [
-      {
-        type: 'html',
-        html: `
+  body: [
+    {
+      type: 'container',
+      body: {
+        component: LoginBg,
+      },
+    },
+    {
+      type: 'wrapper',
+      className: 'login-wrapper b',
+      body: [
+        {
+          type: 'html',
+          html: `
           <h6 class="login-title">
-            <img src="/demo/static/images/logo_grey.png" />
-            <p>Ovine 管理后台系统</p>
+            <img class="d-none d-sm-inline-block" src="/demo/static/images/logo_grey.png" />
+            <p>Ovine 示例后台系统</p>
           </h6>
         `,
-      },
-      {
-        $preset: 'forms.loginForm',
-      },
-    ],
-  },
+        },
+        {
+          $preset: 'forms.loginForm',
+        },
+      ],
+    },
+  ],
   preset: {
     apis: {
       login: {

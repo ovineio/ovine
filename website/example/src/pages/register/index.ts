@@ -3,27 +3,36 @@ import { css, DefaultTheme } from 'styled-components'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys } from '~/app/constants'
+import LoginBg from '~/components/login_bg'
 
 export const schema = {
   type: 'page',
-  body: {
-    type: 'wrapper',
-    className: 'register-wrapper b r-2x',
-    body: [
-      {
-        type: 'html',
-        html: `
+  body: [
+    {
+      type: 'container',
+      body: {
+        component: LoginBg,
+      },
+    },
+    {
+      type: 'wrapper',
+      className: 'register-wrapper b',
+      body: [
+        {
+          type: 'html',
+          html: `
           <h6 class="register-title">
-          <img src="/demo/static/images/logo_grey.png" />
+            <img class="d-none d-sm-inline-block" src="/demo/static/images/logo_grey.png" />
             <p>Ovine 注册新账号</p>
           </h6>
         `,
-      },
-      {
-        $preset: 'forms.loginForm',
-      },
-    ],
-  },
+        },
+        {
+          $preset: 'forms.loginForm',
+        },
+      ],
+    },
+  ],
   preset: {
     apis: {
       register: {
@@ -107,11 +116,12 @@ export const schema = {
       },
     },
   },
-  css: ({ colors }: DefaultTheme) => css`
+  css: ({ name }: DefaultTheme) => css`
     .register-wrapper {
+      position: relative;
       max-width: 450px;
       margin: 12% auto 0;
-      background-color: ${colors.layoutHeaderBg};
+      background-color: ${name === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(255, 255, 255, 0.9)'};
     }
 
     .register-title {

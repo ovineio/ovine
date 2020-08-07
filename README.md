@@ -1,6 +1,6 @@
 # Ovine
 
-![download](https://img.shields.io/npm/dm/@ovine/core) ![version](https://img.shields.io/npm/v/@ovine/core) ![node](https://img.shields.io/node/v/@ovine/cli) ![license](https://img.shields.io/npm/l/@ovine/core)
+![download](https://img.shields.io/npm/dt/@ovine/core) ![version](https://img.shields.io/npm/v/@ovine/core) ![node](https://img.shields.io/node/v/@ovine/cli) ![license](https://img.shields.io/npm/l/@ovine/core)
 
 ##### Ovine 支持使用 Json 构建完整的管理系统界面。
 

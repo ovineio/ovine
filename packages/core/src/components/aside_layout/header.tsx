@@ -74,7 +74,7 @@ export default (props: Props) => {
       },
     }
     return <Amis schema={itemsSchema} />
-  }, [items])
+  }, [items, themeNs])
 
   return (
     <>
