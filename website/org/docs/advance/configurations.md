@@ -1,6 +1,6 @@
 ---
 id: configurations
-title: 详细配置一览表
+title: 配置一览表
 ---
 
 这里列举了项目主要需要配置详细内容和描述。
@@ -72,6 +72,7 @@ export type AppConfig = {
     loginRoute?: string // 登录路由
   }
   hook: {
+    // 可以实现动态控制配置，非常灵活
     beforeCreate?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之前的回调
     afterCreated?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之后的 回调
     onAppMounted?: () => void // App 被挂载之后回调
@@ -109,7 +110,7 @@ export type RouteItem = {
   label: string // 节点显示名称
   icon?: string // 节点 icon
   path?: string // 真实页面路由
-  pathToComponent?: boolean | string // 路由对应 pages 文件目录下的路径，懒加载时候有效
+  pathToComponent?: boolean | string // 路由对应 pages 文件目录下本地路径 或者 远程页面。比如 https://xxx, http://xxx, root://xxx
   sideVisible?: boolean // 侧边栏是否可见
   limitOnly?: boolean // 该节点仅仅用于权限配置，不需要渲染路由
   limitLabel?: string // 权限label，在权限面板中展示

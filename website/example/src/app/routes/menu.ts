@@ -26,18 +26,18 @@ export const menuRoutes: LimitMenuItem = {
       icon: 'fa fa-coffee',
       nodePath: 'start',
     },
-    // {
-    //   label: '演示内容',
-    //   icon: 'fa fa-paint-brush',
-    //   nodePath: 'test',
-    //   children: [
-    //     {
-    //       label: '远程页面',
-    //       nodePath: 'remote_schema',
-    //       pathToComponent: 'root://static/js/demo_remote_schema.js',
-    //     },
-    //   ],
-    // },
+    {
+      label: '实验内容',
+      icon: 'fa fa-flask',
+      nodePath: 'test',
+      children: [
+        {
+          label: '远程页面',
+          nodePath: 'remote_schema',
+          pathToComponent: 'root://demo/static/js/test_remote_schema.js',
+        },
+      ],
+    },
     {
       label: 'DEMO应用',
       icon: 'fa fa-paint-brush',

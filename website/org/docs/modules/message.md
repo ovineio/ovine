@@ -7,7 +7,7 @@ title: 消息模块
 
 ### publish 发布消息
 
-主动发布消息，如果该消息被订阅，则会触发订阅消息时的回调操作。对于发布消息，携带的数据，没有任何消息。可以不传第二个参数。
+主动发布消息，如果该消息被订阅，则会触发订阅消息时的回调操作。发布消息时，无携带数据时，可不传第二参数。
 
 ```js
 import { publish } from '@core/utils/message'
@@ -25,7 +25,7 @@ publish(['hello1', 'hello2'], {
 
 ### subscribe 订阅消息
 
-订阅消息就是为消息添加回调操作。允许重复订阅同一个消息。
+订阅消息就是为消息添加回调操作，允许重复订阅同一个消息。
 
 ```js
 import { subscribe } from '@core/utils/message'
@@ -50,7 +50,7 @@ subscribe(['hello1', 'hello2'], (data, key) => {
 
 ### unsubscribe 取消订阅
 
-可用于组件销毁时，取消对某些数据的订阅操作。
+当对消息处理完毕，可以取消订阅，后续消息则不再触发回调。可用于组件销毁时，取消对某些消息的订阅。
 
 ```js
 import { unsubscribe } from '@core/utils/message'

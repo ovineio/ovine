@@ -65,7 +65,7 @@ export default {
   type: 'page',
   // 字符串方式写样式，和写 scss/less 类似
   css: () => css`
-    body {
+    .class-name {
       background: red;
     }
   `,
@@ -84,7 +84,7 @@ export default {
    * 同样和写 scss/less 类似
    */
   css: `
-    body {
+    .class-name {
       background: red;
     }
   `,
@@ -98,7 +98,7 @@ export default {
 // styled.js
 import { css } from 'styled-components'
 export const pageCss = () => css`
-  body {
+  .class-name {
     background: red;
   }
 `
@@ -122,7 +122,7 @@ export default {
   type: 'page',
   // 不能控制弹窗的样式
   css: `
-    body {
+    .class-name {
       background: red;
     }
   `,
@@ -168,7 +168,7 @@ export default {
 // styled.js
 import { css } from 'styled-components'
 export const pageCss = (theme) => css`
-  body {
+  .class-name {
     background: red;
   }
 
@@ -268,10 +268,10 @@ export default {
 
 ### 添加 `Amis` 主题，并编译
 
-这一步和修改`Amis Scss`变量差不多，只不是新建一个新文件。
+这一步和修改`Amis Scss`变量差不多，需要新建一个新文件。
 
-- 在 `/src/scss/` 目录下，新建 `newTheme.scss`
-- 编辑 `newTheme.scss` 对应的变量
+- 在 `/src/scss/` 目录下，新建 `new_theme.scss`
+- 编辑 `new_theme.scss` 对应的变量
 - 需要手动执行 `ovine scss` 进行编译为对应的主题文件
 
 ### 页面中设置为对应的主题

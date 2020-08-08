@@ -97,7 +97,7 @@ my-app
 ├── .ovine                 Ovine 编译后产生的文件
 │   ├── static
 │   ├── styles
-│   ├── xxx.json
+│   └── xxx.json
 └── src                    源代码目录
     ├── index.js              唯一入口文件
     ├── pages                 路由页面文件目录

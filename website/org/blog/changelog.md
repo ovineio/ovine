@@ -12,7 +12,8 @@ title: 版本更新日志
 
 - 添加 对远程 JS 配置 文件支持
 - 添加 对 App 实例 [`Hooks`](/org/docs/advance/configurations#应用配置) 回调控制，可用于读取 Api 动态控制 App 配置
-- 添加 tsx 对 svg 图标支持
+- 添加 `tsx` 文件对 svg 图标支持
+- 支持 `Request` 模块的回调方法传入字符串，对于 JSON 数据格式支持更加友好。
 - 修复 Video 渲染器报错
 - 修复部分 UI 细节，按钮图标不垂直剧中等问题
 

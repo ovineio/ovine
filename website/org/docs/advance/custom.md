@@ -38,9 +38,6 @@ export default () => {
         commonForm: {
           title: '你好',
         },
-        commonAction: {
-          //
-        },
         // 支持纯方法转换，对于某些需要全局Json转换的场景
         commonInput: (conf) => {
           // conf 参数就是当前节点的配置

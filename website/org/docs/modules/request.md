@@ -106,6 +106,7 @@ export type ReqOption<S = {}, P = {}> = {
   mockSource?: object | ((options: ReqOption) => object) // mock数据生成器
   mockDelay?: number // mock数据延迟 默认 300
   onUploadProgress?: (event: { loaded: number; total: number }) => void // 上传进度回调
+  // 以下四个回调函数支持字符串的形式函数体
   onPreRequest?: (option: ReqOption) => ReqOption // 发起请求回调
   onRequest?: (option: ReqOption) => ReqOption // 请求时回调
   onSuccess?: (data: S, option: ReqOption<S, P>, response: ReqResponse<S>) => S // 接口请求成功回调

@@ -17,18 +17,19 @@ export default {
     list: {
       url: 'GET ovapi/document/item',
       limits: '$page',
-      onPreRequest: (source) => {
-        const { dateRange } = source.data
-        if (dateRange) {
-          const arr = dateRange.split('%2C')
-          source.data = {
-            ...source.data,
-            startDate: arr[0],
-            endDate: arr[1],
+      // 测试字符串回调
+      onPreRequest: `
+          const { dateRange } = option.data
+          if (dateRange) {
+            const arr = dateRange.split('%2C')
+            option.data = {
+              ...option.data,
+              startDate: arr[0],
+              endDate: arr[1],
+            }
           }
-        }
-        return source
-      },
+          return option
+       `,
     },
     add: {
       url: 'POST ovapi/document/item',

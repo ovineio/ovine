@@ -5,8 +5,7 @@
 /* eslint-disable consistent-return */
 import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, isPlainObject, isFunction } from 'lodash'
-import map from 'lodash/map'
+import { get, map, isPlainObject, isFunction } from 'lodash'
 import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
@@ -20,17 +19,14 @@ const log = logger.getLogger('lib:utils:request')
 
 // 请求错误集中处理， 必须 throw 错误
 function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, response?: any) {
-  const { onError } = option
-
   // log.info('requestErrorCtrl', { error, option, response })
-
   const errorSource = { option, response, error }
 
   let withInsErrorHook = true
 
   // 如果返回 false，则不调用 全局的错误处理
-  if (onError) {
-    withInsErrorHook = !!onError(response, option, error)
+  if (option.onError) {
+    withInsErrorHook = !!option.onError(response, option, error)
   }
 
   if (withInsErrorHook !== false && this.onError) {
@@ -45,17 +41,15 @@ function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, 
 }
 
 // 请求成功集中处理
-async function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOption) {
+function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOption) {
   if (this.onSuccess) {
     const res = wrapResponse(response)
-    const resData = await this.onSuccess(res.data, option, res)
-    response.data = resData
+    response.data = this.onSuccess(res.data, option, res)
   }
 
   if (option.onSuccess) {
     const res = wrapResponse(response)
-    const resData = await option.onSuccess(res.data, option, res)
-    response.data = resData
+    response.data = option.onSuccess(res.data, option, res)
   }
 
   if (this.onFinish) {
@@ -80,7 +74,7 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const fakeRes: any = {}
   fakeRes.data = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
 
-  await requestSuccessCtrl.call(this, fakeRes, option)
+  requestSuccessCtrl.call(this, fakeRes, option)
 
   if (mockDelay) {
     await promisedTimeout(mockDelay)
@@ -159,7 +153,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
           return
         }
 
-        await requestSuccessCtrl.call(this, response, option)
+        requestSuccessCtrl.call(this, response, option)
 
         return response
       } catch (error) {
@@ -229,9 +223,8 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       if (this.status <= 100 || this.status >= 400) {
         errorCtrl(new Error('status <= 100 || status >= 400'), option, wrapResponse(response, true))
       } else {
-        successCtrl(wrapResponse(response, true), option).then(() => {
-          resolve(response)
-        })
+        successCtrl(wrapResponse(response, true), option)
+        resolve(response)
       }
     }
 
@@ -332,7 +325,7 @@ function wrapResponse(response?: any, transJson?: boolean) {
 }
 
 // 获取请求参数
-async function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
+function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
   // 对象参数 先填充默认值
   let opt: Types.ReqOption = {
     fetchOptions: {},
@@ -352,21 +345,21 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   }
 
   if (this.onPreRequest) {
-    opt = await this.onPreRequest(opt)
+    opt = this.onPreRequest(opt)
   }
 
   if (onPreRequest) {
-    opt = await onPreRequest(opt)
+    opt = onPreRequest(opt)
   }
 
   let reqOption = { ...opt, ...getFetchOption.call(this as any, opt) }
 
   if (this.onRequest) {
-    reqOption = await this.onRequest(reqOption)
+    reqOption = this.onRequest(reqOption)
   }
 
   if (onRequest) {
-    reqOption = await onRequest(reqOption)
+    reqOption = onRequest(reqOption)
   }
 
   return reqOption
@@ -462,7 +455,7 @@ export class Request<IS = {}, IP = {}> {
   public onError?: (response: Types.ReqResponse, option: Types.ReqOption, error: Error) => void
 
   // 请求成功回调
-  public onSuccess?: (data: any, option: Types.ReqOption, response: Types.ReqResponse) => any
+  public onSuccess?: (source: any, option: Types.ReqOption, response: Types.ReqResponse) => any
 
   // 请求结束回调
   public onFinish?: (response: Types.ReqResponse, option: Types.ReqOption, error?: Error) => void
