@@ -6,12 +6,35 @@ import { QueryMethods } from './query'
 
 export type EditorStore = SubscriberAndCallbacksFor<typeof Actions>
 
+const initSchema = {
+  type: 'page',
+  title: '表单页面',
+  body: {
+    type: 'form',
+    mode: 'horizontal',
+    title: '',
+    api: 'https://houtai.baidu.com/api/mock2/form/saveForm',
+    controls: [
+      {
+        label: 'Name',
+        type: 'text',
+        name: 'name',
+      },
+      {
+        label: 'Email',
+        type: 'email',
+        name: 'email',
+      },
+    ],
+  },
+}
+
 export const editorInitialState = {
   nodes: {},
-  schema: {},
+  schema: initSchema,
   layout: {
-    unfoldCode: true, // 展开 code 代码编辑
-    unfoldReference: true, // 展开属性关联
+    extendCode: true, // 展开 code 代码编辑
+    extendReference: true, // 展开属性关联
     referencePosition: 'aside', // 侧边展示
     previewPosition: 'center', // 预览展示区 左中右
   },

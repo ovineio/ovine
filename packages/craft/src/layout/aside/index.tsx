@@ -5,7 +5,7 @@ import React from 'react'
 
 import { StyledAside } from './styled'
 import Tabs from './tabs'
-import Tree from './tree'
+import Tree from './treea'
 
 export default () => {
   return (

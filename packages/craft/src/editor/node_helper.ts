@@ -13,9 +13,6 @@ export function NodeHelpers(state: EditorState, id: NodeId) {
     get() {
       return node
     },
-    isCanvas() {
-      return !!node.data.isCanvas
-    },
     isRoot() {
       return node.id === rootNode
     },

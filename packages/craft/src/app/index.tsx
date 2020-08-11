@@ -1,5 +1,4 @@
-import 'jquery.fancytree/dist/skin-win8/ui.fancytree.css'
-import 'jquery.fancytree'
+import 'react-sortable-tree/style.css'
 
 import React from 'react'
 

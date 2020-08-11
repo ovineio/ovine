@@ -7,6 +7,7 @@ export const Actions = (state: EditorState) => {
   const getParentAndValidate = (parentId: NodeId): Node => {
     return state.nodes[parentId]
   }
+
   /** Helper functions */
   const addNodeToParentAtIndex = (node: Node, parentId: NodeId, index?: number) => {
     const parent = getParentAndValidate(parentId)
@@ -156,6 +157,11 @@ export const Actions = (state: EditorState) => {
 
     replaceNodes(nodes: Nodes) {
       state.nodes = nodes
+      this.clearEvents()
+    },
+
+    replaceSchema(schema: any) {
+      state.schema = schema
       this.clearEvents()
     },
 

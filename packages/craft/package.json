@@ -9,7 +9,8 @@
   "scripts": {
     "tsc": "yarn clean && ttsc",
     "dev": "ttsc -w",
-    "clean": "rimraf ./lib"
+    "clean": "rimraf ./lib",
+    "eslint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "repository": {
     "type": "git",
@@ -42,7 +43,7 @@
     "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
-    "jquery.fancytree": "^2.35.0"
+    "react-sortable-tree": "^2.7.1"
   },
   "engines": {
     "node": ">=10.9.0"

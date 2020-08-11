@@ -202,9 +202,9 @@ export function useMethods<S, R extends MethodRecordBase<S>, Q extends QueryMeth
 
   const actions = useMemo(() => {
     const actionTypes: ActionUnion<R>['type'][] = Object.keys(methodsFactory(null as any, null))
-    return actionTypes.reduce((accum, type) => {
-      accum[type] = (...payload) => dispatch({ type, payload } as ActionUnion<R>)
-      return accum
+    return actionTypes.reduce((acc, type) => {
+      acc[type] = (...payload) => dispatch({ type, payload } as ActionUnion<R>)
+      return acc
     }, {} as CallbacksFor<typeof methodsFactory>)
   }, [methodsFactory])
 
