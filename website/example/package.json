@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.0.7-alpha.1",
+  "version": "0.0.7",
   "description": "your awesome project.",
   "private": true,
   "scripts": {
