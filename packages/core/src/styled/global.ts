@@ -45,17 +45,15 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  /** 适配 bootstrap 升级,等 amis 官方升级搭配 4.0+ 就可以 */
-  /* svg.icon {
-    top: 0 !important;
-  }
-  [role=button] {
-    cursor: pointer;
-  } */
-
 
   /** lib 主题相关的全局样式 */
   /** amis 兼容  */
+
+  /** mce editor 弹出层兼容 暂时使用 important */
+  .tox.tox-tinymce-aux {
+    z-index: 1500 !important;
+  }
+
   ${({ theme: { ns, colors } }) => css`
     body > div {
       color: ${colors.text};
@@ -107,16 +105,6 @@ const GlobalStyle = createGlobalStyle`
         display: none;
       }
     }
-
-    /** 分页图标兼容问题 */
-    /* .${ns}Pagination {
-      &-prev,
-      &-next {
-        svg {
-          margin-top: -2px;
-        }
-      }
-    } */
   `}
 
   /** site 全局样式 */

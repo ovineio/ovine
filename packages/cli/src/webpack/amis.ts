@@ -2,7 +2,7 @@
  * fix amis code by webpack loader
  */
 
-import { staticLibDirPath } from '../constants'
+import { dllVendorDirPath } from '../constants'
 
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
 export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
@@ -10,12 +10,14 @@ export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.j
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
 
+const monacoVar = require('monaco-editor/package.json').version
+
 export const fixEditorLoader = ({ publicPath }: any) => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
     search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
     flags: 'm',
-    replace: `function filterUrl(url) {return '${`${publicPath}${staticLibDirPath}/`}' + url.substring(1);`,
+    replace: `function filterUrl(url) {return '${`${publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`,
   },
 })
 

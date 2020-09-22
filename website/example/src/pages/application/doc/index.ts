@@ -1,3 +1,5 @@
+import { apis } from '~/app/common/apis'
+
 export const schema = {
   type: 'page',
   body: {
@@ -81,6 +83,7 @@ export const schema = {
           name: 'content',
           label: '文档',
           type: 'rich-text',
+          reciever: apis.uploadImg,
         },
       ],
     },

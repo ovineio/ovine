@@ -271,7 +271,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
                 name: `${staticDirName}/${libName}/themes/[name]_[contenthash:6].css`,
               },
             },
-            'extract-loader',
+            require.resolve('./loaders/extract_loader'),
             'css-loader',
           ],
         },
@@ -449,14 +449,14 @@ function getCopyPlugin(siteDir: string) {
     })
   }
 
-  const amisPkg = getModulePath(siteDir, 'amis/sdk/pkg')
-  if (amisPkg) {
-    copyFiles.unshift({
-      from: amisPkg,
-      to: `${outLibDir}/pkg/[name].[ext]`,
-      toType: 'template',
-    })
-  }
+  // const amisPkg = getModulePath(siteDir, 'amis/sdk/pkg')
+  // if (amisPkg) {
+  //   copyFiles.unshift({
+  //     from: amisPkg,
+  //     to: `${outLibDir}/pkg/[name].[ext]`,
+  //     toType: 'template',
+  //   })
+  // }
 
   const coreStatic = getModulePath(siteDir, 'lib/core/static')
   if (coreStatic) {

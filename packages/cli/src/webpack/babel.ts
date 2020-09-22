@@ -50,6 +50,7 @@ function extendsConfig(siteDir: string) {
 export function getBabelConfig(siteDir: string) {
   return {
     ...extendsConfig(siteDir),
+    compact: false,
     presets: [
       [
         '@babel/preset-env',
@@ -74,7 +75,7 @@ export function getBabelConfig(siteDir: string) {
 export function getDllBabelConfig(siteDir: string) {
   return {
     ...extendsConfig(siteDir),
-    compact: true,
+    compact: false,
     plugins: ['@babel/plugin-syntax-dynamic-import'],
   }
 }
