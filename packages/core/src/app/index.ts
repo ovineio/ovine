@@ -141,9 +141,9 @@ class App extends AppProxy {
 
   private setEnv(value: Types.DeepPartial<EnvConfig>) {
     const mode = process.env.ENV || defaultEnvMode
+
     const isMock = process.env.MOCK
-    const isRelease =
-      !isMock && process.env.NODE_ENV === 'production' && get(value, `${mode}.isProd`)
+    const isRelease = process.env.NODE_ENV === 'production' && get(value, `${mode}.isProd`)
 
     const env = defaultsDeep(
       {
@@ -166,10 +166,10 @@ class App extends AppProxy {
 
     checkAppGetter('requestFunc', requestIns)
     // 设置 request 环境变量
-
+    const env = source.env || initEnv
     requestIns.setConfig({
-      isRelease: get(source, 'env.isRelease') || initEnv.isRelease,
-      domains: get(source, 'env.domains') || initEnv.domains,
+      isMock: env.isMock && !env.isRelease,
+      domains: env.domains,
     })
 
     const requestHandle: any = requestIns.request.bind(requestIns)
