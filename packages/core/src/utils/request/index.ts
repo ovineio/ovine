@@ -61,7 +61,7 @@ function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOptio
 async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const { mockSource, api, url, mock = true, mockDelay = 200 } = option
 
-  if (this.isRelease || !mock || !mockSource) {
+  if (!this.isMock || !mock || !mockSource) {
     return 'none'
   }
 
@@ -442,8 +442,8 @@ export class Request<IS = {}, IP = {}> {
   // 配置的域名
   public domains: { [domain: string]: string } = {}
 
-  // 是否是 发版环境
-  public isRelease?: boolean
+  // 是否是Mock环境
+  public isMock?: boolean
 
   // 请求预处理阶段
   public onPreRequest?: (option: Types.ReqOption) => Types.ReqOption
@@ -462,9 +462,9 @@ export class Request<IS = {}, IP = {}> {
 
   // 设置配置
   public setConfig(config?: Types.ReqConfig) {
-    const { domains = {}, isRelease } = config || {}
+    const { domains = {}, isMock } = config || {}
     this.domains = domains
-    this.isRelease = isRelease
+    this.isMock = isMock
   }
 
   // 解析请求参数

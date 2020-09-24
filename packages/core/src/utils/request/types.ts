@@ -61,5 +61,5 @@ export type ReqApiRes<T> = {
 
 export type ReqConfig = {
   domains: { [domain: string]: string }
-  isRelease?: boolean
+  isMock?: boolean
 }
