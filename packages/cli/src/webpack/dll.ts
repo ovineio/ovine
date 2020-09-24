@@ -117,6 +117,11 @@ export function monacoWorkerConfig(options: ConfigOptions): any {
     performance: {
       hints: false, // not necessary
     },
+    plugins: [
+      new CleanPlugin({
+        cleanOnceBeforeBuildPatterns: _.keys(entry).map((i) => `${i}.*`),
+      }),
+    ],
   }
 
   return config
