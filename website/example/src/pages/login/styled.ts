@@ -1,10 +1,11 @@
 import { css, DefaultTheme } from 'styled-components'
 
-export default ({ colors }: DefaultTheme) => css`
+export default ({ name }: DefaultTheme) => css`
   .login-wrapper {
+    position: relative;
     max-width: 450px;
     margin: 12% auto 0;
-    background-color: ${colors.layoutHeaderBg};
+    background-color: ${name === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(255, 255, 255, 0.9)'};
   }
 
   .login-title {

@@ -2,7 +2,7 @@
  * fix amis code by webpack loader
  */
 
-import { staticLibDirPath } from '../constants'
+import { dllVendorDirPath } from '../constants'
 
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
 export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
@@ -10,12 +10,14 @@ export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.j
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
 
+const monacoVar = require('monaco-editor/package.json').version
+
 export const fixEditorLoader = ({ publicPath }: any) => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
     search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
     flags: 'm',
-    replace: `function filterUrl(url) {return '${`${publicPath}${staticLibDirPath}/`}' + url.substring(1);`,
+    replace: `function filterUrl(url) {return '${`${publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`,
   },
 })
 
@@ -54,6 +56,40 @@ export const fixFactoryLoader = () => ({
         search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
         flags: 'm',
         replace: '? options.fetcher ',
+      },
+      {
+        // var react_1 = tslib_1.__importDefault(require("react"));
+        search: 'var\\sreact_1\\s=\\stslib_1\\.__importDefault\\(require\\("react"\\)\\);',
+        flags: 'm',
+        replace: `
+          var react_1 = tslib_1.__importDefault(require("react"));
+          var react_dom_1 = require("react-dom");`,
+      },
+      {
+        // SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
+        search:
+          'SchemaRenderer\\.prototype\\.componentWillReceiveProps\\s=\\sfunction\\s\\(nextProps\\)\\s{',
+        flags: 'm',
+        replace: `
+          SchemaRenderer.prototype.componentDidMount = function () {
+              var dataId = this.props.schema.$dataId;
+              if (dataId && this.ref) {
+                  var $dom = react_dom_1.findDOMNode(this.ref);
+                  $dom.dataset.id = dataId;
+              }
+          };
+          SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
+              var props = this.props;
+              if (props.schema.$dataId !== nextProps.schema.$dataId && this.ref) {
+                  var $dom = react_dom_1.findDOMNode(this.ref);
+                  if (nextProps.schema.$dataId) {
+                      $dom.dataset.id = nextProps.schema.$dataId;
+                  }
+                  else {
+                      delete $dom.dataset.id;
+                  }
+              }
+        `,
       },
     ],
   },

@@ -1,7 +1,7 @@
 export type ReqMethod = 'GET' | 'PUT' | 'DELETE' | 'POST' | 'PATCH' | 'HEAD' | 'OPTIONS'
 
 export type ReqSuccessHook<S = any, P = any> = (
-  data: S,
+  source: S,
   option: ReqOption<S, P>,
   response: ReqResponse<S>
 ) => S
@@ -61,5 +61,5 @@ export type ReqApiRes<T> = {
 
 export type ReqConfig = {
   domains: { [domain: string]: string }
-  isRelease?: boolean
+  isMock?: boolean
 }

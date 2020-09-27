@@ -11,8 +11,8 @@ import { normalizeUrl } from '@/utils/request'
 const log = logger.getLogger('lib:amis:api')
 
 /**
- * 注意：Amis buildApi 方法，不支持 Ovine请求字符串格式。
- * 因此会将所有请求都处理为 默认 get 请求。除非传入确的小写method，
+ * 注意：Amis buildApi 方法，不支持 Ovine 请求字符串格式。
+ * 因此会将所有请求都处理为 默认 get 请求。除非传入确的小写 method
  */
 
 /**
@@ -35,6 +35,18 @@ function responseAdaptor(res: any) {
     msgTimeout: data.msgTimeout,
     data: data.data,
     errors: data.errors,
+  }
+}
+
+// 字符串转 Function
+function str2function(name: string, content: string, ...args: Array<string>): Function | null {
+  try {
+    // eslint-disable-next-line
+    const func = new Function(...args, content)
+    return func
+  } catch (error) {
+    log.warn(`Request模块 ${name} 转 Function 错误`, error)
+    return null
   }
 }
 
@@ -72,10 +84,26 @@ export const libFetcher = (
   amisApi.config = option
   amisApi.isEnvFetcher = true
 
-  if (amisApi.requestAdaptor || amisApi.adaptor) {
+  const { requestAdaptor, adaptor, onPreRequest, onRequest, onSuccess, onError } = amisApi
+
+  if (requestAdaptor || adaptor) {
     log.warn(
       '不兼容 requestAdaptor,adaptor 参数，请使用 onPreRequest, onSuccess 代替。文档地址：https://ovine.igroupes.com/org/docs/modules/request'
     )
+  }
+
+  // 检测是回调字符串 转 Function
+  if (onPreRequest && typeof onPreRequest === 'string') {
+    amisApi.onPreRequest = str2function('onPreRequest', onPreRequest, 'option')
+  }
+  if (onRequest && typeof onRequest === 'string') {
+    amisApi.onRequest = str2function('onRequest', onRequest, 'option')
+  }
+  if (onSuccess && typeof onSuccess === 'string') {
+    amisApi.onSuccess = str2function('onSuccess', onSuccess, 'source', 'option', 'response')
+  }
+  if (onError && typeof onError === 'string') {
+    amisApi.onError = str2function('onError', onError, 'response', 'option', 'error')
   }
 
   // 特殊情况 不作处理

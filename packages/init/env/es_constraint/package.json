@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
+    "build": "yarn eslint && ovine build",
     "scss": "ovine scss",
     "dll": "ovine dll",
     "ovine": "ovine",

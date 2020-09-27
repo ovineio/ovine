@@ -1,5 +1,5 @@
 /**
- *   scss importer
+ *   scss importer 主要用于 扩展 amis 主题 scss 文件的编译
  */
 import fs from 'fs-extra'
 import _ from 'lodash'

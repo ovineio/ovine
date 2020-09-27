@@ -2,6 +2,9 @@
  * 应用入口
  */
 
+import remoteTestMock from '~/pages/application/hot/mock'
+import remoteTestPreset from '~/pages/application/hot/preset'
+
 import { layout } from './layout'
 import { onAuth } from './user'
 
@@ -30,3 +33,22 @@ export const entry = [
     onAuth, // 每次页面鉴权 需要调用的认证方法
   },
 ]
+
+// app 回调方法
+export const hook = {
+  // 也可以是 async 异步读取接口
+  beforeCreate: (app) => {
+    // 重写 app 的一些配置
+    app.asyncPage = {
+      preset: {
+        '/test/remote_schema': remoteTestPreset,
+      },
+      mock: {
+        '/test/remote_schema': remoteTestMock,
+      },
+    }
+  },
+  onAppMounted: () => {
+    // 当 App 首次被渲染时的回调
+  },
+}

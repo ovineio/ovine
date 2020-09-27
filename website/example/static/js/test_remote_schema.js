@@ -2,6 +2,8 @@
   window.ovine.addPageSchemaJs('/test/remote_schema', {
     schema: {
       type: 'page',
+      title: '本页面是通过异步加载JS来实现渲染的',
+      remark: '可以通过接口或其他方式，获取本页面Schema JS 并进行渲染，可以动态修改页面而不需要构建打包。',
       body: {
         type: 'lib-crud',
         api: '$preset.apis.list',

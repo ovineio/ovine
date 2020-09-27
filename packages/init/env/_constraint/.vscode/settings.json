@@ -5,6 +5,7 @@
     "source.fixAll.eslint": true,
     "source.fixAll": true
   },
+  "editor.foldingStrategy": "indentation",
   "editor.formatOnSave": true,
   "cSpell.ignoreWords": ["ovapi", "immer", "tsbuildinfo"]
 }

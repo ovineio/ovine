@@ -1,5 +1,7 @@
 # Ovine
 
+![download](https://img.shields.io/npm/dt/@ovine/core?color=%23349c92b) ![version](https://img.shields.io/npm/v/@ovine/core?color=%2349c92b) ![node](https://img.shields.io/node/v/@ovine/cli?color=%23349c92b) ![license](https://img.shields.io/npm/l/@ovine/core?color=%23349c92b)
+
 ##### Ovine 支持使用 Json 构建完整的管理系统界面。
 
 `QQ交流群: 1037291990`

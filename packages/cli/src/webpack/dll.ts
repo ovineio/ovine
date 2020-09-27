@@ -1,5 +1,6 @@
 import AssetsPlugin from 'assets-webpack-plugin'
 import CleanPlugin from 'clean-webpack-plugin'
+import fse from 'fs-extra'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -78,6 +79,52 @@ function setDllVendorModules(config) {
       )
     }
   }
+}
+
+export function monacoWorkerConfig(options: ConfigOptions): any {
+  const { publicPath, siteDir } = options
+
+  const monacoVar = require('monaco-editor/package.json').version
+  const venderPath = `${siteDir}/${dllDirPath}`
+
+  const entries = {
+    'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
+    'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
+    'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
+    'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
+    'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+  }
+
+  const entry = _.omitBy(entries, (__, key) => {
+    return fse.existsSync(`${venderPath}/${key}.${monacoVar}.js`)
+  })
+
+  // avoid same version repeat pack
+  if (_.isEmpty(entry)) {
+    return false
+  }
+
+  // monaco-editor doc: https://github.com/Microsoft/monaco-editor/blob/HEAD/docs/integrate-esm.md
+  const config = {
+    entry,
+    mode: 'production',
+    output: {
+      pathinfo: false,
+      path: venderPath,
+      filename: `[name].${monacoVar}.js`,
+      publicPath: `${publicPath}${dllVendorDirPath}/`,
+    },
+    performance: {
+      hints: false, // not necessary
+    },
+    plugins: [
+      new CleanPlugin({
+        cleanOnceBeforeBuildPatterns: _.keys(entry).map((i) => `${i}.*`),
+      }),
+    ],
+  }
+
+  return config
 }
 
 const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg } = amis
@@ -162,7 +209,9 @@ export function createDllConfig(options: ConfigOptions) {
       new LogPlugin({
         name: `${libName}-VendorDll`,
       }),
-      new CleanPlugin(),
+      new CleanPlugin({
+        cleanOnceBeforeBuildPatterns: ['**/*', '!*.worker.*'],
+      }),
       new MiniCssExtractPlugin({
         filename: `${dllName}.css`,
         chunkFilename: 'chunk_[name]_[chunkhash:6].css',

@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.0.7-alpha.0",
+  "version": "0.0.8",
   "description": "your awesome project.",
   "private": true,
   "scripts": {
@@ -8,9 +8,8 @@
     "start": "ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
     "dev:lib": "rm -rf ./node_modules/@ovine/core && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
-    "build": "ovine build --mock",
-    "build:staging": "ovine build --env=staging",
-    "build:test": "ovine build --mock",
+    "build:test": "yarn eslint && ovine build --mock",
+    "build:staging": "yarn eslint && ovine build --env=staging",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "scss": "ovine scss",
     "dll": "ovine dll",
