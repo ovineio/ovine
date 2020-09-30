@@ -1,98 +1,49 @@
-import { debounce } from 'lodash'
+import { debounce, includes } from 'lodash'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-const Wrap = styled.div`
-  .attach {
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-    user-select: none;
-  }
-  .hlbox {
-    position: absolute;
-    border: 1px solid #4285f4;
-    background: rgba(66, 133, 244, 0.05);
-  }
-  .tip,
-  .toolbar {
-    position: absolute;
-    height: 25px;
-    padding: 0 5px;
-    border: 1px solid #4285f4;
-    border-bottom: 0;
-    text-align: center;
-    background: rgba(66, 133, 244, 0.05);
-  }
+import { domIds } from '@/constants'
+import { referenceStore } from '@/components/reference/store'
 
-  .hover {
-    border-style: dashed;
-    background: transparent;
-    .tip {
-      border-style: dashed;
-      background: transparent;
-    }
-  }
-  .tip {
-    top: -25px;
-    left: -1px;
-    min-width: 50px;
-  }
-  .toolbar {
-    position: absolute;
+import { usePreviewStore } from '../store'
 
-    button {
-      background: transparent;
-      border: 0;
-      color: #666;
-    }
-  }
-`
-
-// nodes 节点池
-const nodes = {
-  'page-1': {
-    type: 'page',
-  },
-  'card-3': {
-    type: 'card',
-  },
-  'button-1': {
-    type: 'button',
-  },
-}
+import { StyledAttacher } from './styled'
 
 const displayNone = { display: 'none' }
 
 export default () => {
+  const {
+    setHoverId,
+    setSelectedId,
+    selectedId,
+    hoverInfo,
+    selectedInfo,
+    renderSchema,
+  } = usePreviewStore()
+
   const [hover, setHover] = useState({ style: displayNone })
   const [selected, setSelected] = useState({
     style: displayNone,
+    tipStyle: displayNone,
     toolbarStyle: displayNone,
   })
   const $wrap = useRef(null)
 
-  const hoverInfo = nodes[hover.id] || {}
-  const selectedInfo = nodes[selected.id] || {}
-
   const removeHover = () => {
     setHover({ style: displayNone })
+    setHoverId('')
   }
 
-  const onActive = (type, event, parentRect) => {
-    const $this = $(event.target)
-    const $ele = $this.closest('[data-id]')
-    const activeId = $ele.data('id')
-
+  const onActive = (type, $ele, parentRect) => {
     // 没有 data-id 标记的内容，不处理
     if (!$ele.length) {
       return
     }
 
+    const activeId = $ele.data('id')
+
     // 已经选择对象的不能被hover,或者再次选择
-    if ($wrap.current?.dataset.selected === activeId) {
+    if (type !== 'updateSelected' && $wrap.current?.dataset.selected === activeId) {
       removeHover()
       return
     }
@@ -107,47 +58,76 @@ export default () => {
     }
 
     if (type === 'hover') {
-      setHover({ id: activeId, style })
+      setHoverId(activeId)
+      setHover({ style })
       return
     }
 
-    if (type === 'selected') {
+    if (includes(['selected', 'updateSelected'], type)) {
       const toolbarStyle = {
         display: 'block',
         right: parentRect.right - right,
         top: top - parentRect.top - 25,
       }
-      const tipStyle = { display: width >= 100 ? 'display' : 'none' }
+      const tipStyle = { display: width >= 100 ? 'block' : 'none' }
 
       removeHover()
-      setSelected({ id: activeId, style, toolbarStyle, tipStyle })
-
-      
+      setSelectedId(activeId)
+      setSelected({ style, toolbarStyle, tipStyle })
     }
   }
 
   useEffect(() => {
-    const $preview = $('#editor-preview')
+    const $preview = $(`#${domIds.editorPreview}`)
     const parentRect = $preview[0].getBoundingClientRect()
 
     $preview
       .on('mouseleave', removeHover)
       .on(
         'click',
-        debounce((e) => onActive('selected', e, parentRect), 200)
+        debounce((e) => {
+          const $ele = $(e.target).closest('[data-id]')
+          onActive('selected', $ele, parentRect)
+        }, 200)
       )
       .on(
         'mouseover',
-        debounce((e) => onActive('hover', e, parentRect), 200)
+        debounce((e) => {
+          const $ele = $(e.target).closest('[data-id]')
+          onActive('hover', $ele, parentRect)
+        }, 200)
       )
 
     return () => {
-      $('#app-root').off()
+      $preview.off()
     }
   }, [])
 
+  useEffect(() => {
+    referenceStore.setSchema(selectedInfo.schema)
+  }, [selectedInfo.schema])
+
+  useEffect(() => {
+    if (!$wrap.current) {
+      return
+    }
+
+    const { selected } = $wrap.current.dataset
+    if (!selected) {
+      return
+    }
+
+    const $preview = $(`#${domIds.editorPreview}`)
+    const parentRect = $preview[0].getBoundingClientRect()
+    const $selected = $preview.find(`[data-id="${selected}"]`)
+
+    setTimeout(() => {
+      onActive('updateSelected', $selected, parentRect)
+    }, 100)
+  }, [renderSchema])
+
   return (
-    <Wrap ref={$wrap} data-selected={selected.id}>
+    <StyledAttacher ref={$wrap} data-selected={selectedId}>
       <div className="toolbar" style={selected.toolbarStyle}>
         <button type="button" data-tooltip="可拖拽修改位置" data-position="bottom">
           <i className="fa fa-arrows" />
@@ -169,6 +149,6 @@ export default () => {
           <div className="tip">{hoverInfo.type}</div>
         </div>
       </div>
-    </Wrap>
+    </StyledAttacher>
   )
 }

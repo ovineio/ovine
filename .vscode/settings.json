@@ -8,5 +8,13 @@
   "editor.foldingStrategy": "indentation",
   "editor.formatOnSave": true,
   "typescript.updateImportsOnFileMove.enabled": "prompt",
-  "cSpell.ignoreWords": ["immer", "ovapi", "abortcontroller", "glyphicon", "toboos", "tsbuildinfo"]
+  "cSpell.ignoreWords": [
+    "immer",
+    "ovapi",
+    "abortcontroller",
+    "glyphicon",
+    "toboos",
+    "tsbuildinfo",
+    "mobx"
+  ]
 }

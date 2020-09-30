@@ -41,7 +41,7 @@ export const Amis = withRouter((props: Props) => {
     if (!rawSchema || !isObject(rawSchema) || isEmpty(rawSchema)) {
       return {
         type: 'html',
-        html: '请传入有效schema',
+        html: '请传入有效 schema',
       }
     }
 

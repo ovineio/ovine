@@ -43,7 +43,7 @@
     "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
-    "react-sortable-tree": "^2.7.1"
+    "baobab": "^2.6.0"
   },
   "engines": {
     "node": ">=10.9.0"
