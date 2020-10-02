@@ -7,20 +7,9 @@ import { idKey, nodes } from '@/constants'
 
 import { getIdKeyPath, parseSchema, getRenderSchema } from './utils'
 
-// 所有类型
-// const NodeType = types.enumeration('type', ['page'])
-
-// 单个节点
-// const Node = types.model('Node', {
-//   id: types.string,
-//   type: types.string,
-// })
-
 // 根节点
 const Preview = types
   .model('PreviewState', {
-    // 所有的页面节点
-    // nodes: types.map(Node),
     // 移动悬浮的ID
     hoverId: types.maybeNull(types.string),
     // 选中的ID
@@ -55,7 +44,7 @@ const Preview = types
       },
       // baobab 对象
       get baobabSchema() {
-        return new Baobab(self.schema)
+        return new Baobab(self.schema || {})
       },
 
       // 悬浮的 node 游标
@@ -90,23 +79,28 @@ const Preview = types
     }
   })
   .actions((self) => {
+    const setRawSchema = (schema) => {
+      self.schema = schema
+    }
+
     const setSchema = (schema, isClone) => {
-      parseSchema(self, schema)
+      parseSchema(self, schema, isClone)
     }
 
     const saveBaobabSchema = (cursor) => {
-      setSchema(cursor.root().get(), false)
+      setSchema(cursor.root().get())
     }
 
-    const setHoverId = (hoverId) => {
-      self.hoverId = hoverId
+    const setHoverId = (id) => {
+      self.hoverId = id
     }
 
-    const setSelectedId = (selectedId) => {
-      self.selectedId = selectedId
+    const setSelectedId = (id) => {
+      self.selectedId = id
     }
 
     return {
+      setRawSchema,
       setSchema,
       saveBaobabSchema,
       setHoverId,
@@ -124,10 +118,13 @@ export const usePreviewStore = () => {
 
 export const previewStore = Preview.create({})
 
-previewStore.setSchema({
+export const initialStore = {
   type: 'page',
+  title: 'test',
   body: {
     type: 'html',
     html: '123',
   },
-})
+}
+
+previewStore.setSchema(initialStore)

@@ -4,8 +4,16 @@
 
 import React from 'react'
 
+import Containers from './container/'
+
 import { StyledPanel } from './styled'
 
 export default () => {
-  return <StyledPanel>panel</StyledPanel>
+  const Container = Containers.Page
+
+  return (
+    <StyledPanel>
+      <Container />
+    </StyledPanel>
+  )
 }

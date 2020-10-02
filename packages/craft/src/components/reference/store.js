@@ -1,7 +1,6 @@
 import { createContext, useContext } from 'react'
 import { types } from 'mobx-state-tree'
-
-import { isPlainObject, map, cloneDeep, omitBy, isUndefined, debounce } from 'lodash'
+import _ from 'lodash'
 
 import nodes from '@/constants/nodes'
 import { previewStore } from '@/components/preview/store'
@@ -16,14 +15,14 @@ const Reference = types
     },
   }))
   .actions((self) => {
-    const onChange = debounce((_, diff) => {
+    const onChange = _.throttle((__, diff) => {
       const cursor = previewStore.selectedCursor
-      cursor.merge(omitBy(diff, isUndefined))
+      cursor.merge(_.omitBy(diff, _.isUndefined))
       previewStore.saveBaobabSchema(cursor)
-    }, 200)
+    }, 100)
 
-    const getTabsSchema = (schema) => {
-      if (!isPlainObject(schema)) {
+    const getTabsSchema = (schema, data) => {
+      if (!_.isPlainObject(schema)) {
         return {
           type: 'html',
           html: '请选择编辑对象',
@@ -38,11 +37,16 @@ const Reference = types
 
       return {
         type: 'tabs',
-        tabs: map(cloneDeep(schema), (controls, key) => {
+        tabsId: _.uniqueId(),
+        tabs: _.map(_.cloneDeep(schema), (controls, key) => {
           return {
             title: titles[key],
             body: {
               type: 'form',
+              data: _.pick(
+                data,
+                controls.map((i) => i.name)
+              ),
               submitOnChange: true,
               wrapWithPanel: false,
               onChange,
@@ -53,8 +57,8 @@ const Reference = types
       }
     }
 
-    const setSchema = (schema) => {
-      if (!isPlainObject(schema)) {
+    const setSchema = (schema, isClone = false) => {
+      if (!_.isPlainObject(schema) || _.isEmpty(schema)) {
         self.schema = {
           type: 'html',
           html: '请选择编辑对象',
@@ -73,10 +77,7 @@ const Reference = types
         return
       }
 
-      const refSchema = {
-        ...getTabsSchema(node.refProps),
-        data: cloneDeep(schema),
-      }
+      const refSchema = getTabsSchema(node.refProps, isClone ? _.cloneDeep(schema) : schema)
 
       self.schema = refSchema
     }
@@ -86,9 +87,9 @@ const Reference = types
     }
   })
 
-export const referenceStore = Reference.create({})
-
 const ReferenceContext = createContext(null)
+
+export const referenceStore = Reference.create({})
 
 export const ReferenceProvider = ReferenceContext.Provider
 

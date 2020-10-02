@@ -57,13 +57,7 @@ const Aside = types
     const setTab = (tab) => {
       self.isShowNodes = false
 
-      if (tab === 'page') {
-        self.isShowPanel = false
-      } else {
-        self.isShowPanel = true
-      }
-
-      if (includes(['requests', 'requests', 'limits'], tab)) {
+      if (includes(['requests', 'limits'], tab)) {
         self.isShowNodes = false
       } else {
         self.isShowNodes = true
@@ -79,7 +73,7 @@ const Aside = types
 
 export const asideStore = Aside.create({
   tab: 'page',
-  isShowPanel: false,
+  isShowPanel: true,
   isShowNodes: true,
 })
 

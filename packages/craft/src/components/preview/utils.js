@@ -1,4 +1,3 @@
-import { uuid } from 'amis/lib/utils/helper'
 import {
   difference,
   get,
@@ -9,12 +8,15 @@ import {
   map,
   omit,
   cloneDeep,
+  uniqueId,
 } from 'lodash'
 
 import { idKey } from '@/constants'
 
+import history from '@/stores/history'
+
+// 根据 ID 获取 key 的路径
 export function getIdKeyPath(source, nodeId) {
-  // console.log('##))==>', source, nodeId)
   if (!isObjectLike(source)) {
     return []
   }
@@ -43,18 +45,15 @@ export function getIdKeyPath(source, nodeId) {
   return path
 }
 
-export function parseSchema(self, sourceSchema, isClone = true) {
-  let schema = {}
-
+// 处理数据 原始 schema 数据
+export function parseSchema(self, source, isClone = false) {
   // 防止数据篡改
-  const source = isClone ? cloneDeep(sourceSchema) : sourceSchema
+  const schema = isClone ? cloneDeep(source) : source
 
   // 异常数据
-  if (!isObjectLike(source) || isEmpty(source)) {
-    const id = uuid()
+  if (!isObjectLike(schema) || isEmpty(schema)) {
     self.schema = {
       type: 'tpl',
-      $dataId: id,
       tpl: '请输入有效 schema',
     }
     return
@@ -70,23 +69,29 @@ export function parseSchema(self, sourceSchema, isClone = true) {
 
     // 将每一个有 type 属性的渲染器，添加 id 标记
     if (type && !node.$dataId) {
-      const id = uuid()
+      const id = uniqueId('node-')
       node.$dataId = id
     }
 
     map(node, travel)
   }
 
-  travel(source)
+  travel(schema)
+
+  history.addFrame({
+    selectedId: self.selectedId,
+    schema: cloneDeep(schema),
+  })
+
   // 设置 处理后的配置
-  self.schema = source
+  self.schema = schema
 }
 
 export function getRenderSchema(self) {
-  const source = cloneDeep(self.schema)
+  const schema = cloneDeep(self.schema)
 
   // 异常数据
-  if (!isObjectLike(source) || isEmpty(source)) {
+  if (!isObjectLike(schema) || isEmpty(schema)) {
     return {
       type: 'tpl',
       tpl: '请输入有效 schema',
@@ -123,7 +128,7 @@ export function getRenderSchema(self) {
     })
   }
 
-  travel(source)
+  travel(schema)
 
-  return source
+  return schema
 }
