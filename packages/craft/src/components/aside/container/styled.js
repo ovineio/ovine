@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 const transPos = (p) => {
-  const { t, r, b, l } = p.pos || {}
+  const { t, r, b, l } = p
   return {
     top: t,
     right: r,

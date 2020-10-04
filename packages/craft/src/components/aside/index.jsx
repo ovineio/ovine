@@ -3,31 +3,65 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
+import { Tab, Tabs } from 'amis'
+import { map } from 'lodash'
+
+import { app } from '@core/app'
 
 import { useRootStore } from '@/stores'
 
 import Bar from './bar'
-import Panel from './panel'
+import allTab from './tab'
 import Nodes from './nodes'
 
 import { StyledAside, StyledContent } from './styled'
 
-import { AsideProvider, asideStore, useAsideStore } from './store'
+import { tabs, AsideProvider, asideStore, useAsideStore } from './store'
 
 const Aside = observer(() => {
-  const { isShowPanel, isShowNodes } = useAsideStore()
   const { isStageMode } = useRootStore()
+  const { isShowNodes, tab: activeTab, setTab } = useAsideStore()
+
+  const theme = app.theme.getName()
+
+  useEffect(() => {
+    const $tabs = $('.craft-aside-tab')
+
+    // 使用jq 添加提示
+    $tabs
+      .find('li')
+      .each((index, item) => {
+        const info = Object.values(tabs)[index] || {}
+        const $li = $(item)
+        $li.attr({
+          'data-toggle': 'tooltip',
+          'data-placement': 'right',
+          title: info.title,
+        })
+      })
+      .tooltip()
+  }, [])
 
   return (
     <StyledAside className={isStageMode ? 'd-none' : 'd-flex'}>
-      <Bar />
-      <StyledContent>
-        {!isShowPanel && !isShowNodes && <div>暂无内容</div>}
-        {isShowPanel && <Panel />}
-        {isShowNodes && <Nodes />}
-      </StyledContent>
+      <Tabs
+        className="craft-aside-tab"
+        mode="vertical"
+        theme={theme}
+        activeKey={activeTab}
+        onSelect={setTab}
+      >
+        {map(tabs, (info, tab) => {
+          const TabContent = allTab[_.upperFirst(tab)]
+          return (
+            <Tab key={tab} theme={theme} icon={info.icon} eventKey={tab}>
+              {TabContent && <TabContent />}
+            </Tab>
+          )
+        })}
+      </Tabs>
     </StyledAside>
   )
 })

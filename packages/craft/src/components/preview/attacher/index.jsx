@@ -1,4 +1,6 @@
 /**
+ * 悬浮/或者选中 选中时的高亮
+ *
  * TODO:
  * 1. 完善toolbar 快捷操作
  * 2. 针对不同类型不同toolbar操作
@@ -137,6 +139,7 @@ export default observer(() => {
 
   // selectedId 改变， 高亮与关联面板 同时更新
   const onSelected = throttle(() => {
+    // 取消选中
     if (!selectedId) {
       referenceStore.setSchema({})
       cancelSelected()

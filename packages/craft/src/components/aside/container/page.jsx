@@ -13,7 +13,7 @@ export default () => {
         </div>
         <div className="part-body">
           <div className="part-toolbar">
-            <Corner>工具栏</Corner>
+            <Corner r="0">工具栏</Corner>
             <Horizontal className="center" />
           </div>
           <div className="part-content">

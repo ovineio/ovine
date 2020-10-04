@@ -1,4 +1,7 @@
 import React from 'react'
+import _ from 'lodash'
+
+import { toggleSelector } from '@/components/selector'
 
 import * as S from './styled'
 
@@ -12,15 +15,27 @@ export const Container = (props) => {
 }
 
 export const Horizontal = (props) => {
+  const showSelector = () => {
+    toggleSelector({
+      toggle: true,
+      text: '在工具栏最左边添加组件',
+    })
+  }
   return (
     <S.StyledHorizontal className={props.className}>
       <ul>
         <li
           className="fa fa-toggle-left  m-r-xs"
-          data-tooltip="在最左边添加组件"
+          data-tooltip="最左边添加"
           data-position="top"
+          onClick={showSelector}
         ></li>
-        <li className="fa fa-toggle-right" data-tooltip="在最右边添加组件" data-position="top"></li>
+        <li
+          className="fa fa-toggle-right"
+          data-tooltip="最右边添加"
+          data-position="top"
+          onClick={showSelector}
+        ></li>
       </ul>
     </S.StyledHorizontal>
   )
@@ -32,19 +47,15 @@ export const Vertical = (props) => {
       <ul>
         <li
           className="fa fa-toggle-up m-t-xs"
-          data-tooltip="在最上边添加组件"
+          data-tooltip="在最上边添加"
           data-position="right"
         ></li>
-        <li
-          className="fa fa-toggle-down"
-          data-tooltip="在最下边添加组件"
-          data-position="right"
-        ></li>
+        <li className="fa fa-toggle-down" data-tooltip="在最下边添加" data-position="right"></li>
       </ul>
     </S.StyledVertical>
   )
 }
 
 export const Corner = (props) => {
-  return <S.StyledCorner pos={props.pos}>{props.children}</S.StyledCorner>
+  return <S.StyledCorner {..._.pick(props, ['t', 'r', 'b', 'l'])}>{props.children}</S.StyledCorner>
 }

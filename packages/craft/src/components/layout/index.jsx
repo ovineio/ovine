@@ -10,6 +10,7 @@ import Preview from '@/components/preview'
 import Header from '@/components/header'
 import Aside from '@/components/aside'
 import Reference from '@/components/reference'
+import Selector from '@/components/selector'
 import Stage from '@/components/stage'
 import history from '@/stores/history'
 
@@ -26,6 +27,7 @@ export default observer(() => {
         <Preview />
         <Reference />
       </StyledContent>
+      <Selector />
     </StyledLayout>
   )
 })

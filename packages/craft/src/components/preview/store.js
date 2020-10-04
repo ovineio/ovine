@@ -3,9 +3,13 @@ import { types } from 'mobx-state-tree'
 import { get, map, isPlainObject, isArray, isObject, isObjectLike } from 'lodash'
 import Baobab from 'baobab'
 
-import { idKey, nodes } from '@/constants'
+import { publish } from '@core/utils/message'
 
-import { getIdKeyPath, parseSchema, getRenderSchema } from './utils'
+import { idKey, message, nodes } from '@/constants'
+
+import { asideStore } from '@/components/aside/store'
+
+import { getIdKeyPath, parseSchema, getRenderSchema, getAllNodes } from './utils'
 
 // 根节点
 const Preview = types
@@ -16,6 +20,10 @@ const Preview = types
     selectedId: types.maybeNull(types.string),
   })
   .volatile((self) => ({
+    // 所有操作完整
+    actions: [],
+    // 所有表单
+    forms: [],
     // 真实携带所有的配置
     schema: {},
   }))
@@ -38,10 +46,12 @@ const Preview = types
       get renderSchema() {
         return getRenderSchema(self)
       },
+
       // 代码显示文本
       get codeText() {
         return getCodeText()
       },
+
       // baobab 对象
       get baobabSchema() {
         return new Baobab(self.schema || {})
@@ -76,11 +86,16 @@ const Preview = types
 
         return getNodeInfo(self.selectedCursor.get())
       },
+
+      get allNodes() {
+        return getAllNodes(self.schema)
+      },
     }
   })
   .actions((self) => {
     const setRawSchema = (schema) => {
       self.schema = schema
+      asideStore.setNodes(self.allNodes)
     }
 
     const setSchema = (schema, isClone) => {
@@ -96,7 +111,16 @@ const Preview = types
     }
 
     const setSelectedId = (id) => {
+      const prevId = self.selectedId
+      // const prevInfo = self.selectedInfo
       self.selectedId = id
+
+      // selectId 有变化就发送消息，方便全局其他地方处理
+      _.throttle(() => {
+        if (prevId !== id) {
+          publish(message.updateSelected, self.selectedInfo)
+        }
+      }, 100)()
     }
 
     return {

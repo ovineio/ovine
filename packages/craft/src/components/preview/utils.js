@@ -45,48 +45,7 @@ export function getIdKeyPath(source, nodeId) {
   return path
 }
 
-// 处理数据 原始 schema 数据
-export function parseSchema(self, source, isClone = false) {
-  // 防止数据篡改
-  const schema = isClone ? cloneDeep(source) : source
-
-  // 异常数据
-  if (!isObjectLike(schema) || isEmpty(schema)) {
-    self.schema = {
-      type: 'tpl',
-      tpl: '请输入有效 schema',
-    }
-    return
-  }
-
-  // 遍历设置
-  const travel = (node) => {
-    if (!isObjectLike(node)) {
-      return
-    }
-
-    const type = get(node, 'type')
-
-    // 将每一个有 type 属性的渲染器，添加 id 标记
-    if (type && !node.$dataId) {
-      const id = uniqueId('node-')
-      node.$dataId = id
-    }
-
-    map(node, travel)
-  }
-
-  travel(schema)
-
-  history.addFrame({
-    selectedId: self.selectedId,
-    schema: cloneDeep(schema),
-  })
-
-  // 设置 处理后的配置
-  self.schema = schema
-}
-
+// 获取 渲染时 的 配置
 export function getRenderSchema(self) {
   const schema = cloneDeep(self.schema)
 
@@ -131,4 +90,83 @@ export function getRenderSchema(self) {
   travel(schema)
 
   return schema
+}
+
+// 获取所有的节点信息
+export function getAllNodes(schema) {
+  // 异常数据
+  if (!isObjectLike(schema) || isEmpty(schema)) {
+    return []
+  }
+
+  const nodes = []
+
+  // 遍历节点
+  const travel = (node, items = []) => {
+    if (!isObjectLike(node)) {
+      return
+    }
+
+    const type = get(node, 'type')
+
+    const item = { children: [] }
+
+    // 将每一个有 type 属性的渲染器，与 id 标记
+    if (type && !!node.$dataId) {
+      item.type = type
+      item.id = node.$dataId
+      items.push(item)
+    }
+
+    map(node, (subNode) => {
+      travel(subNode, item.children)
+    })
+  }
+
+  travel(schema, nodes)
+
+  return nodes
+}
+
+// 处理数据 原始 schema 数据
+export function parseSchema(self, source, isClone = false) {
+  // 防止数据篡改
+  const schema = isClone ? cloneDeep(source) : source
+
+  // 异常数据
+  if (!isObjectLike(schema) || isEmpty(schema)) {
+    self.schema = {
+      type: 'tpl',
+      tpl: '请输入有效 schema',
+    }
+    return
+  }
+
+  // 遍历设置
+  const travel = (node) => {
+    if (!isObjectLike(node)) {
+      return
+    }
+
+    const type = get(node, 'type')
+
+    // 将每一个有 type 属性的渲染器，添加 id 标记
+    if (type && !node.$dataId) {
+      const id = uniqueId('node-')
+      node.$dataId = id
+    }
+
+    map(node, travel)
+  }
+
+  travel(schema)
+
+  // 加入历史记录
+  history.addFrame({
+    selectedId: self.selectedId,
+    schema: cloneDeep(schema),
+  })
+
+  // 设置 处理后的配置
+  self.setRawSchema(schema)
 }

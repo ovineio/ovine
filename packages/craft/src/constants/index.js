@@ -7,3 +7,8 @@ export const domIds = {
 }
 
 export const idKey = '$dataId'
+
+export const message = {
+  toggleSelector: 'craft:toggleSelectorMsg',
+  updateSelected: 'craft:updateSelectedMsg',
+}
