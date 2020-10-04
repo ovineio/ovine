@@ -1,5 +1,7 @@
 /**
- * 侧边栏
+ * 编辑器 侧边栏
+ *
+ * 主要用于导航
  *
  */
 
@@ -29,16 +31,16 @@ const Aside = observer(() => {
   useEffect(() => {
     const $tabs = $('.craft-aside-tab')
 
-    // 使用jq 添加提示
+    // 添加悬浮提示提示
     $tabs
       .find('li')
       .each((index, item) => {
         const info = Object.values(tabs)[index] || {}
-        const $li = $(item)
-        $li.attr({
+        const $item = $(item)
+        $item.attr({
           'data-toggle': 'tooltip',
           'data-placement': 'right',
-          title: info.title,
+          title: $item.attr('title') || info.title,
         })
       })
       .tooltip()
@@ -52,6 +54,11 @@ const Aside = observer(() => {
         theme={theme}
         activeKey={activeTab}
         onSelect={setTab}
+        toolbar={
+          <li className="item-code" title="页面配置">
+            <i className=" fa fa-code" />
+          </li>
+        }
       >
         {map(tabs, (info, tab) => {
           const TabContent = allTab[_.upperFirst(tab)]

@@ -1,3 +1,7 @@
+/**
+ * 简单的列表 增删改 组件，用于 权限/请求 的编辑
+ */
+
 import React, { useEffect, useState } from 'react'
 
 import { includes, pick, cloneDeep } from 'lodash'

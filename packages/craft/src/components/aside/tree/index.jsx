@@ -12,19 +12,21 @@ import { app } from '@core/app'
 
 import { previewStore } from '@/components/preview/store'
 
-import { useAsideStore } from './store'
+import { useAsideStore } from '../store'
 
-import { StyledNodes } from './styled'
+import { StyledTree } from './styled'
 
 export default observer(() => {
   const { nodes } = useAsideStore()
 
   const onChange = (nodeId) => {
-    previewStore.setSelectedId(nodeId)
+    if (nodeId && nodeId !== 'none') {
+      previewStore.setSelectedId(nodeId)
+    }
   }
 
   return (
-    <StyledNodes>
+    <StyledTree>
       <Tree
         theme={app.theme.getName()}
         hideRoot
@@ -33,6 +35,6 @@ export default observer(() => {
         valueField="id"
         labelField="type"
       />
-    </StyledNodes>
+    </StyledTree>
   )
 })

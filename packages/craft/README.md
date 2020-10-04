@@ -10,6 +10,7 @@ UI 通过点选的方式简化 JSON 配置过程，通过点选关联数据的�
 - 添加 hover 快捷操作
 - 添加 右键 contextMenu
 - 保存功能
+
 - 代码编辑器
 
 - 接入 Ovine 中
@@ -18,7 +19,7 @@ UI 通过点选的方式简化 JSON 配置过程，通过点选关联数据的�
 
 ### schmea 原则
 
-配置可扩展性最强
-
-- 能使用 Array 地方均使用 Array
-- 能扩展的地方全部扩展---比如，title: xxx ==> 可扩展为 title: [{type: 'html', html: 'xx'}]
+- 配置可扩展性最强
+  - 能使用 Array 地方均使用 Array
+  - 能扩展的地方全部扩展---比如，title: xxx ==> 可扩展为 title: [{type: 'html', html: 'xx'}]
+- 尽可能优化 复制/剪切/粘贴 等操作

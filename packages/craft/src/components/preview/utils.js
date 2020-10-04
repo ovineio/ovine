@@ -9,6 +9,8 @@ import {
   omit,
   cloneDeep,
   uniqueId,
+  isArray,
+  isPlainObject,
 } from 'lodash'
 
 import { idKey } from '@/constants'
@@ -29,6 +31,9 @@ export function getIdKeyPath(source, nodeId) {
       return
     }
     map(stack, (value, key) => {
+      if (found) {
+        return
+      }
       path.push(key)
       if (isObjectLike(stack[key])) {
         search(value)
@@ -60,11 +65,14 @@ export function getRenderSchema(self) {
   // 遍历设置
   const travel = (stack) => {
     map(stack, (value, key) => {
-      if (isObjectLike(value)) {
+      if (!isPlainObject(value)) {
+        return
+      }
+      if (isArray(value)) {
         travel(value)
         return
       }
-      const type = get(value[type])
+      const type = get(value, 'type')
       // 特殊处理 action button
       if (includes(['action', 'button'], type)) {
         stack[key] = omit(
@@ -107,15 +115,21 @@ export function getAllNodes(schema) {
       return
     }
 
-    const type = get(node, 'type')
-
     const item = { children: [] }
 
-    // 将每一个有 type 属性的渲染器，与 id 标记
-    if (type && !!node.$dataId) {
-      item.type = type
-      item.id = node.$dataId
+    if (isArray(node)) {
+      item.type = 'array'
+      item.id = 'none'
       items.push(item)
+    } else {
+      const type = get(node, 'type')
+
+      // 将每一个有 type 属性的渲染器，与 id 标记
+      if (type && !!node.$dataId) {
+        item.type = type
+        item.id = node.$dataId
+        items.push(item)
+      }
     }
 
     map(node, (subNode) => {

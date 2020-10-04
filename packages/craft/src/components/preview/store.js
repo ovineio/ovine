@@ -15,23 +15,27 @@ import { getIdKeyPath, parseSchema, getRenderSchema, getAllNodes } from './utils
 const Preview = types
   .model('PreviewState', {
     // 移动悬浮的ID
-    hoverId: types.maybeNull(types.string),
+    hoverId: types.optional(types.string, ''),
     // 选中的ID
-    selectedId: types.maybeNull(types.string),
+    selectedId: types.optional(types.string, ''),
+    // 当前编辑的 schema 对于 root 的路径, 默认 空数组，表示直接编辑根节点
+    editPath: types.optional(types.array(types.string), []),
   })
   .volatile((self) => ({
-    // 所有操作完整
+    // 页面内所有操作 --- 预览时屏蔽所有操作
     actions: [],
-    // 所有表单
-    forms: [],
-    // 真实携带所有的配置
+    // 所有弹窗 ---- 弹窗内容要另外编辑
+    dialogs: [],
+    // 处于预览激活状态的 --- schema
     schema: {},
+    // 根节点----整个页面完整的JSON配置
+    root: {},
   }))
   .views((self) => {
     // 用于代码展示文本
     const getCodeText = () => {}
 
-    const getNodeInfo = (schema) => {
+    const getNodeInfo = (schema = {}) => {
       const { type } = schema
       const info = {
         type,
@@ -83,19 +87,18 @@ const Preview = types
         if (!self.selectedId) {
           return {}
         }
-
         return getNodeInfo(self.selectedCursor.get())
       },
 
-      get allNodes() {
+      get schemaNodes() {
         return getAllNodes(self.schema)
       },
     }
   })
   .actions((self) => {
     const setRawSchema = (schema) => {
-      self.schema = schema
-      asideStore.setNodes(self.allNodes)
+      self.schema = schema.toJSON ? schema.toJSON() : schema
+      asideStore.setNodes(self.schemaNodes)
     }
 
     const setSchema = (schema, isClone) => {
@@ -142,13 +145,36 @@ export const usePreviewStore = () => {
 
 export const previewStore = Preview.create({})
 
+// 用于测试的 schema
 export const initialStore = {
   type: 'page',
   title: 'test',
-  body: {
-    type: 'html',
-    html: '123',
-  },
+  body: [
+    {
+      type: 'html',
+      html: '123',
+    },
+    {
+      type: 'form',
+      api: 'https://houtai.baidu.com/api/mock2/form/saveForm',
+      controls: [
+        {
+          type: 'text',
+          name: 'name',
+          label: '姓名：',
+        },
+      ],
+    },
+    {
+      label: '弹框',
+      type: 'action',
+      actionType: 'dialog',
+      dialog: {
+        title: '打开弹框',
+        body: '这是个简单的弹框。',
+      },
+    },
+  ],
 }
 
 previewStore.setSchema(initialStore)

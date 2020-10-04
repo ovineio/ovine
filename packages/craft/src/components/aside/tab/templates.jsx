@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default () => {
-  return <div>templates</div>
+  return <div>当前暂无模版</div>
 }

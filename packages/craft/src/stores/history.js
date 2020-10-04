@@ -4,7 +4,7 @@
  * TODO: 处理特殊情况的记录
  */
 
-import { decorate, observable, action, computed } from 'mobx'
+import { decorate, observable, action, computed, toJS } from 'mobx'
 
 import { previewStore, initialStore } from '@/components/preview/store'
 import { referenceStore } from '@/components/reference/store'
@@ -32,14 +32,14 @@ class History {
     }
     this.currentFrame += 1
     // console.log('@--->currentFrame', this.currentFrame, frame)
+
     this.stack.push(frame)
   }
 
   // 根据存储的数据设置状态
   applyFrame(frame) {
     const { selectedId, schema } = frame
-    // console.log('@==>applyFrame', frame)
-    previewStore.setRawSchema(schema)
+    previewStore.setRawSchema(toJS(schema))
 
     if (selectedId === previewStore.selectedId) {
       // 如果所选的内容相同，只更新属性面板

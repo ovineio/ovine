@@ -25,9 +25,13 @@ export const StyledAside = styled.div`
       }
     }
   }
-`
 
-export const StyledNodes = styled.div`
-  width: 100%;
-  border-top: 1px solid #efefef;
+  .item-code {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 40px;
+    text-align: center;
+    cursor: pointer;
+  }
 `
