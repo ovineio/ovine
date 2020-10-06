@@ -15,17 +15,18 @@ import { StyledPreview } from './styled'
 import Attacher from './attacher'
 
 const Preview = observer(() => {
-  const { renderSchema, schema } = usePreviewStore()
+  const { renderSchema, schema, editId } = usePreviewStore()
   const { isStageMode } = useRootStore()
 
   return (
     <StyledPreview>
-      <div className={isStageMode ? 'd-block' : 'd-none'}>
-        <Amis schema={schema} />
-      </div>
-      <div className={!isStageMode ? 'd-block' : 'd-none'}>
-        <div id={domIds.editorPreview}>
-          <Amis schema={renderSchema} />
+      {isStageMode && <Amis schema={schema} />}
+      <div
+        id={domIds.editorPreview}
+        className={`preview-panel ${!isStageMode ? 'd-block' : 'd-none'}`}
+      >
+        <div data-preview="true">
+          <Amis key={editId} schema={renderSchema} />
         </div>
         <Attacher />
       </div>

@@ -86,8 +86,8 @@ const history = new History()
 
 export default history
 
-if (module.hot) {
-  module.hot.accept(() => {
-    history.reset()
-  })
-}
+// if (module.hot) {
+//   module.hot.accept(() => {
+//     history.reset()
+//   })
+// }

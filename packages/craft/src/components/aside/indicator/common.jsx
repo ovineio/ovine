@@ -8,7 +8,6 @@ import * as S from './styled'
 export const Container = (props) => {
   return (
     <S.StyledContainer>
-      <h6 className="container-title">{props.title || '容器模版'}</h6>
       <div className="container-content">{props.children}</div>
     </S.StyledContainer>
   )

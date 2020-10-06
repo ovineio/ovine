@@ -5,7 +5,7 @@ export const StyledHeader = styled.div`
   z-index: 2;
   top: 0;
   width: 100%;
-  height: 60px;
+  height: 50px;
   background: #666;
   ul {
     display: flex;

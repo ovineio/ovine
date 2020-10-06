@@ -72,23 +72,27 @@ export const fixFactoryLoader = () => ({
         flags: 'm',
         replace: `
           SchemaRenderer.prototype.componentDidMount = function () {
-              var dataId = this.props.schema.$dataId;
-              if (dataId && this.ref) {
-                  var $dom = react_dom_1.findDOMNode(this.ref);
-                  $dom.dataset.id = dataId;
+            var dataId = this.props.schema.$dataId;
+            if (dataId && this.ref) {
+              var $dom = react_dom_1.findDOMNode(this.ref);
+              if ($dom) {
+                $dom.dataset.id = dataId;
               }
+            }
           };
           SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
-              var props = this.props;
-              if (props.schema.$dataId !== nextProps.schema.$dataId && this.ref) {
-                  var $dom = react_dom_1.findDOMNode(this.ref);
-                  if (nextProps.schema.$dataId) {
-                      $dom.dataset.id = nextProps.schema.$dataId;
-                  }
-                  else {
-                      delete $dom.dataset.id;
-                  }
+            var props = this.props;
+            if (props.schema.$dataId !== nextProps.schema.$dataId && this.ref) {
+              var $dom = react_dom_1.findDOMNode(this.ref);
+              if (!$dom) {
+                return
               }
+              if (nextProps.schema.$dataId) {
+                $dom.dataset.id = nextProps.schema.$dataId;
+              } else {
+                  delete $dom.dataset.id;
+              }
+            }
         `,
       },
     ],

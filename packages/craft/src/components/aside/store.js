@@ -4,7 +4,12 @@ import { includes } from 'lodash'
 import { uuid } from 'amis/lib/utils/helper'
 import { iteratorSymbol } from 'immer/dist/env'
 
-const Dialog = types.model('AsideAction', {})
+const Nav = types.model('AsideNav', {
+  id: types.string,
+  label: types.string,
+})
+
+// 权限结构
 const Limit = types.model('AsideLimit', {
   id: types.string,
   label: types.string,
@@ -27,7 +32,7 @@ const Request = types.model('AsideRequest', {
   onError: types.maybeNull(types.string),
 })
 
-// 嵌套结构
+// 节点树 节点结构
 const Node = types.model('AsideNode', {
   id: types.string,
   type: types.string,
@@ -35,35 +40,12 @@ const Node = types.model('AsideNode', {
 })
 
 // 侧边栏 tab 分栏
-const Tab = types.enumeration('AsideBarTab', ['page', 'dialogs', 'requests', 'limits', 'templates'])
-
-export const tabs = {
-  page: {
-    title: '页面',
-    icon: 'fa fa-window-maximize',
-  },
-  dialogs: {
-    title: '弹窗',
-    icon: 'fa fa-window-restore',
-  },
-  requests: {
-    title: '请求',
-    icon: 'fa fa-send',
-  },
-  limits: {
-    title: '权限',
-    icon: 'fa fa-unlock-alt',
-  },
-  templates: {
-    title: '模版',
-    icon: 'fa fa-puzzle-piece',
-  },
-}
+const Tab = types.enumeration('AsideBarTab', ['page', 'requests', 'limits', 'templates'])
 
 const Aside = types
   .model('AsideState', {
     tab: Tab,
-    dialogs: types.optional(types.array(Dialog), []),
+    navs: types.optional(types.array(Nav), []),
     requests: types.optional(types.array(Request), []),
     limits: types.optional(types.array(Limit), []),
 
@@ -97,20 +79,52 @@ const Aside = types
       self.requests = requests
     }
 
+    const setNavs = (navs) => {
+      self.navs = navs
+    }
+
     return {
       setTab,
       setNodes,
       setLimits,
       setRequests,
+      setNavs,
     }
   })
 
-export const asideStore = Aside.create({
+export const tabs = {
+  page: {
+    title: '页面',
+    icon: 'fa fa-window-maximize',
+  },
+  requests: {
+    title: '请求',
+    icon: 'fa fa-send',
+  },
+  limits: {
+    title: '权限',
+    icon: 'fa fa-unlock-alt',
+  },
+  templates: {
+    title: '模版',
+    icon: 'fa fa-puzzle-piece',
+  },
+}
+
+const initState = {
   tab: 'page',
+  navs: [
+    {
+      id: '',
+      label: '页面',
+    },
+  ],
   nodes: [],
   isShowPanel: true,
   isShowNodes: true,
-})
+}
+
+export const asideStore = Aside.create(initState)
 
 const AsideContext = createContext(null)
 

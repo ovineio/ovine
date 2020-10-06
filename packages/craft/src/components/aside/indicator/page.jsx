@@ -5,7 +5,7 @@ import { Container, Vertical, Horizontal, Corner } from './common'
 
 export default () => {
   return (
-    <Container title="页面模版">
+    <Container>
       <StyledPage>
         <div className="part-aside">
           <Corner>侧边栏</Corner>

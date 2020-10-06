@@ -22,7 +22,7 @@ export const request = new Request()
 
 // 请求准备阶段 回调
 request.onPreRequest = (option) => {
-  option.mock = true // 全局控制是否开启 mock， 必须在 ovine cli --mock 选项开启的情况下，才有效
+  option.mock = false // 全局控制是否开启 mock， 必须在 ovine cli --mock 选项开启的情况下，才有效
   return option
 }
 

@@ -1,5 +1,6 @@
+import React from 'react'
+
 import {
-  difference,
   get,
   includes,
   isEmpty,
@@ -14,8 +15,26 @@ import {
 } from 'lodash'
 
 import { idKey } from '@/constants'
-
+import { asideStore } from '@/components/aside/store'
 import history from '@/stores/history'
+import indicator from '../aside/indicator'
+
+const getEditNodeInfo = (type) => {
+  const nodeConf = {
+    dialog: {
+      text: '弹窗',
+    },
+    drawer: {
+      text: '抽屉',
+    },
+  }
+
+  if (includes(Object.keys(nodeConf), type)) {
+    return nodeConf[type]
+  }
+
+  return false
+}
 
 // 根据 ID 获取 key 的路径
 export function getIdKeyPath(source, nodeId) {
@@ -50,9 +69,10 @@ export function getIdKeyPath(source, nodeId) {
   return path
 }
 
-// 获取 渲染时 的 配置
+// 获取 渲染时 配置
 export function getRenderSchema(self) {
-  const schema = cloneDeep(self.schema)
+  const cursor = self.editCursor
+  const schema = cursor.get()
 
   // 异常数据
   if (!isObjectLike(schema) || isEmpty(schema)) {
@@ -62,42 +82,15 @@ export function getRenderSchema(self) {
     }
   }
 
-  // 遍历设置
-  const travel = (stack) => {
-    map(stack, (value, key) => {
-      if (!isPlainObject(value)) {
-        return
-      }
-      if (isArray(value)) {
-        travel(value)
-        return
-      }
-      const type = get(value, 'type')
-      // 特殊处理 action button
-      if (includes(['action', 'button'], type)) {
-        stack[key] = omit(
-          stack[key],
-          difference(keys(stack[key]), [
-            'label',
-            'icon',
-            'type',
-            'level',
-            'size',
-            'iconClassName',
-            'active',
-            'activeLevel',
-            'activeClassName',
-            'block',
-          ])
-        )
-        return
-      }
-    })
+  if (!getEditNodeInfo(schema.type)) {
+    return schema
   }
 
-  travel(schema)
+  const Component = ({ children }) => <div data-id={schema.$dataId}>{children}</div>
 
-  return schema
+  cursor.set('wrapperComponent', Component)
+
+  return cursor.get()
 }
 
 // 获取所有的节点信息
@@ -119,13 +112,14 @@ export function getAllNodes(schema) {
 
     if (isArray(node)) {
       item.type = 'array'
-      item.id = 'none'
+      item.id = `none-${uniqueId()}`
       items.push(item)
     } else {
       const type = get(node, 'type')
 
       // 将每一个有 type 属性的渲染器，与 id 标记
-      if (type && !!node.$dataId) {
+      const omitEditNode = getEditNodeInfo(schema.type) || !getEditNodeInfo(type)
+      if (type && omitEditNode && !!node.$dataId) {
         item.type = type
         item.id = node.$dataId
         items.push(item)
@@ -142,7 +136,47 @@ export function getAllNodes(schema) {
   return nodes
 }
 
+// 获取需要独立编辑的 节点
+export function getEditNodes(schema) {
+  const nodes = [
+    {
+      id: '',
+      label: '页面',
+    },
+  ]
+
+  if (!isObjectLike(schema)) {
+    return nodes
+  }
+
+  // 遍历设置
+  const travel = (node) => {
+    if (!isObjectLike(node)) {
+      return
+    }
+
+    const type = get(node, 'type')
+    const id = get(node, '$dataId')
+    const info = getEditNodeInfo(type)
+    // 将每一个有 type 属性的渲染器，添加 id 标记
+    if (type && id && info) {
+      nodes.push({
+        id,
+        // TODO: label 需要优化 更明确的 标示
+        label: `${info.text}-${node.title || id}`,
+      })
+    }
+
+    map(node, travel)
+  }
+
+  travel(schema)
+
+  return nodes
+}
+
 // 处理数据 原始 schema 数据
+// TODO: 补全省略的 type
 export function parseSchema(self, source, isClone = false) {
   // 防止数据篡改
   const schema = isClone ? cloneDeep(source) : source

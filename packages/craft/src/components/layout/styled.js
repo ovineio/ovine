@@ -3,7 +3,8 @@ import styled from 'styled-components'
 export const StyledLayout = styled.div`
   box-sizing: border-box;
   height: 100%;
-  padding-top: 60px;
+  overflow: hidden;
+  padding-top: 50px;
   background: #f1f2f6;
 `
 

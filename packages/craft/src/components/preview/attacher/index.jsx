@@ -6,9 +6,10 @@
  * 2. 针对不同类型不同toolbar操作
  * 3. UI美化
  *
- * BUG: selected 要重新梳理，同步 (点选/数据改动)--> 效果相同
- * 点选---> 改数据 --> 渲染UI
- * 直接数据改动 -----> 渲染UI
+ * BUG:
+ * 1. 监听 选中 dom 宽高变化，更新 高亮 UI
+ * 2. 某些类型 --- 选中时禁用点击
+ * 3. 布局要跟随 preview
  */
 
 import { debounce, includes, throttle } from 'lodash'
@@ -29,6 +30,7 @@ export default observer(() => {
   const {
     setHoverId,
     setSelectedId,
+    hoverId,
     selectedId,
     hoverInfo,
     selectedInfo,
@@ -78,7 +80,6 @@ export default observer(() => {
     }
 
     if (type === 'hover') {
-      setHoverId(activeId)
       setHover({ style })
       return
     }
@@ -93,23 +94,48 @@ export default observer(() => {
 
       cancelHover()
       setSelected({ style, toolbarStyle, tipStyle })
-      setSelectedId(activeId)
     }
   }
 
-  const onMounted = () => {
+  const setActiveById = (type, id) => {
+    if (!id) {
+      return
+    }
+
     const $preview = $(`#${domIds.editorPreview}`)
     const parentRect = $preview[0].getBoundingClientRect()
+    const $active = $preview.find(`[data-id="${id}"]`)
+    onActive(type, $active, parentRect)
+  }
+
+  const onMounted = () => {
+    const $preview = $(`#${domIds.editorPreview}>[data-preview]`)
 
     const onNodeActive = throttle((type, event) => {
       const $ele = $(event.target).closest('[data-id]')
-      if (type === 'selected' && $ele.data['id']) {
-        setSelectedId($ele.data(id))
+      const activeId = $ele.data('id')
+      if (!activeId) {
         return
       }
 
-      onActive(type, $ele, parentRect)
-    }, 200)
+      if (type === 'hover') {
+        setHoverId(activeId)
+        return
+      }
+
+      if (type === 'selected') {
+        // button 类型的点击一律过滤
+        if ($(event.target).closest('button')) {
+          event.stopPropagation()
+        }
+
+        setSelectedId(activeId)
+        return
+      }
+    }, 100)
+
+    $(window).on('resize', updateSelected) // 当窗口变化时 更新
+    $preview.parent().scroll(updateSelected) // 当滚动时 更新
 
     $preview
       .on('mouseleave', cancelHover)
@@ -122,20 +148,12 @@ export default observer(() => {
   }
 
   const updateSelected = debounce(() => {
-    if (!$wrap.current) {
-      return
+    if (hoverId) {
+      cancelHover()
     }
 
-    const { selected } = $wrap.current.dataset
-    if (!selected) {
-      return
-    }
-
-    const $preview = $(`#${domIds.editorPreview}`)
-    const parentRect = $preview[0].getBoundingClientRect()
-    const $selected = $preview.find(`[data-id="${selected}"]`)
-    onActive('updateSelected', $selected, parentRect)
-  }, 200)
+    setActiveById('updateSelected', $wrap.current?.dataset.selected)
+  }, 100)
 
   // selectedId 改变， 高亮与关联面板 同时更新
   const onSelected = throttle(() => {
@@ -148,10 +166,19 @@ export default observer(() => {
 
     referenceStore.setSchema(selectedInfo.schema)
     updateSelected()
-  }, 200)
+  }, 100)
+
+  const onHover = throttle(() => {
+    if (hoverId) {
+      setActiveById('hover', hoverId)
+    } else {
+      cancelHover()
+    }
+  }, 100)
 
   useEffect(onMounted, [])
   useEffect(onSelected, [selectedId])
+  useEffect(onHover, [hoverId])
   useEffect(updateSelected, [renderSchema])
 
   return (

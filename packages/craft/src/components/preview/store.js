@@ -9,7 +9,7 @@ import { idKey, message, nodes } from '@/constants'
 
 import { asideStore } from '@/components/aside/store'
 
-import { getIdKeyPath, parseSchema, getRenderSchema, getAllNodes } from './utils'
+import { getIdKeyPath, parseSchema, getRenderSchema, getAllNodes, getEditNodes } from './utils'
 
 // 根节点
 const Preview = types
@@ -18,18 +18,18 @@ const Preview = types
     hoverId: types.optional(types.string, ''),
     // 选中的ID
     selectedId: types.optional(types.string, ''),
-    // 当前编辑的 schema 对于 root 的路径, 默认 空数组，表示直接编辑根节点
-    editPath: types.optional(types.array(types.string), []),
+    // 当前编辑的 nodeId
+    editId: types.optional(types.string, ''),
   })
   .volatile((self) => ({
     // 页面内所有操作 --- 预览时屏蔽所有操作
-    actions: [],
+    // actions: [],
     // 所有弹窗 ---- 弹窗内容要另外编辑
-    dialogs: [],
+    // dialogs: [],
     // 处于预览激活状态的 --- schema
     schema: {},
     // 根节点----整个页面完整的JSON配置
-    root: {},
+    // root: {},
   }))
   .views((self) => {
     // 用于代码展示文本
@@ -61,24 +61,29 @@ const Preview = types
         return new Baobab(self.schema || {})
       },
 
-      // 悬浮的 node 游标
-      get hoverCursor() {
-        const hoverKeyPath = getIdKeyPath(self.schema, self.hoverId)
-        return self.baobabSchema.select(hoverKeyPath)
-      },
-
       // 悬浮的 node 信息
       get hoverInfo() {
         if (!self.hoverId) {
           return {}
         }
-
-        return getNodeInfo(self.hoverCursor.get())
+        const hoverKeyPath = getIdKeyPath(self.schema, self.hoverId)
+        const hoverCursor = self.baobabSchema.select(hoverKeyPath)
+        return getNodeInfo(hoverCursor.get())
       },
 
       // 选中 node的 游标
       get selectedCursor() {
         const selectedKeyPath = getIdKeyPath(self.schema, self.selectedId)
+        return self.baobabSchema.select(selectedKeyPath)
+      },
+
+      // 编辑的 node的 游标
+      get editCursor() {
+        if (!self.editId) {
+          return self.baobabSchema
+        }
+
+        const selectedKeyPath = getIdKeyPath(self.schema, self.editId)
         return self.baobabSchema.select(selectedKeyPath)
       },
 
@@ -89,16 +94,13 @@ const Preview = types
         }
         return getNodeInfo(self.selectedCursor.get())
       },
-
-      get schemaNodes() {
-        return getAllNodes(self.schema)
-      },
     }
   })
   .actions((self) => {
     const setRawSchema = (schema) => {
       self.schema = schema.toJSON ? schema.toJSON() : schema
-      asideStore.setNodes(self.schemaNodes)
+      asideStore.setNodes(getAllNodes(self.renderSchema))
+      asideStore.setNavs(getEditNodes(self.schema))
     }
 
     const setSchema = (schema, isClone) => {
@@ -109,21 +111,41 @@ const Preview = types
       setSchema(cursor.root().get())
     }
 
-    const setHoverId = (id) => {
+    const setHoverId = (id, sponsor = 'preview') => {
+      const prevId = self.hoverId
       self.hoverId = id
+
+      // hoverId 有变化就发送消息，方便全局其他地方处理
+      _.throttle(() => {
+        if (prevId !== id) {
+          publish(message.updateHover, {
+            sponsor,
+            id,
+          })
+        }
+      }, 100)()
     }
 
-    const setSelectedId = (id) => {
+    const setSelectedId = (id, sponsor = 'preview') => {
       const prevId = self.selectedId
-      // const prevInfo = self.selectedInfo
       self.selectedId = id
 
       // selectId 有变化就发送消息，方便全局其他地方处理
       _.throttle(() => {
         if (prevId !== id) {
-          publish(message.updateSelected, self.selectedInfo)
+          publish(message.updateSelected, {
+            sponsor,
+            id,
+          })
         }
       }, 100)()
+    }
+
+    const setEditId = (id) => {
+      self.selectedId = ''
+      self.hoverId = ''
+      self.editId = id
+      asideStore.setNodes(getAllNodes(self.renderSchema))
     }
 
     return {
@@ -131,6 +153,7 @@ const Preview = types
       setSchema,
       saveBaobabSchema,
       setHoverId,
+      setEditId,
       setSelectedId,
     }
   })
@@ -170,6 +193,7 @@ export const initialStore = {
       type: 'action',
       actionType: 'dialog',
       dialog: {
+        type: 'dialog',
         title: '打开弹框',
         body: '这是个简单的弹框。',
       },
