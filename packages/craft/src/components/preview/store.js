@@ -1,15 +1,31 @@
 import { createContext, useContext } from 'react'
 import { types } from 'mobx-state-tree'
-import { get, map, isPlainObject, isArray, isObject, isObjectLike } from 'lodash'
+import {
+  get,
+  map,
+  isPlainObject,
+  isArray,
+  isObject,
+  isObjectLike,
+  cloneDeep,
+  uniqueId,
+} from 'lodash'
 import Baobab from 'baobab'
 
 import { publish } from '@core/utils/message'
 
-import { idKey, message, nodes } from '@/constants'
-
+import { nodeIdKey, message, nodes } from '@/constants'
 import { asideStore } from '@/components/aside/store'
+import history from '@/stores/history'
 
-import { getIdKeyPath, parseSchema, getRenderSchema, getAllNodes, getEditNodes } from './utils'
+import {
+  getIdKeyPath,
+  getRenderSchema,
+  getAllNodes,
+  getEditNodes,
+  setSchemaNodeId,
+  genNodeId,
+} from './utils'
 
 // 根节点
 const Preview = types
@@ -22,14 +38,9 @@ const Preview = types
     editId: types.optional(types.string, ''),
   })
   .volatile((self) => ({
-    // 页面内所有操作 --- 预览时屏蔽所有操作
-    // actions: [],
-    // 所有弹窗 ---- 弹窗内容要另外编辑
-    // dialogs: [],
-    // 处于预览激活状态的 --- schema
     schema: {},
-    // 根节点----整个页面完整的JSON配置
-    // root: {},
+    // 被用于粘贴的 schema
+    clipboard: {},
   }))
   .views((self) => {
     // 用于代码展示文本
@@ -94,24 +105,55 @@ const Preview = types
         }
         return getNodeInfo(self.selectedCursor.get())
       },
+
+      get clipboardSchema() {
+        // 每次都更新 nodeId 多次复制
+        const schema = setSchemaNodeId(self.clipboard, {
+          isClone: true,
+          forceUpdate: true,
+        })
+
+        return schema
+      },
     }
   })
   .actions((self) => {
     const setRawSchema = (schema) => {
+      if (!isObjectLike(schema)) {
+        return
+      }
+
       self.schema = schema.toJSON ? schema.toJSON() : schema
+
+      // 关联 侧边栏数据
       asideStore.setNodes(getAllNodes(self.renderSchema))
       asideStore.setNavs(getEditNodes(self.schema))
     }
 
-    const setSchema = (schema, isClone) => {
-      parseSchema(self, schema, isClone)
+    const setSchema = (schema, option = {}) => {
+      const { addNodeId = false, isClone = false } = option
+      let newSchema = schema
+
+      // 需要遍历设置 nodeID
+      if (addNodeId) {
+        newSchema = setSchemaNodeId(schema, { isClone })
+      }
+
+      // 加入历史记录
+      history.addFrame({
+        selectedId: self.selectedId,
+        schema: cloneDeep(newSchema),
+      })
+
+      setRawSchema(newSchema)
     }
 
     const saveBaobabSchema = (cursor) => {
-      setSchema(cursor.root().get())
+      const schema = cursor.root().get()
+      setSchema(schema)
     }
 
-    const setHoverId = (id, sponsor = 'preview') => {
+    const setHoverId = (id = '', sponsor = 'preview') => {
       const prevId = self.hoverId
       self.hoverId = id
 
@@ -121,12 +163,13 @@ const Preview = types
           publish(message.updateHover, {
             sponsor,
             id,
+            info: self.hoverInfo,
           })
         }
       }, 100)()
     }
 
-    const setSelectedId = (id, sponsor = 'preview') => {
+    const setSelectedId = (id = '', sponsor = 'preview') => {
       const prevId = self.selectedId
       self.selectedId = id
 
@@ -136,6 +179,7 @@ const Preview = types
           publish(message.updateSelected, {
             sponsor,
             id,
+            info: self.selectedInfo,
           })
         }
       }, 100)()
@@ -148,6 +192,11 @@ const Preview = types
       asideStore.setNodes(getAllNodes(self.renderSchema))
     }
 
+    const setClipboard = () => {
+      const schema = self.selectedCursor.deepClone()
+      self.clipboard = schema
+    }
+
     return {
       setRawSchema,
       setSchema,
@@ -155,6 +204,7 @@ const Preview = types
       setHoverId,
       setEditId,
       setSelectedId,
+      setClipboard,
     }
   })
 
@@ -201,4 +251,4 @@ export const initialStore = {
   ],
 }
 
-previewStore.setSchema(initialStore)
+previewStore.setSchema(initialStore, { addNodeId: true })

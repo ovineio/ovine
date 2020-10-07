@@ -1,15 +1,17 @@
+import { get } from 'lodash'
+import { mapTree } from 'amis/lib/utils/helper'
+
+import { nodes } from '@/constants'
+
 const nodesConfig = [
   {
     type: 'functions',
     label: '功能',
-    icon: 'x',
+    icon: 'windows',
     children: [
       {
-        type: 'a1',
         parent: 'functions',
-        label: '增删改查',
-        desc: '增删改查增删改查增删改查增删改查增删改查增删改查',
-        img: 'https://img.alicdn.com/tfs/TB1SSZAMkY2gK0jSZFgXXc5OFXa-162-72.png',
+        type: 'action',
       },
       {
         type: 'a2',
@@ -23,7 +25,7 @@ const nodesConfig = [
   {
     type: 'containers',
     label: '容器',
-    icon: 'x',
+    icon: 'windows',
     children: [
       {
         type: 'a3',
@@ -44,7 +46,7 @@ const nodesConfig = [
   {
     type: 'buttons',
     label: '按钮',
-    icon: 'x',
+    icon: 'windows',
     children: [
       {
         type: 'b2',
@@ -65,7 +67,7 @@ const nodesConfig = [
   {
     type: 'display',
     label: '展示',
-    icon: 'x',
+    icon: 'windows',
     children: [
       {
         type: 'c2',
@@ -86,7 +88,7 @@ const nodesConfig = [
   {
     type: 'others',
     label: '其他',
-    icon: 'x',
+    icon: 'windows',
     children: [
       {
         type: 'd2',
@@ -106,4 +108,23 @@ const nodesConfig = [
   },
 ]
 
-export default nodesConfig
+const config = mapTree(nodesConfig, (item) => {
+  const { parent, type } = item
+
+  if (!parent) {
+    return item
+  }
+
+  const nodeInfo = get(nodes, `${type}.selectorInfo`)
+
+  if (!nodeInfo) {
+    return item
+  }
+
+  return {
+    ...item,
+    ...nodeInfo,
+  }
+})
+
+export default config

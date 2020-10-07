@@ -3,7 +3,7 @@ import { types } from 'mobx-state-tree'
 import { get, map, isPlainObject, isArray, isObject, isObjectLike } from 'lodash'
 import Baobab from 'baobab'
 
-import { idKey } from '@/constants'
+import { nodeIdKey } from '@/constants'
 
 // 根节点
 const Root = types

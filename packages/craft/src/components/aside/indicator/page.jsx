@@ -1,24 +1,52 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { toggleSelector } from '@/components/selector'
+
 import { Container, Vertical, Horizontal, Corner } from './common'
 
-export default () => {
+export default (props) => {
+  const { schema } = props.info
+  const { toolbar, body, aside } = schema || {}
+
+  const showSelector = (key, label, event) => {
+    const { type, tooltip } = event.currentTarget.dataset
+    const selectorInfo = {
+      key,
+      type,
+      isShow: true,
+      label: `在${label}${tooltip}组件`,
+    }
+    toggleSelector(selectorInfo)
+  }
+
   return (
     <Container>
       <StyledPage>
         <div className="part-aside">
           <Corner>侧边栏</Corner>
-          <Vertical className="center" />
+          <Vertical
+            hasItem={!!aside}
+            className="center"
+            showSelector={(e) => showSelector('aside', '侧边栏', e)}
+          />
         </div>
         <div className="part-body">
           <div className="part-toolbar">
             <Corner r="0">工具栏</Corner>
-            <Horizontal className="center" />
+            <Horizontal
+              hasItem={!!toolbar}
+              className="center"
+              showSelector={(e) => showSelector('toolbar', '工具栏', e)}
+            />
           </div>
           <div className="part-content">
-            <Corner>内容</Corner>
-            <Vertical className="center" />
+            <Corner>内容区</Corner>
+            <Vertical
+              hasItem={!!body}
+              className="center"
+              showSelector={(e) => showSelector('body', '内容区', e)}
+            />
           </div>
         </div>
       </StyledPage>

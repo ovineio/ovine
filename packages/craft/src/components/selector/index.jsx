@@ -8,21 +8,22 @@
  */
 
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import { Drawer, ContextMenu, openContextMenus } from 'amis'
+import { Drawer } from 'amis'
 import { mapTree, flattenTree, filterTree } from 'amis/lib/utils/helper'
 import _ from 'lodash'
 
-import { publish, subscribe } from '@core/utils/message'
-import { useImmer } from '@core/utils/hooks'
 import { app } from '@core/app'
+import { publish } from '@core/utils/message'
+import { useImmer, useSubscriber } from '@core/utils/hooks'
 
-import { message } from '@/constants'
+import { message, domId } from '@/constants'
+import { onAddNode } from '@/components/preview/actions'
 
 import nodeConfig from './nodes'
 import { StyledSelector } from './styled'
 
 const Selector = (props) => {
-  const { text = '添加组件' } = props.info
+  const { label: headerLabel = '添加组件' } = props.info
 
   const [state, setState] = useImmer({
     searchText: '',
@@ -62,10 +63,27 @@ const Selector = (props) => {
     })
   }, 100)
 
+  const onItemClick = (item, e) => {
+    const $item = $(e.currentTarget)
+    $item
+      .addClass('active')
+      .siblings()
+      .removeClass('active')
+
+    onAddNode({
+      container: props.info,
+      node: item,
+      position: {
+        x: e.pageX,
+        y: e.pageY,
+      },
+    })
+  }
+
   useEffect(() => {
     // 使用了 bootstrap scrollspy 组件 https://getbootstrap.com/docs/4.5/components/scrollspy
-    const $scrollSpy = $('.selector [data-spy="scroll"]')
-    const $scrollNav = $('#spy-selector-nav')
+    const $scrollSpy = $(`#${domId.editorSelector} [data-spy="scroll"]`)
+    const $scrollNav = $(`#${domId.editorSelectorNav}`)
     storeRef.current.$scrollSpy = $scrollSpy
     $scrollSpy.scrollspy()
 
@@ -90,37 +108,6 @@ const Selector = (props) => {
       )
     })
 
-    $scrollSpy.on('click', '.item', (e) => {
-      const $item = $(e.currentTarget)
-      $item
-        .addClass('active')
-        .siblings()
-        .removeClass('active')
-
-      openContextMenus(
-        {
-          x: e.pageX,
-          y: e.pageY,
-        },
-        [
-          {
-            label: '添加该组件',
-            icon: 'fa fa-check',
-            onSelect: () => {
-              // alert(1)
-            },
-          },
-          {
-            label: '关闭',
-            icon: 'fa fa-close',
-            onSelect: () => {
-              // alert(2)
-            },
-          },
-        ]
-      )
-    })
-
     return () => {
       $scrollSpy.scrollspy('dispose')
     }
@@ -137,9 +124,9 @@ const Selector = (props) => {
   }, [items.length])
 
   return (
-    <StyledSelector className="selector">
+    <StyledSelector id={domId.editorSelector}>
       <div className="selector-title">
-        <p>{text}</p>
+        <p>{headerLabel}</p>
       </div>
       <div className="selector-input">
         <div className="input">
@@ -154,12 +141,13 @@ const Selector = (props) => {
         </div>
       )}
       <div className="selector-list">
-        <div id="spy-selector-nav" className="selector-nav">
+        <div id={domId.editorSelectorNav} className="selector-nav">
           {items.map((item, index) => {
             if (!item.parent) {
               return (
                 <div key={index} className="title nav-link" href={`#spy-${item.type}`}>
-                  {item.label}
+                  <i className={`fa fa-${item.icon} p-r-xs`} />
+                  <span>{item.label}</span>
                 </div>
               )
             } else {
@@ -176,10 +164,9 @@ const Selector = (props) => {
           })}
         </div>
         <div
-          data-spy="scroll"
-          data-target="#spy-selector-nav"
-          data-offset="-5px"
           className="selector-content"
+          data-target={`#${domId.editorSelectorNav}`}
+          data-spy="scroll"
         >
           {items.map((item, index) => {
             if (!item.parent) {
@@ -190,7 +177,12 @@ const Selector = (props) => {
               )
             } else {
               return (
-                <div key={index} id={`spy-${item.parent}-${item.type}`} className="item">
+                <div
+                  key={index}
+                  id={`spy-${item.parent}-${item.type}`}
+                  className="item"
+                  onClick={(e) => onItemClick(item, e)}
+                >
                   <img src={item.img} />
                   <div>
                     <h6>{item.label}</h6>
@@ -213,20 +205,20 @@ export const toggleSelector = (info = {}) => {
 export default () => {
   const [info, setInfo] = useImmer({})
 
-  const { toggle = false, ...resetInfo } = info
+  const { isShow = false, ...resetInfo } = info
 
   const onHide = () => {
-    setInfo((d) => ({}))
+    setInfo((d) => {
+      d.isShow = false
+    })
   }
 
-  useEffect(() => {
-    subscribe(message.toggleSelector, (info = {}) => {
-      setInfo((d) => info)
-    })
-  }, [])
+  useSubscriber(message.toggleSelector, (info = {}) => {
+    setInfo((d) => info)
+  })
 
   return (
-    <Drawer theme={app.theme.getName()} size="md" onHide={onHide} show={toggle} position="right">
+    <Drawer theme={app.theme.getName()} size="md" onHide={onHide} show={isShow} position="right">
       <Selector info={resetInfo} />
     </Drawer>
   )

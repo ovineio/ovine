@@ -30,21 +30,18 @@ export default observer((props) => {
   const [selectedId, setSelectedId] = useState('')
   const [foldId, setFoldId] = useState('')
 
-  const toggleFold = (event) => {
-    const { id } = event.currentTarget.dataset
+  const toggleFold = (id) => {
     setFoldId((v) => (v === id ? '' : id))
   }
 
-  const onSelect = (event) => {
-    const { id } = event.currentTarget.dataset
+  const onSelect = (id) => {
     if (hasNodeId(id)) {
       setSelectedId(id)
       previewStore.setSelectedId(id, treeSponsor)
     }
   }
 
-  const onHover = throttle((event) => {
-    const { id } = event.currentTarget.dataset
+  const onHover = throttle((id) => {
     setHoverId('')
     previewStore.setHoverId(hasNodeId(id) ? id : '', treeSponsor)
   }, 10)
@@ -80,7 +77,7 @@ export default observer((props) => {
   const renderItem = (item) => {
     const { id, label, type } = item
     return (
-      <span data-id={id} onMouseEnter={onHover} onClick={onSelect}>
+      <span onMouseEnter={() => onHover(id)} onClick={() => onSelect(id)}>
         {type}
       </span>
     )
@@ -104,11 +101,10 @@ export default observer((props) => {
             <li key={index}>
               <div className="tree-label" className={getItemCls(id)}>
                 <span
-                  data-id={id}
                   className={cls(`icon-arrow ${ns}Collapse-arrow`, {
                     'is-fold': foldId === id,
                   })}
-                  onClick={toggleFold}
+                  onClick={() => toggleFold(id)}
                 ></span>
                 {renderItem(item)}
               </div>

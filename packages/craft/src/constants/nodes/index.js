@@ -5,10 +5,12 @@ import action from './action'
 // formItem 下的渲染器
 import text from './text'
 
-export default {
+const nodes = {
   page,
   html,
   form,
   action,
   text,
 }
+
+export default nodes

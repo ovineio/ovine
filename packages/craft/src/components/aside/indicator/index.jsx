@@ -6,12 +6,14 @@
  *
  */
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import _ from 'lodash'
+import { uuid } from 'amis/lib/utils/helper'
 
-import { useSubscriber } from '@core/utils/hooks'
+import { useSubscriber, useImmer } from '@core/utils/hooks'
 
 import { message } from '@/constants'
+import { previewStore } from '@/components/preview/store'
 
 import Page from './page'
 
@@ -20,17 +22,27 @@ const Containers = {
 }
 
 export default () => {
-  const [type, setType] = useState('')
+  const [state, setState] = useImmer({})
 
-  const Component = Containers[_.upperFirst(_.camelCase(type))]
+  const { refreshKey = '', info = {} } = state
 
-  useSubscriber(message.updateSelected, (info) => {
-    setType(info.type || '')
+  const Component = Containers[_.upperFirst(_.camelCase(info.type))]
+
+  useSubscriber([message.updateSelected, message.onNodeAction], () => {
+    setState((d) => {
+      d.refreshKey = uuid()
+    })
   })
+
+  useEffect(() => {
+    setState((d) => {
+      d.info = previewStore.selectedInfo
+    })
+  }, [refreshKey])
 
   if (!Component) {
     return null
   }
 
-  return <Component />
+  return <Component info={info} />
 }

@@ -17,10 +17,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
 import styled from 'styled-components'
 
-import { domIds } from '@/constants'
+import { domId } from '@/constants'
 import { referenceStore } from '@/components/reference/store'
 
 import { usePreviewStore } from '../store'
+import { onNodeMenus } from '../actions'
 
 import { StyledAttacher } from './styled'
 
@@ -102,18 +103,19 @@ export default observer(() => {
       return
     }
 
-    const $preview = $(`#${domIds.editorPreview}`)
+    const $preview = $(`#${domId.editorPreview}`)
     const parentRect = $preview[0].getBoundingClientRect()
     const $active = $preview.find(`[data-id="${id}"]`)
     onActive(type, $active, parentRect)
   }
 
   const onMounted = () => {
-    const $preview = $(`#${domIds.editorPreview}>[data-preview]`)
+    const $preview = $(`#${domId.editorPreview}>[data-preview]`)
 
     const onNodeActive = throttle((type, event) => {
       const $ele = $(event.target).closest('[data-id]')
       const activeId = $ele.data('id')
+
       if (!activeId) {
         return
       }
@@ -124,13 +126,22 @@ export default observer(() => {
       }
 
       if (type === 'selected') {
-        // button 类型的点击一律过滤
-        if ($(event.target).closest('button')) {
-          event.stopPropagation()
+        const isSelected = $wrap.current?.dataset.selected === activeId
+
+        // 左键 点击选择
+        if (event.button === 0) {
+          setSelectedId(activeId)
         }
 
-        setSelectedId(activeId)
-        return
+        // 已经选中 并且是鼠标右键
+        if (isSelected && event.button === 2) {
+          onNodeMenus({
+            position: {
+              x: event.pageX,
+              y: event.pageY,
+            },
+          })
+        }
       }
     }, 100)
 
@@ -138,9 +149,16 @@ export default observer(() => {
     $preview.parent().scroll(updateSelected) // 当滚动时 更新
 
     $preview
+      .on('contextmenu', () => false)
       .on('mouseleave', cancelHover)
-      .on('click', (e) => onNodeActive('selected', e))
+      .on('mousedown', (e) => onNodeActive('selected', e))
       .on('mouseover', (e) => onNodeActive('hover', e))
+      .on('click', (e) => {
+        // button 类型的点击一律过滤
+        if ($(e.target).closest('button')) {
+          e.stopPropagation()
+        }
+      })
 
     return () => {
       $preview.off()
@@ -155,7 +173,6 @@ export default observer(() => {
     setActiveById('updateSelected', $wrap.current?.dataset.selected)
   }, 100)
 
-  // selectedId 改变， 高亮与关联面板 同时更新
   const onSelected = throttle(() => {
     // 取消选中
     if (!selectedId) {
@@ -164,6 +181,7 @@ export default observer(() => {
       return
     }
 
+    // selectedId 改变， 高亮与关联面板 同时更新
     referenceStore.setSchema(selectedInfo.schema)
     updateSelected()
   }, 100)
@@ -183,26 +201,9 @@ export default observer(() => {
 
   return (
     <StyledAttacher ref={$wrap} data-selected={selectedId}>
-      <div className="toolbar" style={selected.toolbarStyle}>
-        <button type="button" data-tooltip="可拖拽修改位置" data-position="bottom">
-          <i className="fa fa-arrows" />
-        </button>
-        <button type="button" data-tooltip="删除（Del）" data-position="bottom">
-          <i className="fa fa-trash-o" />
-        </button>
-        <button type="button" draggable="false" data-id="more" data-position="bottom">
-          <i className="fa fa-ellipsis-h" />
-        </button>
-      </div>
       <div className="attach">
-        <div className="hlbox selected" style={selected.style}>
-          <div className="tip" style={selected.tipStyle}>
-            {selectedInfo.type}
-          </div>
-        </div>
-        <div className="hlbox hover" style={hover.style}>
-          <div className="tip">{hoverInfo.type}</div>
-        </div>
+        <div className="hlbox selected" style={selected.style}></div>
+        <div className="hlbox hover" style={hover.style}></div>
       </div>
     </StyledAttacher>
   )

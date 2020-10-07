@@ -14,9 +14,9 @@ import {
   isPlainObject,
 } from 'lodash'
 
-import { idKey } from '@/constants'
+import { nodeIdKey } from '@/constants'
 import { asideStore } from '@/components/aside/store'
-import history from '@/stores/history'
+
 import indicator from '../aside/indicator'
 
 const getEditNodeInfo = (type) => {
@@ -36,6 +36,13 @@ const getEditNodeInfo = (type) => {
   return false
 }
 
+export const genNodeId = (type) => {
+  if (type === 'none') {
+    return uniqueId('none-')
+  }
+  return uniqueId('node-')
+}
+
 // 根据 ID 获取 key 的路径
 export function getIdKeyPath(source, nodeId) {
   if (!isObjectLike(source)) {
@@ -45,7 +52,7 @@ export function getIdKeyPath(source, nodeId) {
   let found = false
 
   function search(stack) {
-    if (get(stack, idKey) === nodeId) {
+    if (get(stack, nodeIdKey) === nodeId) {
       found = true
       return
     }
@@ -86,7 +93,8 @@ export function getRenderSchema(self) {
     return schema
   }
 
-  const Component = ({ children }) => <div data-id={schema.$dataId}>{children}</div>
+  // 重写 dialog/drawer 容器组件 禁止 预览时 弹出
+  const Component = ({ children }) => <div data-id={schema[nodeIdKey]}>{children}</div>
 
   cursor.set('wrapperComponent', Component)
 
@@ -103,7 +111,7 @@ export function getAllNodes(schema) {
   const nodes = []
 
   // 遍历节点
-  const travel = (node, items = []) => {
+  const travel = (node, key, items = []) => {
     if (!isObjectLike(node)) {
       return
     }
@@ -111,27 +119,27 @@ export function getAllNodes(schema) {
     const item = { children: [] }
 
     if (isArray(node)) {
-      item.type = 'array'
-      item.id = `none-${uniqueId()}`
+      item.type = `${key}-array`
+      item.id = genNodeId('none')
       items.push(item)
     } else {
       const type = get(node, 'type')
 
       // 将每一个有 type 属性的渲染器，与 id 标记
       const omitEditNode = getEditNodeInfo(schema.type) || !getEditNodeInfo(type)
-      if (type && omitEditNode && !!node.$dataId) {
+      if (type && omitEditNode && !!node[nodeIdKey]) {
         item.type = type
-        item.id = node.$dataId
+        item.id = node[nodeIdKey]
         items.push(item)
       }
     }
 
-    map(node, (subNode) => {
-      travel(subNode, item.children)
+    map(node, (subNode, key) => {
+      travel(subNode, key, item.children)
     })
   }
 
-  travel(schema, nodes)
+  travel(schema, '', nodes)
 
   return nodes
 }
@@ -156,7 +164,7 @@ export function getEditNodes(schema) {
     }
 
     const type = get(node, 'type')
-    const id = get(node, '$dataId')
+    const id = get(node, nodeIdKey)
     const info = getEditNodeInfo(type)
     // 将每一个有 type 属性的渲染器，添加 id 标记
     if (type && id && info) {
@@ -175,19 +183,17 @@ export function getEditNodes(schema) {
   return nodes
 }
 
-// 处理数据 原始 schema 数据
-// TODO: 补全省略的 type
-export function parseSchema(self, source, isClone = false) {
+export function setSchemaNodeId(source, option = {}) {
+  const { isClone = false, forceUpdate = false } = option
   // 防止数据篡改
   const schema = isClone ? cloneDeep(source) : source
 
   // 异常数据
   if (!isObjectLike(schema) || isEmpty(schema)) {
-    self.schema = {
+    return {
       type: 'tpl',
       tpl: '请输入有效 schema',
     }
-    return
   }
 
   // 遍历设置
@@ -199,9 +205,8 @@ export function parseSchema(self, source, isClone = false) {
     const type = get(node, 'type')
 
     // 将每一个有 type 属性的渲染器，添加 id 标记
-    if (type && !node.$dataId) {
-      const id = uniqueId('node-')
-      node.$dataId = id
+    if (type && (!node[nodeIdKey] || forceUpdate)) {
+      node[nodeIdKey] = genNodeId()
     }
 
     map(node, travel)
@@ -209,12 +214,5 @@ export function parseSchema(self, source, isClone = false) {
 
   travel(schema)
 
-  // 加入历史记录
-  history.addFrame({
-    selectedId: self.selectedId,
-    schema: cloneDeep(schema),
-  })
-
-  // 设置 处理后的配置
-  self.setRawSchema(schema)
+  return schema
 }
