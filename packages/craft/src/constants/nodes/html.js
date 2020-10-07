@@ -1,7 +1,7 @@
 const refProps = {
   base: [
     {
-      type: 'text',
+      type: 'textarea',
       name: 'html',
       label: '内容',
     },

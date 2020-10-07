@@ -2,7 +2,7 @@
 import { createBrowserHistory } from 'history'
 import { defaultsDeep, get, set } from 'lodash'
 
-import { AppInstance } from '@ovine/core/lib/app/instance/type'
+import { AppInstance } from '@core/app/instance/type'
 
 import { defaultEnvMode, storage } from '@/constants'
 import { Request } from '@/utils/request'

@@ -80,7 +80,7 @@ const selectProps = {}
 
 const selectorInfo = {
   type: 'action',
-  label: '按钮',
+  label: '按钮---就这个组件可以被添加',
   img: 'https://img.alicdn.com/tfs/TB1SSZAMkY2gK0jSZFgXXc5OFXa-162-72.png',
   desc: '用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为',
   template: {

@@ -117,6 +117,11 @@ export const onAddNode = (option) => {
   const { position, node, container } = option
 
   const onAdd = () => {
+    if (!node.template) {
+      toast.warning('该组件暂未支持。。。')
+      return
+    }
+
     const { key, type } = container
     const template = setSchemaNodeId(node.template, { isClone: true })
     const isAdd = type === 'add'

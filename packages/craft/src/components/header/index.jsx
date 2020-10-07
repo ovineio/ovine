@@ -5,6 +5,7 @@
 import React from 'react'
 import { observer } from 'mobx-react'
 import cls from 'classnames'
+import { toast } from 'amis'
 
 import { useRootStore } from '@/stores'
 
@@ -37,7 +38,7 @@ export default observer((props) => {
         ) : (
           <li onClick={() => setMode('edit')}>退出预览</li>
         )}
-        <li>保存</li>
+        <li onClick={() => toast.info('保存功能暂不可用')}>保存</li>
       </ul>
     </StyledHeader>
   )

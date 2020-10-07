@@ -221,32 +221,57 @@ export const previewStore = Preview.create({})
 // 用于测试的 schema
 export const initialStore = {
   type: 'page',
-  title: 'test',
+  title: '编辑器体验版',
+  subTitle: '现在只能 page 中，添加 “按钮” 组件，和一些简单操作。',
+  remark: '正在加油赶工中...',
   body: [
     {
       type: 'html',
-      html: '123',
+      html: '这是一个未完成版的编辑器，全部功能完成后，将逐步无缝对接到ovine中。',
+    },
+    {
+      label: '测试示例',
+      type: 'action',
+      className: 'm-md',
+      actionType: 'dialog',
+      dialog: {
+        type: 'dialog',
+        title: '测试示例',
+        body: {
+          type: 'form',
+          title: '常规模式',
+          mode: 'normal',
+          controls: [
+            {
+              type: 'text',
+              name: 'name',
+              label: '姓名：',
+            },
+            {
+              name: 'email',
+              type: 'email',
+              label: '邮箱：',
+            },
+          ],
+        },
+      },
     },
     {
       type: 'form',
-      api: 'https://houtai.baidu.com/api/mock2/form/saveForm',
+      title: '表单示例',
+      mode: 'horizontal',
       controls: [
         {
           type: 'text',
           name: 'name',
           label: '姓名：',
         },
+        {
+          name: 'email',
+          type: 'email',
+          label: '邮箱：',
+        },
       ],
-    },
-    {
-      label: '弹框',
-      type: 'action',
-      actionType: 'dialog',
-      dialog: {
-        type: 'dialog',
-        title: '打开弹框',
-        body: '这是个简单的弹框。',
-      },
     },
   ],
 }

@@ -94,11 +94,18 @@ export function getRenderSchema(self) {
   }
 
   // 重写 dialog/drawer 容器组件 禁止 预览时 弹出
-  const Component = ({ children }) => <div data-id={schema[nodeIdKey]}>{children}</div>
+  const Component = ({ children }) => (
+    <div data-id={schema[nodeIdKey]} className="bg-white">
+      {children}
+    </div>
+  )
 
-  cursor.set('wrapperComponent', Component)
+  const renderSchema = {
+    ...schema,
+    wrapperComponent: Component,
+  }
 
-  return cursor.get()
+  return renderSchema
 }
 
 // 获取所有的节点信息
