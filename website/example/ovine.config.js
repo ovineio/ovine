@@ -6,7 +6,7 @@
  */
 
 module.exports = {
-  publicPath: '/', // 必须以斜线结尾
+  publicPath: '/demo/', // 必须以斜线结尾
   favicon: '/demo/static/images/favicon.ico',
   title: 'Ovine管理系统', // 页面标题
   envModes: ['localhost', 'staging', 'production'], // 环境列表

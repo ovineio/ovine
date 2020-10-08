@@ -222,7 +222,7 @@ export const previewStore = Preview.create({})
 export const initialStore = {
   type: 'page',
   title: '编辑器体验版',
-  subTitle: '现在只能 page 中，添加 “按钮” 组件，和一些简单操作。',
+  subTitle: '现在只能 page 中，添加 “按钮” 组件， 或者 选中后，使用右键操作。',
   remark: '正在加油赶工中...',
   body: [
     {
