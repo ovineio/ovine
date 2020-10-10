@@ -1,4 +1,4 @@
-import { AlertComponent, ToastComponent } from 'amis'
+import { AlertComponent, ToastComponent, ContextMenu } from 'amis'
 import get from 'lodash/get'
 import React, { createContext, useContext, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
@@ -93,6 +93,7 @@ export const App = hot(() => {
         className="m-t-xl"
       />
       <AlertComponent theme={theme} />
+      <ContextMenu theme={theme} />
       <AppContext.Provider value={state}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />

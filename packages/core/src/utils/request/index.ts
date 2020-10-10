@@ -140,21 +140,24 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
 
       const status = Number(response.status)
 
+      if (status <= 100 || status >= 400) {
+        try {
+          response.data = await response.json()
+        } catch (e) {
+          //
+        }
+        requestErrorCtrl.call(
+          this,
+          new Error('status <= 100 || status >= 400'),
+          option,
+          wrapResponse(response)
+        )
+        return
+      }
+
       try {
         response.data = await response.json()
-
-        if (status <= 100 || status >= 400) {
-          requestErrorCtrl.call(
-            this,
-            new Error('status <= 100 || status >= 400'),
-            option,
-            wrapResponse(response)
-          )
-          return
-        }
-
         requestSuccessCtrl.call(this, response, option)
-
         return response
       } catch (error) {
         requestErrorCtrl.call(this, error, option, wrapResponse(response))

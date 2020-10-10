@@ -221,22 +221,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           exclude: excludeJS,
           use: [cacheLoader, babelLoader],
         },
-        {
-          test: amis.editorFileReg,
-          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
-        },
-        {
-          test: amis.factoryFileReg,
-          use: [babelLoader, amis.fixFactoryLoader()],
-        },
-        {
-          test: amis.froalaEditorReg,
-          use: [babelLoader, amis.fixFroalaLoader()],
-        },
-        {
-          test: amis.videoFileReg,
-          use: [babelLoader, amis.fixVideoLoader()],
-        },
+        ...getFixLibLoaders({ dll, publicPath, babelLoader }),
         useTs && {
           test: /\.tsx?$/,
           exclude: excludeJS,
@@ -401,7 +386,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
 function excludeJS(modulePath: string) {
   // exclude fixed amis file
-  const regs = ['editorFileReg', 'factoryFileReg', 'froalaEditorReg', 'videoFileReg']
+  const regs = ['editorFileReg', 'factoryFileReg', 'froalaEditorReg', 'videoFileReg', 'apiUtilReg']
   if (Object.values(pick(amis, regs)).some((reg: any) => reg.test(modulePath))) {
     return true
   }
@@ -411,6 +396,34 @@ function excludeJS(modulePath: string) {
   const isLibModules = /node_modules[\\/]@ovine[\\/].*\.[j|t]sx?$/.test(modulePath)
 
   return isLibModules ? false : isNodeModules
+}
+
+function getFixLibLoaders(option: any) {
+  const { dll, babelLoader, publicPath } = option
+  const loaders = [
+    {
+      test: amis.editorFileReg,
+      use: [babelLoader, amis.fixEditorLoader({ publicPath })],
+    },
+    {
+      test: amis.factoryFileReg,
+      use: [babelLoader, amis.fixFactoryLoader()],
+    },
+    {
+      test: amis.froalaEditorReg,
+      use: [babelLoader, amis.fixFroalaLoader()],
+    },
+    {
+      test: amis.videoFileReg,
+      use: [babelLoader, amis.fixVideoLoader()],
+    },
+    {
+      test: amis.apiUtilReg,
+      use: [babelLoader, amis.fixApiUtilLoader()],
+    },
+  ]
+
+  return dll ? [] : loaders
 }
 
 function getDllDistFile(siteDir: string, type: string) {

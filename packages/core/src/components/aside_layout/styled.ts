@@ -11,12 +11,15 @@ export const StyledLayout = styled.div`
     .${ns}Layout {
       height: 100%;
       &-body {
+        padding-top: 90px;
         background-color: ${colors.bodyBg};
         color: ${colors.text};
       }
       &-headerBar {
+        padding: 0;
         .${ns}Page {
           width: 100%;
+          padding: 0 10px;
           &-main {
             background-color: transparent;
           }
@@ -24,6 +27,9 @@ export const StyledLayout = styled.div`
             padding: 0;
           }
         }
+      }
+      &--headerFixed {
+        padding-top: 0;
       }
     }
   `}
@@ -34,6 +40,10 @@ export const StyledLayout = styled.div`
     &:active {
       color: #fff;
     }
+  }
+
+  .app-layout-body {
+    position: relative;
   }
 `
 

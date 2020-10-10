@@ -9,6 +9,7 @@ import { message } from '@/constants'
 import { publish } from '@/utils/message'
 
 import { Amis } from '../amis/schema'
+
 import HeadItem from './head_item'
 import ItemCode from './item_code'
 import ItemSearch from './item_search'
@@ -17,10 +18,11 @@ import { LayoutCommProps, HeaderProps } from './types'
 
 type Props = LayoutCommProps &
   Partial<HeaderProps> & {
+    children: any
     themeNs: string
   }
 export default (props: Props) => {
-  const { asideFolded, themeNs, brand, items = [] } = props
+  const { asideFolded, themeNs, children, brand, items = [] } = props
   const [isInit, setInit] = useState(false)
 
   useEffect(() => {
@@ -92,7 +94,10 @@ export default (props: Props) => {
         </button>
         {brand && renderBrand()}
       </div>
-      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>{headerItems}</div>
+      <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>
+        {headerItems}
+        {children}
+      </div>
       {isInit && renderFoldItem()}
     </>
   )

@@ -75,4 +75,6 @@ export type CheckLimitFunc = (
   }
 ) => boolean
 
-export type PresetCtxState = PagePreset
+export type PresetCtxState = PagePreset & {
+  route: RouteProps
+}

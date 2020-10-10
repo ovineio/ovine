@@ -29,6 +29,7 @@ export type HeaderProps = {
 
 export type LayoutProps = {
   children?: any
+  withTabs?: boolean
   header?: HeaderProps
   footer?: LibSchema
   routes?: RouteItem[]

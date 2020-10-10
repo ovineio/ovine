@@ -12,14 +12,14 @@ import { setRoutesConfig } from '@/routes/config'
 import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer, useSubscriber } from '@/utils/hooks'
-
 import logger from '@/utils/logger'
 
 import { Amis } from '../amis/schema'
+import RouteTabs from '../route_tabs'
 import { filterSchemaLimit } from '../amis/schema/func'
 import Aside from './aside'
 import Header from './header'
-import { LayoutLoading } from './loading'
+import { LayoutLoading, LayoutLazyFallback } from './loading'
 import { StyledLayout } from './styled'
 import { LayoutState, LayoutProps } from './types'
 
@@ -29,15 +29,16 @@ const initState = {
 }
 
 const log = logger.getLogger('lib:components:asideLayout')
+
 export default withAppTheme<LayoutProps>((props) => {
   const [state, setState] = useImmer<LayoutState>(initState)
 
-  const { header, routes = [], children, footer, theme } = props
+  const { header, routes = [], children, footer, theme, withTabs } = props
   const { asideFolded, offScreen } = state
 
   const { ns: themeNs, name: themeName } = theme
 
-  useSubscriber<any>([message.asideLayoutCtrl], (msgData = {}) => {
+  useSubscriber<any>(message.asideLayoutCtrl, (msgData = {}) => {
     const { key, toggle } = msgData
     setState((d) => {
       switch (key) {
@@ -59,7 +60,7 @@ export default withAppTheme<LayoutProps>((props) => {
     return conf
   }, [header, footer])
 
-  const { AuthRoutes, renderAside } = useMemo(() => {
+  const { authRoutes, AuthRoutes, renderAside } = useMemo(() => {
     setRoutesConfig(routes)
     const configs = {
       authRoutes: getAuthRoutes(),
@@ -67,28 +68,36 @@ export default withAppTheme<LayoutProps>((props) => {
     }
     log.log('routeConfig', configs)
     return {
+      authRoutes: configs.authRoutes,
       renderAside: (t: string) => <Aside theme={t} asideMenus={configs.asideMenus} />,
-      AuthRoutes: <AppMenuRoutes authRoutes={configs.authRoutes} />,
+      AuthRoutes: <AppMenuRoutes fallback={LayoutLazyFallback} authRoutes={configs.authRoutes} />,
     }
   }, [routes])
 
   const headerProps = { ...layoutConf.header, ...state, setLayout: setState }
 
+  const HeaderComponent = (
+    <Header {...headerProps} themeNs={themeNs}>
+      {withTabs && <RouteTabs routes={authRoutes} themeNs={themeNs} />}
+    </Header>
+  )
+
   return (
     <StyledLayout>
       <Layout
         headerFixed
-        contentClassName="app-layout-body"
         theme={themeName}
         folded={asideFolded}
         offScreen={offScreen}
-        header={<Header {...headerProps} themeNs={themeNs} />}
+        header={HeaderComponent}
         aside={renderAside(themeName)}
         footer={layoutConf.footer && <Amis schema={layoutConf.footer} />}
       >
-        <LayoutLoading theme={themeName} />
-        {AuthRoutes}
-        {children}
+        <div className="app-layout-body">
+          <LayoutLoading theme={themeName} />
+          {AuthRoutes}
+          {children}
+        </div>
       </Layout>
     </StyledLayout>
   )

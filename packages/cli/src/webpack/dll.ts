@@ -127,7 +127,7 @@ export function monacoWorkerConfig(options: ConfigOptions): any {
   return config
 }
 
-const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg } = amis
+const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg } = amis
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
@@ -144,7 +144,7 @@ export function createDllConfig(options: ConfigOptions) {
       rules: [
         {
           test: /\.[t|j]sx?$/,
-          exclude: [editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg],
+          exclude: [editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg],
           use: [babelLoader],
         },
         {
@@ -162,6 +162,10 @@ export function createDllConfig(options: ConfigOptions) {
         {
           test: videoFileReg,
           use: [babelLoader, amis.fixVideoLoader()],
+        },
+        {
+          test: apiUtilReg,
+          use: [babelLoader, amis.fixApiUtilLoader()],
         },
         {
           test: /\.css$/,

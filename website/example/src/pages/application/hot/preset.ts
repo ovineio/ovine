@@ -49,5 +49,9 @@ export default {
       url: 'DELETE ovapi/hot_config/item/$id',
       limits: 'del',
     },
+    test: {
+      url: 'GET ovapi/system/role/item/116/limit',
+      limits: 'del',
+    },
   },
 }

@@ -54,21 +54,26 @@ export const schema = {
         width: 60,
         limits: ['edit', 'del'],
         limitsLogic: 'or', // 满足 limits列表中 一个权限即可渲染
-        buttons: ['$preset.actions.edit', '$preset.actions.del'],
+        buttons: ['$preset.actions.test', '$preset.actions.edit', '$preset.actions.del'],
       },
     ],
   },
   definitions: {
     updateControls: {
       controls: [
+        // {
+        //   name: 'desc',
+        //   required: true,
+        //   label: '配置描述',
+        //   type: 'text',
+        // },
+        // {
+        //   name: 'content',
+        //   label: 'JSON配置',
+        //   type: 'json-editor',
+        // },
         {
-          name: 'desc',
-          required: true,
-          label: '配置描述',
-          type: 'text',
-        },
-        {
-          name: 'content',
+          name: 'limit',
           label: 'JSON配置',
           type: 'json-editor',
         },
@@ -77,6 +82,24 @@ export const schema = {
   },
   preset: {
     actions: {
+      test: {
+        limits: 'edit',
+        type: 'button',
+        icon: 'fa fa-pencil',
+        tooltip: '测试编辑',
+        actionType: 'dialog',
+        dialog: {
+          title: '测试编辑',
+          size: 'lg',
+          body: {
+            type: 'form',
+            mode: 'normal',
+            initApi: '$preset.apis.test',
+            api: '$preset.apis.edit',
+            $ref: 'updateControls',
+          },
+        },
+      },
       add: {
         limits: 'add',
         type: 'button',

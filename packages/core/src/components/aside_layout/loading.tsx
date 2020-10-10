@@ -12,8 +12,8 @@ export const LayoutLazyFallback = () => {
 
     // 不显示 50 毫秒内的 loading
     setTimeout(() => {
-      toggleLayoutLoading(!closed && true)
-    }, 50)
+      toggleLayoutLoading(!closed)
+    }, 100)
 
     return () => {
       closed = true

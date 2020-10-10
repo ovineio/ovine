@@ -4,7 +4,7 @@
 
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
-import { isFunction, map, get, cloneDeep } from 'lodash'
+import { isFunction, map, get, cloneDeep, omit } from 'lodash'
 import React, {
   createContext,
   lazy,
@@ -105,7 +105,9 @@ export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
 }
 
 // usePresetContext 可获取 preset 值，与 checkLimit 校验权限 方法
-const PresetContext = createContext<PresetCtxState>({})
+const PresetContext = createContext<PresetCtxState>({
+  route: {},
+})
 export const usePresetContext = () => {
   const preset = useContext(PresetContext)
   const checkLimit: CheckLimitFunc = (keys, option) =>
@@ -144,6 +146,11 @@ const PrestComponent = (props: PresetComponentProps) => {
     return pagePreset
   }, [path, pathToComponent, propNodePath])
 
+  const contextValue = {
+    ...preset,
+    route: omit(rest, Object.keys(preset)),
+  }
+
   let Component: any = <div>Not Found 请检查路由设置</div>
 
   if (LazyFileComponent) {
@@ -160,7 +167,7 @@ const PrestComponent = (props: PresetComponentProps) => {
     Component = <Amis {...rest} {...lazyFileAmisProps} />
   }
 
-  return <PresetContext.Provider value={preset}>{Component}</PresetContext.Provider>
+  return <PresetContext.Provider value={contextValue}>{Component}</PresetContext.Provider>
 }
 
 // 处理每个路由，包裹 PrestComponent 组件
@@ -220,7 +227,7 @@ const NotFoundRoute = () => {
 }
 
 // 将 routeConfig 转换为 route
-export const AppMenuRoutes = (props: { authRoutes: RouteItem[] }) => {
+export const AppMenuRoutes = (props: { authRoutes: RouteItem[]; fallback?: any }) => {
   const menuRoutes: any = []
 
   props.authRoutes.forEach(({ children }) => {
@@ -230,7 +237,9 @@ export const AppMenuRoutes = (props: { authRoutes: RouteItem[] }) => {
 
     eachTree(children, (item) => {
       if (item.path && !item.limitOnly) {
-        menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} {...item} />)
+        menuRoutes.push(
+          <PrestRoute key={menuRoutes.length + 1} fallback={props.fallback} {...item} />
+        )
       }
     })
   })

@@ -8,6 +8,7 @@ export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
 export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
 export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.js/
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
+export const apiUtilReg = /[\\/]amis[\\/]lib[\\/]utils[\\/]api\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
 
 const monacoVar = require('monaco-editor/package.json').version
@@ -40,7 +41,18 @@ export const fixVideoLoader = () => ({
   },
 })
 
-// fix for hot update
+// fix for isValidApi func
+export const fixApiUtilLoader = () => ({
+  loader: 'string-replace-loader',
+  options: {
+    search: 'function\\sisValidApi\\(api\\)\\s\\{',
+    flags: 'm',
+    replace: `function isValidApi(api) { return typeof api === "string" }
+    function deprecated_isValidApi(api) {`,
+  },
+})
+
+// fix amis factory
 export const fixFactoryLoader = () => ({
   loader: 'string-replace-loader',
   options: {

@@ -2,6 +2,7 @@
  * 项目内常量,禁止重新赋值修改
  */
 
+export const rootPath = '/'
 export const publicUrl = process.env.PUBLIC_PATH || '/'
 export const routeLimitKey = '$page'
 export const appRootId = 'app-root'
@@ -37,6 +38,7 @@ export const storage = {
   // 注意此处修改 cli 的主题有用到 libAppThemeStore 字符串，修改的时候切记一起改，
   appTheme: 'libAppThemeStore',
   appLimit: 'libAppLimitStore',
+  routeTabs: 'libRouteTabsStore',
   dev: {
     code: 'libDevCodeGlobal',
     limit: 'libDevLimitStore',

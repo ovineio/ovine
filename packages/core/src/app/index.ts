@@ -46,7 +46,9 @@ const initConfig: AppConfig = {
       path: '/',
     },
   ],
-  amis: {},
+  amis: {
+    affixOffsetTop: 105,
+  },
   // 异步数据容器
   asyncPage: {
     schema: {}, // {path: {schema}} // 页面schema

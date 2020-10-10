@@ -133,14 +133,16 @@ export default observer(() => {
           setSelectedId(activeId)
         }
 
-        // 已经选中 并且是鼠标右键
-        if (isSelected && event.button === 2) {
-          onNodeMenus({
-            position: {
-              x: event.pageX,
-              y: event.pageY,
-            },
-          })
+        if (event.button === 2) {
+          // 已经选中 并且是鼠标右键
+          if (isSelected && event.button === 2) {
+            onNodeMenus({
+              position: {
+                x: event.pageX,
+                y: event.pageY,
+              },
+            })
+          }
         }
       }
     }, 100)
