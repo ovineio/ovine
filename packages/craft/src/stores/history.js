@@ -6,11 +6,12 @@
 
 import { decorate, observable, action, computed, toJS } from 'mobx'
 
-import { previewStore, initialStore } from '@/components/preview/store'
+import { previewStore } from '@/components/preview/store'
 import { referenceStore } from '@/components/reference/store'
 
 class History {
   currentFrame = 0
+
   stack = [{ selectedId: '' }]
 
   get hasPreFrame() {

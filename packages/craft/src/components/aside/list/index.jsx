@@ -2,10 +2,9 @@
  * 简单的列表 增删改 组件，用于 权限/请求 的编辑
  */
 
-import React, { useEffect, useState } from 'react'
-
-import { includes, pick, cloneDeep } from 'lodash'
 import { uuid } from 'amis/lib/utils/helper'
+import { pick, cloneDeep } from 'lodash'
+import React, { useEffect } from 'react'
 
 import { Amis } from '@core/components/amis/schema'
 import { useImmer } from '@core/utils/hooks'
@@ -103,7 +102,7 @@ export default (props) => {
     },
   }
 
-  const renderItem = (item, index) => {
+  const renderItem = (item) => {
     const { label, id } = item
 
     return (

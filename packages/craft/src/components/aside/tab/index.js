@@ -3,8 +3,8 @@
  */
 
 import Limits from './limits'
-import Requests from './requests'
 import Page from './page'
+import Requests from './requests'
 import Templates from './templates'
 
 export default {

@@ -5,26 +5,22 @@
  *
  */
 
-import React, { useEffect } from 'react'
-import { observer } from 'mobx-react'
 import { Tab, Tabs } from 'amis'
-import { map } from 'lodash'
+import _ from 'lodash'
+import { observer } from 'mobx-react'
+import React, { useEffect } from 'react'
 
 import { app } from '@core/app'
 
 import { useRootStore } from '@/stores'
 
-import Bar from './bar'
-import allTab from './tab'
-import Nodes from './nodes'
-
-import { StyledAside, StyledContent } from './styled'
-
 import { tabs, AsideProvider, asideStore, useAsideStore } from './store'
+import { StyledAside } from './styled'
+import allTab from './tab'
 
 const Aside = observer(() => {
   const { isStageMode } = useRootStore()
-  const { isShowNodes, tab: activeTab, setTab } = useAsideStore()
+  const { tab: activeTab, setTab } = useAsideStore()
 
   const theme = app.theme.getName()
 
@@ -60,7 +56,7 @@ const Aside = observer(() => {
           </li>
         }
       >
-        {map(tabs, (info, tab) => {
+        {_.map(tabs, (info, tab) => {
           const TabContent = allTab[_.upperFirst(tab)]
           return (
             <Tab key={tab} theme={theme} icon={info.icon} eventKey={tab}>

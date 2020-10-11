@@ -13,15 +13,14 @@
  */
 
 import { debounce, includes, throttle } from 'lodash'
-import React, { useEffect, useRef, useState } from 'react'
 import { observer } from 'mobx-react'
-import styled from 'styled-components'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { domId } from '@/constants'
 import { referenceStore } from '@/components/reference/store'
+import { domId } from '@/constants'
 
-import { usePreviewStore } from '../store'
 import { onNodeMenus } from '../actions'
+import { usePreviewStore } from '../store'
 
 import { StyledAttacher } from './styled'
 
@@ -33,7 +32,6 @@ export default observer(() => {
     setSelectedId,
     hoverId,
     selectedId,
-    hoverInfo,
     selectedInfo,
     renderSchema,
   } = usePreviewStore()
@@ -109,6 +107,35 @@ export default observer(() => {
     onActive(type, $active, parentRect)
   }
 
+  const updateSelected = debounce(() => {
+    if (hoverId) {
+      cancelHover()
+    }
+
+    setActiveById('updateSelected', $wrap.current?.dataset.selected)
+  }, 100)
+
+  const onSelected = throttle(() => {
+    // 取消选中
+    if (!selectedId) {
+      referenceStore.setSchema({})
+      cancelSelected()
+      return
+    }
+
+    // selectedId 改变， 高亮与关联面板 同时更新
+    referenceStore.setSchema(selectedInfo.schema)
+    updateSelected()
+  }, 100)
+
+  const onHover = throttle(() => {
+    if (hoverId) {
+      setActiveById('hover', hoverId)
+    } else {
+      cancelHover()
+    }
+  }, 100)
+
   const onMounted = () => {
     const $preview = $(`#${domId.editorPreview}>[data-preview]`)
 
@@ -167,35 +194,6 @@ export default observer(() => {
     }
   }
 
-  const updateSelected = debounce(() => {
-    if (hoverId) {
-      cancelHover()
-    }
-
-    setActiveById('updateSelected', $wrap.current?.dataset.selected)
-  }, 100)
-
-  const onSelected = throttle(() => {
-    // 取消选中
-    if (!selectedId) {
-      referenceStore.setSchema({})
-      cancelSelected()
-      return
-    }
-
-    // selectedId 改变， 高亮与关联面板 同时更新
-    referenceStore.setSchema(selectedInfo.schema)
-    updateSelected()
-  }, 100)
-
-  const onHover = throttle(() => {
-    if (hoverId) {
-      setActiveById('hover', hoverId)
-    } else {
-      cancelHover()
-    }
-  }, 100)
-
   useEffect(onMounted, [])
   useEffect(onSelected, [selectedId])
   useEffect(onHover, [hoverId])
@@ -204,8 +202,8 @@ export default observer(() => {
   return (
     <StyledAttacher ref={$wrap} data-selected={selectedId}>
       <div className="attach">
-        <div className="hlbox selected" style={selected.style}></div>
-        <div className="hlbox hover" style={hover.style}></div>
+        <div className="hlbox selected" style={selected.style} />
+        <div className="hlbox hover" style={hover.style} />
       </div>
     </StyledAttacher>
   )

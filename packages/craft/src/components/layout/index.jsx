@@ -2,19 +2,15 @@
  * 布局
  */
 
-import React, { useEffect } from 'react'
 import { observer } from 'mobx-react'
-import cls from 'classnames'
+import React from 'react'
 
-import Preview from '@/components/preview'
-import Header from '@/components/header'
 import Aside from '@/components/aside'
+import Header from '@/components/header'
+import Preview from '@/components/preview'
 import Reference from '@/components/reference'
 import Selector from '@/components/selector'
-import Stage from '@/components/stage'
 import history from '@/stores/history'
-
-import { RootProvider, useRootStore } from '@/stores'
 
 import { StyledLayout, StyledContent } from './styled'
 

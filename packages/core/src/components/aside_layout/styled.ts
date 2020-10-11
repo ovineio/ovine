@@ -11,7 +11,7 @@ export const StyledLayout = styled.div`
     .${ns}Layout {
       height: 100%;
       &-body {
-        padding-top: 90px;
+        padding-top: 105px;
         background-color: ${colors.bodyBg};
         color: ${colors.text};
       }
@@ -31,6 +31,9 @@ export const StyledLayout = styled.div`
       &--headerFixed {
         padding-top: 0;
       }
+    }
+    .${ns}Page-body {
+      padding-top: 0;
     }
   `}
 

@@ -7,17 +7,17 @@
  * 2. 完成 选择后 将 组件添加到对应位置
  */
 
-import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { Drawer } from 'amis'
-import { mapTree, flattenTree, filterTree } from 'amis/lib/utils/helper'
+import { flattenTree, filterTree } from 'amis/lib/utils/helper'
 import _ from 'lodash'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 import { app } from '@core/app'
-import { publish } from '@core/utils/message'
 import { useImmer, useSubscriber } from '@core/utils/hooks'
+import { publish } from '@core/utils/message'
 
-import { message, domId } from '@/constants'
 import { onAddNode } from '@/components/preview/actions'
+import { message, domId } from '@/constants'
 
 import nodeConfig from './nodes'
 import { StyledSelector } from './styled'
@@ -150,17 +150,12 @@ const Selector = (props) => {
                   <span>{item.label}</span>
                 </div>
               )
-            } else {
-              return (
-                <div
-                  key={index}
-                  className="item nav-link"
-                  href={`#spy-${item.parent}-${item.type}`}
-                >
-                  {item.label}
-                </div>
-              )
             }
+            return (
+              <div key={index} className="item nav-link" href={`#spy-${item.parent}-${item.type}`}>
+                {item.label}
+              </div>
+            )
           })}
         </div>
         <div
@@ -175,22 +170,21 @@ const Selector = (props) => {
                   {item.label}
                 </div>
               )
-            } else {
-              return (
-                <div
-                  key={index}
-                  id={`spy-${item.parent}-${item.type}`}
-                  className="item"
-                  onClick={(e) => onItemClick(item, e)}
-                >
-                  <img src={item.img} />
-                  <div>
-                    <h6>{item.label}</h6>
-                    <p>{item.desc}</p>
-                  </div>
-                </div>
-              )
             }
+            return (
+              <div
+                key={index}
+                id={`spy-${item.parent}-${item.type}`}
+                className="item"
+                onClick={(e) => onItemClick(item, e)}
+              >
+                <img src={item.img} alt={item.label} />
+                <div>
+                  <h6>{item.label}</h6>
+                  <p>{item.desc}</p>
+                </div>
+              </div>
+            )
           })}
         </div>
       </div>
@@ -213,8 +207,8 @@ export default () => {
     })
   }
 
-  useSubscriber(message.toggleSelector, (info = {}) => {
-    setInfo((d) => info)
+  useSubscriber(message.toggleSelector, (data = {}) => {
+    setInfo(() => data)
   })
 
   return (

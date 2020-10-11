@@ -1,23 +1,7 @@
+import { get, includes, isEmpty, isObjectLike, map, cloneDeep, uniqueId, isArray } from 'lodash'
 import React from 'react'
 
-import {
-  get,
-  includes,
-  isEmpty,
-  isObjectLike,
-  keys,
-  map,
-  omit,
-  cloneDeep,
-  uniqueId,
-  isArray,
-  isPlainObject,
-} from 'lodash'
-
 import { nodeIdKey } from '@/constants'
-import { asideStore } from '@/components/aside/store'
-
-import indicator from '../aside/indicator'
 
 const getEditNodeInfo = (type) => {
   const nodeConf = {
@@ -141,8 +125,8 @@ export function getAllNodes(schema) {
       }
     }
 
-    map(node, (subNode, key) => {
-      travel(subNode, key, item.children)
+    map(node, (subNode, subKey) => {
+      travel(subNode, subKey, item.children)
     })
   }
 

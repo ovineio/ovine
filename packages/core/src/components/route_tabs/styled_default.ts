@@ -10,7 +10,7 @@ const chromeTabWsJustAdded = keyframes`
 const chromeTabSpaceAbove = '8px'
 const chromeTabSpaceBelow = '4px'
 const tabContentMargin = '9px'
-const activeTabBackgroundColor = '#f0f3f4'
+const activeTabBackgroundColor = '#fff'
 
 export default css`
   .chrome-tabs {
@@ -19,7 +19,7 @@ export default css`
     font-size: 12px;
     height: 42px;
     padding: ${chromeTabSpaceAbove} 3px ${chromeTabSpaceBelow} 3px;
-    background: #dee1e6;
+    background: #eaeaea;
     /* border-radius: 5px 5px 0 0; */
     overflow: hidden;
 
@@ -92,7 +92,7 @@ export default css`
           width: 100%;
           height: 100%;
           .chrome-tab-geometry {
-            fill: #f4f5f6;
+            fill: #f5f5f5;
           }
         }
       }

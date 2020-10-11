@@ -8,7 +8,7 @@ export const StyledRouteTabs = styled.div`
   width: 100%;
   height: 55px;
   z-index: 2;
-  background-color: #f0f3f4;
+  background-color: #fff;
 
   ${TabsDefault};
 `

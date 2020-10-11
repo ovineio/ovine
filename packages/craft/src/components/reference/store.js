@@ -1,13 +1,13 @@
-import { createContext, useContext } from 'react'
-import { types } from 'mobx-state-tree'
 import _ from 'lodash'
+import { types } from 'mobx-state-tree'
+import { createContext, useContext } from 'react'
 
-import nodes from '@/constants/nodes'
 import { previewStore } from '@/components/preview/store'
+import nodes from '@/constants/nodes'
 
 const Reference = types
   .model('ReferenceState', {})
-  .volatile((self) => ({
+  .volatile(() => ({
     // 选中的配置
     schema: {
       type: 'html',

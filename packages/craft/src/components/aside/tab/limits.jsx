@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { observer } from 'mobx-react'
-
 import { includes } from 'lodash'
-
-import { useAsideStore } from '../store'
+import { observer } from 'mobx-react'
+import React from 'react'
 
 import List from '../list'
+import { useAsideStore } from '../store'
 
 export default observer(() => {
   const { limits = [], setLimits } = useAsideStore()

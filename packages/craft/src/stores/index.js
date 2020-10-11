@@ -1,9 +1,5 @@
-import { createContext, useContext } from 'react'
 import { types } from 'mobx-state-tree'
-import { get, map, isPlainObject, isArray, isObject, isObjectLike } from 'lodash'
-import Baobab from 'baobab'
-
-import { nodeIdKey } from '@/constants'
+import { createContext, useContext } from 'react'
 
 // 根节点
 const Root = types

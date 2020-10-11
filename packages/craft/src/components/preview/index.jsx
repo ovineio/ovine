@@ -1,9 +1,9 @@
 /**
  * 预览窗口
  */
-import React, { useState } from 'react'
-import { observer } from 'mobx-react'
 import { uuid } from 'amis/lib/utils/helper'
+import { observer } from 'mobx-react'
+import React, { useState } from 'react'
 
 import { Amis } from '@core/components/amis/schema'
 import { useSubscriber } from '@core/utils/hooks'
@@ -11,10 +11,10 @@ import { useSubscriber } from '@core/utils/hooks'
 import { domId, message } from '@/constants'
 import { useRootStore } from '@/stores'
 
+import Attacher from './attacher'
 import { usePreviewStore, PreviewProvider, previewStore } from './store'
 
 import { StyledPreview } from './styled'
-import Attacher from './attacher'
 
 const Preview = observer(() => {
   const { renderSchema, schema, editId } = usePreviewStore()

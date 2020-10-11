@@ -1,12 +1,12 @@
 /**
  * 关联属性面板
  */
-import React from 'react'
 import { observer } from 'mobx-react'
-
-import { useRootStore } from '@/stores'
+import React from 'react'
 
 import { Amis } from '@core/components/amis/schema'
+
+import { useRootStore } from '@/stores'
 
 import { ReferenceProvider, referenceStore, useReferenceStore } from './store'
 import { StyledReference } from './styled'

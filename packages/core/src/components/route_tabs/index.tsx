@@ -2,24 +2,29 @@
  * 路由切换器 组件
  *
  * TODO:
- * 4. 添加懒加载优化
- * 6. 添加 参数控制
- * 5. 菜单UI美化，主题UI
+ * 1. 添加懒加载优化
+ * 2. 添加 参数控制
+ * 3. 用户可控制 tabs 是否启用
+ * 4. 菜单UI美化，主题UI
+ *    1. 折叠菜单 遮挡问题
+ *    2. 多主题扩展问题
+ *    3. 动态切换---吸附头部的高度问题
+ *    4. 移动端兼容性
  */
 
+import { openContextMenus } from 'amis'
+import { findTree } from 'amis/lib/utils/helper'
+import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
-import { debounce } from 'lodash'
-import { findTree } from 'amis/lib/utils/helper'
-import { openContextMenus } from 'amis'
 
 import { app } from '@/app'
-import { RouteItem } from '@/routes/types'
 import { rootPath } from '@/constants'
+import { RouteItem } from '@/routes/types'
 
+import * as cache from './cache'
 import ChromeTabs from './chrome_tabs'
 import { StyledRouteTabs } from './styled'
-import * as cache from './cache'
 
 type Props = {
   themeNs: string
@@ -37,7 +42,7 @@ export type TabItem = {
 
 const cachedList = cache.getCachedTabs()
 
-const maxCount = 5
+const maxCount = 20
 
 export default (props: Props) => {
   const history = useHistory()
@@ -62,8 +67,8 @@ export default (props: Props) => {
 
   // 获取路径信息
   const getPathInfo = (path: string) => {
-    let rootBackItem: TabItem | undefined = undefined
-    let matchedItem: TabItem | undefined = undefined
+    let rootBackItem: TabItem | undefined
+    let matchedItem: TabItem | undefined
     findTree(routes, (item) => {
       const { limitLabel, nodePath: pathname } = item
       const label = item.label || limitLabel || notFindRoute.label
@@ -221,7 +226,7 @@ export default (props: Props) => {
   }
 
   useEffect(() => {
-    let isInit = !!$storeRef.current.$tabs
+    const isInit = !!$storeRef.current.$tabs
 
     // 未初始化 先初始化
     if (!isInit) {
@@ -233,7 +238,7 @@ export default (props: Props) => {
 
     // 初次加载 首页时，回归上次一次 active tab
     if (!isInit && curr.pathname === rootPath) {
-      const tabEl = $tabs.find(`.chrome-tab[data-active]`).get(0)
+      const tabEl = $tabs.find('.chrome-tab[data-active]').get(0)
       if (tabEl) {
         tabs.setCurrentTab(tabEl)
         return
@@ -268,7 +273,7 @@ export default (props: Props) => {
                 data-root={item.isRoot}
                 data-path={item.pathname}
               >
-                <div className="chrome-tab-dividers"></div>
+                <div className="chrome-tab-dividers" />
                 <div className="chrome-tab-background">
                   <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -303,10 +308,10 @@ export default (props: Props) => {
                   </svg>
                 </div>
                 <div className="chrome-tab-content">
-                  <div className="chrome-tab-favicon"></div>
+                  <div className="chrome-tab-favicon" />
                   <div className="chrome-tab-title">{item.label}</div>
-                  <div className="chrome-tab-drag-handle"></div>
-                  <div className="chrome-tab-close"></div>
+                  <div className="chrome-tab-drag-handle" />
+                  <div className="chrome-tab-close" />
                 </div>
               </div>
             ))}

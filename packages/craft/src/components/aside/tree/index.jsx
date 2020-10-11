@@ -4,16 +4,16 @@
  * TODO: 重写 tree 组件
  */
 
-import React, { useState } from 'react'
-import { observer } from 'mobx-react'
-import cls from 'classnames'
 import { Collapse } from 'amis'
-import { uuid } from 'amis/lib/utils/helper'
+import cls from 'classnames'
 import { throttle } from 'lodash'
+import { observer } from 'mobx-react'
+import React, { useState } from 'react'
 
-import { message } from '@/constants'
 import { useSubscriber } from '@core/utils/hooks'
+
 import { previewStore } from '@/components/preview/store'
+import { message } from '@/constants'
 
 import { useAsideStore } from '../store'
 
@@ -75,7 +75,7 @@ export default observer((props) => {
   })
 
   const renderItem = (item) => {
-    const { id, label, type } = item
+    const { id, type } = item
     return (
       <span onMouseEnter={() => onHover(id)} onClick={() => onSelect(id)}>
         {type}
@@ -99,13 +99,13 @@ export default observer((props) => {
 
           return (
             <li key={index}>
-              <div className="tree-label" className={getItemCls(id)}>
+              <div className={getItemCls(id, 'tree-label')}>
                 <span
                   className={cls(`icon-arrow ${ns}Collapse-arrow`, {
                     'is-fold': foldId === id,
                   })}
                   onClick={() => toggleFold(id)}
-                ></span>
+                />
                 {renderItem(item)}
               </div>
               <Collapse show={foldId !== id} classnames={cx} classPrefix={ns}>

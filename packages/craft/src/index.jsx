@@ -2,8 +2,9 @@
  * TODO: 优化 ContextMenu 样式
  */
 
-import React, { useEffect } from 'react'
 import { ContextMenu } from 'amis'
+import React from 'react'
+
 import { app } from '@core/app'
 
 import Layout from '@/components/layout'

@@ -3,16 +3,15 @@
  */
 
 import { openContextMenus, toast } from 'amis'
-import { camelCase, get, isArray, last } from 'lodash'
+import { camelCase, isArray, last } from 'lodash'
 
 import { publish } from '@core/utils/message'
 
 import { toggleSelector } from '@/components/selector'
 import { nodeAction, message, nodeIdKey } from '@/constants'
 
-import { previewStore, getIdKeyPath } from '../store'
+import { previewStore } from '../store'
 import { setSchemaNodeId } from '../utils'
-import { latest } from 'immer/dist/common'
 
 const onNodeAction = (option) => {
   const { activeKey, actionType, schemaToAdd, isSaveStore = true, pasteType = 'next' } = option
@@ -45,27 +44,29 @@ const onNodeAction = (option) => {
     case nodeAction.changePosition: // 换位置
       break
     case nodeAction.toPrev: // 左移动
-    case nodeAction.toNext: {
-      // 右移动
-      const current = cursor.get()
-      const parent = cursor.up()
-      if (!isArray(parent.get())) {
-        return
-      }
-      const index = last(cursor.path)
+    case nodeAction.toNext:
+      {
+        // 右移动
+        // const current = cursor.get()
+        const parent = cursor.up()
+        if (!isArray(parent.get())) {
+          return
+        }
+        const index = last(cursor.path)
 
-      if (
-        (nodeAction.toPrev === actionType && index === 0) ||
-        (nodeAction.toNext === actionType && index === parent.get().length - 1)
-      ) {
-        return
-      }
-      const oprIndex = nodeAction.toPrev === actionType ? index - 1 : index + 1
-      const opr = parent.select(oprIndex).get()
+        if (
+          (nodeAction.toPrev === actionType && index === 0) ||
+          (nodeAction.toNext === actionType && index === parent.get().length - 1)
+        ) {
+          return
+        }
+        const oprIndex = nodeAction.toPrev === actionType ? index - 1 : index + 1
+        const opr = parent.select(oprIndex).get()
 
-      parent.splice([oprIndex, 1])
-      parent.splice([index, 0, opr])
-    }
+        parent.splice([oprIndex, 1])
+        parent.splice([index, 0, opr])
+      }
+      break
     case nodeAction.copy: // 复制
       setClipboard()
       break
@@ -88,18 +89,17 @@ const onNodeAction = (option) => {
 
         if (pasteType === 'next') {
           parent.splice([index + 1, 0, clipboardSchema])
+        } else if (index === 0) {
+          parent.unshift(clipboardSchema)
         } else {
-          if (index === 0) {
-            parent.unshift(clipboardSchema)
-          } else {
-            parent.splice([index, 0, clipboardSchema])
-          }
+          parent.splice([index, 0, clipboardSchema])
         }
       }
       break
     case nodeAction.delete: // 删除
       removeNode()
       break
+    default:
   }
 
   if (isSaveStore) {

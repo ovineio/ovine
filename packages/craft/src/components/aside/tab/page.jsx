@@ -1,11 +1,11 @@
-import React from 'react'
 import { observer } from 'mobx-react'
+import React from 'react'
 
 import { Amis } from '@core/components/amis/schema'
 
-import Tree from '../tree'
-import Nav from '../nav'
 import Indicator from '../indicator'
+import Nav from '../nav'
+import Tree from '../tree'
 
 import { StyledPage } from './styled'
 

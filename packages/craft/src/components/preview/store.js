@@ -1,31 +1,15 @@
-import { createContext, useContext } from 'react'
-import { types } from 'mobx-state-tree'
-import {
-  get,
-  map,
-  isPlainObject,
-  isArray,
-  isObject,
-  isObjectLike,
-  cloneDeep,
-  uniqueId,
-} from 'lodash'
 import Baobab from 'baobab'
+import _ from 'lodash'
+import { types } from 'mobx-state-tree'
+import { createContext, useContext } from 'react'
 
 import { publish } from '@core/utils/message'
 
-import { nodeIdKey, message, nodes } from '@/constants'
 import { asideStore } from '@/components/aside/store'
+import { message, nodes } from '@/constants'
 import history from '@/stores/history'
 
-import {
-  getIdKeyPath,
-  getRenderSchema,
-  getAllNodes,
-  getEditNodes,
-  setSchemaNodeId,
-  genNodeId,
-} from './utils'
+import { getIdKeyPath, getRenderSchema, getAllNodes, getEditNodes, setSchemaNodeId } from './utils'
 
 // 根节点
 const Preview = types
@@ -37,7 +21,7 @@ const Preview = types
     // 当前编辑的 nodeId
     editId: types.optional(types.string, ''),
   })
-  .volatile((self) => ({
+  .volatile(() => ({
     schema: {},
     // 被用于粘贴的 schema
     clipboard: {},
@@ -51,7 +35,7 @@ const Preview = types
       const info = {
         type,
         schema,
-        node: get(nodes, `${type}.selectProps`) || {},
+        node: _.get(nodes, `${type}.selectProps`) || {},
       }
       return info
     }
@@ -119,7 +103,7 @@ const Preview = types
   })
   .actions((self) => {
     const setRawSchema = (schema) => {
-      if (!isObjectLike(schema)) {
+      if (!_.isObjectLike(schema)) {
         return
       }
 
@@ -142,7 +126,7 @@ const Preview = types
       // 加入历史记录
       history.addFrame({
         selectedId: self.selectedId,
-        schema: cloneDeep(newSchema),
+        schema: _.cloneDeep(newSchema),
       })
 
       setRawSchema(newSchema)

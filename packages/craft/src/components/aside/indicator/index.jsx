@@ -6,14 +6,14 @@
  *
  */
 
-import React, { useEffect, useState } from 'react'
-import _ from 'lodash'
 import { uuid } from 'amis/lib/utils/helper'
+import _ from 'lodash'
+import React, { useEffect } from 'react'
 
 import { useSubscriber, useImmer } from '@core/utils/hooks'
 
-import { message } from '@/constants'
 import { previewStore } from '@/components/preview/store'
+import { message } from '@/constants'
 
 import Page from './page'
 

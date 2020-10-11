@@ -5,9 +5,9 @@
  * 2. 记录 url 地址参数
  */
 
-import { getStore, setStore, clearStore } from '@/utils/store'
-import { storage } from '@/constants'
 import { app } from '@/app'
+import { storage } from '@/constants'
+import { getStore, setStore, clearStore } from '@/utils/store'
 
 import { TabItem } from './index'
 

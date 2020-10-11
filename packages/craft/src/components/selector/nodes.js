@@ -1,5 +1,5 @@
-import { get } from 'lodash'
 import { mapTree } from 'amis/lib/utils/helper'
+import { get } from 'lodash'
 
 import { nodes } from '@/constants'
 

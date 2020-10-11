@@ -3,7 +3,7 @@ import Draggabilly from '@/assets/scripts/draggabilly'
 const TAB_CONTENT_MARGIN = 9
 const TAB_CONTENT_OVERLAP_DISTANCE = 1
 
-const TAB_OVERLAP_DISTANCE = TAB_CONTENT_MARGIN * 2 + TAB_CONTENT_OVERLAP_DISTANCE
+// const TAB_OVERLAP_DISTANCE = TAB_CONTENT_MARGIN * 2 + TAB_CONTENT_OVERLAP_DISTANCE
 
 const TAB_CONTENT_MIN_WIDTH = 24
 const TAB_CONTENT_MAX_WIDTH = 240
@@ -15,12 +15,12 @@ const TAB_SIZE_MINI = 48
 const noop = (_) => {}
 
 const closest = (value, array) => {
-  let closest = Infinity
+  let temp = Infinity
   let closestIndex = -1
 
   array.forEach((v, i) => {
-    if (Math.abs(value - v) < closest) {
-      closest = Math.abs(value - v)
+    if (Math.abs(value - v) < temp) {
+      temp = Math.abs(value - v)
       closestIndex = i
     }
   })
@@ -118,7 +118,9 @@ class ChromeTabs {
       const extraWidth =
         flooredClampedTargetWidth < TAB_CONTENT_MAX_WIDTH && extraWidthRemaining > 0 ? 1 : 0
       widths.push(flooredClampedTargetWidth + extraWidth)
-      if (extraWidthRemaining > 0) extraWidthRemaining -= 1
+      if (extraWidthRemaining > 0) {
+        extraWidthRemaining -= 1
+      }
     }
 
     return widths
@@ -126,7 +128,7 @@ class ChromeTabs {
 
   get tabContentPositions() {
     const positions = []
-    const tabContentWidths = this.tabContentWidths
+    const { tabContentWidths } = this
 
     let position = TAB_CONTENT_MARGIN
     tabContentWidths.forEach((width, i) => {
@@ -149,20 +151,26 @@ class ChromeTabs {
   }
 
   layoutTabs() {
-    const tabContentWidths = this.tabContentWidths
+    const { tabContentWidths } = this
 
     this.tabEls.forEach((tabEl, i) => {
       const contentWidth = tabContentWidths[i]
       const width = contentWidth + 2 * TAB_CONTENT_MARGIN
 
-      tabEl.style.width = width + 'px'
+      tabEl.style.width = `${width}px`
       tabEl.removeAttribute('is-small')
       tabEl.removeAttribute('is-smaller')
       tabEl.removeAttribute('is-mini')
 
-      if (contentWidth < TAB_SIZE_SMALL) tabEl.setAttribute('is-small', '')
-      if (contentWidth < TAB_SIZE_SMALLER) tabEl.setAttribute('is-smaller', '')
-      if (contentWidth < TAB_SIZE_MINI) tabEl.setAttribute('is-mini', '')
+      if (contentWidth < TAB_SIZE_SMALL) {
+        tabEl.setAttribute('is-small', '')
+      }
+      if (contentWidth < TAB_SIZE_SMALLER) {
+        tabEl.setAttribute('is-smaller', '')
+      }
+      if (contentWidth < TAB_SIZE_MINI) {
+        tabEl.setAttribute('is-mini', '')
+      }
     })
 
     let styleHTML = ''
@@ -183,7 +191,7 @@ class ChromeTabs {
     return div.firstElementChild
   }
 
-  addTab(tabProperties, { animate = false, background = false, favicon = false } = {}) {
+  addTab(tabProperties, { animate = false, background = false } = {}) {
     const tabEl = this.createNewTabEl()
 
     if (animate) {
@@ -191,12 +199,14 @@ class ChromeTabs {
       setTimeout(() => tabEl.classList.remove('chrome-tab-was-just-added'), 500)
     }
 
-    tabProperties = Object.assign({ isAdd: true }, defaultTapProperties, tabProperties)
+    tabProperties = { isAdd: true, ...defaultTapProperties, ...tabProperties }
     this.tabContentEl.appendChild(tabEl)
     this.setTabCloseEventListener(tabEl)
     this.updateTab(tabEl, tabProperties)
     this.emit('tabAdd', { tabEl, tabProperties })
-    if (!background) this.setCurrentTab(tabEl, tabProperties)
+    if (!background) {
+      this.setCurrentTab(tabEl, tabProperties)
+    }
     this.cleanUpPreviouslyDraggedTabs()
     this.layoutTabs()
     this.setupDraggabilly()
@@ -217,9 +227,13 @@ class ChromeTabs {
   }
 
   setCurrentTab(tabEl, tabProperties = {}) {
-    const activeTabEl = this.activeTabEl
-    if (activeTabEl === tabEl) return
-    if (activeTabEl) activeTabEl.removeAttribute('active')
+    const { activeTabEl } = this
+    if (activeTabEl === tabEl) {
+      return
+    }
+    if (activeTabEl) {
+      activeTabEl.removeAttribute('active')
+    }
     tabEl.setAttribute('active', '')
     this.emit('activeTabChange', {
       tabEl,
@@ -268,8 +282,8 @@ class ChromeTabs {
   }
 
   setupDraggabilly() {
-    const tabEls = this.tabEls
-    const tabPositions = this.tabPositions
+    const { tabEls } = this
+    const { tabPositions } = this
 
     if (this.isDragging) {
       this.isDragging = false
@@ -310,23 +324,23 @@ class ChromeTabs {
         this.el.classList.add('chrome-tabs-is-sorting')
       })
 
-      draggabilly.on('dragEnd', (_) => {
+      draggabilly.on('dragEnd', () => {
         this.isDragging = false
         const finalTranslateX = parseFloat(tabEl.style.left, 10)
-        tabEl.style.transform = `translate3d(0, 0, 0)`
+        tabEl.style.transform = 'translate3d(0, 0, 0)'
 
         // Animate dragged tab back into its place
-        requestAnimationFrame((_) => {
+        requestAnimationFrame(() => {
           tabEl.style.left = '0'
           tabEl.style.transform = `translate3d(${finalTranslateX}px, 0, 0)`
 
-          requestAnimationFrame((_) => {
+          requestAnimationFrame(() => {
             tabEl.classList.remove('chrome-tab-is-dragging')
             this.el.classList.remove('chrome-tabs-is-sorting')
 
             tabEl.classList.add('chrome-tab-was-just-dragged')
 
-            requestAnimationFrame((_) => {
+            requestAnimationFrame(() => {
               tabEl.style.transform = ''
 
               this.layoutTabs()
@@ -338,12 +352,11 @@ class ChromeTabs {
 
       draggabilly.on('dragMove', (event, pointer, moveVector) => {
         // Current index be computed within the event since it can change during the dragMove
-        const tabEls = this.tabEls
-        const currentIndex = tabEls.indexOf(tabEl)
+        const currentIndex = this.tabEls.indexOf(tabEl)
 
         const currentTabPositionX = originalTabPositionX + moveVector.x
         const destinationIndexTarget = closest(currentTabPositionX, tabPositions)
-        const destinationIndex = Math.max(0, Math.min(tabEls.length, destinationIndexTarget))
+        const destinationIndex = Math.max(0, Math.min(this.tabEls.length, destinationIndexTarget))
 
         if (currentIndex !== destinationIndex) {
           this.animateTabMove(tabEl, currentIndex, destinationIndex)

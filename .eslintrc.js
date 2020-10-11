@@ -31,8 +31,9 @@ module.exports = {
     'arrow-parens': [ERROR, 'always'],
     'no-use-before-define': ['error', { functions: false }],
     'no-console': ERROR,
+    'no-unused-vars': [ERROR, { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-unused-expressions': ERROR,
-    '@typescript-eslint/no-unused-vars': [ERROR],
+    '@typescript-eslint/no-unused-vars': [ERROR, { argsIgnorePattern: '^_' }],
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
@@ -50,6 +51,7 @@ module.exports = {
     'import/prefer-default-export': OFF,
     'react-hooks/rules-of-hooks': ERROR,
     'import/no-unresolved': [ERROR, { ignore: ['^@/*', '^~/*', '_', '__'] }], // Ignore certain webpack alias because it can't be resolved
+    'import/no-extraneous-dependencies': OFF,
     'import/order': [
       // sort import groups
       ERROR,
