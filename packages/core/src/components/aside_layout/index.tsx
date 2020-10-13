@@ -15,8 +15,8 @@ import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
 
 import { Amis } from '../amis/schema'
-import RouteTabs from '../route_tabs'
 import { filterSchemaLimit } from '../amis/schema/func'
+import RouteTabs from '../route_tabs'
 import Aside from './aside'
 import Header from './header'
 import { LayoutLoading, LayoutLazyFallback } from './loading'
@@ -83,7 +83,7 @@ export default withAppTheme<LayoutProps>((props) => {
   )
 
   return (
-    <StyledLayout>
+    <StyledLayout id="app-layout">
       <Layout
         headerFixed
         theme={themeName}

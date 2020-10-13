@@ -1,7 +1,7 @@
 import { RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
 import { get, map } from 'lodash'
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 
@@ -23,11 +23,6 @@ type Props = LayoutCommProps &
   }
 export default (props: Props) => {
   const { asideFolded, themeNs, children, brand, items = [] } = props
-  const [isInit, setInit] = useState(false)
-
-  useEffect(() => {
-    setInit(true)
-  }, [])
 
   const renderBrand = () => {
     const { logo, title, link, className: brandCls = '' } = brand as any
@@ -51,6 +46,15 @@ export default (props: Props) => {
     )
   }
 
+  const renderBrandHolder = () => {
+    return createPortal(
+      <div className="navbar-brand-holder">
+        <img src={brand?.logo} alt="logo" />
+      </div>,
+      $('#app-layout>div').get(0)
+    )
+  }
+
   const renderFoldItem = () => {
     const asideItemProps = {
       faIcon: asideFolded ? 'indent' : 'dedent',
@@ -60,10 +64,7 @@ export default (props: Props) => {
           key: 'toggleAsideFold',
         }),
     }
-    return createPortal(
-      <HeadItem itemProps={asideItemProps} />,
-      $('.navbar-nav>.head-item-fold').get(0)
-    )
+    return <HeadItem itemProps={asideItemProps} />
   }
 
   const headerItems = useMemo(() => {
@@ -72,10 +73,17 @@ export default (props: Props) => {
       role: 'header',
       body: {
         type: 'wrapper',
-        component: (renderProps: any) => <HeadItems items={items} {...renderProps} />,
+        component: (renderProps: any) => (
+          <HeadItems renderFoldItem={renderFoldItem} items={items} {...renderProps} />
+        ),
       },
     }
-    return <Amis schema={itemsSchema} />
+
+    return (
+      <>
+        <Amis schema={itemsSchema} />
+      </>
+    )
   }, [items, themeNs])
 
   return (
@@ -92,13 +100,13 @@ export default (props: Props) => {
         >
           <span className="navbar-toggler-icon" />
         </button>
+        {brand && asideFolded && renderBrandHolder()}
         {brand && renderBrand()}
       </div>
       <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>
         {headerItems}
         {children}
       </div>
-      {isInit && renderFoldItem()}
     </>
   )
 }
@@ -139,8 +147,13 @@ const ItemComponent = (props: ItemProps) => {
   })
 }
 
-function HeadItems(props: { foldItem: any; items: SchemaNode[]; render: any }) {
-  const { items: propItems, render } = props
+function HeadItems(props: {
+  foldItem: any
+  items: SchemaNode[]
+  render: any
+  renderFoldItem: any
+}) {
+  const { items: propItems, render, renderFoldItem } = props
 
   const items = useMemo(() => {
     const lefts: SchemaNode[] = []
@@ -163,7 +176,7 @@ function HeadItems(props: { foldItem: any; items: SchemaNode[]; render: any }) {
   return (
     <div className="collapse navbar-collapse">
       <div className="navbar-nav mr-auto">
-        <div className="head-item-fold d-flex" />
+        <div className="head-item-fold d-flex">{renderFoldItem()}</div>
         {items.lefts}
       </div>
       {items.rights}
