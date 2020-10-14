@@ -21,15 +21,22 @@ export type HederBrandProps = {
     href: string
   }
 }
+
 export type HeaderProps = {
   brand: HederBrandProps
   items?: any[]
   showDevItems?: boolean
 }
 
+export type RouteTabs = {
+  enable?: boolean
+  maxCount?: number
+  storage?: boolean
+}
+
 export type LayoutProps = {
   children?: any
-  withTabs?: boolean
+  routeTabs?: RouteTabs
   header?: HeaderProps
   footer?: LibSchema
   routes?: RouteItem[]

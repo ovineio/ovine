@@ -3,11 +3,7 @@
  *
  * TODO:
  * 1. 添加懒加载优化
- * 2. 添加 参数控制
- * 3. 用户可控制 tabs 是否启用
  * 4. 菜单UI美化，主题UI
- *    1. 折叠菜单 遮挡问题
- *    2. 多主题扩展问题
  *    3. 动态切换---吸附头部的高度问题
  *    4. 移动端兼容性
  */
@@ -30,7 +26,9 @@ import { StyledRouteTabs } from './styled'
 type Props = {
   themeNs: string
   routes: RouteItem[]
+
   maxCount?: number
+  storage?: boolean
 }
 
 export type TabItem = {
@@ -43,12 +41,10 @@ export type TabItem = {
 
 const cachedList = cache.getCachedTabs()
 
-const maxCount = 20
-
 export default (props: Props) => {
   const history = useHistory()
 
-  const { routes, themeNs } = props
+  const { routes, themeNs, maxCount = 100, storage } = props
   const { location } = history
 
   const $storeRef = useRef<{ tabs: any; $tabs: any }>({
@@ -267,7 +263,7 @@ export default (props: Props) => {
       <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>
         <div className="chrome-tabs">
           <div className="chrome-tabs-content">
-            {cachedList.map((item) => (
+            {(!storage ? [] : cachedList).map((item) => (
               <div
                 className="chrome-tab"
                 data-active={item.active}

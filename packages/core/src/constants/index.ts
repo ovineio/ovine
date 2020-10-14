@@ -35,10 +35,12 @@ export const message = {
 export const storage = {
   appInstance: 'libAppInsStore',
   userInfo: 'libUserInfoStore',
-  // 注意此处修改 cli 的主题有用到 libAppThemeStore 字符串，修改的时候切记一起改，
-  appTheme: 'libAppThemeStore',
+  appTheme: 'libAppThemeStore', // 注意此处修改 cli 的主题有用到 'libAppThemeStore' 字符串，修改的时候切记一起改，
+  appLang: 'libAppLangStore',
   appLimit: 'libAppLimitStore',
-  routeTabs: 'libRouteTabsStore',
+  routeTabs: 'libRouteTabsStore', // 存储 RouteTabs 数据
+  supportRouteTabs: 'supportRouteTabsStore', // 是否支持 RouteTabs
+  enableRouteTabs: 'libEnableRouteTabsStore', // 在支持的情况下， 是否开启使用 RouteTabs 功能
   dev: {
     code: 'libDevCodeGlobal',
     limit: 'libDevLimitStore',

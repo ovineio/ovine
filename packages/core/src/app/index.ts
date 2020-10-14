@@ -47,7 +47,7 @@ const initConfig: AppConfig = {
     },
   ],
   amis: {
-    affixOffsetTop: 105,
+    affixOffsetTop: 50,
   },
   // 异步数据容器
   asyncPage: {

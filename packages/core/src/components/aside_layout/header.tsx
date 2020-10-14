@@ -20,9 +20,10 @@ type Props = LayoutCommProps &
   Partial<HeaderProps> & {
     children: any
     themeNs: string
+    withRouteTabs: boolean
   }
 export default (props: Props) => {
-  const { asideFolded, themeNs, children, brand, items = [] } = props
+  const { asideFolded, withRouteTabs, themeNs, children, brand, items = [] } = props
 
   const renderBrand = () => {
     const { logo, title, link, className: brandCls = '' } = brand as any
@@ -46,6 +47,7 @@ export default (props: Props) => {
     )
   }
 
+  // 由于布局 z-index 冲突，导致菜单在收缩状态下，会被侧边栏图标遮挡
   const renderBrandHolder = () => {
     return createPortal(
       <div className="navbar-brand-holder">
@@ -100,7 +102,7 @@ export default (props: Props) => {
         >
           <span className="navbar-toggler-icon" />
         </button>
-        {brand && asideFolded && renderBrandHolder()}
+        {withRouteTabs && brand && asideFolded && renderBrandHolder()}
         {brand && renderBrand()}
       </div>
       <div className={`${themeNs}Layout-headerBar navbar navbar-expand-md`}>

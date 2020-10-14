@@ -1,6 +1,6 @@
 import { AlertComponent, ToastComponent, ContextMenu } from 'amis'
 import get from 'lodash/get'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { Switch, Route, Router } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
@@ -15,20 +15,13 @@ import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
 import { json2reactFactory } from '@/utils/tool'
 
-type State = {
-  theme: string
-  lang: string
-}
+import { AppContext, AppContextState, initAppContext } from './context'
 
 const log = logger.getLogger('lib:components:app')
 
-type AppContext = {
-  lang: string
+export type State = Omit<AppContextState, 'setContext'> & {
+  theme: string
 }
-
-const AppContext = createContext<AppContext>({
-  lang: 'zh_CN',
-})
 
 const j2r = json2reactFactory({
   route: Route,
@@ -38,15 +31,15 @@ const j2r = json2reactFactory({
   'amis-render': Amis,
 })
 
-export const useAppContext = () => useContext(AppContext)
-
 export const App = hot(() => {
   const [state, setState] = useImmer<State>({
+    ...initAppContext,
     theme: app.theme.getTheme().name,
-    lang: 'zh_CN',
   })
 
   const { theme } = state
+
+  const contextState = { ...state, setContext: setState as any }
 
   useEffect(() => {
     log.log('App Mounted.')
@@ -94,7 +87,7 @@ export const App = hot(() => {
       />
       <AlertComponent theme={theme} />
       <ContextMenu theme={theme} />
-      <AppContext.Provider value={state}>
+      <AppContext.Provider value={contextState}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />
           <Switch>{j2r(app.entry)}</Switch>

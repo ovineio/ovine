@@ -226,11 +226,15 @@ const NotFoundRoute = () => {
   return <Route path="*" component={Component} />
 }
 
+type AppMenuRoutesProps = { authRoutes: RouteItem[]; fallback?: any }
+
 // 将 routeConfig 转换为 route
-export const AppMenuRoutes = (props: { authRoutes: RouteItem[]; fallback?: any }) => {
+export const AppMenuRoutes = (props: AppMenuRoutesProps) => {
   const menuRoutes: any = []
 
-  props.authRoutes.forEach(({ children }) => {
+  const { authRoutes, fallback: FallBack } = props
+
+  authRoutes.forEach(({ children }) => {
     if (!children) {
       return
     }
@@ -238,7 +242,7 @@ export const AppMenuRoutes = (props: { authRoutes: RouteItem[]; fallback?: any }
     eachTree(children, (item) => {
       if (item.path && !item.limitOnly) {
         menuRoutes.push(
-          <PrestRoute key={menuRoutes.length + 1} fallback={props.fallback} {...item} />
+          <PrestRoute key={menuRoutes.length + 1} fallback={<FallBack />} {...item} />
         )
       }
     })

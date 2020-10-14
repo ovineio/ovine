@@ -54,7 +54,7 @@ export const schema = {
         width: 60,
         limits: ['edit', 'del'],
         limitsLogic: 'or', // 满足 limits列表中 一个权限即可渲染
-        buttons: ['$preset.actions.test', '$preset.actions.edit', '$preset.actions.del'],
+        buttons: ['$preset.actions.edit', '$preset.actions.del'],
       },
     ],
   },

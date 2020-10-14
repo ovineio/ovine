@@ -7,15 +7,17 @@ import { cloneDeep } from 'lodash'
 import React, { useMemo } from 'react'
 
 import { withAppTheme } from '@/app/theme'
-import { message } from '@/constants'
+import { breakpoints, message, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
 import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
+import { setGlobal } from '@/utils/store'
 
 import { Amis } from '../amis/schema'
 import { filterSchemaLimit } from '../amis/schema/func'
+import { useAppContext } from '../app/context'
 import RouteTabs from '../route_tabs'
 import Aside from './aside'
 import Header from './header'
@@ -32,11 +34,17 @@ const log = logger.getLogger('lib:components:asideLayout')
 
 export default withAppTheme<LayoutProps>((props) => {
   const [state, setState] = useImmer<LayoutState>(initState)
+  const { enableRouteTabs } = useAppContext()
 
-  const { header, routes = [], children, footer, theme, withTabs } = props
+  const { header, routes = [], children, footer, theme, routeTabs } = props
   const { asideFolded, offScreen } = state
 
   const { ns: themeNs, name: themeName } = theme
+
+  const supportTabs = routeTabs && window.innerWidth >= breakpoints.md && routeTabs.enable !== false
+  const withTabs = enableRouteTabs && supportTabs
+
+  setGlobal(storage.supportRouteTabs, supportTabs)
 
   useSubscriber<any>(message.asideLayoutCtrl, (msgData = {}) => {
     const { key, toggle } = msgData
@@ -74,7 +82,12 @@ export default withAppTheme<LayoutProps>((props) => {
     }
   }, [routes])
 
-  const headerProps = { ...layoutConf.header, ...state, setLayout: setState }
+  const headerProps = {
+    ...layoutConf.header,
+    ...state,
+    setLayout: setState,
+    withRouteTabs: withTabs,
+  }
 
   const HeaderComponent = (
     <Header {...headerProps} themeNs={themeNs}>
@@ -83,7 +96,7 @@ export default withAppTheme<LayoutProps>((props) => {
   )
 
   return (
-    <StyledLayout id="app-layout">
+    <StyledLayout id="app-layout" className={withTabs ? 'with-route-tabs' : ''}>
       <Layout
         headerFixed
         theme={themeName}

@@ -8,10 +8,31 @@ export const StyledLayout = styled.div`
   width: 100%;
 
   ${({ theme: { ns, colors } }: { theme: DefaultTheme }) => css`
+    &.with-route-tabs {
+      .${ns}Layout {
+        &--headerFixed {
+          padding-top: 0;
+        }
+        &-headerBar {
+          .${ns}Page {
+            width: 100%;
+            padding: 0 10px;
+            &-body {
+              padding: 0;
+            }
+          }
+        }
+        &-body {
+          padding-top: 105px;
+        }
+      }
+      .${ns}Page-body {
+        padding-top: 0;
+      }
+    }
     .${ns}Layout {
       height: 100%;
       &-body {
-        padding-top: 105px;
         background-color: ${colors.bodyBg};
         color: ${colors.text};
       }
@@ -28,12 +49,6 @@ export const StyledLayout = styled.div`
           }
         }
       }
-      &--headerFixed {
-        padding-top: 0;
-      }
-    }
-    .${ns}Page-body {
-      padding-top: 0;
     }
   `}
 

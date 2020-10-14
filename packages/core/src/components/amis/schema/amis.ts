@@ -24,9 +24,8 @@ type Option = {
 }
 
 export default (option: Option) => {
-  const { schema, props, theme, option: amisOption } = option
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { definitions, ...appSettings } = app.amis
+  const { schema, props = {}, theme, option: amisOption } = option
+
   const libOptions: any = {
     session: 'global',
     // number 固底间距 顶部间距
@@ -141,11 +140,13 @@ export default (option: Option) => {
     // rendererResolver: libResolver,
   }
 
-  return render(schema, props, {
+  const amisRenderOption: any = {
     fetcher: libFetcher,
     ...libOptions,
-    ...appSettings,
+    ...app.amis,
     ...amisOption,
     theme: theme.name,
-  })
+  }
+
+  return render(schema, props, amisRenderOption)
 }

@@ -1,3 +1,7 @@
+/**
+* 自定义功能 需要用到一大堆主题变量时，可以将样式写在这
+*/
+
 .#{$ns}LibDropdown {
   ul {
     background-color: $DropDown-menu-bg;
@@ -10,38 +14,30 @@
   }
 }
 
-.#{$ns}Layout {
-  /** 由于z-index 层级问题引起的BUG */
-  &--folded.#{$ns}Layout--asideFixed {
-    .#{$ns}Layout-asideWrap {
-      z-index: $zindex-fixed;
-      top: $Layout-header-height;
+.with-route-tabs {
+  .#{$ns}Layout {
+    /** 由于z-index 层级问题引起的BUG */
+    &--folded.#{$ns}Layout--asideFixed {
+      .#{$ns}Layout-asideWrap {
+        z-index: $zindex-fixed;
+        top: $Layout-header-height;
+      }
     }
-  }
-  .navbar-brand-holder {
-    position: fixed;
-    z-index: $zindex-fixed + 1;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: $Layout-aside--folded-width;
-    height: $Layout-header-height;
-    background: $Layout-brand-bg;
-    color: $Layout-brandBar-color;
-    img {
-      max-height: $Layout-header-height / 2;
+    .navbar-brand-holder {
+      position: fixed;
+      z-index: $zindex-fixed + 1;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: $Layout-aside--folded-width;
+      height: $Layout-header-height;
+      background: $Layout-brand-bg;
+      color: $Layout-brandBar-color;
+      img {
+        max-height: $Layout-header-height / 2;
+      }
     }
-  }
-}
-
-.#{$ns}RouteTabs {
-  background-color: #fff;
-  .chrome-tabs {
-    background: #eaeaea;
-  }
-  .chrome-tab-title {
-    color: red;
   }
 }

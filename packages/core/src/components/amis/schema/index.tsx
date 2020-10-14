@@ -5,6 +5,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
 import { app } from '@/app'
+import { useAppContext } from '@/components/app/context'
 import { storage } from '@/constants'
 import { getGlobal, setGlobal } from '@/utils/store'
 
@@ -14,7 +15,9 @@ import { LibSchema } from './types'
 
 export type AmisProps = {
   schema: LibSchema
-  props?: RendererProps
+  props?: RendererProps & {
+    affixOffsetTop?: boolean
+  }
   option?: RenderOptions
 }
 
@@ -23,8 +26,17 @@ export type AmisProps = {
 type Props = AmisProps & RouteComponentProps<any>
 
 export const Amis = withRouter((props: Props) => {
-  const { schema: rawSchema, props: amisProps, option = {}, history } = props
+  const { schema: rawSchema, props: amisProps = {}, option = {}, history } = props
   const codeStore = getGlobal<any>(storage.dev.code) || {}
+
+  const { enableRouteTabs } = useAppContext()
+
+  // 改变固定的高度
+  // @ts-ignore
+  if (!amisProps.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
+    // @ts-ignore
+    amisProps.affixOffsetTop = enableRouteTabs ? 104 : 50
+  }
 
   useEffect(() => {
     return () => {
@@ -57,7 +69,7 @@ export const Amis = withRouter((props: Props) => {
 
     const libSchema = resolveLibSchema(wrapCss(schema))
 
-    if (codeStore.enable) {
+    if (codeStore.enable && schema.type === 'page') {
       setGlobal(storage.dev.code, {
         enable: true,
         schema: libSchema,

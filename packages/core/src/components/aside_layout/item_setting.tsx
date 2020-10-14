@@ -9,11 +9,12 @@ import React from 'react'
 
 import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
+import { useAppContext } from '@/components/app/context'
 import { storage } from '@/constants'
 import { setAppLimits } from '@/routes/limit/exports'
 import { changeAppTheme } from '@/styled/theme'
 import { useImmer } from '@/utils/hooks'
-import { getStore, setStore } from '@/utils/store'
+import { getGlobal, getStore, setStore } from '@/utils/store'
 
 import HeadItem from './head_item'
 
@@ -29,10 +30,14 @@ const initState = {
 }
 
 export default (props: Props) => {
-  const [state, setState] = useImmer<State>(initState)
   const { theme } = props
 
+  const [state, setState] = useImmer<State>(initState)
+  const { enableRouteTabs, setContext } = useAppContext()
+
   const { settingVisible } = state
+
+  const supportRouteTabs = getGlobal(storage.supportRouteTabs)
 
   const toggleSetting = () => {
     setState((d) => {
@@ -114,6 +119,9 @@ export default (props: Props) => {
         .form-control-static {
           padding: 0;
         }
+        label {
+          padding-top: 13px;
+        }
       }
     `,
       body: {
@@ -148,8 +156,21 @@ export default (props: Props) => {
               onAction: onClearCache,
             },
           },
+          supportRouteTabs && {
+            type: 'switch',
+            name: 'enableRouteTabs',
+            label: '路由选项卡',
+            value: enableRouteTabs,
+            onChange: (enable: boolean) => {
+              setContext((d) => {
+                d.enableRouteTabs = enable
+              })
+              setStore(storage.enableRouteTabs, enable || '')
+              toggleSetting()
+            },
+          },
           ...devItems,
-        ],
+        ].filter(Boolean),
       },
     },
   }
