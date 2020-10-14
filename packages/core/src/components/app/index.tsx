@@ -8,14 +8,15 @@ import { ThemeProvider } from 'styled-components'
 import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
 import AsideLayout from '@/components/aside_layout'
-import { message } from '@/constants'
+import { message, storage } from '@/constants'
 import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
+import { getStore } from '@/utils/store'
 import { json2reactFactory } from '@/utils/tool'
 
-import { AppContext, AppContextState, initAppContext } from './context'
+import { AppContext, AppContextState } from './context'
 
 const log = logger.getLogger('lib:components:app')
 
@@ -31,9 +32,12 @@ const j2r = json2reactFactory({
   'amis-render': Amis,
 })
 
+const cacheRouteTabs = getStore<boolean>(storage.enableRouteTabs)
+
 export const App = hot(() => {
   const [state, setState] = useImmer<State>({
-    ...initAppContext,
+    lang: getStore(storage.appLang) || 'zh_CN',
+    enableRouteTabs: cacheRouteTabs === null ? true : cacheRouteTabs,
     theme: app.theme.getTheme().name,
   })
 

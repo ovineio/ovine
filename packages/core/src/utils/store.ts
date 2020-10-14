@@ -13,7 +13,7 @@ export function clearStore(key: string): void {
   localStorage.removeItem(key)
 }
 
-export function getStore<T>(key: string): T | undefined {
+export function getStore<T>(key: string): T | null {
   let value = localStorage.getItem(key)
 
   if (value) {
@@ -27,7 +27,7 @@ export function setSessionStore(key: string, value: any): void {
   sessionStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getSessionStore<T>(key: string): T | undefined {
+export function getSessionStore<T>(key: string): T | null {
   let value = sessionStorage.getItem(key)
 
   if (value) {

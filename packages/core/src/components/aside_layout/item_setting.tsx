@@ -165,7 +165,7 @@ export default (props: Props) => {
               setContext((d) => {
                 d.enableRouteTabs = enable
               })
-              setStore(storage.enableRouteTabs, enable || '')
+              setStore(storage.enableRouteTabs, enable)
               toggleSetting()
             },
           },
