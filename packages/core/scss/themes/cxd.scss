@@ -25,7 +25,7 @@ $body-bg: #ffffff;
 $text-color: #666;
 $text--muted-color: #999;
 $text--loud-color: #333;
-$borderColor: #e8ebee;
+$borderColor: #eceff8;
 
 $link-onHover-decoration: none;
 
@@ -417,7 +417,7 @@ $Toast-border-width: px2rem(1px);
 $Toast-icon-width: px2rem(16px);
 $Toast-icon-height: px2rem(16px);
 $Toast-opacity: 1;
-$Toast-title-display: inline-block;
+$Toast-title-display: inline;
 
 // Toast color
 $Toast-color: $white;
@@ -455,6 +455,9 @@ $Card-onModified-color: $primary;
 $Card-actions-onHover-bg: white;
 $Card-actions-onHover-color: $primary;
 $Card-actions-onChecked-onHover-bg: $white;
+
+$Card-actions-borderColor: lighten($borderColor, 2.5%);
+$Card-actions-fontSize: px2rem(12px);
 
 // Combo
 $Combo--horizontal-dragger-top: px2rem(5px);

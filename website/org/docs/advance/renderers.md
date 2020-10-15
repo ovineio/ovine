@@ -364,7 +364,7 @@ type Props = {
 
 ### 特定场景中使用的渲染器
 
-> 由于配置较多，也是 Ovine 项目都必要用的渲染器，因此具体使用请查看 Demo 代码。
+> 由于配置较多，也是 Ovine 项目都必要用的渲染器，因此具体使用请查看 [Demo](https://github.com/CareyToboo/ovine/tree/master/website/example) 代码。
 
 #### 页面配置中 entry 中可配置的渲染器
 
@@ -409,6 +409,11 @@ type Props = {
 
 ```ts
 type Props = {
+  routeTabs?: {
+    enable?: boolean // 是否开启 ”路由选项卡“
+    maxCount?: number // 选项卡 最多个数限制
+    storage?: boolean // 是否 开启前端本地存储
+  }
   header?: {
     // 头部配置
     brand: {

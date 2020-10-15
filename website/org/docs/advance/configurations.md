@@ -63,6 +63,7 @@ export type AppConfig = {
     // 覆盖内置常量
     baseUrl?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
     rootLimitFlag?: string // 超级管理员权限标示。存在这个标示，将默认不校验任何权限
+    enableBactTop: boolean // 是否开启 “快速回到顶部” 功能
     notFound?: {
       // 404 页面
       route?: string // 默认跳转 404

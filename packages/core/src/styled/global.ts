@@ -45,14 +45,13 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .is-inline {
+    display: inline;
+  }
+
 
   /** lib 主题相关的全局样式 */
   /** amis 兼容  */
-
-  /** mce editor 弹出层兼容 暂时使用 important */
-  .tox.tox-tinymce-aux {
-    z-index: 1500 !important;
-  }
 
   ${({ theme: { ns, colors } }) => css`
     body > div {
