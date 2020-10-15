@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components'
 import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
 import AsideLayout from '@/components/aside_layout'
+import BactTop from '@/components/back_top'
 import { message, storage } from '@/constants'
 import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
@@ -91,6 +92,7 @@ export const App = hot(() => {
       />
       <AlertComponent theme={theme} />
       <ContextMenu theme={theme} />
+      {app.constants.enableBactTop && <BactTop />}
       <AppContext.Provider value={contextState}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />

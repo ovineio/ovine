@@ -43,6 +43,7 @@ export interface AppConfig {
     }
     toastDuration?: number
     loginRoute?: string
+    enableBactTop?: boolean
   }
   entry: any[]
   hook: {
