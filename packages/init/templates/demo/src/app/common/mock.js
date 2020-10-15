@@ -5,7 +5,7 @@
 import { times } from 'lodash'
 
 const fakeUserInfo = {
-  avatar: 'http://static.igroupes.com/default_avatar.jpg',
+  avatar: 'https://static.igroupes.com/default_avatar.jpg',
   nickname: '梦醒十分2',
   signature: '就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～就知道睡觉～',
   limit: '*',
@@ -25,7 +25,7 @@ export default {
   'GET ovapi/system/user/item/$id': ({ data = {} }) => {
     return {
       data: {
-        avatar: 'http://static.igroupes.com/default_avatar.jpg',
+        avatar: 'https://static.igroupes.com/default_avatar.jpg',
         id: data.id,
         username: 'userLoginUsername',
         nickname: '你好啊',

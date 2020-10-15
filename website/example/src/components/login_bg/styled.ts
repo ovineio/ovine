@@ -14,9 +14,9 @@ const bgSquare = keyframes`
 `
 
 const backgrounds = {
-  default: 'http://static.igroupes.com/ovine_bg_default.jpeg',
-  cxd: 'http://static.igroupes.com/ovine_bg_cxd.jpeg',
-  dark: 'http://static.igroupes.com/ovine_bg_black.jpeg',
+  default: 'https://static.igroupes.com/ovine_bg_default.jpeg',
+  cxd: 'https://static.igroupes.com/ovine_bg_cxd.jpeg',
+  dark: 'https://static.igroupes.com/ovine_bg_black.jpeg',
 }
 
 export const StyledLoginBg = styled.div`
