@@ -9,7 +9,6 @@
 
 import { openContextMenus } from 'amis'
 import { findTree } from 'amis/lib/utils/helper'
-
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -171,8 +170,8 @@ export default (props: Props) => {
 
     openContextMenus(
       {
-        x: e.pageX,
-        y: e.pageY,
+        x: e.clientX,
+        y: e.clientY,
       },
       actions
     )

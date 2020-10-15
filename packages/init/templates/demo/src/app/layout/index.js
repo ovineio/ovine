@@ -11,6 +11,9 @@ import { itemUserSchema } from './item_user'
 export const layout = {
   routes,
   type: 'aside-layout', // 侧边栏布局
+  routeTabs: {
+    enable: true,
+  },
   header: {
     brand: {
       // 公司品牌
