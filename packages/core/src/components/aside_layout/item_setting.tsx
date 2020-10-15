@@ -143,19 +143,6 @@ export default (props: Props) => {
             })),
             onChange: onChangeTheme,
           },
-          {
-            type: 'lib-blank',
-            name: '',
-            label: '系统缓存',
-            className: 'from-item-button',
-            body: {
-              type: 'button',
-              icon: 'fa fa-trash-o',
-              label: '清除',
-              confirmText: '本地缓存数据将被删除，确认清除？',
-              onAction: onClearCache,
-            },
-          },
           supportRouteTabs && {
             type: 'switch',
             name: 'enableRouteTabs',
@@ -167,6 +154,19 @@ export default (props: Props) => {
               })
               setStore(storage.enableRouteTabs, enable)
               toggleSetting()
+            },
+          },
+          {
+            type: 'lib-blank',
+            name: '',
+            label: '系统缓存',
+            className: 'from-item-button',
+            body: {
+              type: 'button',
+              icon: 'fa fa-trash-o',
+              label: '清除',
+              confirmText: '本地缓存数据将被删除，确认清除？',
+              onAction: onClearCache,
             },
           },
           ...devItems,

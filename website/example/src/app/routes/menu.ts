@@ -15,7 +15,7 @@ export const menuRoutes: LimitMenuItem = {
   children: [
     {
       path: '/',
-      label: 'Dashboard',
+      label: '仪表盘',
       nodePath: 'dashboard',
       exact: true,
       pathToComponent: 'dashboard',

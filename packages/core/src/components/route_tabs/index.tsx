@@ -3,9 +3,8 @@
  *
  * TODO:
  * 1. 添加懒加载优化
- * 4. 菜单UI美化，主题UI
- *    3. 动态切换---吸附头部的高度问题
- *    4. 移动端兼容性
+ * 2. 菜单UI美化，主题UI
+ * 3. 添加 RouteIcon 已经请求 LoadingIcon 之类的
  */
 
 import { openContextMenus } from 'amis'
