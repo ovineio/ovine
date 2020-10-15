@@ -1,6 +1,6 @@
 {
   "name": "@ovine/init",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Apply ovine template more easily.",
   "private": false,
   "publishConfig": {
