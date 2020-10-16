@@ -13,7 +13,7 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~/*": ["./*"],
-      "@core/*": ["../node_modules/@core/*"]
+      "@core/*": ["../node_modules/@ovine/core/lib/*"]
     },
     "types": [
       "@types/react",
