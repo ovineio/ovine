@@ -92,7 +92,7 @@ export const App = hot(() => {
       />
       <AlertComponent theme={theme} />
       <ContextMenu theme={theme} />
-      {app.constants.enableBactTop && <BactTop />}
+      {app.constants.enableBackTop && <BactTop />}
       <AppContext.Provider value={contextState}>
         <ThemeProvider theme={getTheme()}>
           <GlobalStyle />

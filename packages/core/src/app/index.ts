@@ -35,7 +35,7 @@ const initConfig: AppConfig = {
       : process.env.PUBLIC_PATH || '/',
     toastDuration: 1200,
     rootLimitFlag: '*',
-    enableBactTop: false,
+    enableBackTop: false,
     notFound: {
       route: '/404',
       pagePath: '',
