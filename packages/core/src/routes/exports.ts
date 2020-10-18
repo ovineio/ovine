@@ -8,7 +8,7 @@ import { cloneDeep } from 'lodash'
 import { app } from '@/app'
 import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
-import { isSubStr, retryPromise, loadScriptAsync } from '@/utils/tool'
+import { isSubStr, retryPromise, loadScriptAsync, deserialize } from '@/utils/tool'
 
 import { PageFileOption, PagePreset } from './types'
 
@@ -57,6 +57,17 @@ export function getPageFilePath(option: PageFileOption): string {
   // 宽泛协议
   if (url.startsWith('//')) {
     return window.location.protocol + url
+  }
+
+  // API 请求路由支持 GET 请求
+  const apiUrlReg = /^([a-zA-Z0-9]{1,10}):\/\/(.+)$/
+  const apiDomainMatches = url.match(apiUrlReg)
+  if (apiDomainMatches) {
+    const info = app.request.getUrlByOption({
+      url: apiDomainMatches[2],
+      domain: apiDomainMatches[1],
+    })
+    return info.url
   }
 
   return ''
@@ -135,17 +146,50 @@ export async function getPageFileAsync(option: PageFileOption) {
     return cloneDeep(app.asyncPage.schema[pageAlias])
   }
 
-  // 服务器远程 url 地址需要远程加载页面
+  // 动态渲染页面
   return retryPromise(() => {
     app.asyncPage.schema = app.asyncPage?.schema || {}
+
     // 异步加载脚本，规范 window.ovine.addPageSchemaJs(option.nodePath, {default?,schema})
-    return loadScriptAsync(filePath).then(function() {
-      if (!app.asyncPage.schema[pageAlias]) {
-        log.error(`${filePath} 异步页面加载失败，请检查页面是否符合规范`)
+    if (/\.js/.test(filePath)) {
+      return loadScriptAsync(filePath)
+        .then(() => {
+          if (!app.asyncPage.schema[pageAlias]) {
+            log.error(
+              `Please add page schema for "${pageAlias}" by using 'window.ovine.addPageSchemaJs()'.`
+            )
+            return defaultContent
+          }
+          return cloneDeep(app.asyncPage.schema[pageAlias])
+        })
+        .catch((err) => {
+          log.error('An error occurred by load js scripts.', err)
+          return defaultContent
+        })
+    }
+
+    // 接口获取  schema, 单词浏览缓存页面，刷新浏览器更新页面
+    return app
+      .request<{ schema: string }>({
+        method: 'GET',
+        url: filePath,
+      })
+      .then((source) => {
+        const schema = deserialize(source?.data?.schema || '')
+        if (!schema) {
+          log.error(`Please add page schema string for "${pageAlias}" by http server api.`)
+          return defaultContent
+        }
+
+        // 缓存，下次无需读接口，刷新页面缓存失效
+        app.asyncPage.schema[pageAlias] = schema
+
+        return schema
+      })
+      .catch((err) => {
+        log.error('An error occurred when fetch page schema.', err)
         return defaultContent
-      }
-      return cloneDeep(app.asyncPage.schema[pageAlias])
-    })
+      })
   })
 }
 
