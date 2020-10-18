@@ -35,6 +35,7 @@ const {
   esLintFileName,
   cssAssetsFile,
   dllFileKeys,
+  srcDirName,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -80,14 +81,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
-    entry: [
-      // Instead of the default WebpackDevServer client, we use a custom one
-      // like CRA to bring better experience.
-      // !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
-      'react-hot-loader/patch',
-      // `${srcDir}/index`,
-      `${getModulePath(siteDir, 'lib/core/lib/app/entry.js', true)}`,
-    ].filter(Boolean) as string[],
+    entry: getAppEntries({ siteDir }),
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
       publicPath,
@@ -367,12 +361,14 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
         }),
       new HtmlWebpackPlugin({
-        ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
+        ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
         scssUpdate,
         title: siteConfig.title,
-        favIcon: siteConfig.favicon,
+        favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
+        withoutPace: siteConfig.ui?.withoutPace,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
+
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
         dllVendorCss: getDllDistFile(siteDir, dllVendorFileName, 'css'),
@@ -399,6 +395,54 @@ function excludeJS(modulePath: string) {
   const isLibModules = /node_modules[\\/]@ovine[\\/].*\.[j|t]sx?$/.test(modulePath)
 
   return isLibModules ? false : isNodeModules
+}
+
+function getAppEntries(option: any) {
+  const { siteDir } = option
+
+  const entries: any[] = ['react-hot-loader/patch']
+  const siteSrcDir = `${siteDir}/${srcDirName}/`
+  const extArr = ['js', 'jsx', 'ts', 'tsx']
+
+  const getLibFile = (fileName: string) =>
+    getModulePath(siteDir, `lib/core/lib/app/${fileName}`, true)
+
+  const isAutoEntry =
+    extArr
+      .map((ext) => `app.auto.${ext}`)
+      .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+      .filter(Boolean).length === 1
+
+  // use app.config for entry
+  if (isAutoEntry) {
+    entries.push(getLibFile('entry_auto.js'))
+    return entries
+  }
+
+  const isCustomEntry =
+    extArr
+      .map((ext) => `app.custom.${ext}`)
+      .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+      .filter(Boolean).length === 1
+
+  // use app.custom for entry
+  if (isCustomEntry) {
+    entries.push(getLibFile('entry_custom.js'))
+    return entries
+  }
+
+  // use app for entry  -----> ovineCore would not anything. All give to developer!
+  const appEntryExtIdx = extArr
+    .map((ext) => `app.${ext}`)
+    .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+    .findIndex((i) => i)
+
+  if (appEntryExtIdx > -1) {
+    entries.push(`${siteSrcDir}app.${extArr[appEntryExtIdx]}`)
+    return entries
+  }
+
+  throw new Error('no app entry!! please add entry file.')
 }
 
 function getFixLibLoaders(option: any) {

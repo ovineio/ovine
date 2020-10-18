@@ -4,7 +4,11 @@
  */
 
 /* eslint-disable no-console */
+import { defaults } from 'lodash'
+
 import * as Types from '@/utils/types'
+
+import { getUrlParams } from './tool'
 
 type Level = 'log' | 'info' | 'warn' | 'error'
 
@@ -176,6 +180,20 @@ export const setConfig = (conf: Partial<Config>): void => {
   }
 
   logger.info('lib:logger:config', debugConfig)
+}
+
+export const initLogger = (loggerConf: any = {}) => {
+  const moduleName = getUrlParams('loggerModule') || loggerConf?.moduleName || ''
+  const loggerLevel = getUrlParams('loggerLevel') || loggerConf?.level || 'log'
+  const loggerConfig = defaults(
+    {
+      moduleName,
+      level: loggerLevel,
+      enable: !!moduleName,
+    },
+    loggerConf
+  )
+  setConfig(loggerConfig)
 }
 
 export default logger

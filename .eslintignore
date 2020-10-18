@@ -8,6 +8,8 @@ backup
 static
 node_modules
 
+*.ejs
+
 /.ovine
 
 /packages/init/tmp

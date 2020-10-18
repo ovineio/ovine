@@ -20,12 +20,16 @@ const optionalFields = [
   'initTheme',
   'staticFileExts',
   'devServerProxy',
+  'ui',
 ]
 
 const defaultConfig = {
   publicPath: '/',
   template: {},
   devServerProxy: {},
+  ui: {
+    withoutPace: false,
+  },
 }
 
 function formatFields(fields: string[]): string {

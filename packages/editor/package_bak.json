@@ -1,5 +1,5 @@
 {
-  "name": "@ovine/craft",
+  "name": "@ovine/editor",
   "version": "0.0.10",
   "description": "Ovine json editor.",
   "private": false,
@@ -21,13 +21,7 @@
   },
   "author": "carey toboos",
   "license": "MIT",
-  "keywords": [
-    "aims",
-    "ovine",
-    "react",
-    "typescript",
-    "admin-template"
-  ],
+  "keywords": ["aims", "ovine", "react", "typescript", "admin-template"],
   "peerDependencies": {
     "@hot-loader/react-dom": "^16.8.6",
     "@ovine/core": "^0.0.1",
@@ -48,10 +42,6 @@
   "engines": {
     "node": ">=10.9.0"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 10"
-  ],
+  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
   "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
 }

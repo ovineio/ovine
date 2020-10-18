@@ -20,6 +20,9 @@ export type SiteConfig = {
     test: RegExp
     name: string
   }>
+  ui?: {
+    withoutPace: boolean
+  }
 }
 
 export type SiteContext = {
