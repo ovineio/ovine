@@ -12,7 +12,9 @@ import { DllCliOptions, Props } from '../types'
 import { mergeWebpackConfig } from '../utils'
 import * as amis from './amis'
 import { getDllBabelConfig } from './babel'
+import DllManifestPlugin from './plugins/dll_manifest_plugin'
 import LogPlugin from './plugins/log_plugin'
+import MomentPlugin from './plugins/moment_plugin'
 
 import chalk = require('chalk')
 
@@ -30,12 +32,12 @@ const dllName = '[name]_[hash:6]'
 
 const dllModules = [
   'react-router-dom',
-  'immer',
-  'styled-components',
   'whatwg-fetch',
   'qs',
-  'amis',
+  'immer',
   'lodash',
+  'styled-components',
+  'amis',
   'bootstrap/dist/js/bootstrap.bundle.js',
 
   'bootstrap/dist/css/bootstrap.css',
@@ -216,6 +218,9 @@ export function createDllConfig(options: ConfigOptions) {
       new CleanPlugin({
         cleanOnceBeforeBuildPatterns: ['**/*', '!*.worker.*'],
       }),
+      new MomentPlugin({
+        localesToKeep: ['zh-cn'],
+      }),
       new MiniCssExtractPlugin({
         filename: `${dllName}.css`,
         chunkFilename: 'chunk_[name]_[chunkhash:6].css',
@@ -229,6 +234,9 @@ export function createDllConfig(options: ConfigOptions) {
         fullPath: false,
         path: siteDir,
       }),
+      new DllManifestPlugin({
+        siteDir,
+      }),
     ],
     performance: {
       hints: false,
@@ -241,6 +249,21 @@ export function createDllConfig(options: ConfigOptions) {
         cacheGroups: {
           default: false,
           vendors: false,
+          /**
+           * split one big dll bundle file into some small file.
+           */
+          boot: {
+            chunks: 'initial',
+            test: /[\\/]node_modules[\\/](react|react-router-dom|whatwg-fetch|styled-components|lodash|moment|immer|qs|@hot-loader)[\\/]/,
+            name: 'boot',
+            priority: 30,
+          },
+          amis: {
+            chunks: 'initial',
+            test: /[\\/]node_modules[\\/]amis[\\/]/,
+            name: 'amis',
+            priority: 20,
+          },
           monacoLanguages: {
             chunks: 'async',
             name: 'monaco_languages',

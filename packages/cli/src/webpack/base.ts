@@ -34,6 +34,7 @@ const {
   staticLibDirPath,
   esLintFileName,
   cssAssetsFile,
+  dllFileKeys,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -339,8 +340,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         }),
       dll &&
         new DllReferencePlugin({
-          manifest: `${siteDir}/${dllManifestFile}`.replace('[name]', dllVendorFileName),
-        } as any),
+          context: siteDir,
+          manifest: dllManifestFile.replace('[name]', dllVendorFileName),
+        }),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
         chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].css' : 'chunks/[name].css',
@@ -373,8 +375,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(siteDir, 'css'),
-        dllVendorJs: dll && getDllDistFile(siteDir, 'js'),
+        dllVendorCss: getDllDistFile(siteDir, dllVendorFileName, 'css'),
+        dllVendorJs:
+          dll && dllFileKeys.map((fileKey) => getDllDistFile(siteDir, fileKey, 'js')).join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
       }),
     ].filter(Boolean) as any[],
   }
@@ -426,7 +429,7 @@ function getFixLibLoaders(option: any) {
   return dll ? [] : loaders
 }
 
-function getDllDistFile(siteDir: string, type: string) {
+function getDllDistFile(siteDir: string, fileKey: string = dllVendorFileName, type: string = 'js') {
   const { publicPath } = loadContext(siteDir)
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
 
@@ -437,7 +440,7 @@ function getDllDistFile(siteDir: string, type: string) {
     return ''
   }
 
-  return `${dllBasePath}${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+  return `${dllBasePath}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
 function getCopyPlugin(siteDir: string) {
@@ -461,15 +464,6 @@ function getCopyPlugin(siteDir: string) {
       to: outStaticDir,
     })
   }
-
-  // const amisPkg = getModulePath(siteDir, 'amis/sdk/pkg')
-  // if (amisPkg) {
-  //   copyFiles.unshift({
-  //     from: amisPkg,
-  //     to: `${outLibDir}/pkg/[name].[ext]`,
-  //     toType: 'template',
-  //   })
-  // }
 
   const coreStatic = getModulePath(siteDir, 'lib/core/static')
   if (coreStatic) {

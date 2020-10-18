@@ -19,7 +19,7 @@ export const cssAssetsFile = `${generatedDirName}/css_assets.json`
 
 // dll config
 export const dllVendorFileName = 'vendor'
-export const dllReactFileName = 'react'
+export const dllFileKeys = ['boot', 'amis', 'vendor']
 export const dllVendorDirPath = `${staticLibDirPath}/dll`
 export const dllDirPath = `${generatedDirName}/${staticDirName}/dll`
 export const dllManifestFile = `${generatedDirName}/dll_[name]_manifest.json`
