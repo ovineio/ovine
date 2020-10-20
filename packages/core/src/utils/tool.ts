@@ -194,7 +194,7 @@ type SerializeOption = {
   unsafe: boolean // false
   ignoreFunction: boolean // false
 }
-export function serialize(source: object, option: SerializeOption): string {
+export function serialize(source: object, option?: Partial<SerializeOption>): string {
   return serializeObject(source, option)
 }
 

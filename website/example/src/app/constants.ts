@@ -6,6 +6,7 @@
 export const storeKeys = {
   auth: 'auth',
   schemaEditor: 'schemaEditor',
+  testEditorSchema: 'testEditorSchema',
 }
 
 // 用于消息通知的 key

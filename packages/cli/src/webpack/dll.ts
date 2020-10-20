@@ -33,6 +33,7 @@ const dllName = '[name]_[hash:6]'
 const dllModules = [
   'react-router-dom',
   'whatwg-fetch',
+  'copy-to-clipboard',
   'qs',
   'immer',
   'lodash',

@@ -1,9 +1,17 @@
-### CLI 调整
+### 架构 QianKun
 
-- 去除入口自动引入 `app/src/index` 入口文件 逻辑
+### Editor 接入编辑器
+
+- 引入 amis-editor
+
+### CLI/CORE 调整
+
+- [x] 去除入口自动引入 `app/src/index` 入口文件 逻辑
+- [x] 将 `react、react-dom、react-router、styled-components` 打单 dll 独包,所有其他文件再单独打包(拆分为两个入口)
+- [x] 支持 `core` 路由，侧边栏，权限， 动态 api 获取
+
 - 支持整个站点使用 `cdn` 缓存文件
-- 将 `react、react-dom、react-router、styled-components` 打单 dll 独包,所有其他文件再单独打包(拆分为两个入口)
-- 添加 `node_modules/xx` 特殊文件打包优化
+- `core` 添加 `node_modules/xx` 特殊文件打包优化
 
 ### TODO
 

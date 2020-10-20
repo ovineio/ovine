@@ -145,6 +145,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         cacheGroups: {
           default: false, // disabled default configuration
           vendors: false, // disabled splitChunks vendors configuration
+          ...siteConfig.cacheGroups, // append user cacheGroups config
           appVendor: {
             chunks: 'all',
             name: 'app_vendor',
@@ -175,13 +176,13 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             name: (mod: any) => {
               const resolvedPath = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
               const commonName = 'pages_common'
-              const { splitCodeRoutes } = siteConfig
+              const { splitRoutes } = siteConfig
 
               let modPath = commonName
 
               // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
-              if (resolvedPath && _.isArray(splitCodeRoutes)) {
-                splitCodeRoutes.some(({ test, name }) => {
+              if (resolvedPath && _.isArray(splitRoutes)) {
+                splitRoutes.some(({ test, name }) => {
                   if (!(test instanceof RegExp) || !name || !test.test(resolvedPath[1])) {
                     return false
                   }
@@ -193,14 +194,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
               return modPath
             },
           },
-          // pagePresets: {
-          //   chunks: 'all',
-          //   name: 'page_presets',
-          //   test: /[\\/]src[\\/]pages[\\/].*[\\/]preset\.[j|t]sx?$/,
-          //   priority: 18,
-          //   minChunks: 1,
-          //   reuseExistingChunk: true,
-          // },
         },
       },
     },

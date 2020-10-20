@@ -21,7 +21,13 @@
   },
   "author": "carey toboos",
   "license": "MIT",
-  "keywords": ["aims", "ovine", "react", "typescript", "admin-template"],
+  "keywords": [
+    "aims",
+    "ovine",
+    "react",
+    "typescript",
+    "admin-template"
+  ],
   "peerDependencies": {
     "@hot-loader/react-dom": "^16.8.6",
     "@ovine/core": "^0.0.1",
@@ -37,11 +43,16 @@
     "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
-    "amis-editor": "1.1.17"
+    "amis-editor": "^1.1.17",
+    "axios": "^0.20.0"
   },
   "engines": {
     "node": ">=10.9.0"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 10"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
   "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
 }

@@ -22,7 +22,7 @@ export default css`
     height: 42px;
     padding: ${chromeTabSpaceAbove} 3px ${chromeTabSpaceBelow} 3px;
     background-color: #e6e7e8;
-    overflow: hidden;
+    /* overflow: hidden; */
 
     .chrome-tab {
       position: absolute;
@@ -150,7 +150,7 @@ export default css`
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
     pointer-events: none;
     > svg {
       width: 100%;
@@ -170,7 +170,7 @@ export default css`
     padding: 9px 8px;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
     pointer-events: all;
   }
   .chrome-tab-favicon {

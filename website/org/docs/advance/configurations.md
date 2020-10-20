@@ -19,7 +19,7 @@ export type SiteConfig = {
   initTheme?: string // 初始化主题
   staticFileExts?: string[] // 需要处理的静态资源类型
   // 按路由路由分割代码， 默认不分割代码，
-  splitCodeRoutes?: Array<{
+  splitRoutes?: Array<{
     test: RegExp // 路由正则匹配
     name: string // 被匹配的路由，将分割为一个文件
   }>

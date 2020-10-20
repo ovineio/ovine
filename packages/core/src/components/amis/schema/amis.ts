@@ -1,7 +1,8 @@
 import { confirm, render, toast, alert } from 'amis'
 import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
-
 import { Action } from 'amis/lib/types'
+import copy from 'copy-to-clipboard'
+
 import { get } from 'lodash'
 import { DefaultTheme } from 'styled-components'
 
@@ -23,6 +24,32 @@ type Option = {
   [prop: string]: any
 }
 
+export const baseAmisEnv = {
+  fetcher: libFetcher,
+  // 是否取消 ajax请求
+  isCancel: (reson: any) => {
+    const isCancel = get(reson, 'error.name') === 'AbortError'
+    if (isCancel) {
+      log.info('isCancel 请求被终止')
+      return true
+    }
+    return false
+  },
+  // 实现，内容复制。// 实现，内容复制。
+  copy: (contents: string, options?: { shutup: boolean }) => {
+    const ret = copy(contents, options as any)
+    if (ret && (!options || options.shutup !== true)) {
+      toast.info('已拷贝到剪切板')
+    }
+    return ret
+  },
+  // 实现警告提示。
+  alert: (msg: string) => {
+    log.log('alert', msg)
+    alert(msg)
+  },
+}
+
 export default (option: Option) => {
   const { schema, props = {}, theme, option: amisOption } = option
 
@@ -34,15 +61,7 @@ export default (option: Option) => {
     affixOffsetBottom: 0,
     // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
     richTextToken: false,
-    // 是否取消 ajax请求
-    isCancel: (reson: any) => {
-      const isCancel = get(reson, 'error.name') === 'AbortError'
-      if (isCancel) {
-        log.info('isCancel 请求被终止')
-        return true
-      }
-      return false
-    },
+
     // 消息提示
     notify: (msgType: string = 'error', msg: string = '') => {
       log.log('notify', { msgType, msg })
@@ -65,11 +84,6 @@ export default (option: Option) => {
       if (tipMsg) {
         tipMsg(msgText, msgTitle)
       }
-    },
-    // 实现警告提示。
-    alert: (msg: string) => {
-      log.log('alert', msg)
-      alert(msg)
     },
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
@@ -124,10 +138,6 @@ export default (option: Option) => {
       log.log('isCurrentUrl', href)
       return href === window.location.href.replace(window.location.origin, '')
     },
-    // 实现，内容复制。
-    copy: (contents: string, options?: { shutup: boolean }) => {
-      log.log('copy', contents, options)
-    },
     // HTMLElement 决定弹框容器。
     getModalContainer: () => {
       return document.getElementById('modal-root')
@@ -141,7 +151,7 @@ export default (option: Option) => {
   }
 
   const amisRenderOption: any = {
-    fetcher: libFetcher,
+    ...baseAmisEnv,
     ...libOptions,
     ...app.amis,
     ...amisOption,
