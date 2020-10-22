@@ -7,12 +7,6 @@
 import { editorStore } from './editor'
 import { rootStore } from './root'
 
-// const initData = {
-//   type: 'page',
-//   title: '一个全新的页面',
-//   body: '从这里开始编辑吧～',
-// }
-
 export class History {
   currentFrame = -1
 
@@ -51,7 +45,6 @@ export class History {
 
   // 根据存储的数据设置状态
   applyFrame(frame) {
-    // applySnapshot(editorStore, frame)
     editorStore.rawUpdateSchema(frame)
     this.setHistoryStatus()
   }

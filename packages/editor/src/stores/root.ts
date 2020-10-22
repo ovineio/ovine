@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import { types, getEnv } from 'mobx-state-tree'
-import { createContext, useContext } from 'react'
 
 import { baseAmisEnv } from '@core/components/amis/schema/amis'
 
@@ -22,6 +21,9 @@ const RootStore = types
       get isDirty() {
         return !_.isEqual(editorStore.schema, self.lastSavedSchema)
       },
+      /**
+       * 以下内容主要用于 amis-editor 中的 store 获取 env
+       */
       get fetcher() {
         return getEnv(self).fetcher
       },
@@ -32,6 +34,12 @@ const RootStore = types
         return getEnv(self).alert
       },
       get copy() {
+        return getEnv(self).copy
+      },
+      get updateLocation() {
+        return getEnv(self).copy
+      },
+      get jumpTo() {
         return getEnv(self).copy
       },
     }
@@ -70,7 +78,20 @@ const RootStore = types
     }
   })
 
-const Root = createContext(null)
+const env: any = {
+  /**
+   * amis 要求必须实现的操作,否则会报错
+   */
+  ...baseAmisEnv,
+
+  updateLocation: () => {
+    //
+  },
+  jumpTo() {
+    //
+  },
+}
+;(window as any).AMIS_EDITOR_ENV = { ...env }
 
 export const rootStore = RootStore.create(
   {
@@ -78,22 +99,5 @@ export const rootStore = RootStore.create(
     hasPrevStep: false,
     hasNextStep: false,
   },
-  {
-    /**
-     * amis 要求必须实现的操作
-     */
-    ...baseAmisEnv,
-    updateLocation: () => {
-      //
-    },
-    jumpTo() {
-      //
-    },
-  } as any
+  env
 )
-
-export const RootProvider = Root.Provider
-
-export const useRootStore = (): typeof rootStore => {
-  return useContext(Root)
-}

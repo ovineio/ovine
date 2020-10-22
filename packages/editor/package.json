@@ -8,7 +8,7 @@
   },
   "scripts": {
     "tsc": "yarn clean && ttsc",
-    "dev": "ttsc -w",
+    "dev": "ttsc -w ",
     "clean": "rimraf ./lib",
     "eslint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
@@ -43,7 +43,7 @@
     "@hot-loader/react-dom": "^16.8.6"
   },
   "dependencies": {
-    "amis-editor": "^1.1.17",
+    "amis-editor": "2.0.2",
     "axios": "^0.20.0"
   },
   "engines": {

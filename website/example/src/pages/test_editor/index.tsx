@@ -1,9 +1,10 @@
 /**
  * 自定义页面
  * ----
- * 主要是参考如何编写自定义页面，请自行删除。
+ * 体验在线编辑页面
  */
 
+import { toast } from 'amis'
 import React, { useEffect } from 'react'
 import { render } from 'react-dom'
 import styled from 'styled-components'
@@ -49,7 +50,13 @@ export default () => {
 
   const getThisTab = () => document.querySelector('.chrome-tab[active] .chrome-tab-favicon')
 
-  const goEditorPage = () => app.routerHistory.push('/editor')
+  const goEditorPage = () => {
+    if (app.theme.getName() === 'dark') {
+      toast.info('编辑器对 “暗黑主题” 暂不支持，请切换为其他主题再尝试编辑！')
+      return
+    }
+    app.routerHistory.push('/editor')
+  }
 
   useEffect(() => {
     /** 只用于演示 */

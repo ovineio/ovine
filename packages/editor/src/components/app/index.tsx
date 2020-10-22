@@ -1,7 +1,8 @@
+import { Provider } from 'mobx-react'
 import React, { useEffect } from 'react'
 
 import Layout from '@/components/layout'
-import { RootProvider, rootStore } from '@/stores/root'
+import { rootStore } from '@/stores/root'
 
 import { EditorProps } from './types'
 
@@ -11,8 +12,8 @@ export default (props: EditorProps) => {
   }, [props])
 
   return (
-    <RootProvider value={rootStore}>
+    <Provider store={rootStore}>
       <Layout />
-    </RootProvider>
+    </Provider>
   )
 }

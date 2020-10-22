@@ -3,11 +3,8 @@ declare module '*.png'
 declare module '*.jpg'
 declare module '*.jpeg'
 declare module '~/*'
-declare module 'react-overlays'
-declare module 'whatwg-fetch'
-declare module 'react-hot-loader'
-declare module 'react-sortable-tree'
-declare module 'qs'
+
+declare module '@/assets/*'
 
 declare const $: any
 

@@ -9,7 +9,7 @@ import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 import * as constants from '../constants'
 import { DllCliOptions, Props } from '../types'
-import { mergeWebpackConfig } from '../utils'
+import { getModulePath, mergeWebpackConfig } from '../utils'
 import * as amis from './amis'
 import { getDllBabelConfig } from './babel'
 import DllManifestPlugin from './plugins/dll_manifest_plugin'
@@ -33,7 +33,6 @@ const dllName = '[name]_[hash:6]'
 const dllModules = [
   'react-router-dom',
   'whatwg-fetch',
-  'copy-to-clipboard',
   'qs',
   'immer',
   'lodash',
@@ -282,6 +281,11 @@ export function createDllConfig(options: ConfigOptions) {
       // https://github.com/webpack-contrib/webpack-bundle-analyzer
       new BundleAnalyzerPlugin()
     )
+  }
+
+  // TODO: axios pkg is not required
+  if (getModulePath(siteDir, 'amis-editor')) {
+    dllModules.push('amis-editor')
   }
 
   const config = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)

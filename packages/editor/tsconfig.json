@@ -46,5 +46,5 @@
     ]
   },
   "include": ["./src", "./typings"],
-  "exclude": ["**/__tests__/**/*"]
+  "exclude": ["**/__tests__/**/*", "./src/assets/**/*"]
 }
