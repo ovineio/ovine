@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree'
 
-import { history } from './history'
+// import { history } from './history'
 
 const initSchema = {
   type: 'page',
@@ -13,18 +13,13 @@ const EditorStore = types
     schema: types.frozen({}),
   })
   .actions((self) => {
-    const rawUpdateSchema = (schema: any) => {
-      self.schema = schema
-    }
-
     const updateSchema = (schema: any) => {
-      history.addFrame(schema)
+      // history.addFrame(schema)
       self.schema = schema
     }
 
     return {
       updateSchema,
-      rawUpdateSchema,
     }
   })
 

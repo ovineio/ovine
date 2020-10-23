@@ -9,7 +9,6 @@ import { app } from '@core/app'
 import { saveToFile } from '@core/utils/file'
 
 import { editorStore } from '@/stores/editor'
-import { history } from '@/stores/history'
 
 import { StyledHeader } from './styled'
 
@@ -17,14 +16,18 @@ export default inject('store')(
   observer((props) => {
     const {
       isPreview,
-      hasPrevStep,
-      hasNextStep,
+      // hasPrevStep,
+      // hasNextStep,
       option,
       isDirty,
       togglePreview,
       setLastSavedSchema,
+      editorInstance,
     } = props.store
     const { breadcrumb, onExit, onSave } = option
+
+    const hasPrevStep = editorInstance.canUndo()
+    const hasNextStep = editorInstance.canRedo()
 
     const getBreadcrumbItems = () => {
       return typeof breadcrumb === 'string' ? [breadcrumb] : breadcrumb
@@ -50,7 +53,7 @@ export default inject('store')(
         if (onExit) {
           onExit()
         }
-        history.reset()
+        // history.reset()
         app.routerHistory.goBack()
       }
 
@@ -132,14 +135,14 @@ export default inject('store')(
 
           <div
             className={cls('toolbar-item', { disabled: isPreview || !hasPrevStep })}
-            onClick={() => history.goBack()}
+            onClick={() => editorInstance.undo()}
           >
             <i className="fa fa-reply" />
             <span>撤销</span>
           </div>
           <div
             className={cls('toolbar-item', { disabled: isPreview || !hasNextStep })}
-            onClick={() => history.goNext()}
+            onClick={() => editorInstance.redo()}
           >
             <i className="fa fa-share" />
             <span>回退</span>

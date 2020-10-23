@@ -64,6 +64,14 @@ export const fixFactoryLoader = () => ({
         replace: '!window.IS_WEBPACK_DEV_SERVER && ~rendererNames.indexOf(config.name)',
       },
       {
+        // AMIS全局统一 默认 ENV 环境
+        search: ', options, pathPrefix\\) \\{',
+        flags: 'm',
+        replace: `, opts, pathPrefix) {
+          var options = tslib_1.__assign(window.OVINE_AMIS_ENV, opts);
+        `,
+      },
+      {
         // 去掉多余的请求封装
         search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
         flags: 'm',

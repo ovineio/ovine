@@ -1,5 +1,5 @@
 import App from '@/components/app'
 
-import 'amis-editor/dist/style.css'
+import './assets/styles/editor.min.css'
 
 export default App

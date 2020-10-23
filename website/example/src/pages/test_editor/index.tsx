@@ -12,8 +12,8 @@ import styled from 'styled-components'
 import { app } from '@core/app'
 import { Amis } from '@core/components/amis/schema'
 import { useImmer } from '@core/utils/hooks'
-import { getStore } from '@core/utils/store'
-import { deserialize } from '@core/utils/tool'
+import { getStore, setStore } from '@core/utils/store'
+import { deserialize, serialize } from '@core/utils/tool'
 
 import { storeKeys } from '~/app/constants'
 
@@ -55,6 +55,7 @@ export default () => {
       toast.info('编辑器对 “暗黑主题” 暂不支持，请切换为其他主题再尝试编辑！')
       return
     }
+    setStore(storeKeys.testEditorSchema, serialize(schema))
     app.routerHistory.push('/editor')
   }
 

@@ -4,8 +4,6 @@ import { breakpoints } from '@/constants'
 
 export const crudCss = ({ ns, colors }: DefaultTheme) => css`
   .lib-crud {
-    padding: 15px;
-    background-color: ${colors.layoutHeaderBg};
     &>.${ns}Form {
       padding-bottom: 6px;
     }

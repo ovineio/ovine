@@ -24,43 +24,42 @@ type Option = {
   [prop: string]: any
 }
 
-export const baseAmisEnv = {
-  fetcher: libFetcher,
-  // 是否取消 ajax请求
-  isCancel: (reson: any) => {
-    const isCancel = get(reson, 'error.name') === 'AbortError'
-    if (isCancel) {
-      log.info('isCancel 请求被终止')
-      return true
-    }
-    return false
-  },
-  // 实现，内容复制。// 实现，内容复制。
-  copy: (contents: string, options?: { shutup: boolean }) => {
-    const ret = copy(contents, options as any)
-    if (ret && (!options || options.shutup !== true)) {
-      toast.info('已拷贝到剪切板')
-    }
-    return ret
-  },
-  // 实现警告提示。
-  alert: (msg: string) => {
-    log.log('alert', msg)
-    alert(msg)
-  },
-}
-
 export default (option: Option) => {
   const { schema, props = {}, theme, option: amisOption } = option
 
-  const libOptions: any = {
-    session: 'global',
-    // number 固底间距 顶部间距
-    affixOffsetTop: 50, // 系统默认值 50
-    // number 固底间距，当你的有其x他固底元素时，需要设置一定的偏移量，否则会重叠。
-    affixOffsetBottom: 0,
-    // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
-    richTextToken: false,
+  const baseEnv = {
+    theme: theme.name,
+    fetcher: libFetcher,
+
+    // 是否取消 ajax请求
+    isCancel: (reson: any) => {
+      const isCancel = get(reson, 'error.name') === 'AbortError'
+      if (isCancel) {
+        log.info('isCancel 请求被终止')
+        return true
+      }
+      return false
+    },
+
+    // 实现，内容复制。// 实现，内容复制。
+    copy: (contents: string, options?: { shutup: boolean }) => {
+      const ret = copy(contents, options as any)
+      if (ret && (!options || options.shutup !== true)) {
+        toast.info('已拷贝到剪切板')
+      }
+      return ret
+    },
+
+    // 实现警告提示。
+    alert: (msg: string) => {
+      log.log('alert', msg)
+      alert(msg)
+    },
+
+    // HTMLElement 决定弹框容器。 ---- TODO: amis-editor 有兼容问题
+    // getModalContainer: () => {
+    //   return document.getElementById('modal-root')
+    // },
 
     // 消息提示
     notify: (msgType: string = 'error', msg: string = '') => {
@@ -98,6 +97,19 @@ export default (option: Option) => {
       log.log('confirm: ', msg)
       return confirm(confirmText, confirmTitle)
     },
+  }
+  ;(window as any).OVINE_AMIS_ENV = baseEnv
+
+  const libOptions: any = {
+    ...baseEnv,
+    session: 'global',
+    // number 固底间距 顶部间距
+    affixOffsetTop: 50, // 系统默认值 50
+    // number 固底间距，当你的有其x他固底元素时，需要设置一定的偏移量，否则会重叠。
+    affixOffsetBottom: 0,
+    // 富文本编辑器 token， 内置 rich-text 为 frolaEditor，想要使用，请自行购买，或者自己实现 rich-text 渲染器。
+    richTextToken: false,
+
     // 实现页面跳转
     jumpTo: (to: string, action: Action, ctx?: object) => {
       const { href: link } = normalizeLink({ to })
@@ -138,20 +150,17 @@ export default (option: Option) => {
       log.log('isCurrentUrl', href)
       return href === window.location.href.replace(window.location.origin, '')
     },
-    // HTMLElement 决定弹框容器。
-    getModalContainer: () => {
-      return document.getElementById('modal-root')
-    },
+
     // Promise<Function>  可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。
     // 大型组件可能需要异步加载。比如：富文本编辑器
     loadRenderer: (loaderSchema: any, path: string) => {
       log.log('loadRenderer', loaderSchema, path)
     },
+
     // rendererResolver: libResolver,
   }
 
   const amisRenderOption: any = {
-    ...baseAmisEnv,
     ...libOptions,
     ...app.amis,
     ...amisOption,

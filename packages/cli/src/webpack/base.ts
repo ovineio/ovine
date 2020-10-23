@@ -387,6 +387,11 @@ function excludeJS(modulePath: string) {
   const isNodeModules = /node_modules/.test(modulePath)
   const isLibModules = /node_modules[\\/]@ovine[\\/].*\.[j|t]sx?$/.test(modulePath)
 
+  // if (/editor\.min\.js$/.test(modulePath)) {
+  //   console.log('@+++?', modulePath)
+  //   return true
+  // }
+
   return isLibModules ? false : isNodeModules
 }
 

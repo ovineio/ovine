@@ -15,7 +15,7 @@ module.exports = {
     amisEditor: {
       chunks: 'async',
       name: 'amis_editor',
-      test: /[\\/]node_modules[\\/]amis-editor[\\/]/,
+      test: /[\\/]node_modules[\\/]@ovine[\\/]editor[\\/]/,
       priority: 40,
     },
     ovineCraft: {

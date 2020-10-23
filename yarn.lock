@@ -2402,7 +2402,7 @@
   version "0.0.10"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.0.17"
+    amis "1.0.18-beta.4"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
@@ -2417,8 +2417,9 @@
 "@ovine/editor@file:packages/editor":
   version "0.0.10"
   dependencies:
-    amis-editor "^1.1.17"
     axios "^0.20.0"
+    deep-diff "1.0.2"
+    json-ast-comments "^1.0.4"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -2609,11 +2610,6 @@
   integrity sha512-2+FrkXY4zllzTNfJth7jOqEHC+enpLeGslEhpnTAkg21GkRrWV4SsAtqchtT4YS9/nODBU2/ZfsBY2X4J/dX7A==
   dependencies:
     "@types/node" "*"
-
-"@types/deep-diff@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/@types/deep-diff/download/@types/deep-diff-1.0.0.tgz#7eba3202a99b3a207f758f351f7f86387269fc40"
-  integrity sha1-froyAqmbOiB/dY81H3+GOHJp/EA=
 
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
@@ -3427,89 +3423,7 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis-editor@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/amis-editor/download/amis-editor-2.0.2.tgz#cd96bea0126fbf5ed5a15d2c5b479c811f88f971"
-  integrity sha1-zZa+oBJvv17VoV0sW0ecgR+I+XE=
-  dependencies:
-    "@types/deep-diff" "^1.0.0"
-    amis "^1.0.18-beta.4"
-    copy-to-clipboard "^3.3.1"
-    deep-diff "1.0.2"
-    dom-helpers "^3.3.1"
-    json-ast-comments "^1.0.4"
-    mobx "^4.5.0"
-    mobx-react "^6.1.4"
-    mobx-state-tree "^3.7.0"
-
-amis-editor@^1.1.17:
-  version "1.1.17"
-  resolved "https://registry.npmjs.org/amis-editor/-/amis-editor-1.1.17.tgz#fa7aa79e2da29fbe077d76e0d72098b789f46fc0"
-  integrity sha512-ok3n4DXM7n92I7K55vaFYkuLy5HULizRXeyapRZPOlMBVGVyITI7THIoptJBZVUJOWhmgOFx5uB9WKGz16nLYA==
-  dependencies:
-    amis ">=1.0.16-beta.13"
-    dom-helpers "^3.3.1"
-    json-ast-comments "^1.0.0"
-    react-dom "^16.8.6"
-
-amis@1.0.17, amis@>=1.0.16-beta.13:
-  version "1.0.17"
-  resolved "https://registry.npm.taobao.org/amis/download/amis-1.0.17.tgz#89148151d037be8e79370f7e2e020b66ee97ceb2"
-  integrity sha1-iRSBUdA3vo55Nw9+LgILZu6XzrI=
-  dependencies:
-    "@types/file-saver" "^2.0.1"
-    "@types/papaparse" "^5.2.2"
-    async "2.6.0"
-    attr-accept "1.1.3"
-    autobind-decorator "2.4.0"
-    blueimp-canvastoblob "2.1.0"
-    classnames "2.2.5"
-    dom-helpers "^3.3.1"
-    downshift "3.1.4"
-    echarts "^4.1.0"
-    file-saver "^2.0.2"
-    flv.js "1.5.0"
-    froala-editor "2.9.6"
-    history "4.7.2"
-    hls.js "0.12.2"
-    hoist-non-react-statics "3.3.0"
-    jquery "^3.2.1"
-    keycode "^2.1.9"
-    lodash "^4.17.15"
-    match-sorter "2.2.1"
-    mobx "^4.5.0"
-    mobx-react "^6.1.4"
-    mobx-state-tree "^3.7.0"
-    moment "^2.19.3"
-    monaco-editor "0.17.1"
-    papaparse "^5.3.0"
-    prop-types "^15.6.1"
-    qrcode.react "^0.8.0"
-    qs "6.5.1"
-    rc-input-number "4.4.5"
-    react "^16.8.6"
-    react-addons-update "15.6.2"
-    react-color "2.13.8"
-    react-cropper "1.0.0"
-    react-datetime "2.16.0"
-    react-dom "^16.8.6"
-    react-dropzone "10.1.10"
-    react-input-range "1.2.1"
-    react-json-tree "0.11.0"
-    react-overlays "0.8.3"
-    react-progress-2 "^4.4.2"
-    react-select "1.2.1"
-    react-textarea-autosize "5.1.0"
-    react-transition-group "2.9.0"
-    react-visibility-sensor "3.11.0"
-    setimmediate "1.0.5"
-    sortablejs "1.10.0"
-    tinymce "5.4.2"
-    tslib "^1.10.0"
-    uncontrollable "7.0.2"
-    video-react "0.14.1"
-
-amis@^1.0.18-beta.4:
+amis@1.0.18-beta.4:
   version "1.0.18-beta.4"
   resolved "https://registry.npm.taobao.org/amis/download/amis-1.0.18-beta.4.tgz#ae73ee794ce8ba5671bb553f2d95cb8f332a12f9"
   integrity sha1-rnPueUzoulZxu1U/LZXLjzMqEvk=
@@ -10160,7 +10074,7 @@ jsesc@~0.5.0:
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
-json-ast-comments@^1.0.0, json-ast-comments@^1.0.4:
+json-ast-comments@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/json-ast-comments/-/json-ast-comments-1.0.4.tgz#71972d92816ed9cc0e607bd344e5fe56cc458b19"
   integrity sha512-o+TBPsr9v8Q7271lTaenplOh0jRDEBCEWIGQxHgnWgNF5p0P4svMiKhqmvj27Sf5jy0fK8lMiwxG3PiXG4mTGA==
@@ -11363,11 +11277,6 @@ moment@^2.19.3:
   version "2.26.0"
   resolved "https://registry.npmjs.org/moment/-/moment-2.26.0.tgz#5e1f82c6bafca6e83e808b30c8705eed0dcbd39a"
   integrity sha512-oIixUO+OamkUkwjhAVE18rAMfRJNsNe/Stid/gwHSOfHrOtw9EhAY2AHvdKZ/k/MggcYELFCJz/Sn2pL8b8JMw==
-
-monaco-editor@0.17.1:
-  version "0.17.1"
-  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.17.1.tgz#8fbe96ca54bfa75262706e044f8f780e904aa45c"
-  integrity sha512-JAc0mtW7NeO+0SwPRcdkfDbWLgkqL9WfP1NbpP9wNASsW6oWqgZqNIWt4teymGjZIXTElx3dnQmUYHmVrJ7HxA==
 
 monaco-editor@0.21.2:
   version "0.21.2"

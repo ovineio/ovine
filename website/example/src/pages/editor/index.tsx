@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { getStore, setStore } from '@core/utils/store'
 import { deserialize, serialize } from '@core/utils/tool'
@@ -20,4 +20,14 @@ const editorOption = {
   },
 }
 
-export default () => <Editor {...editorOption} />
+export default () => {
+  useEffect(() => {
+    const { title } = document
+    document.title = '正在编辑...'
+
+    return () => {
+      document.title = title
+    }
+  }, [])
+  return <Editor {...editorOption} />
+}

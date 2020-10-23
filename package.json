@@ -22,7 +22,7 @@
     "lerna": "lerna",
     "test": "jest --colors --errorOnDeprecated --expand",
     "jest:clear": "jest --clearCache",
-    "tsc": "lerna run tsc --no-private",
+    "tsc": "lerna run tsc --no-private && lerna run tsc:editor",
     "gen:init:env": "yarn workspace @ovine/init gen:env",
     "version:prerelease": "yarn lerna version prerelease --no-git-tag-version --no-push",
     "version:patch": "yarn lerna version patch",

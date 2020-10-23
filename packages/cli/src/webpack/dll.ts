@@ -83,6 +83,20 @@ function setDllVendorModules(config) {
   }
 }
 
+function addEditorFilesToDll(options: ConfigOptions) {
+  const { siteDir } = options
+
+  const getEditorFile = (filePath: string) =>
+    getModulePath(siteDir, `lib/editor/lib/assets/${filePath}`) || ''
+
+  // TODO: "axios" pkg is not necessary
+  const editorPath = getEditorFile('scripts/editor.view.js')
+  if (editorPath) {
+    dllModules.push(editorPath)
+    dllModules.push(getEditorFile('styles/editor.min.css'))
+  }
+}
+
 export function monacoWorkerConfig(options: ConfigOptions): any {
   const { publicPath, siteDir } = options
 
@@ -254,7 +268,7 @@ export function createDllConfig(options: ConfigOptions) {
            */
           boot: {
             chunks: 'initial',
-            test: /[\\/]node_modules[\\/](react|react-router-dom|whatwg-fetch|styled-components|lodash|moment|immer|qs|@hot-loader)[\\/]/,
+            test: /[\\/]node_modules[\\/](react|react-router-dom|whatwg-fetch|styled-components|lodash|moment|immer|qs|@hot-loader|mobx|mobx-react|mobx-state-tree|jquery)[\\/]/,
             name: 'boot',
             priority: 30,
           },
@@ -283,10 +297,7 @@ export function createDllConfig(options: ConfigOptions) {
     )
   }
 
-  // TODO: axios pkg is not required
-  if (getModulePath(siteDir, 'amis-editor')) {
-    dllModules.push('amis-editor')
-  }
+  addEditorFilesToDll(options)
 
   const config = mergeWebpackConfig(dllConfig, `${siteDir}/${webpackDllConfFileName}`)
 

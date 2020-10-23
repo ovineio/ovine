@@ -107,7 +107,12 @@ const GlobalStyle = createGlobalStyle`
     }
 
     /** 调整默认菜单UI */
-    #app-root {
+    /* .modal-root {
+      .${ns}Modal {
+        z-index: 1401; // 编辑器层级有问题
+      }
+    } */
+    .app-root {
       .${ns}ContextMenu {
         &-list {
           width: auto;

@@ -7,9 +7,10 @@
     "access": "public"
   },
   "scripts": {
-    "tsc": "yarn clean && ttsc",
+    "tsc:editor": "yarn clean && yarn copy && ttsc",
     "dev": "ttsc -w ",
     "clean": "rimraf ./lib",
+    "copy": "node ./copy_editor.js",
     "eslint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "repository": {
@@ -38,13 +39,14 @@
     "styled-components": "^5.0.0",
     "whatwg-fetch": "^3.0.0"
   },
+  "dependencies": {
+    "deep-diff": "1.0.2",
+    "json-ast-comments": "^1.0.4",
+    "axios": "^0.20.0"
+  },
   "resolutions": {
     "react": "^16.8.6",
     "@hot-loader/react-dom": "^16.8.6"
-  },
-  "dependencies": {
-    "amis-editor": "2.0.2",
-    "axios": "^0.20.0"
   },
   "engines": {
     "node": ">=10.9.0"

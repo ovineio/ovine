@@ -1,3 +1,7 @@
+/**
+ * 由于对 amisEditor 压缩后的代码做了修改，使用更改过的editor包
+ */
+
 const fs = require('fs-extra')
 const path = require('path')
 

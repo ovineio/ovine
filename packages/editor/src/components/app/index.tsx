@@ -13,7 +13,7 @@ export default (props: EditorProps) => {
 
   return (
     <Provider store={rootStore}>
-      <Layout />
+      <Layout store={rootStore} />
     </Provider>
   )
 }

@@ -26,9 +26,6 @@ export const StyledLayout = styled.div`
           padding-top: 105px;
         }
       }
-      .${ns}Page-body {
-        padding-top: 0;
-      }
     }
     .${ns}Layout {
       height: 100%;
