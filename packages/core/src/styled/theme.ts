@@ -6,7 +6,7 @@ import { storage, message } from '@/constants'
 import { publish } from '@/utils/message'
 import { setStore, getStore } from '@/utils/store'
 
-const dispatchLink = (theme: string, callback?: () => void) => {
+export const dispatchLink = (theme: string, callback?: () => void) => {
   // 当开启 scss 编译时，才会每次热更新更新文件，主要用于主题调试
   setDefaultTheme(theme)
   if ((window as any).IS_SCSS_UPDATE) {

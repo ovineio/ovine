@@ -1,5 +1,9 @@
+/**
+ * app.auto 自动集成应用入口
+ */
+
 import './includes'
-import './app'
+import './auto'
 
 // Hot Module Replacement API
 const { hot } = module as any

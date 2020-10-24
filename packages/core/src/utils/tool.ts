@@ -2,6 +2,8 @@ import { isArray, isObject, map, random, isFunction, trim } from 'lodash'
 import { parse } from 'qs'
 import { createElement } from 'react'
 
+import serializeObject from '@/assets/scripts/serialize'
+
 import * as Types from '@/utils/types'
 
 /**
@@ -184,4 +186,27 @@ export function loadScriptAsync(src: string, async: boolean = true) {
     }
     document.getElementsByTagName('head')[0].appendChild(script)
   })
+}
+
+type SerializeOption = {
+  space: number // 2
+  isJSON: boolean // false
+  unsafe: boolean // false
+  ignoreFunction: boolean // false
+}
+export function serialize(source: object, option?: Partial<SerializeOption>): string {
+  return serializeObject(source, option)
+}
+
+export function deserialize(source: string = ''): any {
+  if (!source) {
+    return source
+  }
+
+  try {
+    // eslint-disable-next-line
+    return eval(`(${source})`)
+  } catch (err) {
+    return undefined
+  }
 }

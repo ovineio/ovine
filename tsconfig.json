@@ -35,6 +35,7 @@
     "backup",
     "**/__tests__/**/*",
     "**/lib/**/*",
+    "**/assets/**/*",
     "./packages/init/env/**/*",
     "./packages/init/templates/**/*"
   ]

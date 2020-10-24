@@ -1,7 +1,6 @@
 const members = {
   title: '成员管理',
   size: 'lg',
-  bodyClassName: 'p-n',
   actions: [],
   data: {
     id: '',

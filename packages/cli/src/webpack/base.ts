@@ -34,6 +34,8 @@ const {
   staticLibDirPath,
   esLintFileName,
   cssAssetsFile,
+  dllFileKeys,
+  srcDirName,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -79,14 +81,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
-    entry: [
-      // Instead of the default WebpackDevServer client, we use a custom one
-      // like CRA to bring better experience.
-      // !isProd && require.resolve('react-dev-utils/webpackHotDevClient'),
-      'react-hot-loader/patch',
-      // `${srcDir}/index`,
-      `${getModulePath(siteDir, 'lib/core/lib/app/entry.js', true)}`,
-    ].filter(Boolean) as string[],
+    entry: getAppEntries({ siteDir }),
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
       publicPath,
@@ -150,6 +145,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         cacheGroups: {
           default: false, // disabled default configuration
           vendors: false, // disabled splitChunks vendors configuration
+          ...siteConfig.cacheGroups, // append user cacheGroups config
           appVendor: {
             chunks: 'all',
             name: 'app_vendor',
@@ -180,13 +176,13 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
             name: (mod: any) => {
               const resolvedPath = mod.context.match(/[\\/]src[\\/]pages[\\/](.*)$/)
               const commonName = 'pages_common'
-              const { splitCodeRoutes } = siteConfig
+              const { splitRoutes } = siteConfig
 
               let modPath = commonName
 
               // resolvedPath[1] is not with ".ext", value is `pages/${resolvedPath[1]}`
-              if (resolvedPath && _.isArray(splitCodeRoutes)) {
-                splitCodeRoutes.some(({ test, name }) => {
+              if (resolvedPath && _.isArray(splitRoutes)) {
+                splitRoutes.some(({ test, name }) => {
                   if (!(test instanceof RegExp) || !name || !test.test(resolvedPath[1])) {
                     return false
                   }
@@ -198,14 +194,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
               return modPath
             },
           },
-          // pagePresets: {
-          //   chunks: 'all',
-          //   name: 'page_presets',
-          //   test: /[\\/]src[\\/]pages[\\/].*[\\/]preset\.[j|t]sx?$/,
-          //   priority: 18,
-          //   minChunks: 1,
-          //   reuseExistingChunk: true,
-          // },
         },
       },
     },
@@ -339,8 +327,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         }),
       dll &&
         new DllReferencePlugin({
-          manifest: `${siteDir}/${dllManifestFile}`.replace('[name]', dllVendorFileName),
-        } as any),
+          context: siteDir,
+          manifest: dllManifestFile.replace('[name]', dllVendorFileName),
+        }),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
         chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].css' : 'chunks/[name].css',
@@ -365,16 +354,19 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
         }),
       new HtmlWebpackPlugin({
-        ..._.pick(siteConfig.template, ['head', 'postBody', 'preBody']),
+        ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
         scssUpdate,
         title: siteConfig.title,
-        favIcon: siteConfig.favicon,
+        favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
+        withoutPace: siteConfig.ui?.withoutPace,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
+
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(siteDir, 'css'),
-        dllVendorJs: dll && getDllDistFile(siteDir, 'js'),
+        dllVendorCss: getDllDistFile(siteDir, dllVendorFileName, 'css'),
+        dllVendorJs:
+          dll && dllFileKeys.map((fileKey) => getDllDistFile(siteDir, fileKey, 'js')).join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
       }),
     ].filter(Boolean) as any[],
   }
@@ -395,7 +387,60 @@ function excludeJS(modulePath: string) {
   const isNodeModules = /node_modules/.test(modulePath)
   const isLibModules = /node_modules[\\/]@ovine[\\/].*\.[j|t]sx?$/.test(modulePath)
 
+  // if (/editor\.min\.js$/.test(modulePath)) {
+  //   console.log('@+++?', modulePath)
+  //   return true
+  // }
+
   return isLibModules ? false : isNodeModules
+}
+
+function getAppEntries(option: any) {
+  const { siteDir } = option
+
+  const entries: any[] = ['react-hot-loader/patch']
+  const siteSrcDir = `${siteDir}/${srcDirName}/`
+  const extArr = ['js', 'jsx', 'ts', 'tsx']
+
+  const getLibFile = (fileName: string) =>
+    getModulePath(siteDir, `lib/core/lib/app/${fileName}`, true)
+
+  const isAutoEntry =
+    extArr
+      .map((ext) => `app.auto.${ext}`)
+      .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+      .filter(Boolean).length === 1
+
+  // use app.config for entry
+  if (isAutoEntry) {
+    entries.push(getLibFile('entry_auto.js'))
+    return entries
+  }
+
+  const isCustomEntry =
+    extArr
+      .map((ext) => `app.custom.${ext}`)
+      .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+      .filter(Boolean).length === 1
+
+  // use app.custom for entry
+  if (isCustomEntry) {
+    entries.push(getLibFile('entry_custom.js'))
+    return entries
+  }
+
+  // use app for entry  -----> ovineCore would not anything. All give to developer!
+  const appEntryExtIdx = extArr
+    .map((ext) => `app.${ext}`)
+    .map((file) => fse.existsSync(`${siteSrcDir}${file}`))
+    .findIndex((i) => i)
+
+  if (appEntryExtIdx > -1) {
+    entries.push(`${siteSrcDir}app.${extArr[appEntryExtIdx]}`)
+    return entries
+  }
+
+  throw new Error('no app entry!! please add entry file.')
 }
 
 function getFixLibLoaders(option: any) {
@@ -426,7 +471,7 @@ function getFixLibLoaders(option: any) {
   return dll ? [] : loaders
 }
 
-function getDllDistFile(siteDir: string, type: string) {
+function getDllDistFile(siteDir: string, fileKey: string = dllVendorFileName, type: string = 'js') {
   const { publicPath } = loadContext(siteDir)
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
 
@@ -437,7 +482,7 @@ function getDllDistFile(siteDir: string, type: string) {
     return ''
   }
 
-  return `${dllBasePath}${_.get(assetJson, `${dllVendorFileName}.${type}`)}`
+  return `${dllBasePath}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
 function getCopyPlugin(siteDir: string) {
@@ -461,15 +506,6 @@ function getCopyPlugin(siteDir: string) {
       to: outStaticDir,
     })
   }
-
-  // const amisPkg = getModulePath(siteDir, 'amis/sdk/pkg')
-  // if (amisPkg) {
-  //   copyFiles.unshift({
-  //     from: amisPkg,
-  //     to: `${outLibDir}/pkg/[name].[ext]`,
-  //     toType: 'template',
-  //   })
-  // }
 
   const coreStatic = getModulePath(siteDir, 'lib/core/static')
   if (coreStatic) {

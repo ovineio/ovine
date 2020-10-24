@@ -11,4 +11,18 @@ module.exports = {
   title: 'Ovine管理系统', // 页面标题
   envModes: ['localhost', 'staging', 'production'], // 环境列表
   initTheme: 'cxd',
+  cacheGroups: {
+    amisEditor: {
+      chunks: 'async',
+      name: 'amis_editor',
+      test: /[\\/]node_modules[\\/]@ovine[\\/]editor[\\/]/,
+      priority: 40,
+    },
+    ovineCraft: {
+      chunks: 'async',
+      name: 'ovine_craft',
+      test: /[\\/]node_modules[\\/]@ovine[\\/]craft[\\/]/,
+      priority: 30,
+    },
+  },
 }

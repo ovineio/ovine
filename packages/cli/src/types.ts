@@ -15,11 +15,17 @@ export type SiteConfig = {
   staticFileExts?: string[]
   template?: TemplateConfig
   initTheme?: string
-  splitCodeRoutes?: Array<{
+  cacheGroups?: {
+    [key: string]: object
+  }
+  splitRoutes?: Array<{
     // witch route page should be split
     test: RegExp
     name: string
   }>
+  ui?: {
+    withoutPace: boolean
+  }
 }
 
 export type SiteContext = {

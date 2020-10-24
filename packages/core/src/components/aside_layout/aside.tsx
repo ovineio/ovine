@@ -14,8 +14,8 @@ export default (props: Props) => {
   const location = useLocation()
 
   useEffect(() => {
-    publish(message.asideLayoutCtrl, {
-      key: 'toggleAsideScreen',
+    publish(message.asideLayoutCtrl.msg, {
+      key: message.asideLayoutCtrl.toggleScreen,
     })
   }, [location.pathname])
 

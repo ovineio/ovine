@@ -1,15 +1,19 @@
 import { RouteItem } from '@/routes/types'
 import { ImmerSetter } from '@/utils/hooks'
+import { ReqOption } from '@/utils/request/types'
 
 import { LibSchema } from '../amis/schema/types'
 
-export type LayoutState = {
+export type AsideLayoutState = {
   asideFolded: boolean
   offScreen: boolean
+  header: HeaderProps
+  routes: RouteItem[]
+  footer?: LibSchema
 }
 
-export type LayoutCommProps = LayoutState & {
-  setLayout: ImmerSetter<LayoutState>
+export type LayoutCommProps = AsideLayoutState & {
+  setLayout: ImmerSetter<AsideLayoutState>
 }
 
 export type HederBrandProps = {
@@ -34,10 +38,11 @@ export type RouteTabs = {
   storage?: boolean
 }
 
-export type LayoutProps = {
-  children?: any
-  routeTabs?: RouteTabs
-  header?: HeaderProps
-  footer?: LibSchema
-  routes?: RouteItem[]
-}
+export type LayoutProps = Partial<{
+  children: any
+  api: ReqOption
+  routeTabs: RouteTabs
+  header: HeaderProps
+  footer: LibSchema
+  routes: RouteItem[]
+}>

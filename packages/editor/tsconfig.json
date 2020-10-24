@@ -1,0 +1,50 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./lib/.tsbuildinfo",
+    "target": "es6",
+    "module": "ESNext",
+    "lib": ["es6", "dom"],
+    "skipLibCheck": true,
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": false,
+    "jsx": "react",
+    "rootDir": "src",
+    "outDir": "lib",
+    "baseUrl": "./src",
+    "noImplicitReturns": false,
+
+    "strict": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictBindCallApply": false,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+
+    "typeRoots": ["./typings"],
+    "paths": {
+      "@/*": ["./*"],
+      "@core/*": ["../../core/lib/*"]
+    },
+    "types": [
+      "@types/react",
+      "@types/lodash",
+      "@types/styled-components",
+      "@types/react-router-dom",
+      "@types/node"
+    ],
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ]
+  },
+  "include": ["./src", "./typings"],
+  "exclude": ["**/__tests__/**/*", "**/assets/**/*"]
+}
