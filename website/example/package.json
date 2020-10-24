@@ -10,6 +10,7 @@
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "yarn eslint && ovine build --mock",
     "build:staging": "yarn eslint && ovine build --env=staging",
+    "test:build": "yarn cp:lib && ovine build --bundle-analyzer",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "ovine": "ovine",
     "scss": "ovine scss",
@@ -25,8 +26,7 @@
     "rm:core": "rimraf ./node_modules/@ovine/core",
     "rm:editor": "rimraf ./node_modules/@ovine/editor",
     "rm:craft": "rimraf ./node_modules/@ovine/craft",
-    "rm:lib": "yarn rm:core && yarn rm:editor && yarn rm:craft",
-    "test:build": "yarn cp:lib && ovine build --bundle-analyzer"
+    "rm:lib": "yarn rm:core && yarn rm:editor && yarn rm:craft"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",

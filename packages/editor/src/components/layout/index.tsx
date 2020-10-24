@@ -10,7 +10,7 @@ import { editorStore } from '@/stores/editor'
 import Editor from '../editor'
 import Header from '../header'
 
-import { StyledBody, StyledLayout } from './styled'
+import * as S from './styled'
 
 // hack 方式给 Editor 注入 env
 const placeholder = {
@@ -36,14 +36,18 @@ export default inject('store')(
     }, [])
 
     return (
-      <StyledLayout>
+      <S.StyledLayout>
         <Amis schema={placeholder} />
         <Header />
-        <StyledBody>
-          {isPreview && <Amis schema={editorStore.schema as any} />}
+        <S.StyledBody>
+          {isPreview && (
+            <S.StyledPreview>
+              <Amis schema={editorStore.schema as any} />
+            </S.StyledPreview>
+          )}
           {initEditor && <Editor editorStore={editorStore} />}
-        </StyledBody>
-      </StyledLayout>
+        </S.StyledBody>
+      </S.StyledLayout>
     )
   })
 )

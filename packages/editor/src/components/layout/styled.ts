@@ -11,3 +11,8 @@ export const StyledBody = styled.div`
   flex: 1;
   overflow: hidden;
 `
+
+export const StyledPreview = styled.div`
+  height: 100%;
+  overflow: auto;
+`
