@@ -8,9 +8,13 @@
   <meta app-version="<%=opts.version%>" />
   <title><%=opts.title || 'Ovine'%></title>
   <link type="image/x-icon" rel="shortcut icon" href="<%=opts.favIcon || `${opts.staticLibPath}core/favicon.ico`%>" />
+
+  <% if(!opts.withoutPace) { %>
   <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css" />
   <script data-pace-options='{"elements": false, "ajax": false, "restartOnPushState": false }'
     src="<%=opts.staticLibPath%>core/pace.min.js"></script>
+  <%}%>
+  
   <% if(opts.dllVendorCss) { %>
   <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
   <% } %>
@@ -25,8 +29,10 @@
   <%= opts.preBody %>
   <div id="modal-root" class="modal-root"></div>
   <div id="app-root" class="app-root"></div>
-  <% if(opts.dllVendorJs) { %>
-  <script src="<%=opts.dllVendorJs%>"></script>
+  <% if(opts.dllVendorJs) { var jsFiles = opts.dllVendorJs.split(','); %>
+  <% for (var i = 0; i<jsFiles.length; i++){ %>
+  <script src="<%= jsFiles[i] %>"></script>
+  <% } %>
   <% } %>
   <%= opts.postBody %>
 </body>

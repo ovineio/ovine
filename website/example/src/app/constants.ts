@@ -6,6 +6,7 @@
 export const storeKeys = {
   auth: 'auth',
   schemaEditor: 'schemaEditor',
+  testEditorSchema: 'testEditorSchema',
 }
 
 // 用于消息通知的 key
@@ -25,5 +26,5 @@ export const limitKeys = {
 // 覆盖ovine内部的常量
 export const appConstants = {
   loginRoute: '/login',
-  enableBactTop: true,
+  enableBackTop: true,
 }

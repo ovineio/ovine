@@ -25,5 +25,5 @@ export const limitKeys = {
 // 覆盖ovine内部的常量
 export const appConstants = {
   loginRoute: '/login',
-  enableBactTop: true,
+  enableBackTop: true,
 }

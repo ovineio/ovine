@@ -62,8 +62,8 @@ export default (props: Props) => {
       faIcon: asideFolded ? 'indent' : 'dedent',
       tip: `${asideFolded ? '展开' : '收起'}侧边栏`,
       onClick: () =>
-        publish(message.asideLayoutCtrl, {
-          key: 'toggleAsideFold',
+        publish(message.asideLayoutCtrl.msg, {
+          key: message.asideLayoutCtrl.toggleFold,
         }),
     }
     return <HeadItem itemProps={asideItemProps} />
@@ -95,8 +95,8 @@ export default (props: Props) => {
           className="navbar-toggler d-block d-sm-none float-right"
           type="button"
           onClick={() =>
-            publish(message.asideLayoutCtrl, {
-              key: 'toggleAsideScreen',
+            publish(message.asideLayoutCtrl.msg, {
+              key: message.asideLayoutCtrl.toggleScreen,
             })
           }
         >

@@ -28,7 +28,12 @@ export const message = {
   appTheme: 'libAppThemeMsg',
   appLang: 'libAppLangMsg',
   updateRouteStore: 'libUpdateRouteStoreMsg',
-  asideLayoutCtrl: 'libAsideLayoutCtrlMsg',
+  asideLayoutCtrl: {
+    msg: 'libAsideLayoutCtrlMsg',
+    fetch: 'libToggleAsideFetchMsg',
+    toggleScreen: 'libToggleAsideScreenMsg',
+    toggleFold: 'libToggleAsideFoldMsg',
+  },
 }
 
 // 存储相关的 key

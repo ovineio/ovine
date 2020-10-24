@@ -4,8 +4,9 @@
 
 import { Layout } from 'amis'
 import { cloneDeep } from 'lodash'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
+import { app } from '@/app'
 import { withAppTheme } from '@/app/theme'
 import { breakpoints, message, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
@@ -23,43 +24,53 @@ import Aside from './aside'
 import Header from './header'
 import { LayoutLoading, LayoutLazyFallback } from './loading'
 import { StyledLayout } from './styled'
-import { LayoutState, LayoutProps } from './types'
-
-const initState = {
-  asideFolded: false,
-  offScreen: false,
-}
+import { AsideLayoutState, LayoutProps } from './types'
 
 const log = logger.getLogger('lib:components:asideLayout')
 
+const { asideLayoutCtrl } = message
+
+const defaultHeader = {
+  brand: {
+    logo: '',
+    title: '',
+  },
+}
+
 export default withAppTheme<LayoutProps>((props) => {
-  const [state, setState] = useImmer<LayoutState>(initState)
   const { enableRouteTabs } = useAppContext()
 
-  const { header, routes = [], children, footer, theme, routeTabs } = props
-  const { asideFolded, offScreen } = state
+  const { children, theme, routeTabs, api } = props
 
+  const [state, setState] = useImmer<AsideLayoutState>({
+    asideFolded: false,
+    offScreen: false,
+    header: props.header || defaultHeader,
+    footer: props.footer,
+    routes: props.routes || [],
+  })
+
+  const { routes, header, footer, asideFolded, offScreen } = state
   const { ns: themeNs, name: themeName } = theme
 
   const supportTabs = routeTabs && window.innerWidth >= breakpoints.md && routeTabs.enable !== false
   const withTabs = enableRouteTabs && supportTabs
 
-  setGlobal(storage.supportRouteTabs, supportTabs)
+  const fetchAsideInfo = () => {
+    if (!api) {
+      return
+    }
+    app.request<LayoutProps>(api).then((source) => {
+      const resData = source?.data
 
-  useSubscriber<any>(message.asideLayoutCtrl, (msgData = {}) => {
-    const { key, toggle } = msgData
-    setState((d) => {
-      switch (key) {
-        case 'toggleAsideScreen':
-          d.offScreen = typeof toggle === 'boolean' ? toggle : !d.offScreen
-          break
-        case 'toggleAsideFold':
-          d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
-          break
-        default:
-      }
+      setState((d) => {
+        d.header = resData?.header || defaultHeader
+        d.footer = resData?.footer
+        // TODO: 校验 routes 的合法性及默认值
+        d.routes = resData?.routes || []
+      })
     })
-  })
+  }
 
   // 过滤 layout 权限
   const layoutConf: any = useMemo(() => {
@@ -81,6 +92,32 @@ export default withAppTheme<LayoutProps>((props) => {
       AuthRoutes: <AppMenuRoutes fallback={LayoutLazyFallback} authRoutes={configs.authRoutes} />,
     }
   }, [routes])
+
+  useEffect(() => {
+    setGlobal(storage.supportRouteTabs, supportTabs)
+  }, [supportTabs])
+
+  useEffect(() => {
+    fetchAsideInfo()
+  }, [])
+
+  useSubscriber<any>(asideLayoutCtrl.msg, (msgData = {}) => {
+    const { key, toggle } = msgData
+    setState((d) => {
+      switch (key) {
+        case asideLayoutCtrl.toggleScreen:
+          d.offScreen = typeof toggle === 'boolean' ? toggle : !d.offScreen
+          break
+        case asideLayoutCtrl.toggleFold:
+          d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
+          break
+        case asideLayoutCtrl.fetch:
+          fetchAsideInfo()
+          break
+        default:
+      }
+    })
+  })
 
   const headerProps = {
     ...layoutConf.header,

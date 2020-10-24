@@ -1,34 +1,22 @@
-import { defaults } from 'lodash'
+/**
+ * 简化 Ovine 应用，自动导入文件等
+ */
+
 import React from 'react'
 import { render } from 'react-dom'
 
 import { App } from '@/components/app'
 import { appRootId, storage } from '@/constants'
 import { initAppTheme } from '@/styled/theme'
-import { setConfig } from '@/utils/logger'
+import { initLogger } from '@/utils/logger'
 import { getGlobal } from '@/utils/store'
-import { getUrlParams } from '@/utils/tool'
 
-import appConfig from '~/index'
-
-function initLogger(loggerConf: any = {}) {
-  const moduleName = getUrlParams('loggerModule') || loggerConf?.moduleName || ''
-  const loggerLevel = getUrlParams('loggerLevel') || loggerConf?.level || 'log'
-  const loggerConfig = defaults(
-    {
-      moduleName,
-      level: loggerLevel,
-      enable: !!moduleName,
-    },
-    loggerConf
-  )
-  setConfig(loggerConfig)
-}
+import appConfig from '~/app.auto'
 
 /**
  * 初始化 ovine 全局对象
  */
-function initOvineGlobal() {
+export function initOvineGlobal() {
   window.ovine = {
     addPageSchemaJs: (pageAlias: string, schema: any) => {
       const app: any = getGlobal(storage.appInstance)

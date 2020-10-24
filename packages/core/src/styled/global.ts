@@ -48,6 +48,7 @@ const GlobalStyle = createGlobalStyle`
   .is-inline {
     display: inline;
   }
+  
 
 
   /** lib 主题相关的全局样式 */
@@ -58,6 +59,11 @@ const GlobalStyle = createGlobalStyle`
       color: ${colors.text};
     }
 
+    .${ns}Chart {
+      min-width: 100px !important;
+      min-height: 100px !important;
+    }
+
     .line-break-json {
       .${ns}JsonField {
         width: 100%;
@@ -66,11 +72,6 @@ const GlobalStyle = createGlobalStyle`
           word-break: all;
         }
       }
-    }
-
-    .${ns}Chart {
-      min-width: 100px !important;
-      min-height: 100px !important;
     }
 
     .${ns}DateRangePicker {
@@ -102,6 +103,53 @@ const GlobalStyle = createGlobalStyle`
       }
       svg {
         display: none;
+      }
+    }
+
+    /** 调整默认菜单UI */
+    /* .modal-root {
+      .${ns}Modal {
+        z-index: 1401; // 编辑器层级有问题
+      }
+    } */
+    .app-root {
+      .${ns}ContextMenu {
+        &-list {
+          width: auto;
+        }
+
+        &-menu {
+          box-shadow: none;
+          &::before {
+            border-radius: 0px;
+          }
+          &.in {
+            animation-name: contextMenuIn;
+            animation-duration: 100ms;
+          }
+        }
+
+        &-item {
+          position: relative;
+          height: 20px;
+          line-height: 20px;
+
+          & > a {
+            border: 0px !important;
+          }
+          &:not(.is-disabled):hover > a {
+            background: #888888;
+          }
+        }
+        &-item:hover {
+          .${ns}ContextMenu-subList {
+            box-shadow: none;
+            border-radius: 0px;
+            &::before {
+              border-radius: 0px;
+            }
+          }
+        }
       }
     }
   `}

@@ -22,7 +22,12 @@ export const menuRoutes: LimitMenuItem = {
       sideVisible: false, // 不会显示在侧边栏
     },
     {
-      label: '页面编辑',
+      label: '在线编辑页面',
+      icon: 'fa fa-pencil',
+      nodePath: 'test_editor',
+    },
+    {
+      label: 'JSON编辑页面',
       icon: 'fa fa-coffee',
       nodePath: 'start',
     },

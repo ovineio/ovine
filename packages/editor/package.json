@@ -1,0 +1,60 @@
+{
+  "name": "@ovine/editor",
+  "version": "0.0.10",
+  "description": "Ovine json editor.",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "tsc:editor": "yarn clean && yarn copy && ttsc",
+    "dev": "ttsc -w ",
+    "clean": "rimraf ./lib",
+    "copy": "node ./copy_editor.js",
+    "eslint": "eslint --cache \"src/**/*.{js,jsx,ts,tsx}\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CareyToboo/ovine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CareyToboo/ovine/issues"
+  },
+  "author": "carey toboos",
+  "license": "MIT",
+  "keywords": [
+    "aims",
+    "ovine",
+    "react",
+    "typescript",
+    "admin-template"
+  ],
+  "peerDependencies": {
+    "@hot-loader/react-dom": "^16.8.6",
+    "@ovine/core": "^0.0.1",
+    "immer": "^5.3.2",
+    "lodash": "^4.17.15",
+    "react": "^16.8.6",
+    "react-router-dom": "^5.1.2",
+    "styled-components": "^5.0.0",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "dependencies": {
+    "deep-diff": "1.0.2",
+    "json-ast-comments": "^1.0.4",
+    "axios": "^0.20.0"
+  },
+  "resolutions": {
+    "react": "^16.8.6",
+    "@hot-loader/react-dom": "^16.8.6"
+  },
+  "engines": {
+    "node": ">=10.9.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ],
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
+}

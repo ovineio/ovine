@@ -485,6 +485,13 @@ export class Request<IS = {}, IP = {}> {
     // 获取请求参数
     const reqOption = await getReqOption.call(this as any, option)
 
+    // 伪装 请求 直接返回数据
+    if (reqOption.onFakeRequest) {
+      const fakeResponse = reqOption.onFakeRequest(reqOption)
+      log.log('[apiFake]', reqOption.url, fakeResponse.data, reqOption)
+      return wrapResponse(fakeResponse)
+    }
+
     // 命中缓存 直接返回
     const cachedResponse = cacheSourceCtrl('get', reqOption)
     if (cachedResponse) {
