@@ -129,6 +129,7 @@ export function monacoWorkerConfig(options: ConfigOptions): any {
       path: venderPath,
       filename: `[name].${monacoVar}.js`,
       publicPath: `${publicPath}${dllVendorDirPath}/`,
+      libraryTarget: 'window',
     },
     performance: {
       hints: false, // not necessary

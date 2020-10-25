@@ -62,6 +62,13 @@ const getThemeStyle = (ns: string) => {
         }
       }
     }
+
+    .${ns}Tooltip {
+      .ae-RendererPreview {
+        min-width: auto;
+      }
+    }
+
   `
 }
 

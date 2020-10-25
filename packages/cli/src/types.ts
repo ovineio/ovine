@@ -40,6 +40,7 @@ export type CliOptions = {
 export type DevCliOptions = CliOptions & {
   port: string
   host: string
+  localIp: boolean
   open: boolean
   dll: boolean
   scssUpdate: boolean

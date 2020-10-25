@@ -39,6 +39,7 @@ cli
   .option('--env <env>', 'Set app environment mode (default: localhost)')
   .option('--mock', 'Use mock environment (default: false)')
   .option('--scss', 'Update when scss file changed (default: false)')
+  .option('--local-ip', 'Update when scss file changed (default: false)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option('--no-dll', 'Do not use dll reference files. (default: false)')
   .action((siteDir = '.', options) => {
@@ -47,6 +48,7 @@ cli
       host = 'localhost',
       env = 'localhost',
       mock = false,
+      localIp = false,
       scss: scssUpdate = false,
       open = true,
       dll: useDll = true,
@@ -57,6 +59,7 @@ cli
       env,
       open,
       mock,
+      localIp,
       scssUpdate,
       dll: useDll,
     })

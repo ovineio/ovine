@@ -22,6 +22,7 @@ const optionalFields = [
   'staticFileExts',
   'devServerProxy',
   'ui',
+  'env',
 ]
 
 const defaultConfig = {
@@ -31,6 +32,7 @@ const defaultConfig = {
   ui: {
     withoutPace: false,
   },
+  env: {},
 }
 
 function formatFields(fields: string[]): string {
@@ -85,12 +87,23 @@ export function loadConfig(siteDir: string): SiteConfig {
     }
   }
 
+  const envConfKeys = Object.keys(config.env)
+  envConfKeys.forEach((key) => {
+    if (!_.includes(envModes, key)) {
+      throw new Error(
+        `the ${key} key of env must in envModes list, which string maybe one of "${envModes}".`
+      )
+    }
+  })
+
   return config as SiteConfig
 }
 
 export function loadContext(siteDir: string): LoadContext {
   const genDir: string = path.resolve(siteDir, generatedDirName)
+
   const siteConfig: SiteConfig = loadConfig(siteDir)
+
   const outDir = path.resolve(siteDir, outDirName)
   const srcDir = path.resolve(siteDir, srcDirName)
   const { publicPath } = siteConfig

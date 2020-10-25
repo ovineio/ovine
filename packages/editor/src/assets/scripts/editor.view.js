@@ -5033,7 +5033,7 @@
                     name: "tabsMode",
                     label: "样式",
                     type: "button-group",
-                    size: "sm",
+                    size: "xs",
                     className: "block",
                     pipeIn: o.defaultValue(""),
                     options: [{

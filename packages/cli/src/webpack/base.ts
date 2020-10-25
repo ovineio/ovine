@@ -361,7 +361,6 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
         withoutPace: siteConfig.ui?.withoutPace,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
-
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
         dllVendorCss: getDllDistFile(siteDir, dllVendorFileName, 'css'),

@@ -83,8 +83,5 @@
   },
   "engines": {
     "node": ">=10.9.0"
-  },
-  "dependencies": {
-    "global": "^4.4.0"
   }
 }

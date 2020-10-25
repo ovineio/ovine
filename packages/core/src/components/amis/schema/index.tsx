@@ -1,7 +1,6 @@
 import { RendererProps, RenderOptions } from 'amis/lib/factory'
 import { isEmpty, cloneDeep, isObject } from 'lodash'
 import React, { useMemo, useEffect } from 'react'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { ThemeConsumer } from 'styled-components'
 
 import { app } from '@/app'
@@ -23,10 +22,9 @@ export type AmisProps = {
 
 // 文档 https://baidu.github.io/amis/docs/start/getting-started
 // 源码 https://github.com/baidu/amis/blob/master/examples/components/App.jsx
-type Props = AmisProps & RouteComponentProps<any>
 
-export const Amis = withRouter((props: Props) => {
-  const { schema: rawSchema, props: amisProps = {}, option = {}, history } = props
+export const Amis = (props: AmisProps) => {
+  const { schema: rawSchema, props: amisProps = {}, option = {} } = props
   const codeStore = getGlobal<any>(storage.dev.code) || {}
 
   const { enableRouteTabs } = useAppContext()
@@ -82,13 +80,12 @@ export const Amis = withRouter((props: Props) => {
     <ThemeConsumer>
       {(theme) =>
         renderAmis({
-          history,
-          theme,
           option,
+          theme: theme || app.theme.getTheme(),
           props: amisProps,
           schema: envSchema,
         })
       }
     </ThemeConsumer>
   )
-})
+}

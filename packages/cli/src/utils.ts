@@ -109,7 +109,7 @@ export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T
 }
 
 export function isCliDev() {
-  return __dirname.indexOf(`@${libRootPath}`) === -1 && __dirname.indexOf(libRootPath) > -1
+  return __dirname.indexOf(`@${libName}`) === -1 && __dirname.indexOf(libRootPath) > -1
 }
 
 export function getCliDevRootDir() {
@@ -130,12 +130,12 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
     path.resolve(siteDir, `../../../../${prodPath}`),
   ]
 
-  if (isLib) {
-    libPaths.push(`${devRootDir}/packages/${libPath}`)
-  }
-
   if (isDev) {
     libPaths.push(`${devRootDir}/${prodPath}`)
+  }
+
+  if (isDev && isLib) {
+    libPaths.push(`${devRootDir}/packages/${libPath}`)
   }
 
   const modulePath = libPaths.find((corePath) => fs.pathExistsSync(corePath))

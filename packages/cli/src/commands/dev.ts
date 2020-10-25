@@ -4,6 +4,8 @@
 
 import chokidar from 'chokidar'
 import express from 'express'
+import ip from 'ip'
+import ipAddr from 'ipaddr.js'
 import _ from 'lodash'
 import path from 'path'
 import portfinder from 'portfinder'
@@ -51,7 +53,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
-  const host: string = getHost(options.host)
+  const host: string = getHost(options.localIp, options.host)
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
@@ -116,7 +118,11 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   })
 }
 
-function getHost(reqHost: string | undefined): string {
+function getHost(useLocalIp: boolean = false, reqHost: string | undefined = ''): string {
+  const ipAddrStr = ip.address()
+  if (useLocalIp && ipAddr.IPv4.isValid(ipAddrStr)) {
+    return ipAddrStr
+  }
   return reqHost || 'localhost'
 }
 

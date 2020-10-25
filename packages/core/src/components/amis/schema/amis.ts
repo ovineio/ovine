@@ -18,7 +18,6 @@ const log = logger.getLogger('lib:components:amis:schema')
 type Option = {
   schema: LibSchema
   theme: DefaultTheme
-  history: any
   option?: RenderOptions
   props?: RootRenderProps
   [prop: string]: any
