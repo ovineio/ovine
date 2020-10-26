@@ -156,7 +156,12 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       }
 
       try {
-        response.data = await response.json()
+        if (response.getResponseHeader("Content-Length") === 0) {
+          response.data = {}
+        } else {
+          response.data = await response.json()
+        }
+        
         requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {
