@@ -104,7 +104,7 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
 
   if (type === 'set') {
     // 不存在 resource 直接返回
-    if (!resource) {
+    if (!resource || resource?.status !== 0) {
       return
     }
     // 所有数据按照 字符串缓存
