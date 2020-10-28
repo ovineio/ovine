@@ -119,6 +119,16 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
   }
 }
 
+// 读取json结果
+async function readJsonResponse(response: any) {
+  if (response.headers.get('content-length') === '0') {
+    return {}
+  }
+
+  const data = await response.json()
+  return data
+}
+
 // 发出 fetch 请求
 async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
   const { url, body, config } = option
@@ -142,7 +152,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
 
       if (status <= 100 || status >= 400) {
         try {
-          response.data = await response.json()
+          response.data = await readJsonResponse(response)
         } catch (e) {
           //
         }
@@ -156,12 +166,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       }
 
       try {
-        if (response.getResponseHeader("Content-Length") === 0) {
-          response.data = {}
-        } else {
-          response.data = await response.json()
-        }
-        
+        response.data = await readJsonResponse(response)        
         requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {
