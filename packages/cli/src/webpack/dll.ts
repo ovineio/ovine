@@ -12,7 +12,7 @@ import { DllCliOptions, Props } from '../types'
 import { getModulePath, mergeWebpackConfig } from '../utils'
 import * as amis from './amis'
 import { getDllBabelConfig } from './babel'
-import DllManifestPlugin from './plugins/dll_manifest_plugin'
+import DllPostPlugin from './plugins/dll_post_plugin'
 import LogPlugin from './plugins/log_plugin'
 import MomentPlugin from './plugins/moment_plugin'
 
@@ -25,7 +25,7 @@ const {
   dllManifestFile,
   dllAssetsFile,
   libName,
-  dllVendorDirPath,
+  // dllVendorDirPath,
 } = constants
 
 const dllName = '[name]_[hash:6]'
@@ -98,7 +98,7 @@ function addEditorFilesToDll(options: ConfigOptions) {
 }
 
 export function monacoWorkerConfig(options: ConfigOptions): any {
-  const { publicPath, siteDir } = options
+  const { siteDir } = options
 
   const monacoVar = require('monaco-editor/package.json').version
   const venderPath = `${siteDir}/${dllDirPath}`
@@ -128,7 +128,7 @@ export function monacoWorkerConfig(options: ConfigOptions): any {
       pathinfo: false,
       path: venderPath,
       filename: `[name].${monacoVar}.js`,
-      publicPath: `${publicPath}${dllVendorDirPath}/`,
+      // publicPath: `${publicPath}${dllVendorDirPath}/`,
       libraryTarget: 'window',
     },
     performance: {
@@ -148,7 +148,7 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { publicPath, siteDir, siteConfig, bundleAnalyzer } = options
+  const { siteDir, siteConfig, bundleAnalyzer } = options
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -166,7 +166,7 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: editorFileReg,
-          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
+          use: [babelLoader, amis.fixEditorLoader()],
         },
         {
           test: factoryFileReg,
@@ -204,7 +204,7 @@ export function createDllConfig(options: ConfigOptions) {
             {
               loader: 'url-loader',
               options: {
-                publicPath: `${publicPath}${dllVendorDirPath}/`,
+                publicPath: './', // : `${publicPath}${dllVendorDirPath}/`,
                 limit: 2000, // 低于2K 使用 base64
                 name: '[name]_[contenthash:6].[ext]',
               },
@@ -224,7 +224,7 @@ export function createDllConfig(options: ConfigOptions) {
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
-      publicPath: `${publicPath}${dllVendorDirPath}/`,
+      // publicPath: `${publicPath}${dllVendorDirPath}/`,
     },
     plugins: [
       new LogPlugin({
@@ -249,7 +249,7 @@ export function createDllConfig(options: ConfigOptions) {
         fullPath: false,
         path: siteDir,
       }),
-      new DllManifestPlugin({
+      new DllPostPlugin({
         siteDir,
       }),
     ],
