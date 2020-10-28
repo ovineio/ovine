@@ -20,8 +20,15 @@ const log = logger.getLogger('lib:utils:request')
 // 请求错误集中处理， 必须 throw 错误
 function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, response?: any) {
   // log.info('requestErrorCtrl', { error, option, response })
-  const errorSource = { option, response, error }
+  // const errorSource = { option, response, error }
 
+  // 设置默认的错误信息
+  response.data = {
+    status: 400,
+    msg: error.message || '未知错误',
+    ...response.data,
+  }
+  
   let withInsErrorHook = true
 
   // 如果返回 false，则不调用 全局的错误处理
@@ -37,7 +44,7 @@ function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, 
     this.onFinish(response, option, error)
   }
 
-  throw errorSource
+  // throw errorSource
 }
 
 // 请求成功集中处理
@@ -162,16 +169,16 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
           option,
           wrapResponse(response)
         )
-        return
+        return response
       }
 
       try {
         response.data = await readJsonResponse(response)        
-        requestSuccessCtrl.call(this, response, option)
-        return response
+        requestSuccessCtrl.call(this, response, option)        
       } catch (error) {
         requestErrorCtrl.call(this, error, option, wrapResponse(response))
       }
+      return response
     })
 
   return result
