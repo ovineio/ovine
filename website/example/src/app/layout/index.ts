@@ -17,7 +17,7 @@ export const layout = {
   header: {
     brand: {
       // 公司品牌
-      logo: '/demo/static/images/logo_line_white.png',
+      logo: '/static/images/logo_line_white.png',
       title: 'Ovine',
       link: {
         title: 'dashboard',

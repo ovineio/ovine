@@ -23,7 +23,7 @@ export const StyledLayout = styled.div`
           }
         }
         &-body {
-          padding-top: 105px;
+          padding-top: 100px;
         }
       }
     }

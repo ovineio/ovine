@@ -29,7 +29,7 @@ export const schema = {
           type: 'html',
           html: `
           <h6 class="login-title">
-            <img class="d-none d-sm-inline-block" src="/demo/static/images/logo_grey.png" />
+            <img class="d-none d-sm-inline-block" src="/static/images/logo_grey.png" />
             <p>Ovine 示例后台系统</p>
           </h6>
         `,

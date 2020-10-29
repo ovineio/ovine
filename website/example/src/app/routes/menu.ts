@@ -39,7 +39,7 @@ export const menuRoutes: LimitMenuItem = {
         {
           label: '远程页面',
           nodePath: 'remote_schema',
-          pathToComponent: 'root://demo/static/js/test_remote_schema.js',
+          pathToComponent: 'root://static/js/test_remote_schema.js',
         },
       ],
     },

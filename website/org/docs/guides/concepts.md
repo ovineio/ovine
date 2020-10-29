@@ -25,7 +25,7 @@ title: 主要概念
 
 ```js title="/ovine.config.js 编译配置文件"
 module.exports = {
-  favicon: '/demo/static/images/favicon.ico', // 站点 icon
+  favicon: '/static/images/favicon.ico', // 站点 icon
   title: 'Ovine管理系统', // 站点 title
   publicPath: '/demo/', // 所有的资源文件前缀
   envModes: ['localhost', 'staging', 'production'], // env环境列表

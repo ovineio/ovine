@@ -10,7 +10,6 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import path from 'path'
 import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } from 'webpack'
 
-import { loadContext } from '../config'
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
 import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
@@ -300,7 +299,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         name: `${libName}-${isProd ? 'Build' : 'Dev'}`,
       }),
       new CleanPlugin(),
-      getCopyPlugin(siteDir),
+      getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
@@ -351,7 +350,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         new HtmlHooksPlugin({
           keepInMemory: !isProd,
           indexHtml: `${outDir}/index.html`,
-          getThemeScript: (opts: any) => getThemeScript({ siteDir, initTheme, ...opts }),
+          getThemeScript: (opts: any) =>
+            getThemeScript({ publicPath, siteDir, initTheme, ...opts }),
         }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
@@ -363,9 +363,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(siteDir, dllVendorFileName, 'css'),
+        dllVendorCss: getDllDistFile(publicPath, siteDir, dllVendorFileName, 'css'),
         dllVendorJs:
-          dll && dllFileKeys.map((fileKey) => getDllDistFile(siteDir, fileKey, 'js')).join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
+          dll &&
+          dllFileKeys
+            .map((fileKey) => getDllDistFile(publicPath, siteDir, fileKey, 'js'))
+            .join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
       }),
     ].filter(Boolean) as any[],
   }
@@ -470,8 +473,12 @@ function getFixLibLoaders(option: any) {
   return dll ? [] : loaders
 }
 
-function getDllDistFile(siteDir: string, fileKey: string = dllVendorFileName, type: string = 'js') {
-  const { publicPath } = loadContext(siteDir)
+function getDllDistFile(
+  publicPath: string,
+  siteDir: string,
+  fileKey: string = dllVendorFileName,
+  type: string = 'js'
+) {
   const dllBasePath = `${publicPath}${dllVendorDirPath}/`
 
   const dllFile = `${siteDir}/${dllAssetsFile.replace('[name]', dllVendorFileName)}`
@@ -484,9 +491,7 @@ function getDllDistFile(siteDir: string, fileKey: string = dllVendorFileName, ty
   return `${dllBasePath}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
-function getCopyPlugin(siteDir: string) {
-  const { outDir } = loadContext(siteDir)
-
+function getCopyPlugin(siteDir: string, outDir: string) {
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
   const siteStaticDir = `${siteDir}/${staticDirName}`
   const outStaticDir = `${outDir}/${staticDirName}`
@@ -518,9 +523,8 @@ function getCopyPlugin(siteDir: string) {
 }
 
 function getThemeScript(options: any) {
-  const { siteDir, localFs, initTheme } = options
+  const { siteDir, localFs, initTheme, publicPath } = options
 
-  const { publicPath } = loadContext(siteDir)
   const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(assetsJson, '.css') || []
   const themes = cssAssets.map((i) => `${publicPath}${i}`)

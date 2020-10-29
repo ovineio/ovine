@@ -18,7 +18,7 @@ export async function dll(
 
   console.log(chalk.blue('\nCreating an webpack dll static files build...'))
 
-  const props: Props = loadContext(siteDir)
+  const props: Props = loadContext(siteDir, cliOptions)
   const confOptions = { ...props, ...cliOptions }
 
   const dllConfig = createDllConfig(confOptions)

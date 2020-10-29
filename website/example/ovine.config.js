@@ -5,24 +5,37 @@
  * 文档： https://ovine.igroupes.com/org/docs/advance/configurations
  */
 
-module.exports = {
-  publicPath: '/demo/', // 必须以斜线结尾
-  favicon: '/demo/static/images/favicon.ico',
-  title: 'Ovine管理系统', // 页面标题
-  envModes: ['localhost', 'staging', 'production'], // 环境列表
-  initTheme: 'cxd',
-  cacheGroups: {
-    amisEditor: {
-      chunks: 'async',
-      name: 'amis_editor',
-      test: /[\\/]node_modules[\\/]@ovine[\\/]editor[\\/]/,
-      priority: 40,
+module.exports = (option) => {
+  const { env, port } = option
+
+  const publicPathMap = {
+    localhost: `http://localhost:${port}/`,
+    staging: 'https://cdn-igroupes.com/ovine/',
+    production: 'https://cdn-igroupes.com/ovine/',
+  }
+
+  const config = {
+    routePrefix: 'demo/', // 路由访问相对于根目录的前缀
+    publicPath: publicPathMap[env], // 静态资源公共路径
+    favicon: '/static/images/favicon.ico',
+    title: 'Ovine管理系统', // 页面标题
+    envModes: ['localhost', 'staging', 'production'], // 环境列表
+    initTheme: 'cxd',
+    cacheGroups: {
+      amisEditor: {
+        chunks: 'async',
+        name: 'amis_editor',
+        test: /[\\/]node_modules[\\/]@ovine[\\/]editor[\\/]/,
+        priority: 40,
+      },
+      ovineCraft: {
+        chunks: 'async',
+        name: 'ovine_craft',
+        test: /[\\/]node_modules[\\/]@ovine[\\/]craft[\\/]/,
+        priority: 30,
+      },
     },
-    ovineCraft: {
-      chunks: 'async',
-      name: 'ovine_craft',
-      test: /[\\/]node_modules[\\/]@ovine[\\/]craft[\\/]/,
-      priority: 30,
-    },
-  },
+  }
+
+  return config
 }

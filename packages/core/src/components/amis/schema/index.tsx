@@ -33,7 +33,7 @@ export const Amis = (props: AmisProps) => {
   // @ts-ignore
   if (!amisProps.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
     // @ts-ignore
-    amisProps.affixOffsetTop = enableRouteTabs ? 104 : 50
+    amisProps.affixOffsetTop = enableRouteTabs ? 100 : 50
   }
 
   useEffect(() => {

@@ -47,16 +47,17 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   }
 
   // get all config context.
-  const context = loadContext(siteDir)
+  const context = loadContext(siteDir, options)
 
-  const { siteConfig, publicPath } = context
+  const { siteConfig } = context
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.localIp, options.host)
+  const serverPath = '/'
 
   const urls = prepareUrls(protocol, host, port)
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, publicPath])
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, serverPath])
 
   const config: webpack.Configuration = merge(createBaseConfig({ ...context, ...options }), {
     plugins: [
@@ -68,7 +69,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
     host,
-    publicPath,
+    publicPath: serverPath,
     compress: true,
     clientLogLevel: 'error',
     hot: true,
@@ -84,12 +85,12 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
       ignored: /node_modules/,
     },
     historyApiFallback: {
-      rewrites: [{ from: /\/*/, to: publicPath }],
+      rewrites: [{ from: /\/*/, to: serverPath }],
     },
     disableHostCheck: true,
     overlay: false,
     before: (app, server) => {
-      app.use(publicPath, express.static(path.resolve(siteDir, staticDirName)))
+      app.use(serverPath, express.static(path.resolve(siteDir, staticDirName)))
 
       app.use(evalSourceMapMiddleware(server))
       app.use(errorOverlayMiddleware())

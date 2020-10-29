@@ -22,7 +22,7 @@ export const schema = {
           type: 'html',
           html: `
           <h6 class="register-title">
-            <img class="d-none d-sm-inline-block" src="/demo/static/images/logo_grey.png" />
+            <img class="d-none d-sm-inline-block" src="/static/images/logo_grey.png" />
             <p>Ovine 注册新账号</p>
           </h6>
         `,

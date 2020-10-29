@@ -22,7 +22,7 @@ export async function build(
 
   console.log(chalk.blue('\nCreating an optimized production build...'))
 
-  const context = loadContext(siteDir)
+  const context = loadContext(siteDir, cliOptions)
   const { bundleAnalyzer } = cliOptions
 
   const buildConfig: Configuration = mergeWebpackConfig(

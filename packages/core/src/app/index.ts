@@ -7,7 +7,6 @@ import { AppInstance } from '@core/app/instance/type'
 import { defaultEnvMode, storage } from '@/constants'
 import { Request } from '@/utils/request'
 import { setGlobal } from '@/utils/store'
-import { isSubStr } from '@/utils/tool'
 import * as Types from '@/utils/types'
 
 import { AppTheme } from './theme'
@@ -30,9 +29,7 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    baseUrl: isSubStr(process.env.PUBLIC_PATH || '', 'http', 0)
-      ? '/'
-      : process.env.PUBLIC_PATH || '/',
+    baseUrl: '/',
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,

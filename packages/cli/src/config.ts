@@ -8,12 +8,13 @@ import _ from 'lodash'
 import path from 'path'
 
 import { outDirName, configFileName, generatedDirName, srcDirName } from './constants'
-import { LoadContext, SiteConfig } from './types'
+import { BuildCliOptions, LoadContext, SiteConfig } from './types'
 
 const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
   'publicPath',
+  'routePrefix',
   'envModes',
   'splitRoutes',
   'cacheGroups',
@@ -22,7 +23,6 @@ const optionalFields = [
   'staticFileExts',
   'devServerProxy',
   'ui',
-  'env',
 ]
 
 const defaultConfig = {
@@ -32,21 +32,27 @@ const defaultConfig = {
   ui: {
     withoutPace: false,
   },
-  env: {},
 }
 
 function formatFields(fields: string[]): string {
   return fields.map((field) => `'${field}'`).join(', ')
 }
 
-export function loadConfig(siteDir: string): SiteConfig {
+export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): SiteConfig {
   const configPath = path.resolve(siteDir, configFileName)
 
   if (!fs.existsSync(configPath)) {
     throw new Error(`${configFileName} not found`)
   }
 
-  const loadedConfig = importFresh(configPath) as Partial<SiteConfig>
+  const configFile = importFresh(configPath) as Partial<SiteConfig>
+
+  const loadedConfig = _.isPlainObject(configFile)
+    ? configFile
+    : _.isFunction(configFile)
+    ? configFile(options)
+    : {}
+
   const missingFields = requiredFields.filter((field) => !_.has(loadedConfig, field))
 
   if (missingFields.length > 0) {
@@ -87,22 +93,13 @@ export function loadConfig(siteDir: string): SiteConfig {
     }
   }
 
-  const envConfKeys = Object.keys(config.env)
-  envConfKeys.forEach((key) => {
-    if (!_.includes(envModes, key)) {
-      throw new Error(
-        `the ${key} key of env must in envModes list, which string maybe one of "${envModes}".`
-      )
-    }
-  })
-
   return config as SiteConfig
 }
 
-export function loadContext(siteDir: string): LoadContext {
+export function loadContext(siteDir: string, options: Partial<BuildCliOptions>): LoadContext {
   const genDir: string = path.resolve(siteDir, generatedDirName)
 
-  const siteConfig: SiteConfig = loadConfig(siteDir)
+  const siteConfig: SiteConfig = loadConfig(siteDir, options)
 
   const outDir = path.resolve(siteDir, outDirName)
   const srcDir = path.resolve(siteDir, srcDirName)
