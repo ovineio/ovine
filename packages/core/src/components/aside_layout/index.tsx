@@ -126,9 +126,15 @@ export default withAppTheme<LayoutProps>((props) => {
     withRouteTabs: withTabs,
   }
 
+  const routeTabsProps = {
+    ...routeTabs,
+    themeNs,
+    routes: authRoutes,
+  }
+
   const HeaderComponent = (
     <Header {...headerProps} themeNs={themeNs}>
-      {withTabs && <RouteTabs routes={authRoutes} themeNs={themeNs} />}
+      {withTabs && <RouteTabs {...routeTabsProps} />}
     </Header>
   )
 

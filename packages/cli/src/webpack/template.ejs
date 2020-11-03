@@ -7,7 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta app-version="<%=opts.version%>" />
   <title><%=opts.title || 'Ovine'%></title>
-  <link type="image/x-icon" rel="shortcut icon" href="<%=opts.favIcon || `${opts.staticLibPath}core/favicon.ico`%>" />
+  <link type="image/x-icon" rel="shortcut icon"
+    href="<%= (opts.favIcon || '').replace(/^\/static\//, `${opts.publicPath}static/`) || `${opts.staticLibPath}core/favicon.ico`%>" />
 
   <% if(!opts.withoutPace) { %>
   <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css" />

@@ -35,6 +35,7 @@ const {
   cssAssetsFile,
   dllFileKeys,
   srcDirName,
+  stylesDirName,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -302,6 +303,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
+        ROUTE_PREFIX: siteConfig.routePrefix,
         NODE_ENV: process.env.NODE_ENV,
         INIT_THEME: initTheme || 'default',
         MOCK: mock,
@@ -357,11 +359,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
         scssUpdate,
+        publicPath,
         title: siteConfig.title,
         favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
         withoutPace: siteConfig.ui?.withoutPace,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
-        template: path.resolve(__dirname, './template.ejs'),
+        template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
         dllVendorCss: getDllDistFile(publicPath, siteDir, dllVendorFileName, 'css'),
         dllVendorJs:
@@ -493,6 +496,7 @@ function getDllDistFile(
 
 function getCopyPlugin(siteDir: string, outDir: string) {
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
+  const generatedThemes = `${siteDir}/${generatedDirName}/${stylesDirName}/themes`
   const siteStaticDir = `${siteDir}/${staticDirName}`
   const outStaticDir = `${outDir}/${staticDirName}`
   const outLibDir = `${outDir}/${staticLibDirPath}`
@@ -508,6 +512,14 @@ function getCopyPlugin(siteDir: string, outDir: string) {
     copyFiles.unshift({
       from: siteStaticDir,
       to: outStaticDir,
+    })
+  }
+
+  // copy static theme files
+  if (fse.pathExistsSync(`${generatedThemes}/default.css`)) {
+    copyFiles.unshift({
+      from: generatedThemes,
+      to: `${outLibDir}/themes`,
     })
   }
 

@@ -1,6 +1,7 @@
 import { Loader } from 'webpack'
 
 type TemplateConfig = {
+  path?: string
   head?: string
   preBody?: string
   postBody?: string
@@ -10,6 +11,7 @@ export type SiteConfig = {
   favicon: string
   title: string
   publicPath: string
+  routePrefix: string
   devServerProxy: any
   envModes?: string[]
   staticFileExts?: string[]

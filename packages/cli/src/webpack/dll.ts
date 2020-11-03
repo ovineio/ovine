@@ -128,8 +128,8 @@ export function monacoWorkerConfig(options: ConfigOptions): any {
       pathinfo: false,
       path: venderPath,
       filename: `[name].${monacoVar}.js`,
-      // publicPath: `${publicPath}${dllVendorDirPath}/`,
       libraryTarget: 'window',
+      // publicPath: `${publicPath}${dllVendorDirPath}/`,
     },
     performance: {
       hints: false, // not necessary
@@ -224,6 +224,7 @@ export function createDllConfig(options: ConfigOptions) {
       filename: `${dllName}.js`,
       chunkFilename: 'chunk_[name]_[chunkhash:6].js',
       library: dllName,
+      libraryTarget: 'window',
       // publicPath: `${publicPath}${dllVendorDirPath}/`,
     },
     plugins: [

@@ -59,6 +59,7 @@ export interface AppConfig {
   }
 }
 export interface AppDefInstance extends Omit<AppConfig, 'env'> {
+  create: (config: AppConfig) => Promise<void>
   env: Env & {
     isMock: boolean
   }

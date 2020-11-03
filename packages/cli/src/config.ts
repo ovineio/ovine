@@ -27,6 +27,7 @@ const optionalFields = [
 
 const defaultConfig = {
   publicPath: '/',
+  routePrefix: '/',
   template: {},
   devServerProxy: {},
   ui: {
@@ -71,7 +72,7 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
 
-  const { publicPath, envModes } = config
+  const { routePrefix = '/', publicPath = '/', envModes } = config
   // TODO: use json schema for Configuration verification!
   if (unrecognizedFields.length) {
     throw new Error(
@@ -82,6 +83,12 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   if (typeof publicPath !== 'string' || publicPath.substr(-1) !== '/') {
     throw new Error(
       `publicPath: "${publicPath}" is not allowed. The "publicPath" must be string end with "/". eg: "/subPath/"`
+    )
+  }
+
+  if (typeof routePrefix !== 'string' || routePrefix[0] !== '/' || routePrefix.substr(-1) !== '/') {
+    throw new Error(
+      `routePrefix: "${publicPath}" is not allowed. The "routePrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`
     )
   }
 

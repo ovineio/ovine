@@ -83,8 +83,8 @@ class DllManifestPlugin {
         // rewrite CSS,JS chunk files url
         const newContent = content
           .replace(
-            /var vendor_(\w{6})=function\(e\)\{/m,
-            'var vendor_$1=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; }'
+            /window\.vendor_(\w{6})=function\(e\)\{/m,
+            'window.vendor_$1=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; }'
           )
           .replace(/\+"\.css",(\w{1})=.{3}\+/m, '+".css",$1=getPath()+')
           .replace(

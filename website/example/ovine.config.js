@@ -5,17 +5,19 @@
  * 文档： https://ovine.igroupes.com/org/docs/advance/configurations
  */
 
+// const path = require('path')
+
 module.exports = (option) => {
   const { env, port } = option
 
   const publicPathMap = {
-    localhost: `http://localhost:${port}/`,
-    staging: 'https://cdn-igroupes.com/ovine/',
+    localhost: `http://localhost:${port}/demo/`,
+    staging: 'https://ovine.igroupes.com/demo/',
     production: 'https://cdn-igroupes.com/ovine/',
   }
 
   const config = {
-    routePrefix: 'demo/', // 路由访问相对于根目录的前缀
+    routePrefix: '/demo/', // 路由访问相对于根目录的前缀
     publicPath: publicPathMap[env], // 静态资源公共路径
     favicon: '/static/images/favicon.ico',
     title: 'Ovine管理系统', // 页面标题

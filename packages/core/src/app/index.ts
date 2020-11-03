@@ -29,7 +29,7 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    baseUrl: '/',
+    baseUrl: process.env.ROUTE_PREFIX || '/',
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,

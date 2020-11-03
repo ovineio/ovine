@@ -13,11 +13,12 @@ export const layout = {
   type: 'aside-layout', // 侧边栏布局
   routeTabs: {
     enable: true,
+    storage: true,
   },
   header: {
     brand: {
       // 公司品牌
-      logo: '/static/images/logo_line_white.png',
+      logo: '/demo/static/images/logo_line_white.png',
       title: 'Ovine',
       link: {
         title: 'dashboard',

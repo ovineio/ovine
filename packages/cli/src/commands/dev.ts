@@ -54,7 +54,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.localIp, options.host)
-  const serverPath = '/'
+  const serverPath = siteConfig.routePrefix || '/'
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, serverPath])
