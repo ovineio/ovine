@@ -132,10 +132,6 @@ export default (props: Props) => {
     const onlyOne = allTabs.length === 1
     const isLastOne = onlyOne ? true : allTabs[allTabs.length - 1] === target
 
-    if (onlyOne) {
-      return
-    }
-
     const actions: any = [
       tabs.activeTabEl === target && {
         label: '刷新页面',
@@ -153,21 +149,22 @@ export default (props: Props) => {
           })
         },
       },
-      !isLastOne && {
-        label: '关闭右边',
-        onSelect: () => {
-          let isAfter = false
-          allTabs.forEach((tabEl: any) => {
-            if (tabEl === target) {
-              isAfter = true
-              return
-            }
-            if (isAfter) {
-              tabs.removeTab(tabEl)
-            }
-          })
+      !onlyOne &&
+        !isLastOne && {
+          label: '关闭右边',
+          onSelect: () => {
+            let isAfter = false
+            allTabs.forEach((tabEl: any) => {
+              if (tabEl === target) {
+                isAfter = true
+                return
+              }
+              if (isAfter) {
+                tabs.removeTab(tabEl)
+              }
+            })
+          },
         },
-      },
       !onlyOne && {
         label: '关闭所有',
         onSelect: onClearAll,

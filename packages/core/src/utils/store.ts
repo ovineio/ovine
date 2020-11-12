@@ -5,7 +5,7 @@
 
 const globalData: any = {}
 
-export function setStore(key: string, value: any): void {
+export function setStore(key: string, value: any = ''): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
@@ -23,7 +23,7 @@ export function getStore<T>(key: string): T | null {
   return value as any
 }
 
-export function setSessionStore(key: string, value: any): void {
+export function setSessionStore(key: string, value: any = ''): void {
   sessionStorage.setItem(key, JSON.stringify(value))
 }
 

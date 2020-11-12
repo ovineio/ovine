@@ -41,7 +41,7 @@ function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, 
 }
 
 // 请求成功集中处理
-function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOption) {
+async function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOption) {
   if (this.onSuccess) {
     const res = wrapResponse(response)
     response.data = this.onSuccess(res.data, option, res)
@@ -49,7 +49,7 @@ function requestSuccessCtrl(this: Request, response: any, option: Types.ReqOptio
 
   if (option.onSuccess) {
     const res = wrapResponse(response)
-    response.data = option.onSuccess(res.data, option, res)
+    response.data = await option.onSuccess(res.data, option, res)
   }
 
   if (this.onFinish) {
@@ -74,7 +74,7 @@ async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const fakeRes: any = {}
   fakeRes.data = isFunction(mockSourceGen) ? mockSourceGen(option) : mockSourceGen
 
-  requestSuccessCtrl.call(this, fakeRes, option)
+  await requestSuccessCtrl.call(this, fakeRes, option)
 
   if (mockDelay) {
     await promisedTimeout(mockDelay)
@@ -166,8 +166,8 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       }
 
       try {
-        response.data = await readJsonResponse(response)        
-        requestSuccessCtrl.call(this, response, option)
+        response.data = await readJsonResponse(response)
+        await requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {
         requestErrorCtrl.call(this, error, option, wrapResponse(response))
@@ -236,8 +236,9 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       if (this.status <= 100 || this.status >= 400) {
         errorCtrl(new Error('status <= 100 || status >= 400'), option, wrapResponse(response, true))
       } else {
-        successCtrl(wrapResponse(response, true), option)
-        resolve(response)
+        successCtrl(wrapResponse(response, true), option).then(() => {
+          resolve(response)
+        })
       }
     }
 
@@ -338,7 +339,7 @@ function wrapResponse(response?: any, transJson?: boolean) {
 }
 
 // 获取请求参数
-function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
+async function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.ReqOption> {
   // 对象参数 先填充默认值
   let opt: Types.ReqOption = {
     fetchOptions: {},
@@ -358,7 +359,7 @@ function getReqOption(this: Request, option: Types.ReqOption): Promise<Types.Req
   }
 
   if (this.onPreRequest) {
-    opt = this.onPreRequest(opt)
+    opt = await this.onPreRequest(opt)
   }
 
   if (onPreRequest) {
