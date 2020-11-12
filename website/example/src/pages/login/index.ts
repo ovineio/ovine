@@ -43,17 +43,13 @@ export const schema = {
   preset: {
     apis: {
       login: {
-        // url: 'POST ovapi/user/login',
-        url: 'https://ovine.igroupes.com/ovapi/user/login',
-        method: 'POST',
-        data: {
-          aaa: 111,
-        },
+        url: 'ovapi/user/login',
         onError: () => {
           publish(msgKeys.updateAuthLoginCode, '')
         },
         onSuccess: (source) => {
           const { code, msg, data } = source
+
           if (code === 0) {
             setStore(storeKeys.auth, data)
             source.msg = '您已登录登录本系统'

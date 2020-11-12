@@ -111,7 +111,8 @@ export const libFetcher = (
     amisApi.data = data || {}
   } else {
     const { url } = amisApi
-    const { method } = normalizeUrl(url, amisApi.method)
+    const { method } = normalizeUrl(url, amisApi.method || amisApi.config.method)
+    amisApi.method = method
     const { autoAppend, ignoreData } = option
     const idx = url.indexOf('?')
     const hashIdx = url.indexOf('#')
@@ -132,7 +133,7 @@ export const libFetcher = (
       if (amisApi.data) {
         amisApi.rawData = cloneDeep(amisApi.data)
         amisApi.data = dataMapping(amisApi.data, data)
-      } else if (/POST|PUT/.test(method) || (/GET/i.test(method) && autoAppend)) {
+      } else if (/POST|PUT/.test(method) || (/GET/.test(method) && autoAppend)) {
         amisApi.data = cloneDeep(data)
       }
     }

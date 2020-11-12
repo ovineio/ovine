@@ -5,7 +5,7 @@
 /* eslint-disable consistent-return */
 import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, map, isPlainObject, isFunction } from 'lodash'
+import { get, map, isPlainObject, isFunction, toUpper } from 'lodash'
 import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
@@ -265,7 +265,7 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
   const { url, method } = getUrlByOption.call(this, option) as any
 
   // 自行实现取消请求的回调
-  const { cancelExecutor, withCredentials } = option.config
+  const { cancelExecutor, withCredentials } = option.config || {}
 
   let signal = null
   if (cancelExecutor && typeof AbortController !== 'undefined') {
@@ -359,11 +359,11 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
   }
 
   if (this.onPreRequest) {
-    opt = await this.onPreRequest(opt)
+    opt = this.onPreRequest(opt)
   }
 
   if (onPreRequest) {
-    opt = onPreRequest(opt)
+    opt = await onPreRequest(opt)
   }
 
   let reqOption = { ...opt, ...getFetchOption.call(this as any, opt) }
@@ -381,7 +381,7 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
 
 // 处理格式化 URL 字符串
 export function normalizeUrl(urlStr: string, defMethod?: string) {
-  let method = defMethod || 'GET'
+  let method = toUpper(defMethod)
   let url = urlStr
 
   if (/^(GET|POST|PUT|DELETE|PATCH|HEAD|OPTIONS) /i.test(url)) {
@@ -392,7 +392,7 @@ export function normalizeUrl(urlStr: string, defMethod?: string) {
 
   return {
     url,
-    method: method.toUpperCase() as Types.ReqMethod,
+    method: (toUpper(method) || 'GET') as Types.ReqMethod,
   }
 }
 
@@ -498,9 +498,11 @@ export class Request<IS = {}, IP = {}> {
 
     // 伪装 请求 直接返回数据
     if (reqOption.onFakeRequest) {
-      const fakeResponse = reqOption.onFakeRequest(reqOption)
-      log.log('[apiFake]', reqOption.url, fakeResponse.data, reqOption)
-      return wrapResponse(fakeResponse)
+      const fakeResponse = await reqOption.onFakeRequest(reqOption)
+      log.log('[apiFake]', reqOption.url, fakeResponse, reqOption)
+      return {
+        data: wrapResponse(fakeResponse),
+      }
     }
 
     // 命中缓存 直接返回

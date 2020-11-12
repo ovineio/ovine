@@ -90,7 +90,6 @@ export class LibLimitSetting extends React.Component<Props> {
             this.props.onSaveClick(authData)
           }
         }
-
         return (
           <LimitSetting
             {...amisProps}
