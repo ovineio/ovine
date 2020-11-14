@@ -45,12 +45,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  .is-inline {
-    display: inline;
-  }
-  
-
-
   /** lib 主题相关的全局样式 */
   /** amis 兼容  */
 

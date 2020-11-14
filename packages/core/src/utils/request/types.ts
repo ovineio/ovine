@@ -4,7 +4,7 @@ export type ReqSuccessHook<S = any, P = any> = (
   source: S,
   option: ReqOption<S, P>,
   response: ReqResponse<S>
-) => Promise<S>
+) => S | Promise<S>
 
 export type ReqResponse<S = any> = Partial<Response> & {
   data: ReqApiRes<S>
@@ -36,8 +36,8 @@ export type ReqOption<S = any, P = any> = {
   actionAddr?: string // 操作地址，不存在时默认为 api
   actionDesc?: string // 操作描述文案 与操作地址对应
   isEnvFetcher?: boolean // 是否是 amis env 发出的请求
-  onFakeRequest?: (option: ReqOption) => Promise<S> // 伪装请求，不会真请求，返回的内容将直接返回
-  onPreRequest?: (option: ReqOption) => Promise<ReqOption> // 请求前回调
+  onFakeRequest?: (option: ReqOption) => S | Promise<S> // 伪装请求，不会真请求，返回的内容将直接返回
+  onPreRequest?: (option: ReqOption) => ReqOption | Promise<ReqOption> // 请求前回调
   onRequest?: (option: ReqOption) => ReqOption // 请求时回调
   onSuccess?: ReqSuccessHook<S, P> // 接口成功回调
   onError?: ReqErrorHook<S, P> // 接口失败回调

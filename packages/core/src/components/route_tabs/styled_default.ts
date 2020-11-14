@@ -178,9 +178,9 @@ export default css`
     flex-shrink: 0;
     flex-grow: 0;
     height: 16px;
-    width: 16px;
-    background-size: 16px;
+    max-width: 16px;
     margin-left: 4px;
+    background-size: 16px;
   }
   .chrome-tab-drag-handle {
     position: absolute;

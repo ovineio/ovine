@@ -1,7 +1,7 @@
 import { Api } from 'amis/lib/types'
 import { qsstringify } from 'amis/lib/utils/helper'
 import { dataMapping, tokenize } from 'amis/lib/utils/tpl-builtin'
-import { cloneDeep, isPlainObject } from 'lodash'
+import { cloneDeep, isEmpty, isPlainObject } from 'lodash'
 import { parse } from 'qs'
 
 import { app } from '@/app'
@@ -9,11 +9,6 @@ import logger from '@/utils/logger'
 import { normalizeUrl } from '@/utils/request'
 
 const log = logger.getLogger('lib:amis:api')
-
-/**
- * 注意：Amis buildApi 方法，不支持 Ovine 请求字符串格式。
- * 因此会将所有请求都处理为 默认 get 请求。除非传入确的小写 method
- */
 
 /**
  * amis 请求返回值格式
@@ -84,7 +79,15 @@ export const libFetcher = (
   amisApi.config = option
   amisApi.isEnvFetcher = true
 
-  const { requestAdaptor, adaptor, onPreRequest, onRequest, onSuccess, onError } = amisApi
+  const {
+    requestAdaptor,
+    adaptor,
+    onPreRequest,
+    onRequest,
+    onFakeRequest,
+    onSuccess,
+    onError,
+  } = amisApi
 
   if (requestAdaptor || adaptor) {
     log.warn(
@@ -93,6 +96,9 @@ export const libFetcher = (
   }
 
   // 检测是回调字符串 转 Function
+  if (onFakeRequest && typeof onFakeRequest === 'string') {
+    amisApi.onFakeRequest = str2function('onFakeRequest', onFakeRequest, 'option')
+  }
   if (onPreRequest && typeof onPreRequest === 'string') {
     amisApi.onPreRequest = str2function('onPreRequest', onPreRequest, 'option')
   }
@@ -112,34 +118,36 @@ export const libFetcher = (
   } else {
     const { url } = amisApi
     const { method } = normalizeUrl(url, amisApi.method || amisApi.config.method)
-    amisApi.method = method
     const { autoAppend, ignoreData } = option
+
     const idx = url.indexOf('?')
     const hashIdx = url.indexOf('#')
     const hasString = hashIdx !== -1 ? url.substring(hashIdx) : ''
 
+    // 数据整理
+    amisApi.method = method
+    amisApi.mappingData = cloneDeep(amisApi.data || {}) // 用于映射的参数
+    amisApi.rawData = isEmpty(data) ? {} : cloneDeep(data) // 原始参数
+
+    const urlMappingData = isEmpty(data) ? amisApi.data || {} : data
+
     // 与 amis 默认逻辑保持一致
     if (idx === -1) {
-      amisApi.url = tokenize(url, data, '| url_encode')
+      amisApi.url = tokenize(url, urlMappingData, '| url_encode')
     } else {
       const urlParams = parse(url.substring(idx + 1, hashIdx !== -1 ? hashIdx : undefined))
       amisApi.url =
-        tokenize(url.substring(0, idx + 1), data, '| url_encode') +
-        qsstringify(dataMapping(urlParams, data), amisApi.qsOptions) +
+        tokenize(url.substring(0, idx + 1), urlMappingData, '| url_encode') +
+        qsstringify(dataMapping(urlParams, urlMappingData), amisApi.qsOptions) +
         hasString
     }
 
     if (!ignoreData) {
       if (amisApi.data) {
-        amisApi.rawData = cloneDeep(amisApi.data)
         amisApi.data = dataMapping(amisApi.data, data)
       } else if (/POST|PUT/.test(method) || (/GET/.test(method) && autoAppend)) {
         amisApi.data = cloneDeep(data)
       }
-    }
-    // 备份原始数据
-    if (!amisApi.rawData) {
-      amisApi.rawData = !data ? {} : cloneDeep(data)
     }
   }
 

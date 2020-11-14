@@ -11,7 +11,7 @@ import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
 import { getSessionStore, setSessionStore } from '@/utils/store'
-import { isExpired, promisedTimeout } from '@/utils/tool'
+import { isExpired, promisedTimeout, rmUrlRepeatSlant } from '@/utils/tool'
 
 import * as Types from './types'
 
@@ -418,7 +418,7 @@ export function getUrlByOption(
   }
 
   // 删除多于的斜杠
-  url = url.replace(/\/{2,}/g, '/').replace(/(https?):\//g, '$1://')
+  url = rmUrlRepeatSlant(url)
 
   const idx = url.indexOf('?')
   const hashIdx = url.indexOf('#')

@@ -210,3 +210,7 @@ export function deserialize(source: string = ''): any {
     return undefined
   }
 }
+
+export function rmUrlRepeatSlant(url: string) {
+  return url.replace(/\/{2,}/g, '/').replace(/(https?):\//g, '$1://')
+}
