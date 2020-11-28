@@ -2,7 +2,7 @@
  * APP 搜索
  */
 
-import { findTree } from 'amis/lib/utils/helper'
+import { filterTree, findTree } from 'amis/lib/utils/helper'
 import React, { useEffect, useRef, useMemo } from 'react'
 import { useHistory } from 'react-router-dom'
 
@@ -83,7 +83,7 @@ export default () => {
           searchable: true,
           valueField: 'nodePath',
           placeholder: ' ',
-          options: asideMenus.map((item) => {
+          options: filterTree(asideMenus, (i) => i.sideVisible !== false).map((item) => {
             const { label, limitLabel } = item
             return {
               ...item,

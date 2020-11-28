@@ -41,6 +41,22 @@ export const menuRoutes: LimitMenuItem = {
           nodePath: 'remote_schema',
           pathToComponent: 'root://demo/static/js/test_remote_schema.js',
         },
+        {
+          label: '父级页面',
+          nodePath: 'parent',
+          exact: true,
+          children: [
+            {
+              label: '子级页面',
+              nodePath: 'child',
+            },
+            {
+              label: '子级不可见',
+              nodePath: 'invisible',
+              sideVisible: false, // 不会显示在侧边栏
+            },
+          ],
+        },
       ],
     },
     {

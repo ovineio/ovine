@@ -7,7 +7,7 @@ import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import { map, isEmpty, pick, cloneDeep, get } from 'lodash'
 
 import { app } from '@/app'
-import { routeLimitKey, message } from '@/constants'
+import { routeLimitKey, message, parentKey } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
 import { subscribe } from '@/utils/message'
 import * as Types from '@/utils/types'
@@ -75,7 +75,7 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
   }
 
   const nodes = filterTree<RouteItem>(getRouteConfig(true), (item) => {
-    const { sideVisible, nodePath, limitOnly } = item
+    const { nodePath, limitOnly } = item
     const auth = checkLimitByNodePath(nodePath, limits)
     if (nodePath === '/') {
       return true
@@ -83,7 +83,7 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
 
     switch (type) {
       case 'aside':
-        return auth && limitOnly !== true && sideVisible !== false
+        return auth && limitOnly !== true
       default:
         return auth
     }
@@ -107,6 +107,7 @@ export const getAsideMenus = (): RouteItem[] => {
   if (store.asideMenus?.length) {
     return store.asideMenus
   }
+
   store.asideMenus = filterRoutesConfig('aside') as any
   return store.asideMenus
 }
@@ -125,7 +126,7 @@ export const getLimitMenus = (option?: {
 
   // 构建权限配置面板菜单结构
   const limitMenus = mapTree(userRoutes as LimitMenuItem[], (item) => {
-    const { nodePath } = item
+    const { nodePath, children } = item
 
     const preset = getPagePreset(item) || pick(item, ['apis', 'limits'])
 
@@ -133,19 +134,30 @@ export const getLimitMenus = (option?: {
 
     // limits 表示 当前节点 有子权限
     if (limits) {
-      item.children = map(limits, ({ icon, label }, key) => {
+      const limitNodePath = children ? `${nodePath}/${parentKey}` : nodePath
+      const limitItems = map(limits, ({ icon, label }, key) => {
         const needs =
           key === routeLimitKey
             ? undefined
-            : resolveLimitNeeds(key, limits).map((needK: string) => `${nodePath}/${needK}`)
+            : resolveLimitNeeds(key, limits).map((needK: string) => `${limitNodePath}/${needK}`)
 
         return {
           label,
           needs,
           icon: icon || 'fa fa-code',
-          nodePath: `${nodePath}/${key}`,
+          nodePath: `${limitNodePath}/${key}`,
         }
       })
+      if (children) {
+        children.unshift({
+          icon: 'fa fa-code-fork',
+          nodePath: limitNodePath,
+          label: `${item.label}-权限`,
+          children: limitItems,
+        } as any)
+      } else {
+        item.children = limitItems
+      }
     }
 
     // 将 preset 配置的 apis， 添加到权限配置表中

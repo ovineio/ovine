@@ -48,7 +48,9 @@ export const checkLimitByNodePath = (nodePath: string, limits: any = getAppLimit
     return true
   }
   // 子权限存在，父权限一定存在
-  return limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
+  const withAuth =
+    limits[nodePath] || Object.keys(limits).some((i) => isSubStr(i, `${nodePath}/`, 0))
+  return withAuth
 }
 
 /**

@@ -70,23 +70,25 @@ export default (props: Props) => {
   }, 100)
 
   // 获取路径信息
-  const getPathInfo = (path: string) => {
+  const getRouteInfo = (path: string) => {
     let rootBackItem: TabItem | undefined
     let matchedItem: TabItem | undefined
     findTree(routes, (item, _, __, items) => {
       const {
         limitLabel,
-        nodePath: pathname = '',
+        path: routePath = '',
+        nodePath = '',
         // routeTabInitQuery: initQuery,
         exact,
         strict,
       } = item
+      const pathname = routePath || nodePath
       const label = item.label || limitLabel || notFindRoute.label
 
       if (!path || path === rootPath) {
-        if (item.path === rootPath) {
+        if (routePath === rootPath) {
           matchedItem = { label, pathname: rootPath, isRoot: true }
-        } else if (item.nodePath === rootPath) {
+        } else if (nodePath === rootPath) {
           rootBackItem = { label, pathname: rootPath, isRoot: true }
         }
         return false
@@ -252,7 +254,7 @@ export default (props: Props) => {
     }
 
     const { tabs, $tabs } = $storeRef.current
-    const curr = getPathInfo(location.pathname)
+    const curr = getRouteInfo(location.pathname)
 
     // 初次加载 首页时，回归上次一次 active tab
     if (!isInit && curr.pathname === rootPath) {

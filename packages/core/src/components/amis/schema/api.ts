@@ -50,7 +50,7 @@ function str2function(name: string, content: string, ...args: Array<string>): Fu
  */
 export const libFetcher = (
   api: Api,
-  data: object,
+  data: any, // 数据
   option: {
     autoAppend?: boolean
     ignoreData?: boolean
@@ -78,7 +78,6 @@ export const libFetcher = (
   amisApi.api = amisApi.api || amisApi.url
   amisApi.config = option
   amisApi.isEnvFetcher = true
-
   const {
     requestAdaptor,
     adaptor,
@@ -114,6 +113,8 @@ export const libFetcher = (
 
   const { method, url } = normalizeUrl(amisApi.url, amisApi.method || amisApi.config.method)
   amisApi.method = method
+  amisApi.mappingData = cloneDeep(amisApi.data || {}) // 用于映射的参数
+  amisApi.rawData = {}
 
   // 特殊情况 不作处理
   if (!data || data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
@@ -124,11 +125,11 @@ export const libFetcher = (
     const hashIdx = url.indexOf('#')
     const hasString = hashIdx !== -1 ? url.substring(hashIdx) : ''
 
-    amisApi.mappingData = cloneDeep(amisApi.data || {}) // 用于映射的参数
-    amisApi.rawData = isEmpty(data) ? {} : cloneDeep(data) // 原始参数
+    // 请求原始参数
+    amisApi.rawData = cloneDeep(isEmpty(data) ? data.__super || {} : data)
 
     // BUG: 表单传入 默认 value:xxx将影响， request 时的 传入 data
-    const urlMappingData = isEmpty(data) ? amisApi.data || {} : data
+    const urlMappingData = isEmpty(data) && !data.__super ? amisApi.data || {} : data
 
     // 与 amis 默认逻辑保持一致
     if (idx === -1) {

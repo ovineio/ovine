@@ -1,4 +1,5 @@
 import { AsideNav } from 'amis'
+import { find } from 'lodash'
 import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -20,7 +21,13 @@ export default (props: Props) => {
   }, [location.pathname])
 
   const isActive = (link: any) => {
-    return link.path && !!(link.path === location.pathname)
+    const { path, children } = link
+    const active = path && !!(path === location.pathname)
+    // 子菜单 可见时，默认高亮 最近的父菜单
+    if (!active && find(children, (i) => i.path === location.pathname && i.sideVisible === false)) {
+      return true
+    }
+    return active
   }
 
   return (
@@ -29,8 +36,21 @@ export default (props: Props) => {
 }
 
 function renderNav({ link, toggleExpand, classnames: cx }: any) {
-  const { children: routeChildren, active, icon, label, badge, badgeClassName, path } = link
+  const {
+    children: routeChildren,
+    sideVisible,
+    active,
+    icon,
+    label,
+    badge,
+    badgeClassName,
+    path,
+  } = link
   const children = []
+
+  if (sideVisible === false) {
+    return null
+  }
 
   if (routeChildren) {
     children.push(

@@ -4,6 +4,7 @@
 
 export const rootPath = '/'
 export const publicUrl = process.env.PUBLIC_PATH || '/'
+export const parentKey = 'parent'
 export const routeLimitKey = '$page'
 export const appRootId = 'app-root'
 export const defaultEnvMode = 'localhost'

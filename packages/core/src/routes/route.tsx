@@ -13,6 +13,7 @@ import React, {
   Suspense,
   useState,
   useEffect,
+  isValidElement,
 } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
@@ -125,7 +126,7 @@ export const usePresetContext = () => {
 // 将 preset 注入组件，可全局通过 usePresetContext 获取 preset 值
 const PrestComponent = (props: PresetComponentProps) => {
   const { LazyFileComponent, lazyFileAmisProps, RouteComponent, ...rest } = props
-  const { path, pathToComponent, nodePath: propNodePath } = rest
+  const { path, exact, children, pathToComponent, nodePath: propNodePath } = rest
 
   const preset = useMemo(() => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
@@ -134,7 +135,7 @@ const PrestComponent = (props: PresetComponentProps) => {
     const rawPagePreset = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
     const pagePreset = !rawPagePreset ? {} : cloneDeep(rawPagePreset)
 
-    pagePreset.nodePath = nodePath
+    pagePreset.nodePath = exact && children && path ? path : nodePath
 
     map(pagePreset.apis, (api) => {
       // 自动注入规则
@@ -150,7 +151,6 @@ const PrestComponent = (props: PresetComponentProps) => {
     ...preset,
     route: omit(rest, Object.keys(preset)),
   }
-
   let Component: any = <div>Not Found 请检查路由设置</div>
 
   if (LazyFileComponent) {
@@ -178,6 +178,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
     fallback = PageSpinner,
     path = '',
     exact = true,
+    children,
     ...rest
   } = props
 
@@ -185,6 +186,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
   if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
     return <Redirect to={app.constants.notFound.route} />
   }
+
   const RouteComponent = (
     <Route
       {...rest}
@@ -195,7 +197,9 @@ export const PrestRoute = (props: PresetRouteProps) => {
           ? getPageAsync(props)
           : () => <PrestComponent {...props} RouteComponent={component} />
       }
-    />
+    >
+      {isValidElement(children) ? children : null}
+    </Route>
   )
 
   if (withSuspense) {
@@ -237,18 +241,10 @@ export const AppMenuRoutes = (props: AppMenuRoutesProps) => {
 
   const { authRoutes, fallback: FallBack } = props
 
-  authRoutes.forEach(({ children }) => {
-    if (!children) {
-      return
+  eachTree(authRoutes, (item) => {
+    if (item.path && !item.limitOnly) {
+      menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} fallback={<FallBack />} {...item} />)
     }
-
-    eachTree(children, (item) => {
-      if (item.path && !item.limitOnly) {
-        menuRoutes.push(
-          <PrestRoute key={menuRoutes.length + 1} fallback={<FallBack />} {...item} />
-        )
-      }
-    })
   })
 
   return (

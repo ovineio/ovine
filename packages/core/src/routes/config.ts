@@ -6,12 +6,12 @@
 import { mapTree, eachTree } from 'amis/lib/utils/helper'
 import { cloneDeep, last, pick, map, get } from 'lodash'
 
-import { strDelimiter, message } from '@/constants'
+import { strDelimiter, message, parentKey } from '@/constants'
 import { publish } from '@/utils/message'
 import { ObjectOf } from '@/utils/types'
 
 import { getPagePreset } from './exports'
-import { checkLimitByKeys } from './limit/exports'
+import { checkLimitByKeys, checkLimitByNodePath } from './limit/exports'
 import { RouteItem } from './types'
 
 type StoreType = {
@@ -32,11 +32,20 @@ const store: StoreType = {
 // 1. 根据 nodePath 生成默认 path 路径值
 const resolveConfig = (nodes: RouteItem[]) => {
   return mapTree(nodes, (item, _, __, itemNodes) => {
-    const { path, limitLabel, label, nodePath, children, pathToComponent } = item
+    const { path, limitLabel, label, nodePath, exact, children, pathToComponent } = item
     const lastItem = last(itemNodes)
     item.nodePath = `${lastItem?.nodePath || ''}/${nodePath}`.replace(/(\/\/)/g, '/')
     item.nodeLabel = `${lastItem?.label || lastItem?.limitLabel || ''}/${label || limitLabel || ''}`
 
+    if (exact && children) {
+      // 当父页面允许访问时，默认添加 /parent 后缀
+      const parentPath = `${path || item.nodePath}/${parentKey}`
+      // 权限通过，才设置对应的 path
+      if (checkLimitByNodePath(parentPath)) {
+        item.path = parentPath
+        item.pathToComponent = pathToComponent || item.nodePath || path || ''
+      }
+    }
     if (!path && (pathToComponent || (!children && !pathToComponent))) {
       item.path = item.nodePath
     }
