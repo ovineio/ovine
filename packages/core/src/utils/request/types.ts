@@ -14,7 +14,7 @@ export type ReqErrorHook<S = any, P = any> = (
   response: ReqApiRes<S>,
   option: ReqOption<S, P>,
   error: Error
-) => undefined | boolean
+) => void | boolean
 
 export type ReqMockSource<S = any, P = any> = { [key: string]: ReqMockSourceGen<S, P> }
 

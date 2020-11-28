@@ -2,7 +2,9 @@
  * fix amis code by webpack loader
  */
 
-// import { dllVendorDirPath } from '../constants'
+import { getModulePath } from '../utils'
+
+const fs = require('fs')
 
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
 export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
@@ -10,8 +12,14 @@ export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.j
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
 export const apiUtilReg = /[\\/]amis[\\/]lib[\\/]utils[\\/]api\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
+export const fontAwesomeCss = /[\\/]font-awesome[\\/]css[\\/]font-awesome.css/
 
 const monacoVar = require('monaco-editor/package.json').version
+
+function base64Encode(file) {
+  const bitmap = fs.readFileSync(file)
+  return Buffer.from(bitmap, 'utf-8').toString('base64')
+}
 
 export const fixEditorLoader = () => ({
   loader: 'string-replace-loader', // transform amis editor worker files
@@ -155,6 +163,35 @@ export const fixBootStropCss = () => ({
         search: 'svg \\{',
         flags: 'gm',
         replace: '.ignore-svg {',
+      },
+    ],
+  },
+})
+
+// TODO: add cdn path from other font files.
+export const fixFontAwesomeCss = ({ siteDir }: any) => ({
+  loader: 'string-replace-loader',
+  options: {
+    multiple: [
+      {
+        search: 'src: url\\(.*\\);',
+        flags: 'gm',
+        replace: '',
+      },
+      {
+        search: '@font-face \\{',
+        flags: 'gm',
+        replace: `
+          @font-face {
+            font-family: 'FontAwesome';
+            src: url('data:application/x-font-woff2;charset=utf-8;base64,${base64Encode(
+              getModulePath(siteDir, 'font-awesome/fonts/fontawesome-webfont.woff2', true)
+            )}') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+          }
+          .ignore-font-face {
+        `,
       },
     ],
   },

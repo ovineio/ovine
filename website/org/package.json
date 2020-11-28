@@ -11,6 +11,7 @@
     "@docusaurus/core": "^2.0.0-alpha.43",
     "@docusaurus/preset-classic": "^2.0.0-alpha.43",
     "classnames": "^2.2.6",
+    "docsearch.js": "^2.6.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

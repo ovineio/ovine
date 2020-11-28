@@ -226,7 +226,10 @@ const NotFoundRoute = () => {
   return <Route path="*" component={Component} />
 }
 
-type AppMenuRoutesProps = { authRoutes: RouteItem[]; fallback?: any }
+type AppMenuRoutesProps = {
+  authRoutes: RouteItem[]
+  fallback: any
+}
 
 // 将 routeConfig 转换为 route
 export const AppMenuRoutes = (props: AppMenuRoutesProps) => {

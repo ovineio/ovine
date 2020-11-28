@@ -1,10 +1,10 @@
 /* eslint-disable max-classes-per-file */
 import { createBrowserHistory } from 'history'
-import { defaultsDeep, get, set } from 'lodash'
+import { defaultsDeep, get, isFunction, set } from 'lodash'
 
 import { AppInstance } from '@core/app/instance/type'
 
-import { defaultEnvMode, storage } from '@/constants'
+import { defaultEnvMode, rootPath, storage } from '@/constants'
 import { Request } from '@/utils/request'
 import { setGlobal } from '@/utils/store'
 import * as Types from '@/utils/types'
@@ -29,7 +29,8 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    baseUrl: process.env.ROUTE_PREFIX || '/',
+    // TODO 兼容动态 pathPrefix
+    pathPrefix: process.env.PATH_PREFIX || rootPath,
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,
@@ -41,7 +42,7 @@ const initConfig: AppConfig = {
   entry: [
     {
       type: 'route',
-      path: '/',
+      path: rootPath,
     },
   ],
   amis: {
@@ -88,52 +89,66 @@ class AppProxy {
 class App extends AppProxy {
   private routerHistory: any
 
+  private pathPrefix: string = rootPath
+
   public async create(appConfig: any) {
-    const prevBaseUrl = get(source, 'constants.baseUrl') || initConfig.constants.baseUrl
+    const prevBaseUrl = get(source, 'constants.pathPrefix') || rootPath
+    // 等待 beforeCreate hook执行完成
     if (appConfig.hook?.beforeCreate) {
-      // 等待 beforeCreate hook执行完成
       await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
     }
+    // 合并参数
     Object.assign(source, defaultsDeep(appConfig, initConfig))
-    const { env, request, constants } = source
-    const { baseUrl } = constants || {}
+    this.pathPrefix = this.getBaseUrl(appConfig.constants?.pathPrefix)
+    set(source, 'constants.pathPrefix', this.pathPrefix)
 
-    if (this.checkBaseUrl(prevBaseUrl, baseUrl)) {
-      this.createRouterHistory(baseUrl)
+    if (this.checkBaseUrl(prevBaseUrl, this.pathPrefix)) {
+      this.createRouterHistory()
     }
 
-    if (env) {
-      this.setEnv(env)
+    if (source.env) {
+      this.setEnv(source.env)
     }
-    if (request) {
-      this.setRequest(request)
+    if (source.request) {
+      this.setRequest(source.request)
     }
 
+    // 等待 afterCreated hook执行完成
     if (source.hook?.afterCreated) {
-      // 等待 afterCreated hook执行完成
       await source.hook.afterCreated.bind(this, this, source)()
     }
   }
 
-  public createRouterHistory(baseUrl: string) {
+  public createRouterHistory() {
     this.routerHistory = createBrowserHistory(
-      baseUrl === '/'
+      this.pathPrefix === rootPath
         ? undefined
         : {
-            basename: baseUrl.slice(0, -1),
+            basename: this.pathPrefix.slice(0, -1),
           }
     )
   }
 
-  private checkBaseUrl(prevBaseUrl: string, baseUrl: string) {
-    if (typeof baseUrl !== 'string' || baseUrl.substr(-1) !== '/' || baseUrl[0] !== '/') {
+  private getBaseUrl(urlGen: any) {
+    if (isFunction(urlGen)) {
+      return urlGen() || rootPath
+    }
+    return typeof urlGen === 'string' ? urlGen : rootPath
+  }
+
+  private checkBaseUrl(prevBaseUrl: string, pathPrefix: string) {
+    if (
+      typeof pathPrefix !== 'string' ||
+      pathPrefix.substr(-1) !== rootPath ||
+      pathPrefix[0] !== rootPath
+    ) {
       throw new Error(
-        `baseUrl: "${baseUrl}" is not allowed. The "baseUrl" must be string startWith "/" and endWith "/". eg: "/subPath/"`
+        `pathPrefix: "${pathPrefix}" is not allowed. The "pathPrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`
       )
     }
 
-    if (this.routerHistory && baseUrl !== prevBaseUrl) {
-      window.location.href = baseUrl
+    if (this.routerHistory && pathPrefix !== prevBaseUrl) {
+      window.location.href = pathPrefix
     }
 
     return !this.routerHistory

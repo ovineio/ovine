@@ -1,5 +1,5 @@
 ---
-id: plan
+slug: plan
 title: 迭代计划表
 ---
 

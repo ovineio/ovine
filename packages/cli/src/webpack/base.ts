@@ -81,7 +81,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
   const baseConfig = {
     mode: process.env.NODE_ENV,
-    entry: getAppEntries({ siteDir }),
+    entry: getAppEntries({ siteDir, hot: options.hot }),
     output: {
       // Use future version of asset emitting logic, which allows freeing memory of assets after emitting.
       publicPath,
@@ -303,9 +303,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
-        ROUTE_PREFIX: siteConfig.routePrefix,
+        PATH_PREFIX: siteConfig.pathPrefix,
         NODE_ENV: process.env.NODE_ENV,
         INIT_THEME: initTheme || 'default',
+        HOT: options.hot,
         MOCK: mock,
         ENV: env,
       }),
@@ -401,9 +402,9 @@ function excludeJS(modulePath: string) {
 }
 
 function getAppEntries(option: any) {
-  const { siteDir } = option
+  const { siteDir, hot } = option
 
-  const entries: any[] = ['react-hot-loader/patch']
+  const entries: any[] = hot ? ['react-hot-loader/patch'] : []
   const siteSrcDir = `${siteDir}/${srcDirName}/`
   const extArr = ['js', 'jsx', 'ts', 'tsx']
 

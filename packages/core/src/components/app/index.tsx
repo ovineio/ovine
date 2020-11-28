@@ -35,7 +35,7 @@ const j2r = json2reactFactory({
 
 const cacheRouteTabs = getStore<boolean>(storage.enableRouteTabs)
 
-export const App = hot(() => {
+const AppComponent = () => {
   const [state, setState] = useImmer<State>({
     lang: getStore(storage.appLang) || 'zh_CN',
     enableRouteTabs: cacheRouteTabs === null ? true : cacheRouteTabs,
@@ -101,4 +101,6 @@ export const App = hot(() => {
       </AppContext.Provider>
     </Router>
   )
-})
+}
+
+export const App = process.env.HOT ? hot(AppComponent) : AppComponent

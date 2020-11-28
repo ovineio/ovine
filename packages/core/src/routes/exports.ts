@@ -6,6 +6,7 @@
 import { cloneDeep } from 'lodash'
 
 import { app } from '@/app'
+import { rootPath } from '@/constants'
 import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise, loadScriptAsync, deserialize } from '@/utils/tool'
@@ -16,14 +17,14 @@ const log = logger.getLogger('lib:routes:exports')
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
-  const baseUrl = app.constants.baseUrl || '/'
+  const pathPrefix = app.constants.pathPrefix || rootPath
   const currPthStr = currPath(path)
-  const pathStr = `/${currPthStr}`
-  const withBaseUrl = isSubStr(pathStr, baseUrl, 0)
+  const pathStr = `${rootPath}${currPthStr}`
+  const withBaseUrl = isSubStr(pathStr, pathPrefix, 0)
 
-  let routePath = `${withBaseUrl ? '/' : baseUrl}${currPthStr}`
+  let routePath = `${withBaseUrl ? rootPath : pathPrefix}${currPthStr}`
   if (origin) {
-    routePath = pathStr.replace(new RegExp(`^${baseUrl}`), '/')
+    routePath = pathStr.replace(new RegExp(`^${pathPrefix}`), rootPath)
   }
 
   return routePath
@@ -200,9 +201,85 @@ export function getNodePath(option: PageFileOption) {
 
 // 当前路径,去除多余前缀/,保持一致性  /login ==> login
 export function currPath(path?: string, defaultPath: string = '') {
-  if (!path || path === '/') {
+  if (!path || path === rootPath) {
     return defaultPath
   }
 
-  return !isSubStr(path, '/', 0) ? path : path.substring(1)
+  return !isSubStr(path, rootPath, 0) ? path : path.substring(1)
+}
+
+// amis 官方 格式化项目内 链接
+export const normalizeLink = (option: { location?: any; to?: string }) => {
+  const { location: loc = window.location, to: toLink } = option
+
+  const location = {
+    pathname: rootPath,
+    search: '',
+    hash: '',
+    ...loc,
+  }
+
+  let to = toLink || ''
+
+  if (to && to[0] === '#') {
+    to = location.pathname + location.search + to
+  } else if (to && to[0] === '?') {
+    to = location.pathname + to
+  }
+
+  const searchIdx = to.indexOf('?')
+  const hashIdx = to.indexOf('#')
+  const isSearch = searchIdx > -1
+  const isHash = hashIdx > -1
+
+  let pathname = isSearch ? to.substring(0, searchIdx) : isHash ? to.substring(0, hashIdx) : to
+  const search = isSearch ? to.substring(searchIdx, isHash ? hashIdx : undefined) : ''
+  const hash = isHash ? to.substring(hashIdx) : location.hash
+
+  if (!pathname) {
+    pathname = location.pathname
+  } else if (pathname[0] !== rootPath && !/^https?:\/\//.test(pathname)) {
+    const relativeBase = location.pathname
+    const paths = relativeBase.split(rootPath)
+    paths.pop()
+    let m = /^\.\.?\//.exec(pathname)
+
+    while (m) {
+      if (m[0] === '../') {
+        paths.pop()
+      }
+      pathname = pathname.substring(m[0].length)
+      m = /^\.\.?\//.exec(pathname)
+    }
+    pathname = paths.concat(pathname).join(rootPath)
+  }
+
+  return {
+    href: pathname + search + hash,
+    pathname,
+    search,
+    hash,
+  }
+}
+export function jumpTo(link: string, blank: boolean = false) {
+  const { href } = normalizeLink({ to: link })
+
+  if (/^https?:\/\//.test(href)) {
+    if (!blank) {
+      window.location.replace(href)
+    } else {
+      window.open(href, '_blank')
+    }
+    return
+  }
+  const { pathPrefix } = app.constants
+  if (!blank) {
+    if (pathPrefix === rootPath) {
+      app.routerHistory.push(href)
+    } else {
+      app.routerHistory.push(href.replace(new RegExp(`^${pathPrefix}`), rootPath))
+    }
+  } else {
+    window.open(`${window.location.origin}${href}`, '_blank')
+  }
 }

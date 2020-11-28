@@ -2,6 +2,7 @@
  * 公用的hooks 封装
  */
 import produce, { Draft } from 'immer'
+import { isArray } from 'lodash'
 import { useCallback, useRef, useEffect, useReducer, useState } from 'react'
 
 import { subscribe, Handler } from './message'
@@ -33,10 +34,11 @@ export function useImmerReducer(reducer: any, initialState: any, initialAction: 
 }
 
 export function useSubscriber<T>(key: string | string[], handler: Handler<T>) {
+  const deps = isArray(key) ? key : [key]
   useEffect(() => {
     const { unsubscribe } = subscribe(key, handler)
     return unsubscribe
-  }, [key])
+  }, deps)
 }
 
 export function usePersistFn<T extends AnyFunc>(fn: T) {

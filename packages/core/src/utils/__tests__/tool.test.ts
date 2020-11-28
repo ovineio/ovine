@@ -6,7 +6,15 @@ import { assertSimpleInputOut, SimpleOutType } from './utils'
 const testCases = {
   getUrlParams: new Map<string[], SimpleOutType>([
     [['', 'https://www.baidu.com'], { value: undefined }],
-    [['', 'https://www.baidu.com?a'], { value: undefined }],
+    [
+      ['', 'https://www.baidu.com?a'],
+      {
+        value: { a: '' },
+        assert: (value: any) => {
+          expect(JSON.stringify({ a: '' }) === JSON.stringify(value)).toBe(true)
+        },
+      },
+    ],
     [['a', 'https://www.baidu.com?a=b'], { value: 'b' }],
     [
       ['', 'https://www.baidu.com?a=b&c=d'],

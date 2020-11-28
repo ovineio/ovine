@@ -44,6 +44,8 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     children?: RouteItem[]
     sideVisible?: boolean
     limitOnly?: boolean // 该配置只为权限
+    routeTabShared?: boolean
+    // routeTabInitQuery?: object
   }
 
 export type LimitMenuItem = RouteItem &

@@ -40,6 +40,7 @@ cli
   .option('--mock', 'Use mock environment (default: false)')
   .option('--scss', 'Update when scss file changed (default: false)')
   .option('--local-ip', 'Update when scss file changed (default: false)')
+  .option('--no-hot', 'Do not use webpack hot reload (default: false)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option('--no-dll', 'Do not use dll reference files. (default: false)')
   .action((siteDir = '.', options) => {
@@ -51,6 +52,7 @@ cli
       localIp = false,
       scss: scssUpdate = false,
       open = true,
+      hot = true,
       dll: useDll = true,
     } = options
     wrapCommand(dev)(path.resolve(siteDir), {
@@ -59,6 +61,7 @@ cli
       env,
       open,
       mock,
+      hot,
       localIp,
       scssUpdate,
       dll: useDll,
@@ -90,9 +93,14 @@ cli
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default: false)'
   )
-  .action((siteDir = '.', { bundleAnalyzer = false }) => {
+  .option(
+    '--embed-assets',
+    'Convert all static assets to base64 embed style files. (default: false)'
+  )
+  .action((siteDir = '.', { bundleAnalyzer = false, embedAssets = false }) => {
     wrapCommand(dll)(path.resolve(siteDir), {
       bundleAnalyzer,
+      embedAssets,
     })
   })
 

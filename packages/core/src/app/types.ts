@@ -9,6 +9,7 @@ import { ClassMethod, DeepPartial, Map } from '@/utils/types'
 
 import { AppTheme } from './theme'
 
+// 重新整理 ENV 环境变量
 type Env = {
   mode: string
   domains: Map<string, string>
@@ -26,6 +27,18 @@ export type AppAmis = RenderOptions & {
   definitions?: any
 }
 
+type ConstantsType = {
+  pathPrefix: string | (() => string)
+  rootLimitFlag: string
+  notFound: {
+    route: string
+    pagePath: string
+  }
+  toastDuration?: number
+  loginRoute?: string
+  enableBackTop?: boolean
+}
+
 export interface AppConfig {
   request: any
   theme: any
@@ -34,21 +47,11 @@ export interface AppConfig {
   styled: {
     globalStyle: string | ((theme: DefaultTheme) => any)
   }
-  constants: {
-    baseUrl: string
-    rootLimitFlag: string
-    notFound: {
-      route: string
-      pagePath: string
-    }
-    toastDuration?: number
-    loginRoute?: string
-    enableBackTop?: boolean
-  }
+  constants: ConstantsType
   entry: any[]
   hook: {
-    beforeCreate?: (app: any, config: AppConfig) => Promise<void>
-    afterCreated?: (app: any, config: AppConfig) => Promise<void>
+    beforeCreate?: (app: AppDefInstance, config: AppConfig) => Promise<void>
+    afterCreated?: (app: AppDefInstance, config: AppConfig) => Promise<void>
     onAppMounted?: () => void
   }
   // 异步数据容器
@@ -58,12 +61,15 @@ export interface AppConfig {
     mock: any // {path: mockSource} // 页面mock来源
   }
 }
-export interface AppDefInstance extends Omit<AppConfig, 'env'> {
+export interface AppDefInstance extends Omit<AppConfig, 'env' | 'constants'> {
   create: (config: AppConfig) => Promise<void>
   env: Env & {
     isMock: boolean
   }
   entry: any[]
+  constants: Omit<ConstantsType, 'pathPrefix'> & {
+    pathPrefix: string
+  }
   request: ClassMethod<Request, 'request'> & {
     getUrlByOption: (
       option: ReqOption
@@ -76,5 +82,5 @@ export interface AppDefInstance extends Omit<AppConfig, 'env'> {
 }
 
 export type AppMountedProps = {
-  routerHistory: History<History.PoorMansUnknown>
+  routerHistory: History<any>
 }

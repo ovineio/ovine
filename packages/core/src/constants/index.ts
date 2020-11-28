@@ -30,7 +30,7 @@ export const message = {
   updateRouteStore: 'libUpdateRouteStoreMsg',
   asideLayoutCtrl: {
     msg: 'libAsideLayoutCtrlMsg',
-    fetch: 'libToggleAsideFetchMsg',
+    reload: 'libToggleAsideReloadMsg',
     toggleScreen: 'libToggleAsideScreenMsg',
     toggleFold: 'libToggleAsideFoldMsg',
   },

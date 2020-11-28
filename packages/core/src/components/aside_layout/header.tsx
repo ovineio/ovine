@@ -149,12 +149,7 @@ const ItemComponent = (props: ItemProps) => {
   })
 }
 
-function HeadItems(props: {
-  foldItem: any
-  items: SchemaNode[]
-  render: any
-  renderFoldItem: any
-}) {
+function HeadItems(props: { items: SchemaNode[]; render: any; renderFoldItem: any }) {
   const { items: propItems, render, renderFoldItem } = props
 
   const items = useMemo(() => {

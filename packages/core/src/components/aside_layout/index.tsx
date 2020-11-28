@@ -111,7 +111,7 @@ export default withAppTheme<LayoutProps>((props) => {
         case asideLayoutCtrl.toggleFold:
           d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
           break
-        case asideLayoutCtrl.fetch:
+        case asideLayoutCtrl.reload:
           fetchAsideInfo()
           break
         default:

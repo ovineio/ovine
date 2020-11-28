@@ -25,7 +25,7 @@ module.exports = {
         alt: 'SiteLogo',
         src: 'img/logo.png',
       },
-      links: [
+      items: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
         {
           label: '迭代进度',

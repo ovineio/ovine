@@ -7,10 +7,10 @@ import { get } from 'lodash'
 import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
+import { jumpTo, normalizeLink } from '@/routes/exports'
 import logger from '@/utils/logger'
 
 import { libFetcher } from './api'
-import { normalizeLink } from './func'
 import { LibSchema } from './types'
 
 const log = logger.getLogger('lib:components:amis:schema')
@@ -111,24 +111,10 @@ export default (option: Option) => {
 
     // 实现页面跳转
     jumpTo: (to: string, action: Action, ctx?: object) => {
-      const { href: link } = normalizeLink({ to })
       const { blank } = action || {}
       log.log('jumpTo', { to, action, ctx })
 
-      if (/^https?:\/\//.test(link)) {
-        if (!blank) {
-          window.location.replace(link)
-        } else {
-          window.open(link, '_blank')
-        }
-        return
-      }
-
-      if (!blank) {
-        app.routerHistory.push(link)
-      } else {
-        window.open(`${window.location.origin}${link}`, '_blank')
-      }
+      jumpTo(to, blank)
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace: boolean = false) => {

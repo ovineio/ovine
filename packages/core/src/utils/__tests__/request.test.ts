@@ -9,14 +9,15 @@ const mockRequestError = 'mockRequestError'
 
 let reqIns = new Request()
 
+const domains = {
+  api: 'https://mock-api.com',
+  apiV2: 'https://mock-api-v2.com',
+}
+
 beforeEach(() => {
   reqIns = new Request()
   reqIns.setConfig({
-    domains: {
-      api: 'https://mock-api.com',
-      apiV2: 'https://mock-api-v2.com',
-    },
-    isRelease: false,
+    domains,
   })
 })
 
@@ -106,9 +107,9 @@ describe('request hooks order. ', () => {
         return o
       },
       // should not invoke
-      onError: (o) => {
+      onError: () => {
         orders.push(11)
-        return o
+        return false
       },
     })
 
@@ -180,9 +181,9 @@ describe('request hooks order. ', () => {
         return o
       },
       // should not invoke
-      onError: (o) => {
+      onError: () => {
         orders.push(44)
-        return o
+        return false
       },
     })
 
@@ -200,9 +201,8 @@ describe('request hooks order. ', () => {
       orders.push(1)
       return o
     }
-    reqIns.onError = (o) => {
+    reqIns.onError = () => {
       orders.push(4)
-      return o
     }
     // should not invoke
     reqIns.onSuccess = (o) => {
@@ -226,7 +226,6 @@ describe('request hooks order. ', () => {
       onError: () => {
         orders.push(3)
       },
-      // should not invoke
       onSuccess: (o) => {
         orders.push(33)
         return o
@@ -265,33 +264,20 @@ describe('request hooks order. ', () => {
 
 // })
 
-describe('request hooks base options. ', () => {
-  test('request option "sourceKey". like lodash "get()" for api resource.', () => {
-    return reqIns
-      .request<number>({
-        api: jestMockApi,
-        sourceKey: 'data.test',
-        mockSource: {
-          data: {
-            test: 1,
-          },
-        },
-      })
-      .then((source) => {
-        expect(source).toBe(1)
-      })
-  })
-})
-
 describe('request mock features. ', () => {
   test('request option "mockSource" for object.', () => {
+    reqIns.setConfig({
+      domains,
+      isMock: true,
+    })
+
     return reqIns
       .request<{ test: number }>({
         api: jestMockApi,
         mockSource: { test: 1 },
       })
       .then((source) => {
-        expect(source.test).toBe(1)
+        expect(source.data.test).toBe(1)
       })
   })
 })

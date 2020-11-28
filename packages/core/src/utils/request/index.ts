@@ -22,11 +22,11 @@ function requestErrorCtrl(this: Request, error: Error, option: Types.ReqOption, 
   // log.info('requestErrorCtrl', { error, option, response })
   const errorSource = { option, response, error }
 
-  let withInsErrorHook = true
+  let withInsErrorHook: any = true
 
   // 如果返回 false，则不调用 全局的错误处理
   if (option.onError) {
-    withInsErrorHook = !!option.onError(response, option, error)
+    withInsErrorHook = option.onError(response, option, error)
   }
 
   if (withInsErrorHook !== false && this.onError) {
@@ -59,13 +59,13 @@ async function requestSuccessCtrl(this: Request, response: any, option: Types.Re
 
 // 模拟数据
 async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { mockSource, api, url, mock = true, mockDelay = 200 } = option
+  const { mockSource, api, method, url, mock = true, mockDelay = 200 } = option
 
   if (!this.isMock || !mock || !mockSource) {
     return 'none'
   }
 
-  const apiStr = api || url || ''
+  const apiStr = api || `${method} ${url || ''}`
 
   // mock数据生成方式
   const mockSourceGen = get(mockSource, apiStr) ? (mockSource as any)[apiStr] : mockSource
@@ -121,7 +121,7 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
 
 // 读取json结果
 async function readJsonResponse(response: any) {
-  if (response.headers.get('content-length') === '0') {
+  if (response.headers?.get('content-length') === '0') {
     return {}
   }
 
@@ -346,14 +346,15 @@ async function getReqOption(this: Request, option: Types.ReqOption): Promise<Typ
     headers: {},
     config: {},
     ...option,
+    ...normalizeUrl(option.url || option.api || '', option.method),
   }
 
-  const { url = '', actionAddr, api, onPreRequest, onRequest } = opt
+  const { actionAddr, api, onPreRequest, onRequest } = opt
 
-  opt.api = api || url
+  opt.api = api || option.url
   opt.actionAddr = actionAddr || opt.api
 
-  if (!option.url) {
+  if (!opt.url) {
     log.error('请求一定要传 url 参数', option)
     requestErrorCtrl.call(this, new Error('请求一定要传 url 参数'), wrapResponse())
   }
@@ -401,12 +402,11 @@ export function getUrlByOption(
   this: Types.ReqConfig,
   option: Types.ReqOption & Partial<Types.ReqConfig>
 ) {
-  const { qsOptions, data, domain = 'api', domains } = option
-  const urlOption = normalizeUrl(option.url || '', option.method)
-
+  const { qsOptions, data, domain = 'api', domains, url: optUrl = '', method } = option
+  const urlOption = { url: optUrl, method }
   const apiDomains = domains || this.domains || {}
 
-  let { url } = urlOption
+  let url = optUrl
 
   // url中不存在 'http' 匹配
   if (!/^https?:\/\//.test(url)) {

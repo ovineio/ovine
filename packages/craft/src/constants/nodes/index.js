@@ -1,7 +1,7 @@
-import page from './page'
+import action from './action'
 import form from './form'
 import html from './html'
-import action from './action'
+import page from './page'
 // formItem 下的渲染器
 import text from './text'
 

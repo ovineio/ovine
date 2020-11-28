@@ -30,6 +30,7 @@ import { DevCliOptions } from '../types'
 import { normalizeUrl, globalStore } from '../utils'
 import { createBaseConfig } from '../webpack/base'
 
+// eslint-disable-next-line import/order
 import chalk = require('chalk')
 
 type Options = Partial<DevCliOptions> & {
@@ -54,7 +55,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.localIp, options.host)
-  const serverPath = siteConfig.routePrefix || '/'
+  const serverPath = siteConfig.pathPrefix || '/'
 
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, serverPath])
@@ -72,7 +73,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     publicPath: serverPath,
     compress: true,
     clientLogLevel: 'error',
-    hot: true,
+    hot: options.hot,
     // injectClient: false,
     // injectHot: false,
     // transportMode: 'ws',

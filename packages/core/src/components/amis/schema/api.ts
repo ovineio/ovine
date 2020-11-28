@@ -112,23 +112,22 @@ export const libFetcher = (
     amisApi.onError = str2function('onError', onError, 'response', 'option', 'error')
   }
 
+  const { method, url } = normalizeUrl(amisApi.url, amisApi.method || amisApi.config.method)
+  amisApi.method = method
+
   // 特殊情况 不作处理
   if (!data || data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
     amisApi.data = data || {}
   } else {
-    const { url } = amisApi
-    const { method } = normalizeUrl(url, amisApi.method || amisApi.config.method)
     const { autoAppend, ignoreData } = option
-
     const idx = url.indexOf('?')
     const hashIdx = url.indexOf('#')
     const hasString = hashIdx !== -1 ? url.substring(hashIdx) : ''
 
-    // 数据整理
-    amisApi.method = method
     amisApi.mappingData = cloneDeep(amisApi.data || {}) // 用于映射的参数
     amisApi.rawData = isEmpty(data) ? {} : cloneDeep(data) // 原始参数
 
+    // BUG: 表单传入 默认 value:xxx将影响， request 时的 传入 data
     const urlMappingData = isEmpty(data) ? amisApi.data || {} : data
 
     // 与 amis 默认逻辑保持一致

@@ -11,7 +11,6 @@ import './lib_renderer'
 import './lib_limit_setting'
 
 // TODO: 添加 table-cell 文字折叠展示
-// TODO: 添加 lib-limit-setting 渲染器
 
 // 直接渲染 schema.body, 用于 渲染器 key 值冲突时
 @Renderer({

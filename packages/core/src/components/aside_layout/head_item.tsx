@@ -6,6 +6,8 @@ import { Button } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import React, { cloneElement } from 'react'
 
+import { jumpTo } from '@/routes/exports'
+
 import { Amis } from '../amis/schema'
 
 type HeadItemProps = {
@@ -16,6 +18,7 @@ type HeadItemProps = {
   tip?: string
   onClick?: any
   href?: string
+  blank?: boolean
   body?: any
 }
 
@@ -25,11 +28,11 @@ type Props = Partial<RendererProps> & {
 
 export default (props: Props) => {
   const { itemProps, theme } = props
-  const { className = '', icon, faIcon, children, onClick, href, tip, body } = itemProps
+  const { className = '', icon, faIcon, children, onClick, href, blank, tip, body } = itemProps
 
   const onItemClick = (e: any) => {
     if (href) {
-      window.open(href, '_blank')
+      jumpTo(href, blank)
     }
 
     if (onClick) {

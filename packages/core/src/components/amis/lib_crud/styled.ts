@@ -15,9 +15,9 @@ export const crudCss = ({ ns, colors }: DefaultTheme) => css`
         &--link {
           height: auto;
           text-decoration: none;
-          span {
+          /* span {
             color: ${colors.linkHover};
-          }
+          } */
         }
       }
       .${ns}Select {

@@ -16,6 +16,7 @@ import DllPostPlugin from './plugins/dll_post_plugin'
 import LogPlugin from './plugins/log_plugin'
 import MomentPlugin from './plugins/moment_plugin'
 
+// eslint-disable-next-line import/order
 import chalk = require('chalk')
 
 const {
@@ -148,7 +149,7 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { siteDir, siteConfig, bundleAnalyzer } = options
+  const { siteDir, siteConfig, bundleAnalyzer, embedAssets } = options
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -186,12 +187,16 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: /\.css$/,
-          exclude: [amis.bootStropCss],
+          exclude: [amis.bootStropCss, amis.fontAwesomeCss],
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: amis.bootStropCss,
           use: [MiniCssExtractPlugin.loader, 'css-loader', amis.fixBootStropCss()],
+        },
+        embedAssets && {
+          test: amis.fontAwesomeCss,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', amis.fixFontAwesomeCss({ siteDir })],
         },
         {
           test: new RegExp(
@@ -199,19 +204,19 @@ export function createDllConfig(options: ConfigOptions) {
               !siteConfig.staticFileExts ? '' : `,${siteConfig.staticFileExts}`
             }`.replace(/,/gi, '|')})$`
           ),
-          exclude: [/[\\/]qs\//, /[\\/]icons[\\/]/],
+          exclude: [/[\\/]qs\//, /[\\/]icons[\\/]/, amis.fontAwesomeCss],
           use: [
             {
               loader: 'url-loader',
               options: {
                 publicPath: './', // : `${publicPath}${dllVendorDirPath}/`,
-                limit: 2000, // 低于2K 使用 base64
+                limit: embedAssets ? 500 * 1000 : 2000, // 低于2K 使用 base64
                 name: '[name]_[contenthash:6].[ext]',
               },
             },
           ],
         },
-      ],
+      ].filter(Boolean),
     },
     resolve: {
       alias: {

@@ -11,7 +11,7 @@ export type SiteConfig = {
   favicon: string
   title: string
   publicPath: string
-  routePrefix: string
+  pathPrefix: string
   devServerProxy: any
   envModes?: string[]
   staticFileExts?: string[]
@@ -42,6 +42,7 @@ export type CliOptions = {
 export type DevCliOptions = CliOptions & {
   port: string
   host: string
+  hot: boolean
   localIp: boolean
   open: boolean
   dll: boolean
@@ -53,6 +54,7 @@ export type BuildCliOptions = CliOptions & {
 }
 
 export type DllCliOptions = {
+  embedAssets: boolean // convert all asset files to base64, reduce http request
   bundleAnalyzer: boolean
 }
 

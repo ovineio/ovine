@@ -10,6 +10,7 @@ import { BuildCliOptions } from '../types'
 import { compileWebpack, globalStore, mergeWebpackConfig } from '../utils'
 import { createBaseConfig } from '../webpack/base'
 
+// eslint-disable-next-line import/order
 import chalk = require('chalk')
 
 export async function build(

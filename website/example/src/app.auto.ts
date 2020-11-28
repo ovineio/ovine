@@ -25,10 +25,10 @@ const appConfig: DeepPartial<AppConfig> = {
   theme,
   constants,
   amis,
+  hook,
   styled: {
     globalStyle,
   },
-  hook,
 }
 
 export default appConfig

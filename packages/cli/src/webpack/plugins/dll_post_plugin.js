@@ -104,11 +104,12 @@ class DllManifestPlugin {
   }
 
   apply(compiler) {
+    const taskCount = 2
     compiler.hooks.done.tapAsync({ name: 'DllPostPlugin' }, (__, done) => {
       const taskStatus = []
       const doneTask = () => {
         taskStatus.push(true)
-        if (taskStatus.length === 2) {
+        if (taskStatus.length === taskCount) {
           done()
         }
       }

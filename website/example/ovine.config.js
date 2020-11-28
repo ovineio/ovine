@@ -17,7 +17,7 @@ module.exports = (option) => {
   }
 
   const config = {
-    routePrefix: '/demo/', // 路由访问相对于根目录的前缀
+    pathPrefix: '/demo/', // 路由访问相对于根目录的前缀
     publicPath: publicPathMap[env], // 静态资源公共路径
     favicon: '/static/images/favicon.ico',
     title: 'Ovine管理系统', // 页面标题

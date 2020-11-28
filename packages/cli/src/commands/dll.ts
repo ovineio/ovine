@@ -6,6 +6,7 @@ import { BuildCliOptions, Props } from '../types'
 import { compileWebpack, globalStore } from '../utils'
 import { createDllConfig, monacoWorkerConfig } from '../webpack/dll'
 
+// eslint-disable-next-line import/order
 import chalk = require('chalk')
 
 export async function dll(

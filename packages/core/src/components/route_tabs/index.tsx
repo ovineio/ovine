@@ -11,7 +11,8 @@ import { openContextMenus } from 'amis'
 import { findTree } from 'amis/lib/utils/helper'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { matchPath } from "react-router"
+import { useHistory, matchPath } from 'react-router-dom'
 
 import { app } from '@/app'
 import { rootPath } from '@/constants'
@@ -32,6 +33,8 @@ type Props = {
 export type TabItem = {
   pathname: string
   label: string
+  // initQuery?: any
+  shared?: boolean
   isRoot?: boolean
   active?: boolean
   state?: string
@@ -70,9 +73,16 @@ export default (props: Props) => {
   const getPathInfo = (path: string) => {
     let rootBackItem: TabItem | undefined
     let matchedItem: TabItem | undefined
-    findTree(routes, (item) => {
-      const { limitLabel, nodePath: pathname } = item
+    findTree(routes, (item, _, __, items) => {
+      const {
+        limitLabel,
+        nodePath: pathname = '',
+        // routeTabInitQuery: initQuery,
+        exact,
+        strict,
+      } = item
       const label = item.label || limitLabel || notFindRoute.label
+
       if (!path || path === rootPath) {
         if (item.path === rootPath) {
           matchedItem = { label, pathname: rootPath, isRoot: true }
@@ -81,10 +91,19 @@ export default (props: Props) => {
         }
         return false
       }
-      const isMatch = pathname === path
+
+      const match = matchPath(path, {
+        path: pathname,
+        exact,
+        strict,
+      })
+      const isMatch = match?.url === path
+
       if (isMatch) {
-        matchedItem = { label, pathname }
+        const shared = !!findTree(items, (i) => i.routeTabShared)
+        matchedItem = { label, pathname: path, shared }
       }
+
       return isMatch
     })
 
@@ -136,6 +155,7 @@ export default (props: Props) => {
       tabs.activeTabEl === target && {
         label: '刷新页面',
         onSelect: () => {
+          // TODO: 刷新页面 会丢失 查询参数
           changePath(target.dataset.path || rootPath)
         },
       },
@@ -147,6 +167,7 @@ export default (props: Props) => {
               tabs.removeTab(tabEl)
             }
           })
+          cache.cacheTabs(tabs.tabEls)
         },
       },
       !onlyOne &&
@@ -157,12 +178,11 @@ export default (props: Props) => {
             allTabs.forEach((tabEl: any) => {
               if (tabEl === target) {
                 isAfter = true
-                return
-              }
-              if (isAfter) {
+              } else if (isAfter) {
                 tabs.removeTab(tabEl)
               }
             })
+            cache.cacheTabs(tabs.tabEls)
           },
         },
       !onlyOne && {
@@ -246,7 +266,7 @@ export default (props: Props) => {
     // 已经 在列表的 直接 定位当前路由
     const tabEl = $tabs.find(`.chrome-tab[data-path="${curr.pathname}"]`).get(0)
     if (tabEl) {
-      tabEl.dataset.state = '' // 清楚当前状态
+      tabEl.dataset.state = '' // 清除当前状态
       tabs.setCurrentTab(tabEl, { changeRoute: false })
       return
     }
@@ -256,6 +276,20 @@ export default (props: Props) => {
       tabs.removeTab(tabs.tabEls[0], { autoActive: false })
     }
 
+    // 共享 routeTab
+    if (curr.shared) {
+      const $shared = $tabs.find('.chrome-tab[data-active]')
+      const sharedEl = $shared.get(0)
+      if (sharedEl) {
+        $shared.find('.chrome-tab-title').html(curr.label)
+        sharedEl.dataset.state = '' // 清除当前状态
+        sharedEl.dataset.path = curr.pathname
+        cache.cacheTabs(tabs.tabEls)
+        return
+      }
+    }
+
+    // 添加一个tab
     tabs.addTab(curr)
   }, [location])
 

@@ -1,5 +1,5 @@
 ---
-id: contribute
+slug: contribute
 title: 贡献指南
 ---
 

@@ -5,7 +5,6 @@
 import React from 'react'
 
 export default () => {
-  const A = div
 
-  return <A>123</A>
+  return <div>123</div>
 }

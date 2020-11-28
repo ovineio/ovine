@@ -7,6 +7,7 @@ import shell from 'shelljs'
 import { generatedDirName, stylesDirName, scssDirName } from '../constants'
 import { getModulePath } from '../utils'
 
+// eslint-disable-next-line import/order
 import chalk = require('chalk')
 
 type Options = {

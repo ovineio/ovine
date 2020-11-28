@@ -1,5 +1,5 @@
 ---
-id: changelog
+slug: changelog
 title: 版本更新日志
 ---
 
