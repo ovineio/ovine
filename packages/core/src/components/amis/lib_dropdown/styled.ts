@@ -30,7 +30,6 @@ export const StyledDropdown = styled.div`
         text-decoration: none !important;
         & > i {
           position: absolute;
-          top: 3px;
           left: 0px;
           margin-left: 0 !important;
           font-size: 16px;

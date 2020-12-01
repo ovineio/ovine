@@ -2,6 +2,7 @@
  * fix amis code by webpack loader
  */
 
+import { dllVendorDirPath } from '../constants'
 import { getModulePath } from '../utils'
 
 const fs = require('fs')
@@ -21,24 +22,12 @@ function base64Encode(file) {
   return Buffer.from(bitmap, 'utf-8').toString('base64')
 }
 
-export const fixEditorLoader = () => ({
+export const fixEditorLoader = ({ publicPath }: any) => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
     search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
     flags: 'm',
-    replace: `
-      var _path = '';
-      try {
-        throw new Error()
-      } catch (e) {
-        var info = e.stack.match(/\\((?:https?|file):.*\\)/);
-        if (info) {
-          var temp = info[0];
-          _path = temp.slice(1, temp.lastIndexOf('/'));
-        }
-      }
-      function filterUrl(url) {
-        return _path + url.slice(4, -2) + '${monacoVar}.js';`,
+    replace: `function filterUrl(url) {return '${`${publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`,
   },
 })
 

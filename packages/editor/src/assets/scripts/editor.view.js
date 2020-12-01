@@ -7147,7 +7147,7 @@
               , a = this.props.manager;
             this.isLeftPanel = this.props.isLeftPanel || !1;
             var n = this.isLeftPanel ? t.getLeftPanels() : t.getPanels()
-              , l = this.props.theme
+              , l = this.props.manager.env.theme
               , s = t.activeId
               , d = t.getNodeById(s)
               , u = this.isLeftPanel ? t.getLeftPanelKey() : t.getPanelKey()
@@ -8515,7 +8515,7 @@
                     if (!e.defaultPrevented) {
                         var t = e.target.parentElement.getBoundingClientRect();
                         i.manager.openContextMenu(o, "", {
-                            x: window.scrollX + t.left + t.width - 185,
+                            x: window.scrollX + t.left + t.width - 130,
                             y: window.scrollY + t.top + t.height
                         })
                     }

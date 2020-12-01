@@ -1,5 +1,6 @@
 import { RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
+import { uuid } from 'amis/lib/utils/helper'
 import { get, map } from 'lodash'
 import React, { useMemo } from 'react'
 import { createPortal } from 'react-dom'
@@ -81,11 +82,7 @@ export default (props: Props) => {
       },
     }
 
-    return (
-      <>
-        <Amis schema={itemsSchema} />
-      </>
-    )
+    return <Amis key={uuid()} schema={itemsSchema} />
   }, [items, themeNs])
 
   return (

@@ -4,19 +4,20 @@
  * TODO:
  * 1. 添加懒加载优化
  * 2. 菜单UI美化，主题UI
- * 3. 添加 RouteIcon 已经请求 LoadingIcon 之类的
+ * 3. 添加 ICON 支持
+ * 4. 添加 RouteIcon 已经请求 LoadingIcon 之类的
  */
 
 import { openContextMenus } from 'amis'
 import { findTree } from 'amis/lib/utils/helper'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
-// import { matchPath } from "react-router"
 import { useHistory, matchPath } from 'react-router-dom'
 
 import { app } from '@/app'
-import { rootPath } from '@/constants'
+import { message, rootRoute as defRouteRoute } from '@/constants'
 import { RouteItem } from '@/routes/types'
+import { subscribe } from '@/utils/message'
 
 import * as cache from './cache'
 import ChromeTabs from './chrome_tabs'
@@ -25,7 +26,7 @@ import { StyledRouteTabs } from './styled'
 type Props = {
   themeNs: string
   routes: RouteItem[]
-
+  rootRoute?: string
   maxCount?: number
   storage?: boolean
 }
@@ -45,19 +46,23 @@ const cachedList = cache.getCachedTabs()
 type RefType = {
   $tabs: any
   $tabsDom: HTMLDivElement | null
+  rootRoute: string
   tabs: any
 }
 export default (props: Props) => {
   const history = useHistory()
 
-  const { routes, themeNs, maxCount = 100, storage } = props
+  // TODO: rootRoute 动态切换存在 BUG，导致不能动态更换 rootRoute
+  const { routes, themeNs, maxCount = 20, storage, rootRoute = defRouteRoute } = props
   const { location } = history
 
   const $storeRef = useRef<RefType>({
+    rootRoute,
     $tabs: undefined,
     $tabsDom: null,
     tabs: {},
   })
+  $storeRef.current.rootRoute = rootRoute
 
   const notFindRoute: TabItem = {
     label: '页面不存在',
@@ -85,11 +90,11 @@ export default (props: Props) => {
       const pathname = routePath || nodePath
       const label = item.label || limitLabel || notFindRoute.label
 
-      if (!path || path === rootPath) {
-        if (routePath === rootPath) {
-          matchedItem = { label, pathname: rootPath, isRoot: true }
-        } else if (nodePath === rootPath) {
-          rootBackItem = { label, pathname: rootPath, isRoot: true }
+      if (!path || path === rootRoute) {
+        if (routePath === rootRoute) {
+          matchedItem = { label, pathname: rootRoute, isRoot: true }
+        } else if (nodePath === rootRoute) {
+          rootBackItem = { label, pathname: rootRoute, isRoot: true }
         }
         return false
       }
@@ -115,15 +120,15 @@ export default (props: Props) => {
   }
 
   // 清空所有时 默认跳到 首页
-  const onClearAll = (tabDom: any) => {
+  const onClearAll = (tabDom?: any) => {
     const { tabs } = $storeRef.current
-    changePath(rootPath)
+    changePath($storeRef.current.rootRoute)
     setTimeout(() => {
       if (tabDom) {
         tabs.removeTab(tabDom, { autoActive: false })
       } else {
         tabs.tabEls.forEach((tabEl: any) => {
-          if (!tabEl.dataset.root) {
+          if (tabEl.dataset.root !== $storeRef.current.rootRoute) {
             tabs.removeTab(tabEl, { autoActive: false })
           }
         })
@@ -158,7 +163,7 @@ export default (props: Props) => {
         label: '刷新页面',
         onSelect: () => {
           // TODO: 刷新页面 会丢失 查询参数
-          changePath(target.dataset.path || rootPath)
+          changePath(target.dataset.path || rootRoute)
         },
       },
       !onlyOne && {
@@ -210,6 +215,8 @@ export default (props: Props) => {
     $storeRef.current.$tabs = $tabs
     $storeRef.current.tabs = tabs
 
+    subscribe(message.clearRouteTabs, () => onClearAll())
+
     $tabs.on('contextmenu', () => false).on('mousedown', '.chrome-tab', onItemMenus)
 
     tabsEle.addEventListener('activeTabChange', ({ detail }: any) => {
@@ -233,7 +240,7 @@ export default (props: Props) => {
       const { tabEl, tabProperties } = detail
       const { pathname, isRoot } = tabProperties
       tabEl.dataset.path = pathname || ''
-      tabEl.dataset.root = isRoot || ''
+      tabEl.dataset.root = isRoot ? pathname : ''
     })
 
     tabsEle.addEventListener('onTabChange', () => {
@@ -246,10 +253,10 @@ export default (props: Props) => {
   }
 
   useEffect(() => {
-    const isInit = !!$storeRef.current.$tabs
+    const isMounted = !!$storeRef.current.$tabs
 
     // 未初始化 先初始化
-    if (!isInit) {
+    if (!isMounted) {
       onMounted()
     }
 
@@ -257,7 +264,7 @@ export default (props: Props) => {
     const curr = getRouteInfo(location.pathname)
 
     // 初次加载 首页时，回归上次一次 active tab
-    if (!isInit && curr.pathname === rootPath) {
+    if (!isMounted && curr.pathname === rootRoute) {
       const tabEl = $tabs.find('.chrome-tab[data-active]').get(0)
       if (tabEl) {
         tabs.setCurrentTab(tabEl)
@@ -309,7 +316,7 @@ export default (props: Props) => {
               <div
                 className="chrome-tab"
                 data-active={item.active}
-                data-root={item.isRoot}
+                data-root={item.isRoot ? item.pathname : ''}
                 data-path={item.pathname}
               >
                 <div className="chrome-tab-dividers" />

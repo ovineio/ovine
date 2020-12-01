@@ -2,7 +2,7 @@
  * 项目内常量,禁止重新赋值修改
  */
 
-export const rootPath = '/'
+export const rootRoute = '/'
 export const publicUrl = process.env.PUBLIC_PATH || '/'
 export const parentKey = 'parent'
 export const routeLimitKey = '$page'
@@ -29,6 +29,7 @@ export const message = {
   appTheme: 'libAppThemeMsg',
   appLang: 'libAppLangMsg',
   updateRouteStore: 'libUpdateRouteStoreMsg',
+  clearRouteTabs: 'libClearRouteTabsMsg',
   asideLayoutCtrl: {
     msg: 'libAsideLayoutCtrlMsg',
     reload: 'libToggleAsideReloadMsg',

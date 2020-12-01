@@ -1,5 +1,6 @@
 /**
  * App Aside Menu布局
+ * TODO: 添加 RouteTab/Aside/Header 的默认 loading 状态
  */
 
 import { Layout } from 'amis'
@@ -8,12 +9,13 @@ import React, { useEffect, useMemo } from 'react'
 
 import { app } from '@/app'
 import { withAppTheme } from '@/app/theme'
-import { breakpoints, message, storage } from '@/constants'
+import { breakpoints, message, rootRoute, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
 import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
+import { publish } from '@/utils/message'
 import { setGlobal } from '@/utils/store'
 
 import { Amis } from '../amis/schema'
@@ -40,34 +42,53 @@ const defaultHeader = {
 export default withAppTheme<LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
 
-  const { children, theme, routeTabs, api } = props
+  const { children, theme, api } = props
 
   const [state, setState] = useImmer<AsideLayoutState>({
     asideFolded: false,
     offScreen: false,
+    resetRoute: props.resetRoute,
+    routeTabs: props.routeTabs || {},
     header: props.header || defaultHeader,
     footer: props.footer,
     routes: props.routes || [],
   })
 
-  const { routes, header, footer, asideFolded, offScreen } = state
+  const { routes, header, routeTabs, footer, asideFolded, resetRoute, offScreen } = state
   const { ns: themeNs, name: themeName } = theme
 
   const supportTabs = routeTabs && window.innerWidth >= breakpoints.md && routeTabs.enable !== false
   const withTabs = enableRouteTabs && supportTabs
 
-  const fetchAsideInfo = () => {
+  const fetchAsideInfo = (data?: any) => {
     if (!api) {
       return
     }
+    if (data) {
+      api.data = {
+        ...api.data,
+        ...data,
+      }
+    }
+
     app.request<LayoutProps>(api).then((source) => {
-      const resData = source?.data
+      const resData = source?.data || {}
 
       setState((d) => {
-        d.header = resData?.header || defaultHeader
-        d.footer = resData?.footer
+        d.resetRoute = !!resData.resetRoute
+        if (resData.header) {
+          d.header = resData.header || defaultHeader
+        }
+        if (resData.routeTabs) {
+          d.routeTabs = resData.routeTabs
+        }
+        if (resData.footer) {
+          d.footer = resData.footer
+        }
         // TODO: 校验 routes 的合法性及默认值
-        d.routes = resData?.routes || []
+        if (resData.routes) {
+          d.routes = resData.routes
+        }
       })
     })
   }
@@ -98,11 +119,21 @@ export default withAppTheme<LayoutProps>((props) => {
   }, [supportTabs])
 
   useEffect(() => {
+    if (resetRoute) {
+      if (supportTabs) {
+        publish(message.clearRouteTabs)
+      } else {
+        app.routerHistory.push(rootRoute)
+      }
+    }
+  }, [AuthRoutes, resetRoute])
+
+  useEffect(() => {
     fetchAsideInfo()
   }, [])
 
   useSubscriber<any>(asideLayoutCtrl.msg, (msgData = {}) => {
-    const { key, toggle } = msgData
+    const { key, toggle, data } = msgData
     setState((d) => {
       switch (key) {
         case asideLayoutCtrl.toggleScreen:
@@ -112,7 +143,7 @@ export default withAppTheme<LayoutProps>((props) => {
           d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
           break
         case asideLayoutCtrl.reload:
-          fetchAsideInfo()
+          fetchAsideInfo(data)
           break
         default:
       }
@@ -134,7 +165,7 @@ export default withAppTheme<LayoutProps>((props) => {
 
   const HeaderComponent = (
     <Header {...headerProps} themeNs={themeNs}>
-      {withTabs && <RouteTabs {...routeTabsProps} />}
+      {withTabs && routes.length && <RouteTabs {...routeTabsProps} />}
     </Header>
   )
 

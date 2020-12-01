@@ -26,16 +26,22 @@ export const entry = [
     pathToComponent: true,
   },
   {
-    type: 'preset-route', // 路由组件
-    path: '/editor',
-    pathToComponent: true,
-  },
-  {
     type: 'private-route', // 鉴权路由
     path: '/',
     redirect: '/login',
-    children: layout,
     onAuth, // 每次页面鉴权 需要调用的认证方法
+    children: {
+      type: 'switch-route',
+      children: [
+        {
+          type: 'preset-route',
+          path: '/editor',
+          pathToComponent: true,
+          exact: true,
+        },
+        layout,
+      ],
+    },
   },
 ]
 

@@ -3,10 +3,10 @@
  * TODO: 添加 unit test
  */
 
-import { cloneDeep } from 'lodash'
+import { cloneDeep, get, isPlainObject } from 'lodash'
 
 import { app } from '@/app'
-import { rootPath } from '@/constants'
+import { rootRoute } from '@/constants'
 import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise, loadScriptAsync, deserialize } from '@/utils/tool'
@@ -15,16 +15,18 @@ import { PageFileOption, PagePreset } from './types'
 
 const log = logger.getLogger('lib:routes:exports')
 
+const requestComponent = 'request://pathToComponent'
+
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
-  const pathPrefix = app.constants.pathPrefix || rootPath
+  const pathPrefix = app.constants.pathPrefix || rootRoute
   const currPthStr = currPath(path)
-  const pathStr = `${rootPath}${currPthStr}`
+  const pathStr = `${rootRoute}${currPthStr}`
   const withBaseUrl = isSubStr(pathStr, pathPrefix, 0)
 
-  let routePath = `${withBaseUrl ? rootPath : pathPrefix}${currPthStr}`
+  let routePath = `${withBaseUrl ? rootRoute : pathPrefix}${currPthStr}`
   if (origin) {
-    routePath = pathStr.replace(new RegExp(`^${pathPrefix}`), rootPath)
+    routePath = pathStr.replace(new RegExp(`^${pathPrefix}`), rootRoute)
   }
 
   return routePath
@@ -38,6 +40,11 @@ function isLocalFile(url: string) {
 // 获取 pages 内组件文件在项目内本地的相对路径 或者 远程服务器路径，
 export function getPageFilePath(option: PageFileOption): string {
   const { pathToComponent, path = '' } = option
+
+  if (isPlainObject(pathToComponent) && get(pathToComponent, 'url')) {
+    return requestComponent
+  }
+
   const url = typeof pathToComponent === 'string' ? pathToComponent : path
 
   // 本地文件路径
@@ -125,7 +132,8 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
 // 异步获取页面文件
 export async function getPageFileAsync(option: PageFileOption) {
   const filePath = getPageFilePath(option)
-  const defaultContent = { schema: {} }
+  // TODO: 添加页面出错 schema
+  const defaultContent = { schema: { type: 'page', body: '当前页面加载错了...' } }
   const pageAlias = option.nodePath
 
   // 加载本地文件
@@ -171,21 +179,28 @@ export async function getPageFileAsync(option: PageFileOption) {
 
     // 接口获取  schema, 单词浏览缓存页面，刷新浏览器更新页面
     return app
-      .request<{ schema: string }>({
-        method: 'GET',
-        url: filePath,
-      })
-      .then((source) => {
-        const schema = deserialize(source?.data?.schema || '')
+      .request(
+        filePath === requestComponent
+          ? (option.pathToComponent as any)
+          : {
+              method: 'GET',
+              url: filePath,
+            }
+      )
+      .then(({ data }: any) => {
+        const { schema: resSchema } = data?.data || {}
+        const schema = isPlainObject(resSchema) ? resSchema : deserialize(resSchema || '')
         if (!schema) {
           log.error(`Please add page schema string for "${pageAlias}" by http server api.`)
           return defaultContent
         }
 
-        // 缓存，下次无需读接口，刷新页面缓存失效
-        app.asyncPage.schema[pageAlias] = schema
+        const pageSchema = { schema }
 
-        return schema
+        // 缓存，下次无需读接口，刷新页面缓存失效
+        app.asyncPage.schema[pageAlias] = pageSchema
+
+        return pageSchema
       })
       .catch((err) => {
         log.error('An error occurred when fetch page schema.', err)
@@ -201,11 +216,11 @@ export function getNodePath(option: PageFileOption) {
 
 // 当前路径,去除多余前缀/,保持一致性  /login ==> login
 export function currPath(path?: string, defaultPath: string = '') {
-  if (!path || path === rootPath) {
+  if (!path || path === rootRoute) {
     return defaultPath
   }
 
-  return !isSubStr(path, rootPath, 0) ? path : path.substring(1)
+  return !isSubStr(path, rootRoute, 0) ? path : path.substring(1)
 }
 
 // amis 官方 格式化项目内 链接
@@ -213,7 +228,7 @@ export const normalizeLink = (option: { location?: any; to?: string }) => {
   const { location: loc = window.location, to: toLink } = option
 
   const location = {
-    pathname: rootPath,
+    pathname: rootRoute,
     search: '',
     hash: '',
     ...loc,
@@ -238,9 +253,9 @@ export const normalizeLink = (option: { location?: any; to?: string }) => {
 
   if (!pathname) {
     pathname = location.pathname
-  } else if (pathname[0] !== rootPath && !/^https?:\/\//.test(pathname)) {
+  } else if (pathname[0] !== rootRoute && !/^https?:\/\//.test(pathname)) {
     const relativeBase = location.pathname
-    const paths = relativeBase.split(rootPath)
+    const paths = relativeBase.split(rootRoute)
     paths.pop()
     let m = /^\.\.?\//.exec(pathname)
 
@@ -251,7 +266,7 @@ export const normalizeLink = (option: { location?: any; to?: string }) => {
       pathname = pathname.substring(m[0].length)
       m = /^\.\.?\//.exec(pathname)
     }
-    pathname = paths.concat(pathname).join(rootPath)
+    pathname = paths.concat(pathname).join(rootRoute)
   }
 
   return {
@@ -274,10 +289,10 @@ export function jumpTo(link: string, blank: boolean = false) {
   }
   const { pathPrefix } = app.constants
   if (!blank) {
-    if (pathPrefix === rootPath) {
+    if (pathPrefix === rootRoute) {
       app.routerHistory.push(href)
     } else {
-      app.routerHistory.push(href.replace(new RegExp(`^${pathPrefix}`), rootPath))
+      app.routerHistory.push(href.replace(new RegExp(`^${pathPrefix}`), rootRoute))
     }
   } else {
     window.open(`${window.location.origin}${href}`, '_blank')

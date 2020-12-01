@@ -306,7 +306,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         PATH_PREFIX: siteConfig.pathPrefix,
         NODE_ENV: process.env.NODE_ENV,
         INIT_THEME: initTheme || 'default',
-        HOT: options.hot,
+        HOT: options.hot || false,
         MOCK: mock,
         ENV: env,
       }),
@@ -450,11 +450,11 @@ function getAppEntries(option: any) {
 }
 
 function getFixLibLoaders(option: any) {
-  const { dll, babelLoader } = option
+  const { dll, babelLoader, publicPath } = option
   const loaders = [
     {
       test: amis.editorFileReg,
-      use: [babelLoader, amis.fixEditorLoader()],
+      use: [babelLoader, amis.fixEditorLoader({ publicPath })],
     },
     {
       test: amis.factoryFileReg,

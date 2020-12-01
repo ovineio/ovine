@@ -3,7 +3,7 @@ import cls from 'classnames'
 import copy from 'copy-to-clipboard'
 import _ from 'lodash'
 import { observer, inject } from 'mobx-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { app } from '@core/app'
 import { saveToFile } from '@core/utils/file'
@@ -12,19 +12,19 @@ import { editorStore } from '@/stores/editor'
 
 import { StyledHeader } from './styled'
 
+// TODO: 优化 getSchemaString
+
 export default inject('store')(
   observer((props) => {
     const {
       isPreview,
-      // hasPrevStep,
-      // hasNextStep,
       option,
       isDirty,
       togglePreview,
       setLastSavedSchema,
       editorInstance,
     } = props.store
-    const { breadcrumb, onExit, onSave } = option
+    const { breadcrumb, onExit, onSave, saveApi, saveInterval } = option
 
     const hasPrevStep = editorInstance.canUndo()
     const hasNextStep = editorInstance.canRedo()
@@ -53,7 +53,6 @@ export default inject('store')(
         if (onExit) {
           onExit()
         }
-        // history.reset()
         app.routerHistory.goBack()
       }
 
@@ -87,15 +86,6 @@ export default inject('store')(
       }
     }
 
-    const onSaveClick = () => {
-      const value = editorStore.schema
-      if (onSave) {
-        onSave(value)
-      }
-      setLastSavedSchema(value)
-      toast.success('保存成功')
-    }
-
     const renderBreadcrumb = () => {
       if (!breadcrumb) {
         return <span>未知页面</span>
@@ -115,6 +105,55 @@ export default inject('store')(
         </nav>
       )
     }
+
+    const saveSchemaApi = (mounted: boolean = false) => {
+      const value = editorStore.schema
+      saveApi.data = {
+        ...saveApi.data,
+        schema: value,
+      }
+      return app
+        .request(saveApi)
+        .then((source) => {
+          const { status, msg } = source.data
+          if (!mounted) {
+            if (status === 0) {
+              toast.success(msg || '保存成功')
+            } else {
+              toast.error(msg || '保存失败')
+            }
+          }
+          if (onSave) {
+            onSave(value)
+          }
+          setLastSavedSchema(value)
+          return source
+        })
+        .catch((source) => {
+          toast.error(source?.msg || '保存失败')
+        })
+    }
+
+    const onSaveClick = () => {
+      const value = editorStore.schema
+      if (saveApi) {
+        saveSchemaApi()
+        return
+      }
+      if (onSave) {
+        onSave(value)
+      }
+      setLastSavedSchema(value)
+      toast.success('保存成功')
+    }
+
+    useEffect(() => {
+      if (saveApi && saveInterval > 2 * 1000) {
+        setTimeout(() => {
+          saveSchemaApi(true)
+        }, saveInterval)
+      }
+    }, [])
 
     return (
       <StyledHeader>

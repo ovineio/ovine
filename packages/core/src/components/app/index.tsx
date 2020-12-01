@@ -27,6 +27,7 @@ export type State = Omit<AppContextState, 'setContext'> & {
 
 const j2r = json2reactFactory({
   route: Route,
+  'switch-route': Switch,
   'private-route': PrivateRoute,
   'preset-route': PrestRoute,
   'aside-layout': AsideLayout,

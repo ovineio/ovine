@@ -28,7 +28,7 @@ export const itemUserSchema = {
           src="$avatar"
           alt="avatar"
         />
-        <span>$nickname</span>
+        <div>$nickname</div>
       `,
       },
       items: [
@@ -159,7 +159,7 @@ export const itemUserSchema = {
         width: 28px;
         height: 28px;
       }
-      span {
+      div {
         ${ellipsis('100px')};
         vertical-align: middle;
       }

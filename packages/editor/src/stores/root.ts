@@ -1,5 +1,8 @@
+import { toast } from 'amis'
 import _ from 'lodash'
 import { types, getEnv } from 'mobx-state-tree'
+
+import { app } from '@core/app'
 
 import { EditorProps } from '@/components/app/types'
 
@@ -68,11 +71,25 @@ const RootStore = types
     }
 
     const setOption = (option: EditorProps) => {
-      const { getSchema } = option
+      const { initApi, getSchema } = option
 
       if (getSchema) {
-        const source = getSchema()
-        editorStore.updateSchema(source)
+        editorStore.updateSchema(getSchema())
+      }
+
+      if (initApi) {
+        app
+          .request(initApi)
+          .then((source) => {
+            const { status, data, msg } = source.data
+            if (status !== 0) {
+              toast.error(msg || '获取数据失败')
+            }
+            editorStore.updateSchema(data || { type: 'page', body: '暂无数据' })
+          })
+          .catch(() => {
+            toast.error('获取数据失败')
+          })
       }
 
       self.option = option

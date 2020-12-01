@@ -92,7 +92,6 @@ const GlobalStyle = createGlobalStyle`
       &.${ns}Tree-leafIcon {
         svg {
           display: block;
-          margin-top: 6px;
         }
       }
       svg {

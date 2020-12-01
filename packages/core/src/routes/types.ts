@@ -40,7 +40,7 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     limitLabel?: string // 权限label
     badge?: number
     badgeClassName?: string
-    pathToComponent?: boolean | string
+    pathToComponent?: boolean | string | ReqOption
     children?: RouteItem[]
     sideVisible?: boolean
     limitOnly?: boolean // 该配置只为权限

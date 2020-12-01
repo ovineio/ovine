@@ -4,7 +4,7 @@ import { defaultsDeep, get, isFunction, set } from 'lodash'
 
 import { AppInstance } from '@core/app/instance/type'
 
-import { defaultEnvMode, rootPath, storage } from '@/constants'
+import { defaultEnvMode, rootRoute, storage } from '@/constants'
 import { Request } from '@/utils/request'
 import { setGlobal } from '@/utils/store'
 import * as Types from '@/utils/types'
@@ -30,7 +30,7 @@ const initConfig: AppConfig = {
   },
   constants: {
     // TODO 兼容动态 pathPrefix
-    pathPrefix: process.env.PATH_PREFIX || rootPath,
+    pathPrefix: process.env.PATH_PREFIX || rootRoute,
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,
@@ -42,7 +42,7 @@ const initConfig: AppConfig = {
   entry: [
     {
       type: 'route',
-      path: rootPath,
+      path: rootRoute,
     },
   ],
   amis: {
@@ -89,10 +89,10 @@ class AppProxy {
 class App extends AppProxy {
   private routerHistory: any
 
-  private pathPrefix: string = rootPath
+  private pathPrefix: string = rootRoute
 
   public async create(appConfig: any) {
-    const prevBaseUrl = get(source, 'constants.pathPrefix') || rootPath
+    const prevBaseUrl = get(source, 'constants.pathPrefix') || rootRoute
     // 等待 beforeCreate hook执行完成
     if (appConfig.hook?.beforeCreate) {
       await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
@@ -121,7 +121,7 @@ class App extends AppProxy {
 
   public createRouterHistory() {
     this.routerHistory = createBrowserHistory(
-      this.pathPrefix === rootPath
+      this.pathPrefix === rootRoute
         ? undefined
         : {
             basename: this.pathPrefix.slice(0, -1),
@@ -131,16 +131,16 @@ class App extends AppProxy {
 
   private getBaseUrl(urlGen: any) {
     if (isFunction(urlGen)) {
-      return urlGen() || rootPath
+      return urlGen() || rootRoute
     }
-    return typeof urlGen === 'string' ? urlGen : rootPath
+    return typeof urlGen === 'string' ? urlGen : rootRoute
   }
 
   private checkBaseUrl(prevBaseUrl: string, pathPrefix: string) {
     if (
       typeof pathPrefix !== 'string' ||
-      pathPrefix.substr(-1) !== rootPath ||
-      pathPrefix[0] !== rootPath
+      pathPrefix.substr(-1) !== rootRoute ||
+      pathPrefix[0] !== rootRoute
     ) {
       throw new Error(
         `pathPrefix: "${pathPrefix}" is not allowed. The "pathPrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`

@@ -1,9 +1,9 @@
 import { observer, inject } from 'mobx-react'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
-import { app } from '@core/app'
+// import { app } from '@core/app'
 import { Amis } from '@core/components/amis/schema'
-import { changeAppTheme } from '@core/styled/theme'
+// import { changeAppTheme } from '@core/styled/theme'
 
 import { editorStore } from '@/stores/editor'
 
@@ -19,21 +19,22 @@ const placeholder = {
   html: 'placeholder',
 }
 
-let isLoaded = false
+// let isLoaded = false
 
 export default inject('store')(
   observer((props) => {
     const { isPreview } = props.store
-    const [initEditor, setInitEditor] = useState(false)
+    // const [initEditor] = useState(false)
 
-    useEffect(() => {
-      // 兼容非 "default" 主题，引起加载主题文件的异常
-      if (!isLoaded && app.theme.getName() === 'cxd') {
-        isLoaded = true
-        changeAppTheme('cxd')
-      }
-      setInitEditor(true)
-    }, [])
+    // useEffect(() => {
+    //   // 兼容非 "default" 主题，引起加载主题文件的异常
+
+    //   if (!isLoaded && app.theme.getName() === 'cxd') {
+    //     isLoaded = true
+    //     changeAppTheme('cxd')
+    //   }
+    //   setEditorMounted(true)
+    // }, [])
 
     return (
       <S.StyledLayout>
@@ -45,7 +46,7 @@ export default inject('store')(
               <Amis schema={editorStore.schema as any} />
             </S.StyledPreview>
           )}
-          {initEditor && <Editor editorStore={editorStore} />}
+          <Editor editorStore={editorStore} />
         </S.StyledBody>
       </S.StyledLayout>
     )

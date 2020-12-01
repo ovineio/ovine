@@ -149,7 +149,7 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { siteDir, siteConfig, bundleAnalyzer, embedAssets } = options
+  const { siteDir, publicPath, siteConfig, bundleAnalyzer, embedAssets } = options
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -167,7 +167,7 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: editorFileReg,
-          use: [babelLoader, amis.fixEditorLoader()],
+          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
         },
         {
           test: factoryFileReg,
