@@ -35,6 +35,7 @@ export type TabItem = {
   pathname: string
   label: string
   // initQuery?: any
+  id?: string
   shared?: boolean
   isRoot?: boolean
   active?: boolean
@@ -120,9 +121,12 @@ export default (props: Props) => {
   }
 
   // 清空所有时 默认跳到 首页
-  const onClearAll = (tabDom?: any) => {
+  const onClearAll = (tabDom?: any, refreshRoot = true) => {
     const { tabs } = $storeRef.current
-    changePath($storeRef.current.rootRoute)
+    // 防止首次进入页面 直接刷新两次
+    if (refreshRoot || location.pathname !== $storeRef.current.rootRoute) {
+      changePath($storeRef.current.rootRoute)
+    }
     setTimeout(() => {
       if (tabDom) {
         tabs.removeTab(tabDom, { autoActive: false })
@@ -215,7 +219,7 @@ export default (props: Props) => {
     $storeRef.current.$tabs = $tabs
     $storeRef.current.tabs = tabs
 
-    subscribe(message.clearRouteTabs, () => onClearAll())
+    subscribe(message.clearRouteTabs, ({ refreshRoot }) => onClearAll(undefined, refreshRoot))
 
     $tabs.on('contextmenu', () => false).on('mousedown', '.chrome-tab', onItemMenus)
 
@@ -267,7 +271,7 @@ export default (props: Props) => {
     if (!isMounted && curr.pathname === rootRoute) {
       const tabEl = $tabs.find('.chrome-tab[data-active]').get(0)
       if (tabEl) {
-        tabs.setCurrentTab(tabEl)
+        tabs.setCurrentTab(tabEl, { changeRoute: false })
         return
       }
     }
@@ -314,6 +318,7 @@ export default (props: Props) => {
           <div className="chrome-tabs-content">
             {(!storage ? [] : cachedList).map((item) => (
               <div
+                key={item.id}
                 className="chrome-tab"
                 data-active={item.active}
                 data-root={item.isRoot ? item.pathname : ''}

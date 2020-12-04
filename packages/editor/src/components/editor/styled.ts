@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import { createGlobalStyle, css } from 'styled-components'
 
 const getThemeStyle = (ns: string) => {
   return css`
@@ -72,30 +72,31 @@ const getThemeStyle = (ns: string) => {
   `
 }
 
-export const StyledEditor = styled.div`
-  .ae-Main {
-    background: #eaeaea;
-  }
-  .ae-Preview {
-    &::-webkit-scrollbar {
+export const GlobalEditorStyle = createGlobalStyle`
+  .ae-Editor {
+    .ae-Main {
+      background: #eaeaea;
+    }
+
+    .ae-Breadcrumb {
+      height: 28px;
+      padding: 5px 0 5px 15px;
+      line-height: none;
+      box-shadow: none;
       background: transparent;
     }
-    &::-webkit-scrollbar-thumb {
-      border: 2px solid #eaeaea;
+
+    .ae-Preview {
+      &::-webkit-scrollbar {
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        border: 2px solid #eaeaea;
+      }
+      padding: 15px;
     }
   }
-
-  .ae-Breadcrumb {
-    height: 28px;
-    padding: 5px 0 5px 15px;
-    line-height: none;
-    box-shadow: none;
-    background: transparent;
-  }
-
-  .ae-Preview {
-    padding: 15px;
-  }
+  
 
   .ae-Settings {
     box-shadow: none;
@@ -175,5 +176,5 @@ export const StyledEditor = styled.div`
     font-size: 14px;
   }
 
-  ${({ theme: { ns } }) => getThemeStyle(ns)}
+  ${({ theme: { ns } }: any) => getThemeStyle(ns)};
 `

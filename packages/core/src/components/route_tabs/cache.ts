@@ -5,6 +5,8 @@
  * 2. 记录 url 地址参数
  */
 
+import { uniqueId } from 'lodash'
+
 import { app } from '@/app'
 import { storage } from '@/constants'
 import { getStore, setStore, clearStore } from '@/utils/store'
@@ -33,7 +35,7 @@ export const cacheTabs = (allTabs: any) => {
     }
 
     const label = tabEl.querySelector('.chrome-tab-title')?.innerHTML || ''
-    const item: TabItem = { pathname, label }
+    const item: TabItem = { pathname, label, id: uniqueId() }
 
     if (isRoot) {
       item.isRoot = true

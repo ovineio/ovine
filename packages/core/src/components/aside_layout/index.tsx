@@ -7,9 +7,11 @@ import { Layout } from 'amis'
 import { cloneDeep } from 'lodash'
 import React, { useEffect, useMemo } from 'react'
 
+import { RouteChildrenProps } from 'react-router-dom'
+
 import { app } from '@/app'
 import { withAppTheme } from '@/app/theme'
-import { breakpoints, message, rootRoute, storage } from '@/constants'
+import { breakpoints, message, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
 import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
@@ -39,28 +41,29 @@ const defaultHeader = {
   },
 }
 
-export default withAppTheme<LayoutProps>((props) => {
+export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
 
-  const { children, theme, api } = props
+  const { children, theme, api, location } = props
 
   const [state, setState] = useImmer<AsideLayoutState>({
     asideFolded: false,
     offScreen: false,
     resetRoute: props.resetRoute,
+    rootRoute: props.rootRoute || '/',
     routeTabs: props.routeTabs || {},
     header: props.header || defaultHeader,
     footer: props.footer,
     routes: props.routes || [],
   })
 
-  const { routes, header, routeTabs, footer, asideFolded, resetRoute, offScreen } = state
+  const { routes, header, routeTabs, footer, asideFolded, rootRoute, resetRoute, offScreen } = state
   const { ns: themeNs, name: themeName } = theme
 
   const supportTabs = routeTabs && window.innerWidth >= breakpoints.md && routeTabs.enable !== false
   const withTabs = enableRouteTabs && supportTabs
 
-  const fetchAsideInfo = (data?: any) => {
+  const requestLayoutApi = (data?: any) => {
     if (!api) {
       return
     }
@@ -78,6 +81,9 @@ export default withAppTheme<LayoutProps>((props) => {
         d.resetRoute = !!resData.resetRoute
         if (resData.header) {
           d.header = resData.header || defaultHeader
+        }
+        if (resData.rootRoute) {
+          d.rootRoute = resData.rootRoute
         }
         if (resData.routeTabs) {
           d.routeTabs = resData.routeTabs
@@ -114,24 +120,6 @@ export default withAppTheme<LayoutProps>((props) => {
     }
   }, [routes])
 
-  useEffect(() => {
-    setGlobal(storage.supportRouteTabs, supportTabs)
-  }, [supportTabs])
-
-  useEffect(() => {
-    if (resetRoute) {
-      if (supportTabs) {
-        publish(message.clearRouteTabs)
-      } else {
-        app.routerHistory.push(rootRoute)
-      }
-    }
-  }, [AuthRoutes, resetRoute])
-
-  useEffect(() => {
-    fetchAsideInfo()
-  }, [])
-
   useSubscriber<any>(asideLayoutCtrl.msg, (msgData = {}) => {
     const { key, toggle, data } = msgData
     setState((d) => {
@@ -143,12 +131,31 @@ export default withAppTheme<LayoutProps>((props) => {
           d.asideFolded = typeof toggle === 'boolean' ? toggle : !d.asideFolded
           break
         case asideLayoutCtrl.reload:
-          fetchAsideInfo(data)
+          requestLayoutApi(data)
           break
         default:
       }
     })
   })
+
+  useEffect(() => {
+    requestLayoutApi()
+  }, [])
+
+  useEffect(() => {
+    setGlobal(storage.supportRouteTabs, supportTabs)
+  }, [supportTabs])
+
+  useEffect(() => {
+    if (resetRoute) {
+      // 防止首次进入页面 首页直接刷新两次
+      if (supportTabs) {
+        publish(message.clearRouteTabs, { refreshRoot: false })
+      } else if (location.pathname !== rootRoute) {
+        app.routerHistory.push(rootRoute)
+      }
+    }
+  }, [AuthRoutes, resetRoute])
 
   const headerProps = {
     ...layoutConf.header,
@@ -159,6 +166,7 @@ export default withAppTheme<LayoutProps>((props) => {
 
   const routeTabsProps = {
     ...routeTabs,
+    rootRoute,
     themeNs,
     routes: authRoutes,
   }

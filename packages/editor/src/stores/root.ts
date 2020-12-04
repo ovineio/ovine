@@ -71,7 +71,11 @@ const RootStore = types
     }
 
     const setOption = (option: EditorProps) => {
-      const { initApi, getSchema } = option
+      const { initApi, getSchema, schema } = option
+
+      if (schema) {
+        editorStore.updateSchema(schema)
+      }
 
       if (getSchema) {
         editorStore.updateSchema(getSchema())

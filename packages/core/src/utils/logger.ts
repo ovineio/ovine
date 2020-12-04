@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable no-console */
-import { defaults } from 'lodash'
+import { debounce, throttle, defaults } from 'lodash'
 
 import * as Types from '@/utils/types'
 
@@ -15,6 +15,8 @@ type Level = 'log' | 'info' | 'warn' | 'error'
 type Option = {
   isPrint?: boolean
   moduleName?: string
+  debounce?: number // TODO： 实现延迟打印日志
+  throttle?: number // TODO： 实现间隔打印日志
   level?: Level
   onlySelf?: boolean
 }
@@ -40,6 +42,8 @@ let debugConfig: Config = {
     moduleName: '.*',
     onlySelf: false,
     level: 'log',
+    debounce: 1000,
+    throttle: 1000,
   },
 }
 
@@ -108,6 +112,8 @@ export class Logger {
     return {
       time: <T>(label: string, timeFn: () => T): T => this.time(label, timeFn, debugOption),
       if: (isPrint: boolean) => this.getLogger(moduleName, { ...option, isPrint }),
+      debounce: debounce((callback: any) => callback(), 1000),
+      throttle: throttle((callback: any) => callback(), 1000),
       log: (...logDetail: any[]) => this.signedLogger('log', debugOption, logDetail),
       info: (...logDetail: any[]) => this.signedLogger('info', debugOption, logDetail),
       warn: (...logDetail: any[]) => this.signedLogger('warn', debugOption, logDetail),

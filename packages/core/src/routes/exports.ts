@@ -32,7 +32,7 @@ export function getRoutePath(path: string, origin: boolean = false) {
   return routePath
 }
 
-// 判断是否是远程文件地址
+// 判断是否是本地文件地址
 function isLocalFile(url: string) {
   return !(url.indexOf('://') > -1 || url.startsWith('//'))
 }

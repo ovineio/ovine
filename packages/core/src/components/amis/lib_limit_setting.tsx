@@ -15,12 +15,13 @@ type Props = RendererProps &
     modal?: any
     useAllLimit?: boolean
     reload?: boolean
+    name?: string
     messages?: {
       initFailed: string
       saveFailed: string
       saveSuccess: string
     }
-    getLimit?: () => string
+    getLimit?: (data: any) => string
   }
 
 @Renderer({
@@ -32,6 +33,7 @@ export class LibLimitSetting extends React.Component<Props> {
     const {
       button = {},
       modal = {},
+      name = 'limit',
       env,
       data,
       initApi,
@@ -94,7 +96,7 @@ export class LibLimitSetting extends React.Component<Props> {
           <LimitSetting
             {...amisProps}
             className={`limit-drawer-${isEffectiveApi(initApi) ? 'service' : 'normal'} `}
-            limit={getLimit ? getLimit() : limitData.limit || ''}
+            limit={getLimit ? getLimit(limitData) : limitData[name] || ''}
             saveConfirmText={filter(saveConfirmText, initData)}
             onSaveClick={onSave}
             useAllLimit={useAllLimit}

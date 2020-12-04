@@ -9,7 +9,7 @@ import { app } from '@core/app'
 
 import { Editor } from '../../assets/scripts/editor.view'
 
-import { StyledEditor } from './styled'
+import { GlobalEditorStyle } from './styled'
 
 export default inject('store')(
   observer((props) => {
@@ -27,7 +27,8 @@ export default inject('store')(
     }, [])
 
     return (
-      <StyledEditor className={cls({ 'd-none': isPreview })}>
+      <div className={cls({ 'd-none': isPreview })}>
+        <GlobalEditorStyle />
         <Editor
           ref={$editor}
           className="is-fixed"
@@ -37,7 +38,7 @@ export default inject('store')(
           onChange={(value: any) => editorStore.updateSchema(value)}
           // $schemaUrl={schemaUrl}
         />
-      </StyledEditor>
+      </div>
     )
   })
 )

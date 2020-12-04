@@ -9,6 +9,7 @@ export type AsideLayoutState = {
   offScreen: boolean
   header: HeaderProps
   routes: RouteItem[]
+  rootRoute: string
   resetRoute?: boolean
   routeTabs?: RouteTabs
   footer?: LibSchema
@@ -37,7 +38,6 @@ export type HeaderProps = {
 export type RouteTabs = {
   enable?: boolean
   maxCount?: number
-  rootRoute?: string
   storage?: boolean
 }
 
@@ -49,4 +49,5 @@ export type LayoutProps = Partial<{
   footer: LibSchema
   routes: RouteItem[]
   resetRoute: boolean // 当更新 路由时，是否重置路由状态，主要用于多功能路由切换情况
+  rootRoute: string
 }>

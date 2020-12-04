@@ -28,6 +28,7 @@ export type ReqOption<S = any, P = any> = {
   body?: any // 请求体
   dataType?: 'json' | 'form-data' | 'form' // 提交类型
   expired?: number // 请求超时时间毫秒数 0
+  cache?: number // 前置缓存适用于并发请求
   fetchOptions?: Omit<RequestInit, 'header' | 'body' | 'signal' | 'url' | 'method'> // fetch 参数
   qsOptions?: any // qs 模块请求参数处理
   mock?: boolean // 是否启用 mock

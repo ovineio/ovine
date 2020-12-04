@@ -46,13 +46,13 @@ const PageSpinner = <Spinner overlay show size="lg" key="pageLoading" />
 export const getPageAsync = (option: PresetRouteProps) => {
   return lazy(() =>
     getPageFileAsync(option).then((file: any) => {
-      const { default: content = {}, schema } = file
+      const { default: content = {}, schema, getSchema } = file
 
       const compProps: PresetComponentProps = {}
       if (isFunction(content)) {
         compProps.LazyFileComponent = content
       } else {
-        content.schema = schema || {}
+        content.schema = isFunction(getSchema) ? getSchema(option) : schema || {}
         compProps.lazyFileAmisProps = content
       }
 
@@ -213,6 +213,7 @@ export const PrestRoute = (props: PresetRouteProps) => {
   return RouteComponent
 }
 
+// TODO: 支持自定义 404
 const NotFoundRoute = () => {
   let Component: any = NotFound
   const notFoundFilePath = app.constants.notFound.pagePath

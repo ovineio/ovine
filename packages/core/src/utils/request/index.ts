@@ -3,9 +3,10 @@
  */
 
 /* eslint-disable consistent-return */
+import { getApiCache, setApiCache } from 'amis/lib/utils/api'
 import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, map, isPlainObject, isFunction, toUpper } from 'lodash'
+import { get, map, isPlainObject, isFunction, toUpper, pick } from 'lodash'
 import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
@@ -503,6 +504,21 @@ export class Request<IS = {}, IP = {}> {
       return {
         data: wrapResponse(fakeResponse),
       }
+    }
+
+    // 兼容 cache 参数, 用于多请求并发情况
+    if (reqOption.method === 'GET' && reqOption.cache && reqOption.cache > 0) {
+      const apiObj: any = pick(reqOption, ['api', 'cache', 'method', 'data'])
+      const apiCache: any = getApiCache(apiObj)
+
+      log.debounce(() => log.log('cacheSource]', reqOption.url, reqOption))
+
+      if (apiCache) {
+        return apiCache.cachedPromise
+      }
+      const cachedPromise = fetchSourceCtrl.call(this as any, reqOption)
+      setApiCache(apiObj, cachedPromise)
+      return cachedPromise
     }
 
     // 命中缓存 直接返回

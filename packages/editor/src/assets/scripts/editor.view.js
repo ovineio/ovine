@@ -7201,6 +7201,7 @@
                 position: "left",
                 size: "md",
                 show: !!p,
+                theme: l,
                 onHide: t.closeInsertPanel
             }, p && p.component ? i.default.createElement(p.component, {
                 key: p.key,
