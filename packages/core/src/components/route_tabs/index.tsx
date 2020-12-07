@@ -2,10 +2,9 @@
  * 路由切换器 组件
  *
  * TODO:
- * 1. 添加懒加载优化
- * 2. 菜单UI美化，主题UI
- * 3. 添加 ICON 支持
- * 4. 添加 RouteIcon 已经请求 LoadingIcon 之类的
+ * 1. 添加 ICON 支持，showIcon, RouteIcon 请求中 LoadingIcon 之类的
+ * 2. 增加 可编辑，固定 模式
+ * 3. 将组件转为 纯 react 组件，容易控制
  */
 
 import { openContextMenus } from 'amis'
@@ -124,7 +123,7 @@ export default (props: Props) => {
   const onClearAll = (tabDom?: any, refreshRoot = true) => {
     const { tabs } = $storeRef.current
     // 防止首次进入页面 直接刷新两次
-    if (refreshRoot || location.pathname !== $storeRef.current.rootRoute) {
+    if (refreshRoot || window.location.pathname !== $storeRef.current.rootRoute) {
       changePath($storeRef.current.rootRoute)
     }
     setTimeout(() => {

@@ -41,3 +41,8 @@
     }
   }
 }
+.#{$ns}Layout {
+  &-brand {
+    height: $Layout-header-height;
+  }
+}

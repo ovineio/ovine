@@ -292,6 +292,7 @@ export function jumpTo(link: string, blank: boolean = false) {
     if (pathPrefix === rootRoute) {
       app.routerHistory.push(href)
     } else {
+      // TODO: 是否有不需要替换 url 的场景
       app.routerHistory.push(href.replace(new RegExp(`^${pathPrefix}`), rootRoute))
     }
   } else {

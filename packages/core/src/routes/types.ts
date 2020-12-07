@@ -42,7 +42,8 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     badgeClassName?: string
     pathToComponent?: boolean | string | ReqOption
     children?: RouteItem[]
-    sideVisible?: boolean
+    sideVisible?: boolean // 侧边栏是否可见
+    highlightParent?: boolean // 但侧边栏不可见时，是否高亮父tab， 默认 true
     limitOnly?: boolean // 该配置只为权限
     routeTabShared?: boolean
     // routeTabInitQuery?: object
@@ -79,4 +80,10 @@ export type CheckLimitFunc = (
 
 export type PresetCtxState = PagePreset & {
   route: RouteProps
+}
+
+export type PrivateRouteProps = RouteProps & {
+  onAuth: (() => boolean) | Promise<Boolean>
+  onRedirect: () => string
+  redirect?: string
 }

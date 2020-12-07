@@ -3,6 +3,7 @@
  */
 
 import routes from '../routes/index'
+import { SocketDialogManger } from './dialog'
 import { itemUserSchema } from './item_user'
 
 /**
@@ -29,6 +30,13 @@ export const layout = {
     items: [
       {
         type: 'item-dev-code', // 查看页面JSON， release 环境不会显示。
+      },
+      {
+        type: 'container',
+        className: 'd-none', // 设置为不显示状态
+        body: {
+          component: SocketDialogManger,
+        },
       },
       {
         type: 'head-item',

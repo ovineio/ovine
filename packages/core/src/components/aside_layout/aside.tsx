@@ -24,7 +24,11 @@ export default (props: Props) => {
     const { path, children } = link
     const active = path && !!(path === location.pathname)
     // 子菜单 可见时，默认高亮 最近的父菜单
-    if (!active && find(children, (i) => i.path === location.pathname && i.sideVisible === false)) {
+    const invisibleItem = find(
+      children,
+      (i) => i.path === location.pathname && i.sideVisible === false && i.highlightParent !== false
+    )
+    if (!active && invisibleItem) {
       return true
     }
     return active

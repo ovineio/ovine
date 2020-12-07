@@ -113,7 +113,7 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
 
     if (cached && whenExpired) {
       if (!isExpired(whenExpired)) {
-        log.log('cacheSource', option.url, cached, option)
+        log.log('expiredSource', option.url, cached, option)
         return cached
       }
     }
@@ -176,6 +176,15 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
     })
 
   return result
+}
+
+async function fakeSourceCtrl(this: Request, option: Types.ReqOption) {
+  const fakeReq: any = option.onFakeRequest
+  const fakeRes = await fakeReq(option)
+  const fakeResponse = wrapResponse(fakeRes)
+  return {
+    data: fakeResponse,
+  }
 }
 
 // fetch 添加 onUploadProgress 支持
@@ -494,31 +503,40 @@ export class Request<IS = {}, IP = {}> {
 
   // eslint-disable-next-line no-dupe-class-members
   public async request(option: any): Promise<any> {
-    // 获取请求参数
-    const reqOption = await getReqOption.call(this as any, option)
+    const that: any = this
 
-    // 伪装 请求 直接返回数据
-    if (reqOption.onFakeRequest) {
-      const fakeResponse = await reqOption.onFakeRequest(reqOption)
-      log.log('[apiFake]', reqOption.url, fakeResponse, reqOption)
-      return {
-        data: wrapResponse(fakeResponse),
-      }
-    }
+    // 获取请求参数
+    const reqOption = await getReqOption.call(that, option)
+    const { onFakeRequest } = option
 
     // 兼容 cache 参数, 用于多请求并发情况
     if (reqOption.method === 'GET' && reqOption.cache && reqOption.cache > 0) {
       const apiObj: any = pick(reqOption, ['api', 'cache', 'method', 'data'])
       const apiCache: any = getApiCache(apiObj)
 
-      log.debounce(() => log.log('cacheSource]', reqOption.url, reqOption))
+      log.debounce(() =>
+        log.log(onFakeRequest ? 'fakeCacheSource' : 'cacheSource', reqOption.url, reqOption)
+      )
 
       if (apiCache) {
         return apiCache.cachedPromise
       }
-      const cachedPromise = fetchSourceCtrl.call(this as any, reqOption)
+
+      // 伪装 请求 也支持缓存
+      const cachedPromise = onFakeRequest
+        ? fakeSourceCtrl.call(that, reqOption)
+        : fetchSourceCtrl.call(that, reqOption)
+
       setApiCache(apiObj, cachedPromise)
+
       return cachedPromise
+    }
+
+    // 伪装 请求 直接返回数据
+    if (onFakeRequest) {
+      const fakeResponse = await fakeSourceCtrl.call(that, reqOption)
+      log.log('[fakeSource]', option.url, fakeResponse.data, reqOption)
+      return fakeResponse
     }
 
     // 命中缓存 直接返回
@@ -529,14 +547,14 @@ export class Request<IS = {}, IP = {}> {
       }
     }
 
-    // mock数据拦截
-    const mockSource = await mockSourceCtrl.call(this as any, reqOption)
+    // mock 数据拦截
+    const mockSource = await mockSourceCtrl.call(that, reqOption)
     if (mockSource !== 'none') {
       cacheSourceCtrl('set', reqOption, mockSource.data)
       return mockSource
     }
 
-    const response = await fetchSourceCtrl.call(this as any, reqOption)
+    const response = await fetchSourceCtrl.call(that, reqOption)
 
     cacheSourceCtrl('set', reqOption, response.data)
 

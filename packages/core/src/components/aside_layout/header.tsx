@@ -32,8 +32,8 @@ export default (props: Props) => {
     const wrapperCls = `${themeNs}Layout-brand navbar-brand text-center ${brandCls}`
     const content = (
       <>
-        <img className="inline brand-logo" src={logo} alt="logo" />
-        <span className="hidden-folded m-l-sm inline">{title}</span>
+        <img className=" brand-logo" src={logo} alt="logo" />
+        <span className="hidden-folded m-l-sm ">{title}</span>
       </>
     )
 

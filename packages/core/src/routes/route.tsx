@@ -37,6 +37,7 @@ import {
   PresetComponentProps,
   PresetCtxState,
   PresetRouteProps,
+  PrivateRouteProps,
   RouteItem,
 } from './types'
 
@@ -64,17 +65,21 @@ export const getPageAsync = (option: PresetRouteProps) => {
 }
 
 // 登录路由拦截
-export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
+export const PrivateRoute = (props: PrivateRouteProps) => {
+  const { onAuth, onRedirect, redirect, children, ...rest } = props
   const [isAuth, setAuth] = useState<boolean | null>(null)
 
+  const redirectPath = (onRedirect ? onRedirect() : redirect) || app.constants.loginRoute
+
   useEffect(() => {
-    const authState = isFunction(onAuth) ? onAuth() : true
-    if (authState.then) {
+    const authState: any = isFunction(onAuth) ? onAuth() : true
+
+    if (typeof authState === 'boolean') {
+      setAuth(authState)
+    } else if (authState.then) {
       authState.then((res: boolean) => {
         setAuth(res)
       })
-    } else {
-      setAuth(authState)
     }
   }, [])
 
@@ -89,11 +94,11 @@ export const PrivateRoute = ({ onAuth, redirect, children, ...rest }: any) => {
         if (isAuth) {
           return children
         }
-        if (redirect) {
+        if (redirectPath) {
           return (
             <Redirect
               to={{
-                pathname: redirect,
+                pathname: redirectPath,
                 state: { from: location },
               }}
             />

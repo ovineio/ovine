@@ -2,6 +2,7 @@ import styled, { css, DefaultTheme } from 'styled-components'
 
 import { ellipsis } from '@/styled/utils'
 
+// TODO: 优化 侧边栏 展开/关闭 动画效果
 export const StyledLayout = styled.div`
   position: relative;
   height: 100%;
@@ -46,6 +47,20 @@ export const StyledLayout = styled.div`
           }
         }
       }
+      &-brand {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding-right: 10px;
+        span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+    .${ns}AsideNav-item {
+      white-space: nowrap;
     }
   `}
 

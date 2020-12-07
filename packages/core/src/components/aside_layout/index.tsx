@@ -44,7 +44,7 @@ const defaultHeader = {
 export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
 
-  const { children, theme, api, location } = props
+  const { children, theme, api } = props
 
   const [state, setState] = useImmer<AsideLayoutState>({
     asideFolded: false,
@@ -151,7 +151,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
       // 防止首次进入页面 首页直接刷新两次
       if (supportTabs) {
         publish(message.clearRouteTabs, { refreshRoot: false })
-      } else if (location.pathname !== rootRoute) {
+      } else if (window.location.pathname !== rootRoute) {
         app.routerHistory.push(rootRoute)
       }
     }
@@ -173,7 +173,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
 
   const HeaderComponent = (
     <Header {...headerProps} themeNs={themeNs}>
-      {withTabs && routes.length && <RouteTabs {...routeTabsProps} />}
+      {withTabs && !!routes.length && <RouteTabs {...routeTabsProps} />}
     </Header>
   )
 
