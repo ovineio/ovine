@@ -21,8 +21,8 @@ export default (props: Props) => {
   }, [location.pathname])
 
   const isActive = (link: any) => {
-    const { path, children } = link
-    const active = path && !!(path === location.pathname)
+    const { path, children, sideVisible = true } = link
+    const active = sideVisible && path && path === location.pathname
     // 子菜单 可见时，默认高亮 最近的父菜单
     const invisibleItem = find(
       children,
@@ -42,7 +42,7 @@ export default (props: Props) => {
 function renderNav({ link, toggleExpand, classnames: cx }: any) {
   const {
     children: routeChildren,
-    sideVisible,
+    sideVisible = true,
     active,
     icon,
     label,

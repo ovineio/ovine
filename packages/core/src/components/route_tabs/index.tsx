@@ -41,8 +41,6 @@ export type TabItem = {
   state?: string
 }
 
-const cachedList = cache.getCachedTabs()
-
 type RefType = {
   $tabs: any
   $tabsDom: HTMLDivElement | null
@@ -305,8 +303,10 @@ export default (props: Props) => {
     tabs.addTab(curr)
   }, [location])
 
-  const Tabs = useMemo(
-    () => (
+  const Tabs = useMemo(() => {
+    const tabItems = !storage ? [] : cache.getValidCacheTabs()
+
+    return (
       <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>
         <div
           className="chrome-tabs"
@@ -315,7 +315,7 @@ export default (props: Props) => {
           }}
         >
           <div className="chrome-tabs-content">
-            {(!storage ? [] : cachedList).map((item) => (
+            {tabItems.map((item) => (
               <div
                 key={item.id}
                 className="chrome-tab"
@@ -383,9 +383,8 @@ export default (props: Props) => {
           </div>
         </div>
       </StyledRouteTabs>
-    ),
-    [themeNs]
-  )
+    )
+  }, [themeNs])
 
   return Tabs
 }

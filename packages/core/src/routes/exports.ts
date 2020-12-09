@@ -39,13 +39,19 @@ function isLocalFile(url: string) {
 
 // 获取 pages 内组件文件在项目内本地的相对路径 或者 远程服务器路径，
 export function getPageFilePath(option: PageFileOption): string {
-  const { pathToComponent, path = '' } = option
+  const { pathToComponent, nodePath = '', path = '' } = option
 
+  // pathToComponent 为 reqOpt 时， 直接返回 一个 固定标示字符串
   if (isPlainObject(pathToComponent) && get(pathToComponent, 'url')) {
     return requestComponent
   }
 
-  const url = typeof pathToComponent === 'string' ? pathToComponent : path
+  const url =
+    typeof pathToComponent === 'string' // 任意路径
+      ? pathToComponent
+      : pathToComponent === true // pathToComponent 默认 使用 nodePath 如果设置为 true,表示 使用  path 路径
+      ? path || nodePath
+      : nodePath || path
 
   // 本地文件路径
   if (isLocalFile(url)) {
@@ -132,7 +138,7 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
 // 异步获取页面文件
 export async function getPageFileAsync(option: PageFileOption) {
   const filePath = getPageFilePath(option)
-  // TODO: 添加页面出错 schema
+  // TODO: 支持传入 页面出错 自定义 schema，并将注入参数
   const defaultContent = { schema: { type: 'page', body: '当前页面加载错了...' } }
   const pageAlias = option.nodePath
 
@@ -177,7 +183,7 @@ export async function getPageFileAsync(option: PageFileOption) {
         })
     }
 
-    // 接口获取  schema, 单词浏览缓存页面，刷新浏览器更新页面
+    // 接口获取  schema, 不缓存页面
     return app
       .request(
         filePath === requestComponent
@@ -196,9 +202,6 @@ export async function getPageFileAsync(option: PageFileOption) {
         }
 
         const pageSchema = { schema }
-
-        // 缓存，下次无需读接口，刷新页面缓存失效
-        app.asyncPage.schema[pageAlias] = pageSchema
 
         return pageSchema
       })

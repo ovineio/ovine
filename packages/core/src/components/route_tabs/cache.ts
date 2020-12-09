@@ -15,11 +15,6 @@ import { TabItem } from './index'
 
 type List = TabItem[]
 
-export const getCachedTabs = () => {
-  const list: List = getStore<List>(storage.routeTabs) || []
-  return list
-}
-
 export const clearCachedTabs = () => {
   clearStore(storage.routeTabs)
 }
@@ -49,4 +44,10 @@ export const cacheTabs = (allTabs: any) => {
   })
 
   setStore(storage.routeTabs, list)
+}
+
+// TODO: 获取有效的 缓存路由
+export const getValidCacheTabs = () => {
+  const list: List = getStore<List>(storage.routeTabs) || []
+  return list
 }

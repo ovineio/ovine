@@ -177,6 +177,8 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
     </Header>
   )
 
+  // TODO: 切换  route 时，默认渲染了 404 页面，需要天添加 loading
+
   return (
     <StyledLayout id="app-layout" className={withTabs ? 'with-route-tabs' : ''}>
       <Layout
