@@ -39,7 +39,7 @@ module.exports = {
 
 :::
 
-这是应用的编译配置文件，能够对 Webpack 编译进行自定义控制。Ovine 对 Webpack 开发工具做了二次封装。[查看详细编译配置]()
+这是应用的编译配置文件，能够对 Webpack 编译进行自定义控制。Ovine 对 Webpack 开发工具做了二次封装。[查看详细编译配置](https://ovine.igroupes.com/org/docs/advance/configurations#%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE)
 
 ## Ovine 应用配置
 
@@ -55,7 +55,7 @@ export default {
 }
 ```
 
-Ovine 是以 Json 格式为基础，因此项目入口文件也是一个巨大配置结构，将 App 所有需要内容全部配置好，其他的任何页面或者组件中，将可以使用配置的内容。[查看详细应用配置]()
+Ovine 是以 Json 格式为基础，因此项目入口文件也是一个巨大配置结构，将 App 所有需要内容全部配置好，其他的任何页面或者组件中，将可以使用配置的内容。[查看详细应用配置](https://ovine.igroupes.com/org/docs/advance/configurations#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE)
 
 ## 路由配置
 
@@ -77,7 +77,7 @@ const routes = [
 ]
 ```
 
-路由是一个树结构的配置。通过路由配置，可以组织整个应用的侧边导航、权限，是整个应用的基本配置之一。[查看详细路由配置]()
+路由是一个树结构的配置。通过路由配置，可以组织整个应用的侧边导航、权限，是整个应用的基本配置之一。[查看详细路由配置](https://ovine.igroupes.com/org/docs/advance/configurations#%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE)
 
 路由的配置主要有以下作用
 
@@ -161,7 +161,7 @@ export default {
 }
 ```
 
-这是一个页面的唯一入口文件，可以是页面级别的渲染器 或者 [自定义页面组件]()，此处只考虑页面渲染器。
+这是一个页面的唯一入口文件，可以是页面级别的渲染器 或者 [自定义页面组件](https://ovine.igroupes.com/org/docs/advance/custom#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%84%E4%BB%B6%E6%B8%B2%E6%9F%93%E5%99%A8)，此处只考虑页面渲染器。
 
 **页面配置文件的一些特殊字段**
 

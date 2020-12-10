@@ -149,7 +149,7 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, videoFileReg, apiUtilReg
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { siteDir, publicPath, siteConfig, bundleAnalyzer, embedAssets } = options
+  const { siteDir, siteConfig, bundleAnalyzer, embedAssets } = options
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -167,7 +167,7 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: editorFileReg,
-          use: [babelLoader, amis.fixEditorLoader({ publicPath })],
+          use: [babelLoader, amis.fixEditorLoader()],
         },
         {
           test: factoryFileReg,
@@ -187,7 +187,7 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: /\.css$/,
-          exclude: [amis.bootStropCss, amis.fontAwesomeCss],
+          exclude: embedAssets ? [amis.bootStropCss, amis.fontAwesomeCss] : [amis.bootStropCss],
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {

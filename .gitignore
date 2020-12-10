@@ -14,6 +14,8 @@ lib
 dist
 node_modules
 
+editor.view.*.js
+
 # workspace
 /website/docs/build
 /packages/init/tmp/*

@@ -50,12 +50,14 @@ function NavLink({ activeBasePath, to, href, label, ...props }) {
   )
 }
 
+
 function Navbar() {
   const context = useDocusaurusContext()
   const { siteConfig = {} } = context
   const { baseUrl, themeConfig = {} } = siteConfig
   const { navbar = {}, disableDarkMode = false } = themeConfig
-  const { title, logo = {}, links = [], hideOnScroll = false } = navbar
+  const { title, logo = {}, items: links = [], hideOnScroll = false } = navbar
+
 
   const [sidebarShown, setSidebarShown] = useState(false)
   const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false)

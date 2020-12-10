@@ -13,6 +13,7 @@ module.exports = {
       apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',
       indexName: 'igroupes_ovine',
       algoliaOptions: {}, // Optional, if provided by Algolia
+      contextualSearch: true,
     },
     prism: {
       // eslint-disable-next-line

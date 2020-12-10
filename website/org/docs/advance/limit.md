@@ -37,7 +37,7 @@ const editLimit = {
 
 #### Demo 应用的权限面板示例
 
-![权限面板](/org/img/limit_setting.jpg)
+![权限面板](https://ovine.igroupes.com/org/img/limit_setting.jpg)
 
 ### 保存已经置的权限
 

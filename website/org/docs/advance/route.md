@@ -7,7 +7,7 @@ title: 路由跳转
 
 Ovine 内置了简单的路由逻辑，只实现了 [`BrowserHistory`](https://blog.51cto.com/xhtml/1945928)，不支持 `HashHistory`。新添加页面，只需要在应用配置的中 `entry` 中传入路由页面，或者在 `aside-layout.routes` 中传入侧边栏路由页面，就可以直接进行页面跳转了。
 
-> BrowserHistory 是目前单页面应用普遍采取的方案，但项目部署有一些有简单要求。[部署文档]()
+> BrowserHistory 是目前单页面应用普遍采取的方案，但项目部署有一些有简单要求。[部署文档](https://ovine.igroupes.com/org/docs/advance/cli/#%E9%83%A8%E7%BD%B2-ovine-%E5%BA%94%E7%94%A8)
 
 - ##### 通过 Ovine 应用配置 `entry` 添加页面。[完整应用配置](/org/docs/advance/configurations#%E5%BA%94%E7%94%A8%E9%85%8D%E7%BD%AE)
 

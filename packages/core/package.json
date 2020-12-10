@@ -57,5 +57,8 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
+  "devDependencies": {
+    "amis": "1.0.19"
+  }
 }

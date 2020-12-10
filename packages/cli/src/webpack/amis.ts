@@ -22,12 +22,25 @@ function base64Encode(file) {
   return Buffer.from(bitmap, 'utf-8').toString('base64')
 }
 
-export const fixEditorLoader = ({ publicPath }: any) => ({
+export const fixEditorLoader = (opts: any = {}) => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
     search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
     flags: 'm',
-    replace: `function filterUrl(url) {return '${`${publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`,
+    replace: opts.publicPath
+      ? `function filterUrl(url) {return '${`${opts.publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`
+      : `function filterUrl(url) {
+      var _path = "/";
+      try {
+        throw new Error()
+      } catch (e) {
+        var info = e.stack.match(/\\((?:https?|file):.*\\)/);
+        if (info) {
+          var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));
+        }
+        return _path + url.slice(4, -2) + "${monacoVar}.js";
+      }
+    `,
   },
 })
 
