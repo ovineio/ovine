@@ -1,6 +1,6 @@
 /**
  * 项目用到的全局数据存储模块
- * TODO: 添加缓存过期时间
+ * TODO: 1. 添加缓存过期时间 2. 添加 undefined 兼容处理
  */
 
 const globalData: any = {}
