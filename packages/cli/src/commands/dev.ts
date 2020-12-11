@@ -51,14 +51,15 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const context = loadContext(siteDir, options)
 
   const { siteConfig } = context
+  const { openPage, publicPath, proxy, ...resetDevOption } = siteConfig.devServer
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
   const host: string = getHost(options.localIp, options.host)
-  const serverPath = siteConfig.pathPrefix || '/'
+  const serverPath = publicPath || '/'
 
   const urls = prepareUrls(protocol, host, port)
-  const openUrl = normalizeUrl([urls.localUrlForBrowser, serverPath])
+  const openUrl = normalizeUrl([urls.localUrlForBrowser, openPage || publicPath || '/'])
 
   const config: webpack.Configuration = merge(createBaseConfig({ ...context, ...options }), {
     plugins: [
@@ -69,16 +70,12 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
 
   // https://webpack.js.org/configuration/dev-server
   const devServerConfig: WebpackDevServer.Configuration = {
-    host,
-    publicPath: serverPath,
     compress: true,
     clientLogLevel: 'error',
-    hot: options.hot,
     // injectClient: false,
     // injectHot: false,
     // transportMode: 'ws',
     quiet: true,
-    proxy: siteConfig.devServerProxy,
     headers: {
       'access-control-allow-origin': '*',
     },
@@ -90,6 +87,11 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     },
     disableHostCheck: true,
     overlay: false,
+    ...resetDevOption,
+    host,
+    publicPath,
+    proxy,
+    hot: options.hot,
     before: (app, server) => {
       app.use(serverPath, express.static(path.resolve(siteDir, staticDirName)))
 

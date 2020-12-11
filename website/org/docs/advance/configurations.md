@@ -61,7 +61,7 @@ export type AppConfig = {
   }
   constants?: {
     // 覆盖内置常量
-    pathPrefix?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
+    routePrefix?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
     rootLimitFlag?: string // 超级管理员权限标示。存在这个标示，将默认不校验任何权限
     enableBackTop: boolean // 是否开启 “快速回到顶部” 功能
     notFound?: {

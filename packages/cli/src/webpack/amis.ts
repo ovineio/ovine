@@ -87,9 +87,9 @@ export const fixFactoryLoader = () => ({
       },
       {
         // AMIS全局统一 默认 ENV 环境
-        search: ', options, pathPrefix\\) \\{',
+        search: ', options, routePrefix\\) \\{',
         flags: 'm',
-        replace: `, opts, pathPrefix) {
+        replace: `, opts, routePrefix) {
           var options = tslib_1.__assign(window.OVINE_AMIS_ENV, opts);
         `,
       },

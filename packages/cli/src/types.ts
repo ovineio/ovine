@@ -7,16 +7,26 @@ type TemplateConfig = {
   postBody?: string
 }
 
-export type SiteConfig = {
-  favicon: string
-  title: string
+type DevServerConfig = {
   publicPath: string
-  pathPrefix: string
-  devServerProxy: any
+  openPage: string
+  proxy: any
+  [key: string]: any
+}
+// TODO: v1 版本重新梳理 配置命名
+export type SiteConfig = {
+  favicon: string // 网站图标
+  title: string // 网站标题
+  publicPath: string // 静态资源的路径前缀
+  devServer: Partial<DevServerConfig> // webpack devServer配置
+  ui: {
+    initTheme?: string
+    withoutPace?: boolean
+  }
   envModes?: string[]
   staticFileExts?: string[]
   template?: TemplateConfig
-  initTheme?: string
+  styledConfig?: any
   cacheGroups?: {
     [key: string]: object
   }
@@ -25,9 +35,6 @@ export type SiteConfig = {
     test: RegExp
     name: string
   }>
-  ui?: {
-    withoutPace: boolean
-  }
 }
 
 export type SiteContext = {

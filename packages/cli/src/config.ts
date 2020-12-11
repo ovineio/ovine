@@ -14,23 +14,21 @@ const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
   'publicPath',
-  'pathPrefix',
   'envModes',
   'splitRoutes',
   'cacheGroups',
   'template',
-  'initTheme',
   'staticFileExts',
-  'devServerProxy',
+  'devServer',
   'ui',
 ]
 
 const defaultConfig = {
   publicPath: '/',
-  pathPrefix: '/',
   template: {},
-  devServerProxy: {},
+  devServer: {},
   ui: {
+    initTheme: 'default',
     withoutPace: false,
   },
 }
@@ -72,7 +70,7 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
 
-  const { pathPrefix = '/', publicPath = '/', envModes } = config
+  const { publicPath = '/', envModes } = config
   // TODO: use json schema for Configuration verification!
   if (unrecognizedFields.length) {
     throw new Error(
@@ -83,12 +81,6 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   if (typeof publicPath !== 'string' || publicPath.substr(-1) !== '/') {
     throw new Error(
       `publicPath: "${publicPath}" is not allowed. The "publicPath" must be string end with "/". eg: "/subPath/"`
-    )
-  }
-
-  if (typeof pathPrefix !== 'string' || pathPrefix[0] !== '/' || pathPrefix.substr(-1) !== '/') {
-    throw new Error(
-      `pathPrefix: "${publicPath}" is not allowed. The "pathPrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`
     )
   }
 

@@ -19,14 +19,14 @@ const requestComponent = 'request://pathToComponent'
 
 // 计算 路由 path
 export function getRoutePath(path: string, origin: boolean = false) {
-  const pathPrefix = app.constants.pathPrefix || rootRoute
+  const routePrefix = app.constants.routePrefix || rootRoute
   const currPthStr = currPath(path)
   const pathStr = `${rootRoute}${currPthStr}`
-  const withBaseUrl = isSubStr(pathStr, pathPrefix, 0)
+  const withBaseUrl = isSubStr(pathStr, routePrefix, 0)
 
-  let routePath = `${withBaseUrl ? rootRoute : pathPrefix}${currPthStr}`
+  let routePath = `${withBaseUrl ? rootRoute : routePrefix}${currPthStr}`
   if (origin) {
-    routePath = pathStr.replace(new RegExp(`^${pathPrefix}`), rootRoute)
+    routePath = pathStr.replace(new RegExp(`^${routePrefix}`), rootRoute)
   }
 
   return routePath
@@ -290,13 +290,13 @@ export function jumpTo(link: string, blank: boolean = false) {
     }
     return
   }
-  const { pathPrefix } = app.constants
+  const { routePrefix } = app.constants
   if (!blank) {
-    if (pathPrefix === rootRoute) {
+    if (routePrefix === rootRoute) {
       app.routerHistory.push(href)
     } else {
       // TODO: 是否有不需要替换 url 的场景
-      app.routerHistory.push(href.replace(new RegExp(`^${pathPrefix}`), rootRoute))
+      app.routerHistory.push(href.replace(new RegExp(`^${routePrefix}`), rootRoute))
     }
   } else {
     window.open(`${window.location.origin}${href}`, '_blank')

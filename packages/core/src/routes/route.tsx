@@ -20,6 +20,7 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 import { app } from '@/app'
 import NotFound from '@/components/404'
 import { Amis } from '@/components/amis/schema'
+import { useDebounceRender } from '@/components/debounce_render'
 import ErrorBoundary from '@/components/error_boundary'
 import { isSubStr } from '@/utils/tool'
 
@@ -179,19 +180,16 @@ const PrestComponent = (props: PresetComponentProps) => {
 export const PrestRoute = (props: PresetRouteProps) => {
   const {
     component,
+    children,
     withSuspense = true,
     fallback = PageSpinner,
     path = '',
     exact = true,
-    children,
+    debounceRoute = 0,
     ...rest
   } = props
 
   const routePath = getRoutePath(path)
-  if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
-    return <Redirect to={app.constants.notFound.route} />
-  }
-
   const RouteComponent = (
     <Route
       {...rest}
@@ -207,15 +205,27 @@ export const PrestRoute = (props: PresetRouteProps) => {
     </Route>
   )
 
-  if (withSuspense) {
-    return (
-      <ErrorBoundary type="page">
-        <Suspense fallback={fallback}>{RouteComponent}</Suspense>
-      </ErrorBoundary>
-    )
+  const getRouteComponent = () => {
+    if (exact && !isSubStr(routePath, ':') && routePath !== window.location.pathname) {
+      return <Redirect to={app.constants.notFound.route} />
+    }
+
+    if (withSuspense) {
+      return (
+        <ErrorBoundary type="page">
+          <Suspense fallback={fallback}>{RouteComponent}</Suspense>
+        </ErrorBoundary>
+      )
+    }
+    return RouteComponent
   }
 
-  return RouteComponent
+  const CachedRoute = useDebounceRender({
+    getComponent: getRouteComponent,
+    wait: debounceRoute,
+  })
+
+  return debounceRoute ? CachedRoute : getRouteComponent()
 }
 
 // TODO: 支持自定义 404
@@ -239,17 +249,27 @@ const NotFoundRoute = () => {
 type AppMenuRoutesProps = {
   authRoutes: RouteItem[]
   fallback: any
+  // eslint-disable-next-line
+  debounceRoute?: number
 }
 
 // 将 routeConfig 转换为 route
 export const AppMenuRoutes = (props: AppMenuRoutesProps) => {
   const menuRoutes: any = []
 
-  const { authRoutes, fallback: FallBack } = props
+  const { debounceRoute, authRoutes, fallback: FallBack } = props
 
-  eachTree(authRoutes, (item) => {
-    if (item.path && !item.limitOnly) {
-      menuRoutes.push(<PrestRoute key={menuRoutes.length + 1} fallback={<FallBack />} {...item} />)
+  // eslint-disable-next-line
+  eachTree(authRoutes, (item: RouteItem) => {
+    const { path, limitOnly } = item
+    if (path && !limitOnly) {
+      const routeProps = {
+        key: menuRoutes.length + 1,
+        fallback: <FallBack />,
+        debounceRoute,
+        ...item,
+      }
+      menuRoutes.push(<PrestRoute {...routeProps} />)
     }
   })
 

@@ -2,13 +2,14 @@
  * babel-loader configuration
  */
 import fs from 'fs-extra'
+import { defaultsDeep, get } from 'lodash'
 import path from 'path'
 
 import { babelConfigFileName } from '../constants'
 
 const { NODE_ENV = 'development' } = process.env
 
-const styledComponents = {
+const styledDefConf = {
   development: {
     displayName: true,
   },
@@ -17,10 +18,6 @@ const styledComponents = {
     pure: true,
     displayName: false,
   },
-}
-
-const styledConfig = {
-  styledComponents: styledComponents[NODE_ENV] || styledComponents.development,
 }
 
 // function importPlugin(moduleName, dirName = '') {
@@ -47,7 +44,15 @@ function extendsConfig(siteDir: string) {
 }
 
 // babel config https://babeljs.io/docs/en/options#sourcetype
-export function getBabelConfig(siteDir: string) {
+type Options = {
+  siteDir: string
+  styledConfig?: any
+}
+export function getBabelConfig(option: Options) {
+  const { siteDir, styledConfig = {} } = option
+  const styledConf = defaultsDeep(styledConfig, styledDefConf)
+  const styledFinalConf = get(styledConf, NODE_ENV) || styledConf.development
+
   return {
     ...extendsConfig(siteDir),
     compact: false,
@@ -65,7 +70,7 @@ export function getBabelConfig(siteDir: string) {
     plugins: [
       'react-hot-loader/babel',
       'babel-plugin-macros',
-      ['babel-plugin-styled-components', styledConfig],
+      ['babel-plugin-styled-components', styledFinalConf],
       '@babel/plugin-syntax-dynamic-import',
       // importPlugin('lodash'),
     ],

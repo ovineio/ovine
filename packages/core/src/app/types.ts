@@ -28,7 +28,7 @@ export type AppAmis = RenderOptions & {
 }
 
 type ConstantsType = {
-  pathPrefix: string | (() => string)
+  routePrefix: string | (() => string)
   rootLimitFlag: string
   notFound: {
     route: string
@@ -67,8 +67,8 @@ export interface AppDefInstance extends Omit<AppConfig, 'env' | 'constants'> {
     isMock: boolean
   }
   entry: any[]
-  constants: Omit<ConstantsType, 'pathPrefix'> & {
-    pathPrefix: string
+  constants: Omit<ConstantsType, 'routePrefix'> & {
+    routePrefix: string
   }
   request: ClassMethod<Request, 'request'> & {
     getUrlByOption: (

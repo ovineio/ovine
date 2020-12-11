@@ -15,7 +15,7 @@ const { storeRoot } = message
 type Key = string | string[]
 export type Handler<T = any> = (data: T, key: string) => void
 
-const observer: ObjectOf<Handler[]> = {}
+let observer: ObjectOf<Handler[]> = {}
 const source: ObjectOf<any> = {}
 
 // 格式化存储 key 格式
@@ -100,6 +100,10 @@ export function unsubscribe(key: Key, handler?: Handler) {
   } else {
     offObserver(key)
   }
+}
+
+export function unsubscribeAll() {
+  observer = {}
 }
 
 // 消息订阅

@@ -58,6 +58,7 @@ export type PageFileOption = Partial<Pick<RouteItem, 'path' | 'pathToComponent' 
 
 export type PresetRouteProps = Omit<RouteProps, 'path'> &
   PageFileOption & {
+    debounceRoute?: number
     withSuspense?: boolean
     fallback?: any
   }

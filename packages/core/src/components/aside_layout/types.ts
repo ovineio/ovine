@@ -48,6 +48,7 @@ export type LayoutProps = Partial<{
   header: HeaderProps
   footer: LibSchema
   routes: RouteItem[]
+  debounceRoute: number // TODO: 看情况是否支持 数字
   resetRoute: boolean // 当更新 路由时，是否重置路由状态，主要用于多功能路由切换情况
   rootRoute: string
 }>

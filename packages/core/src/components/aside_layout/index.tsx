@@ -44,7 +44,7 @@ const defaultHeader = {
 export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
 
-  const { children, theme, api } = props
+  const { children, theme, api, debounceRoute } = props
 
   const [state, setState] = useImmer<AsideLayoutState>({
     asideFolded: false,
@@ -60,6 +60,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { routes, header, routeTabs, footer, asideFolded, rootRoute, resetRoute, offScreen } = state
   const { ns: themeNs, name: themeName } = theme
 
+  // TODO: 使用 styled media 来检查 媒体查询
   const supportTabs = routeTabs && window.innerWidth >= breakpoints.md && routeTabs.enable !== false
   const withTabs = enableRouteTabs && supportTabs
 
@@ -106,7 +107,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
     return conf
   }, [header, footer])
 
-  const { authRoutes, AuthRoutes, renderAside } = useMemo(() => {
+  const { authRoutes, AuthRoutes, asideMenus } = useMemo(() => {
     setRoutesConfig(routes)
     const configs = {
       authRoutes: getAuthRoutes(),
@@ -114,11 +115,21 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
     }
     log.log('routeConfig', configs)
     return {
-      authRoutes: configs.authRoutes,
-      renderAside: (t: string) => <Aside theme={t} asideMenus={configs.asideMenus} />,
-      AuthRoutes: <AppMenuRoutes fallback={LayoutLazyFallback} authRoutes={configs.authRoutes} />,
+      ...configs,
+      // renderAside: (t: string) => <Aside theme={t} asideMenus={configs.asideMenus} />,
+      AuthRoutes: (
+        <AppMenuRoutes
+          debounceRoute={debounceRoute}
+          fallback={LayoutLazyFallback}
+          authRoutes={configs.authRoutes}
+        />
+      ),
     }
   }, [routes])
+
+  const LayoutAside = useMemo(() => {
+    return <Aside theme={themeName} asideMenus={asideMenus} />
+  }, [themeName, asideMenus])
 
   useSubscriber<any>(asideLayoutCtrl.msg, (msgData = {}) => {
     const { key, toggle, data } = msgData
@@ -187,7 +198,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
         folded={asideFolded}
         offScreen={offScreen}
         header={HeaderComponent}
-        aside={renderAside(themeName)}
+        aside={LayoutAside}
         footer={layoutConf.footer && <Amis schema={layoutConf.footer} />}
       >
         <div className="app-layout-body">

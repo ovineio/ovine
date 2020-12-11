@@ -138,8 +138,9 @@ export default (option: Option) => {
     // 判断目标地址是否为当前页面。
     isCurrentUrl: (to: string) => {
       const { href } = normalizeLink({ to })
-      log.log('isCurrentUrl', href)
-      return href === window.location.href.replace(window.location.origin, '')
+      const isCurrent = href === window.location.href.replace(window.location.origin, '')
+      log.log('isCurrentUrl', isCurrent, href)
+      return isCurrent
     },
 
     // Promise<Function>  可以通过它懒加载自定义组件，比如： https://github.com/baidu/amis/blob/master/__tests__/factory.test.tsx#L64-L91。

@@ -4,7 +4,7 @@
 
 import './includes'
 
-import '~/app.custom'
+export * from '~/app.custom'
 
 if (process.env.HOT) {
   // Hot Module Replacement API

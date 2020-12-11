@@ -54,7 +54,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     scssUpdate = false,
   } = options
 
-  const { envModes, initTheme } = siteConfig
+  const { envModes, ui, styledConfig } = siteConfig
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -74,7 +74,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
   const babelLoader = {
     loader: 'babel-loader',
-    options: getBabelConfig(siteDir),
+    options: getBabelConfig({ siteDir, styledConfig }),
   }
 
   const useTs = fse.existsSync(`${siteDir}/${tsConfFileName}`)
@@ -262,6 +262,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
               options: {
                 publicPath,
                 limit: 2000,
+                esModule: false,
                 name: !isProd ? '[path][name].[ext]' : 'assets/svgs/[name]_[contenthash:6].[ext]',
               },
             },
@@ -303,9 +304,8 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
-        PATH_PREFIX: siteConfig.pathPrefix,
         NODE_ENV: process.env.NODE_ENV,
-        INIT_THEME: initTheme || 'default',
+        INIT_THEME: ui.initTheme,
         HOT: options.hot || false,
         MOCK: mock,
         ENV: env,
@@ -354,7 +354,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           keepInMemory: !isProd,
           indexHtml: `${outDir}/index.html`,
           getThemeScript: (opts: any) =>
-            getThemeScript({ publicPath, siteDir, initTheme, ...opts }),
+            getThemeScript({ publicPath, siteDir, initTheme: ui.initTheme, ...opts }),
         }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
@@ -540,6 +540,11 @@ function getThemeScript(options: any) {
 
   const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(assetsJson, '.css') || []
+
+  if (!cssAssets || !cssAssets.map) {
+    return ''
+  }
+
   const themes = cssAssets.map((i) => `${publicPath}${i}`)
 
   let presetTheme = ''

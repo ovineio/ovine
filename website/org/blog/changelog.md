@@ -6,7 +6,7 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
-### 0.1.0-alpha.11 ---- 2020.12.10
+### 0.1.0-alpha.0 ---- 2020.12.10
 
 > [0.1.x 更新迁移文档]()
 

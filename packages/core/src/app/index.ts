@@ -29,8 +29,8 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    // TODO 兼容动态 pathPrefix
-    pathPrefix: process.env.PATH_PREFIX || rootRoute,
+    // TODO 兼容动态 routePrefix
+    routePrefix: process.env.ROUTE_PREFIX || rootRoute,
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,
@@ -89,26 +89,27 @@ class AppProxy {
 class App extends AppProxy {
   private routerHistory: any
 
-  private pathPrefix: string = rootRoute
+  private routePrefix: string = rootRoute
 
   public async create(appConfig: any) {
-    const prevBaseUrl = get(source, 'constants.pathPrefix') || rootRoute
+    const prevBaseUrl = get(source, 'constants.routePrefix') || rootRoute
     // 等待 beforeCreate hook执行完成
     if (appConfig.hook?.beforeCreate) {
       await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
     }
     // 合并参数
     Object.assign(source, defaultsDeep(appConfig, initConfig))
-    this.pathPrefix = this.getBaseUrl(appConfig.constants?.pathPrefix)
-    set(source, 'constants.pathPrefix', this.pathPrefix)
+    this.routePrefix = this.getBaseUrl(appConfig.constants?.routePrefix)
+    set(source, 'constants.routePrefix', this.routePrefix)
 
-    if (this.checkBaseUrl(prevBaseUrl, this.pathPrefix)) {
+    if (this.checkBaseUrl(prevBaseUrl, this.routePrefix)) {
       this.createRouterHistory()
     }
 
     if (source.env) {
       this.setEnv(source.env)
     }
+
     if (source.request) {
       this.setRequest(source.request)
     }
@@ -121,10 +122,10 @@ class App extends AppProxy {
 
   public createRouterHistory() {
     this.routerHistory = createBrowserHistory(
-      this.pathPrefix === rootRoute
+      this.routePrefix === rootRoute
         ? undefined
         : {
-            basename: this.pathPrefix.slice(0, -1),
+            basename: this.routePrefix.slice(0, -1),
           }
     )
   }
@@ -136,19 +137,19 @@ class App extends AppProxy {
     return typeof urlGen === 'string' ? urlGen : rootRoute
   }
 
-  private checkBaseUrl(prevBaseUrl: string, pathPrefix: string) {
+  private checkBaseUrl(prevBaseUrl: string, routePrefix: string) {
     if (
-      typeof pathPrefix !== 'string' ||
-      pathPrefix.substr(-1) !== rootRoute ||
-      pathPrefix[0] !== rootRoute
+      typeof routePrefix !== 'string' ||
+      routePrefix.substr(-1) !== rootRoute ||
+      routePrefix[0] !== rootRoute
     ) {
       throw new Error(
-        `pathPrefix: "${pathPrefix}" is not allowed. The "pathPrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`
+        `routePrefix: "${routePrefix}" is not allowed. The "routePrefix" must be string startWith "/" and endWith "/". eg: "/subPath/"`
       )
     }
 
-    if (this.routerHistory && pathPrefix !== prevBaseUrl) {
-      window.location.href = pathPrefix
+    if (this.routerHistory && routePrefix !== prevBaseUrl) {
+      window.location.href = routePrefix
     }
 
     return !this.routerHistory
