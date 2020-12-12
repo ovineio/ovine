@@ -61,19 +61,14 @@ export const schema = {
   definitions: {
     updateControls: {
       controls: [
-        // {
-        //   name: 'desc',
-        //   required: true,
-        //   label: '配置描述',
-        //   type: 'text',
-        // },
-        // {
-        //   name: 'content',
-        //   label: 'JSON配置',
-        //   type: 'json-editor',
-        // },
         {
-          name: 'limit',
+          name: 'desc',
+          required: true,
+          label: '配置描述',
+          type: 'text',
+        },
+        {
+          name: 'content',
           label: 'JSON配置',
           type: 'json-editor',
         },

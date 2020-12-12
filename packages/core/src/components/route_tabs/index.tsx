@@ -307,84 +307,84 @@ export default (props: Props) => {
     const tabItems = !storage ? [] : cache.getValidCacheTabs()
 
     return (
-      <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>
-        <div
-          className="chrome-tabs"
-          ref={(dom) => {
-            $storeRef.current.$tabsDom = dom
-          }}
-        >
-          <div className="chrome-tabs-content">
-            {tabItems.map((item) => (
-              <div
-                key={item.id}
-                className="chrome-tab"
-                data-active={item.active}
-                data-root={item.isRoot ? item.pathname : ''}
-                data-path={item.pathname}
-              >
-                <div className="chrome-tab-dividers" />
-                <div className="chrome-tab-background">
-                  <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36">
-                        <path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z" />
-                      </symbol>
-                      <symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36">
-                        <use xlinkHref="#chrome-tab-geometry-left" />
-                      </symbol>
-                      <clipPath id="crop">
-                        <rect className="mask" width="100%" height="100%" x="0" />
-                      </clipPath>
-                    </defs>
-                    <svg width="52%" height="100%">
+      <div
+        className="chrome-tabs"
+        ref={(dom) => {
+          $storeRef.current.$tabsDom = dom
+        }}
+      >
+        <div className="chrome-tabs-content">
+          {tabItems.map((item) => (
+            <div
+              key={item.id}
+              className="chrome-tab"
+              data-active={item.active}
+              data-root={item.isRoot ? item.pathname : ''}
+              data-path={item.pathname}
+            >
+              <div className="chrome-tab-dividers" />
+              <div className="chrome-tab-background">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <symbol id="chrome-tab-geometry-left" viewBox="0 0 214 36">
+                      <path d="M17 0h197v36H0v-2c4.5 0 9-3.5 9-8V8c0-4.5 3.5-8 8-8z" />
+                    </symbol>
+                    <symbol id="chrome-tab-geometry-right" viewBox="0 0 214 36">
+                      <use xlinkHref="#chrome-tab-geometry-left" />
+                    </symbol>
+                    <clipPath id="crop">
+                      <rect className="mask" width="100%" height="100%" x="0" />
+                    </clipPath>
+                  </defs>
+                  <svg width="52%" height="100%">
+                    <use
+                      xlinkHref="#chrome-tab-geometry-left"
+                      width="214"
+                      height="36"
+                      className="chrome-tab-geometry"
+                    />
+                  </svg>
+                  <g transform="scale(-1, 1)">
+                    <svg width="52%" height="100%" x="-100%" y="0">
                       <use
-                        xlinkHref="#chrome-tab-geometry-left"
+                        xlinkHref="#chrome-tab-geometry-right"
                         width="214"
                         height="36"
                         className="chrome-tab-geometry"
                       />
                     </svg>
-                    <g transform="scale(-1, 1)">
-                      <svg width="52%" height="100%" x="-100%" y="0">
-                        <use
-                          xlinkHref="#chrome-tab-geometry-right"
-                          width="214"
-                          height="36"
-                          className="chrome-tab-geometry"
-                        />
-                      </svg>
-                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="chrome-tab-content">
+                <div className="chrome-tab-favicon" />
+                <div className="chrome-tab-title">{item.label}</div>
+                <div className="chrome-tab-drag-handle" />
+                <div className="chrome-tab-close">
+                  <svg
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    p-id="2352"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width="200"
+                    height="200"
+                  >
+                    <path
+                      d="M518.5815877 469.42879156L240.02576609 190.87364889a34.76142882 34.76142882 0 1 0-49.17520097 49.12971238l278.55446374 278.57822643L190.85056508 797.15913522a34.76142882 34.76142882 0 1 0 49.15279619 49.15211725l278.57822651-278.55446378 278.57822634 278.55446378a34.76142882 34.76142882 0 1 0 49.15211728-49.12903345l-278.55446374-278.60063124 278.55446374-278.55514271a34.76142882 34.76142882 0 1 0-49.15211728-49.15279622L518.60467145 469.42879156z"
+                      p-id="2353"
+                    />
                   </svg>
                 </div>
-                <div className="chrome-tab-content">
-                  <div className="chrome-tab-favicon" />
-                  <div className="chrome-tab-title">{item.label}</div>
-                  <div className="chrome-tab-drag-handle" />
-                  <div className="chrome-tab-close">
-                    <svg
-                      viewBox="0 0 1024 1024"
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      p-id="2352"
-                      xmlnsXlink="http://www.w3.org/1999/xlink"
-                      width="200"
-                      height="200"
-                    >
-                      <path
-                        d="M518.5815877 469.42879156L240.02576609 190.87364889a34.76142882 34.76142882 0 1 0-49.17520097 49.12971238l278.55446374 278.57822643L190.85056508 797.15913522a34.76142882 34.76142882 0 1 0 49.15279619 49.15211725l278.57822651-278.55446378 278.57822634 278.55446378a34.76142882 34.76142882 0 1 0 49.15211728-49.12903345l-278.55446374-278.60063124 278.55446374-278.55514271a34.76142882 34.76142882 0 1 0-49.15211728-49.15279622L518.60467145 469.42879156z"
-                        p-id="2353"
-                      />
-                    </svg>
-                  </div>
-                </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </StyledRouteTabs>
+      </div>
     )
-  }, [themeNs])
+  }, [])
 
-  return Tabs
+  return (
+    <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>{Tabs}</StyledRouteTabs>
+  )
 }

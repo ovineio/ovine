@@ -1,4 +1,4 @@
-import { Api } from 'amis/lib/types'
+import { Api, Payload } from 'amis/lib/types'
 import { qsstringify } from 'amis/lib/utils/helper'
 import { dataMapping, tokenize } from 'amis/lib/utils/tpl-builtin'
 import { cloneDeep, isEmpty, isPlainObject } from 'lodash'
@@ -20,17 +20,19 @@ function responseAdaptor(res: any) {
   if (!data) {
     throw new Error('Response is empty!')
   } else if (typeof data.status === 'undefined') {
-    throw new Error('接口返回格式不符合，请参考 http://amis.baidu.com/v2/docs/api')
+    // 兼容不返回 status 字段的情况
+    data.status = 0
   }
 
-  return {
+  const payload: Payload = {
     ok: data.status === 0,
     status: data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
-    data: data.data,
-    errors: data.errors,
+    data: !data.data && typeof data.status === 'undefined' ? data : data.data, // 兼容直接返回数据的情况
   }
+
+  return payload
 }
 
 // 字符串转 Function

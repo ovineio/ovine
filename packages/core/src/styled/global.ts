@@ -52,12 +52,7 @@ const GlobalStyle = createGlobalStyle`
     body > div {
       color: ${colors.text};
     }
-
-    .${ns}Chart {
-      min-width: 100px !important;
-      min-height: 100px !important;
-    }
-
+    
     .line-break-json {
       .${ns}JsonField {
         width: 100%;
@@ -66,6 +61,17 @@ const GlobalStyle = createGlobalStyle`
           word-break: all;
         }
       }
+    }
+
+    .cxd-Page-title {
+      .cxd-Remark-icon {
+        vertical-align: baseline;
+      }
+    }
+
+    .${ns}Chart {
+      min-width: 100px !important;
+      min-height: 100px !important;
     }
 
     .${ns}DateRangePicker {

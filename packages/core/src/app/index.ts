@@ -85,7 +85,7 @@ class AppProxy {
     return proxy
   }
 }
-
+// TODO: 允许 APP 多次重复创建
 class App extends AppProxy {
   private routerHistory: any
 

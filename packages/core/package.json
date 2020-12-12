@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",
-    "amis": "1.0.18-beta.4",
+    "amis": "1.0.19",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "copy-to-clipboard": "^3.3.1",
@@ -57,8 +57,5 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
-  "devDependencies": {
-    "amis": "1.0.19"
-  }
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
 }
