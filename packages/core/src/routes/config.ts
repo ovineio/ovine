@@ -6,8 +6,7 @@
 import { mapTree, eachTree } from 'amis/lib/utils/helper'
 import { cloneDeep, last, pick, map, get } from 'lodash'
 
-import { strDelimiter, message, parentKey } from '@/constants'
-import { publish } from '@/utils/message'
+import { strDelimiter, parentKey } from '@/constants'
 import { ObjectOf } from '@/utils/types'
 
 import { getPagePreset } from './exports'
@@ -89,7 +88,6 @@ const resolePreset = (config: RouteItem[]) => {
 }
 
 export function setRoutesConfig(routes: RouteItem[]) {
-  publish(message.updateRouteStore)
   store.routesConfig = resolePreset(resolveConfig(cloneDeep(routes)))
 }
 

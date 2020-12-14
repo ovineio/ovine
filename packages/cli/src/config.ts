@@ -15,12 +15,13 @@ const requiredFields = ['favicon', 'title']
 const optionalFields = [
   'publicPath',
   'envModes',
-  'splitRoutes',
-  'cacheGroups',
-  'template',
-  'staticFileExts',
   'devServer',
   'ui',
+  'staticFileExts',
+  'template',
+  'styledConfig',
+  'cacheGroups',
+  'splitRoutes',
 ]
 
 const defaultConfig = {

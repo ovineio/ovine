@@ -14,6 +14,7 @@ import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
+import { unsubscribeAll } from '@/utils/message'
 import { getStore } from '@/utils/store'
 import { json2reactFactory } from '@/utils/tool'
 
@@ -57,6 +58,12 @@ const AppComponent = () => {
     }
     if (app.hook?.onAppMounted) {
       app.hook?.onAppMounted()
+    }
+
+    return () => {
+      if (!process.env.HOT) {
+        unsubscribeAll()
+      }
     }
   }, [])
 
@@ -104,4 +111,4 @@ const AppComponent = () => {
   )
 }
 
-export const App = process.env.HOT ? hot(AppComponent) : AppComponent
+export const App = hot(AppComponent)

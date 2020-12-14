@@ -51,7 +51,6 @@ export class LibLimitSetting extends React.Component<Props> {
       actionType,
       type: 'action',
       label: '设置权限',
-      icon: 'fa fa-lock',
       ...button,
     }
 

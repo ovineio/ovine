@@ -13,7 +13,7 @@ import { app } from '@/app'
 import { withAppTheme } from '@/app/theme'
 import { breakpoints, message, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
-import { getAuthRoutes, getAsideMenus } from '@/routes/limit'
+import { getAuthRoutes, getAsideMenus, clearRouteStore } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer, useSubscriber } from '@/utils/hooks'
 import logger from '@/utils/logger'
@@ -41,6 +41,7 @@ const defaultHeader = {
   },
 }
 
+// TODO: 获取APi路由时有 短暂的 404 页面，需要改成loading 状态
 export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
 
@@ -68,14 +69,14 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
     if (!api) {
       return
     }
-    if (data) {
-      api.data = {
+    const reqOpt = {
+      ...api,
+      data: {
         ...api.data,
         ...data,
-      }
+      },
     }
-
-    app.request<LayoutProps>(api).then((source) => {
+    app.request<LayoutProps>(reqOpt).then((source) => {
       const resData = source?.data || {}
 
       setState((d) => {
@@ -108,6 +109,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   }, [header, footer])
 
   const { authRoutes, AuthRoutes, asideMenus } = useMemo(() => {
+    clearRouteStore()
     setRoutesConfig(routes)
     const configs = {
       authRoutes: getAuthRoutes(),
@@ -129,7 +131,7 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
 
   const LayoutAside = useMemo(() => {
     return <Aside theme={themeName} asideMenus={asideMenus} />
-  }, [themeName, asideMenus])
+  }, [themeName, routes])
 
   useSubscriber<any>(asideLayoutCtrl.msg, (msgData = {}) => {
     const { key, toggle, data } = msgData

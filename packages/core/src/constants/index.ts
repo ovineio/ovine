@@ -28,7 +28,6 @@ export const message = {
   layoutSpinner: '$store/libLayoutSpinner',
   appTheme: 'libAppThemeMsg',
   appLang: 'libAppLangMsg',
-  updateRouteStore: 'libUpdateRouteStoreMsg',
   clearRouteTabs: 'libClearRouteTabsMsg',
   asideLayoutCtrl: {
     msg: 'libAsideLayoutCtrlMsg',
@@ -48,6 +47,7 @@ export const storage = {
   routeTabs: 'libRouteTabsStore', // 存储 RouteTabs 数据
   supportRouteTabs: 'supportRouteTabsStore', // 是否支持 RouteTabs
   enableRouteTabs: 'libEnableRouteTabsStore', // 在支持的情况下， 是否开启使用 RouteTabs 功能
+  RouteData: 'libRouteDataStore',
   dev: {
     code: 'libDevCodeGlobal',
     limit: 'libDevLimitStore',

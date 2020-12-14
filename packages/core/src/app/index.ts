@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { createBrowserHistory } from 'history'
-import { defaultsDeep, get, isFunction, set } from 'lodash'
+import { defaultsDeep, get, isFunction, merge, set } from 'lodash'
 
 import { AppInstance } from '@core/app/instance/type'
 
@@ -12,7 +12,7 @@ import * as Types from '@/utils/types'
 import { AppTheme } from './theme'
 import { AppConfig, EnvConfig, AppDefInstance, AppMountedProps } from './types'
 
-const source: any = {}
+let source: any = {}
 
 const initConfig: AppConfig = {
   request: new Request(),
@@ -92,13 +92,17 @@ class App extends AppProxy {
   private routePrefix: string = rootRoute
 
   public async create(appConfig: any) {
+    this.initState()
+
     const prevBaseUrl = get(source, 'constants.routePrefix') || rootRoute
     // 等待 beforeCreate hook执行完成
     if (appConfig.hook?.beforeCreate) {
       await appConfig.hook.beforeCreate.bind(this, this, appConfig)()
     }
+
     // 合并参数
-    Object.assign(source, defaultsDeep(appConfig, initConfig))
+    source = merge(initConfig, appConfig)
+
     this.routePrefix = this.getBaseUrl(appConfig.constants?.routePrefix)
     set(source, 'constants.routePrefix', this.routePrefix)
 
@@ -128,6 +132,15 @@ class App extends AppProxy {
             basename: this.routePrefix.slice(0, -1),
           }
     )
+  }
+
+  private initState() {
+    // 非 热更新模式下，每次创建，将清除原有数据
+    if (!process.env.HOT) {
+      source = {}
+      this.routePrefix = rootRoute
+      this.routerHistory = undefined
+    }
   }
 
   private getBaseUrl(urlGen: any) {

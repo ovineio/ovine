@@ -32,8 +32,8 @@ export class LibDropdown extends React.Component<Props> {
     const { hover } = this.props
     const config = {
       sensitivity: 3, // number = sensitivity threshold (must be 1 or higher)
-      interval: 200, // number = milliseconds for onMouseOver polling interval
-      timeout: 200, // number = milliseconds delay before onMouseOut
+      interval: 100, // number = milliseconds for onMouseOver polling interval
+      timeout: 100, // number = milliseconds delay before onMouseOut
       ...hover,
       over: doOpen, // function = onMouseOver callback (REQUIRED)
       out: doClose, // function = onMouseOut callback (REQUIRED)

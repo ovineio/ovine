@@ -2,7 +2,7 @@
  * babel-loader configuration
  */
 import fs from 'fs-extra'
-import { defaultsDeep, get } from 'lodash'
+import { defaultsDeep, get, omit } from 'lodash'
 import path from 'path'
 
 import { babelConfigFileName } from '../constants'
@@ -51,7 +51,10 @@ type Options = {
 export function getBabelConfig(option: Options) {
   const { siteDir, styledConfig = {} } = option
   const styledConf = defaultsDeep(styledConfig, styledDefConf)
-  const styledFinalConf = get(styledConf, NODE_ENV) || styledConf.development
+  const styledFinalConf = {
+    ...omit(styledConf, ['development', 'production']),
+    ...get(styledConf, NODE_ENV),
+  }
 
   return {
     ...extendsConfig(siteDir),

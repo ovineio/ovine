@@ -42,8 +42,9 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     badgeClassName?: string
     pathToComponent?: boolean | string | ReqOption
     children?: RouteItem[]
-    sideVisible?: boolean // 侧边栏是否可见
     highlightParent?: boolean // 但侧边栏不可见时，是否高亮父tab， 默认 true
+    sideVisible?: boolean // 侧边栏是否可见
+    ignoreLimit?: boolean // 是否忽略权限，默认 false
     limitOnly?: boolean // 该配置只为权限
     routeTabShared?: boolean
     // routeTabInitQuery?: object

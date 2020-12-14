@@ -7,9 +7,9 @@ import { filterTree, mapTree } from 'amis/lib/utils/helper'
 import { map, isEmpty, pick, cloneDeep, get } from 'lodash'
 
 import { app } from '@/app'
-import { routeLimitKey, message, parentKey } from '@/constants'
+import { routeLimitKey, parentKey, storage } from '@/constants'
 import { getPagePreset } from '@/routes/exports'
-import { subscribe } from '@/utils/message'
+import { getGlobal, setGlobal } from '@/utils/store'
 import * as Types from '@/utils/types'
 
 import { getRouteConfig } from '../config'
@@ -50,22 +50,25 @@ type StoreType = {
   authRoutes: any[]
   limitMenus: LimitMenuItem[]
 }
-const store: StoreType = {
-  asideMenus: [],
-  authRoutes: [],
-  limitMenus: [],
+const getStore = (type: keyof StoreType): any[] => {
+  const store = getGlobal<any>(storage.RouteData) || {}
+  return store[type] || []
 }
 
-subscribe(message.updateRouteStore, () => {
-  store.asideMenus = []
-  store.authRoutes = []
-  store.limitMenus = []
-})
+const setStore = (type: keyof StoreType, data: any[]) => {
+  const store = getGlobal<any>(storage.RouteData)
+  store[type] = data
+  setGlobal(storage.RouteData, store)
+}
+
+export const clearRouteStore = () => {
+  setGlobal(storage.RouteData, {})
+}
 
 // 过滤掉 配置路由信息
 // 1. 去除无权限路由
 // 2. 去除侧边栏隐藏 菜单项
-const filterRoutesConfig = (type: 'aside' | 'route') => {
+const filterRoutesConfig = (type: 'aside' | 'route' | 'limit') => {
   const limits = getAppLimits()
 
   // 不校验权限 并且 limits 数据为空时
@@ -75,15 +78,18 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
   }
 
   const nodes = filterTree<RouteItem>(getRouteConfig(true), (item) => {
-    const { nodePath, limitOnly } = item
-    const auth = checkLimitByNodePath(nodePath, limits)
-    if (nodePath === '/') {
+    const { nodePath, ignoreLimit, limitOnly } = item
+    const auth = ignoreLimit === true ? true : checkLimitByNodePath(nodePath, limits)
+
+    if (nodePath === '/' && !limitOnly) {
       return true
     }
 
     switch (type) {
       case 'aside':
         return auth && limitOnly !== true
+      case 'limit':
+        return !ignoreLimit && auth
       default:
         return auth
     }
@@ -94,22 +100,22 @@ const filterRoutesConfig = (type: 'aside' | 'route') => {
 
 // 可用路由权限---注意页面内操作权限没有校验
 export const getAuthRoutes = (): RouteItem[] => {
-  if (store.authRoutes?.length) {
-    return store.authRoutes
+  if (getStore('authRoutes').length) {
+    return getStore('authRoutes')
   }
-  store.authRoutes = filterRoutesConfig('route') as any
-
-  return store.authRoutes
+  const authRoutes = filterRoutesConfig('route')
+  setStore('authRoutes', authRoutes)
+  return authRoutes
 }
 
 // 侧边栏 展示菜单配置
 export const getAsideMenus = (): RouteItem[] => {
-  if (store.asideMenus?.length) {
-    return store.asideMenus
+  if (getStore('asideMenus').length) {
+    return getStore('asideMenus')
   }
-
-  store.asideMenus = filterRoutesConfig('aside') as any
-  return store.asideMenus
+  const asideMenus = filterRoutesConfig('aside')
+  setStore('asideMenus', asideMenus)
+  return asideMenus
 }
 
 // 权限配置表
@@ -118,11 +124,11 @@ export const getLimitMenus = (option?: {
   useAllLimit?: boolean // 是否全部权限
 }) => {
   const { refresh = false, useAllLimit = false } = option || {}
-  if (!refresh && store.limitMenus.length) {
-    return store.limitMenus
+  if (!refresh && getStore('limitMenus').length) {
+    return getStore('limitMenus')
   }
 
-  const userRoutes = useAllLimit ? getRouteConfig(true) : cloneDeep(getAuthRoutes())
+  const userRoutes = useAllLimit ? getRouteConfig(true) : cloneDeep(filterRoutesConfig('limit'))
 
   // 构建权限配置面板菜单结构
   const limitMenus = mapTree(userRoutes as LimitMenuItem[], (item) => {
@@ -189,14 +195,14 @@ export const getLimitMenus = (option?: {
   })
 
   if (useAllLimit) {
-    store.limitMenus = limitMenus
-    return store.limitMenus
+    setStore('limitMenus', limitMenus)
+    return limitMenus
   }
 
   const appLimits = getAppLimits()
-  store.limitMenus = filterTree<RouteItem>(limitMenus, ({ nodePath }) => {
+  const filteredLimitMenus = filterTree<RouteItem>(limitMenus, ({ nodePath }) => {
     return nodePath === '/' ? true : checkLimitByNodePath(nodePath, appLimits)
   })
-
-  return store.limitMenus
+  setStore('limitMenus', filteredLimitMenus)
+  return filteredLimitMenus
 }
