@@ -13,6 +13,7 @@ import { app } from '@/app'
 import { withAppTheme } from '@/app/theme'
 import { breakpoints, message, storage } from '@/constants'
 import { setRoutesConfig } from '@/routes/config'
+import { getCurrRoutePath } from '@/routes/exports'
 import { getAuthRoutes, getAsideMenus, clearRouteStore } from '@/routes/limit'
 import { AppMenuRoutes } from '@/routes/route'
 import { useImmer, useSubscriber } from '@/utils/hooks'
@@ -161,14 +162,15 @@ export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
 
   useEffect(() => {
     if (resetRoute) {
+      const refreshRoot = getCurrRoutePath() !== rootRoute
       // 防止首次进入页面 首页直接刷新两次
       if (supportTabs) {
-        publish(message.clearRouteTabs, { refreshRoot: false })
-      } else if (window.location.pathname !== rootRoute) {
+        publish(message.clearRouteTabs, { refreshRoot })
+      } else if (refreshRoot) {
         app.routerHistory.push(rootRoute)
       }
     }
-  }, [AuthRoutes, resetRoute])
+  }, [AuthRoutes, rootRoute, resetRoute])
 
   const headerProps = {
     ...layoutConf.header,

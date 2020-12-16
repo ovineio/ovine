@@ -8,6 +8,7 @@
  */
 
 import { openContextMenus } from 'amis'
+import { MenuItem, MenuDivider } from 'amis/lib/components/ContextMenu'
 import { findTree } from 'amis/lib/utils/helper'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
@@ -15,6 +16,7 @@ import { useHistory, matchPath } from 'react-router-dom'
 
 import { app } from '@/app'
 import { message, rootRoute as defRouteRoute } from '@/constants'
+import { getCurrRoutePath } from '@/routes/exports'
 import { RouteItem } from '@/routes/types'
 import { subscribe } from '@/utils/message'
 
@@ -22,19 +24,21 @@ import * as cache from './cache'
 import ChromeTabs from './chrome_tabs'
 import { StyledRouteTabs } from './styled'
 
+export type RouteMenuItem = Array<MenuItem | MenuDivider>
 type Props = {
   themeNs: string
   routes: RouteItem[]
   rootRoute?: string
   maxCount?: number
   storage?: boolean
+  onContextMenu?: (menus: RouteMenuItem, routeItem: TabItem) => RouteMenuItem
 }
 
-export type TabItem = {
+export type TabItem = Partial<Omit<RouteItem, 'id'>> & {
   pathname: string
   label: string
   // initQuery?: any
-  id?: string
+  id?: string | number
   shared?: boolean
   isRoot?: boolean
   active?: boolean
@@ -51,7 +55,14 @@ export default (props: Props) => {
   const history = useHistory()
 
   // TODO: rootRoute 动态切换存在 BUG，导致不能动态更换 rootRoute
-  const { routes, themeNs, maxCount = 20, storage, rootRoute = defRouteRoute } = props
+  const {
+    routes,
+    themeNs,
+    maxCount = 20,
+    storage,
+    rootRoute = defRouteRoute,
+    onContextMenu,
+  } = props
   const { location } = history
 
   const $storeRef = useRef<RefType>({
@@ -67,32 +78,33 @@ export default (props: Props) => {
     pathname: app.constants.notFound.route,
   }
 
-  // 跳转路由
+  // TODO: 优化跳转逻辑，跳转路由
   const changePath = debounce((path: string) => {
-    history.push(path)
+    history.replace(path)
   }, 100)
 
   // 获取路径信息
-  const getRouteInfo = (path: string) => {
+  const getRouteInfo = (path: string = getCurrRoutePath()) => {
     let rootBackItem: TabItem | undefined
     let matchedItem: TabItem | undefined
     findTree(routes, (item, _, __, items) => {
       const {
         limitLabel,
-        path: routePath = '',
-        nodePath = '',
         // routeTabInitQuery: initQuery,
         exact,
         strict,
+        path: routePath = '',
+        nodePath = '',
       } = item
       const pathname = routePath || nodePath
       const label = item.label || limitLabel || notFindRoute.label
 
       if (!path || path === rootRoute) {
+        const rootItem = { ...item, label, pathname: rootRoute, isRoot: true }
         if (routePath === rootRoute) {
-          matchedItem = { label, pathname: rootRoute, isRoot: true }
+          matchedItem = rootItem
         } else if (nodePath === rootRoute) {
-          rootBackItem = { label, pathname: rootRoute, isRoot: true }
+          rootBackItem = rootItem
         }
         return false
       }
@@ -106,7 +118,7 @@ export default (props: Props) => {
 
       if (isMatch) {
         const shared = !!findTree(items, (i) => i.routeTabShared)
-        matchedItem = { label, pathname: path, shared }
+        matchedItem = { ...item, label, pathname: path, shared }
       }
 
       return isMatch
@@ -121,7 +133,7 @@ export default (props: Props) => {
   const onClearAll = (tabDom?: any, refreshRoot = true) => {
     const { tabs } = $storeRef.current
     // 防止首次进入页面 直接刷新两次
-    if (refreshRoot || window.location.pathname !== $storeRef.current.rootRoute) {
+    if (refreshRoot !== false && getCurrRoutePath() !== $storeRef.current.rootRoute) {
       changePath($storeRef.current.rootRoute)
     }
     setTimeout(() => {
@@ -199,12 +211,20 @@ export default (props: Props) => {
       },
     ].filter(Boolean)
 
+    const routeItemInfo = {
+      ...getRouteInfo(),
+      isRoot: !!target.dataset.root,
+      active: target.hasAttribute('active'),
+    }
+
+    const menus = onContextMenu ? onContextMenu(actions, routeItemInfo) : actions
+
     openContextMenus(
       {
         x: e.clientX,
         y: e.clientY,
       },
-      actions
+      menus
     )
   }
 

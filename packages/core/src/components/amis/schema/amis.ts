@@ -112,7 +112,7 @@ export default (option: Option) => {
 
     // 实现页面跳转
     jumpTo: (to: string, action: Action, ctx: object) => {
-      const { blank } = action || {}
+      const { blank, replace, origin } = action || {}
 
       if (to.indexOf('$') > -1 && ctx) {
         to = tokenize(to, ctx)
@@ -120,7 +120,7 @@ export default (option: Option) => {
 
       log.log('jumpTo', { to, action, ctx })
 
-      jumpTo(to, blank)
+      jumpTo(to, { blank, replace, origin })
     },
     // 地址替换，跟 jumpTo 类似。
     updateLocation: (to: any, replace: boolean = false) => {

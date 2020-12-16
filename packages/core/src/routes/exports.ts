@@ -3,7 +3,7 @@
  * TODO: 添加 unit test
  */
 
-import { cloneDeep, get, isPlainObject } from 'lodash'
+import { cloneDeep, get, isFunction, isPlainObject } from 'lodash'
 
 import { app } from '@/app'
 import { rootRoute } from '@/constants'
@@ -30,6 +30,10 @@ export function getRoutePath(path: string, origin: boolean = false) {
   }
 
   return routePath
+}
+
+export function getCurrRoutePath() {
+  return getRoutePath(window.location.pathname, true)
 }
 
 // 判断是否是本地文件地址
@@ -99,8 +103,8 @@ export function getPagePreset(option: PageFileOption): PagePreset | undefined {
   if (isLocalFile(filePath)) {
     try {
       /* webpackInclude: /pages[\\/].*[\\/]preset\.[t|j]sx?$/ */
-      const pagePest = require(`~/pages/${filePath}/preset`)
-      return pagePest.default
+      const pagePest = require(`~/pages/${filePath}/preset`).default
+      return isFunction(pagePest) ? pagePest(option) : pagePest
     } catch (e) {
       //
     }
@@ -279,26 +283,33 @@ export const normalizeLink = (option: { location?: any; to?: string }) => {
     hash,
   }
 }
-export function jumpTo(link: string, blank: boolean = false) {
+
+export type JumpToOption = {
+  blank?: boolean
+  replace?: boolean
+  origin?: boolean
+}
+export function jumpTo(link: string, option: JumpToOption = {}) {
   const { href } = normalizeLink({ to: link })
 
+  const { blank, replace, origin = true } = option
+
   if (/^https?:\/\//.test(href)) {
-    if (!blank) {
-      window.location.replace(href)
-    } else {
+    if (blank) {
       window.open(href, '_blank')
-    }
+    } else if (replace) {
+        window.location.replace(href)
+      } else {
+        window.location.href = href
+      }
     return
   }
-  const { routePrefix } = app.constants
-  if (!blank) {
-    if (routePrefix === rootRoute) {
-      app.routerHistory.push(href)
-    } else {
-      // TODO: 是否有不需要替换 url 的场景
-      app.routerHistory.push(href.replace(new RegExp(`^${routePrefix}`), rootRoute))
-    }
-  } else {
+
+  if (blank) {
     window.open(`${window.location.origin}${href}`, '_blank')
+  } else {
+    const method = replace ? 'replace' : 'push'
+    // TODO: 确定是否有不需要替换 url 的场景
+    app.routerHistory[method](getRoutePath(href, origin))
   }
 }

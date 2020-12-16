@@ -12,6 +12,7 @@ import { itemUserSchema } from './item_user'
 export const layout = {
   routes,
   type: 'aside-layout', // 侧边栏布局
+  debounceRoute: 100,
   routeTabs: {
     enable: true,
     storage: true,

@@ -28,6 +28,12 @@ export const StyledLimit = styled.div`
       }
     }
 
+    .${ns}Tabs {
+      &-content {
+        padding: 0;
+      }
+    }
+
     &.limit-drawer-normal {
       .${ns}Tabs-pane {
         position: absolute;

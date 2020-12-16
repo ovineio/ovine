@@ -34,27 +34,32 @@ type UseDebounceRenderOption = {
   wait?: number
   setting?: DebounceSettings
 }
-export const useDebounceRender = (option: UseDebounceRenderOption): JSX.Element => {
-  const { getComponent, wait, setting } = option
 
+export const useDebounceRender = (
+  option: UseDebounceRenderOption,
+  deeps: any[]
+): JSX.Element | null => {
+  const { getComponent, wait, setting } = option
   const [refreshKey, setRefreshKey] = useState('')
-  const refreshTrigger = useRef(() =>
-    lodashDebounce(
-      () => {
-        setRefreshKey(uniqueId())
-      },
-      wait,
-      setting
-    )
-  )
+  const refreshTrigger = useRef<any>()
 
   useEffect(() => {
+    if (!refreshTrigger.current) {
+      refreshTrigger.current = lodashDebounce(
+        () => {
+          setRefreshKey(uniqueId())
+        },
+        wait,
+        setting
+      )
+    }
     if (wait) {
       refreshTrigger.current()
     }
-  })
-
-  const CachedComponent = useMemo(getComponent, [refreshKey])
+  }, deeps)
+  const CachedComponent = useMemo(() => {
+    return !refreshKey ? null : getComponent()
+  }, [refreshKey])
 
   return CachedComponent
 }

@@ -35,17 +35,17 @@ export class LibDropdown extends React.Component<Props> {
       interval: 100, // number = milliseconds for onMouseOver polling interval
       timeout: 100, // number = milliseconds delay before onMouseOut
       ...hover,
-      over: doOpen, // function = onMouseOver callback (REQUIRED)
-      out: doClose, // function = onMouseOut callback (REQUIRED)
+      over: onOpen, // function = onMouseOver callback (REQUIRED)
+      out: onClose, // function = onMouseOut callback (REQUIRED)
     }
 
-    function doOpen(this: any) {
+    function onOpen(this: any) {
       $('ul:first', this)
         .removeClass(animation.leave)
         .addClass(`show ${animation.enter}`)
     }
 
-    function doClose(this: any) {
+    function onClose(this: any) {
       const $ul = $('ul:first', this)
         .removeClass(animation.enter)
         .addClass(animation.leave)

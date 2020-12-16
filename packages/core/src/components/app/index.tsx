@@ -9,7 +9,7 @@ import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
 import AsideLayout from '@/components/aside_layout'
 import BactTop from '@/components/back_top'
-import { message, storage } from '@/constants'
+import { message, rootRoute, storage } from '@/constants'
 import { PrestRoute, PrivateRoute } from '@/routes/route'
 import GlobalStyle from '@/styled/global'
 import { useImmer, useSubscriber } from '@/utils/hooks'
@@ -52,12 +52,15 @@ const AppComponent = () => {
     log.log('App Mounted.')
     const currRoute = app.routerHistory.location.pathname
     const { loginRoute } = app.constants
+
     // 第一次进入登录页面时 重定向到首页进行 鉴权
     if (loginRoute === currRoute) {
-      app.routerHistory.push('/')
+      app.routerHistory.replace(rootRoute)
     }
-    if (app.hook?.onAppMounted) {
-      app.hook?.onAppMounted()
+
+    const onAppMounted = app.hook?.onAppMounted
+    if (onAppMounted) {
+      onAppMounted()
     }
 
     return () => {

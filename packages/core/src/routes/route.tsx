@@ -1,5 +1,8 @@
 /**
  * APP 路由相关组件
+ * 优化： 由于route读取数据时，会有短暂的 404
+ * BUG: 页面切换太快时，会导致页面报错
+ * Uncaught (in promise) Error: [mobx-state-tree] Cannot modify 'ErrorDetail[]@/errorData [dead]', the object is protected and can only be modified by using an action.
  */
 
 import { Spinner } from 'amis'
@@ -14,6 +17,7 @@ import React, {
   useState,
   useEffect,
   isValidElement,
+  useRef,
 } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
@@ -190,6 +194,12 @@ export const PrestRoute = (props: PresetRouteProps) => {
   } = props
 
   const routePath = getRoutePath(path)
+  const locationKey = rest?.location?.key || ''
+  const keyRef = useRef('')
+  if (locationKey) {
+    keyRef.current = locationKey
+  }
+
   const RouteComponent = (
     <Route
       {...rest}
@@ -220,10 +230,15 @@ export const PrestRoute = (props: PresetRouteProps) => {
     return RouteComponent
   }
 
-  const CachedRoute = useDebounceRender({
-    getComponent: getRouteComponent,
-    wait: debounceRoute,
-  })
+  // TODO: 在 qiankun 中， 每次点击路由切换会，刷新强制触发页面，两次更新。在飞 qiankun 页面下，没问题。
+  // 该解决方案会导致页面切换时会闪一下
+  const CachedRoute = useDebounceRender(
+    {
+      getComponent: getRouteComponent,
+      wait: debounceRoute,
+    },
+    [keyRef.current]
+  )
 
   return debounceRoute ? CachedRoute : getRouteComponent()
 }
