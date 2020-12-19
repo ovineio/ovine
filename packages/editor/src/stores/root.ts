@@ -1,6 +1,6 @@
 import { toast } from 'amis'
-import _ from 'lodash'
-import { types, getEnv } from 'mobx-state-tree'
+import { isEmpty, isEqual } from 'lodash'
+import { types } from 'mobx-state-tree'
 
 import { app } from '@core/app'
 
@@ -31,29 +31,35 @@ const RootStore = types
     return {
       // 脏数据检查，如果未保存的数据，给出适当提示 https://blog.csdn.net/big1989wmf/article/details/70144000
       get isDirty() {
-        return !_.isEqual(editorStore.schema, self.lastSavedSchema)
+        if (isEmpty(self.lastSavedSchema)) {
+          return false
+        }
+        return !isEqual(editorStore.schema, self.lastSavedSchema)
       },
       /**
        * 以下内容主要用于 amis-editor 中的 store 获取 env
        */
-      get fetcher() {
-        return getEnv(self).fetcher
-      },
-      get notify() {
-        return getEnv(self).notify
-      },
-      get alert() {
-        return getEnv(self).alert
-      },
-      get copy() {
-        return getEnv(self).copy
-      },
-      get updateLocation() {
-        return getEnv(self).copy
-      },
-      get jumpTo() {
-        return getEnv(self).copy
-      },
+      // get fetcher() {
+      //   return getEnv(self).fetcher
+      // },
+      // get notify() {
+      //   return getEnv(self).notify
+      // },
+      // get alert() {
+      //   return getEnv(self).alert
+      // },
+      // get copy() {
+      //   return getEnv(self).copy
+      // },
+      // get isCancel() {
+      //   return getEnv(self).isCancel
+      // },
+      // get updateLocation() {
+      //   return getEnv(self).updateLocation
+      // },
+      // get jumpTo() {
+      //   return getEnv(self).jumpTo
+      // },
     }
   })
   .actions((self) => {

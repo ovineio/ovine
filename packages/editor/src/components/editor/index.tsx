@@ -31,9 +31,9 @@ export default inject('store')(
         <GlobalEditorStyle />
         <Editor
           ref={$editor}
+          preview={false}
           className="is-fixed"
           theme={app.theme.getName()}
-          preview={false}
           value={editorStore.schema}
           onChange={(value: any) => editorStore.updateSchema(value)}
           // $schemaUrl={schemaUrl}

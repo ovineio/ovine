@@ -19,22 +19,9 @@ const placeholder = {
   html: 'placeholder',
 }
 
-// let isLoaded = false
-
 export default inject('store')(
   observer((props) => {
     const { isPreview } = props.store
-    // const [initEditor] = useState(false)
-
-    // useEffect(() => {
-    //   // 兼容非 "default" 主题，引起加载主题文件的异常
-
-    //   if (!isLoaded && app.theme.getName() === 'cxd') {
-    //     isLoaded = true
-    //     changeAppTheme('cxd')
-    //   }
-    //   setEditorMounted(true)
-    // }, [])
 
     return (
       <S.StyledLayout>

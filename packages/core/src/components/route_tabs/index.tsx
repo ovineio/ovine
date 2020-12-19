@@ -50,6 +50,7 @@ type RefType = {
   $tabsDom: HTMLDivElement | null
   rootRoute: string
   tabs: any
+  routes: RouteItem[]
 }
 export default (props: Props) => {
   const history = useHistory()
@@ -67,11 +68,13 @@ export default (props: Props) => {
 
   const $storeRef = useRef<RefType>({
     rootRoute,
+    routes,
     $tabs: undefined,
     $tabsDom: null,
     tabs: {},
   })
   $storeRef.current.rootRoute = rootRoute
+  $storeRef.current.routes = routes
 
   const notFindRoute: TabItem = {
     label: '页面不存在',
@@ -87,7 +90,7 @@ export default (props: Props) => {
   const getRouteInfo = (path: string = getCurrRoutePath()) => {
     let rootBackItem: TabItem | undefined
     let matchedItem: TabItem | undefined
-    findTree(routes, (item, _, __, items) => {
+    findTree($storeRef.current.routes, (item, _, __, items) => {
       const {
         limitLabel,
         // routeTabInitQuery: initQuery,

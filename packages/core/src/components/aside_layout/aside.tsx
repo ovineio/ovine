@@ -50,6 +50,7 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
     badgeClassName,
     path,
   } = link
+
   const children = []
 
   if (sideVisible === false) {

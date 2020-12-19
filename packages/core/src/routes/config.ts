@@ -38,11 +38,13 @@ const resolveConfig = (nodes: RouteItem[]) => {
 
     if (exact && children) {
       // 当父页面允许访问时，默认添加 /parent 后缀
-      const parentPath = `${path || item.nodePath}/${parentKey}`
+      const limitKey = `${item.nodePath}/${parentKey}`
       // 权限通过，才设置对应的 path
-      if (checkLimitByNodePath(parentPath)) {
-        item.path = parentPath
+      if (checkLimitByNodePath(limitKey)) {
+        item.path = path || item.nodePath
         item.pathToComponent = pathToComponent || item.nodePath || path || ''
+      } else {
+        delete item.path
       }
     }
     if (!path && (pathToComponent || (!children && !pathToComponent))) {
