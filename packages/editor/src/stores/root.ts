@@ -21,8 +21,6 @@ const initState = {
 const RootStore = types
   .model('RootStore', {
     isPreview: types.boolean,
-    // hasPrevStep: types.boolean,
-    // hasNextStep: types.boolean,
     lastSavedSchema: types.frozen({}),
     editorInstance: types.frozen<any>({}),
     option: types.frozen<EditorProps>({}),
@@ -36,38 +34,9 @@ const RootStore = types
         }
         return !isEqual(editorStore.schema, self.lastSavedSchema)
       },
-      /**
-       * 以下内容主要用于 amis-editor 中的 store 获取 env
-       */
-      // get fetcher() {
-      //   return getEnv(self).fetcher
-      // },
-      // get notify() {
-      //   return getEnv(self).notify
-      // },
-      // get alert() {
-      //   return getEnv(self).alert
-      // },
-      // get copy() {
-      //   return getEnv(self).copy
-      // },
-      // get isCancel() {
-      //   return getEnv(self).isCancel
-      // },
-      // get updateLocation() {
-      //   return getEnv(self).updateLocation
-      // },
-      // get jumpTo() {
-      //   return getEnv(self).jumpTo
-      // },
     }
   })
   .actions((self) => {
-    // const setHistoryStatus = (status: { prev: boolean; next: boolean }) => {
-    //   self.hasPrevStep = status.prev
-    //   self.hasNextStep = status.next
-    // }
-
     const togglePreview = (toggle?: any) => {
       self.isPreview = typeof toggle === 'boolean' ? toggle : !self.isPreview
     }

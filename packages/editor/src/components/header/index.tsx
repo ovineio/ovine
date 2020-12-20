@@ -3,7 +3,7 @@ import cls from 'classnames'
 import copy from 'copy-to-clipboard'
 import _ from 'lodash'
 import { observer, inject } from 'mobx-react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { app } from '@core/app'
 import { saveToFile } from '@core/utils/file'
@@ -24,7 +24,9 @@ export default inject('store')(
       setLastSavedSchema,
       editorInstance,
     } = props.store
+
     const { breadcrumb, onExit, onSave, saveApi, saveInterval } = option
+    const timerRef = useRef<number>(0)
 
     const hasPrevStep = editorInstance.canUndo()
     const hasNextStep = editorInstance.canRedo()
@@ -149,9 +151,18 @@ export default inject('store')(
 
     useEffect(() => {
       if (saveApi && saveInterval > 2 * 1000) {
-        setTimeout(() => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current)
+        }
+        timerRef.current = setInterval(() => {
           saveSchemaApi(true)
-        }, saveInterval)
+        }, saveInterval) as any
+      }
+
+      return () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current)
+        }
       }
     }, [])
 

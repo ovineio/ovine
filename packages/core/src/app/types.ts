@@ -5,7 +5,7 @@ import { DefaultTheme } from 'styled-components'
 import { LoggerConfig } from '@/utils/logger'
 import { Request } from '@/utils/request'
 import { ReqOption } from '@/utils/request/types'
-import { ClassMethod, DeepPartial, Map } from '@/utils/types'
+import { ClassMethod, DeepPartial, Map, ObjectOf } from '@/utils/types'
 
 import { AppTheme } from './theme'
 
@@ -23,9 +23,12 @@ export type EnvConfig = {
   [env: string]: DeepPartial<Env>
 }
 
-export type AppAmis = RenderOptions & {
-  definitions?: any
-}
+export type AppAmis = Partial<
+  RenderOptions & {
+    constants: ObjectOf<string | number>
+    definitions: any
+  }
+>
 
 type ConstantsType = {
   routePrefix: string | (() => string)

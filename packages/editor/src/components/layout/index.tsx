@@ -1,3 +1,4 @@
+import { pick } from 'lodash'
 import { observer, inject } from 'mobx-react'
 import React from 'react'
 
@@ -21,11 +22,12 @@ const placeholder = {
 
 export default inject('store')(
   observer((props) => {
-    const { isPreview } = props.store
+    const { isPreview, option } = props.store
+    const previewProps = pick(option, ['data'])
 
     return (
       <S.StyledLayout>
-        <Amis schema={placeholder} />
+        <Amis schema={placeholder} props={previewProps} />
         <Header />
         <S.StyledBody>
           {isPreview && (

@@ -9,6 +9,7 @@ static
 node_modules
 
 *.ejs
+editor.view.*
 
 /.ovine
 

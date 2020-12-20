@@ -1,10 +1,12 @@
 import { resolveRenderer } from 'amis'
 import { RendererConfig } from 'amis/lib/factory'
 import { Schema } from 'amis/lib/types'
+import { filter } from 'amis/lib/utils/tpl'
 import { get, isArray, isEmpty, isObject, map, isFunction } from 'lodash'
 
 import { checkLimitByKeys } from '@/routes/limit/exports'
 import logger from '@/utils/logger'
+import { ObjectOf } from '@/utils/types'
 
 import { LibSchema, SchemaPreset } from './types'
 
@@ -87,18 +89,32 @@ export const convertToAmisSchema = (
   option: {
     preset?: SchemaPreset
     definitions?: any
+    constants?: ObjectOf<string>
   }
 ): LibSchema => {
-  const { definitions, preset } = option
+  const { definitions, preset, constants } = option
 
-  if (!preset && !definitions) {
+  if (!preset && !definitions && !constants) {
     return schema
   }
 
   const { nodePath } = preset || {}
 
   map(schema, (value, key) => {
-    // Omit "apis" and "limits"
+    // trans constants key
+    if (constants) {
+      if (typeof value === 'string' && value.indexOf('${') > -1) {
+        const newVal = filter(value, constants)
+        schema[key] = newVal
+      }
+      if (typeof key === 'string' && key.indexOf('${') > -1) {
+        const newKey = filter(key, constants)
+        schema[newKey] = value
+        delete schema[key]
+      }
+    }
+
+    // Omit " apis" and "limits"
     if (key === 'apis' || key === 'limits') {
       return
     }
@@ -155,14 +171,14 @@ export const convertToAmisSchema = (
 
 // 处理自定义格式
 export const resolveLibSchema = (schema: LibSchema) => {
-  const { preset = {}, definitions, ...rest } = schema
+  const { preset = {}, definitions, constants, ...rest } = schema
   const reformSchema = { definitions, preset, ...rest }
 
-  if (isEmpty(preset) && isEmpty(definitions)) {
+  if (isEmpty(preset) && isEmpty(definitions) && !constants) {
     return reformSchema
   }
 
-  convertToAmisSchema(reformSchema, { definitions, preset })
+  convertToAmisSchema(reformSchema, { definitions, preset, constants })
   filterSchemaLimit(rest, preset)
 
   return reformSchema
@@ -175,19 +191,20 @@ export const libResolver = (path: string, schema?: Schema, props?: any): null | 
 
 // 顶层有 type 与 css 属性， 自动注入 lib-css
 export const wrapCss = (schema: LibSchema) => {
-  const { css: getCss, tag, htmlClassName, definitions, preset, ...rest } = schema
+  const { css: getCss, tag, htmlClassName, definitions, constants, preset, ...rest } = schema
 
   if (!getCss && !tag && !htmlClassName) {
     return schema
   }
 
   return {
-    css: getCss,
     tag,
     preset,
-    htmlClassName,
-    type: 'lib-css',
-    body: rest,
     definitions,
+    constants,
+    htmlClassName,
+    body: rest,
+    css: getCss,
+    type: 'lib-css',
   }
 }

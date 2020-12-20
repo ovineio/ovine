@@ -14,9 +14,11 @@ import { LibSchema } from './types'
 
 export type AmisProps = {
   schema: LibSchema
-  props?: RendererProps & {
-    affixOffsetTop?: boolean
-  }
+  props?: Partial<
+    RendererProps & {
+      affixOffsetTop: boolean
+    }
+  >
   option?: RenderOptions
 }
 
@@ -51,7 +53,7 @@ export const Amis = (props: AmisProps) => {
     if (!rawSchema || !isObject(rawSchema) || isEmpty(rawSchema)) {
       return {
         type: 'html',
-        html: '请传入有效 schema',
+        html: '请传入有效的 schema',
       }
     }
 
@@ -59,6 +61,7 @@ export const Amis = (props: AmisProps) => {
     const schema = cloneDeep({
       ...rawSchema,
       // Merge amis global definitions
+      constants: app.amis.constants,
       definitions: {
         ...app.amis.definitions,
         ...rawSchema.definitions,

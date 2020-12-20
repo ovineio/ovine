@@ -1,7 +1,5 @@
-// e.exports = require("axios")
-
-// import { Editor } from 'amis-editor'
 import cls from 'classnames'
+import { pick } from 'lodash'
 import { observer, inject } from 'mobx-react'
 import React, { useEffect, useRef } from 'react'
 
@@ -13,30 +11,45 @@ import { GlobalEditorStyle } from './styled'
 
 export default inject('store')(
   observer((props) => {
-    const { isPreview, setEditorInstance, setLastSavedSchema } = props.store
+    const { isPreview, setEditorInstance, setLastSavedSchema, option } = props.store
     const { editorStore } = props
     const $editor = useRef(null)
+    const editorProps = pick(option, [
+      'plugins',
+      'isMobile',
+      'autoFocus',
+      'schemaFilter',
+      'className',
+      'amisEnv',
+      'ctx',
+    ])
+    const { className } = editorProps
+    const editorData = {
+      ...option.data,
+      ...app.amis.constants, // 默认兼容 常量的支持
+    }
 
     useEffect(() => {
       setEditorInstance($editor.current) // 主要用历史记录更新
-      // TODO 异步获取时兼容
       setLastSavedSchema(editorStore.schema) // 第一次存储初始化数据
+
       return () => {
         setEditorInstance()
       }
     }, [])
 
     return (
-      <div className={cls({ 'd-none': isPreview })}>
+      <div className={cls(className, { 'd-none': isPreview })}>
         <GlobalEditorStyle />
         <Editor
+          {...editorProps}
           ref={$editor}
+          data={editorData}
           preview={false}
           className="is-fixed"
           theme={app.theme.getName()}
           value={editorStore.schema}
           onChange={(value: any) => editorStore.updateSchema(value)}
-          // $schemaUrl={schemaUrl}
         />
       </div>
     )

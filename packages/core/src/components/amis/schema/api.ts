@@ -83,17 +83,18 @@ export const libFetcher = (
   const {
     requestAdaptor,
     adaptor,
-    onPreRequest,
     onRequest,
     onFakeRequest,
-    onSuccess,
     onError,
   } = amisApi
+  let { onPreRequest, onSuccess  } = amisApi
 
-  if (requestAdaptor || adaptor) {
-    log.warn(
-      '不兼容 requestAdaptor,adaptor 参数，请使用 onPreRequest, onSuccess 代替。文档地址：https://ovine.igroupes.com/org/docs/modules/request'
-    )
+  if (requestAdaptor && !onPreRequest) {
+    onPreRequest = requestAdaptor
+  }
+
+  if (adaptor && !onSuccess) {
+    onSuccess = adaptor
   }
 
   // 检测是回调字符串 转 Function

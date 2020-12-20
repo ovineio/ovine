@@ -29,3 +29,7 @@ export const appConstants = {
   loginRoute: '/login',
   enableBackTop: true,
 }
+
+export const amisConstants = {
+  TEST: 100,
+}
