@@ -5,10 +5,8 @@ import { cloneDeep, isEmpty, isPlainObject } from 'lodash'
 import { parse } from 'qs'
 
 import { app } from '@/app'
-import logger from '@/utils/logger'
 import { normalizeUrl } from '@/utils/request'
-
-const log = logger.getLogger('lib:amis:api')
+import { str2function } from '@/utils/tool'
 
 /**
  * amis 请求返回值格式
@@ -33,18 +31,6 @@ function responseAdaptor(res: any) {
   }
 
   return payload
-}
-
-// 字符串转 Function
-function str2function(name: string, content: string, ...args: Array<string>): Function | null {
-  try {
-    // eslint-disable-next-line
-    const func = new Function(...args, content)
-    return func
-  } catch (error) {
-    log.warn(`Request模块 ${name} 转 Function 错误`, error)
-    return null
-  }
 }
 
 /**
@@ -80,14 +66,8 @@ export const libFetcher = (
   amisApi.api = amisApi.api || amisApi.url
   amisApi.config = option
   amisApi.isEnvFetcher = true
-  const {
-    requestAdaptor,
-    adaptor,
-    onRequest,
-    onFakeRequest,
-    onError,
-  } = amisApi
-  let { onPreRequest, onSuccess  } = amisApi
+  const { requestAdaptor, adaptor, onRequest, onFakeRequest, onError } = amisApi
+  let { onPreRequest, onSuccess } = amisApi
 
   if (requestAdaptor && !onPreRequest) {
     onPreRequest = requestAdaptor

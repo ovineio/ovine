@@ -3,8 +3,9 @@ import { parse } from 'qs'
 import { createElement } from 'react'
 
 import serializeObject from '@/assets/scripts/serialize'
-
 import * as Types from '@/utils/types'
+
+import logger from './logger'
 
 /**
  * 从数组中随机抽取一个
@@ -213,4 +214,20 @@ export function deserialize(source: string = ''): any {
 
 export function rmUrlRepeatSlant(url: string) {
   return url.replace(/\/{2,}/g, '/').replace(/(https?):\//g, '$1://')
+}
+
+// 字符串转 Function
+export function str2function(
+  name: string,
+  content: string,
+  ...args: Array<string>
+): Function | null {
+  try {
+    // eslint-disable-next-line
+    const func = new Function(...args, content)
+    return func
+  } catch (error) {
+    logger.getLogger('lib:tool:str2function').warn(`${name} 转 Function 错误`, error)
+    return null
+  }
 }

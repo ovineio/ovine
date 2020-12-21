@@ -75,7 +75,7 @@ export const schema = {
                       className: 'rain-chart',
                       name: 'rain-chart',
                       height: 295,
-                      source: '${chart}',
+                      source: '$chart',
                     },
                   ],
                 },
@@ -85,7 +85,7 @@ export const schema = {
                   affixHeader: false,
                   columnsTogglable: false,
                   className: 'bar-table m-b-none',
-                  source: '${table}',
+                  source: '$table',
                   columns: [
                     {
                       name: 'date',

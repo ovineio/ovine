@@ -11,7 +11,7 @@ import { msgKeys } from '~/app/constants'
 import { request } from '~/app/request'
 
 const { url: src } = request.getUrlByOption({
-  url: 'GET ovapi/user/code',
+  url: 'ovapi/user/code',
 })
 
 export default () => {

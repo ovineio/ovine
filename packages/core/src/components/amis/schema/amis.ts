@@ -3,7 +3,6 @@ import { RenderOptions, RootRenderProps } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
 import { tokenize } from 'amis/lib/utils/tpl-builtin'
 import copy from 'copy-to-clipboard'
-
 import { get } from 'lodash'
 import { DefaultTheme } from 'styled-components'
 

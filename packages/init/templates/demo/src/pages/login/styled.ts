@@ -43,6 +43,7 @@ export default ({ colors }: DefaultTheme) => css`
   }
 
   .code-img {
+    box-sizing: content-box;
     height: 34px;
     margin-left: 10px;
     cursor: pointer;

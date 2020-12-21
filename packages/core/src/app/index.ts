@@ -15,6 +15,7 @@ import { AppConfig, EnvConfig, AppDefInstance, AppMountedProps } from './types'
 let source: any = {}
 
 const initConfig: AppConfig = {
+  // TODO: 处理某些请夸下的多实例切换，而不是全局唯一实例
   request: new Request(),
   theme: new AppTheme(),
   styled: {
