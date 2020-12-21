@@ -103,11 +103,11 @@ export const convertToAmisSchema = (
   map(schema, (value, key) => {
     // trans constants key
     if (constants) {
-      if (typeof value === 'string' && value.indexOf('${') > -1) {
+      if (typeof value === 'string' && /\$\{[A-Z][A-Z0-9_]*\}/.test(value)) {
         const newVal = filter(value, constants)
         schema[key] = newVal
       }
-      if (typeof key === 'string' && key.indexOf('${') > -1) {
+      if (typeof key === 'string' && /\$\{[A-Z][A-Z0-9_]*\}/.test(key)) {
         const newKey = filter(key, constants)
         schema[newKey] = value
         delete schema[key]

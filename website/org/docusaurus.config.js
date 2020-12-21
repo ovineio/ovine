@@ -8,6 +8,7 @@ module.exports = {
   projectName: 'ovine', // Usually your repo name.
   url: 'https://careytoboo.github.io/ovine',
   baseUrl: '/org/',
+  onBrokenLinks: 'ignore',
   themeConfig: {
     algolia: {
       apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',

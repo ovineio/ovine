@@ -4,10 +4,6 @@
     "packages": [
       "packages/*",
       "website/*"
-    ],
-    "nohoist": [
-      "@docusaurus/*",
-      "html-minifier-terser"
     ]
   },
   "keywords": [

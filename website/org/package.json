@@ -2,6 +2,12 @@
   "name": "@ovine/org",
   "version": "0.1.0-alpha.1",
   "private": true,
+  "workspaces": {
+    "nohoist": [
+      "@docusaurus/*",
+      "html-minifier-terser"
+    ]
+  },
   "scripts": {
     "start": "docusaurus start -p 7052",
     "build": "docusaurus build",
@@ -14,6 +20,10 @@
     "docsearch.js": "^2.6.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
+  },
+  "resolutions": {
+    "terser": "4.8.0",
+    "**/terser-webpack-plugin": "^1.4.3"
   },
   "browserslist": {
     "production": [
