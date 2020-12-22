@@ -3,14 +3,19 @@
   "version": "0.1.0-alpha.1",
   "description": "your awesome project.",
   "private": true,
+  "workspaces": {
+    "nohoist": [
+      "@ovine/*"
+    ]
+  },
   "scripts": {
     "gen:static": "node-sass -v && yarn scss && yarn dll",
-    "start": "ovine dev --mock",
+    "start": "yarn cp:lib && ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
-    "build:test": "yarn eslint && ovine build --mock",
-    "build:staging": "yarn eslint && ovine build --env=staging",
-    "test:build": "yarn cp:lib && ovine build --bundle-analyzer",
+    "build:test": "cross-var $npm_execpath run eslint && ovine build --mock",
+    "build:staging": "cross-var $npm_execpath run eslint && ovine build --env=staging",
+    "test:build": "cross-var $npm_execpath run cp:lib && ovine build --bundle-analyzer",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "ovine": "ovine",
     "scss": "ovine scss",

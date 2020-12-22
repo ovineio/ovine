@@ -7,7 +7,7 @@
     "access": "public"
   },
   "scripts": {
-    "tsc:editor": "yarn clean && yarn copy && ttsc",
+    "tsc:editor": "rimraf ./lib && yarn copy && ttsc",
     "dev": "ttsc -w ",
     "clean": "rimraf ./lib",
     "copy": "node ./copy_editor.js",

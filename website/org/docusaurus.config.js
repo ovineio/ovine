@@ -36,7 +36,7 @@ module.exports = {
         },
         { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/login' },
-        { label: '编辑器', position: 'left', href: 'https://ovine.igroupes.com/demo/craft' },
+        { label: '编辑器', position: 'left', href: 'https://ovine.igroupes.com/demo/editor' },
       ],
     },
     footer: {

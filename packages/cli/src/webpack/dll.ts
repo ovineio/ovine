@@ -90,7 +90,7 @@ function addEditorFilesToDll(options: ConfigOptions) {
   const getEditorFile = (filePath: string) =>
     getModulePath(siteDir, `lib/editor/lib/assets/${filePath}`) || ''
 
-  // TODO: "axios" pkg is not necessary
+  // TODO: do not build dll with editor.view.js ----> use lazy load for it.
   const editorPath = getEditorFile('scripts/editor.view.js')
   if (editorPath) {
     dllModules.push(editorPath)

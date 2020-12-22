@@ -3,23 +3,21 @@ slug: contribute
 title: 贡献指南
 ---
 
-> 强烈推荐使用 yarn 作为包管理器
+> 项目内使用了 workspace 功能，并且 scripts 也都是使用 yarn，几乎必须使用 yarn 作为包管理器。
 
 #### 安装项目依赖
 
-1. 在 `ovine/` 根目录下
+1. 首次 `clone` 项目，在 `ovine/` 根目录下
 
-   - 执行 `yarn install` 安装依赖包
-   - 执行 `yarn tsc` 编译项目代码
+   - 如果未使用过 `yarn`, 需要全局安装一下 `yarn`, 防止无法正常启动项目
+   - 执行 `yarn install` 安装依赖包，或者使用 `npm v7+`, 并执行 `npm install --legacy-peer-deps`，也可正常安装依赖
+   - 如果没有安装 `node-sass` 需要安装一下（全局/项目内安装均可,node-sass 安装比较繁琐,建议全局安装）
+   - 执行 `yarn prepare:dev` 编译项目代码，并将自动启动 `demo` 项目
 
-2. 启动 `example` 项目
-
-   - 进入 `ovine/website/example/` 目录下
-   - 删除当前目录下 `./node_modules` 目录，需要重新安装
-   - 如果没有安装 `node-sass` 需要安装一下（全局/项目内安装均可）
-   - 执行 `yarn install` 重新安装依赖包
-   - 执行 `yarn gen:static` 生成一些静态文件
-   - 执行 `yarn dev:lib` 正常开启本地服务器，进行开发
+2. 正常开发 `example` 项目
+   - 直接 在 `ovine/` 目录中，执行 `yarn dev:demo`
+   - 或者，进入 `ovine/website/example/` 目录下
+     - 执行 `yarn dev:lib` 正常开启本地服务器，进行开发
 
 ## Ovine 简单介绍
 

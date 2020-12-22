@@ -26,7 +26,7 @@
     "admin-template"
   ],
   "scripts": {
-    "tsc": "yarn clean && tsc",
+    "tsc": "rimraf ./lib && tsc",
     "dev": "tsc -w",
     "clean": "rimraf ./lib",
     "clean:tmp": "rimraf ./tmp/*",

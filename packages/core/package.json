@@ -23,7 +23,7 @@
   "author": "carey toboos",
   "license": "MIT",
   "scripts": {
-    "tsc": "yarn clean && ttsc",
+    "tsc": "rimraf ./lib && ttsc",
     "dev": "ttsc -w",
     "clean": "rimraf ./lib"
   },

@@ -11,8 +11,7 @@ title: 快速开始
 
 ```bash
 # !! my-app 是你想创建应用的名字，也就是项目的文件夹名。可以按照自己需要修改。
-npx @ovine/init init my-app
-# linux系统需要将此命令替换为: npx @ovine/init@latest init my-app
+npx @ovine/init@latest init my-app
 
 cd my-app # 切换到生成的项目文件夹下
 yarn install # 安装项目依赖
@@ -28,7 +27,7 @@ yarn start # 启动项目
 本项目依赖了大量的第三方依赖包，此过程会因为网络环境，或者镜像源的不同，时间会有差异，也有可能会中断。如果安装包存在异常，可参考切换为淘宝镜像源。
 
 ```bash
-## 切换为淘宝镜像源, 可能不是最新包
+## 切换为淘宝镜像源, 可能不是最新包。(需要刚发布的包时，可以先使用官方镜像，然后将其换回来)
 npm config set registry http://registry.npm.taobao.org/
 ## 还原为官方镜像
 npm config set registry https://registry.npmjs.org/
@@ -41,16 +40,16 @@ npm config set registry https://registry.npmjs.org/
 > !! "my-app" 是你想创建应用的名字，也就是项目的文件夹名，可以按照自己需要修改。
 
 ```bash
-# linux系统需要将命令替换为: npx @ovine/init@~0.0.1 init my-app
-npx @ovine/init init my-app
+# 使用最新包生成 ovine 应用
+npx @ovine/init@latest init my-app
 ```
 
 执行初始化命令时有以下步骤
 
 - 选择应用模版
 
-  - `basic` 基础模版只有项目框架，几乎无任何其他代码，需要自己添加业务代码
   - `demo` 官方提供的 demo 项目模版，与官方 demo 类似，可直接上手开发
+  - `basic` 基础模版只有项目框架，几乎无任何其他代码，需要自己添加业务代码
   - `Git repository` 直接拉取 git 仓库代码作为模版
 
 - 选择是否使用 Typescript?
@@ -99,7 +98,7 @@ my-app
 │   ├── styles
 │   └── xxx.json
 └── src                    源代码目录
-    ├── index.js              唯一入口文件
+    ├── app.auto.js           ovine 项目配置
     ├── pages                 路由页面文件目录
     │   ├── blog
     │   │   ├── index.js         页面唯一入口
