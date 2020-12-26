@@ -22,7 +22,7 @@ module.exports = (option) => {
     title: 'Ovine管理系统', // 页面标题
     envModes: ['localhost', 'staging', 'production'], // 环境列表
     ui: {
-      initTheme: 'cxd',
+      defaultTheme: 'cxd',
     },
     devServer: {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀

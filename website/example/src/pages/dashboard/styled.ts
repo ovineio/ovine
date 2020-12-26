@@ -69,6 +69,10 @@ export default ({ colors, ns }: DefaultTheme) => css`
       line-height: 1.5;
     }
   }
+  .${ns}Chart {
+    min-width: 100px !important;
+    min-height: 100px !important;
+  }
   .${ns}Form {
     &-item button {
       background-color: transparent;

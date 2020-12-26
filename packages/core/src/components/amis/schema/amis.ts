@@ -4,7 +4,6 @@ import { Action } from 'amis/lib/types'
 import { tokenize } from 'amis/lib/utils/tpl-builtin'
 import copy from 'copy-to-clipboard'
 import { get } from 'lodash'
-import { DefaultTheme } from 'styled-components'
 
 import { app } from '@/app'
 import { jumpTo, normalizeLink } from '@/routes/exports'
@@ -17,17 +16,17 @@ const log = logger.getLogger('lib:components:amis:schema')
 
 type Option = {
   schema: LibSchema
-  theme: DefaultTheme
   option?: RenderOptions
   props?: RootRenderProps
   [prop: string]: any
 }
 
 export default (option: Option) => {
-  const { schema, props = {}, theme, option: amisOption } = option
+  const { schema, props = {}, option: amisOption = {} } = option
+  const { theme, locale } = amisOption
 
   const baseEnv = {
-    theme: theme.name,
+    theme,
     fetcher: libFetcher,
 
     // 是否取消 ajax请求
@@ -83,6 +82,7 @@ export default (option: Option) => {
         tipMsg(msgText, msgTitle)
       }
     },
+
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
       let confirmTitle = title || '提示'
@@ -151,12 +151,18 @@ export default (option: Option) => {
     // rendererResolver: libResolver,
   }
 
-  const amisRenderOption: any = {
+  const rendererOption: any = {
     ...libOptions,
     ...app.amis,
     ...amisOption,
-    theme: theme.name,
   }
 
-  return render(schema, props, amisRenderOption)
+  const rendererProps = {
+    ...props,
+    theme,
+    locale,
+  }
+
+  // console.log('@===>', props, rendererOption)
+  return render(schema, rendererProps, rendererOption)
 }

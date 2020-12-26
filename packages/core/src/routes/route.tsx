@@ -58,7 +58,9 @@ export const getPageAsync = (option: PresetRouteProps) => {
       if (isFunction(content)) {
         compProps.LazyFileComponent = content
       } else {
-        content.schema = isFunction(getSchema) ? getSchema(option) : schema || {}
+        if (schema || getSchema) {
+          content.schema = isFunction(getSchema) ? getSchema(option) : schema || {}
+        }
         compProps.lazyFileAmisProps = content
       }
 

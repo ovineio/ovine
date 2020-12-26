@@ -29,12 +29,12 @@ module.exports = {
       },
       items: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
+        { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         {
           label: '迭代进度',
           position: 'left',
           to: 'https://github.com/users/CareyToboo/projects/2',
         },
-        { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/login' },
         { label: '编辑器', position: 'left', href: 'https://ovine.igroupes.com/demo/editor' },
       ],

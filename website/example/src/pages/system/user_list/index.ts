@@ -268,3 +268,11 @@ export const schema = {
     },
   },
 }
+
+const options = {
+  props: {
+    locale: 'en',
+  },
+}
+
+export default options

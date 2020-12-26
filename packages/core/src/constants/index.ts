@@ -27,7 +27,7 @@ export const message = {
   storeRoot: '$store/',
   layoutSpinner: '$store/libLayoutSpinner',
   appTheme: 'libAppThemeMsg',
-  appLang: 'libAppLangMsg',
+  appLocale: 'libAppLocaleMsg',
   clearRouteTabs: 'libClearRouteTabsMsg',
   asideLayoutCtrl: {
     msg: 'libAsideLayoutCtrlMsg',
@@ -42,7 +42,7 @@ export const storage = {
   appInstance: 'libAppInsStore',
   userInfo: 'libUserInfoStore',
   appTheme: 'libAppThemeStore', // 注意此处修改 cli 的主题有用到 'libAppThemeStore' 字符串，修改的时候切记一起改，
-  appLang: 'libAppLangStore',
+  appLocale: 'libAppLocaleStore',
   appLimit: 'libAppLimitStore',
   routeTabs: 'libRouteTabsStore', // 存储 RouteTabs 数据
   supportRouteTabs: 'supportRouteTabsStore', // 是否支持 RouteTabs

@@ -4,6 +4,8 @@
 
 ## Development Cli Command
 
+[项目启动指南](https://ovine.igroupes.com/org/blog/contribute/)
+
 ```bash
 # 基础命令
 yarn dev:lib # 使用本地文件包进行开发，会稍微慢一些，主要用于 cli/core/editor 依赖包开发

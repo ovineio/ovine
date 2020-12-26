@@ -1,6 +1,7 @@
 /**
  * App Aside Menu布局
  * TODO: 添加 RouteTab/Aside/Header 的默认 loading 状态
+ * 1. 动态页面 loading 明显，可能与 table loading 状态同步。
  */
 
 import { Layout } from 'amis'

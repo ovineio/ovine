@@ -69,11 +69,6 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
-    .${ns}Chart {
-      min-width: 100px !important;
-      min-height: 100px !important;
-    }
-
     .${ns}DateRangePicker {
       align-items: center;
     }

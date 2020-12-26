@@ -97,8 +97,8 @@ Ovine 默认采用 `css in js` 方式写样式。但是 `amis` 使用的 `scss` 
 
 - 更新 `Ovine` 相关 npm 包
 
-  - `yarn upgrade @ovine/cli` 更新 cli 工具
-  - `yarn upgrade @ovine/core` 更新 core 包
+  - `yarn add @ovine/cli@latest` 更新 cli 工具
+  - `yarn add @ovine/core@latest` 更新 core 包
 
 - 当 `Ovine` npm 包内更新了 `Amis` 版本时，需要额外进行下列步骤
 

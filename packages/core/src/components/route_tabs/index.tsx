@@ -55,26 +55,27 @@ type RefType = {
 export default (props: Props) => {
   const history = useHistory()
 
-  // TODO: rootRoute 动态切换存在 BUG，导致不能动态更换 rootRoute
   const {
-    routes,
+    routes: routesProp,
     themeNs,
     maxCount = 20,
     storage,
-    rootRoute = defRouteRoute,
+    rootRoute: rootRouteProp = defRouteRoute,
     onContextMenu,
   } = props
+
   const { location } = history
 
   const $storeRef = useRef<RefType>({
-    rootRoute,
-    routes,
-    $tabs: undefined,
+    rootRoute: rootRouteProp,
+    routes: routesProp,
     $tabsDom: null,
+    $tabs: undefined,
     tabs: {},
   })
-  $storeRef.current.rootRoute = rootRoute
-  $storeRef.current.routes = routes
+
+  $storeRef.current.rootRoute = rootRouteProp
+  $storeRef.current.routes = routesProp
 
   const notFindRoute: TabItem = {
     label: '页面不存在',
@@ -90,7 +91,8 @@ export default (props: Props) => {
   const getRouteInfo = (path: string = getCurrRoutePath()) => {
     let rootBackItem: TabItem | undefined
     let matchedItem: TabItem | undefined
-    findTree($storeRef.current.routes, (item, _, __, items) => {
+    const { rootRoute, routes } = $storeRef.current
+    findTree(routes, (item, _, __, items) => {
       const {
         limitLabel,
         // routeTabInitQuery: initQuery,
@@ -105,9 +107,9 @@ export default (props: Props) => {
       if (!path || path === rootRoute) {
         const rootItem = { ...item, label, pathname: rootRoute, isRoot: true }
         if (routePath === rootRoute) {
-          matchedItem = rootItem
+          matchedItem = rootItem // 设置的 rootPath
         } else if (nodePath === rootRoute) {
-          rootBackItem = rootItem
+          rootBackItem = rootItem // 默认 root
         }
         return false
       }
@@ -179,7 +181,7 @@ export default (props: Props) => {
         label: '刷新页面',
         onSelect: () => {
           // TODO: 刷新页面 会丢失 查询参数
-          changePath(target.dataset.path || rootRoute)
+          changePath(target.dataset.path || $storeRef.current.rootRoute)
         },
       },
       !onlyOne && {
@@ -288,7 +290,7 @@ export default (props: Props) => {
     const curr = getRouteInfo(location.pathname)
 
     // 初次加载 首页时，回归上次一次 active tab
-    if (!isMounted && curr.pathname === rootRoute) {
+    if (!isMounted && curr.pathname === $storeRef.current.rootRoute) {
       const tabEl = $tabs.find('.chrome-tab[data-active]').get(0)
       if (tabEl) {
         tabs.setCurrentTab(tabEl, { changeRoute: false })

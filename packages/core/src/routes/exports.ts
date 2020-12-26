@@ -77,17 +77,6 @@ export function getPageFilePath(option: PageFileOption): string {
     return window.location.protocol + url
   }
 
-  // API 请求路由支持 GET 请求
-  const apiUrlReg = /^([a-zA-Z0-9]{1,10}):\/\/(.+)$/
-  const apiDomainMatches = url.match(apiUrlReg)
-  if (apiDomainMatches) {
-    const info = app.request.getUrlByOption({
-      url: apiDomainMatches[2],
-      domain: apiDomainMatches[1],
-    })
-    return info.url
-  }
-
   return ''
 }
 
@@ -298,10 +287,10 @@ export function jumpTo(link: string, option: JumpToOption = {}) {
     if (blank) {
       window.open(href, '_blank')
     } else if (replace) {
-        window.location.replace(href)
-      } else {
-        window.location.href = href
-      }
+      window.location.replace(href)
+    } else {
+      window.location.href = href
+    }
     return
   }
 

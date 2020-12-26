@@ -10,10 +10,11 @@ import React from 'react'
 import { app } from '@/app'
 import { Amis } from '@/components/amis/schema'
 import { useAppContext } from '@/components/app/context'
-import { storage } from '@/constants'
+import { message, storage } from '@/constants'
 import { setAppLimits } from '@/routes/limit/exports'
 import { changeAppTheme } from '@/styled/theme'
 import { useImmer } from '@/utils/hooks'
+import { publish } from '@/utils/message'
 import { getGlobal, getStore, setStore } from '@/utils/store'
 
 import HeadItem from './head_item'
@@ -59,6 +60,17 @@ export default (props: Props) => {
     if (choseTheme !== prevTheme) {
       toggleSetting()
       changeAppTheme(choseTheme)
+    }
+  }
+
+  const onChangeLocale = (choseLocale: string, prevLocale?: string) => {
+    if (!prevLocale) {
+      return
+    }
+    if (choseLocale !== prevLocale) {
+      toggleSetting()
+      setStore(storage.appLocale, choseLocale)
+      publish(message.appLocale, choseLocale)
     }
   }
 
@@ -131,6 +143,7 @@ export default (props: Props) => {
         wrapWithPanel: false,
         data: {
           theme,
+          locale: getStore(storage.appLocale) || app.amis.locale || 'zh-cn',
         },
         controls: [
           {
@@ -142,6 +155,22 @@ export default (props: Props) => {
               value: key,
             })),
             onChange: onChangeTheme,
+          },
+          {
+            type: 'select',
+            name: 'locale',
+            label: '选择语言',
+            options: [
+              {
+                label: '中文',
+                value: 'zh-cn',
+              },
+              {
+                label: 'English',
+                value: 'en',
+              },
+            ],
+            onChange: onChangeLocale,
           },
           supportRouteTabs && {
             type: 'switch',

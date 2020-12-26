@@ -52,10 +52,17 @@ export default inject('store')(
         return
       }
       const exit = () => {
+        let exitRes = true
         if (onExit) {
-          onExit()
+          exitRes = onExit()
         }
-        app.routerHistory.goBack()
+        if (exitRes !== false) {
+          if (app.routerHistory.length) {
+            app.routerHistory.goBack()
+          } else {
+            app.routerHistory.replace('/')
+          }
+        }
       }
 
       if (isDirty) {

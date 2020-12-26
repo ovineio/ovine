@@ -27,7 +27,7 @@ Ovine 采用的是 `css in js` 的方式写样式。主要依赖的是比较流�
 ```js title="/ovine.config.js 编译配置文件"
 module.exports = {
   // 默认为 “default”
-  initTheme: 'cxd', // 设置 cxd 为初始化主题
+  defaultTheme: 'cxd', // 设置 cxd 为初始化主题
 }
 ```
 

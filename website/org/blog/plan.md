@@ -18,10 +18,6 @@ title: 迭代计划表
 - 将项目中 `菜单/路由/权限` 均支持接口动态获取
 - 暂时先接入在 Ovine 中接入 [amis-editor](https://fex-team.github.io/amis-editor/)，实现可以在线编辑页面需求。(`Ovine Editor` 短时间难以上线，但是大量开发者对在线编页面需求很强烈)
 
-### Ovine 编辑器
-
-工作量巨大，正在代码编写中，将会持续开发，可以先简单预览当前进度 [预览](https://ovine.igroupes.com/demo/craft)。
-
 ### Core 计划表
 
 - 新功能

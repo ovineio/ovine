@@ -26,11 +26,12 @@ export type EnvConfig = {
 export type AppAmis = Partial<
   RenderOptions & {
     constants: ObjectOf<string | number>
+    locale: 'zh-cn' | 'en'
     definitions: any
   }
 >
 
-type ConstantsType = {
+type AppConstants = {
   routePrefix: string | (() => string)
   rootLimitFlag: string
   notFound: {
@@ -50,7 +51,7 @@ export interface AppConfig {
   styled: {
     globalStyle: string | ((theme: DefaultTheme) => any)
   }
-  constants: ConstantsType
+  constants: AppConstants
   entry: any[]
   hook: {
     beforeCreate?: (app: AppDefInstance, config: AppConfig) => Promise<void>
@@ -66,11 +67,12 @@ export interface AppConfig {
 }
 export interface AppDefInstance extends Omit<AppConfig, 'env' | 'constants'> {
   create: (config: AppConfig) => Promise<void>
+  entry: any[]
+  theme: AppTheme
   env: Env & {
     isMock: boolean
   }
-  entry: any[]
-  constants: Omit<ConstantsType, 'routePrefix'> & {
+  constants: Omit<AppConstants, 'routePrefix'> & {
     routePrefix: string
   }
   request: ClassMethod<Request, 'request'> & {
@@ -81,7 +83,6 @@ export interface AppDefInstance extends Omit<AppConfig, 'env' | 'constants'> {
       method: string
     }
   }
-  theme: AppTheme
 }
 
 export type AppMountedProps = {

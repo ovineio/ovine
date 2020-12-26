@@ -13,4 +13,5 @@ import { amisConstants } from './constants'
 export const amis: AppAmis = {
   definitions, // ovine 扩展可用全局的定义，使用 $ref 引用
   constants: amisConstants,
+  locale: 'en',
 }

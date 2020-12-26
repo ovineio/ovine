@@ -49,7 +49,7 @@ export const layout = {
         type: 'head-item',
         faIcon: 'edit',
         tip: '体验编辑器',
-        href: '/demo/craft',
+        href: '/demo/editor',
       },
       {
         type: 'item-search-menu', // 搜索侧边栏

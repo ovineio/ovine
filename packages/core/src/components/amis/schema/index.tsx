@@ -8,7 +8,7 @@ import { useAppContext } from '@/components/app/context'
 import { storage } from '@/constants'
 import { getGlobal, setGlobal } from '@/utils/store'
 
-import renderAmis from './amis'
+import AmisComponent from './amis'
 import { resolveLibSchema, wrapCss } from './func'
 import { LibSchema } from './types'
 
@@ -29,13 +29,13 @@ export const Amis = (props: AmisProps) => {
   const { schema: rawSchema, props: amisProps = {}, option = {} } = props
   const codeStore = getGlobal<any>(storage.dev.code) || {}
 
-  const { enableRouteTabs } = useAppContext()
+  const { enableRouteTabs, locale } = useAppContext()
 
   // 改变固定的高度
   // @ts-ignore
-  if (!amisProps.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
+  if (!option.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
     // @ts-ignore
-    amisProps.affixOffsetTop = enableRouteTabs ? 100 : 50
+    option.affixOffsetTop = enableRouteTabs ? 100 : 50
   }
 
   useEffect(() => {
@@ -81,14 +81,18 @@ export const Amis = (props: AmisProps) => {
 
   return (
     <ThemeConsumer>
-      {(theme) =>
-        renderAmis({
-          option,
-          theme: theme || app.theme.getTheme(),
-          props: amisProps,
-          schema: envSchema,
-        })
-      }
+      {(theme) => (
+        <AmisComponent
+          key={theme.name}
+          option={{
+            ...option,
+            theme: theme.name,
+            locale,
+          }}
+          schema={envSchema}
+          props={amisProps}
+        />
+      )}
     </ThemeConsumer>
   )
 }

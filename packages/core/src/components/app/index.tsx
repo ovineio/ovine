@@ -39,7 +39,7 @@ const cacheRouteTabs = getStore<boolean>(storage.enableRouteTabs)
 
 const AppComponent = () => {
   const [state, setState] = useImmer<State>({
-    lang: getStore(storage.appLang) || 'zh_CN',
+    locale: getStore(storage.appLocale) || app.amis.locale || 'zh-cn',
     enableRouteTabs: cacheRouteTabs === null ? true : cacheRouteTabs,
     theme: app.theme.getTheme().name,
   })
@@ -70,14 +70,14 @@ const AppComponent = () => {
     }
   }, [])
 
-  useSubscriber([message.appTheme, message.appLang], (newValue: any, key) => {
+  useSubscriber([message.appTheme, message.appLocale], (newValue: any, key) => {
     setState((d) => {
       switch (key) {
         case message.appTheme:
           d.theme = newValue
           break
-        case message.appLang:
-          d.lang = newValue
+        case message.appLocale:
+          d.locale = newValue
           break
         default:
       }

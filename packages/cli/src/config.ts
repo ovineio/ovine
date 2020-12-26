@@ -29,7 +29,7 @@ const defaultConfig = {
   template: {},
   devServer: {},
   ui: {
-    initTheme: 'default',
+    defaultTheme: 'default',
     withoutPace: false,
   },
 }

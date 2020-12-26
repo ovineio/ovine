@@ -22,6 +22,24 @@ Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框�
   - Amis 扩展性极强，毕竟是基础库，没有特定应用上的约束
   - 由于 Ovine 实现了集成一些功能，因此就多了一些限制，也仅仅是使用 Ovine 功能的限制，但并不会限制你如何去扩展你的应用
 
+### 关于使用 `Ovine` 的后顾之忧？
+
+Ovine 在 Amis 的基础上做了一些封装，使得 Amis 更加容易上手。现阶段，已有一批开发者在使用了 Ovine，并完成了项目的顺利上线。此外 Ovine 官方正在持续跟进项目，热心解决开发者遇到的任何问题。 非常希望你将 Ovine 做为下一个 Admin 项目的备选方案。如果你觉得 Ovine 还不错，将它推荐给更多人吧～
+
+### `Ovine` 长期方向是什么？
+
+以 `Amis` 框架为基础，以 [`爱速搭`](https://suda.baidu.com/)、[`飞冰`](https://ice.work/) 为参照，以零成本快速搭建一个以**管理系统为主**的低代码平台体系，实现前端页面在线编辑、预览、发布。并提供一套可扩展的自定义功能接口，以满足部分特定的需求。
+
+- #### OvineHerd 平台项目 Beta 版本
+
+  [源码地址](https://github.com/CareyToboo/ovine-herd) [预览地址](http://ovine.igroupes.com/platform/center/org/127350080645627904/login)(测试账号 demo110/demo110)，如需内测可以联系 Q 群，将提供独立账号。
+
+  这是平台的基础版本，功能暂不完善，但是可以提前先体验，采用 [qiankun](https://qiankun.umijs.org/) 微前端框架 与 Ovine 开发。
+
+- #### 演示项目 JAVA-API
+
+  [源码地址](https://github.com/CareyToboo/ovine-java-api)
+
 ### Ovine 适合谁?
 
 - 适合`企业内部`运营管理后台
@@ -66,11 +84,7 @@ Amis 已经支持组件多语言，Ovine 在下几个版本中，即将支持。
 
 ### 是否考虑添加可视化 UI 编辑器？
 
-正在代码编写中，周期比较长，可关注 `Github Editor` 分支。
-
-### 关于使用 `Ovine` 的后顾之忧？
-
-Amis 是相当成熟的框架。官网介绍 `已在百度内部编写了 3W+ 页面`，维护时间长达 4 年，目前更新频率非常高，每天近 5 个 Commit。但 Amis 使用还是存在一定的门槛，Ovine 在 Amis 的基础上做了一些封装，使得 Amis 更加容易上手。现阶段，已有一批开发者在使用了 Ovine，并完成了项目的顺利上线。此外 Ovine 官方正在持续跟进项目，热心解决开发者遇到的任何问题。 非常希望你将 Ovine 做为下一个 Admin 项目的备选方案。如果你觉得 Ovine 还不错，将它推荐给更多人吧～
+已经默认集成 AMIS-EDITOR，且与 Ovine 兼容
 
 ---
 

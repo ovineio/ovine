@@ -18,7 +18,7 @@ title: 基本应用
 module.exports = {
   favicon: 'static/images/fav.ico', // 项目 icon，必须配置
   title: 'Amdin', // 项目 title，必须配置
-  initTheme: 'default', // 初始化主题
+  defaultTheme: 'default', // 初始化主题
 }
 ```
 

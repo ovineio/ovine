@@ -3,13 +3,13 @@ import { useContext, createContext } from 'react'
 import { ImmerSetter } from '@/utils/hooks'
 
 export type AppContextState = {
-  lang: string
+  locale: string
   enableRouteTabs: boolean
   setContext: ImmerSetter<AppContextState>
 }
 
 export const AppContext = createContext<AppContextState>({
-  lang: 'zh_CN',
+  locale: 'zh-cn',
   enableRouteTabs: true,
   setContext: () => {
     //

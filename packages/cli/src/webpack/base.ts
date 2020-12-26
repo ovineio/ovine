@@ -305,7 +305,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
-        INIT_THEME: ui.initTheme,
+        INIT_THEME: ui.defaultTheme,
         HOT: options.hot || false,
         MOCK: mock,
         ENV: env,
@@ -354,7 +354,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
           keepInMemory: !isProd,
           indexHtml: `${outDir}/index.html`,
           getThemeScript: (opts: any) =>
-            getThemeScript({ publicPath, siteDir, initTheme: ui.initTheme, ...opts }),
+            getThemeScript({ publicPath, siteDir, defaultTheme: ui.defaultTheme, ...opts }),
         }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
@@ -536,7 +536,7 @@ function getCopyPlugin(siteDir: string, outDir: string) {
 }
 
 function getThemeScript(options: any) {
-  const { siteDir, localFs, initTheme, publicPath } = options
+  const { siteDir, localFs, defaultTheme, publicPath } = options
 
   const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(assetsJson, '.css') || []
@@ -548,9 +548,9 @@ function getThemeScript(options: any) {
   const themes = cssAssets.map((i) => `${publicPath}${i}`)
 
   let presetTheme = ''
-  if (initTheme) {
-    if (themes.some((theme) => theme.indexOf(`themes/${initTheme}`) > -1)) {
-      presetTheme = initTheme
+  if (defaultTheme) {
+    if (themes.some((theme) => theme.indexOf(`themes/${defaultTheme}`) > -1)) {
+      presetTheme = defaultTheme
     }
   }
 

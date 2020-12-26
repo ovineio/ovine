@@ -20,7 +20,7 @@ export type SiteConfig = {
   publicPath: string // 静态资源的路径前缀
   devServer: Partial<DevServerConfig> // webpack devServer配置
   ui: {
-    initTheme?: string
+    defaultTheme?: string
     withoutPace?: boolean
   }
   envModes?: string[]

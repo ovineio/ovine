@@ -16,7 +16,7 @@ export type SiteConfig = {
   publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
   devServerProxy: any // devServer的代理设置，与 webpack dev server proxy 配置一致。文档 https://webpack.docschina.org/configuration/dev-server/#devserverproxy
   envModes?: string[] // 应用环境列表
-  initTheme?: string // 初始化主题
+  defaultTheme?: string // 初始化主题
   staticFileExts?: string[] // 需要处理的静态资源类型
   // 按路由路由分割代码， 默认不分割代码，
   splitRoutes?: Array<{
