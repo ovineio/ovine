@@ -384,7 +384,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
 
 function excludeJS(modulePath: string) {
   // exclude fixed amis file
-  const regs = ['editorFileReg', 'factoryFileReg', 'froalaEditorReg', 'videoFileReg', 'apiUtilReg']
+  const regs = ['editorFileReg', 'factoryFileReg', 'froalaEditorReg', 'chartFileReg', 'apiUtilReg']
   if (Object.values(pick(amis, regs)).some((reg: any) => reg.test(modulePath))) {
     return true
   }
@@ -465,8 +465,8 @@ function getFixLibLoaders(option: any) {
       use: [babelLoader, amis.fixFroalaLoader()],
     },
     {
-      test: amis.videoFileReg,
-      use: [babelLoader, amis.fixVideoLoader()],
+      test: amis.chartFileReg,
+      use: [babelLoader, amis.fixChartLoader()],
     },
     {
       test: amis.apiUtilReg,

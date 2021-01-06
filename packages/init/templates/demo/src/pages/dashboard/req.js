@@ -4,10 +4,6 @@
 
 import { last, maxBy } from 'lodash'
 
-import { app } from '@core/app'
-
-const getChartColor = () => app.theme.getTheme().colors.echart
-
 const getAreaChart = (kpi, items) => {
   const xAxis = []
   const series = []
@@ -18,7 +14,6 @@ const getAreaChart = (kpi, items) => {
   })
 
   return {
-    color: getChartColor(),
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -88,7 +83,6 @@ export const onBarChartSuc = (source) => {
   source.data = {
     table: [...list].reverse(),
     chart: {
-      color: getChartColor(),
       tooltip: {
         trigger: 'axis',
         axisPointer: {

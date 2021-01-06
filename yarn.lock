@@ -2732,7 +2732,7 @@
     terser-webpack-plugin "^2.2.1"
     thread-loader "^2.1.2"
     ts-loader "^5.4.5"
-    typescript "^3.9.5"
+    typescript "~4.1.2"
     url-loader "^4.0.0"
     webpack "^4.41.2"
     webpack-bundle-analyzer "^3.6.0"
@@ -2744,7 +2744,7 @@
   version "0.1.0-alpha.1"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.0.19"
+    amis "1.1.0"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
@@ -2759,7 +2759,6 @@
 "@ovine/editor@file:packages/editor":
   version "0.1.0-alpha.1"
   dependencies:
-    axios "^0.20.0"
     deep-diff "1.0.2"
     json-ast-comments "^1.0.4"
 
@@ -3825,10 +3824,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis@1.0.19:
-  version "1.0.19"
-  resolved "https://registry.npm.taobao.org/amis/download/amis-1.0.19.tgz#8c1ce1cd780a643522f83e7d5540d28b6ee73ebe"
-  integrity sha1-jBzhzXgKZDUi+D59VUDSi27nPr4=
+amis@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/amis/download/amis-1.1.0.tgz#3b0d627112c5fc05503b114e3d9894fccbf1393e"
+  integrity sha1-Ow1icRLF/AVQOxFOPZiU/MvxOT4=
   dependencies:
     "@types/file-saver" "^2.0.1"
     "@types/papaparse" "^5.2.2"
@@ -3839,7 +3838,7 @@ amis@1.0.19:
     classnames "2.2.5"
     dom-helpers "^3.3.1"
     downshift "3.1.4"
-    echarts "^4.1.0"
+    echarts "^5.0.0"
     exceljs "^4.2.0"
     file-saver "^2.0.2"
     flv.js "1.5.0"
@@ -4329,13 +4328,6 @@ axios@^0.19.2:
   integrity sha1-PqNsXYgY0NX4qKl6bTa4bNwAyyc=
   dependencies:
     follow-redirects "1.5.10"
-
-axios@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.npm.taobao.org/axios/download/axios-0.20.0.tgz?cache=0&sync_timestamp=1608609170235&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Faxios%2Fdownload%2Faxios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
-  integrity sha1-BXujDwSIRpSZOozQf6OUz/EcUL0=
-  dependencies:
-    follow-redirects "^1.10.0"
 
 axobject-query@^2.2.0:
   version "2.2.0"
@@ -7727,12 +7719,13 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^4.1.0:
-  version "4.9.0"
-  resolved "https://registry.npm.taobao.org/echarts/download/echarts-4.9.0.tgz?cache=0&sync_timestamp=1606893127403&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-4.9.0.tgz#a9b9baa03f03a2a731e6340c55befb57a9e1347d"
-  integrity sha1-qbm6oD8Doqcx5jQMVb77V6nhNH0=
+echarts@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.npm.taobao.org/echarts/download/echarts-5.0.0.tgz?cache=0&sync_timestamp=1606890742227&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-5.0.0.tgz#66ec0ea47e3c93b2aadfbb2d719869932ad13ce0"
+  integrity sha1-ZuwOpH48k7Kq37stcZhpkyrRPOA=
   dependencies:
-    zrender "4.3.2"
+    tslib "1.10.0"
+    zrender "5.0.1"
 
 ecstatic@^3.3.2:
   version "3.3.2"
@@ -8847,7 +8840,7 @@ follow-redirects@1.5.10:
   dependencies:
     debug "=3.1.0"
 
-follow-redirects@^1.0.0, follow-redirects@^1.10.0:
+follow-redirects@^1.0.0:
   version "1.13.1"
   resolved "https://registry.npm.taobao.org/follow-redirects/download/follow-redirects-1.13.1.tgz?cache=0&sync_timestamp=1607916976633&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ffollow-redirects%2Fdownload%2Ffollow-redirects-1.13.1.tgz#5f69b813376cee4fd0474a3aba835df04ab763b7"
   integrity sha1-X2m4Ezds7k/QR0o6uoNd8Eq3Y7c=
@@ -17556,6 +17549,11 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
+tslib@1.10.0:
+  version "1.10.0"
+  resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.10.0.tgz?cache=0&sync_timestamp=1609887438976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
+  integrity sha1-w8GflZc/sKYpc/sJ2Q2WHuQ+XIo=
+
 tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1602287078861&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
@@ -17659,10 +17657,10 @@ typescript-transform-paths@^1.1.14:
   resolved "https://registry.npm.taobao.org/typescript-transform-paths/download/typescript-transform-paths-1.1.15.tgz#21aea9d38986c96d1af91996b99370f7a9086eda"
   integrity sha1-Ia6p04mGyW0a+RmWuZNw96kIbto=
 
-typescript@^3.9.5:
-  version "3.9.7"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.9.7.tgz?cache=0&sync_timestamp=1608620430088&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.9.7.tgz#98d600a5ebdc38f40cb277522f12dc800e9e25fa"
-  integrity sha1-mNYApevcOPQMsndSLxLcgA6eJfo=
+typescript@~4.1.2:
+  version "4.1.3"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
+  integrity sha1-UZ1YK9lMugz4k0x9joRn5HP1O7c=
 
 ua-parser-js@^0.7.18:
   version "0.7.23"
@@ -18757,10 +18755,12 @@ zip-stream@^4.0.4:
     compress-commons "^4.0.2"
     readable-stream "^3.6.0"
 
-zrender@4.3.2:
-  version "4.3.2"
-  resolved "https://registry.npm.taobao.org/zrender/download/zrender-4.3.2.tgz?cache=0&sync_timestamp=1605884552020&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-4.3.2.tgz#ec7432f9415c82c73584b6b7b8c47e1b016209c6"
-  integrity sha1-7HQy+UFcgsc1hLa3uMR+GwFiCcY=
+zrender@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.npm.taobao.org/zrender/download/zrender-5.0.1.tgz?cache=0&sync_timestamp=1605884245353&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fzrender%2Fdownload%2Fzrender-5.0.1.tgz#cc377136a9d00d0a177ca7f65c32aed2901928da"
+  integrity sha1-zDdxNqnQDQoXfKf2XDKu0pAZKNo=
+  dependencies:
+    tslib "1.10.0"
 
 zwitch@^1.0.0:
   version "1.0.5"

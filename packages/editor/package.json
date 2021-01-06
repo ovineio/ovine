@@ -40,7 +40,6 @@
     "whatwg-fetch": "^3.0.0"
   },
   "dependencies": {
-    "axios": "^0.20.0",
     "deep-diff": "1.0.2",
     "json-ast-comments": "^1.0.4"
   },

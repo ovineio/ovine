@@ -1,7 +1,5 @@
 // https://github.com/baidu/amis/blob/master/scss/themes/_commmon.scss
 
-@import '../variables';
-
 // --- start
 @import '../base/reset';
 @import '../base/normalize';
@@ -30,6 +28,7 @@
 @import '../components/audio';
 @import '../components/panel';
 @import '../components/service';
+@import '../components/sparkline';
 @import '../components/spinner';
 @import '../components/button-group';
 @import '../components/dropdown';

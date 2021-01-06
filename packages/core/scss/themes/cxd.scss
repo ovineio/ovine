@@ -3,11 +3,18 @@
 
 @import './_cxd_iconfont';
 @import '../_lib/utils';
+
 @import './_cxd_vars';
 
+@import '../variables';
+@import '../properties';
+
+@import './_cxd_props';
+
 // lib core redefined
-$Spinner-bg: null;
-$DropDown-menuItem-onHover-bg: #eaf6fe;
+:root {
+  --DropDown-menuItem-onHover-bg: #eaf6fe;
+}
 
 // site cxd theme scss
 @import './themes/_cxd.scss';

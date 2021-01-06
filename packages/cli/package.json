@@ -73,7 +73,7 @@
     "terser-webpack-plugin": "^2.2.1",
     "thread-loader": "^2.1.2",
     "ts-loader": "^5.4.5",
-    "typescript": "^3.9.5",
+    "typescript": "~4.1.2",
     "url-loader": "^4.0.0",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
@@ -84,5 +84,8 @@
   "engines": {
     "node": ">=10.9.0"
   },
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
+  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
+  "devDependencies": {
+    "typescript": "~4.1.2"
+  }
 }

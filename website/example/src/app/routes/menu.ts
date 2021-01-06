@@ -75,6 +75,21 @@ export const menuRoutes: LimitMenuItem = {
       ],
     },
     {
+      label: '测试渲染器',
+      icon: 'fa fa-book',
+      nodePath: 'cases',
+      children: [
+        {
+          label: '音频播放',
+          nodePath: 'audio',
+        },
+        {
+          label: '视频播放',
+          nodePath: 'video',
+        },
+      ],
+    },
+    {
       label: '系统管理',
       icon: 'fa fa-wrench',
       nodePath: 'system',

@@ -8,7 +8,7 @@ import { getModulePath } from '../utils'
 const fs = require('fs')
 
 export const editorFileReg = /[\\/]amis[\\/]lib[\\/]components[\\/]Editor\.js/
-export const videoFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Video\.js/
+export const chartFileReg = /[\\/]amis[\\/]lib[\\/]renderers[\\/]Chart\.js/
 export const froalaEditorReg = /[\\/]amis[\\/]lib[\\/]components[\\/]RichText\.js/
 export const factoryFileReg = /[\\/]amis[\\/]lib[\\/]factory\.js/
 export const apiUtilReg = /[\\/]amis[\\/]lib[\\/]utils[\\/]api\.js/
@@ -45,14 +45,15 @@ export const fixEditorLoader = (opts: any = {}) => ({
 })
 
 // module replace
-export const fixVideoLoader = () => ({
+export const fixChartLoader = () => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
     multiple: [
       {
-        search: ',\\sfunction\\s\\(Hls\\)\\s\\{',
+        search: 'echarts\\.dataTool = dataTool;',
         flags: 'm',
-        replace: ', function (HlsModule) { var Hls = HlsModule.default;',
+        replace: `window.echartsDataTool = dataTool;  if (chartTheme) { delete chartTheme.backgroundColor; }
+        `,
       },
       {
         search: ',\\sfunction\\s\\(flvjs\\)\\s\\{',

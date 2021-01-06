@@ -29,7 +29,7 @@ export const schema = {
         type: 'action',
         label: '跳转侧边栏不可见页面',
         actionType: 'link',
-        link: './invisible',
+        link: '/test/parent/invisible',
       },
     ],
   },

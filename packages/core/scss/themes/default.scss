@@ -5,9 +5,14 @@
 
 @import './default_vars';
 
+@import '../variables';
+@import '../properties';
+
 // lib core redefined
-$Layout-aside-onHover-bg: lighten($info, 5%);
-$Layout-aside-onAcitve-bg: darken($info, 5%);
+:root {
+  --Layout-aside-onHover-bg: lighten($info, 5%);
+  --Layout-aside-onAcitve-bg: darken($info, 5%);
+}
 
 // site default theme scss
 @import './themes/_default.scss';
