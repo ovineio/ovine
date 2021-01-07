@@ -4,12 +4,12 @@
 
 .#{$ns}LibDropdown {
   ul {
-    background-color: $DropDown-menu-bg;
+    background-color: var(--DropDown-menu-bg);
   }
   li {
     &:hover {
-      color: $DropDown-menuItem-onHover-color;
-      background-color: $DropDown-menuItem-onHover-bg;
+      color: var(--DropDown-menuItem-onHover-color);
+      background-color: var(--DropDown-menuItem-onHover-bg);
     }
   }
 }
@@ -20,7 +20,7 @@
     &--folded.#{$ns}Layout--asideFixed {
       .#{$ns}Layout-asideWrap {
         z-index: $zindex-fixed;
-        top: $Layout-header-height;
+        top: var(--Layout-header-height);
       }
     }
     .navbar-brand-holder {
@@ -31,18 +31,18 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: $Layout-aside--folded-width;
-      height: $Layout-header-height;
-      background: $Layout-brand-bg;
-      color: $Layout-brandBar-color;
+      width: var(--Layout-aside--folded-width);
+      height: var(--Layout-header-height);
+      background: var(--Layout-brand-bg);
+      color: var(--Layout-brandBar-color);
       img {
-        max-height: $Layout-header-height / 2;
+        max-height: calc(var(--Layout-header-height) / 2);
       }
     }
   }
 }
 .#{$ns}Layout {
   &-brand {
-    height: $Layout-header-height;
+    height: var(--Layout-header-height);
   }
 }

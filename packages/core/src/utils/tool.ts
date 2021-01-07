@@ -120,7 +120,7 @@ export function promisedTimeout(ms: number) {
   return new Promise((resolve) => {
     const timer = setTimeout(() => {
       clearTimeout(timer)
-      resolve()
+      resolve(true)
     }, ms)
   })
 }
@@ -180,7 +180,7 @@ export function loadScriptAsync(src: string, async: boolean = true) {
       script.src = src
     }
     script.onload = () => {
-      resolve()
+      resolve(true)
     }
     script.onerror = (e) => {
       reject(e)

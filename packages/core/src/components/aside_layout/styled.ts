@@ -8,7 +8,7 @@ export const StyledLayout = styled.div`
   height: 100%;
   width: 100%;
 
-  ${({ theme: { ns, colors } }: { theme: DefaultTheme }) => css`
+  ${({ theme: { ns } }: { theme: DefaultTheme }) => css`
     &.with-route-tabs {
       .${ns}Layout {
         &--headerFixed {
@@ -30,10 +30,7 @@ export const StyledLayout = styled.div`
     }
     .${ns}Layout {
       height: 100%;
-      &-body {
-        background-color: ${colors.bodyBg};
-        color: ${colors.text};
-      }
+
       &-headerBar {
         padding: 0;
         .${ns}Page {

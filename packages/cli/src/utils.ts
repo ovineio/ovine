@@ -82,7 +82,7 @@ export function compileWebpack(config: any): Promise<any> {
           console.warn(warning)
         })
       }
-      resolve()
+      resolve(true)
     })
   })
 }

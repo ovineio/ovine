@@ -48,11 +48,7 @@ const GlobalStyle = createGlobalStyle`
   /** lib 主题相关的全局样式 */
   /** amis 兼容  */
 
-  ${({ theme: { ns, colors } }) => css`
-    body > div {
-      color: ${colors.text};
-    }
-    
+  ${({ theme: { ns } }) => css`
     .line-break-json {
       .${ns}JsonField {
         width: 100%;

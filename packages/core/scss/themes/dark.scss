@@ -13,6 +13,7 @@
 
 // lib core redefined
 :root {
+  --Spinner-bg: #{$Spinner-bg};
   --Spinner-overlay-bg: rgba(25, 28, 35, 0.5);
   --text-color: #b4b6bd;
   --DropDown-menu-bg: #565656;
