@@ -211,14 +211,14 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       }
     })
 
-    function onXhrError(this: any, text: string) {
+    function onXhrError(status: any, text: string) {
       errorCtrl(
         new Error(text),
         option,
         wrapResponse(
           {
+            status,
             data: xhr?.response || xhr?.responseText,
-            status: this.status,
             statusText: xhr?.statusText,
           },
           true
@@ -253,11 +253,11 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
     }
 
     xhr.onerror = function() {
-      onXhrError.call(this, 'Network Error')
+      onXhrError(this.status, 'Network Error')
     }
 
     xhr.ontimeout = function() {
-      onXhrError.call(this, 'TimeOut Error')
+      onXhrError(this.status, 'TimeOut Error')
     }
 
     if (xhr.upload && config.uploadProgress) {

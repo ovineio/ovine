@@ -1,6 +1,6 @@
-const OFF = 0
-const WARNING = 1
-const ERROR = 2
+const OFF = 'off'
+const WARNING = 'warn'
+const ERROR = 'error'
 
 module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react'],
@@ -9,16 +9,10 @@ module.exports = {
     browser: true,
     commonjs: true,
     jest: true,
+    node: true,
     jquery: true,
   },
-  settings: {
-    // https://github.com/benmosher/eslint-plugin-import#resolvers
-    'import/resolver': {
-      node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-    },
-  },
+  settings: {},
   parser: '@typescript-eslint/parser',
   parserOptions: {
     allowImportExportEverywhere: true,
@@ -27,25 +21,35 @@ module.exports = {
     curly: [WARNING, 'all'],
     semi: [ERROR, 'never'],
     quotes: [ERROR, 'single'],
-    'no-template-curly-in-string': OFF,
     'class-methods-use-this': OFF, // It's a way of allowing private variables.
     'func-names': OFF,
     'no-unused-expressions': OFF,
     'no-nested-ternary': OFF,
     'global-require': OFF,
     'no-underscore-dangle': OFF,
+    'no-template-curly-in-string': OFF,
     'no-param-reassign': OFF,
     'arrow-parens': [ERROR, 'always'],
-    'no-use-before-define': ['error', { functions: false }],
+    'no-use-before-define': OFF,
     'no-console': ERROR,
-    '@typescript-eslint/no-unused-expressions': ERROR,
-    '@typescript-eslint/no-unused-vars': [ERROR],
+    'no-unused-vars': OFF,
+    '@typescript-eslint/no-unused-vars': [ERROR, { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-use-before-define': [
+      ERROR,
+      {
+        functions: false,
+        enums: false,
+        variables: false,
+        typedefs: false,
+      },
+    ],
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
-    'react/jsx-no-target-blank': OFF,
+    'react/require-default-props': OFF,
     'react/jsx-closing-bracket-location': OFF, // Conflicts with Prettier.
     'react/jsx-filename-extension': [ERROR, { extensions: ['.jsx', '.tsx'] }],
+    'react/jsx-no-target-blank': OFF,
     'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
     'react/prop-types': OFF,
@@ -57,6 +61,7 @@ module.exports = {
     'import/prefer-default-export': OFF,
     'react-hooks/rules-of-hooks': ERROR,
     'import/no-unresolved': [ERROR, { ignore: ['^@/*', '^~/*', '_', '__'] }], // Ignore certain webpack alias because it can't be resolved
+    'import/no-extraneous-dependencies': OFF,
     'import/order': [
       // sort import groups
       ERROR,
@@ -98,6 +103,8 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
+        'no-undef': OFF,
+        'no-redeclare': OFF,
         'import/no-unresolved': OFF,
         'import/no-extraneous-dependencies': OFF,
       },

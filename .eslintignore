@@ -12,6 +12,7 @@ node_modules
 editor.view.*
 
 /.ovine
+/website/org/src
 
 /packages/init/tmp
 /packages/init/templates

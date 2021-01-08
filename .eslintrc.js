@@ -1,6 +1,6 @@
-const OFF = 0
-const WARNING = 1
-const ERROR = 2
+const OFF = 'off'
+const WARNING = 'warn'
+const ERROR = 'error'
 
 module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react'],
@@ -12,7 +12,13 @@ module.exports = {
     node: true,
     jquery: true,
   },
-  settings: {},
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     allowImportExportEverywhere: true,
@@ -27,13 +33,22 @@ module.exports = {
     'no-nested-ternary': OFF,
     'global-require': OFF,
     'no-underscore-dangle': OFF,
+    'no-template-curly-in-string': OFF,
     'no-param-reassign': OFF,
     'arrow-parens': [ERROR, 'always'],
-    'no-use-before-define': ['error', { functions: false }],
+    'no-use-before-define': OFF,
     'no-console': ERROR,
-    'no-unused-vars': [ERROR, { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/no-unused-expressions': ERROR,
+    'no-unused-vars': OFF,
     '@typescript-eslint/no-unused-vars': [ERROR, { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-use-before-define': [
+      ERROR,
+      {
+        functions: false,
+        enums: false,
+        variables: false,
+        typedefs: false,
+      },
+    ],
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
@@ -94,8 +109,8 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
-        'no-unused-vars': OFF,
-        'no-use-before-define': OFF,
+        'no-undef': OFF,
+        'no-redeclare': OFF,
         'import/no-unresolved': OFF,
         'import/no-extraneous-dependencies': OFF,
       },
