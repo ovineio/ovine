@@ -39,7 +39,7 @@ module.exports = {
 
 ### 全局样式
 
-```js title="/src/index.js Ovine应用入口"
+```js title="/src/app.auto.js Ovine应用入口"
 import { css } from 'styled-components'
 
 export default {
@@ -206,7 +206,7 @@ export default {
 
 添加 `styled` 主题变量主要是通过入口配置的 `theme` 配置
 
-```js title="/src/index.js Ovine应用入口"
+```js title="/src/app.auto.js Ovine应用入口"
 import { AppTheme } from '@core/app/theme'
 
 // 真实应用中可以拆分文件
@@ -243,7 +243,7 @@ export default {
 
 这一步和编辑`styled`主题变量差不多，只不过是增加一个新 key。
 
-```js title="/src/index.js Ovine应用入口"
+```js title="/src/app.auto.js Ovine应用入口"
 import { AppTheme } from '@core/app/theme'
 
 // 真实应用中可以拆分文件

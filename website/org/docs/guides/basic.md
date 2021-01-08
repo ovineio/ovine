@@ -30,7 +30,7 @@ module.exports = {
 
 > 不要复制此处的代码，这里只是做一些说明，并不能使用
 
-```js title="/src/index.js Ovine应用配置"
+```js title="/src/app.auto.js Ovine应用配置"
 export const schema = {
   // 应用环境变量，必须配置
   env: {

@@ -43,7 +43,7 @@ module.exports = {
 
 ## Ovine 应用配置
 
-```js title="/src/index.js 应用配置文件"
+```js title="/src/app.auto.js 应用配置文件"
 export default {
   env: {}, // 环境变量配置
   entry: [], // 应用入口配置

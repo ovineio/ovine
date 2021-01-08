@@ -94,6 +94,8 @@ module.exports = {
     {
       files: ['*.ts', '*.tsx'],
       rules: {
+        'no-unused-vars': OFF,
+        'no-use-before-define': OFF,
         'import/no-unresolved': OFF,
         'import/no-extraneous-dependencies': OFF,
       },

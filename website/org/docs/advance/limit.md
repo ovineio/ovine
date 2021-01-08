@@ -172,7 +172,7 @@ Ovine 只是提供一种 UI 界面权限控制方式，不限制后端 API 具�
 
 #### 1. 配置超级管理标示符，默认是 “\*”
 
-```js title="/src/index.js 应用入口配置"
+```js title="/src/app.auto.js 应用入口配置"
 export default {
   constants: {
     // highlight-next-line

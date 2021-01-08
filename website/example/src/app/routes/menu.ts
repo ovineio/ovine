@@ -87,6 +87,10 @@ export const menuRoutes: LimitMenuItem = {
           label: '视频播放',
           nodePath: 'video',
         },
+        {
+          label: '自定义',
+          nodePath: 'custom',
+        },
       ],
     },
     {

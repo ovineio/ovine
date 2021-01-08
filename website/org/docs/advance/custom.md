@@ -27,7 +27,7 @@ export default () => {
 
 - 设置公用 Json 配置
 
-  ```js title="/src/index.js Ovine入口配置"
+  ```js title="/src/app.auto.js Ovine入口配置"
   export default {
     // highlight-start
     amis: {

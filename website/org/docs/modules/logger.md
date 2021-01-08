@@ -11,7 +11,7 @@ title: 日志模块
 
 #### 入口文件中配置日志
 
-```js title="/src/index.js Ovine入口文件"
+```js title="/src/app.auto.js Ovine入口文件"
 // 在入口配置文件的 env 字段下配置
 export default {
   env: {

@@ -155,7 +155,7 @@ type ApiObject = {
 
 #### 配置 requestInstance
 
-```js title="/src/index.js Ovine入口文件"
+```js title="/src/app.auto.js Ovine入口文件"
 import { Request } from '@core/utils/request'
 
 const reqInstance = new Request()

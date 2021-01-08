@@ -42,7 +42,7 @@ export type SiteConfig = {
 
 ## 应用配置
 
-```ts title="/src/index.js Ovine应用配置"
+```ts title="/src/app.auto.js Ovine应用配置"
 // 应用入口配置
 export type AppConfig = {
   // highlight-start
