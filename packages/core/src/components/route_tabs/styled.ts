@@ -14,7 +14,7 @@ export const StyledRouteTabs = styled.div`
   width: 100%;
   height: 50px;
   z-index: 2;
-  background-color: #f0f3f4;
+  background-color: #edf1f2;
 
   &.cxd-RouteTabs {
     background-color: #fff;

@@ -3,6 +3,7 @@ export const schema = {
   title: '允许侧边栏父级别页面',
   body: {
     type: 'wrapper',
+    className: '',
     body: [
       {
         type: 'alert',

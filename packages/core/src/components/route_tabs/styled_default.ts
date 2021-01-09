@@ -12,7 +12,7 @@ const chromeTabWsJustAdded = keyframes`
 const chromeTabSpaceAbove = '8px'
 const chromeTabSpaceBelow = '4px'
 const tabContentMargin = '9px'
-const activeTabBackgroundColor = '#f0f3f4'
+const activeTabBackgroundColor = '#edf1f2'
 
 export default css`
   .chrome-tabs {
@@ -21,8 +21,7 @@ export default css`
     font-size: 12px;
     height: 42px;
     padding: ${chromeTabSpaceAbove} 3px ${chromeTabSpaceBelow} 3px;
-    background-color: #e6e7e8;
-    /* overflow: hidden; */
+    background-color: #dedede;
 
     .chrome-tab {
       position: absolute;

@@ -3,6 +3,7 @@ export const schema = {
   title: '父子页面权限隔离',
   body: {
     type: 'wrapper',
+    className: '',
     body: [
       {
         type: 'alert',

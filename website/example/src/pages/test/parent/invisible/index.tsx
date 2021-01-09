@@ -3,6 +3,7 @@ export const schema = {
   title: '用于测试侧边栏不可见页面',
   body: {
     type: 'wrapper',
+    className: '',
     body: [
       {
         type: 'alert',
