@@ -15,6 +15,13 @@ module.exports = {
   parserOptions: {
     allowImportExportEverywhere: true,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx'],
+      },
+    },
+  },
   rules: {
     curly: [WARNING, 'all'],
     semi: [ERROR, 'never'],

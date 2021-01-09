@@ -12,7 +12,13 @@ module.exports = {
     node: true,
     jquery: true,
   },
-  settings: {},
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     allowImportExportEverywhere: true,

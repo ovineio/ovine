@@ -14,6 +14,6 @@ editor.view.*
 /.ovine
 /website/org/src
 
+/packages/init/env
 /packages/init/tmp
 /packages/init/templates
-/packages/init/env
