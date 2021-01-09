@@ -39,7 +39,7 @@ cli
   .option('--env <env>', 'Set app environment mode (default: localhost)')
   .option('--mock', 'Use mock environment (default: false)')
   .option('--scss', 'Update when scss file changed (default: false)')
-  .option('--local-ip', 'Use local ip (default: false)')
+  .option('--local-ip', 'Use local ip as host (default: false)')
   .option('--no-hot', 'Do not use webpack hot reload (default: false)')
   .option('--no-open', 'Do not open page in the browser (default: false)')
   .option('--no-dll', 'Do not use dll reference files. (default: false)')

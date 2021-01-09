@@ -132,7 +132,12 @@ function getHost(useLocalIp: boolean = false, reqHost: string | undefined = ''):
 
 async function getPort(reqPort: string | undefined): Promise<number> {
   const basePort = reqPort ? parseInt(reqPort, 10) : defaultPort
-  const port = await portfinder.getPortPromise({ port: basePort })
+  let port = basePort
+  try {
+    port = await portfinder.getPortPromise({ port: basePort })
+  } catch (e) {
+    //
+  }
   return port
 }
 

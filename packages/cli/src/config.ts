@@ -42,7 +42,7 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   const configPath = path.resolve(siteDir, configFileName)
 
   if (!fs.existsSync(configPath)) {
-    throw new Error(`${configFileName} not found`)
+    throw new Error(`${configPath} not found! Please check the command line args.`)
   }
 
   const configFile = importFresh(configPath) as Partial<SiteConfig>
