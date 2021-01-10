@@ -6,19 +6,20 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
-### 0.1.0-alpha.0 ---- 2020.12.10
+### 0.1.0 ---- 2021.1.10
 
-<!-- > [0.1.x 更新迁移文档]() -->
+[0.1.x 更新迁移文档](https://ovine.igroupes.com/org/blog/migration_v1)
 
 - 主要新增功能
 
-  - 拆离 `ovine/cli`，`ovine/core` 强依赖，可使用 `React` 完全自定义应用，不受配置限制
+  - 拆离 `ovine/cli`，`ovine/core` 强依赖，可使用 `React` 完全自定义应用，不受 ovine 配置限制
   - 支持 使用自定义应用入口 `html template` 模版文件
   - 添加 `@ovine/editor` 包接入 `amis-editor` 与 `ovine` 完全兼容，可以实现在线编辑页面功能
-  - `@ovine/core` 支持接口动态获取 路由、权限配置等功能
+  - ovine 配置支持中， 支持 “菜单/路由/权限 ” API 接口动态获取
 
 - 优化
-  - 将 `amis` 升级至 `1.0.19`
+
+  - 将 `amis` 升级至 `1.1.0`
   - 将 dll 静态资源包，拆分为相对独立的小包，并支持 CDN 部署
   - 添加 微前端（比如 qiankun） 架构支持, 可做为子应用接入
   - `request` 模块
@@ -27,6 +28,8 @@ title: 版本更新日志
     - 添加 `onFakeRequest` 参数，支持前端，使用伪装数据，而不必真实的向后端请求接口
     - `onFakeRequest,onPreRequest,onRequest,onSuccess` hooks 均支持 `async` 方法。
   - 应用编译配置 `ovine.config.js` 支持传入方法，返回配置。
+  - 添加 全局 `app.amis.constants` 常量配置,可在应用中，任意地方引用。
+  - 添加 侧边栏，子菜单可隐藏、多级菜单权限独立不互相影响
 
 ### 0.0.10 ---- 2020.10.15
 

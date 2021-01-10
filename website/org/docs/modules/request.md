@@ -97,6 +97,7 @@ export type ReqOption<S = {}, P = {}> = {
   body?: BodyInit | null // 请求体
   dataType?: 'json' | 'form-data' | 'form' // 请求体类型
   expired?: number // 超时时间内的相同请求，会使用缓存数据。毫秒数，默认0
+  cache?: number // 前置缓存适用于并发请求
   qsOptions?: QsOptions // 用于处理参数转为字符串。具体定义查看下方 QsOptions
   fetchOptions?: FetchOptions // fetch参数。具体定义查看下方 FetchOptions
   actionAddr?: string // 操作地址，不存在时默认为 api
@@ -106,7 +107,8 @@ export type ReqOption<S = {}, P = {}> = {
   mockSource?: object | ((options: ReqOption) => object) // mock数据生成器
   mockDelay?: number // mock数据延迟 默认 300
   onUploadProgress?: (event: { loaded: number; total: number }) => void // 上传进度回调
-  // 以下四个回调函数支持字符串的形式函数体
+  // 以下回调函数支持字符串的形式函数体
+  onFakeRequest?: (option: ReqOption) => S | Promise<S> // 伪装请求，不会真请求，返回的内容将直接返回
   onPreRequest?: (option: ReqOption) => ReqOption // 发起请求回调
   onRequest?: (option: ReqOption) => ReqOption // 请求时回调
   onSuccess?: (data: S, option: ReqOption<S, P>, response: ReqResponse<S>) => S // 接口请求成功回调
@@ -142,8 +144,6 @@ type ApiObject = {
   /**
    * Ovine 不支持 Amis 以下参数，主要是因为功能重叠了
    */
-  // cache 请使用 expired 代替
-  cache?: number
   // requestAdaptor 请使用 onSuccess 代替
   requestAdaptor?: (api: ApiObject) => ApiObject
   // adaptor 请使用 onPreRequest 代替

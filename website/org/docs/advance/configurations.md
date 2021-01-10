@@ -9,26 +9,33 @@ title: 配置一览表
 
 ```ts title="/ovine.config.js Ovine编译配置"
 export type SiteConfig = {
-  // highlight-start
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
-  // highlight-end
   publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
-  devServerProxy: any // devServer的代理设置，与 webpack dev server proxy 配置一致。文档 https://webpack.docschina.org/configuration/dev-server/#devserverproxy
+  devServer: Partial<DevServerConfig> // webpack devServer配置
+  // UI 相关配套
+  ui: {
+    defaultTheme?: string // 初始化主题
+    withoutPace?: boolean // 是否使用 默认的 顶部 loadingBar
+  }
   envModes?: string[] // 应用环境列表
-  defaultTheme?: string // 初始化主题
   staticFileExts?: string[] // 需要处理的静态资源类型
-  // 按路由路由分割代码， 默认不分割代码，
-  splitRoutes?: Array<{
-    test: RegExp // 路由正则匹配
-    name: string // 被匹配的路由，将分割为一个文件
-  }>
+  // 页面模版文件配置
   template?: {
-    // 页面模版文件配置
+    path?: string // 模版地址
     head?: string // 嵌入 <head> 标签的内容
     preBody?: string // 嵌入 <body> 标签最上面
     postBody?: string // 嵌入 <head> 标签最下面
   }
+  styledConfig?: any // styledComponent 编译配置
+  cacheGroups?: {
+    [key: string]: object // webpack cacheGroups 配置
+  }
+  splitRoutes?: Array<{
+    // witch route page should be split
+    test: RegExp // 路由正则匹配
+    name: string // 被匹配的路由，将分割为一个文件
+  }>
 }
 ```
 
@@ -45,38 +52,44 @@ export type SiteConfig = {
 ```ts title="/src/app.auto.js Ovine应用配置"
 // 应用入口配置
 export type AppConfig = {
-  // highlight-start
+  request: any // 请求模块配置
+  theme: any // 请求模块配置
   env: EnvConfig // 应用环境变量，必须配置
-  entry: any[] // APP应用入口，必须配置
-  // highlight-end
-  amis?: RenderOptions & {
+  amis: {
     // Amis 的渲染配置
-    definitions?: any
+    constants: ObjectOf<string | number> // AMIS 全局变量
+    locale: 'zh-cn' | 'en' // AMIS 语言配置
+    definitions: any // AMIS 全局定义
   }
-  request?: Request // 请求模块配置
-  theme?: AppTheme // 主题模块配置
-  styled?: {
+  styled: {
     // 样式相关的配置
-    globalStyle?: string | ((theme: DefaultTheme) => any) // 全局样式
+    globalStyle: string | ((theme: DefaultTheme) => any) // 全局样式
   }
-  constants?: {
-    // 覆盖内置常量
-    routePrefix?: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
-    rootLimitFlag?: string // 超级管理员权限标示。存在这个标示，将默认不校验任何权限
-    enableBackTop: boolean // 是否开启 “快速回到顶部” 功能
-    notFound?: {
+  constants: {
+    // APP变量
+    routePrefix: string | (() => string) // 页面基础路径，默认与 publicPath 一样，也可以单独设置
+    rootLimitFlag: string // 页面基础路径，默认与 publicPath 一样，也可以单独设置
+    notFound: {
       // 404 页面
-      route?: string // 默认跳转 404
-      pagePath?: string // 404 页面文件
+      route: string // 默认跳转 404
+      pagePath: string // 404 页面文件
     }
     toastDuration?: number // Toast 提示持续时间
     loginRoute?: string // 登录路由
+    enableBackTop?: boolean // 是否开启 “快速回到顶部” 功能
   }
+  entry: any[] // APP应用入口，必须配置
   hook: {
     // 可以实现动态控制配置，非常灵活
-    beforeCreate?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之前的回调
-    afterCreated?: (app: any, config: AppConfig) => Promise<void> // 创建 App 之后的 回调
+    beforeCreate?: (app: AppDefInstance, config: AppConfig) => Promise<void> // 创建 App 之前的回调
+    afterCreated?: (app: AppDefInstance, config: AppConfig) => Promise<void> // 创建 App 之后的 回调
     onAppMounted?: () => void // App 被挂载之后回调
+  }
+  // 异步数据容器
+  asyncPage: {
+    schema: any // {path: {schema}} // 页面schema
+    preset: any // {path: preset} // 页面预设
+    mock: any // {path: mockSource} // 页面mock来源
   }
 }
 
@@ -143,6 +156,8 @@ export type RouteItem = {
     // 与 preset.js 中 apis 一致
     [api: string]: ReqOption
   }
+  ignoreLimit?: boolean // 是否忽略权限，默认 false
+  routeTabShared?: boolean // 共用 routeTab
 }
 ```
 
