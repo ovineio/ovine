@@ -2751,6 +2751,11 @@
     core-js "^3.6.4"
     proxy-polyfill "^0.3.0"
 
+"@ovine/craft@file:packages/craft":
+  version "0.1.0"
+  dependencies:
+    baobab "^2.6.0"
+
 "@ovine/editor@file:packages/editor":
   version "0.1.0"
   dependencies:
@@ -10092,10 +10097,10 @@ immer@1.10.0:
   resolved "https://registry.npm.taobao.org/immer/download/immer-1.10.0.tgz#bad67605ba9c810275d91e1c2a47d4582e98286d"
   integrity sha1-utZ2BbqcgQJ12R4cKkfUWC6YKG0=
 
-immer@^5.3.2:
-  version "5.3.6"
-  resolved "https://registry.npm.taobao.org/immer/download/immer-5.3.6.tgz#51eab8cbbeb13075fe2244250f221598818cac04"
-  integrity sha1-Ueq4y76xMHX+IkQlDyIVmIGMrAQ=
+immer@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-8.0.1.tgz#9c73db683e2b3975c424fb0572af5889877ae656"
+  integrity sha512-aqXhGP7//Gui2+UrEtvxZxSquQVXTpZ7KDxfCcKAF3Vysvw0CViVaW9RZ1j1xlIYqaaaipBoqdqeibkc18PNvA==
 
 immutability-helper@^3.1.1:
   version "3.1.1"
