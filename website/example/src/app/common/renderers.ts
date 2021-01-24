@@ -1,6 +1,7 @@
 /**
  * 一些自定义扩展
  */
+import { get } from 'lodash'
 
 import { addLibRenderer } from '@core/components/amis/lib_renderer'
 import { checkLimitByNodePath } from '@core/routes/limit/exports'
@@ -87,6 +88,44 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
               label: '创建时间',
             },
           ],
+        },
+      },
+    },
+  }
+})
+
+// 用于本地数据动态渲染 组件
+addLibRenderer('sysSchemaService', (props) => {
+  const { data, source: dataKey, updateDeps = [], onSuccess, ...reset } = props
+  const source = dataKey ? get(data, dataKey) : data
+  const dataSource = onSuccess && source ? onSuccess(source, data) : source
+
+  if (!dataSource) {
+    return null
+  }
+
+  return {
+    type: 'lib-css',
+    // 防止显示多余的 loading
+    css: ({ ns }) => `
+      .schema-service {
+        .${ns}Spinner {
+          display: none;
+        }
+      }
+    `,
+    body: {
+      ...reset,
+      data,
+      type: 'service',
+      className: 'schema-service',
+      schemaApi: {
+        url: `fakeSysSchemaServiceApi?${  updateDeps.map((i) => `${i}=$${i}`).join(',')}`,
+        onFakeRequest: () => {
+          const apiSource = {
+            data: dataSource,
+          }
+          return apiSource
         },
       },
     },

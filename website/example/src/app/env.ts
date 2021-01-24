@@ -11,14 +11,16 @@ export const env = {
     disableLimit: false,
     domains: {
       api: 'https://ovine.igroupes.com', // ovine api 地址
+      modelApi: 'https://ovine.igroupes.com', // ovine api
     },
   },
   // 本地开发
   localhost: {
     disableLimit: false,
     domains: {
-      api: 'https://ovine.igroupes.com',
       // api: 'http://localhost:7050/',
+      modelApi: 'https://ovine.igroupes.com', // ovine api
+      // modelApi: 'http://cr3mgb.natappfree.cc',
     },
     // 日志配置
     logger: {

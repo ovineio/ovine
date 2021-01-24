@@ -26,7 +26,7 @@ export default css`
     .chrome-tab {
       position: absolute;
       left: 0;
-      height: 36px;
+      height: 34px;
       width: 240px;
       border: 0;
       margin: 0;

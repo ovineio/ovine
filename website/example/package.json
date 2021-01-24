@@ -10,7 +10,7 @@
   },
   "scripts": {
     "gen:static": "node-sass -v && yarn scss && yarn dll",
-    "start": "yarn cp:lib && ovine dev --mock",
+    "start": "ovine dev --mock",
     "dev": "ovine dev --no-dll --mock",
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "cross-var $npm_execpath run eslint && ovine build --mock",

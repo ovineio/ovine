@@ -31,6 +31,11 @@ export const menuRoutes: LimitMenuItem = {
       icon: 'fa fa-coffee',
       nodePath: 'start',
     },
+    // {
+    //   label: '画图功能',
+    //   icon: 'fa fa-object-ungroup',
+    //   nodePath: 'topology',
+    // },
     {
       label: '实验内容',
       icon: 'fa fa-flask',
@@ -54,6 +59,20 @@ export const menuRoutes: LimitMenuItem = {
               label: '子级不可见',
               nodePath: 'invisible',
               sideVisible: false, // 不会显示在侧边栏
+            },
+          ],
+        },
+        {
+          label: '数据模型',
+          nodePath: 'data_model',
+          children: [
+            {
+              label: '模型列表',
+              nodePath: 'mode_list',
+            },
+            {
+              label: '模型API',
+              nodePath: 'mode_api',
             },
           ],
         },
