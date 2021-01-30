@@ -13,7 +13,7 @@ export default {
     remark: '数据模型可以用于在线生成API',
     css: styled.modelListPageCss,
     cssVars: {
-      '--Drawer-widthXl': '70%',
+      '--Drawer-widthXl': '75%',
     },
     toolbar: [
       {

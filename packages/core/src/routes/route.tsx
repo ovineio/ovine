@@ -75,23 +75,32 @@ export const getPageAsync = (option: PresetRouteProps) => {
 export const PrivateRoute = (props: PrivateRouteProps) => {
   const { onAuth, onRedirect, redirect, children, ...rest } = props
   const [isAuth, setAuth] = useState<boolean | null>(null)
+  const isMounted = useRef<boolean | null>(null)
 
   const redirectPath = (onRedirect ? onRedirect() : redirect) || app.constants.loginRoute
 
-  useEffect(() => {
-    const authState: any = isFunction(onAuth) ? onAuth() : true
+  const checkAuth = async () => {
+    if (isFunction(onAuth)) {
+      const authRes = await onAuth()
+      if (isMounted.current) {
+        setAuth(authRes)
+      }
+      return
+    }
 
-    if (typeof authState === 'boolean') {
-      setAuth(authState)
-    } else if (authState.then) {
-      authState.then((res: boolean) => {
-        setAuth(res)
-      })
+    setAuth(true)
+  }
+
+  useEffect(() => {
+    isMounted.current = true
+    checkAuth()
+    return () => {
+      isMounted.current = false
     }
   }, [])
 
   if (isAuth === null) {
-    return null
+    return <div />
   }
 
   return (
@@ -144,19 +153,19 @@ const PrestComponent = (props: PresetComponentProps) => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
     const mockSource = !app.env.isMock ? undefined : getPageMockSource(fileOption)
     const nodePath = getNodePath(fileOption)
-    const rawPagePreset = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
-    const pagePreset = !rawPagePreset ? {} : cloneDeep(rawPagePreset)
+    const rawPresetConf = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
+    const presetConf = !rawPresetConf ? {} : cloneDeep(rawPresetConf)
 
-    pagePreset.nodePath = exact && children && path ? path : nodePath
+    presetConf.nodePath = exact && children && path ? path : nodePath
 
-    map(pagePreset.apis, (api) => {
+    map(presetConf.apis, (api) => {
       // 自动注入规则
       if (api.url && api.mock !== false && !api.mockSource && mockSource) {
         api.mockSource = mockSource[api.url] || mockSource
       }
     })
 
-    return pagePreset
+    return presetConf
   }, [path, pathToComponent, propNodePath])
 
   const contextValue = {
@@ -172,6 +181,10 @@ const PrestComponent = (props: PresetComponentProps) => {
     Component = <RouteComponent {...rest} />
   }
   if (lazyFileAmisProps) {
+    const contextRef = get(lazyFileAmisProps, 'props.contextRef')
+    if (isFunction(contextRef)) {
+      contextRef(contextValue)
+    }
     lazyFileAmisProps.schema.preset = {
       ...lazyFileAmisProps.schema.preset,
       ...preset,

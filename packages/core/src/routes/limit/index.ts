@@ -51,18 +51,18 @@ type StoreType = {
   limitMenus: LimitMenuItem[]
 }
 const getStore = (type: keyof StoreType): any[] => {
-  const store = getGlobal<any>(storage.RouteData) || {}
+  const store = getGlobal<any>(storage.routeData) || {}
   return store[type] || []
 }
 
 const setStore = (type: keyof StoreType, data: any[]) => {
-  const store = getGlobal<any>(storage.RouteData)
+  const store = getGlobal<any>(storage.routeData)
   store[type] = data
-  setGlobal(storage.RouteData, store)
+  setGlobal(storage.routeData, store)
 }
 
 export const clearRouteStore = () => {
-  setGlobal(storage.RouteData, {})
+  setGlobal(storage.routeData, {})
 }
 
 // 过滤掉 配置路由信息

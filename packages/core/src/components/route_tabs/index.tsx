@@ -3,7 +3,7 @@
  *
  * TODO:
  * 1. 添加 ICON 支持，showIcon, RouteIcon 请求中 LoadingIcon 之类的
- * 2. 增加 可编辑，固定 模式
+ * 2. 增加 可编辑/固定 模式
  * 3. 将组件转为 纯 react 组件，容易控制
  */
 
@@ -15,10 +15,11 @@ import React, { useEffect, useMemo, useRef } from 'react'
 import { useHistory, matchPath } from 'react-router-dom'
 
 import { app } from '@/app'
-import { message, rootRoute as defRouteRoute } from '@/constants'
+import { message, storage as storeKeys, rootRoute as defRouteRoute } from '@/constants'
 import { getCurrRoutePath } from '@/routes/exports'
 import { RouteItem } from '@/routes/types'
-import { subscribe } from '@/utils/message'
+import { setGlobal } from '@/utils/store'
+import { subscribe, unsubscribe } from '@/utils/message'
 
 import * as cache from './cache'
 import ChromeTabs from './chrome_tabs'
@@ -50,6 +51,7 @@ type RefType = {
   $tabsDom: HTMLDivElement | null
   rootRoute: string
   tabs: any
+  routeQuery: any
   routes: RouteItem[]
 }
 export default (props: Props) => {
@@ -68,6 +70,7 @@ export default (props: Props) => {
 
   const $storeRef = useRef<RefType>({
     rootRoute: rootRouteProp,
+    routeQuery: {},
     routes: routesProp,
     $tabsDom: null,
     $tabs: undefined,
@@ -86,6 +89,17 @@ export default (props: Props) => {
   const changePath = debounce((path: string) => {
     history.replace(path)
   }, 100)
+
+  const routeQueryCtrl = (path: string, val = '') => {
+    if (path === '') {
+      $storeRef.current.routeQuery = {}
+      setGlobal(storeKeys.routeQuery, {})
+      return
+    }
+
+    $storeRef.current.routeQuery[path] = val
+    setGlobal(storeKeys.routeQuery, $storeRef.current.routeQuery)
+  }
 
   // 获取路径信息
   const getRouteInfo = (path: string = getCurrRoutePath()) => {
@@ -137,6 +151,7 @@ export default (props: Props) => {
   // 清空所有时 默认跳到 首页
   const onClearAll = (tabDom?: any, refreshRoot = true) => {
     const { tabs } = $storeRef.current
+    routeQueryCtrl('')
     // 防止首次进入页面 直接刷新两次
     if (refreshRoot !== false && getCurrRoutePath() !== $storeRef.current.rootRoute) {
       changePath($storeRef.current.rootRoute)
@@ -158,6 +173,7 @@ export default (props: Props) => {
   const onRemove = (tabEl: any) => {
     const { tabs } = $storeRef.current
     if (tabs.tabEls.length !== 1) {
+      routeQueryCtrl(tabEl.dataset.path, '')
       tabs.removeTab(tabEl)
       return
     }
@@ -241,8 +257,6 @@ export default (props: Props) => {
     $storeRef.current.$tabs = $tabs
     $storeRef.current.tabs = tabs
 
-    subscribe(message.clearRouteTabs, ({ refreshRoot }) => onClearAll(undefined, refreshRoot))
-
     $tabs.on('contextmenu', () => false).on('mousedown', '.chrome-tab', onItemMenus)
 
     tabsEle.addEventListener('activeTabChange', ({ detail }: any) => {
@@ -269,14 +283,26 @@ export default (props: Props) => {
       tabEl.dataset.root = isRoot ? pathname : ''
     })
 
-    tabsEle.addEventListener('onTabChange', () => {
-      tabs.activeTabEl.dataset.state = window.location.href.split('?')[1] || ''
-    })
-
     tabsEle.addEventListener('onTabRemove', ({ detail }: any) => {
       onRemove(detail.tabEl)
     })
+
+    subscribe(message.clearRouteTabs, ({ refreshRoot }) => {
+      onClearAll(undefined, refreshRoot)
+    })
+
+    subscribe(message.routeTabChange, () => {
+      const query = window.location.href.split('?')[1] || ''
+      routeQueryCtrl(tabs.activeTabEl.dataset.path, query)
+      tabs.activeTabEl.dataset.state = query
+    })
   }
+
+  const onUnmounted = () => {
+    unsubscribe([message.clearRouteTabs, message.routeTabChange])
+  }
+
+  useEffect(() => onUnmounted, [])
 
   useEffect(() => {
     const isMounted = !!$storeRef.current.$tabs
@@ -327,6 +353,10 @@ export default (props: Props) => {
     // 添加一个tab
     tabs.addTab(curr)
   }, [location])
+
+  useEffect(() => {
+    console.log('@--->', $storeRef.current.routeQuery)
+  }, [$storeRef.current.routeQuery])
 
   const Tabs = useMemo(() => {
     const tabItems = !storage ? [] : cache.getValidCacheTabs()

@@ -3,8 +3,9 @@ import { find } from 'lodash'
 import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
-import { message } from '@/constants'
+import { breakpoints, message, storage } from '@/constants'
 import { publish } from '@/utils/message'
+import { getGlobal, getStore } from '@/utils/store'
 
 type Props = {
   theme: string
@@ -15,9 +16,11 @@ export default (props: Props) => {
   const location = useLocation()
 
   useEffect(() => {
-    publish(message.asideLayoutCtrl.msg, {
-      key: message.asideLayoutCtrl.toggleScreen,
-    })
+    if (window.innerWidth <= breakpoints.sm) {
+      publish(message.asideLayoutCtrl.msg, {
+        key: message.asideLayoutCtrl.toggleScreen,
+      })
+    }
   }, [location.pathname])
 
   const isActive = (link: any) => {
@@ -53,17 +56,27 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
 
   const children = []
 
+  const enableRouteTabs = getStore<boolean>(storage.enableRouteTabs)
+
+  const getRoutePath = () => {
+    const storeQuery = getGlobal<any>(storage.routeQuery) || {}
+    const query = storeQuery[path]
+    return query ? `${path}?${query}` : path
+  }
+
+  const onToggleExpand = (e: any) => toggleExpand(link, e)
+
+  const onLinkClick = () => {
+    publish(message.routeTabChange)
+  }
+
   if (sideVisible === false) {
     return null
   }
 
   if (routeChildren) {
     children.push(
-      <span
-        key="expand-toggle"
-        className={cx('AsideNav-itemArrow')}
-        onClick={(e) => toggleExpand(link, e)}
-      />
+      <span key="expand-toggle" className={cx('AsideNav-itemArrow')} onClick={onToggleExpand} />
     )
   }
 
@@ -93,6 +106,18 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
       <a onClick={routeChildren ? () => toggleExpand(link) : undefined}>{children}</a>
     )
   }
-  // eslint-disable-next-line
-  return active ? <a> {children} </a> : <Link to={path}>{children}</Link>
+
+  if (active) {
+    return <a> {children} </a>
+  }
+
+  if (enableRouteTabs) {
+    return (
+      <Link to={getRoutePath()} onClick={onLinkClick}>
+        {children}
+      </Link>
+    )
+  }
+
+  return <Link to={path}>{children}</Link>
 }

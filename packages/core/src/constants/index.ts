@@ -29,6 +29,7 @@ export const message = {
   appTheme: 'libAppThemeMsg',
   appLocale: 'libAppLocaleMsg',
   clearRouteTabs: 'libClearRouteTabsMsg',
+  routeTabChange: 'libRouteTabChangeMsg',
   asideLayoutCtrl: {
     msg: 'libAsideLayoutCtrlMsg',
     reload: 'libToggleAsideReloadMsg',
@@ -45,9 +46,10 @@ export const storage = {
   appLocale: 'libAppLocaleStore',
   appLimit: 'libAppLimitStore',
   routeTabs: 'libRouteTabsStore', // 存储 RouteTabs 数据
+  routeQuery: 'libRouteQueryStore',
   supportRouteTabs: 'supportRouteTabsStore', // 是否支持 RouteTabs
   enableRouteTabs: 'libEnableRouteTabsStore', // 在支持的情况下， 是否开启使用 RouteTabs 功能
-  RouteData: 'libRouteDataStore',
+  routeData: 'libRouteDataStore',
   dev: {
     code: 'libDevCodeGlobal',
     limit: 'libDevLimitStore',

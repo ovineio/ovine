@@ -1,4 +1,6 @@
 import Draggabilly from '@/assets/scripts/draggabilly'
+import { message } from '@/constants'
+import { publish } from '@/utils/message'
 
 const TAB_CONTENT_MARGIN = 9
 const TAB_CONTENT_OVERLAP_DISTANCE = 1
@@ -328,7 +330,8 @@ class ChromeTabs {
         if (event.button === 2) {
           return
         }
-        this.emit('onTabChange')
+        // this.emit('onTabChange')
+        publish(message.routeTabChange)
         this.setCurrentTab(tabEl)
       })
 
