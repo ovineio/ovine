@@ -6,6 +6,7 @@ import { publish } from '@core/utils/message'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys, msgKeys } from '~/app/constants'
+import LoginBg from '~/components/login_bg'
 
 import authCode from './code'
 import loginCss from './styled'
@@ -13,9 +14,14 @@ import loginCss from './styled'
 export const schema = {
   type: 'page',
   css: loginCss,
-  body: {
+  body: [{
+      type: 'container',
+      body: {
+        component: LoginBg,
+      },
+  },{
     type: 'wrapper',
-    className: 'login-wrapper b r-2x',
+    className: 'login-wrapper b',
     body: [
       {
         type: 'html',
@@ -30,7 +36,7 @@ export const schema = {
         $preset: 'forms.loginForm',
       },
     ],
-  },
+  }],
   preset: {
     apis: {
       login: {

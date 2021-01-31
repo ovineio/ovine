@@ -8,8 +8,12 @@ import { DefaultTheme, css } from 'styled-components'
 
 // 全局样式, 这里和 scss 类似支持嵌套，与styled变量，
 // 以下用作举例：
-export default (theme: DefaultTheme) => css`
-  .${theme.ns}Layout {
+export default ({ ns }: DefaultTheme) => css`
+  .${ns}Layout {
     background-color: transparent;
+  }
+  .${ns}Table-table > tbody > tr > td,
+  .${ns}Table-table > tbody > tr > th {
+    vertical-align: middle;
   }
 `

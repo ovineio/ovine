@@ -3,12 +3,18 @@ import { css } from 'styled-components'
 import { setStore, clearStore } from '@core/utils/store'
 
 import { storeKeys } from '~/app/constants'
+import LoginBg from '~/components/login_bg'
 
 export const schema = {
   type: 'page',
-  body: {
+  body: [{
+    type: 'container',
+    body: {
+      component: LoginBg,
+    },
+  },{
     type: 'wrapper',
-    className: 'register-wrapper b r-2x',
+    className: 'register-wrapper b',
     body: [
       {
         type: 'html',
@@ -23,7 +29,7 @@ export const schema = {
         $preset: 'forms.loginForm',
       },
     ],
-  },
+  }],
   preset: {
     apis: {
       register: {
@@ -107,11 +113,12 @@ export const schema = {
       },
     },
   },
-  css: ({ colors }) => css`
+  css: ({ name }) => css`
     .register-wrapper {
+      position: relative;
       max-width: 450px;
       margin: 12% auto 0;
-      background-color: ${colors.layoutHeaderBg};
+      background-color: ${name === 'dark' ? 'rgba(0,0,0,0.4)' : 'rgba(255, 255, 255, 0.9)'};
     }
 
     .register-title {
