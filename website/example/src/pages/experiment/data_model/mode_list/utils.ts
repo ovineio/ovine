@@ -1,9 +1,20 @@
 import { get, map, isObject, omit, cloneDeep, pick } from 'lodash'
 
 import { app } from '@core/app'
-import { getGlobal, setGlobal } from '@core/utils/store'
+import { getGlobal, getStore, setGlobal, setStore } from '@core/utils/store'
 
 let scopeRef: any = {}
+const modeStoreKey = 'dataCenterDisplayMode'
+
+export const displayModeCtrl = (type: 'get' | 'set', value?: string) => {
+  if (type === 'get') {
+    return getStore(modeStoreKey) || 'list'
+  }
+
+  setStore(modeStoreKey, value || 'list')
+
+  return ''
+}
 
 export const getModelTemplate = () => {
   return getGlobal<any>('pageModelTemplate') || {}
@@ -52,7 +63,7 @@ export const getTableFieldList = (fields = []) => {
   fields.forEach((field) => {
     const { name: typeLabel, desc: typeDesc, beanType, addTime, updateTime, attributes, id } = field
     const fieldData = {
-      id: get(id, 'value'),
+      id,
       typeLabel,
       typeDesc,
       addTime,
@@ -205,18 +216,16 @@ export const markTableListDataDirty = (source?: any) => {
 }
 
 export const onUpdateTableData = async () => {
-  if (!scopeRef.isDirty) {
-    return
+  if (scopeRef.isDirty) {
+    const modelTableList = scopeRef.getComponentByName('page.modelTableList')
+    const source = await app.request({
+      url: 'GET ovhapi/model/table',
+    })
+    const apiData = await onGetTableListSuc(source.data)
+    // TODO: 保持展开的状态
+    // console.log('@@@@==>>', modelTableList.control.props.store)
+    modelTableList.props.store.reInitData(apiData.data) // .initFromScope(apiData.data, '$items')
+    scopeRef.isDirty = false
+    // console.log('@====>1111', a, scopeRef.parent.getComponents())
   }
-
-  const modelTableList = scopeRef.getComponentByName('page.modelTableList')
-  const source = await app.request({
-    url: 'GET ovhapi/model/table',
-  })
-  const apiData = await onGetTableListSuc(source.data)
-  // TODO: 保持展开的状态
-  // console.log('@@@@==>>', modelTableList.control.props.store)
-  modelTableList.props.store.reInitData(apiData.data) // .initFromScope(apiData.data, '$items')
-  scopeRef.isDirty = false
-  // console.log('@====>1111', a, scopeRef.parent.getComponents())
 }

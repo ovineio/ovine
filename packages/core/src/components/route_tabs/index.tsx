@@ -354,10 +354,6 @@ export default (props: Props) => {
     tabs.addTab(curr)
   }, [location])
 
-  useEffect(() => {
-    console.log('@--->', $storeRef.current.routeQuery)
-  }, [$storeRef.current.routeQuery])
-
   const Tabs = useMemo(() => {
     const tabItems = !storage ? [] : cache.getValidCacheTabs()
 

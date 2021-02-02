@@ -31,15 +31,60 @@ export const menuRoutes: LimitMenuItem = {
       icon: 'fa fa-coffee',
       nodePath: 'start',
     },
-    // {
-    //   label: '画图功能',
-    //   icon: 'fa fa-object-ungroup',
-    //   nodePath: 'topology',
-    // },
     {
-      label: '实验内容',
+      label: '实验功能',
       icon: 'fa fa-flask',
-      nodePath: 'test',
+      nodePath: 'experiment',
+      badgeClassName: 'bg-waring',
+      badge: 2,
+      children: [
+        {
+          label: '数据中心',
+          nodePath: 'data_model',
+          children: [
+            {
+              label: '数据模型',
+              nodePath: 'mode_list',
+            },
+            {
+              label: '数据视图',
+              nodePath: 'view_list',
+            },
+            {
+              label: '自定义接口',
+              nodePath: 'mode_api',
+            },
+          ],
+        },
+        {
+          label: '记录面板',
+          nodePath: 'recorder',
+        },
+      ],
+    },
+    {
+      label: '系统管理',
+      icon: 'fa fa-wrench',
+      nodePath: 'system',
+      children: [
+        {
+          label: '管理员用户',
+          nodePath: 'user_list', // 对应 src/pages/system/user_list
+        },
+        {
+          label: '管理员角色',
+          nodePath: 'user_role', // 对应 src/pages/system/user_role
+        },
+        {
+          label: '系统操作日志',
+          nodePath: 'user_log', // 对应 src/pages/system/user_log
+        },
+      ],
+    },
+    {
+      label: '测试功能',
+      icon: 'fa fa-paint-brush',
+      nodePath: 'application',
       children: [
         {
           label: '远程页面',
@@ -63,26 +108,24 @@ export const menuRoutes: LimitMenuItem = {
           ],
         },
         {
-          label: '数据模型',
-          nodePath: 'data_model',
+          label: '测试渲染器',
+          icon: 'fa fa-book',
+          nodePath: 'cases',
           children: [
             {
-              label: '模型列表',
-              nodePath: 'mode_list',
+              label: '音频播放',
+              nodePath: 'audio',
             },
             {
-              label: '模型API',
-              nodePath: 'mode_api',
+              label: '视频播放',
+              nodePath: 'video',
+            },
+            {
+              label: '自定义',
+              nodePath: 'custom',
             },
           ],
         },
-      ],
-    },
-    {
-      label: 'DEMO应用',
-      icon: 'fa fa-paint-brush',
-      nodePath: 'application',
-      children: [
         {
           label: '热更新管理',
           nodePath: 'hot', // 对应 src/pages/application/hot
@@ -90,44 +133,6 @@ export const menuRoutes: LimitMenuItem = {
         {
           label: '文档管理',
           nodePath: 'doc', // 对应 src/pages/application/doc
-        },
-      ],
-    },
-    {
-      label: '测试渲染器',
-      icon: 'fa fa-book',
-      nodePath: 'cases',
-      children: [
-        {
-          label: '音频播放',
-          nodePath: 'audio',
-        },
-        {
-          label: '视频播放',
-          nodePath: 'video',
-        },
-        {
-          label: '自定义',
-          nodePath: 'custom',
-        },
-      ],
-    },
-    {
-      label: '系统管理',
-      icon: 'fa fa-wrench',
-      nodePath: 'system',
-      children: [
-        {
-          label: '管理员用户',
-          nodePath: 'user_list', // 对应 src/pages/system/user_list
-        },
-        {
-          label: '管理员角色',
-          nodePath: 'user_role', // 对应 src/pages/system/user_role
-        },
-        {
-          label: '系统操作日志',
-          nodePath: 'user_log', // 对应 src/pages/system/user_log
         },
       ],
     },

@@ -1,6 +1,8 @@
+import Erd from './erd'
 import * as styled from './styled'
 import * as tpl from './template'
 import * as utils from './utils'
+
 
 export default {
   props: {
@@ -11,99 +13,40 @@ export default {
     name: 'page',
     title: '模型列表',
     remark: '数据模型可以用于在线生成API',
+    bodyClassName: 'p-none',
+    data: {
+      displayMode: utils.displayModeCtrl('get'),
+    },
     css: styled.modelListPageCss,
     cssVars: {
       '--Drawer-widthXl': '75%',
     },
     toolbar: [
       {
+        $preset: 'forms.switchMode',
+      },
+      {
         $preset: 'actions.copyTable',
+        disabledOn: 'displayMode === "diagram"',
       },
       {
         $preset: 'actions.add',
+        disabledOn: 'displayMode === "diagram"',
       },
     ],
-    body: {
-      type: 'crud',
-      name: 'modelTableList',
-      api: {
-        $preset: 'apis.listTable',
-        onSuccess: utils.onGetTableListSuc,
+    body: [
+      {
+        visibleOn: 'displayMode === "list"',
+        ...tpl.getModeList(),
       },
-      loadDataOnce: true,
-      footable: true,
-      columnsTogglable: false,
-      affixHeader: false,
-      toolbarClassName: 'd-none',
-      columns: [
-        {
-          type: 'container',
-          name: 'name',
-          label: '模型名称',
-          body: '$preset.actions.viewTableData',
+      {
+        visibleOn: 'displayMode === "diagram"',
+        type: 'container',
+        body: {
+          component: Erd,
         },
-        {
-          name: 'desc',
-          label: '模型描述',
-          type: 'text',
-        },
-        {
-          name: 'addTime',
-          label: '创建时间',
-          type: 'datetime',
-          width: 150,
-        },
-        {
-          name: 'updateTime',
-          label: '更新时间',
-          type: 'datetime',
-          width: 150,
-        },
-        {
-          name: 'fields',
-          label: '字段列表',
-          type: 'container',
-          breakpoint: '*',
-          body: {
-            type: 'table',
-            columnsTogglable: false,
-            footable: true,
-            columns: [
-              ...tpl.getTableFieldColumn(),
-              {
-                name: 'extra',
-                label: '其他信息',
-                type: 'container',
-                breakpoint: '*',
-                body: {
-                  type: 'tpl',
-                  className: 'field-extra',
-                  tpl: `
-                <% if (!data.extra.length) {%>
-                  <span class="text-black-50">暂无其他信息</span>
-                <% } else { %>
-                  <ul>
-                    <% for (var i = 0; i< data.extra.length; i++ ) { var item = data.extra[i]; %>
-                      <li><label><%= item.label %>: </label><span><%= item.value %></span></li>
-                    <%}%>
-                  </ul>
-                <%}%>
-                `,
-                },
-              },
-            ],
-          },
-        },
-        {
-          type: 'operation',
-          label: '操作',
-          width: 150,
-          limits: ['edit', 'del'],
-          limitsLogic: 'or', // 满足 limits列表中 一个权限即可渲染
-          buttons: ['$preset.actions.editTable', '$preset.actions.delTable'],
-        },
-      ],
-    },
+      },
+    ],
     definitions: {
       fieldsTransfer: {
         name: 'types',
@@ -302,6 +245,35 @@ export default {
         },
       },
       forms: {
+        switchMode: {
+          type: 'form',
+          mode: 'inline',
+          target: 'page',
+          wrapWithPanel: false,
+          controls: [
+            {
+              type: 'button-group',
+              name: 'displayMode',
+              value: 'list',
+              submitOnChange: true,
+              onChange: (mode: string) => {
+                utils.displayModeCtrl('set', mode)
+              },
+              options: [
+                {
+                  label: '列表',
+                  icon: 'fa fa-list pull-left',
+                  value: 'list',
+                },
+                {
+                  label: '图示',
+                  icon: 'fa fa-th-large pull-left',
+                  value: 'diagram',
+                },
+              ],
+            },
+          ],
+        },
         addTable: {
           type: 'service',
           api: '$preset.apis.fakeTableTemplate',

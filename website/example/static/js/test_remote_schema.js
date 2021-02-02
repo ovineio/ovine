@@ -1,5 +1,5 @@
 (function () {
-  window.ovine.addPageSchemaJs('/test/remote_schema', {
+  window.ovine.addPageSchemaJs('/application/remote_schema', {
     schema: {
       type: 'page',
       title: '本页面是通过异步加载JS来实现渲染的',
