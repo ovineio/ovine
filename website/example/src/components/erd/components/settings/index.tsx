@@ -2,8 +2,8 @@ import React from 'react'
 
 import * as S from './styled'
 
-const Header = () => {
+const Settings = () => {
   return <S.SettingsWrap>Setting</S.SettingsWrap>
 }
 
-export default Header
+export default Settings

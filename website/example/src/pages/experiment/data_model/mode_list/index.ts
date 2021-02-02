@@ -1,8 +1,8 @@
-import Erd from './erd'
+import Erd from '~/components/erd'
+
 import * as styled from './styled'
 import * as tpl from './template'
 import * as utils from './utils'
-
 
 export default {
   props: {

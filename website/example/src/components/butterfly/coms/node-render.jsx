@@ -95,8 +95,6 @@ const NodeRender = (props) => {
         dom: document.getElementById(endpointId),
         ...endpoint,
       })
-
-      
     })
 
     // 移除多余锚点
@@ -160,8 +158,8 @@ const NodeRender = (props) => {
     }
 
     checkRender(item.render, 'node')
-    const hasRender = !!item.render
-    const element = hasRender ? item.render() : <BfNode key={id} {...item} />
+    const { render: itemRender, ...resetData } = item
+    const element = itemRender ? itemRender(resetData) : <BfNode key={id} {...resetData} />
 
     // ============== Gather React Endpoints ==============
     deepWalk(element).forEach((child) => {

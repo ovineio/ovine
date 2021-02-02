@@ -1,15 +1,16 @@
 import React from 'react'
 
-import Header from './header'
+import Graph from '../graph'
 
+import Header from './header'
 import * as S from './styled'
 
 const Canvas = () => {
   return (
-    <S.CanvasWrap>
+    <S.BodyWrap>
       <Header />
-      <S.BodyWrap>body</S.BodyWrap>
-    </S.CanvasWrap>
+      <Graph />
+    </S.BodyWrap>
   )
 }
 

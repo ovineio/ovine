@@ -2,7 +2,7 @@ import React from 'react'
 // import { useImmer } from '@core/utils/hooks'
 
 import Aside from '../aside'
-import Canvas from '../canvas'
+import Body from '../body'
 import Settings from '../settings'
 
 import * as S from './styled'
@@ -18,7 +18,7 @@ const Layout = () => {
   return (
     <S.LayoutWrap ref={wrapRef}>
       <Aside />
-      <Canvas />
+      <Body />
       <Settings />
     </S.LayoutWrap>
   )

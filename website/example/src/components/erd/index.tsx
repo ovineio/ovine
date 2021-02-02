@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Layout from './layout'
+import Layout from './components/layout'
 
-import { Provider } from './store'
+import { Provider } from './sotre'
 
 const Erd = () => {
   return (
