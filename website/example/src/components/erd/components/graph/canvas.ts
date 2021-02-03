@@ -40,7 +40,10 @@ export const initCanvas = () => {
   const { canvas, setActiveId } = store
 
   // canvas.focusCenterWithAnimate(); // TODO: 有BUG，导致第一次 连线出现异常
-  canvas.setMinimap(true)
+  canvas.setMinimap(true, {
+    height: 150,
+    width: 150,
+  })
   // canvas.setSelectMode(true);
   // canvas.setGirdMode(true, {
   //   isAdsorb: false,         // 是否自动吸附,默认关闭

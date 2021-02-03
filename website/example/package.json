@@ -34,6 +34,7 @@
     "rm:lib": "yarn rm:core && yarn rm:editor && yarn rm:craft"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.4.0",
     "@hot-loader/react-dom": "^16.8.6",
     "@ovine/cli": "file:../../packages/cli",
     "@ovine/core": "file:../../packages/core",

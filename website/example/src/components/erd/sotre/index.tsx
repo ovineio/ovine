@@ -1,12 +1,16 @@
 import { types } from 'mobx-state-tree'
 import React, { createContext, useContext } from 'react'
 
+import { AsideModel, asideStore } from './aside'
+
 const RootModel = types
-  .model({
-    hoverId: '',
+  .model('ErdRootModel', {
     activeId: '',
+    activeFieldId: '',
+    fullScreen: false,
     readOnly: false,
     clickLink: false,
+    aside: AsideModel,
   })
   .volatile(() => {
     return {
@@ -18,15 +22,14 @@ const RootModel = types
       self.canvas = canvas
     }
 
-    const setHoverId = (id: string) => {
-      self.hoverId = id
+    const setActiveFieldId = (id: string) => {
+      self.activeFieldId = id
     }
 
     const setActiveId = (id: string) => {
       self.activeId = id
     }
 
-    // TODO: 1. setLinkable(true) 时会移除所有的锚点
     const toggleReadOnly = (toggle?: any) => {
       const isReadOnly = typeof toggle === 'boolean' ? toggle : !self.readOnly
 
@@ -48,16 +51,24 @@ const RootModel = types
       self.clickLink = isClickLink
     }
 
+    const toggleFullScreen = (toggle?: any) => {
+      const isFullScreen = typeof toggle === 'boolean' ? toggle : !self.fullScreen
+      self.fullScreen = isFullScreen
+    }
+
     return {
       setCanvas,
-      setHoverId,
+      setActiveFieldId,
       setActiveId,
       toggleReadOnly,
       toggleClickLink,
+      toggleFullScreen,
     }
   })
 
-export const store = RootModel.create({})
+export const store = RootModel.create({
+  aside: asideStore,
+})
 
 const ErdContext = createContext(store)
 

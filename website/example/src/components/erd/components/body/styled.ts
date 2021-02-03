@@ -13,28 +13,52 @@ export const HeaderWrap = styled.div`
   height: 36px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   background-color: #f8f9fb;
-  ul {
+  font-size: 16px;
+  .header-bar {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     height: 100%;
     padding: 0 20px;
     margin: 0;
-
     li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 36px;
+      height: 36px;
       list-style: none;
-      margin-right: 15px;
       cursor: pointer;
+
+      &:hover {
+        background-color: #eaeaea;
+      }
     }
   }
 `
 
 export const ToolWrap = styled.div`
   position: absolute;
-  top: 60px;
-  left: 20px;
+  z-index: 100;
+  bottom: 10px;
+  right: 175px;
+  background: #fff;
+  box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
 
+  ul {
+    padding: 0;
+    margin: 0;
+  }
   li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 28px;
+    list-style: none;
     cursor: pointer;
+    &:hover {
+      background-color: #eaeaea;
+    }
   }
 `

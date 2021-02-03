@@ -1,6 +1,21 @@
 import { throttle } from 'lodash'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
+
+import CheckOutlined from '@ant-design/icons/CheckOutlined'
+import CompressOutlined from '@ant-design/icons/CompressOutlined'
+import DisconnectOutlined from '@ant-design/icons/DisconnectOutlined'
+import EyeOutlined from '@ant-design/icons/EyeOutlined'
+import FullscreenExitOutlined from '@ant-design/icons/FullscreenExitOutlined'
+import FullscreenOutlined from '@ant-design/icons/FullscreenOutlined'
+import HighlightOutlined from '@ant-design/icons/HighlightOutlined'
+import LinkOutlined from '@ant-design/icons/LinkOutlined'
+import OneToOneOutlined from '@ant-design/icons/OneToOneOutlined'
+import RedoOutlined from '@ant-design/icons/RedoOutlined'
+import UndoOutlined from '@ant-design/icons/UndoOutlined'
+import ZoomInOutlined from '@ant-design/icons/ZoomInOutlined'
+import ZoomOutOutlined from '@ant-design/icons/ZoomOutOutlined'
 
 import { useStore } from '../../sotre'
 import * as S from './styled'
@@ -9,6 +24,7 @@ const Tool = (props: { canvas: any }) => {
   const { canvas } = props
 
   const [scale, setScale] = useState(0)
+  const $container = document.querySelector('.butterfly-react-container')
 
   useEffect(() => {
     if (canvas.getZoom) {
@@ -40,20 +56,41 @@ const Tool = (props: { canvas: any }) => {
     })
   }
 
-  return (
+  if (!$container) {
+    return null
+  }
+
+  return createPortal(
     <S.ToolWrap>
       <ul>
-        <li onClick={zoomFit}>适应窗口</li>
-        <li onClick={zoomNormal}>正常比例</li>
-        <li onClick={zoomIn}>放大</li>
-        <li onClick={zoomOut}>缩小</li>
+        <li onClick={zoomFit}>
+          <CompressOutlined />
+        </li>
+        <li onClick={zoomNormal}>
+          <OneToOneOutlined />
+        </li>
+        <li onClick={zoomIn}>
+          <ZoomInOutlined />
+        </li>
+        <li onClick={zoomOut}>
+          <ZoomOutOutlined />
+        </li>
       </ul>
-    </S.ToolWrap>
+    </S.ToolWrap>,
+    $container
   )
 }
 
 const Header = observer(() => {
-  const { canvas, readOnly, toggleReadOnly, clickLink, toggleClickLink } = useStore()
+  const {
+    canvas,
+    readOnly,
+    toggleReadOnly,
+    clickLink,
+    toggleClickLink,
+    fullScreen,
+    toggleFullScreen,
+  } = useStore()
 
   const undo = () => {
     canvas.undo()
@@ -65,12 +102,21 @@ const Header = observer(() => {
 
   return (
     <S.HeaderWrap>
-      <ul>
-        <li onClick={undo}>重做</li>
-        <li onClick={redo}>回退</li>
-        <li onClick={toggleReadOnly}>{readOnly ? '启用编辑' : '只读模式'}</li>
-        <li onClick={toggleClickLink}>{clickLink ? '取消选择' : '选择关联'}</li>
-        <li>保存</li>
+      <ul className="header-bar">
+        <li onClick={undo}>
+          <RedoOutlined />
+        </li>
+        <li onClick={redo}>
+          <UndoOutlined />
+        </li>
+        <li onClick={toggleReadOnly}>{readOnly ? <EyeOutlined /> : <HighlightOutlined />}</li>
+        <li onClick={toggleFullScreen}>
+          {fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
+        </li>
+        <li onClick={toggleClickLink}>{clickLink ? <DisconnectOutlined /> : <LinkOutlined />}</li>
+        <li>
+          <CheckOutlined />
+        </li>
       </ul>
       <Tool canvas={canvas} />
     </S.HeaderWrap>

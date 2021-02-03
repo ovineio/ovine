@@ -5,7 +5,7 @@ import Graph from '../graph'
 import Header from './header'
 import * as S from './styled'
 
-const Canvas = () => {
+const Body = () => {
   return (
     <S.BodyWrap>
       <Header />
@@ -14,4 +14,4 @@ const Canvas = () => {
   )
 }
 
-export default Canvas
+export default Body

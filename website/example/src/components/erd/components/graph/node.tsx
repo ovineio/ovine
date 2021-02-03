@@ -13,7 +13,7 @@ import * as S from './styled'
 
 // 字段
 const Field = (props) => {
-  const { nodeId, readOnly, clickLink, setHoverId } = props
+  const { nodeId, readOnly, clickLink } = props
   const { label, type, id } = props.info
 
   // 每次点击时 sourceL
@@ -67,7 +67,7 @@ const Field = (props) => {
   }
 
   const onFieldMouseEnter = () => {
-    setHoverId(id)
+    // setHoverId(id)
   }
 
   return (
@@ -93,7 +93,7 @@ const Field = (props) => {
 
 // 节点
 const Node = observer((props) => {
-  const { activeId, setActiveId, readOnly, clickLink, setHoverId } = useStore()
+  const { activeId, setActiveId, readOnly, clickLink } = useStore()
 
   const $tableRef = useRef()
   const storeRef = useRef({
@@ -164,7 +164,6 @@ const Node = observer((props) => {
           return (
             <Field
               key={field.id}
-              setHoverId={setHoverId}
               readOnly={readOnly}
               clickLink={clickLink}
               nodeId={id}
