@@ -17,23 +17,26 @@ import UndoOutlined from '@ant-design/icons/UndoOutlined'
 import ZoomInOutlined from '@ant-design/icons/ZoomInOutlined'
 import ZoomOutOutlined from '@ant-design/icons/ZoomOutOutlined'
 
-import { useStore } from '../../sotre'
+import { useCanvas } from '../../hooks'
+import { useStore } from '../../store'
+
 import * as S from './styled'
 
-const Tool = (props: { canvas: any }) => {
-  const { canvas } = props
-
+const Tool = () => {
   const [scale, setScale] = useState(0)
   const $container = document.querySelector('.butterfly-react-container')
 
-  useEffect(() => {
-    if (canvas.getZoom) {
-      setScale(canvas.getZoom())
-    }
-  }, [canvas])
+  const minScale = 0.2
+  const maxScale = 1.5
+  const canZoomIn = scale < maxScale
+  const canZoomOut = scale > minScale
+
+  const canvas = useCanvas((cvs) => {
+    setScale(cvs.getZoom())
+  })
 
   useEffect(() => {
-    if (canvas.zoom) {
+    if (scale) {
       canvas.zoom(scale)
     }
   }, [scale])
@@ -69,10 +72,10 @@ const Tool = (props: { canvas: any }) => {
         <li onClick={zoomNormal}>
           <OneToOneOutlined />
         </li>
-        <li onClick={zoomIn}>
+        <li className={`${canZoomIn ? 'disabled' : ''}`} onClick={canZoomIn && zoomIn}>
           <ZoomInOutlined />
         </li>
-        <li onClick={zoomOut}>
+        <li className={`${canZoomOut ? 'disabled' : ''}`} onClick={canZoomOut && zoomOut}>
           <ZoomOutOutlined />
         </li>
       </ul>
@@ -82,15 +85,16 @@ const Tool = (props: { canvas: any }) => {
 }
 
 const Header = observer(() => {
+  const { graph } = useStore()
   const {
     canvas,
     readOnly,
-    toggleReadOnly,
     clickLink,
-    toggleClickLink,
     fullScreen,
+    toggleReadOnly,
+    toggleClickLink,
     toggleFullScreen,
-  } = useStore()
+  } = graph
 
   const undo = () => {
     canvas.undo()
@@ -118,7 +122,7 @@ const Header = observer(() => {
           <CheckOutlined />
         </li>
       </ul>
-      <Tool canvas={canvas} />
+      <Tool />
     </S.HeaderWrap>
   )
 })

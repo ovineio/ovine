@@ -45,17 +45,12 @@ export const ToolWrap = styled.div`
   background: #fff;
   box-shadow: rgb(0 0 0 / 10%) 0px 4px 6px -1px, rgb(0 0 0 / 6%) 0px 2px 4px -1px;
 
-  ul {
-    padding: 0;
-    margin: 0;
-  }
   li {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 28px;
     height: 28px;
-    list-style: none;
     cursor: pointer;
     &:hover {
       background-color: #eaeaea;

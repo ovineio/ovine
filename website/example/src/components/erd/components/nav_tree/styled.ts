@@ -26,6 +26,7 @@ export const NavNode = styled.div`
 
   .node-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 0 10px;
     height: 32px;
@@ -46,10 +47,15 @@ export const NavNode = styled.div`
     overflow-y: hidden;
     transition: max-height 0.25s;
   }
+
+  .node-tool {
+    display: flex;
+  }
 `
 
 export const NavField = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 28px;
   padding: 0 10px 0 30px;
@@ -66,5 +72,21 @@ export const NavField = styled.div`
 
   &.active {
     background-color: #c1e1fe;
+  }
+
+  .field-label {
+    display: flex;
+  }
+
+  .field-tool {
+    display: flex;
+  }
+
+  .field-icons {
+    display: flex;
+  }
+
+  .field-tool {
+    display: flex;
   }
 `

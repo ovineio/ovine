@@ -3,6 +3,8 @@
  */
 import { getGlobal } from '@core/utils/store'
 
+import { erdStoreKey } from '~/components/erd/constants'
+
 export default {
   // 页面需要用到的权限定义
   limits: {
@@ -27,9 +29,8 @@ export default {
       limits: '$page',
       onFakeRequest: async () => {
         // await promisedTimeout(100000)
-
         return {
-          data: getGlobal('pageModelTemplate'),
+          data: getGlobal(erdStoreKey.modelTemplate),
         }
       },
       // onSuccess: (source) => {

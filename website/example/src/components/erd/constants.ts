@@ -12,5 +12,5 @@ export const erdEvents = {
 
 export const erdStoreKey = {
   epDragSource: 'epDragSourceStore',
-  canvasIns: 'canvasInsStore',
+  modelTemplate: 'modelTemplateStore',
 }

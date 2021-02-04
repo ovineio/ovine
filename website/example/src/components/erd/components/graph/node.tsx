@@ -4,8 +4,8 @@ import React, { useRef } from 'react'
 import { getGlobal, setGlobal } from '@core/utils/store'
 
 import { erdStoreKey } from '../../constants'
-import { store, useStore } from '../../sotre'
-import { useCanvas } from './canvas'
+import { useCanvas } from '../../hooks'
+import { store, useStore } from '../../store'
 
 import * as S from './styled'
 
@@ -13,7 +13,7 @@ import * as S from './styled'
 
 // 字段
 const Field = (props) => {
-  const { nodeId, readOnly, clickLink } = props
+  const { nodeId, readOnly, clickLink, setActiveFieldId } = props
   const { label, type, id } = props.info
 
   // 每次点击时 sourceL
@@ -29,7 +29,7 @@ const Field = (props) => {
       return
     }
 
-    const { canvas } = store
+    const { canvas } = store.graph
     const sourceNode = canvas.getNode(sourceNodeId)
     const targetNode = canvas.getNode(nodeId)
 
@@ -60,6 +60,7 @@ const Field = (props) => {
 
   // 点击关联逻辑
   const onFieldClick = () => {
+    setActiveFieldId(id)
     if (!clickLink) {
       //
     }
@@ -93,7 +94,8 @@ const Field = (props) => {
 
 // 节点
 const Node = observer((props) => {
-  const { activeId, setActiveId, readOnly, clickLink } = useStore()
+  const { activeId, setActiveId, setActiveFieldId, graph } = useStore()
+  const { readOnly, clickLink } = graph
 
   const $tableRef = useRef()
   const storeRef = useRef({
@@ -106,12 +108,15 @@ const Node = observer((props) => {
   const { label, fields = [] } = data || {}
   const isActive = id === activeId
 
-  const onMouseUp = () => {
+  const onMouseUp = (e) => {
     if (readOnly || clickLink) {
       return
     }
     if (!storeRef.current.isMoving) {
       setActiveId(id)
+      if (e.target.className === 'header') {
+        setActiveFieldId('')
+      }
     }
   }
 
@@ -165,6 +170,7 @@ const Node = observer((props) => {
             <Field
               key={field.id}
               readOnly={readOnly}
+              setActiveFieldId={setActiveFieldId}
               clickLink={clickLink}
               nodeId={id}
               info={field}

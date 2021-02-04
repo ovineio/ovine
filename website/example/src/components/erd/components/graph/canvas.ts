@@ -1,11 +1,8 @@
-import { isEmpty } from 'lodash'
-import { useEffect } from 'react'
-
 import { setGlobal } from '@core/utils/store'
 
 import { erdBfEvents, erdStoreKey } from '../../constants'
 
-import { store, useStore } from '../../sotre'
+import { store } from '../../store'
 
 export const options = {
   disLinkable: false, // 可删除连线
@@ -23,21 +20,26 @@ export const options = {
       enable: true,
     },
   },
-}
-
-export const useCanvas = (callback: any, deeps = []) => {
-  const { canvas } = useStore()
-  useEffect(() => {
-    if (!isEmpty(canvas) && callback) {
-      callback(canvas)
-    }
-  }, [canvas, ...deeps])
-
-  return canvas
+  layout: {
+    // TODO: 优化自动布局算法
+    type: 'gridLayout',
+    options: {
+      width: 512,
+      height: 205,
+      begin: [10, 10],
+      preventOverlap: true,
+      nodeSize: 120,
+      preventOverlapPadding: 10,
+    },
+  },
 }
 
 export const initCanvas = () => {
-  const { canvas, setActiveId } = store
+  const {
+    graph: { canvas },
+    setActiveId,
+    setActiveFieldId,
+  } = store
 
   // canvas.focusCenterWithAnimate(); // TODO: 有BUG，导致第一次 连线出现异常
   canvas.setMinimap(true, {
@@ -61,6 +63,7 @@ export const initCanvas = () => {
 
   canvas.on(erdBfEvents.canvasClick, () => {
     setActiveId('')
+    setActiveFieldId('')
   })
 
   // canvas.on(erdBfEvents.dragStart, (data: any) => {

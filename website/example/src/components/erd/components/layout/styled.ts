@@ -14,6 +14,15 @@ export const LayoutWrap = styled.div`
     top: 0;
     bottom: 0;
   }
+
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
 `
 
 export const AsideWrap = styled.div`

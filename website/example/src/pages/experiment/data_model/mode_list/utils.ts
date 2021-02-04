@@ -3,6 +3,8 @@ import { get, map, isObject, omit, cloneDeep, pick } from 'lodash'
 import { app } from '@core/app'
 import { getGlobal, getStore, setGlobal, setStore } from '@core/utils/store'
 
+import { erdStoreKey } from '~/components/erd/constants'
+
 let scopeRef: any = {}
 const modeStoreKey = 'dataCenterDisplayMode'
 
@@ -17,7 +19,7 @@ export const displayModeCtrl = (type: 'get' | 'set', value?: string) => {
 }
 
 export const getModelTemplate = () => {
-  return getGlobal<any>('pageModelTemplate') || {}
+  return getGlobal<any>(erdStoreKey.modelTemplate) || {}
 }
 
 export const scopeRefProp = (ref) => {
@@ -85,9 +87,18 @@ export const getTableFieldList = (fields = []) => {
   return fieldsData
 }
 
+export const fetchModelTplData = () => {
+  app
+    .request({
+      url: 'GET ovhapi/model/template',
+    })
+    .then((source) => {
+      setGlobal(erdStoreKey.modelTemplate, source.data.data)
+    })
+}
+
 export const onGetTableListSuc = async (source) => {
-  const tplSource = await app.request({ url: 'GET ovhapi/model/template' })
-  setGlobal('pageModelTemplate', tplSource.data.data)
+  await fetchModelTplData()
 
   const data = source.data || []
   const items = data.map((item) => {

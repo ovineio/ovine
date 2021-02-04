@@ -32,6 +32,7 @@ module.exports = {
     'no-unused-expressions': OFF,
     'no-nested-ternary': OFF,
     'global-require': OFF,
+    'consistent-return': OFF,
     'no-underscore-dangle': OFF,
     'no-template-curly-in-string': OFF,
     'no-param-reassign': OFF,

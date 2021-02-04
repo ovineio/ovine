@@ -2,7 +2,7 @@ import { observer } from 'mobx-react'
 import React from 'react'
 // import { useImmer } from '@core/utils/hooks'
 
-import { useStore } from '../../sotre'
+import { useStore } from '../../store'
 
 import Aside from '../aside'
 import Body from '../body'
@@ -11,7 +11,7 @@ import Settings from '../settings'
 import * as S from './styled'
 
 const Layout = observer(() => {
-  const { fullScreen } = useStore()
+  const { graph } = useStore()
 
   const wrapRef = ($wrap: HTMLDivElement) => {
     if ($wrap) {
@@ -21,7 +21,7 @@ const Layout = observer(() => {
   }
 
   return (
-    <S.LayoutWrap ref={wrapRef} className={fullScreen ? 'full-screen' : ''}>
+    <S.LayoutWrap ref={wrapRef} className={graph.fullScreen ? 'full-screen' : ''}>
       <Aside />
       <Body />
       <Settings />

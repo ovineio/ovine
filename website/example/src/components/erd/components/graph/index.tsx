@@ -1,24 +1,38 @@
 import { observer } from 'mobx-react'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import Butterfly from '~/components/butterfly'
 
-import { useStore } from '../../sotre'
+import { useStore } from '../../store'
 
 import { initCanvas, options } from './canvas'
-import mockData from './data'
 import * as S from './styled'
+import { getNodesData, getEdgesData } from './utils'
 
 const Graph = observer(() => {
-  const { setCanvas, readOnly } = useStore()
+  const { graph, model } = useStore()
+
+  useEffect(() => {
+    model.fetchTablesData()
+  }, [])
+
   const onLoaded = (canvas) => {
-    setCanvas(canvas)
+    graph.setCanvas(canvas)
     initCanvas()
   }
 
+  const dataProps = {
+    nodes: getNodesData(model.tables),
+    edges: getEdgesData([]),
+  }
+
+  if (!model.tables.length && model.loading) {
+    return null
+  }
+
   return (
-    <S.GraphWrap className={`${readOnly ? 'read-only' : ''}`}>
-      <Butterfly {...mockData} options={options} onLoaded={onLoaded} />
+    <S.GraphWrap className={`${graph.readOnly ? 'read-only' : ''}`}>
+      <Butterfly {...dataProps} options={options} onLoaded={onLoaded} />
     </S.GraphWrap>
   )
 })

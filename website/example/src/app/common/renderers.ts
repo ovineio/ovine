@@ -120,7 +120,7 @@ addLibRenderer('sysSchemaService', (props) => {
       type: 'service',
       className: 'schema-service',
       schemaApi: {
-        url: `fakeSysSchemaServiceApi?${  updateDeps.map((i) => `${i}=$${i}`).join(',')}`,
+        url: `fakeSysSchemaServiceApi?${updateDeps.map((i) => `${i}=$${i}`).join(',')}`,
         onFakeRequest: () => {
           const apiSource = {
             data: dataSource,
