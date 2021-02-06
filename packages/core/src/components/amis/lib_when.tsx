@@ -5,17 +5,18 @@
 
 import { RendererProps, Renderer } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
-import { evalExpression, evalJS } from 'amis/lib/utils/tpl'
+import { evalJS } from 'amis/lib/utils/tpl'
+import { isFunction } from 'lodash'
 import React from 'react'
 
 interface Props extends RendererProps {
-  condition?: string
+  condition?: string | Function
   ifTrue?: SchemaNode
   ifFalse?: SchemaNode
   defaultCase?: SchemaNode
   cases?: Array<
     SchemaNode & {
-      condition?: string
+      condition?: string | Function
       value?: any
     }
   >
@@ -31,19 +32,26 @@ export class LibWhen extends React.Component<Props> {
 
     let schema: any = null
 
+    const getResult = (con: any, value: any, source: any) => {
+      const result = isFunction(con) ? con(value, source) : con
+
+      if (typeof result === 'boolean') {
+        return result
+      }
+
+      if (result && typeof result === 'string') {
+        return evalJS(result, source) === value
+      }
+
+      return !!result
+    }
+
     // with multi cases
     if (cases) {
-      schema = cases.find(({ value, condition: itemCondition }) => {
+      schema = cases.find((item) => {
+        const { value, condition: itemCon } = item
         // get schema by case item condition
-        if (itemCondition && evalExpression(itemCondition, data)) {
-          return true
-        }
-        // get schema by case value with main condition
-        if (condition && evalJS(condition, data) === value) {
-          return true
-        }
-
-        return false
+        return getResult(itemCon || condition, value, data)
       })
 
       // set defaultCase
@@ -52,7 +60,7 @@ export class LibWhen extends React.Component<Props> {
       }
     } else if (ifTrue || ifFalse) {
       // with bool condition
-      const result = evalExpression(condition, data)
+      const result = getResult(condition, !!ifTrue, data)
       if (result && ifTrue) {
         schema = ifTrue
       }

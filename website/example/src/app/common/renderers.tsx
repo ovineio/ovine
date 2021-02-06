@@ -3,8 +3,12 @@
  */
 import { get } from 'lodash'
 
+import React from 'react'
+
 import { addLibRenderer } from '@core/components/amis/lib_renderer'
 import { checkLimitByNodePath } from '@core/routes/limit/exports'
+
+import ScrollBar from '~/components/scroll_bar'
 
 import { limitKeys } from '../constants'
 import { apis } from './apis'
@@ -127,6 +131,37 @@ addLibRenderer('sysSchemaService', (props) => {
           }
           return apiSource
         },
+      },
+    },
+  }
+})
+
+addLibRenderer('sysScrollBar', (props) => {
+  const {
+    render,
+    hor = false,
+    ver = true,
+    height,
+    body,
+    className = '',
+    scrollBarOpts = {},
+  } = props
+
+  const heighStyle = height ? `height: ${height}` : ''
+
+  return {
+    type: 'lib-css',
+    className: `scrollbar-wrap ${className}`,
+    css: `
+      ${heighStyle}
+    `,
+    body: {
+      component: () => {
+        return (
+          <ScrollBar hor={hor} ver={ver} options={scrollBarOpts}>
+            {render('body', body)}
+          </ScrollBar>
+        )
       },
     },
   }

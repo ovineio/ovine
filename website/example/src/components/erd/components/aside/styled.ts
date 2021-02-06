@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { erdStyled } from '../../constants'
+
 export const AsideWrap = styled.div`
   flex: 0 0 230px;
   display: flex;
@@ -7,17 +9,22 @@ export const AsideWrap = styled.div`
   width: 230px;
   height: 100%;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
+
+  .aside-body {
+    flex: 1 1 auto;
+    overflow-y: hidden;
+  }
 `
 
 export const Header = styled.div`
   flex: 0 0 36px;
   display: flex;
   justify-content: space-between;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  background-color: #f8f9fb;
+  align-items: center;
+  height: ${erdStyled.hdHeight}px;
+  padding: 0 10px 0 10px;
+  border-bottom: ${erdStyled.divideBorder};
+  background-color: ${erdStyled.hdBgColor};
   text-align: left;
   font-size: 16px;
 
@@ -26,20 +33,13 @@ export const Header = styled.div`
       padding-right: 4px;
     }
   }
-  .tool {
-    padding: 0;
-    margin: 0;
-    li {
-      list-style: none;
-      cursor: pointer;
-    }
-  }
 `
 
 export const SearchBox = styled.div`
   position: relative;
   padding: 6px 8px;
-  background-color: #f5f5fb;
+  border-bottom: 1px solid #e5e5e7;
+  background-color: rgb(248 249 251);
   input {
     width: 100%;
     border-radius: 0px;

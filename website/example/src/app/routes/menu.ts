@@ -47,12 +47,16 @@ export const menuRoutes: LimitMenuItem = {
               nodePath: 'mode_list',
             },
             {
-              label: '数据视图',
-              nodePath: 'view_list',
+              label: '数据视图', // 主要用于数据分析与挖掘
+              nodePath: 'model_view',
             },
             {
-              label: '自定义接口',
+              label: '自定义接口', // 提供第三方接口调用
               nodePath: 'mode_api',
+            },
+            {
+              label: '数据面板', // 数据自定义展示： 表格数据，图表视图
+              nodePath: 'model_dashboard',
             },
           ],
         },

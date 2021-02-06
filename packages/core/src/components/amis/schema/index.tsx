@@ -33,9 +33,9 @@ export const Amis = (props: AmisProps) => {
 
   // 改变固定的高度
   // @ts-ignore
-  if (!option.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
+  if (!amisProps.affixOffsetTop && getGlobal(storage.supportRouteTabs)) {
     // @ts-ignore
-    option.affixOffsetTop = enableRouteTabs ? 100 : 50
+    amisProps.affixOffsetTop = enableRouteTabs ? 100 : 50
   }
 
   useEffect(() => {

@@ -37,8 +37,8 @@ export const options = {
 export const initCanvas = () => {
   const {
     graph: { canvas },
-    setActiveId,
-    setActiveFieldId,
+    // setActiveId,
+    // setActiveFieldId,
   } = store
 
   // canvas.focusCenterWithAnimate(); // TODO: 有BUG，导致第一次 连线出现异常
@@ -62,8 +62,8 @@ export const initCanvas = () => {
   // });
 
   canvas.on(erdBfEvents.canvasClick, () => {
-    setActiveId('')
-    setActiveFieldId('')
+    // setActiveId('')
+    // setActiveFieldId('')
   })
 
   // canvas.on(erdBfEvents.dragStart, (data: any) => {

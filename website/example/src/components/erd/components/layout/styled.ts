@@ -23,6 +23,45 @@ export const LayoutWrap = styled.div`
   li {
     list-style: none;
   }
+
+  .erd-hd-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding-top: 1px;
+    li {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 2px;
+      list-style: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #eaeaea;
+      }
+
+      .active {
+        padding: 4px;
+        border-radius: 2px;
+        color: #4ea2e8;
+        font-weight: bold;
+        background-color: rgba(53, 144, 220, 0.2);
+      }
+
+      .disabled {
+        padding: 4px;
+        border-radius: 2px;
+        color: rgb(157 169 179);
+        font-weight: bold;
+        background-color: rgba(0, 0, 0, 0.1);
+        cursor: not-allowed;
+      }
+    }
+  }
 `
 
 export const AsideWrap = styled.div`

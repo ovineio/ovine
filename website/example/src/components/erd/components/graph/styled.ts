@@ -75,6 +75,11 @@ export const NodeWrap = styled.div`
     &:last-child {
       border-radius: 0 0 4px 4px;
     }
+    &.active {
+      .field-content {
+        background-color: rgb(193, 225, 254);
+      }
+    }
   }
 
   .field-point {

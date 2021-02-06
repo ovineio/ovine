@@ -2,6 +2,7 @@ import { modelApis, modelUtils } from '../../helper/api'
 
 export const updateTableSchema = {
   type: 'page',
+  bodyClassName: 'schema-body',
   body: {
     type: 'service',
     api: modelApis.fakeTableTemplate,
@@ -27,6 +28,7 @@ export const updateTableSchema = {
 
 export const updateFieldSchema = {
   type: 'page',
+  bodyClassName: 'schema-body',
   body: {
     type: 'form',
     mode: 'normal',

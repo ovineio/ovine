@@ -8,10 +8,11 @@ import { useImmer } from '@core/utils/hooks'
 // import { mockTableData } from './mock'
 
 import { useStore } from '../../store'
+
 import * as S from './styled'
+import { FieldTool, TableTool } from './tool'
 
 // TODO 添加 排序功能---需要二次确认功能
-
 const NavField = observer((props: any) => {
   const { label, id } = props.data
   const { setActiveFieldId, activeFieldId } = useStore()
@@ -19,34 +20,27 @@ const NavField = observer((props: any) => {
   const isActive = activeFieldId === id
 
   const onFieldClick = () => {
-    if (!isActive) {
-      setActiveFieldId(id)
-    }
+    setActiveFieldId(isActive ? '' : id)
   }
 
   return (
     <S.NavField className={`${isActive ? 'active' : ''}`} onClick={onFieldClick}>
       <div className="field-label">
-        <ul className="field-icons">
-          <li>/</li>
-          <li>k</li>
-        </ul>
         <span>{label}</span>
       </div>
-      <ul className="field-tool">
-        <li>+</li>
-        <li>c</li>
-        <li>x</li>
-      </ul>
+      {isActive && <FieldTool id={id} />}
     </S.NavField>
   )
 })
 
+//
 const NavNode = (props: any) => {
-  const { data, isExpand, setExpandId } = props
+  const { data, activeId, isExpand, setExpandId } = props
   const { label, fields = [], id } = data
 
   const $contentRef = useRef()
+
+  const isActive = activeId === id
 
   useEffect(() => {
     // const sortable = Sortable.create($contentRef.current, {
@@ -68,11 +62,7 @@ const NavNode = (props: any) => {
           <RightOutlined />
           <span>{label}</span>
         </div>
-        <ul className="node-tool">
-          <li>o</li>
-          <li>+</li>
-          <li>x</li>
-        </ul>
+        {isActive && <TableTool id={id} />}
       </div>
       <div ref={$contentRef} className="node-content">
         {fields.map((item) => {
@@ -83,6 +73,7 @@ const NavNode = (props: any) => {
   )
 }
 
+//
 const NavTree = observer(() => {
   const { activeId, setActiveId, model } = useStore()
   const $wrapRef = useRef()
@@ -125,7 +116,15 @@ const NavTree = observer(() => {
     <S.NavTreeWrap ref={$wrapRef}>
       {model.tables.map((table) => {
         const isExpand = table.id === expandId
-        return <NavNode key={table.id} data={table} isExpand={isExpand} setExpandId={setExpandId} />
+        return (
+          <NavNode
+            key={table.id}
+            data={table}
+            activeId={activeId}
+            isExpand={isExpand}
+            setExpandId={setExpandId}
+          />
+        )
       })}
     </S.NavTreeWrap>
   )

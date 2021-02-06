@@ -14,3 +14,9 @@ export const erdStoreKey = {
   epDragSource: 'epDragSourceStore',
   modelTemplate: 'modelTemplateStore',
 }
+
+export const erdStyled = {
+  hdHeight: 40,
+  hdBgColor: '#f8f9fb',
+  divideBorder: '1px solid rgba(0, 0, 0, 0.08)',
+}

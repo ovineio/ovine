@@ -1,3 +1,4 @@
+import { findIndex, get } from 'lodash'
 import { types } from 'mobx-state-tree'
 import React, { createContext, useContext, useEffect } from 'react'
 
@@ -25,34 +26,105 @@ const RootModel = types
     }
 
     return {
+      get hasActiveItem() {
+        return self.activeFieldId || self.activeId
+      },
       get activeNodeInfo() {
         return getActiveNodeInfo()
       },
+
       get activeFieldInfo() {
         const nodeInfo = getActiveNodeInfo()
+        const field = nodeInfo?.fields.find((i) => i.id === self.activeFieldId)
 
-        if (!nodeInfo) {
+        if (!field) {
           return
         }
 
-        const field = nodeInfo.fields.find((i) => i.id === self.activeFieldId)
+        return {
+          ...field,
+          nodeInfo,
+        }
+      },
+      get activeItemNavInfo() {
+        const info = {
+          pre: false,
+          next: false,
+          in: false,
+          out: false,
+          index: 0,
+        }
+        const fields = getActiveNodeInfo()?.fields || []
+        const fieldCount = fields.length
 
-        return field
+        if (self.activeFieldId) {
+          const fieldIndex = findIndex(fields, { id: self.activeFieldId })
+
+          info.out = true
+          info.index = fieldIndex
+          if (fieldIndex !== -1 && fieldCount !== 1) {
+            info.pre = fieldIndex !== 0
+            info.next = fields.length - 1 !== fieldIndex
+          }
+        } else if (self.activeId) {
+          const {tables} = self.model
+          const tableIndex = findIndex(tables, { id: self.activeId })
+          info.index = tableIndex
+          info.in = fieldCount !== 0
+          if (tableIndex !== -1 && tables.length !== 1) {
+            info.pre = tableIndex !== 0
+            info.next = tables.length - 1 !== tableIndex
+          }
+        }
+
+        return info
       },
     }
   })
   .actions((self) => {
-    const setActiveFieldId = (id: string) => {
+    const setActiveFieldId = (id: string = '') => {
       self.activeFieldId = id
     }
 
-    const setActiveId = (id: string) => {
+    const setActiveId = (id: string = '') => {
+      // 保持 fieldId 与 nodeId 一致性
+      if (self.activeFieldInfo && self.activeFieldInfo?.nodeInfo.id !== id) {
+        setActiveFieldId()
+      }
+
       self.activeId = id
+    }
+
+    const navigateActiveItem = (direction: 'in' | 'out' | 'pre' | 'next', index: number = 0) => {
+      if (direction === 'in') {
+        const nextId = get(self.activeNodeInfo, 'fields[0].id')
+        setActiveFieldId(nextId)
+        return
+      }
+
+      if (direction === 'out') {
+        setActiveFieldId()
+        return
+      }
+
+      if (self.activeFieldId) {
+        const nextId = get(self.activeNodeInfo, `fields[${index}].id`)
+        setActiveFieldId(nextId)
+        return
+      }
+
+      if (self.activeId) {
+        const nextId = get(self.model, `tables[${index}].id`)
+        self.graph.canvas.focusNodeWithAnimate(nextId)
+        setActiveId(nextId)
+        
+      }
     }
 
     return {
       setActiveFieldId,
       setActiveId,
+      navigateActiveItem,
     }
   })
 

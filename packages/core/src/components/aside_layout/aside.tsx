@@ -108,6 +108,7 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
   }
 
   if (active) {
+    // eslint-disable-next-line
     return <a> {children} </a>
   }
 

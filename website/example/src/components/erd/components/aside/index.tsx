@@ -4,6 +4,8 @@ import AppstoreFilled from '@ant-design/icons/AppstoreFilled'
 import PlusOutlined from '@ant-design/icons/PlusOutlined'
 import SearchOutlined from '@ant-design/icons/SearchOutlined'
 
+import ScrollBar from '~/components/scroll_bar'
+
 import NavTree from '../nav_tree'
 
 import * as S from './styled'
@@ -25,14 +27,16 @@ const Aside = () => {
           <AppstoreFilled />
           <span>模型导航</span>
         </div>
-        <ul className="tool">
+        <ul className="erd-hd-toolbar">
           <li>
             <PlusOutlined />
           </li>
         </ul>
       </S.Header>
       <SearchBox />
-      <NavTree />
+      <ScrollBar className="aside-body">
+        <NavTree />
+      </ScrollBar>
     </S.AsideWrap>
   )
 }

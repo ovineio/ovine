@@ -13,8 +13,9 @@ import * as S from './styled'
 
 // 字段
 const Field = (props) => {
-  const { nodeId, readOnly, clickLink, setActiveFieldId } = props
+  const { nodeId, readOnly, clickLink, activeFieldId, setActiveFieldId } = props
   const { label, type, id } = props.info
+  const isActive = activeFieldId === id
 
   // 每次点击时 sourceL
   const onFieldMouseDown = () => {
@@ -60,7 +61,7 @@ const Field = (props) => {
 
   // 点击关联逻辑
   const onFieldClick = () => {
-    setActiveFieldId(id)
+    setActiveFieldId(isActive ? '' : id)
     if (!clickLink) {
       //
     }
@@ -73,7 +74,7 @@ const Field = (props) => {
 
   return (
     <div
-      className="field-wrap"
+      className={`field-wrap ${isActive ? 'active' : ''}`}
       onMouseEnter={onFieldMouseEnter}
       onMouseDown={onFieldMouseDown}
       onMouseUp={onFieldMouseUp}
@@ -94,7 +95,7 @@ const Field = (props) => {
 
 // 节点
 const Node = observer((props) => {
-  const { activeId, setActiveId, setActiveFieldId, graph } = useStore()
+  const { activeId, setActiveId, activeFieldId, setActiveFieldId, graph } = useStore()
   const { readOnly, clickLink } = graph
 
   const $tableRef = useRef()
@@ -172,6 +173,7 @@ const Node = observer((props) => {
               readOnly={readOnly}
               setActiveFieldId={setActiveFieldId}
               clickLink={clickLink}
+              activeFieldId={activeFieldId}
               nodeId={id}
               info={field}
             />

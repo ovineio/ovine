@@ -3,6 +3,7 @@ import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
+import BorderInnerOutlined from '@ant-design/icons/BorderInnerOutlined'
 import CheckOutlined from '@ant-design/icons/CheckOutlined'
 import CompressOutlined from '@ant-design/icons/CompressOutlined'
 import DisconnectOutlined from '@ant-design/icons/DisconnectOutlined'
@@ -85,7 +86,7 @@ const Tool = () => {
 }
 
 const Header = observer(() => {
-  const { graph } = useStore()
+  const { graph, activeFieldId, activeId, setActiveFieldId, setActiveId } = useStore()
   const {
     canvas,
     readOnly,
@@ -95,6 +96,15 @@ const Header = observer(() => {
     toggleClickLink,
     toggleFullScreen,
   } = graph
+
+  const isSelectedState = activeFieldId || activeId
+
+  const cancelSelected = () => {
+    if (isSelectedState) {
+      setActiveFieldId('')
+      setActiveId('')
+    }
+  }
 
   const undo = () => {
     canvas.undo()
@@ -106,7 +116,7 @@ const Header = observer(() => {
 
   return (
     <S.HeaderWrap>
-      <ul className="header-bar">
+      <ul className="erd-hd-toolbar">
         <li onClick={undo}>
           <RedoOutlined />
         </li>
@@ -118,6 +128,9 @@ const Header = observer(() => {
           {fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </li>
         <li onClick={toggleClickLink}>{clickLink ? <DisconnectOutlined /> : <LinkOutlined />}</li>
+        <li onClick={cancelSelected}>
+          <BorderInnerOutlined className={isSelectedState ? 'active' : ''} />
+        </li>
         <li>
           <CheckOutlined />
         </li>

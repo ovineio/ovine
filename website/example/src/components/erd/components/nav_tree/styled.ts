@@ -5,8 +5,26 @@ export const NavTreeWrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 230px;
-  height: 100%;
+  padding: 0 0 20px;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
+
+  .tool-bar {
+    display: flex;
+    padding-top: 1px;
+    .anticon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+      font-size: 12px;
+      &:hover {
+        color: #fff;
+        background: #80a9cc;
+      }
+    }
+  }
 `
 
 export const NavNode = styled.div`
@@ -28,15 +46,15 @@ export const NavNode = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 38px;
     padding: 0 10px;
-    height: 32px;
     font-size: 14px;
     border-bottom: 1px solid #e5e5e7;
     cursor: pointer;
 
     .anticon-right {
       transform: rotate(0) translateX(0);
-      padding-right: 4px;
+      padding-right: 6px;
       transition: transform 0.25s;
     }
   }
@@ -47,24 +65,20 @@ export const NavNode = styled.div`
     overflow-y: hidden;
     transition: max-height 0.25s;
   }
-
-  .node-tool {
-    display: flex;
-  }
 `
 
 export const NavField = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 28px;
+  height: 32px;
   padding: 0 10px 0 30px;
   cursor: pointer;
   &:first-child {
-    margin-top: 10px;
+    margin-top: 8px;
   }
   &:last-child {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
   &:hover {
     background-color: #e6f0f9;
@@ -84,9 +98,18 @@ export const NavField = styled.div`
 
   .field-icons {
     display: flex;
+    font-size: 12px;
   }
+`
 
+export const TableTool = styled.div`
   .field-tool {
+    display: flex;
+  }
+`
+
+export const FieldTool = styled.div`
+  .node-tool {
     display: flex;
   }
 `

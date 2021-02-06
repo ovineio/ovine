@@ -1,5 +1,6 @@
 import Erd from '~/components/erd'
 
+import { modelDataSchema } from './model_data'
 import * as styled from './styled'
 import * as tpl from './template'
 import * as utils from './utils'
@@ -11,12 +12,9 @@ export default {
   schema: {
     type: 'page',
     name: 'page',
-    title: '模型列表',
+    title: '数据模型',
     remark: '数据模型可以用于在线生成API',
     bodyClassName: 'p-none',
-    data: {
-      displayMode: utils.displayModeCtrl('get'),
-    },
     css: styled.modelListPageCss,
     cssVars: {
       '--Drawer-widthXl': '75%',
@@ -27,26 +25,34 @@ export default {
       },
       {
         $preset: 'actions.copyTable',
-        disabledOn: 'displayMode === "diagram"',
+        disabledOn: 'displayMode !== "list"',
       },
       {
         $preset: 'actions.add',
-        disabledOn: 'displayMode === "diagram"',
+        disabledOn: 'displayMode !== "list"',
       },
     ],
-    body: [
-      {
-        visibleOn: 'displayMode === "list"',
-        ...tpl.getModeList(),
-      },
-      {
-        visibleOn: 'displayMode === "diagram"',
-        type: 'container',
-        body: {
-          component: Erd,
+    body: {
+      type: 'lib-when',
+      condition: (value) => utils.displayModeCtrl('get') === value,
+      cases: [
+        {
+          value: 'list',
+          ...tpl.getModeList(),
         },
-      },
-    ],
+        {
+          value: 'diagram',
+          type: 'container',
+          body: {
+            component: Erd,
+          },
+        },
+        {
+          value: 'detail',
+          ...modelDataSchema,
+        },
+      ],
+    },
     definitions: {
       fieldsTransfer: {
         name: 'types',
@@ -250,11 +256,13 @@ export default {
           mode: 'inline',
           target: 'page',
           wrapWithPanel: false,
+          onInit: (_, formIns) => {
+            formIns.store.setValueByName('displayMode', utils.displayModeCtrl('get'))
+          },
           controls: [
             {
               type: 'button-group',
               name: 'displayMode',
-              value: 'list',
               submitOnChange: true,
               onChange: (mode: string) => {
                 utils.displayModeCtrl('set', mode)
@@ -262,13 +270,15 @@ export default {
               options: [
                 {
                   label: '列表',
-                  icon: 'fa fa-list pull-left',
                   value: 'list',
                 },
                 {
                   label: '图示',
-                  icon: 'fa fa-th-large pull-left',
                   value: 'diagram',
+                },
+                {
+                  label: '数据',
+                  value: 'detail',
                 },
               ],
             },
