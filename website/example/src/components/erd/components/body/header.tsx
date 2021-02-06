@@ -89,10 +89,10 @@ const Header = observer(() => {
   const { graph, activeFieldId, activeId, setActiveFieldId, setActiveId } = useStore()
   const {
     canvas,
-    readOnly,
+    readMode,
     clickLink,
     fullScreen,
-    toggleReadOnly,
+    toggleReadMode,
     toggleClickLink,
     toggleFullScreen,
   } = graph
@@ -123,7 +123,7 @@ const Header = observer(() => {
         <li onClick={redo}>
           <UndoOutlined />
         </li>
-        <li onClick={toggleReadOnly}>{readOnly ? <EyeOutlined /> : <HighlightOutlined />}</li>
+        <li onClick={toggleReadMode}>{readMode ? <EyeOutlined /> : <HighlightOutlined />}</li>
         <li onClick={toggleFullScreen}>
           {fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </li>

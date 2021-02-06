@@ -1,32 +1,62 @@
 import { toast } from 'amis'
+import { uuid } from 'amis/lib/utils/helper'
 
 import { types, flow } from 'mobx-state-tree'
 
 import { fetchTableById, fetchTables } from '../helper/api'
 
-const FiledModel = types.model('ErdFieldModel', {
-  id: '',
-  label: '',
-  desc: '',
-  type: '',
-  required: false,
-  unique: false,
-})
+const FiledModel = types
+  .model('ErdFieldModel', {
+    id: '',
+    name: '',
+    desc: '',
+    typeLabel: '',
+    isEditing: false,
+  })
+  .volatile(() => {
+    return {
+      tableInfo: {} as any,
+    }
+  })
+  .actions((self) => {
+    const setTableInfo = (info) => {
+      self.tableInfo = info
+    }
+
+    const setInfo = (key, value) => {
+      self[key] = value
+    }
+
+    return {
+      setTableInfo,
+      setInfo,
+    }
+  })
 
 const TableModel = types
   .model('ErdTableModel', {
     loading: false,
     id: '',
-    label: '',
+    name: '',
     desc: '',
+    isEditing: false,
+    tableId: types.maybeNull(types.string),
     fields: types.array(FiledModel),
+    x: types.maybeNull(types.number),
+    y: types.maybeNull(types.number),
   })
   .actions((self) => {
+    const resetInfo = (info) => {
+      self.name = info.name
+      self.desc = info.desc
+      self.fields = info.fields
+    }
+
     const refreshInfo = flow(function*() {
       try {
         self.loading = true
-        const { label, desc, fields } = yield fetchTableById(self.id)
-        self.label = label
+        const { name, desc, fields } = yield fetchTableById(self.id)
+        self.name = name
         self.desc = desc
         self.fields = fields
         self.loading = false
@@ -36,8 +66,14 @@ const TableModel = types
       }
     })
 
+    const setInfo = (key, value) => {
+      self[key] = value
+    }
+
     return {
       refreshInfo,
+      resetInfo,
+      setInfo,
     }
   })
 
@@ -58,7 +94,21 @@ export const DataModel = types
       }
     })
 
+    const addTable = (options = {}) => {
+      const uid = uuid()
+      self.tables.push({
+        id: uid,
+        name: `新添加模型-${self.tables.length + 1}`,
+        desc: '新添加',
+        fields: [],
+        isEditing: true,
+        ...options,
+      })
+      return uid
+    }
+
     return {
+      addTable,
       fetchTablesData,
     }
   })

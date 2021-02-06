@@ -36,10 +36,11 @@ export const options = {
 
 export const initCanvas = () => {
   const {
-    graph: { canvas },
+    graph,
     // setActiveId,
     // setActiveFieldId,
   } = store
+  const { canvas } = graph
 
   // canvas.focusCenterWithAnimate(); // TODO: 有BUG，导致第一次 连线出现异常
   canvas.setMinimap(true, {
@@ -61,10 +62,13 @@ export const initCanvas = () => {
   //   }
   // });
 
-  canvas.on(erdBfEvents.canvasClick, () => {
-    // setActiveId('')
-    // setActiveFieldId('')
-  })
+  // canvas.on(erdBfEvents.canvasClick, (...args) => {
+
+  // if (addMode) {
+  // }
+  // setActiveId('')
+  // setActiveFieldId('')
+  // })
 
   // canvas.on(erdBfEvents.dragStart, (data: any) => {
   // const { dragType, dragEndpoint } = data

@@ -35,7 +35,7 @@ export const menuRoutes: LimitMenuItem = {
       label: '实验功能',
       icon: 'fa fa-flask',
       nodePath: 'experiment',
-      badgeClassName: 'bg-waring',
+      badgeClassName: 'bg-danger',
       badge: 2,
       children: [
         {
@@ -96,6 +96,14 @@ export const menuRoutes: LimitMenuItem = {
           pathToComponent: 'root://demo/static/js/test_remote_schema.js',
         },
         {
+          label: '热更新管理',
+          nodePath: 'hot', // 对应 src/pages/application/hot
+        },
+        {
+          label: '文档管理',
+          nodePath: 'doc', // 对应 src/pages/application/doc
+        },
+        {
           label: '父级页面',
           nodePath: 'parent',
           exact: true,
@@ -111,9 +119,9 @@ export const menuRoutes: LimitMenuItem = {
             },
           ],
         },
+
         {
           label: '测试渲染器',
-          icon: 'fa fa-book',
           nodePath: 'cases',
           children: [
             {
@@ -129,14 +137,6 @@ export const menuRoutes: LimitMenuItem = {
               nodePath: 'custom',
             },
           ],
-        },
-        {
-          label: '热更新管理',
-          nodePath: 'hot', // 对应 src/pages/application/hot
-        },
-        {
-          label: '文档管理',
-          nodePath: 'doc', // 对应 src/pages/application/doc
         },
       ],
     },

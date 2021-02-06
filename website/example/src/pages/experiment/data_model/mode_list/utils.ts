@@ -60,28 +60,56 @@ const applyValueToAttrs = (attrs, table) => {
   return result
 }
 
+export const getTableFormData = (apiSource) => {
+  const { addTime, updateTime, table, fields } = apiSource
+
+  const data = {
+    addTime,
+    updateTime,
+    id: get(table, 'id.value'),
+    name: get(table, 'name.value'),
+    desc: get(table, 'desc.value'),
+    fields: getTableFieldList(fields),
+  }
+
+  return data
+}
+
+export const getFieldFormData = (apiSource) => {
+  const {
+    name: typeLabel,
+    desc: typeDesc,
+    beanType,
+    addTime,
+    updateTime,
+    attributes,
+    id,
+  } = apiSource
+  const fieldData = {
+    id,
+    typeLabel,
+    typeDesc,
+    addTime,
+    updateTime,
+    beanType,
+    extra: [],
+  }
+  const fiedKeys = ['name', 'desc', 'isNull']
+  map(attributes, (item, key) => {
+    if (fiedKeys.includes(key)) {
+      fieldData[key] = item.value
+    } else {
+      fieldData.extra.push(pick(item, ['value', 'label']))
+    }
+  })
+
+  return fieldData
+}
+
 export const getTableFieldList = (fields = []) => {
   const fieldsData = []
   fields.forEach((field) => {
-    const { name: typeLabel, desc: typeDesc, beanType, addTime, updateTime, attributes, id } = field
-    const fieldData = {
-      id,
-      typeLabel,
-      typeDesc,
-      addTime,
-      updateTime,
-      beanType,
-      extra: [],
-    }
-    const fiedKeys = ['name', 'desc', 'isNull']
-    map(attributes, (item, key) => {
-      if (fiedKeys.includes(key)) {
-        fieldData[key] = item.value
-      } else {
-        fieldData.extra.push(pick(item, ['value', 'label']))
-      }
-    })
-    fieldsData.push(fieldData)
+    fieldsData.push(getFieldFormData(field))
   })
 
   return fieldsData
@@ -101,16 +129,9 @@ export const onGetTableListSuc = async (source) => {
   await fetchModelTplData()
 
   const data = source.data || []
+
   const items = data.map((item) => {
-    const { addTime, updateTime, table, fields } = item
-    return {
-      addTime,
-      updateTime,
-      id: get(table, 'id.value'),
-      name: get(table, 'name.value'),
-      desc: get(table, 'desc.value'),
-      fields: getTableFieldList(fields),
-    }
+    return getTableFormData(item)
   })
 
   source.data = {
@@ -203,7 +224,7 @@ export const onGetFieldOptsSuc = (source) => {
 }
 
 export const onFakeFieldTypeOpts = () => {
-  const { fieldModel } = getGlobal('pageModelTemplate')
+  const { fieldModel } = getGlobal(erdStoreKey.modelTemplate)
   const fieldTypeOpts = []
   fieldModel.forEach((field) => {
     const { name, desc, beanType } = field

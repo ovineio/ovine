@@ -1,3 +1,5 @@
+import cls from 'classnames'
+import { observer } from 'mobx-react'
 import React from 'react'
 
 import AppstoreFilled from '@ant-design/icons/AppstoreFilled'
@@ -6,6 +8,7 @@ import SearchOutlined from '@ant-design/icons/SearchOutlined'
 
 import ScrollBar from '~/components/scroll_bar'
 
+import { useStore } from '../../store'
 import NavTree from '../nav_tree'
 
 import * as S from './styled'
@@ -19,7 +22,10 @@ const SearchBox = () => {
   )
 }
 
-const Aside = () => {
+const Aside = observer(() => {
+  const { graph } = useStore()
+  const { addMode, readMode, clickLink, toggleAddMode } = graph
+
   return (
     <S.AsideWrap>
       <S.Header>
@@ -28,8 +34,8 @@ const Aside = () => {
           <span>模型导航</span>
         </div>
         <ul className="erd-hd-toolbar">
-          <li>
-            <PlusOutlined />
+          <li onClick={toggleAddMode}>
+            <PlusOutlined className={cls({ active: addMode, disabled: clickLink || readMode })} />
           </li>
         </ul>
       </S.Header>
@@ -39,6 +45,6 @@ const Aside = () => {
       </ScrollBar>
     </S.AsideWrap>
   )
-}
+})
 
 export default Aside

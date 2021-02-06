@@ -1,16 +1,20 @@
+import cls from 'classnames'
 import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'
 
 import Butterfly from '~/components/butterfly'
 
+import { useIndeedClick } from '../../hooks'
 import { useStore } from '../../store'
 
 import { initCanvas, options } from './canvas'
 import * as S from './styled'
-import { getNodesData, getEdgesData } from './utils'
+import { getNodesData, getEdgesData, addNode } from './utils'
 
 const Graph = observer(() => {
   const { graph, model } = useStore()
+
+  const { readMode, addMode } = graph
 
   useEffect(() => {
     model.fetchTablesData()
@@ -26,12 +30,27 @@ const Graph = observer(() => {
     edges: getEdgesData([]),
   }
 
+  const onGraphClick = (e) => {
+    const isBlankPlace = 'butterfly-wrapper,butterfly-gird-canvas'.indexOf(e.target.className) > -1
+    if (addMode && isBlankPlace) {
+      addNode(e)
+    }
+  }
+
+  const { onMouseDown, onMouseUp } = useIndeedClick({
+    onIndeedClick: onGraphClick,
+  })
+
   if (!model.tables.length && model.loading) {
     return null
   }
 
   return (
-    <S.GraphWrap className={`${graph.readOnly ? 'read-only' : ''}`}>
+    <S.GraphWrap
+      className={cls({ 'read-mode': readMode, 'add-mode': addMode })}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+    >
       <Butterfly {...dataProps} options={options} onLoaded={onLoaded} />
     </S.GraphWrap>
   )

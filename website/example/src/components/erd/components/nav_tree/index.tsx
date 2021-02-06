@@ -9,12 +9,13 @@ import { useImmer } from '@core/utils/hooks'
 
 import { useStore } from '../../store'
 
+import { NoFields } from '../state/null_data'
 import * as S from './styled'
 import { FieldTool, TableTool } from './tool'
 
 // TODO 添加 排序功能---需要二次确认功能
 const NavField = observer((props: any) => {
-  const { label, id } = props.data
+  const { name, id } = props.data
   const { setActiveFieldId, activeFieldId } = useStore()
 
   const isActive = activeFieldId === id
@@ -26,7 +27,7 @@ const NavField = observer((props: any) => {
   return (
     <S.NavField className={`${isActive ? 'active' : ''}`} onClick={onFieldClick}>
       <div className="field-label">
-        <span>{label}</span>
+        <span>{name}</span>
       </div>
       {isActive && <FieldTool id={id} />}
     </S.NavField>
@@ -34,9 +35,9 @@ const NavField = observer((props: any) => {
 })
 
 //
-const NavNode = (props: any) => {
+const NavNode = observer((props: any) => {
   const { data, activeId, isExpand, setExpandId } = props
-  const { label, fields = [], id } = data
+  const { name, fields = [], id } = data
 
   const $contentRef = useRef()
 
@@ -60,18 +61,22 @@ const NavNode = (props: any) => {
       <div className="node-header" onClick={onHeaderClick}>
         <div className="node-label">
           <RightOutlined />
-          <span>{label}</span>
+          <span>{name}</span>
         </div>
         {isActive && <TableTool id={id} />}
       </div>
       <div ref={$contentRef} className="node-content">
-        {fields.map((item) => {
-          return <NavField key={item.id} data={item} />
-        })}
+        {fields.length ? (
+          fields.map((item) => {
+            return <NavField key={item.id} data={item} />
+          })
+        ) : (
+          <NoFields />
+        )}
       </div>
     </S.NavNode>
   )
-}
+})
 
 //
 const NavTree = observer(() => {

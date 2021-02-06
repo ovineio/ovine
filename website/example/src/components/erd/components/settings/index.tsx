@@ -12,8 +12,11 @@ import { Amis } from '@core/components/amis/schema'
 import ScrollBar from '~/components/scroll_bar'
 
 import { useStore } from '../../store'
+import { NoSettingItem } from '../state/null_data'
+
 import * as S from './styled'
-import { updateFieldSchema, updateTableSchema } from './tpl'
+import { getUpdateTableSchema, getUpdateFieldSchema } from './tpl'
+
 
 const Heder = observer(() => {
   const {
@@ -74,11 +77,11 @@ const Settings = observer(() => {
           <ScrollBar>
             <Amis
               key={activeFieldId || activeId}
-              schema={activeFieldInfo ? updateFieldSchema : updateTableSchema}
+              schema={activeFieldInfo ? getUpdateFieldSchema() : getUpdateTableSchema()}
             />
           </ScrollBar>
         ) : (
-          <div>请选择编辑对象</div>
+          <NoSettingItem />
         )}
       </S.Body>
     </S.SettingsWrap>

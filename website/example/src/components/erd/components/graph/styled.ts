@@ -8,6 +8,14 @@ export const GraphWrap = styled.div`
     cursor: grab;
   }
 
+  &.add-mode {
+    .butterfly-wrapper,
+    .butterfly-gird-canvas {
+      //http://www.ico8.net/index.php?action=make
+      cursor: url(${require('../../icons/cursor-add.ico')}), auto;
+    }
+  }
+
   .butterfly-react {
     position: relative;
     width: 100%;
@@ -48,6 +56,7 @@ export const NodeWrap = styled.div`
     border-radius: 4px;
     width: 220px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    background: white;
   }
 
   .header {
@@ -68,10 +77,36 @@ export const NodeWrap = styled.div`
     }
   }
 
+  .empty-fields {
+    text-align: center;
+    padding: 10px 0 15px;
+    border-radius: 0 0 4px 4px;
+
+    p {
+      margin: 0;
+      svg {
+        width: 60px;
+        height: 60px;
+        margin: auto;
+      }
+    }
+
+    div {
+      color: #3590dc;
+      &:hover {
+        color: #145286;
+      }
+    }
+
+    .anticon {
+      padding-right: 5px;
+    }
+  }
+
   .field-wrap {
     position: relative;
     color: #606f7b;
-    background: white;
+
     &:last-child {
       border-radius: 0 0 4px 4px;
     }

@@ -15,32 +15,12 @@ export const getModelTplData = () => {
   return getStore(erdStoreKey.modelTemplate)
 }
 
-const parseTableToModelData = (tableSource) => {
-  const { table, fields = [] } = tableSource
-  const modelData = {
-    id: table.id.value,
-    label: table.name.value,
-    desc: table.desc.value,
-    fields: fields.map((field) => {
-      return {
-        id: field.id,
-        type: field.name,
-        label: field.attributes.name.value,
-        desc: field.attributes.desc.value,
-        required: !field.attributes.isNull.value,
-        unique: false,
-      }
-    }),
-  }
-
-  return modelData
-}
-
 export const fetchTables = async () => {
   return app.request(modelApis.listTable).then((source) => {
     const tables = source.data.data
     return tables.map((table) => {
-      return parseTableToModelData(table)
+      const data = utils.getTableFormData(table)
+      return data
     })
   })
 }
@@ -50,7 +30,11 @@ export const fetchTableById = async (id: string) => {
   return app.request(modelApis.tableInfo).then((source) => {
     const tables = source.data
     return tables.map((table) => {
-      return parseTableToModelData(table)
+      return utils.getTableFormData(table)
     })
   })
+}
+
+export const submitErdData = () => {
+  //
 }

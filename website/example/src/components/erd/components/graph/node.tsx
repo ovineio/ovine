@@ -4,17 +4,22 @@ import React, { useRef } from 'react'
 import { getGlobal, setGlobal } from '@core/utils/store'
 
 import { erdStoreKey } from '../../constants'
-import { useCanvas } from '../../hooks'
+import { useCanvas, useIndeedClick } from '../../hooks'
 import { store, useStore } from '../../store'
 
+import { NoFields } from '../state/null_data'
 import * as S from './styled'
 
 // const nodeW = 220
 
 // 字段
-const Field = (props) => {
-  const { nodeId, readOnly, clickLink, activeFieldId, setActiveFieldId } = props
-  const { label, type, id } = props.info
+const Field = observer((props) => {
+  const { nodeId, info } = props
+  const { name, typeLabel, id } = info
+
+  const { activeFieldId, setActiveFieldId, graph } = useStore()
+  const { canActiveItem } = graph
+
   const isActive = activeFieldId === id
 
   // 每次点击时 sourceL
@@ -26,7 +31,7 @@ const Field = (props) => {
   const onFieldMouseUp = () => {
     const { id: dragSourceEpId, nodeId: sourceNodeId } = getGlobal(erdStoreKey.epDragSource) || {}
 
-    if (!dragSourceEpId || readOnly || clickLink) {
+    if (!dragSourceEpId || !canActiveItem) {
       return
     }
 
@@ -62,9 +67,6 @@ const Field = (props) => {
   // 点击关联逻辑
   const onFieldClick = () => {
     setActiveFieldId(isActive ? '' : id)
-    if (!clickLink) {
-      //
-    }
     //
   }
 
@@ -80,23 +82,23 @@ const Field = (props) => {
       onMouseUp={onFieldMouseUp}
       onClick={onFieldClick}
     >
-      <div className="field-point point-l" data-nid={id} data-id={`${nodeId}-${id}-l`} />
+      <div className="field-point point-l" data-nid={id} id={`${nodeId}-${id}-l`} />
       <div className="field-content">
         <div className="content">
           <span className="icon" />
-          <span>{label}</span>
+          <span>{name}</span>
         </div>
-        <span className="type">{type}</span>
+        <span className="type">{typeLabel}</span>
       </div>
-      <div className="field-point point-r" data-nid={id} data-id={`${nodeId}-${id}-r`} />
+      <div className="field-point point-r" data-nid={id} id={`${nodeId}-${id}-r`} />
     </div>
   )
-}
+})
 
 // 节点
 const Node = observer((props) => {
-  const { activeId, setActiveId, activeFieldId, setActiveFieldId, graph } = useStore()
-  const { readOnly, clickLink } = graph
+  const { activeId, setActiveId, setActiveFieldId, graph } = useStore()
+  const { canActiveItem } = graph
 
   const $tableRef = useRef()
   const storeRef = useRef({
@@ -106,45 +108,30 @@ const Node = observer((props) => {
   })
 
   const { id, data } = props
-  const { label, fields = [] } = data || {}
+  const { name, fields = [] } = data || {}
   const isActive = id === activeId
 
-  const onMouseUp = (e) => {
-    if (readOnly || clickLink) {
-      return
-    }
-    if (!storeRef.current.isMoving) {
+  const onNodeClick = (e) => {
+    if (canActiveItem) {
       setActiveId(id)
       if (e.target.className === 'header') {
-        setActiveFieldId('')
+        setActiveFieldId()
       }
     }
   }
 
-  const onMouseMove = () => {
-    if (readOnly || clickLink) {
-      return
-    }
-    if (!storeRef.current.isMoving) {
-      storeRef.current.isMoving = true
-    }
-  }
-
-  const onMouseDown = () => {
-    if (readOnly || clickLink) {
-      return
-    }
-    storeRef.current.isMoving = false
-  }
+  const { onMouseDown, onMouseUp } = useIndeedClick({
+    onIndeedClick: onNodeClick,
+  })
 
   useCanvas((canvas) => {
     const { pointList } = storeRef.current
     const $table = $($tableRef.current)
 
-    if ($table) {
+    if ($tableRef.current) {
       const bfNode = canvas.getNode(id)
       $table.find('.field-point').each((__, $point) => {
-        const pointId = $point.dataset.id
+        const pointId = $point.id
         if (!pointList.includes(pointId)) {
           bfNode.addEndpoint({
             id: pointId,
@@ -161,24 +148,17 @@ const Node = observer((props) => {
       ref={$tableRef}
       className={`table ${isActive ? 'active' : ''}`}
       onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
     >
       <div>
-        <div className="header">{label}</div>
-        {fields.map((field) => {
-          return (
-            <Field
-              key={field.id}
-              readOnly={readOnly}
-              setActiveFieldId={setActiveFieldId}
-              clickLink={clickLink}
-              activeFieldId={activeFieldId}
-              nodeId={id}
-              info={field}
-            />
-          )
-        })}
+        <div className="header">{name}</div>
+        {fields.length ? (
+          fields.map((field) => {
+            return <Field key={field.id} nodeId={id} info={field} />
+          })
+        ) : (
+          <NoFields />
+        )}
       </div>
     </S.NodeWrap>
   )

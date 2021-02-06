@@ -41,10 +41,11 @@ const RootModel = types
           return
         }
 
-        return {
-          ...field,
-          nodeInfo,
-        }
+        field.setTableInfo({
+          id: nodeInfo.id,
+        })
+
+        return field
       },
       get activeItemNavInfo() {
         const info = {
@@ -67,7 +68,7 @@ const RootModel = types
             info.next = fields.length - 1 !== fieldIndex
           }
         } else if (self.activeId) {
-          const {tables} = self.model
+          const { tables } = self.model
           const tableIndex = findIndex(tables, { id: self.activeId })
           info.index = tableIndex
           info.in = fieldCount !== 0
@@ -88,7 +89,7 @@ const RootModel = types
 
     const setActiveId = (id: string = '') => {
       // 保持 fieldId 与 nodeId 一致性
-      if (self.activeFieldInfo && self.activeFieldInfo?.nodeInfo.id !== id) {
+      if (self.activeFieldInfo && self.activeFieldInfo?.tableInfo.id !== id) {
         setActiveFieldId()
       }
 
@@ -117,7 +118,6 @@ const RootModel = types
         const nextId = get(self.model, `tables[${index}].id`)
         self.graph.canvas.focusNodeWithAnimate(nextId)
         setActiveId(nextId)
-        
       }
     }
 

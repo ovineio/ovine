@@ -11,6 +11,7 @@ const deepWalk = function deepWalk(element) {
   const walk = function walk(ele) {
     let PreElement = ele
     const children = _.get(PreElement, 'props.children')
+
     if (!PreElement) {
       return
     }
@@ -61,9 +62,11 @@ const NodeRender = (props) => {
 
     // 如果用户已经使用endpoints代替自定义node
     // 此时不需要渲染React Endpoint
-    const isUserCfgEndpoint = (nodeId) => {
-      const userDefNode = nodes.find((n) => n.id === nodeId)
-      return !!userDefNode?.endpoints
+    const isUserCfgEndpoint = () => {
+      // nodeId
+      return true
+      // const userDefNode = nodes.find((n) => n.id === nodeId)
+      // return !!userDefNode?.endpoints
     }
 
     // 添加节点
@@ -119,9 +122,9 @@ const NodeRender = (props) => {
 
     // 存量的锚点需要重新获取 dom，因为dom被移除，可能导致锚点失效
     canvas.nodes.forEach((node) => {
-      if (isUserCfgEndpoint(node.id)) {
-        return
-      }
+      // if (isUserCfgEndpoint(node.id)) {
+      //   return
+      // }
 
       node.endpoints.forEach((endpoint) => {
         const dom = document.getElementById(endpoint.id)
@@ -166,7 +169,6 @@ const NodeRender = (props) => {
       if (typeof child !== 'object') {
         return
       }
-
       if (child?.type?.name === 'Endpoint') {
         endpoints.push({
           endpointId: child.props.id,
