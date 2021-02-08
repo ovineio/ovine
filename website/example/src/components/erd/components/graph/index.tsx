@@ -1,3 +1,8 @@
+/**
+ * 主要功能做 锚点/连线相关 需求
+ * 1. 只读--模式，点选---模式
+ */
+
 import cls from 'classnames'
 import { observer } from 'mobx-react'
 import React, { useEffect } from 'react'

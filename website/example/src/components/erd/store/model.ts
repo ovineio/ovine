@@ -1,5 +1,5 @@
 import { toast } from 'amis'
-import { uuid } from 'amis/lib/utils/helper'
+import { uniqueId } from 'lodash'
 
 import { types, flow } from 'mobx-state-tree'
 
@@ -46,6 +46,20 @@ const TableModel = types
     y: types.maybeNull(types.number),
   })
   .actions((self) => {
+    const getFiledIndex = (id: string) => {
+      return self.fields.findIndex((i) => i.id === id)
+    }
+
+    const countSameName = (text: string) => {
+      let count = 0
+      self.fields.forEach(({ name }) => {
+        if (name.indexOf(text) > -1) {
+          count += 1
+        }
+      })
+      return count
+    }
+
     const resetInfo = (info) => {
       self.name = info.name
       self.desc = info.desc
@@ -70,10 +84,59 @@ const TableModel = types
       self[key] = value
     }
 
+    const addField = (id: string): string => {
+      const index = getFiledIndex(id)
+      const uid = uniqueId()
+      self.fields.splice(index + 1, 0, {
+        id: uid,
+        name: `新增字段-${countSameName('新增字段-') + 1}`,
+        typeLabel: '短文本',
+        isEditing: true,
+      })
+      return uid
+    }
+
+    const copyField = (id: string): string => {
+      const index = getFiledIndex(id)
+      const field = self.fields[index]
+      const uid = uniqueId()
+      self.fields.splice(index + 1, 0, {
+        ...field,
+        id: uid,
+        name: `${field.name.replace(/-复.*$/gi, '')}-复制${countSameName('-复制') || ''}`,
+      })
+      return uid
+    }
+
+    const removeField = (id: string): string => {
+      const index = getFiledIndex(id)
+      self.fields.splice(index, 1)
+      return self.fields[index - 1]?.id || ''
+    }
+
+    const batchAddFields = (names: string[]) => {
+      self.fields.push(
+        ...names.map((name) => {
+          const uid = uniqueId()
+          return {
+            id: uid,
+            name,
+            desc: '',
+            typeLabel: '短文本',
+            isEditing: true,
+          }
+        })
+      )
+    }
+
     return {
       refreshInfo,
       resetInfo,
       setInfo,
+      addField,
+      copyField,
+      removeField,
+      batchAddFields,
     }
   })
 
@@ -83,6 +146,10 @@ export const DataModel = types
     tables: types.array(TableModel),
   })
   .actions((self) => {
+    const getTableIndex = (id: string) => {
+      return self.tables.findIndex((i) => i.id === id)
+    }
+
     const fetchTablesData = flow(function*() {
       self.loading = true
       try {
@@ -95,7 +162,7 @@ export const DataModel = types
     })
 
     const addTable = (options = {}) => {
-      const uid = uuid()
+      const uid = uniqueId()
       self.tables.push({
         id: uid,
         name: `新添加模型-${self.tables.length + 1}`,
@@ -107,8 +174,14 @@ export const DataModel = types
       return uid
     }
 
+    const removeTable = (id: string) => {
+      const index = getTableIndex(id)
+      self.tables.splice(index, 1)
+    }
+
     return {
       addTable,
+      removeTable,
       fetchTablesData,
     }
   })

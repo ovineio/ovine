@@ -7,7 +7,7 @@ import { erdStoreKey } from '../../constants'
 import { useCanvas, useIndeedClick } from '../../hooks'
 import { store, useStore } from '../../store'
 
-import { NoFields } from '../state/null_data'
+import { NoField } from '../state/null_data'
 import * as S from './styled'
 
 // const nodeW = 220
@@ -17,8 +17,7 @@ const Field = observer((props) => {
   const { nodeId, info } = props
   const { name, typeLabel, id } = info
 
-  const { activeFieldId, setActiveFieldId, graph } = useStore()
-  const { canActiveItem } = graph
+  const { activeFieldId, setActiveFieldId, canActiveItem } = useStore()
 
   const isActive = activeFieldId === id
 
@@ -97,8 +96,16 @@ const Field = observer((props) => {
 
 // 节点
 const Node = observer((props) => {
-  const { activeId, setActiveId, setActiveFieldId, graph } = useStore()
-  const { canActiveItem } = graph
+  const {
+    activeId,
+    aside,
+    canActiveItem,
+    activeNodeInfo,
+    setActiveId,
+    setActiveFieldId,
+  } = useStore()
+
+  const { withSearch, sortMode } = aside
 
   const $tableRef = useRef()
   const storeRef = useRef({
@@ -157,7 +164,10 @@ const Node = observer((props) => {
             return <Field key={field.id} nodeId={id} info={field} />
           })
         ) : (
-          <NoFields />
+          <NoField
+            type={withSearch ? 'search' : sortMode ? 'sort' : 'add'}
+            batchAddFields={activeNodeInfo?.batchAddFields}
+          />
         )}
       </div>
     </S.NodeWrap>

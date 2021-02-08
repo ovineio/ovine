@@ -1,3 +1,4 @@
+import cls from 'classnames'
 import { throttle } from 'lodash'
 import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
@@ -43,11 +44,15 @@ const Tool = () => {
   }, [scale])
 
   const zoomIn = throttle(() => {
-    setScale(scale + 0.1)
+    if (canZoomIn) {
+      setScale(scale + 0.1)
+    }
   }, 150)
 
   const zoomOut = throttle(() => {
-    setScale(scale - 0.1)
+    if (canZoomOut) {
+      setScale(scale - 0.1)
+    }
   }, 150)
 
   const zoomNormal = () => {
@@ -73,10 +78,10 @@ const Tool = () => {
         <li onClick={zoomNormal}>
           <OneToOneOutlined />
         </li>
-        <li className={`${canZoomIn ? 'disabled' : ''}`} onClick={canZoomIn && zoomIn}>
+        <li className={cls({ disabled: canZoomIn })} onClick={zoomIn}>
           <ZoomInOutlined />
         </li>
-        <li className={`${canZoomOut ? 'disabled' : ''}`} onClick={canZoomOut && zoomOut}>
+        <li className={cls({ disabled: canZoomOut })} onClick={zoomOut}>
           <ZoomOutOutlined />
         </li>
       </ul>
@@ -86,7 +91,7 @@ const Tool = () => {
 }
 
 const Header = observer(() => {
-  const { graph, activeFieldId, activeId, setActiveFieldId, setActiveId } = useStore()
+  const { graph, activeFieldId, activeId, clearActive } = useStore()
   const {
     canvas,
     readMode,
@@ -101,8 +106,7 @@ const Header = observer(() => {
 
   const cancelSelected = () => {
     if (isSelectedState) {
-      setActiveFieldId('')
-      setActiveId('')
+      clearActive()
     }
   }
 
@@ -129,7 +133,7 @@ const Header = observer(() => {
         </li>
         <li onClick={toggleClickLink}>{clickLink ? <DisconnectOutlined /> : <LinkOutlined />}</li>
         <li onClick={cancelSelected}>
-          <BorderInnerOutlined className={isSelectedState ? 'active' : ''} />
+          <BorderInnerOutlined className={cls({ active: isSelectedState })} />
         </li>
         <li>
           <CheckOutlined />

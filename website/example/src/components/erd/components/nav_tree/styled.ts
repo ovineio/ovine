@@ -8,6 +8,24 @@ export const NavTreeWrap = styled.div`
   padding: 0 0 20px;
   border-right: 1px solid rgba(0, 0, 0, 0.08);
 
+  &.sort-mode {
+    .sort-handle {
+      &.sortable-drag {
+        background: #d1e4f6;
+        border: 1px solid #6fb2ec;
+        opacity: 0.1;
+        box-shadow: 10px 5px 12px #dedede;
+        .node-header {
+          border: 0;
+          background-color: transparent;
+        }
+        .node-content {
+          display: none;
+        }
+      }
+    }
+  }
+
   .tool-bar {
     display: flex;
     padding-top: 1px;
@@ -30,14 +48,13 @@ export const NavTreeWrap = styled.div`
 export const NavNode = styled.div`
   &.expand {
     .node-content {
-      max-height: 800px;
       border-bottom: 1px solid #e5e5e7;
     }
 
     .node-header {
       background: #dbebf9;
       .anticon-right {
-        transform: rotate(90deg) translateX(2px);
+        transform: rotate(90deg);
       }
     }
   }
@@ -52,18 +69,20 @@ export const NavNode = styled.div`
     border-bottom: 1px solid #e5e5e7;
     cursor: pointer;
 
+    .node-label {
+      padding-left: 6px;
+    }
     .anticon-right {
       transform: rotate(0) translateX(0);
-      padding-right: 6px;
       transition: transform 0.25s;
     }
   }
 
   .node-content {
-    max-height: 0;
-    height: auto;
+    /* max-height: 0; */
+    /* height: auto; */
     overflow-y: hidden;
-    transition: max-height 0.25s;
+    transition: height 0.25s;
   }
 `
 
@@ -74,12 +93,15 @@ export const NavField = styled.div`
   height: 32px;
   padding: 0 10px 0 30px;
   cursor: pointer;
+
   &:first-child {
     margin-top: 8px;
   }
+
   &:last-child {
     margin-bottom: 8px;
   }
+
   &:hover {
     background-color: #e6f0f9;
   }

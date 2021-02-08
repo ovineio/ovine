@@ -40,6 +40,13 @@ export const SearchBox = styled.div`
   padding: 6px 8px;
   border-bottom: 1px solid #e5e5e7;
   background-color: rgb(248 249 251);
+
+  &.disabled {
+    input {
+      background-color: #dfe0e1;
+      cursor: not-allowed;
+    }
+  }
   input {
     width: 100%;
     border-radius: 0px;
@@ -51,8 +58,13 @@ export const SearchBox = styled.div`
 
   .anticon-search {
     position: absolute;
-    position: absolute;
     top: 13px;
     left: 15px;
+  }
+  .anticon-close-circle {
+    position: absolute;
+    right: 15px;
+    top: 13px;
+    color: #aeaeb7;
   }
 `

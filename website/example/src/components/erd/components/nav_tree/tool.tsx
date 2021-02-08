@@ -5,13 +5,13 @@ import CloseOutlined from '@ant-design/icons/CloseOutlined'
 import CopyOutlined from '@ant-design/icons/CopyOutlined'
 import PlusOutlined from '@ant-design/icons/PlusOutlined'
 
-import { store } from '../../store'
+import { store, useStore } from '../../store'
 
 import * as S from './styled'
 
 //
 export const TableTool = (props) => {
-  const { id } = props
+  const { id, remove, setSearchText } = props
 
   const onAction = (e) => {
     e.preventDefault()
@@ -23,7 +23,10 @@ export const TableTool = (props) => {
         store.graph.canvas.focusNodeWithAnimate(id)
         break
       case 'remove':
-        store.graph.canvas.focusNodeWithAnimate(id)
+        remove()
+        break
+      case 'searchCheck':
+        setSearchText()
         break
       default:
     }
@@ -40,6 +43,7 @@ export const TableTool = (props) => {
 //
 export const FieldTool = (props) => {
   const { id } = props
+  const { setActiveFieldId, activeNodeInfo } = useStore()
 
   const onAction = (e) => {
     e.preventDefault()
@@ -47,11 +51,14 @@ export const FieldTool = (props) => {
 
     const { type } = e.currentTarget.dataset
     switch (type) {
-      case 'focus':
-        store.graph.canvas.focusNodeWithAnimate(id)
+      case 'add':
+        setActiveFieldId(activeNodeInfo.addField(id))
+        break
+      case 'copy':
+        setActiveFieldId(activeNodeInfo.copyField(id))
         break
       case 'remove':
-        store.graph.canvas.focusNodeWithAnimate(id)
+        setActiveFieldId(activeNodeInfo.removeField(id))
         break
       default:
     }

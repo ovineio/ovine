@@ -17,10 +17,6 @@ export const HeaderWrap = styled.div`
   border-bottom: ${erdStyled.divideBorder};
   background-color: ${erdStyled.hdBgColor};
   font-size: 16px;
-
-  .anticon-border-inner {
-    font-size: 20px;
-  }
 `
 
 export const ToolWrap = styled.div`

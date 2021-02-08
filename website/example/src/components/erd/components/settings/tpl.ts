@@ -10,7 +10,7 @@ export const getUpdateTableSchema = () => {
     type: 'page',
     bodyClassName: 'schema-body',
     // @ts-ignore
-    data: activeNodeInfo.toJSON(),
+    data: activeNodeInfo?.toJSON() || {},
     body: {
       type: 'service',
       api: modelApis.fakeTableTemplate,
@@ -48,7 +48,7 @@ export const getUpdateFieldSchema = () => {
     type: 'page',
     bodyClassName: 'schema-body',
     // @ts-ignore
-    data: activeFieldInfo.toJSON(),
+    data: activeFieldInfo?.toJSON() || {},
     body: {
       type: 'form',
       mode: 'normal',
@@ -66,12 +66,6 @@ export const getUpdateFieldSchema = () => {
           desc: '用于区分数据模型的每一个属性，同一模型的名字不能重复',
         },
         {
-          type: 'textarea',
-          name: 'desc',
-          label: '字段描述',
-          desc: '字段底部显示的描述信息',
-        },
-        {
           name: 'beanType',
           type: 'select',
           source: {
@@ -81,6 +75,12 @@ export const getUpdateFieldSchema = () => {
           label: '字段类型',
           value: 'TEXT',
           required: true,
+        },
+        {
+          type: 'textarea',
+          name: 'desc',
+          label: '字段描述',
+          desc: '字段底部显示的描述信息',
         },
         {
           name: 'isNull',

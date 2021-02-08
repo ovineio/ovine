@@ -26,6 +26,15 @@ const RootModel = types
     }
 
     return {
+      get canActiveItem() {
+        return (
+          !self.graph.readMode &&
+          !self.graph.addMode &&
+          !self.graph.linkMode &&
+          !self.aside.sortMode
+        )
+      },
+
       get hasActiveItem() {
         return self.activeFieldId || self.activeId
       },
@@ -84,7 +93,7 @@ const RootModel = types
   })
   .actions((self) => {
     const setActiveFieldId = (id: string = '') => {
-      self.activeFieldId = id
+      self.activeFieldId = id && self.canActiveItem ? id : ''
     }
 
     const setActiveId = (id: string = '') => {
@@ -93,7 +102,7 @@ const RootModel = types
         setActiveFieldId()
       }
 
-      self.activeId = id
+      self.activeId = id && self.canActiveItem ? id : ''
     }
 
     const navigateActiveItem = (direction: 'in' | 'out' | 'pre' | 'next', index: number = 0) => {
@@ -121,9 +130,17 @@ const RootModel = types
       }
     }
 
+    const clearActive = () => {
+      if (self.hasActiveItem) {
+        setActiveFieldId()
+        setActiveId()
+      }
+    }
+
     return {
       setActiveFieldId,
       setActiveId,
+      clearActive,
       navigateActiveItem,
     }
   })

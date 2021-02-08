@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const NoFields = styled.div`
+export const NoField = styled.div`
   text-align: center;
   padding: 10px 0 15px;
   border-radius: 0 0 4px 4px;
@@ -14,8 +14,9 @@ export const NoFields = styled.div`
     }
   }
 
-  div {
+  .add-action {
     color: #3590dc;
+    cursor: pointer;
     &:hover {
       color: #145286;
     }

@@ -47,19 +47,19 @@ export const graphModel = types
     // nodes: types.array(NodeModel),
     // edges: types.array(EdgeModel),
   })
-  .views((self) => {
-    return {
-      get canActiveItem() {
-        return !self.readMode && !self.addMode && !self.linkMode
-      },
-      // get nodesData() {
-      //   return getNodesData(self.nodes)
-      // },
-      // get edgesData() {
-      //   return getNodesData(self.edges)
-      // },
-    }
-  })
+  // .views((self) => {
+  //   return {
+  //     get canActiveItem() {
+  //       return !self.readMode && !self.addMode && !self.linkMode && !self.sortMode
+  //     },
+  //     // get nodesData() {
+  //     //   return getNodesData(self.nodes)
+  //     // },
+  //     // get edgesData() {
+  //     //   return getNodesData(self.edges)
+  //     // },
+  //   }
+  // })
   .volatile(() => {
     return {
       canvas: null as any,

@@ -34,6 +34,7 @@ export const addNode = (e: React.MouseEvent) => {
   const x = pageX - left
   const y = pageY - top
 
+  // TODO: 当缩放时 需要 等比计算初初始比例
   const nodeId = model.addTable({
     x: x - offX,
     y: y - offY,

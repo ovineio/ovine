@@ -1,4 +1,4 @@
-import { defaultsDeep } from 'lodash'
+import { defaultsDeep, isFunction } from 'lodash'
 
 import OverlayScrollbars from 'overlayscrollbars'
 import React, { Component, RefObject } from 'react'
@@ -9,6 +9,7 @@ interface ScrollBarProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: any
   ver?: boolean
   hor?: boolean
+  instanceRef?: any
   height?: string | number
   options?: OverlayScrollbars.Options
   extensions?: OverlayScrollbars.Extensions
@@ -28,6 +29,16 @@ class ScrollBar extends Component<ScrollBarProps, ScrollBarState> {
   componentDidMount() {
     this._osInstance = OverlayScrollbars(this.osTarget(), this.getOptions(), this.props.extensions)
     mergeHostClassNames(this._osInstance, this.props.className)
+
+    const { instanceRef } = this.props
+
+    if (instanceRef) {
+      if (Object.prototype.hasOwnProperty.call(instanceRef, 'current')) {
+        instanceRef.current = this._osInstance
+      } else if (isFunction(instanceRef)) {
+        instanceRef(instanceRef)
+      }
+    }
   }
 
   componentDidUpdate(prevProps: ScrollBarProps) {
