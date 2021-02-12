@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 
 import { useStore } from '../store'
 
-export const useCanvas = (callback: any, deeps: any[] = []) => {
+export const useCanvas = (callback: any) => {
   const {
     graph: { canvas },
   } = useStore()
@@ -11,7 +11,7 @@ export const useCanvas = (callback: any, deeps: any[] = []) => {
     if (canvas && callback) {
       callback(canvas)
     }
-  }, [canvas, ...deeps])
+  }, [])
 
   return canvas
 }
@@ -43,10 +43,9 @@ export const useIndeedClick = (options: ClickOptions) => {
     const { pageX, pageY } = e
     const { mouseDownXY } = ref.current
 
-    if (options.onMouseDown) {
+    if (options.onMouseUp) {
       options.onMouseUp(e)
     }
-
     if (mouseDownXY.x === pageX && mouseDownXY.y === pageY) {
       options.onIndeedClick(e)
     }
@@ -56,4 +55,18 @@ export const useIndeedClick = (options: ClickOptions) => {
     onMouseDown,
     onMouseUp,
   }
+}
+
+type compareFunction<T> = (prev: T | undefined, next: T) => boolean
+export function usePrevious<T>(state: T, compare?: compareFunction<T>): T | undefined {
+  const prevRef = useRef<T>()
+  const curRef = useRef<T>()
+
+  const needUpdate = typeof compare === 'function' ? compare(curRef.current, state) : true
+  if (needUpdate) {
+    prevRef.current = curRef.current
+    curRef.current = state
+  }
+
+  return prevRef.current
 }

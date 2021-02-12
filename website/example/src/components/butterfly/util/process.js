@@ -1,9 +1,9 @@
-import Edge from '../coms/edge'
+// import Edge from '../coms/edge'
 import Group from '../coms/group'
 import Node from '../coms/node'
 
 const process = ({ nodes = [], edges = [], groups = [] }) => {
-  return {
+  const data = {
     nodes: nodes.map((node) => {
       return {
         ...node,
@@ -11,13 +11,10 @@ const process = ({ nodes = [], edges = [], groups = [] }) => {
       }
     }),
     edges: edges.map((edge) => {
-      const labelDOM = document.createElement('div')
-      labelDOM.id = edge.id
-
       return {
-        ...edge,
         type: 'endpoint',
-        Class: Edge,
+        // Class: Edge,
+        ...edge,
       }
     }),
     groups: groups.map((group) => {
@@ -27,6 +24,8 @@ const process = ({ nodes = [], edges = [], groups = [] }) => {
       }
     }),
   }
+
+  return data
 }
 
 export default process

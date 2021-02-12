@@ -16,4 +16,10 @@ export default ({ ns }: DefaultTheme) => css`
   .${ns}Table-table > tbody > tr > th {
     vertical-align: middle;
   }
+  .${ns}ContextMenu-item {
+    &.active {
+      background-color: #3590dc;
+      color: #fff;
+    }
+  }
 `

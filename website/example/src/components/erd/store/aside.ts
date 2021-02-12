@@ -2,10 +2,12 @@ import { uuid } from 'amis/lib/utils/helper'
 
 import { types } from 'mobx-state-tree'
 
+import { rmActiveEndpoint } from '../components/graph/canvas'
+
 export const AsideModel = types
   .model('ErdAsideModel', {
     searchMode: types.boolean,
-    sortMode: types.boolean,
+    sortMode: types.number, // 0直接关闭 1保存关闭 2显示
     searchText: types.string,
     focusActiveKey: types.string,
   })
@@ -14,20 +16,21 @@ export const AsideModel = types
       get withSearch() {
         return self.searchMode && !!self.searchText
       },
+      get sortToggle() {
+        // 只有 2 会显示
+        return self.sortMode === 2
+      },
     }
   })
   .actions((self) => {
-    const toggleSearchMode = (toggle?: any) => {
-      const isSearchMode = typeof toggle === 'boolean' ? toggle : !self.searchMode
-      self.searchMode = isSearchMode
-    }
-
     const toggleSortMode = (toggle?: any) => {
-      const isSort = typeof toggle === 'boolean' ? toggle : !self.sortMode
-      self.sortMode = isSort
+      const sortMode = typeof toggle === 'number' ? toggle : self.sortToggle ? 0 : 2
+      rmActiveEndpoint()
+      self.sortMode = sortMode
     }
 
     const setSearchText = (text: string = '') => {
+      rmActiveEndpoint()
       self.searchText = text
     }
 
@@ -36,7 +39,6 @@ export const AsideModel = types
     }
 
     return {
-      toggleSearchMode,
       focusActiveNode,
       setSearchText,
       toggleSortMode,
@@ -45,7 +47,7 @@ export const AsideModel = types
 
 export const asideStore = AsideModel.create({
   searchMode: true,
-  sortMode: false,
+  sortMode: 0,
   searchText: '',
   focusActiveKey: '',
 })

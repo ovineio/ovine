@@ -1,4 +1,5 @@
 import { toast } from 'amis'
+import { uuid } from 'amis/lib/utils/helper'
 import { uniqueId } from 'lodash'
 
 import { types, flow } from 'mobx-state-tree'
@@ -40,7 +41,7 @@ const TableModel = types
     name: '',
     desc: '',
     isEditing: false,
-    tableId: types.maybeNull(types.string),
+    refreshKey: 0,
     fields: types.array(FiledModel),
     x: types.maybeNull(types.number),
     y: types.maybeNull(types.number),
@@ -86,7 +87,7 @@ const TableModel = types
 
     const addField = (id: string): string => {
       const index = getFiledIndex(id)
-      const uid = uniqueId()
+      const uid = uuid() + uniqueId()
       self.fields.splice(index + 1, 0, {
         id: uid,
         name: `新增字段-${countSameName('新增字段-') + 1}`,
@@ -99,7 +100,7 @@ const TableModel = types
     const copyField = (id: string): string => {
       const index = getFiledIndex(id)
       const field = self.fields[index]
-      const uid = uniqueId()
+      const uid = uuid() + uniqueId()
       self.fields.splice(index + 1, 0, {
         ...field,
         id: uid,
@@ -117,7 +118,7 @@ const TableModel = types
     const batchAddFields = (names: string[]) => {
       self.fields.push(
         ...names.map((name) => {
-          const uid = uniqueId()
+          const uid = uuid() + uniqueId()
           return {
             id: uid,
             name,
@@ -127,6 +128,16 @@ const TableModel = types
           }
         })
       )
+      self.refreshKey += 1
+    }
+
+    const sortFields = (orderArr: string[]) => {
+      if (self.fields.map(({ id }) => id).join(',') !== orderArr.join(',')) {
+        self.refreshKey += 1
+        self.fields = self.fields.sort((a, b) => {
+          return orderArr.indexOf(a.id) - orderArr.indexOf(b.id)
+        })
+      }
     }
 
     return {
@@ -137,13 +148,30 @@ const TableModel = types
       copyField,
       removeField,
       batchAddFields,
+      sortFields,
     }
   })
 
 export const DataModel = types
   .model('ErdDataModel', {
     loading: true,
+    refreshKey: 0,
+    orderIds: types.array(types.string),
     tables: types.array(TableModel),
+    // edges: types.array(EdgeModel),
+  })
+  .views((self) => {
+    return {
+      get orderedTables() {
+        if (!self.orderIds.length) {
+          return self.tables
+        }
+        const tables = self.tables.sort((a, b) => {
+          return self.orderIds.indexOf(a.id) - self.orderIds.indexOf(b.id)
+        })
+        return tables
+      },
+    }
   })
   .actions((self) => {
     const getTableIndex = (id: string) => {
@@ -162,7 +190,7 @@ export const DataModel = types
     })
 
     const addTable = (options = {}) => {
-      const uid = uniqueId()
+      const uid = uuid() + uniqueId()
       self.tables.push({
         id: uid,
         name: `新添加模型-${self.tables.length + 1}`,
@@ -174,18 +202,39 @@ export const DataModel = types
       return uid
     }
 
+    // const addEdge = (options: any) => {
+    //   self.edges.push({
+    //     id: `${options.source}${erdOther.epLinkKey}${options.target}`,
+    //     type: 'endpoint',
+    //     ...options,
+    //   })
+    // }
+
+    // const removeEdge = (id: string) => {
+    //   const idx = self.edges.findIndex((i) => i.id === id)
+    //   console.log('123===>', idx, id)
+    //   self.edges.splice(idx, 1)
+    // }
+
     const removeTable = (id: string) => {
       const index = getTableIndex(id)
       self.tables.splice(index, 1)
     }
 
+    const setOrderIds = (orderArr: string[]) => {
+      self.orderIds = orderArr as any
+    }
+
     return {
       addTable,
       removeTable,
+      setOrderIds,
       fetchTablesData,
     }
   })
 
 export const modelStore = DataModel.create({
   tables: [],
+  orderIds: [],
+  // edges: [],
 })

@@ -1,61 +1,41 @@
 import { toPairs } from 'lodash'
 
-import { modelApis, modelUtils } from '../../helper/api'
-import { store } from '../../store'
+import { getModelTplData, modelUtils } from '../../helper/api'
 
-export const getUpdateTableSchema = () => {
-  const { activeNodeInfo } = store
+export const getUpdateTableSchema = (options) => {
+  const formSchema = modelUtils.onTableInfoSchemaSuc(getModelTplData().table)
 
   const schema = {
     type: 'page',
     bodyClassName: 'schema-body',
-    // @ts-ignore
-    data: activeNodeInfo?.toJSON() || {},
+    data: options.data,
     body: {
-      type: 'service',
-      api: modelApis.fakeTableTemplate,
-      body: {
-        type: 'form',
-        mode: 'normal',
-        onChange: (_, diff) => {
-          const [key, value] = toPairs(diff)[0]
-          activeNodeInfo.setInfo(key, value)
-        },
-        wrapWithPanel: false,
-        // api: {
-        //   ...modelApis.addTable,
-        //   onPreRequest: modelUtils.onPreUpdateTableReq,
-        // },
-        controls: [
-          {
-            type: 'lib-renderer',
-            source: 'table',
-            renderer: 'sysSchemaService',
-            onSuccess: modelUtils.onTableInfoSchemaSuc,
-          },
-        ],
+      type: 'form',
+      mode: 'normal',
+      onChange: (_, diff) => {
+        const [key, value] = toPairs(diff)[0]
+        options.setInfo(key, value)
       },
+      wrapWithPanel: false,
+      controls: formSchema.controls,
     },
   }
 
   return schema
 }
 
-export const getUpdateFieldSchema = () => {
-  const { activeFieldInfo } = store
-
+export const getUpdateFieldSchema = (options) => {
   const schema = {
     type: 'page',
     bodyClassName: 'schema-body',
-    // @ts-ignore
-    data: activeFieldInfo?.toJSON() || {},
+    data: options.data,
     body: {
       type: 'form',
       mode: 'normal',
       wrapWithPanel: false,
       onChange: (_, diff) => {
         const [key, value] = toPairs(diff)[0]
-        activeFieldInfo.setInfo(key, value)
+        options.setInfo(key, value)
       },
       controls: [
         {
@@ -69,7 +49,7 @@ export const getUpdateFieldSchema = () => {
           name: 'beanType',
           type: 'select',
           source: {
-            url: modelApis.fakeFieldTypeOpts,
+            url: 'fakeFieldTypeOpts',
             onFakeRequest: modelUtils.onFakeFieldTypeOpts,
           },
           label: '字段类型',

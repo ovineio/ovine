@@ -66,7 +66,7 @@ export const getTableFormData = (apiSource) => {
   const data = {
     addTime,
     updateTime,
-    id: get(table, 'id.value'),
+    id: `${get(table, 'id.value')}`,
     name: get(table, 'name.value'),
     desc: get(table, 'desc.value'),
     fields: getTableFieldList(fields),
@@ -86,7 +86,7 @@ export const getFieldFormData = (apiSource) => {
     id,
   } = apiSource
   const fieldData = {
-    id,
+    id: `${id}`,
     typeLabel,
     typeDesc,
     addTime,
@@ -223,6 +223,7 @@ export const onGetFieldOptsSuc = (source) => {
   return source
 }
 
+// TODO 类型需要动态 确定可更改的类型
 export const onFakeFieldTypeOpts = () => {
   const { fieldModel } = getGlobal(erdStoreKey.modelTemplate)
   const fieldTypeOpts = []

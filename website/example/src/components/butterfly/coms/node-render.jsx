@@ -130,6 +130,7 @@ const NodeRender = (props) => {
         const dom = document.getElementById(endpoint.id)
 
         if (!dom) {
+          // console.log('removeEndpoint', endpoint.id)
           node.removeEndpoint(endpoint.id)
         }
 

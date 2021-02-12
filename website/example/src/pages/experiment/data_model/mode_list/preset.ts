@@ -33,10 +33,6 @@ export default {
           data: getGlobal(erdStoreKey.modelTemplate),
         }
       },
-      // onSuccess: (source) => {
-      //   setGlobal('pageModelTemplate', source.data)
-      //   return source
-      // },
     },
     listTable: {
       url: 'GET ovhapi/model/table',

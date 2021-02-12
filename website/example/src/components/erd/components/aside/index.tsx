@@ -37,25 +37,42 @@ const SearchBox = observer(() => {
   return (
     <S.SearchBox className={cls({ disabled: !canActiveItem })}>
       <SearchOutlined />
-      <input placeholder="搜索模型..." value={searchText} onChange={onInputChange} />
+      <input
+        placeholder="搜索模型..."
+        disabled={!canActiveItem}
+        value={searchText}
+        onChange={onInputChange}
+      />
       {!!searchText && <CloseCircleFilled onClick={onCancel} />}
     </S.SearchBox>
   )
 })
 
 const Aside = observer(() => {
-  const { graph, model, aside, canActiveItem, activeId, activeFieldId } = useStore()
-  const { addMode, toggleAddMode } = graph
-  const { focusActiveKey, withSearch, sortMode, toggleSortMode } = aside
+  const { graph, model, aside, activeId, activeFieldId } = useStore()
+  const { addMode, readMode, toggleAddMode } = graph
+  const { focusActiveKey, withSearch, sortToggle, setSearchText, toggleSortMode } = aside
 
   const barInsRef = useRef<any>(null)
-
-  // const barOpts = {
-  //   onUpdated: () => {},
-  // }
+  const hasNodes = !!model.tables.length
+  const canSort = !hasNodes || readMode || addMode
+  const canAdd = readMode || sortToggle
 
   const toggleSort = () => {
+    if (canSort) {
+      return
+    }
+    if (!sortToggle) {
+      setSearchText('')
+    }
     toggleSortMode()
+  }
+
+  const toggleAdd = () => {
+    if (canAdd) {
+      return
+    }
+    toggleAddMode()
   }
 
   // 定位到指定节点, 修复点击导航 停顿问题
@@ -76,27 +93,40 @@ const Aside = observer(() => {
   )
 
   return (
-    <S.AsideWrap>
-      <S.Header>
+    <S.AsideWrap className={cls({ 'sort-mode': sortToggle })}>
+      <S.Header className="aside-header">
         <div className="title">
           <AppstoreFilled />
           <span>模型导航</span>
         </div>
         <ul className="erd-hd-toolbar">
           <li onClick={toggleSort}>
-            <SwapOutlined
-              className={cls({ active: sortMode, disabled: !canActiveItem && !sortMode })}
-            />
+            <SwapOutlined className={cls({ active: sortToggle, disabled: canSort })} />
           </li>
-          <li onClick={toggleAddMode}>
-            <PlusOutlined className={cls({ active: addMode, disabled: !canActiveItem })} />
+          <li onClick={toggleAdd}>
+            <PlusOutlined className={cls({ active: addMode, disabled: canAdd })} />
           </li>
         </ul>
       </S.Header>
-      {!!model.tables.length && <SearchBox />}
-      <ScrollBar instanceRef={barInsRef} className="aside-body">
-        <NavTree />
-      </ScrollBar>
+      <div className="aside-body">
+        {hasNodes &&
+          (sortToggle ? (
+            <div className="sort-ctl">
+              <span>请拖动排序</span>
+              <button type="button" onClick={toggleSort}>
+                取消
+              </button>
+              <button type="button" onClick={() => toggleSortMode(1)}>
+                保存
+              </button>
+            </div>
+          ) : (
+            <SearchBox />
+          ))}
+        <ScrollBar instanceRef={barInsRef} className="aside-nav">
+          <NavTree />
+        </ScrollBar>
+      </div>
     </S.AsideWrap>
   )
 })

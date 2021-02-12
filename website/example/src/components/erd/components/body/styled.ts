@@ -10,6 +10,8 @@ export const BodyWrap = styled.div`
 
 export const HeaderWrap = styled.div`
   position: relative;
+  display: flex;
+  justify-content: space-between;
   z-index: 4;
   flex: 0 0 ${erdStyled.hdHeight}px;
   height: ${erdStyled.hdHeight}px;

@@ -43,6 +43,10 @@ export const LayoutWrap = styled.div`
       &:hover {
         background-color: #eaeaea;
       }
+      &:active {
+        color: #4ea2e8;
+        background-color: rgba(53, 144, 220, 0.2);
+      }
 
       .active {
         padding: 4px;
@@ -59,6 +63,16 @@ export const LayoutWrap = styled.div`
         font-weight: bold;
         background-color: rgba(0, 0, 0, 0.1);
         cursor: not-allowed;
+      }
+    }
+
+    .tool-btn {
+      padding: 10px;
+      width: auto;
+      font-size: 14px;
+      label {
+        margin: 0 0 0 5px;
+        cursor: pointer;
       }
     }
   }

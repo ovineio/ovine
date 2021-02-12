@@ -11,6 +11,7 @@ import Sortable from 'sortablejs'
 import RightOutlined from '@ant-design/icons/RightOutlined'
 import { useImmer } from '@core/utils/hooks'
 
+import { usePrevious } from '../../hooks'
 import { useStore } from '../../store'
 import { NoField, NoTable } from '../state/null_data'
 
@@ -43,8 +44,8 @@ const NavField = observer((props: any) => {
   const { field, nodeId } = props
   const { name, id } = field
 
-  const { setActiveFieldId, setActiveId, activeFieldId, graph, aside } = useStore()
-  const { withSearch, setSearchText, focusActiveNode, sortMode } = aside
+  const { setActiveFieldId, setActiveId, activeFieldId, graph, aside, canEditItem } = useStore()
+  const { withSearch, setSearchText, focusActiveNode } = aside
 
   const isActive = activeFieldId === id
 
@@ -69,24 +70,29 @@ const NavField = observer((props: any) => {
       <div className="field-label">
         <SearchHightText text={name} />
       </div>
-      {isActive && !withSearch && !sortMode && <FieldTool id={id} />}
+      {isActive && canEditItem && <FieldTool id={id} />}
     </S.NavField>
   )
 })
 
 //
 const NavNode = observer((props: any) => {
-  const { name, fields = [], id, isExpand, batchAddFields, setExpandId } = props
+  const { name, fields = [], id, isExpand, batchAddFields, sortFields, setExpandId } = props
 
-  const { activeId, model, clearActive, setActiveFieldId, graph, aside } = useStore()
-  const { withSearch, sortMode, setSearchText, focusActiveNode } = aside
+  const { activeId, model, clearActive, setActiveFieldId, graph, aside, canEditItem } = useStore()
+  const { withSearch, sortToggle, sortMode, setSearchText, focusActiveNode } = aside
 
   const $contentRef = useRef()
   const sortIns = useRef<any>()
+  const prevOrderArr = usePrevious(fields.map(({ id: idStr }) => idStr))
 
   const isActive = activeId === id
   const contentStyle = {
     height: `${!isExpand ? 0 : fields.length ? fields.length * 32 + 16 : 110}px`,
+  }
+
+  const toolToggle = {
+    remove: canEditItem,
   }
 
   const remove = () => {
@@ -95,15 +101,20 @@ const NavNode = observer((props: any) => {
   }
 
   useEffect(() => {
-    if (sortMode) {
+    if (sortToggle) {
       sortIns.current = Sortable.create($contentRef.current, {
         group: `node-${id}`,
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
       })
-    } else if (!sortMode && sortIns.current) {
-      sortIns.current.save()
+    } else if (sortIns.current) {
+      if (sortMode === 1) {
+        const orderArr = sortIns.current.toArray()
+        sortFields(orderArr)
+      } else {
+        sortIns.current.sort(prevOrderArr)
+      }
       sortIns.current.destroy()
     }
   }, [sortMode])
@@ -128,7 +139,7 @@ const NavNode = observer((props: any) => {
           <RightOutlined />
           <SearchHightText className="node-label" text={name} />
         </div>
-        {isActive && !withSearch && !sortMode && <TableTool id={id} remove={remove} />}
+        {isActive && <TableTool id={id} toolToggle={toolToggle} remove={remove} />}
       </div>
       <div ref={$contentRef} className="node-content" style={contentStyle}>
         {fields.length ? (
@@ -137,7 +148,7 @@ const NavNode = observer((props: any) => {
           })
         ) : (
           <NoField
-            type={withSearch ? 'search' : sortMode ? 'sort' : 'add'}
+            type={withSearch ? 'search' : sortToggle ? 'sort' : 'add'}
             batchAddFields={batchAddFields}
           />
         )}
@@ -149,9 +160,10 @@ const NavNode = observer((props: any) => {
 //
 const NavTree = observer(() => {
   const { activeId, setActiveId, model, clearActive, aside } = useStore()
-  const { searchText, withSearch, sortMode } = aside
+  const { searchText, withSearch, sortToggle, sortMode } = aside
   const $wrapRef = useRef()
   const sortIns = useRef<any>()
+  const prevOrderArr = usePrevious(model.orderedTables.map(({ id }) => id))
 
   const [state, setState] = useImmer<any>({
     expandId: '',
@@ -168,7 +180,7 @@ const NavTree = observer(() => {
   }
 
   useEffect(() => {
-    if (sortMode) {
+    if (sortToggle) {
       sortIns.current = Sortable.create($wrapRef.current, {
         group: 'navList',
         direction: 'vertical',
@@ -178,15 +190,20 @@ const NavTree = observer(() => {
           clearActive()
         },
       })
-    } else if (!sortMode && sortIns.current) {
-      sortIns.current.save()
+    } else if (sortIns.current) {
+      if (sortMode === 1) {
+        const orderArr = sortIns.current.toArray()
+        model.setOrderIds(orderArr)
+      } else {
+        sortIns.current.sort(prevOrderArr)
+      }
       sortIns.current.destroy()
     }
   }, [sortMode])
 
   // 设置高亮
   useEffect(() => {
-    if (sortMode) {
+    if (sortToggle) {
       setExpandId(expandId)
     } else {
       setActiveId(expandId)
@@ -195,14 +212,14 @@ const NavTree = observer(() => {
 
   // 设置展开
   useEffect(() => {
-    if (!sortMode) {
+    if (!sortToggle) {
       setExpandId(activeId)
     }
   }, [activeId])
 
   const renderNodes = () => {
-    return model.tables.map((table) => {
-      const { id, name, fields, batchAddFields } = table
+    return model.orderedTables.map((table) => {
+      const { id, name, fields, batchAddFields, sortFields } = table
       const nodeProps: any = {
         id,
         name,
@@ -210,6 +227,7 @@ const NavTree = observer(() => {
         isShow: true,
         isExpand: table.id === expandId,
         setExpandId,
+        sortFields,
         batchAddFields,
       }
       if (withSearch) {
@@ -234,7 +252,7 @@ const NavTree = observer(() => {
   const Nodes = renderNodes()
 
   return (
-    <S.NavTreeWrap ref={$wrapRef} className={cls({ 'sort-mode': sortMode })}>
+    <S.NavTreeWrap ref={$wrapRef} className={cls({ 'sort-mode': sortToggle })}>
       {!model.tables.length ? (
         <NoTable />
       ) : withSearch && !Nodes.filter((i) => !!i).length ? (

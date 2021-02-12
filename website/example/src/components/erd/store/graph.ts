@@ -1,5 +1,7 @@
 import { types } from 'mobx-state-tree'
 
+import { rmActiveEndpoint } from '../components/graph/canvas'
+
 // const GroupModel = types.model('ErdGroupModel', {
 //   type: types.string, // 'endpoint/node',
 //   id: types.string,
@@ -42,15 +44,13 @@ export const graphModel = types
     fullScreen: false,
     readMode: false,
     addMode: false,
-    linkMode: false,
-    clickLink: false,
     // nodes: types.array(NodeModel),
     // edges: types.array(EdgeModel),
   })
   // .views((self) => {
   //   return {
   //     get canActiveItem() {
-  //       return !self.readMode && !self.addMode && !self.linkMode && !self.sortMode
+  //       return !self.readMode && !self.addMode && !self.linkMode && !self.sortToggle
   //     },
   //     // get nodesData() {
   //     //   return getNodesData(self.nodes)
@@ -73,20 +73,18 @@ export const graphModel = types
     const disabledCanvas = () => {
       self.canvas.setLinkable(false)
       self.canvas.setDisLinkable(false)
-      self.canvas.setDraggable(false)
     }
 
     const enabledCanvas = () => {
       self.canvas.setLinkable(true)
       self.canvas.setDisLinkable(true)
-      self.canvas.setDraggable(true)
     }
 
     const toggleReadMode = (toggle?: any) => {
       const isReadMode = typeof toggle === 'boolean' ? toggle : !self.readMode
 
       self.readMode = isReadMode
-
+      rmActiveEndpoint()
       if (isReadMode) {
         disabledCanvas()
       } else {
@@ -94,19 +92,10 @@ export const graphModel = types
       }
     }
 
-    const toggleClickLink = (toggle?: any) => {
-      const isClickLink = typeof toggle === 'boolean' ? toggle : !self.clickLink
-      self.clickLink = isClickLink
-    }
-
     const toggleAddMode = (toggle?: any) => {
+      rmActiveEndpoint()
       const isAddable = typeof toggle === 'boolean' ? toggle : !self.addMode
       self.addMode = isAddable
-    }
-
-    const toggleLinkMode = (toggle?: any) => {
-      const isLinkable = typeof toggle === 'boolean' ? toggle : !self.linkMode
-      self.linkMode = isLinkable
     }
 
     const toggleFullScreen = (toggle?: any) => {
@@ -118,9 +107,7 @@ export const graphModel = types
       setCanvas,
       toggleReadMode,
       toggleAddMode,
-      toggleClickLink,
       toggleFullScreen,
-      toggleLinkMode,
     }
   })
 

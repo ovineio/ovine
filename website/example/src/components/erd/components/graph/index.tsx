@@ -9,34 +9,53 @@ import React, { useEffect } from 'react'
 
 import Butterfly from '~/components/butterfly'
 
+import { modelUtils } from '../../helper/api'
 import { useIndeedClick } from '../../hooks'
 import { useStore } from '../../store'
 
-import { initCanvas, options } from './canvas'
+import { bindShowLineTip, initCanvas, canvasOpts, showLineMenu } from './canvas'
 import * as S from './styled'
-import { getNodesData, getEdgesData, addNode } from './utils'
+import { getNodesData, addNode } from './utils'
 
 const Graph = observer(() => {
-  const { graph, model } = useStore()
+  const { graph, model, clearActive, canEditItem } = useStore()
 
   const { readMode, addMode } = graph
-
-  useEffect(() => {
-    model.fetchTablesData()
-  }, [])
-
-  const onLoaded = (canvas) => {
-    graph.setCanvas(canvas)
-    initCanvas()
-  }
-
   const dataProps = {
     nodes: getNodesData(model.tables),
-    edges: getEdgesData([]),
+  }
+
+  useEffect(() => {
+    clearActive()
+    modelUtils.fetchModelTplData()
+    model.fetchTablesData()
+
+    return () => {
+      $('.butterfly-svg')
+        .off('mouseenter')
+        .off('mouseleave')
+    }
+  }, [])
+
+  const onLoaded = (canvasObj) => {
+    graph.setCanvas(canvasObj)
+    bindShowLineTip()
+    initCanvas()
   }
 
   const onGraphClick = (e) => {
     const isBlankPlace = 'butterfly-wrapper,butterfly-gird-canvas'.indexOf(e.target.className) > -1
+    const $target = $(e.target)
+
+    if (canEditItem && $target.hasClass('point-path-handler')) {
+      const options = {
+        id: $target.data('id'),
+        x: e.clientX,
+        y: e.clientY,
+      }
+      showLineMenu(options)
+    }
+
     if (addMode && isBlankPlace) {
       addNode(e)
     }
@@ -52,11 +71,12 @@ const Graph = observer(() => {
 
   return (
     <S.GraphWrap
+      id="erd-graph-wrap"
       className={cls({ 'read-mode': readMode, 'add-mode': addMode })}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     >
-      <Butterfly {...dataProps} options={options} onLoaded={onLoaded} />
+      <Butterfly {...dataProps} options={canvasOpts} onLoaded={onLoaded} />
     </S.GraphWrap>
   )
 })

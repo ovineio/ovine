@@ -46,7 +46,7 @@ export const NoField = (props) => {
           },
           {
             type: 'action',
-            label: '确定',
+            label: '完成创建字段',
             level: 'primary',
             actionType: 'submit',
             icon: 'fa fa-check pull-left',

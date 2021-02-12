@@ -7,14 +7,13 @@ import { createPortal } from 'react-dom'
 import BorderInnerOutlined from '@ant-design/icons/BorderInnerOutlined'
 import CheckOutlined from '@ant-design/icons/CheckOutlined'
 import CompressOutlined from '@ant-design/icons/CompressOutlined'
-import DisconnectOutlined from '@ant-design/icons/DisconnectOutlined'
 import EyeOutlined from '@ant-design/icons/EyeOutlined'
 import FullscreenExitOutlined from '@ant-design/icons/FullscreenExitOutlined'
 import FullscreenOutlined from '@ant-design/icons/FullscreenOutlined'
 import HighlightOutlined from '@ant-design/icons/HighlightOutlined'
-import LinkOutlined from '@ant-design/icons/LinkOutlined'
 import OneToOneOutlined from '@ant-design/icons/OneToOneOutlined'
 import RedoOutlined from '@ant-design/icons/RedoOutlined'
+import SendOutlined from '@ant-design/icons/SendOutlined'
 import UndoOutlined from '@ant-design/icons/UndoOutlined'
 import ZoomInOutlined from '@ant-design/icons/ZoomInOutlined'
 import ZoomOutOutlined from '@ant-design/icons/ZoomOutOutlined'
@@ -91,22 +90,21 @@ const Tool = () => {
 }
 
 const Header = observer(() => {
-  const { graph, activeFieldId, activeId, clearActive } = useStore()
-  const {
-    canvas,
-    readMode,
-    clickLink,
-    fullScreen,
-    toggleReadMode,
-    toggleClickLink,
-    toggleFullScreen,
-  } = graph
+  const { graph, activeFieldId, activeId, clearActive, aside } = useStore()
+  const { canvas, readMode, fullScreen, toggleReadMode, toggleFullScreen } = graph
 
   const isSelectedState = activeFieldId || activeId
+  const isEditable = !aside.sortToggle && !aside.withSearch && !graph.addMode
 
   const cancelSelected = () => {
     if (isSelectedState) {
       clearActive()
+    }
+  }
+
+  const toggleRead = () => {
+    if (isEditable) {
+      toggleReadMode()
     }
   }
 
@@ -127,16 +125,30 @@ const Header = observer(() => {
         <li onClick={redo}>
           <UndoOutlined />
         </li>
-        <li onClick={toggleReadMode}>{readMode ? <EyeOutlined /> : <HighlightOutlined />}</li>
+        <li onClick={toggleRead}>
+          {readMode ? (
+            <EyeOutlined className="active" />
+          ) : (
+            <HighlightOutlined className={isEditable ? 'active' : 'disabled'} />
+          )}
+        </li>
         <li onClick={toggleFullScreen}>
           {fullScreen ? <FullscreenExitOutlined /> : <FullscreenOutlined />}
         </li>
-        <li onClick={toggleClickLink}>{clickLink ? <DisconnectOutlined /> : <LinkOutlined />}</li>
         <li onClick={cancelSelected}>
-          <BorderInnerOutlined className={cls({ active: isSelectedState })} />
+          <BorderInnerOutlined className={isSelectedState ? 'active' : 'disabled'} />
         </li>
-        <li>
+      </ul>
+      <ul className="erd-hd-toolbar">
+        <li className="tool-btn">
           <CheckOutlined />
+          <label>保存草稿</label>
+        </li>
+        <li className="tool-btn">
+          <div>
+            <SendOutlined />
+            <label>发布</label>
+          </div>
         </li>
       </ul>
       <Tool />

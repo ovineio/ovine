@@ -28,6 +28,20 @@ export const GraphWrap = styled.div`
     height: 100%;
     width: 100%;
   }
+
+  .butterflies-link {
+    stroke: rgb(164 167 187);
+    stroke-width: 2px;
+  }
+
+  .point-path-handler {
+    stroke-width: 6px;
+    cursor: pointer;
+    &:hover {
+      stroke-width: 6px;
+      stroke: rgb(246 105 4);
+    }
+  }
 `
 
 const colors = {
@@ -47,8 +61,36 @@ export const NodeWrap = styled.div`
 
   &.active {
     border-color: ${colors.deep};
-    .field-point {
+    &.editable {
+      .field-point {
+        opacity: 1;
+        &:hover,
+        &.active {
+          background-color: rgb(230, 109, 28);
+          transform: scale(1.4);
+          cursor: crosshair !important;
+        }
+      }
+    }
+    .field-point-active {
       opacity: 1;
+    }
+    .field-mark {
+      opacity: 0;
+    }
+  }
+
+  &.normal {
+    .field-point {
+      &.active {
+        opacity: 1;
+        &.point-l {
+          left: -5px;
+        }
+        &.point-r {
+          right: -5px;
+        }
+      }
     }
   }
 
@@ -117,25 +159,43 @@ export const NodeWrap = styled.div`
     }
   }
 
-  .field-point {
+  .field-point,
+  .field-mark {
     position: absolute;
+    z-index: 2;
     opacity: 0;
     top: 8px;
     width: 10px;
     height: 10px;
     border-radius: 10px;
     background-color: ${colors.deep};
-    &:hover {
-      background-color: rgb(230, 109, 28);
-      transform: scale(1.4);
-      cursor: crosshair !important;
-    }
+  }
 
+  .field-point {
+    & > div {
+      width: 100%;
+      height: 100%;
+    }
     &.point-l {
       left: -7px;
     }
     &.point-r {
       right: -7px;
+    }
+  }
+
+  .field-mark {
+    opacity: 1;
+    top: 10px;
+    width: 7px;
+    height: 7px;
+    border-radius: 4px;
+
+    &.mark-l {
+      left: -4px;
+    }
+    &.mark-r {
+      right: -4px;
     }
   }
 

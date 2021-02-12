@@ -1,6 +1,6 @@
 import cls from 'classnames'
 import { observer } from 'mobx-react'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import InfoCircleOutlined from '@ant-design/icons/InfoCircleOutlined'
 import RollbackOutlined from '@ant-design/icons/RollbackOutlined'
@@ -16,7 +16,6 @@ import { NoSettingItem } from '../state/null_data'
 
 import * as S from './styled'
 import { getUpdateTableSchema, getUpdateFieldSchema } from './tpl'
-
 
 const Heder = observer(() => {
   const {
@@ -67,22 +66,48 @@ const Heder = observer(() => {
 })
 
 const Settings = observer(() => {
-  const { activeFieldInfo, hasActiveItem, activeId, activeFieldId } = useStore()
+  const {
+    activeFieldInfo,
+    activeNodeInfo,
+    hasActiveItem,
+    canEditItem,
+    activeId = '',
+    activeFieldId = '',
+  } = useStore()
+
+  const Forms = useMemo(() => {
+    if (!activeId && !activeFieldId) {
+      return
+    }
+    const tableOpts = {
+      // @ts-ignore
+      data: activeNodeInfo?.toJSON(),
+      setInfo: activeNodeInfo?.setInfo,
+    }
+
+    const filedOpts = {
+      // @ts-ignore
+      data: activeFieldInfo?.toJSON(),
+      setInfo: activeFieldInfo?.setInfo,
+    }
+
+    return (
+      <ScrollBar>
+        <Amis
+          key={activeFieldId || activeId}
+          schema={
+            activeFieldInfo ? getUpdateFieldSchema(filedOpts) : getUpdateTableSchema(tableOpts)
+          }
+        />
+      </ScrollBar>
+    )
+  }, [activeId, activeFieldId])
 
   return (
     <S.SettingsWrap>
       <Heder />
-      <S.Body>
-        {hasActiveItem ? (
-          <ScrollBar>
-            <Amis
-              key={activeFieldId || activeId}
-              schema={activeFieldInfo ? getUpdateFieldSchema() : getUpdateTableSchema()}
-            />
-          </ScrollBar>
-        ) : (
-          <NoSettingItem />
-        )}
+      <S.Body className={cls({ disabled: !canEditItem })}>
+        {hasActiveItem ? Forms : <NoSettingItem />}
       </S.Body>
     </S.SettingsWrap>
   )

@@ -9,9 +9,8 @@ import { store, useStore } from '../../store'
 
 import * as S from './styled'
 
-//
 export const TableTool = (props) => {
-  const { id, remove, setSearchText } = props
+  const { id, remove, setSearchText, toolToggle } = props
 
   const onAction = (e) => {
     e.preventDefault()
@@ -35,7 +34,7 @@ export const TableTool = (props) => {
   return (
     <S.TableTool className="tool-bar">
       <AimOutlined data-type="focus" onClick={onAction} />
-      <CloseOutlined data-type="remove" onClick={onAction} />
+      {toolToggle.remove && <CloseOutlined data-type="remove" onClick={onAction} />}
     </S.TableTool>
   )
 }

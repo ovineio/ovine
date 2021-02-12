@@ -16,10 +16,17 @@ export const getNodesData = (source) => {
 
     return item
   })
+
   return nodes
 }
 
-export const getEdgesData = (edges) => {
+export const getEdgesData = (source) => {
+  const edges = source.map((edge) => {
+    const item: any = {
+      ...edge,
+    }
+    return item
+  })
   return edges
 }
 

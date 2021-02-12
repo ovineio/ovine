@@ -8,11 +8,49 @@ export const AsideWrap = styled.div`
   flex-direction: column;
   width: 230px;
   height: 100%;
-  border-right: 1px solid rgba(0, 0, 0, 0.08);
-
+  &.sort-mode {
+    .aside-header {
+      border-bottom: 1px solid #3590dc;
+    }
+    .aside-body {
+      border-right: 1px solid #3590dc;
+      background: #f9fafc;
+    }
+  }
   .aside-body {
+    display: flex;
+    overflow-y: hidden;
+    flex: 1 1 auto;
+    flex-direction: column;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .aside-nav {
     flex: 1 1 auto;
     overflow-y: hidden;
+  }
+
+  .sort-ctl {
+    flex: 0 0 41px;
+    height: 41px;
+    line-height: 41px;
+    box-sizing: border-box;
+    padding-left: 30px;
+    border-bottom: 1px solid rgb(195 204 226);
+    background: #e8ecf5;
+    color: #4b5668;
+    user-select: none;
+    span {
+      padding-right: 10px;
+    }
+
+    button {
+      border: 0;
+      background: transparent;
+      color: #128cee;
+      text-decoration: underline;
+      outline: none;
+    }
   }
 `
 
@@ -23,7 +61,8 @@ export const Header = styled.div`
   align-items: center;
   height: ${erdStyled.hdHeight}px;
   padding: 0 10px 0 10px;
-  border-bottom: ${erdStyled.divideBorder};
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
   background-color: ${erdStyled.hdBgColor};
   text-align: left;
   font-size: 16px;
@@ -36,10 +75,11 @@ export const Header = styled.div`
 `
 
 export const SearchBox = styled.div`
+  flex: 0;
   position: relative;
   padding: 6px 8px;
-  border-bottom: 1px solid #e5e5e7;
   background-color: rgb(248 249 251);
+  border-bottom: 1px solid #e5e5e7;
 
   &.disabled {
     input {

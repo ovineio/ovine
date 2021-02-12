@@ -1,6 +1,12 @@
 import { Edge } from 'butterfly-dag'
 
 class CustomEdge extends Edge {
+  draw(obj) {
+    const path = super.draw(obj)
+    $(path).addClass('point-path')
+    return path
+  }
+
   drawLabel() {
     const div = document.createElement('div')
 

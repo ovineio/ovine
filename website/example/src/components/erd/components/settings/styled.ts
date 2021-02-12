@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { erdStyled } from '../../constants'
 
@@ -34,6 +34,17 @@ export const Header = styled.div`
 export const Body = styled.div`
   flex: 1 1 auto;
   overflow: hidden;
+
+  &.disabled {
+    .os-host {
+      cursor: not-allowed;
+    }
+    ${(p) => css`
+      .${p.theme.ns}Page {
+        pointer-events: none;
+      }
+    `}
+  }
 
   .schema-body {
     padding: 15px;

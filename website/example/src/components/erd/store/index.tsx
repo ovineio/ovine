@@ -1,8 +1,8 @@
 import { findIndex, get } from 'lodash'
 import { types } from 'mobx-state-tree'
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 
-import { modelUtils } from '../helper/api'
+import { rmActiveEndpoint } from '../components/graph/canvas'
 
 import { AsideModel, asideStore } from './aside'
 import { graphModel, graphStore } from './graph'
@@ -27,11 +27,15 @@ const RootModel = types
 
     return {
       get canActiveItem() {
+        return !self.graph.addMode && !self.aside.sortToggle
+      },
+
+      get canEditItem() {
         return (
-          !self.graph.readMode &&
           !self.graph.addMode &&
-          !self.graph.linkMode &&
-          !self.aside.sortMode
+          !self.aside.sortToggle &&
+          !self.aside.withSearch &&
+          !self.graph.readMode
         )
       },
 
@@ -77,7 +81,7 @@ const RootModel = types
             info.next = fields.length - 1 !== fieldIndex
           }
         } else if (self.activeId) {
-          const { tables } = self.model
+          const { orderedTables: tables } = self.model
           const tableIndex = findIndex(tables, { id: self.activeId })
           info.index = tableIndex
           info.in = fieldCount !== 0
@@ -124,13 +128,14 @@ const RootModel = types
       }
 
       if (self.activeId) {
-        const nextId = get(self.model, `tables[${index}].id`)
+        const nextId = get(self.model, `orderedTables[${index}].id`)
         self.graph.canvas.focusNodeWithAnimate(nextId)
         setActiveId(nextId)
       }
     }
 
     const clearActive = () => {
+      rmActiveEndpoint()
       if (self.hasActiveItem) {
         setActiveFieldId()
         setActiveId()
@@ -156,8 +161,5 @@ const ErdContext = createContext(store)
 export const useStore = () => useContext(ErdContext)
 
 export const Provider = ({ children }) => {
-  useEffect(() => {
-    modelUtils.fetchModelTplData()
-  }, [])
   return <ErdContext.Provider value={store}>{children}</ErdContext.Provider>
 }

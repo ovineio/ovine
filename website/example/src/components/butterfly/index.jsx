@@ -12,7 +12,7 @@ import relayout from './util/re-layout.js'
 import 'butterfly-dag/dist/index.css'
 
 const noop = () => null
-const defaultLinkCls = 'butterflies-link'
+// const defaultLinkCls = 'butterflies-link'
 
 const call = (fn) => {
   if (!fn) {
@@ -30,12 +30,10 @@ const ReactButterfly = (props) => {
   const {
     options = {},
     onDeleteEdge,
-    onEdgesChange,
     className = '',
     groups,
     onCreateEdge,
     nodes,
-    edges,
     onLoaded = noop,
   } = props
 
@@ -49,14 +47,14 @@ const ReactButterfly = (props) => {
    * @param {BaseCanvas} canvas 画布实例
    * @param {Boolean} edge 是否对齐边
    */
-  const alignCanvasData = (canvas, edge = false) => {
+  const alignCanvasData = (canvas) => {
     // 利用ID，和当前的边，当前的节点进行对比
     if (!canvas) {
       return
     }
 
     const oldNodes = canvas.nodes
-    const oldEdges = canvas.edges
+    // const oldEdges = canvas.edges
     const oldGroups = canvas.groups
 
     const processNodes = () => {
@@ -66,12 +64,12 @@ const ReactButterfly = (props) => {
       canvas.removeNodes(process({ nodes: deleted }).nodes)
     }
 
-    const processEdge = () => {
-      const { created, deleted } = diff(edges, oldEdges)
+    // const processEdge = () => {
+    //   const { created, deleted } = diff(edges, oldEdges)
 
-      canvas.addEdges(process({ edges: created }).edges, true)
-      canvas.removeEdges(process({ edges: deleted }).edges.map((e) => e.id))
-    }
+    //   canvas.addEdges(process({ edges: created }).edges, true)
+    //   canvas.removeEdges(process({ edges: deleted }).edges.map((e) => e.id))
+    // }
 
     const processGroups = () => {
       const { created, deleted } = diff(groups, oldGroups)
@@ -88,9 +86,9 @@ const ReactButterfly = (props) => {
     processGroups()
     processNodes()
 
-    if (edge) {
-      processEdge()
-    }
+    // if (edge) {
+    //   processEdge()
+    // }
   }
 
   useEffect(() => {
@@ -103,7 +101,7 @@ const ReactButterfly = (props) => {
     alignCanvasData(canvas)
 
     setStep(currentStep + 1)
-  }, [nodes, edges, groups])
+  }, [nodes, groups])
 
   useEffect(() => {
     // 重新计算节点和边的位置
@@ -145,7 +143,7 @@ const ReactButterfly = (props) => {
 
       const data = process({
         nodes,
-        edges,
+        // edges,
         groups,
       })
 
@@ -205,7 +203,7 @@ const ReactButterfly = (props) => {
         targetEndpointId,
       })
 
-      call(onEdgesChange)(canvas.edges)
+      // call(onEdgesChange)(canvas.edges)
     })
 
     canvas.on('system.link.delete', ({ links }) => {
@@ -225,7 +223,7 @@ const ReactButterfly = (props) => {
         targetEndpointId,
       })
 
-      call(onEdgesChange)(canvas.edges)
+      // call(onEdgesChange)(canvas.edges)
     })
   }, [])
 
@@ -238,48 +236,48 @@ const ReactButterfly = (props) => {
     recalc(canvas)
   }, [currentStep])
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) {
-      return
-    }
+  // useEffect(() => {
+  //   const canvas = canvasRef.current
+  //   if (!canvas) {
+  //     return
+  //   }
 
-    // 对齐edges和canvas.edges的className
-    canvas.edges.forEach((cvsEdge) => {
-      const userEdge = edges.find((e) => e.id === cvsEdge.id)
+  //   // 对齐edges和canvas.edges的className
+  //   canvas.edges.forEach((cvsEdge) => {
+  //     const userEdge = edges.find((e) => e.id === cvsEdge.id)
 
-      // 对齐Edge的Classname
-      const alignEdgeCls = () => {
-        if (!cvsEdge.dom || !userEdge) {
-          return
-        }
+  //     // 对齐Edge的Classname
+  //     const alignEdgeCls = () => {
+  //       if (!cvsEdge.dom || !userEdge) {
+  //         return
+  //       }
 
-        const cls = [defaultLinkCls]
+  //       const cls = [defaultLinkCls]
 
-        if (userEdge.className) {
-          cls.push(userEdge.className)
-        }
+  //       if (userEdge.className) {
+  //         cls.push(userEdge.className)
+  //       }
 
-        cvsEdge.dom.setAttribute('class', cls.join(' '))
-      }
+  //       cvsEdge.dom.setAttribute('class', cls.join(' '))
+  //     }
 
-      // 对齐边上的arrow的Cls
-      const alignEdgeArrowCls = () => {
-        if (!cvsEdge.arrowDom || !userEdge) {
-          return
-        }
+  //     // 对齐边上的arrow的Cls
+  //     const alignEdgeArrowCls = () => {
+  //       if (!cvsEdge.arrowDom || !userEdge) {
+  //         return
+  //       }
 
-        if (!userEdge.arrowClassName) {
-          return
-        }
+  //       if (!userEdge.arrowClassName) {
+  //         return
+  //       }
 
-        cvsEdge.arrowDom.setAttribute('class', userEdge.arrowClassName)
-      }
+  //       cvsEdge.arrowDom.setAttribute('class', userEdge.arrowClassName)
+  //     }
 
-      alignEdgeCls()
-      alignEdgeArrowCls()
-    })
-  })
+  //     alignEdgeCls()
+  //     alignEdgeArrowCls()
+  //   })
+  // })
 
   return (
     <div className={`${className} butterfly-react`}>
@@ -291,7 +289,7 @@ const ReactButterfly = (props) => {
           alignCanvasData(canvasRef.current, true)
         }}
       />
-      <CommonRender data={edges} renderKey="labelRender" idPrefix="edge_label_" type="edge" />
+      {/* <CommonRender data={edges} renderKey="labelRender" idPrefix="edge_label_" type="edge" /> */}
       <CommonRender data={groups} type="group" idPrefix="bf_group_" />
       <div
         className="butterfly-react-container"
