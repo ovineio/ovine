@@ -102,7 +102,7 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
 addLibRenderer('sysSchemaService', (props) => {
   const { data, source: dataKey, updateDeps = [], onSuccess, ...reset } = props
   const source = dataKey ? get(data, dataKey) : data
-  const dataSource = onSuccess && source ? onSuccess(source, data) : source
+  const dataSource = onSuccess && source ? onSuccess(source, data, reset) : source
 
   if (!dataSource) {
     return null

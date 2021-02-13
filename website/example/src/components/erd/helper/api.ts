@@ -3,12 +3,12 @@ import { ReqOption } from '@core/utils/request/types'
 import { getGlobal } from '@core/utils/store'
 import { ObjectOf } from '@core/utils/types'
 
-import preset from '~/pages/experiment/data_model/mode_list/preset'
+import apis from '~/pages/experiment/data_model/mode_list/apis'
 import * as utils from '~/pages/experiment/data_model/mode_list/utils'
 
 import { erdStoreKey } from '../constants'
 
-export const modelApis = preset.apis as ObjectOf<ReqOption>
+export const modelApis = apis as ObjectOf<ReqOption>
 export const modelUtils = utils
 
 export const getModelTplData = () => {

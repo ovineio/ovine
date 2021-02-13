@@ -52,6 +52,7 @@ module.exports = {
     ],
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/label-has-associated-control': OFF,
+    'jsx-a11y/anchor-is-valid': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
     'react/require-default-props': OFF,

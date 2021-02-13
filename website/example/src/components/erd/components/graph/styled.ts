@@ -64,8 +64,7 @@ export const NodeWrap = styled.div`
     &.editable {
       .field-point {
         opacity: 1;
-        &:hover,
-        &.active {
+        &:hover {
           background-color: rgb(230, 109, 28);
           transform: scale(1.4);
           cursor: crosshair !important;
@@ -181,6 +180,11 @@ export const NodeWrap = styled.div`
     }
     &.point-r {
       right: -7px;
+    }
+    &.active {
+      background-color: rgb(230, 109, 28);
+      transform: scale(1.4);
+      cursor: crosshair !important;
     }
   }
 

@@ -1,6 +1,6 @@
 import Erd from '~/components/erd'
 
-import { modelDataSchema } from './model_data'
+import { modelDetailSchema } from './model_detail'
 import * as styled from './styled'
 import * as tpl from './template'
 import * as utils from './utils'
@@ -19,6 +19,9 @@ export default {
     cssVars: {
       '--Drawer-widthXl': '75%',
     },
+    data: {
+      displayMode: utils.displayModeCtrl('get'),
+    },
     toolbar: [
       {
         $preset: 'forms.switchMode',
@@ -29,12 +32,14 @@ export default {
       },
       {
         $preset: 'actions.add',
-        disabledOn: 'displayMode !== "list"',
+        disabledOn: 'displayMode !== "diagram"',
       },
     ],
     body: {
       type: 'lib-when',
-      condition: (value) => utils.displayModeCtrl('get') === value,
+      condition: (value) => {
+        return utils.displayModeCtrl('get') === value
+      },
       cases: [
         {
           value: 'list',
@@ -49,7 +54,7 @@ export default {
         },
         {
           value: 'detail',
-          ...modelDataSchema,
+          ...modelDetailSchema,
         },
       ],
     },
@@ -86,26 +91,26 @@ export default {
             body: '$preset.forms.addTable',
           },
         },
-        viewTableData: {
-          label: '${name}',
-          size: 'lg',
-          level: 'link',
-          type: 'action',
-          actionType: 'drawer',
-          drawer: {
-            title: '【${name}】模型数据',
-            size: 'xl',
-            closeOnEsc: true,
-            resizable: true,
-            actions: [],
-            data: {
-              id: '$id',
-              name: '$name',
-              items: [],
-            },
-            body: tpl.getModelDataTable(),
-          },
-        },
+        // viewTableData: {
+        //   label: '${name}',
+        //   size: 'lg',
+        //   level: 'link',
+        //   type: 'action',
+        //   actionType: 'drawer',
+        //   drawer: {
+        //     title: '【${name}】模型数据',
+        //     size: 'xl',
+        //     closeOnEsc: true,
+        //     resizable: true,
+        //     actions: [],
+        //     data: {
+        //       id: '$id',
+        //       name: '$name',
+        //       items: [],
+        //     },
+        //     body: tpl.getModelDataTable(),
+        //   },
+        // },
         copyTable: {
           limits: 'add',
           type: 'button',

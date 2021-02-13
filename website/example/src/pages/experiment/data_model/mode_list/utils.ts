@@ -26,6 +26,8 @@ export const scopeRefProp = (ref) => {
   scopeRef = ref
 }
 
+export const getScopRef = () => scopeRef
+
 const transAttrsToSchema = (attrs) => {
   const controls = []
 
@@ -255,10 +257,7 @@ export const onUpdateTableData = async () => {
       url: 'GET ovhapi/model/table',
     })
     const apiData = await onGetTableListSuc(source.data)
-    // TODO: 保持展开的状态
-    // console.log('@@@@==>>', modelTableList.control.props.store)
     modelTableList.props.store.reInitData(apiData.data) // .initFromScope(apiData.data, '$items')
     scopeRef.isDirty = false
-    // console.log('@====>1111', a, scopeRef.parent.getComponents())
   }
 }

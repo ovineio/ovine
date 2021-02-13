@@ -1,4 +1,4 @@
-import { css } from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { storage } from '@core/constants'
 import { getGlobal } from '@core/utils/store'
@@ -28,34 +28,66 @@ export const modelListPageCss = ({ ns }) => css`
       }
     }
   }
-  .model-list-nav {
-    width: 200px;
+`
 
-    .scrollbar-wrap {
+export const ModelDetail = styled.div`
+  display: flex;
+  ${({ theme: { ns } }) => css`
+    .detail-nav {
+      width: 200px;
+      flex: 0 0 200px;
       position: sticky;
       top: ${getFixTop()}px;
       height: ${`calc(100vh - ${getFixTop()}px)`};
-    }
-    .${ns}Nav {
-      padding-bottom: 20px;
-    }
-    .${ns}Nav-item {
-      a {
-        padding-left: 20px;
-        border-left: 0;
-        border-right: 0;
+      .${ns}Nav {
+        padding-bottom: 20px;
+      }
+      .${ns}Nav-item {
+        a {
+          padding-left: 20px;
+          border-left: 0;
+          border-right: 0;
+        }
       }
     }
-  }
-`
+    .detail-nav-hd {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid red;
+      button {
+        min-width: 40px;
+      }
+    }
 
-export const modelDataListCss = ({ ns }) => css`
-  padding: 20px;
-  border-left: 1px solid #eceff8;
-  .${ns}Crud-body {
-    border: 0;
-  }
-  .toolbar-divider {
-    clear: both;
-  }
+    .detail-crud {
+      flex: 1;
+      padding: 0 20px 20px;
+    }
+
+    .toolbar-divider {
+      margin-left: 0;
+      clear: both;
+    }
+    .${ns}Crud-body {
+      border: 0;
+    }
+    .${ns}Table-itemActions {
+      .fa {
+        padding-top: 4px;
+      }
+    }
+    .${ns}Crud-pageSwitch {
+      display: flex;
+      align-items: center;
+    }
+    .${ns}Table-fixedTop {
+      &.in {
+        .${ns}Table-headToolbar {
+          padding: 0 20px;
+        }
+      }
+    }
+  `}
 `
