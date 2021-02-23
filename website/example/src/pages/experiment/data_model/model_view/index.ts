@@ -1,4 +1,4 @@
 export const schema = {
   type: 'page',
-  body: 'xxx',
+  body: '正在开发中...',
 }

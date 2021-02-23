@@ -1,3 +1,16 @@
+const tranProp = (items) => {
+  return items.map((i) => {
+    const { child: children, ...rest } = i
+    if (children && children.length) {
+      return {
+        children: tranProp(children),
+        ...rest,
+      }
+    }
+    return rest
+  })
+}
+
 export default {
   limits: {
     $page: {
@@ -17,19 +30,24 @@ export default {
     list: {
       url: 'GET ovapi/document/item',
       limits: '$page',
-      // 测试字符串回调
-      onPreRequest: `
-          const { dateRange } = option.data
-          if (dateRange) {
-            const arr = dateRange.split('%2C')
-            option.data = {
-              ...option.data,
-              startDate: arr[0],
-              endDate: arr[1],
-            }
-          }
-          return option
-       `,
+      onSuccess: (source) => {
+        const items = source.data
+        source.data = { options: tranProp(items) }
+        return source
+      },
+      // // 测试字符串回调
+      // onPreRequest: `
+      //     const { dateRange } = option.data
+      //     if (dateRange) {
+      //       const arr = dateRange.split('%2C')
+      //       option.data = {
+      //         ...option.data,
+      //         startDate: arr[0],
+      //         endDate: arr[1],
+      //       }
+      //     }
+      //     return option
+      //  `,
     },
     add: {
       url: 'POST ovapi/document/item',

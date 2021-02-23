@@ -26,11 +26,11 @@ const Graph = observer(() => {
   }
 
   useEffect(() => {
-    clearActive()
     modelUtils.fetchModelTplData()
     model.fetchTablesData()
 
     return () => {
+      clearActive()
       $('.butterfly-svg')
         .off('mouseenter')
         .off('mouseleave')

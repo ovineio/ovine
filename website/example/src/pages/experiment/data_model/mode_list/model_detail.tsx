@@ -4,13 +4,14 @@
  * 2. 编辑/增加/删除
  * 3. 高级查询
  */
-import { get } from 'lodash'
+import { get, map, omit } from 'lodash'
 import React, { useEffect } from 'react'
 
 import { app } from '@core/app'
 import { Amis } from '@core/components/amis/schema'
 import { useImmer } from '@core/utils/hooks'
 
+import { emptyListHolder } from '~/app/constants'
 import ScrollBar from '~/components/scroll_bar'
 
 import apis from './apis'
@@ -137,6 +138,29 @@ const onReqSucModelData = (source, reqOpt) => {
   return source
 }
 
+const getColumns = (tableInfo: any) => {
+  const { fields = {} } = tableInfo
+
+  const columns = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
+    const { id: name, name: label } = field
+    const column = {
+      name,
+      label,
+      type: 'text',
+    }
+
+    return column
+  })
+
+  columns.unshift({
+    name: 'id',
+    label: 'ID',
+    type: 'text',
+  })
+
+  return columns
+}
+
 const getUpdateForm = (type) => {
   const schema = {
     type: 'form',
@@ -210,6 +234,7 @@ const getModelDataTable = (info) => {
     },
     filterTogglable: false,
     perPageAvailable: [50, 100, 200],
+    placeholder: emptyListHolder,
     defaultParams: {
       size: 50,
     },
@@ -247,10 +272,9 @@ const getModelDataTable = (info) => {
         align: 'left',
       },
       {
-        limits: 'add',
+        // limits: 'add',
         type: 'action',
         align: 'left',
-        actionType: 'dialog',
         tooltip: '刷新数据',
         tooltipPlacement: 'top',
         icon: 'fa fa-refresh',
@@ -327,31 +351,7 @@ const getModelDataTable = (info) => {
         api: 'delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id',
       },
     ],
-    columns: [
-      {
-        name: 'id',
-        label: 'ID',
-        type: 'text',
-        width: 80,
-      },
-      {
-        name: 'desc',
-        label: '描述',
-        type: 'text',
-      },
-      {
-        name: 'createTime',
-        label: '创建时间',
-        type: 'datetime',
-        width: 150,
-      },
-      {
-        name: 'updateTime',
-        label: '更新时间',
-        type: 'datetime',
-        width: 150,
-      },
-    ],
+    columns: getColumns(info),
   }
 
   return modelCrud

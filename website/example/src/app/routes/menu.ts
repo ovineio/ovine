@@ -68,7 +68,7 @@ export const menuRoutes: LimitMenuItem = {
     },
     {
       label: '系统管理',
-      icon: 'fa fa-wrench',
+      icon: 'fa fa-cog',
       nodePath: 'system',
       children: [
         {
@@ -86,8 +86,8 @@ export const menuRoutes: LimitMenuItem = {
       ],
     },
     {
-      label: '测试功能',
-      icon: 'fa fa-paint-brush',
+      label: '用于测试',
+      icon: 'fa fa-dribbble',
       nodePath: 'application',
       children: [
         {

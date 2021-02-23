@@ -32,7 +32,7 @@ export default {
       },
       {
         $preset: 'actions.add',
-        disabledOn: 'displayMode !== "diagram"',
+        disabledOn: 'displayMode !== "list"',
       },
     ],
     body: {
