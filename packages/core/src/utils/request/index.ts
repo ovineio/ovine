@@ -125,8 +125,21 @@ async function readJsonResponse(response: any) {
   if (response.headers?.get('content-length') === '0') {
     return {}
   }
+  let data = {}
+  if (response.headers['content-type'] != "application/json;charset=UTF-8") {
+    const content = await response.text();
+    try {
+      data = JSON.parse(content)
+    } catch (e) {
+      data = {
+        code: 401, //对于正常返回结果却是页面的给予 401 code用户可以在request.onSuccess中自行处理
+        msg: content,
+      }
+    }
 
-  const data = await response.json()
+  } else {
+    data = await response.json();
+  }
   return data
 }
 
@@ -227,7 +240,7 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       xhr = null
     }
 
-    xhr.onreadystatechange = function() {
+    xhr.onreadystatechange = function () {
       if (!xhr || xhr.readyState !== 4) {
         return
       }
@@ -252,11 +265,11 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
       }
     }
 
-    xhr.onerror = function() {
+    xhr.onerror = function () {
       onXhrError(this.status, 'Network Error')
     }
 
-    xhr.ontimeout = function() {
+    xhr.ontimeout = function () {
       onXhrError(this.status, 'TimeOut Error')
     }
 
