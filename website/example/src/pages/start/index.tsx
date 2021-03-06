@@ -100,7 +100,7 @@ export default () => {
         <Spinner overlay show={drawerVisible && loading} size="lg" />
         <a
           className="p-md"
-          href="https://baidu.github.io/amis/docs/components/page"
+          href="https://baidu.github.io/amis/zh-CN/components/page"
           target="_blank"
         >
           <i className="fa fa-flag p-r-xs" />

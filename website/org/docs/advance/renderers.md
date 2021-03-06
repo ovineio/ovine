@@ -9,10 +9,10 @@ Ovine 页面是通过 Json 配置出来的。这些配置都是由渲染器模�
 
 ### Amis 内置渲染器列表
 
-> 此处可能更新不及时，可以前往 [Amis 官方文档查看](https://baidu.github.io/amis/docs/components/page)
+> 此处可能更新不及时，可以前往 [Amis 官方文档查看](https://baidu.github.io/amis/zh-CN/docs/index)
 
 - [Tpl](https://baidu.github.io/amis/docs/components/tpl): 支持用 JS 模板引擎来组织输出
-- [Page](https://baidu.github.io/amis/docs/components/page): JSON 配置最外层的 Page 渲染器
+- [Page](https://baidu.github.io/amis/zh-CN/docs/index): JSON 配置最外层的 Page 渲染器
 - [Action](https://baidu.github.io/amis/docs/components/action): 一种特殊的渲染器，它本身是一个按钮，同时它能触发事件
 - [Table](https://baidu.github.io/amis/docs/components/table): 表格展示
   - [Column](https://baidu.github.io/amis/docs/components/column): 表格中的列配置

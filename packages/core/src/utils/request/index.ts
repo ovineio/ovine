@@ -511,7 +511,7 @@ export class Request<IS = {}, IP = {}> {
 
     // 兼容 cache 参数, 用于多请求并发情况
     if (reqOption.method === 'GET' && reqOption.cache && reqOption.cache > 0) {
-      const apiObj: any = pick(reqOption, ['api', 'cache', 'method', 'data'])
+      const apiObj: any = pick(reqOption, ['url', 'cache', 'method', 'data'])
       const apiCache: any = getApiCache(apiObj)
 
       log.debounce(() =>

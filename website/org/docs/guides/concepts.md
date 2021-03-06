@@ -9,13 +9,13 @@ title: 主要概念
 
 ## 渲染器
 
-这是 Amis 提出的概念。渲染器就是用`Json Schema`渲染为真实 UI 的组件。 大家可以参考 [Amis 官方文档](https://baidu.github.io/amis/docs/components/page) 进行体验。所有的例子都是可以实时编辑并渲染的。动手编辑一下看看效果。
+这是 Amis 提出的概念。渲染器就是用`Json Schema`渲染为真实 UI 的组件。 大家可以参考 [Amis 官方文档](https://baidu.github.io/amis/zh-CN/docs/index) 进行体验。所有的例子都是可以实时编辑并渲染的。动手编辑一下看看效果。
 
 由例子可以看出
 
 - 定义好的渲染器，可以根据 Json 渲染出对应的 UI
 - 渲染器越多越强大便可以配置出各种各样的 UI 页面。
-  - [Amis 渲染器列表](https://baidu.github.io/amis/docs/components/page)
+  - [Amis 渲染器列表](https://baidu.github.io/amis/zh-CN/docs/index)
   - [Amis Demo](https://baidu.github.io/amis/examples/pages/simple)
   - [Ovine Demo](https://ovine.igroupes.com/demo/)
 

@@ -6,6 +6,8 @@ import Editor from '@ovine/editor/lib/index'
 
 import { storeKeys } from '~/app/constants'
 
+import './custom'
+
 const defaultSchema = {
   type: 'page',
   title: '体验在线编辑页面效果～',

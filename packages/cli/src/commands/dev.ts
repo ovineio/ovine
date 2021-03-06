@@ -51,7 +51,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const context = loadContext(siteDir, options)
 
   const { siteConfig } = context
-  const { openPage, publicPath, proxy, ...resetDevOption } = siteConfig.devServer
+  const { openPage, publicPath, proxy, ...restDevServerOpts } = siteConfig.devServer
 
   const protocol: string = process.env.HTTPS === 'true' ? 'https' : 'http'
   const port: number = await getPort(options.port)
@@ -87,7 +87,7 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
     },
     disableHostCheck: true,
     overlay: false,
-    ...resetDevOption,
+    ...restDevServerOpts,
     host,
     publicPath,
     proxy,
