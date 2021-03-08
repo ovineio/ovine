@@ -8,6 +8,7 @@ export type ReqSuccessHook<S = any, P = any> = (
 
 export type ReqResponse<S = any> = Partial<Response> & {
   data: ReqApiRes<S>
+  responseText?: string
 }
 
 export type ReqErrorHook<S = any, P = any> = (

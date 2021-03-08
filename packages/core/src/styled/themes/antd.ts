@@ -1,11 +1,9 @@
 import { DefaultTheme } from 'styled-components'
 
-import * as Types from '@/utils/types'
-
-export const cxdTheme: Types.DeepPartial<DefaultTheme> = {
-  ns: 'cxd-',
-  name: 'cxd',
-  text: '淡雅主题',
+export const antdTheme: DefaultTheme = {
+  ns: 'antd-',
+  name: 'antd',
+  text: 'ANTD',
   colors: {
     bodyBg: '#fff',
     text: '#666',

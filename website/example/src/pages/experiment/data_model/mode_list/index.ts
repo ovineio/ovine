@@ -276,14 +276,17 @@ export default {
                 {
                   label: '列表',
                   value: 'list',
+                  size: 'sm',
                 },
                 {
                   label: '图示',
                   value: 'diagram',
+                  size: 'sm',
                 },
                 {
                   label: '数据',
                   value: 'detail',
+                  size: 'sm',
                 },
               ],
             },

@@ -1,0 +1,31 @@
+// amis 官方主题: 百度云舍
+// 具体参照源码 https://github.com/baidu/amis/tree/master/scss/themes
+
+// @import './_cxd_iconfont';
+@import '../_lib/utils';
+
+@import './antd_vars';
+
+@import '../variables';
+@import '../properties';
+
+@import './_antd_props';
+
+// lib core redefined
+:root {
+  --Spinner-bg: #{$Spinner-bg};
+  --DropDown-menuItem-onHover-bg: #eaf6fe;
+  --Drawer-header-bg: #f6f7fb;
+  --Drawer-header-borderColor: white;
+  --Panel--default-bg: #f6f8f8;
+  --body-bg: #fff;
+  --Form-description-color: #999;
+  --Form-select-borderRadius: 2px;
+}
+
+// site cxd theme scss
+@import './themes/_antd.scss';
+
+// amis lib scss
+@import '../_lib/_amis_components';
+@import '../_lib/global';

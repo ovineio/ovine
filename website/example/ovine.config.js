@@ -23,7 +23,7 @@ module.exports = (option) => {
     envModes: ['localhost', 'staging', 'production'], // 环境列表
     staticFileExts: ['cur'],
     ui: {
-      defaultTheme: 'cxd',
+      defaultTheme: 'antd',
     },
     devServer: {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀

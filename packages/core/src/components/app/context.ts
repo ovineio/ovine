@@ -9,7 +9,7 @@ export type AppContextState = {
 }
 
 export const AppContext = createContext<AppContextState>({
-  locale: 'zh-cn',
+  locale: 'zh-CN',
   enableRouteTabs: true,
   setContext: () => {
     //

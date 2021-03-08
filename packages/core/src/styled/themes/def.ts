@@ -10,18 +10,5 @@ export const defaultTheme: DefaultTheme = {
     layoutHeaderBg: '#fff',
     linkHover: 'rgb(35, 183, 229)',
     border: '#dee2e6',
-    // echart: [
-    //   '#c1352f',
-    //   '#2f4655',
-    //   '#669ea9',
-    //   '#d38165',
-    //   '#93c7ae',
-    //   '#749e83',
-    //   '#ca8624',
-    //   '#bea29c',
-    //   '#6e7074',
-    //   '#526470',
-    //   '#c6ccd2',
-    // ],
   },
 }

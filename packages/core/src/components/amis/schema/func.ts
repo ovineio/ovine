@@ -185,8 +185,8 @@ export const resolveLibSchema = (schema: LibSchema) => {
 }
 
 // 自定义解析器
-export const libResolver = (path: string, schema?: Schema, props?: any): null | RendererConfig => {
-  return resolveRenderer(path, schema, props)
+export const libResolver = (path: string, schema?: Schema): null | RendererConfig => {
+  return resolveRenderer(path, schema)
 }
 
 // 顶层有 type 与 css 属性， 自动注入 lib-css

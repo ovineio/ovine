@@ -39,7 +39,7 @@ const cacheRouteTabs = getStore<boolean>(storage.enableRouteTabs)
 
 const AppComponent = () => {
   const [state, setState] = useImmer<State>({
-    locale: getStore(storage.appLocale) || app.amis.locale || 'zh-cn',
+    locale: getStore(storage.appLocale) || app.amis.locale || 'zh-CN',
     enableRouteTabs: cacheRouteTabs === null ? true : cacheRouteTabs,
     theme: app.theme.getTheme().name,
   })

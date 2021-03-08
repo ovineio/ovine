@@ -44,7 +44,7 @@
   --Page-header-paddingX: #{px2rem(20px)};
   --Page-header-paddingY: #{px2rem(10px)};
 
-  --Form-item-gap: #{px2rem(20px)};
+  --Form-item-gap: #{px2rem(15px)};
   --Form-input-height: #{px2rem(30px)};
   --Form-input-onFocused-bg: var(--white);
   --Form-input-borderRadius: 0;
@@ -58,7 +58,6 @@
   --Form-input-onDisabled-bg: #f5f5f5;
   --Form-input-onDisabled-borderColor: #ebebeb;
   --Form--horizontal-label-whiteSpace: nowrap;
-  --Form--horizontal-label-align: left;
   --Form--horizontal-label-widthXs: #{px2rem(50px)};
   --Form--horizontal-label-widthSm: #{px2rem(70px)};
   --Form--horizontal-label-widthBase: #{px2rem(100px)};
@@ -118,6 +117,9 @@
   --Number-handler--up-content: '\e6dd';
   --Number-handler--up-transform: rotate(180deg);
   --Number-handler--down-content: '\e6dd';
+
+  --Checkbox-onDisabled-color: #ebebeb;
+  --Checkbox-onDisabled-bg: #cccccc;
 
   --Checkbox-size: #{px2rem(14px)};
   --Checkbox-inner-size: #{px2rem(8px)};
@@ -334,7 +336,8 @@
   --Tabs--card-onActive-borderColor: var(--white);
   --Tabs--card-bg: var(--Table-thead-bg);
   --Tabs--radio-bg: var(--white);
-  --Tabs-onActive-borderColor: #{darken($borderColor, 5%)};
+  --Tabs--chrome-onHover-bg: #fcfcfc;
+  --Tabs--chrome-bg: #f5f5f5;
 
   // Pagination
   --Pagination-fontSize: #{px2rem(12px)};
@@ -354,9 +357,6 @@
   --Nav-item-onActive-borderLeft: #{px2rem(4px)} solid var(--primary);
   --Nav-subItem-fontSize: #{px2rem(12px)};
   --Nav-subItem-onActiveBeforeBg: var(--primary);
-
-  // Range
-  --InputRange-label--value-display: none;
 
   // TransferSelect
   --TransferSelect--table-heading-bg: var(--white);

@@ -50,6 +50,7 @@ export const getModeList = () => {
   const modeListSchema = {
     type: 'crud',
     name: 'modelTableList',
+    className: 'model-list-crud',
     api: {
       $preset: 'apis.listTable',
       onSuccess: utils.onGetTableListSuc,

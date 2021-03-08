@@ -3,7 +3,7 @@ import { Renderer } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import React from 'react'
 
-import 'amis/lib/locale/en'
+import 'amis/lib/locale/en-US'
 
 import './lib_crud'
 import './lib_css'

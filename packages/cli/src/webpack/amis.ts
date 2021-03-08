@@ -50,15 +50,10 @@ export const fixChartLoader = () => ({
   options: {
     multiple: [
       {
-        search: 'echarts\\.dataTool = dataTool;',
+        search: 'if \\(chartTheme\\) \\{',
         flags: 'm',
-        replace: `window.echartsDataTool = dataTool;  if (chartTheme) { delete chartTheme.backgroundColor; }
+        replace: `if (chartTheme) { delete chartTheme.backgroundColor;
         `,
-      },
-      {
-        search: ',\\sfunction\\s\\(flvjs\\)\\s\\{',
-        flags: 'm',
-        replace: ', function (flvModule) { var flvjs = flvModule.default;',
       },
     ],
   },

@@ -26,7 +26,7 @@ export type EnvConfig = {
 export type AppAmis = Partial<
   RenderOptions & {
     constants: ObjectOf<string | number> // AMIS 全局变量
-    locale: 'zh-cn' | 'en' // AMIS 语言配置
+    locale: 'zh-CN' | 'en-US' // AMIS 语言配置
     definitions: any // AMIS 全局定义
   }
 >

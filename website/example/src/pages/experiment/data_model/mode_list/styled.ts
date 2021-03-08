@@ -14,6 +14,14 @@ export const modelListPageCss = ({ ns }) => css`
   .${ns}Table-foot {
     background: var(--Table-bg);
   }
+  .${ns}Form-item {
+    margin-bottom: 0;
+  }
+  .model-list-crud {
+    & > .${ns}Table {
+      border: 0;
+    }
+  }
   .field-extra {
     ul {
       padding: 0;
@@ -69,6 +77,14 @@ export const ModelDetail = styled.div`
     .toolbar-divider {
       margin-left: 0;
       clear: both;
+    }
+    .${ns}Nav-item {
+      &.is-active a {
+        border-radius: 0;
+      }
+      a {
+        border-radius: 0;
+      }
     }
     .${ns}Crud-body {
       border: 0;

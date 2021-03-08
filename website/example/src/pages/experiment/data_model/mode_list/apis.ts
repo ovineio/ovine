@@ -58,7 +58,4 @@ export default {
     limits: 'add',
     domain: 'modelApi',
   },
-  testList: {
-    url: 'GET ovapi/system/log/item',
-  },
 }

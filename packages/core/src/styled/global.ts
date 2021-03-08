@@ -46,6 +46,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /** lib 主题相关的全局样式 */
+  .antd-Crud-pageSwitch {
+    .antd-Select {
+      min-height: 20px;
+      padding: 4px 0 4px 10px;
+    }
+  }
+
   /** amis 兼容  */
 
   ${({ theme: { ns } }) => css`

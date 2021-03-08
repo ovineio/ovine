@@ -16,7 +16,7 @@ export const StyledRouteTabs = styled.div`
   z-index: 2;
   background-color: #edf1f2;
 
-  &.cxd-RouteTabs {
+  &.cxd-RouteTabs,&.antd-RouteTabs {
     background-color: #fff;
     .chrome-tabs {
       background: #eaeaea;

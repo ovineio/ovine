@@ -143,7 +143,7 @@ export default (props: Props) => {
         wrapWithPanel: false,
         data: {
           theme,
-          locale: getStore(storage.appLocale) || app.amis.locale || 'zh-cn',
+          locale: getStore(storage.appLocale) || app.amis.locale || 'zh-CN',
         },
         controls: [
           {
@@ -163,11 +163,11 @@ export default (props: Props) => {
             options: [
               {
                 label: '中文',
-                value: 'zh-cn',
+                value: 'zh-CN',
               },
               {
                 label: 'English',
-                value: 'en',
+                value: 'en-US',
               },
             ],
             onChange: onChangeLocale,

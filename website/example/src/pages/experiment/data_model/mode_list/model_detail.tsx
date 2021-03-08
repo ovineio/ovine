@@ -138,6 +138,24 @@ const onReqSucModelData = (source, reqOpt) => {
   return source
 }
 
+const onUpdatePreReq = (reqOpts) => {
+  const fields = []
+  const {ids} = reqOpts.data
+
+  map(reqOpts.data, (value, id) => {
+    if (/^\d+$/.test(id)) {
+      fields.push({
+        id,
+        value,
+      })
+    }
+  })
+
+  reqOpts.data = ids ? { fields, ids } : { fields }
+
+  return reqOpts
+}
+
 const getColumns = (tableInfo: any) => {
   const { fields = {} } = tableInfo
 
@@ -161,56 +179,32 @@ const getColumns = (tableInfo: any) => {
   return columns
 }
 
-const getUpdateForm = (type) => {
+const getUpdateForm = (type, tableInfo: any) => {
+  const { fields = {}, detailDataApis } = tableInfo
+
+  const controls: any = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
+    const { id: name, name: label } = field
+    const column = {
+      name,
+      label,
+      type: 'text',
+    }
+
+    return column
+  })
+
+  if (type === 'batchEdit') {
+    controls.unshift({
+      type: 'hidden',
+      name: 'ids',
+    })
+  }
+
   const schema = {
     type: 'form',
+    api: detailDataApis[type],
     className: type,
-    controls: [
-      {
-        type: 'static',
-        name: 'engine',
-        label: 'Engine',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'static',
-        name: 'browser',
-        label: 'Browser',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'static',
-        name: 'platform',
-        label: 'Platform(s)',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'static',
-        name: 'version',
-        label: 'Engine version',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'static',
-        name: 'grade',
-        label: 'CSS grade',
-      },
-      {
-        type: 'divider',
-      },
-      {
-        type: 'html',
-        html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>',
-      },
-    ],
+    controls,
   }
 
   return schema
@@ -223,15 +217,46 @@ const getViewModel = () => {
 const getModelDataTable = (info) => {
   const { id, name } = info
 
-  const modelCrud = {
-    type: 'lib-crud',
-    syncLocation: false,
-    api: {
+  const detailDataApis = {
+    list: {
       url: `POST ovhapi/model/api/model/${id}/list`,
       domain: 'modelApi',
       onPreRequest: onPreReqModelData,
       onSuccess: onReqSucModelData,
     },
+    add: {
+      url: `POST ovhapi/model/api/model/${id}`,
+      domain: 'modelApi',
+      onPreRequest: onUpdatePreReq,
+    },
+    edit: {
+      url: `PUT ovhapi/model/api/model/${id}/$id`,
+      domain: 'modelApi',
+      onPreRequest: onUpdatePreReq,
+    },
+    del: {
+      url: `DELETE ovhapi/model/api/model/${id}/$id`,
+      domain: 'modelApi',
+    },
+    batchEdit: {
+      url: `PUT ovhapi/model/api/model/${id}/batch`,
+      domain: 'modelApi',
+      onPreRequest: onUpdatePreReq,
+    },
+    batchDel: {
+      url: `DELETE ovhapi/model/api/model/${id}/batch`,
+      domain: 'modelApi',
+      data: {
+        ids: '$ids',
+      },
+    },
+  }
+
+  const modelCrud = {
+    type: 'lib-crud',
+    name: 'modelDataTable',
+    syncLocation: false,
+    api: detailDataApis.list,
     filterTogglable: false,
     perPageAvailable: [50, 100, 200],
     placeholder: emptyListHolder,
@@ -247,6 +272,7 @@ const getModelDataTable = (info) => {
         className: 'toolbar-divider',
         label: '高级查询',
         align: 'left',
+        size: 'sm',
         actionType: 'drawer',
         drawer: {
           title: `【${name}】高级查询`,
@@ -259,12 +285,13 @@ const getModelDataTable = (info) => {
         icon: 'fa fa-plus pull-left',
         level: 'primary',
         label: '添加',
+        size: 'sm',
         align: 'left',
         actionType: 'drawer',
         drawer: {
-          title: '【$name】高级查询',
+          title: `【${name}】添加一项`,
           size: 'lg',
-          body: getUpdateForm('add'),
+          body: getUpdateForm('add', { ...info, detailDataApis }),
         },
       },
       {
@@ -278,7 +305,10 @@ const getModelDataTable = (info) => {
         tooltip: '刷新数据',
         tooltipPlacement: 'top',
         icon: 'fa fa-refresh',
+        size: 'sm',
         iconOnly: true,
+        actionType: 'reload',
+        target: 'modelDataTable',
       },
       {
         type: 'columns-toggler',
@@ -311,12 +341,24 @@ const getModelDataTable = (info) => {
         icon: 'fa fa-edit pull-left',
         label: '批量修改',
         align: 'left',
+        actionType: 'drawer',
+        drawer: {
+          title: `【${name}】批量修改`,
+          size: 'lg',
+          data: {
+            ids: '$ids',
+          },
+          body: getUpdateForm('batchEdit', { ...info, detailDataApis }),
+        },
       },
       {
         type: 'action',
         icon: 'fa fa-remove text-danger pull-left',
         label: '批量删除',
+        actionType: 'ajax',
+        confirmText: '删除后将不可恢复，您确认要批量删除?',
         align: 'left',
+        api: detailDataApis.batchDel,
       },
     ],
     itemActions: [
@@ -336,10 +378,10 @@ const getModelDataTable = (info) => {
         icon: 'fa fa-edit pull-left',
         actionType: 'drawer',
         drawer: {
-          position: 'left',
+          position: 'right',
           size: 'lg',
           title: '编辑',
-          body: getUpdateForm('edit'),
+          body: getUpdateForm('edit', { ...info, detailDataApis }),
         },
       },
       {
@@ -347,8 +389,8 @@ const getModelDataTable = (info) => {
         label: '删除',
         icon: 'fa fa-remove text-danger pull-left',
         actionType: 'ajax',
-        confirmText: '您确认要删除?',
-        api: 'delete:https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample/$id',
+        confirmText: '删除后将不可恢复，您确认要删除?',
+        api: detailDataApis.del,
       },
     ],
     columns: getColumns(info),
@@ -486,113 +528,3 @@ export const modelDetailSchema = {
     component: ModeDetail,
   },
 }
-
-// export const modelDetailSchema = {
-//   type: 'lib-css',
-//   css: styled.modelDataListCss,
-//   body: {
-//     type: 'hbox',
-//     columns: [
-//       {
-//         columnClassName: 'model-detail-nav',
-//         type: 'lib-renderer',
-//         renderer: 'sysScrollBar',
-//         body: [
-//           {
-//             type: 'hbox',
-//             className: 'p-sm mode-detail-nav-header',
-//             columns: [
-//               {
-//                 type: 'html',
-//                 html: '<h6 class="m-b-none d-inline-block">模型导航</h6>',
-//               },
-//               {
-//                 columnClassName: 'text-right',
-//                 type: 'form',
-//                 mode: 'inline',
-//                 target: 'page',
-//                 wrapWithPanel: false,
-//                 onInit: (_, formIns) => {
-//                   formIns.store.setValueByName('detailMode', 'list')
-//                 },
-//                 controls: [
-//                   {
-//                     type: 'button-group',
-//                     name: 'detailMode',
-//                     submitOnChange: true,
-//                     onChange: (mode: string) => {
-//                       utils.displayModeCtrl('set', mode)
-//                     },
-//                     options: [
-//                       {
-//                         label: '列表',
-//                         value: 'list',
-//                         size: 'xs',
-//                       },
-//                       {
-//                         label: '表单',
-//                         value: 'form',
-//                         size: 'xs',
-//                       },
-//                     ],
-//                   },
-//                 ],
-//               },
-//             ],
-//           },
-//           {
-//             type: 'service',
-//             schemaApi: {
-//               $preset: 'apis.listTable',
-//               onSuccess: async (apisSource) => {
-//                 const source = await utils.onGetTableListSuc(apisSource)
-//                 const items = source.data.items
-
-//                 if (!items.length) {
-//                   source.data = {
-//                     type: 'html',
-//                     html: '无数据',
-//                   }
-//                 }
-
-//                 source.data = {
-//                   type: 'nav',
-//                   stacked: true,
-//                   onSelect: (link) => {
-//                     const $nav = $('.model-detail-nav ')
-//                     const page = utils.getScopRef().getComponentByName('page')
-//                     page.context.send('modelDataCrud', { id: link.id })
-//                     page.props.env.updateLocation(link.to)
-//                     $nav.find('.is-active').removeClass('is-active')
-//                     $nav.find(`.model-table-${link.id}`).addClass('is-active')
-
-//                     return false
-//                   },
-//                   links: items.map(({ name, id }) => {
-//                     return {
-//                       label: name,
-//                       id,
-//                       className: `model-table-${id}`,
-//                       to: '#table=' + id,
-//                     }
-//                   }),
-//                 }
-
-//                 return source
-//               },
-//             },
-//           },
-//         ],
-//       },
-//       {
-//         type: 'service',
-//         name: 'modelDataCrud',
-//         className: 'model-crud-service',
-//         schemaApi: {
-//           url: 'GET fakeModelData?id=$id',
-//           onFakeRequest: getModelDataTable,
-//         },
-//       },
-//     ],
-//   },
-// }

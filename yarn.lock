@@ -2801,7 +2801,7 @@
   version "0.1.0"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.1.0"
+    amis "1.1.4"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
@@ -3059,11 +3059,6 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
-"@types/file-saver@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.npm.taobao.org/@types/file-saver/download/@types/file-saver-2.0.1.tgz#e18eb8b069e442f7b956d313f4fadd3ef887354e"
-  integrity sha1-4Y64sGnkQve5VtMT9PrdPviHNU4=
-
 "@types/fs-extra@^8.0.1":
   version "8.1.1"
   resolved "https://registry.npm.taobao.org/@types/fs-extra/download/@types/fs-extra-8.1.1.tgz?cache=0&sync_timestamp=1607656091150&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Ffs-extra%2Fdownload%2F%40types%2Ffs-extra-8.1.1.tgz#1e49f22d09aa46e19b51c0b013cb63d0d923a068"
@@ -3238,13 +3233,6 @@
   version "2.4.0"
   resolved "https://registry.npm.taobao.org/@types/normalize-package-data/download/@types/normalize-package-data-2.4.0.tgz?cache=0&sync_timestamp=1605054973251&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fnormalize-package-data%2Fdownload%2F%40types%2Fnormalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha1-5IbQ2XOW15vu3QpuM/RTT/a0lz4=
-
-"@types/papaparse@^5.2.2":
-  version "5.2.4"
-  resolved "https://registry.npm.taobao.org/@types/papaparse/download/@types/papaparse-5.2.4.tgz#6aa662b08df84fd1dc34db37860005e9127457f3"
-  integrity sha1-aqZisI34T9HcNNs3hgAF6RJ0V/M=
-  dependencies:
-    "@types/node" "*"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -3898,26 +3886,24 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npm.taobao.org/amis/download/amis-1.1.0.tgz#3b0d627112c5fc05503b114e3d9894fccbf1393e"
-  integrity sha1-Ow1icRLF/AVQOxFOPZiU/MvxOT4=
+amis@1.1.4:
+  version "1.1.4"
+  resolved "https://registry.npm.taobao.org/amis/download/amis-1.1.4.tgz#27261ba572ff926ad94a5ed7df94531f598b05d3"
+  integrity sha1-JyYbpXL/kmrZSl7X35RTH1mLBdM=
   dependencies:
-    "@types/file-saver" "^2.0.1"
-    "@types/papaparse" "^5.2.2"
+    ansi-to-react "^6.1.4"
     async "2.6.0"
     attr-accept "2.2.2"
-    autobind-decorator "2.4.0"
     blueimp-canvastoblob "2.1.0"
     classnames "2.2.5"
     dom-helpers "^3.3.1"
     downshift "3.1.4"
-    echarts "^5.0.0"
+    echarts "5.0.0"
+    echarts-stat "^1.2.0"
     exceljs "^4.2.0"
     file-saver "^2.0.2"
     flv.js "1.5.0"
     froala-editor "2.9.6"
-    history "4.7.2"
     hls.js "0.12.2"
     hoist-non-react-statics "3.3.0"
     immutability-helper "^3.1.1"
@@ -3937,21 +3923,19 @@ amis@1.1.0:
     rc-input-number "6.1.1"
     react "^16.8.6"
     react-color "2.13.8"
-    react-cropper "1.0.0"
-    react-datetime "2.16.0"
+    react-cropper "1.0.1"
+    react-datetime "2.16.2"
     react-dom "^16.8.6"
     react-dropzone "11.2.4"
-    react-input-range "1.2.1"
+    react-input-range "1.3.0"
     react-json-tree "0.13.0"
     react-overlays "0.8.3"
-    react-progress-2 "^4.4.2"
-    react-select "1.2.1"
     react-textarea-autosize "5.1.0"
     react-transition-group "2.9.0"
     react-visibility-sensor "3.11.0"
     setimmediate "1.0.5"
     sortablejs "1.10.0"
-    tinymce "5.4.2"
+    tinymce "5.6.2"
     tslib "^1.10.0"
     uncontrollable "7.0.2"
     video-react "0.14.1"
@@ -3960,6 +3944,11 @@ animate.css@^3.7.2:
   version "3.7.2"
   resolved "https://registry.npm.taobao.org/animate.css/download/animate.css-3.7.2.tgz#e73e0d50e92cb1cfef1597d9b38a9481020e08ea"
   integrity sha1-5z4NUOkssc/vFZfZs4qUgQIOCOo=
+
+anser@^1.4.1:
+  version "1.4.10"
+  resolved "https://registry.npm.taobao.org/anser/download/anser-1.4.10.tgz?cache=0&sync_timestamp=1605101379587&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fanser%2Fdownload%2Fanser-1.4.10.tgz#befa3eddf282684bd03b63dcda3927aef8c2e35b"
+  integrity sha1-vvo+3fKCaEvQO2Pc2jknrvjC41s=
 
 ansi-align@^3.0.0:
   version "3.0.0"
@@ -4033,6 +4022,14 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   integrity sha1-7dgDYornHATIWuegkG7a00tkiTc=
   dependencies:
     color-convert "^2.0.1"
+
+ansi-to-react@^6.1.4:
+  version "6.1.4"
+  resolved "https://registry.npm.taobao.org/ansi-to-react/download/ansi-to-react-6.1.4.tgz#689180945525de037871e20553117fd575b5950c"
+  integrity sha1-aJGAlFUl3gN4ceIFUxF/1XW1lQw=
+  dependencies:
+    anser "^1.4.1"
+    escape-carriage "^1.3.0"
 
 any-promise@^1.0.0:
   version "1.3.0"
@@ -4350,11 +4347,6 @@ attr-accept@2.2.2, attr-accept@^2.2.1:
   version "2.2.2"
   resolved "https://registry.npm.taobao.org/attr-accept/download/attr-accept-2.2.2.tgz#646613809660110749e92f2c10833b70968d929b"
   integrity sha1-ZGYTgJZgEQdJ6S8sEIM7cJaNkps=
-
-autobind-decorator@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.npm.taobao.org/autobind-decorator/download/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
-  integrity sha1-6p4cmHCM87WzVvfPnxDyZf8YI5w=
 
 autobind-decorator@^1.3.4:
   version "1.4.3"
@@ -6174,7 +6166,7 @@ classnames@2.2.5:
   resolved "https://registry.npm.taobao.org/classnames/download/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
   integrity sha1-+zgB1FNGdknvNgPH1hoCvRKb3m0=
 
-classnames@^2.2.4, classnames@^2.2.5, classnames@^2.2.6:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.npm.taobao.org/classnames/download/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha1-Q5Nb/90pHzJtrQogUwmzjQD2UM4=
@@ -7843,7 +7835,12 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^5.0.0:
+echarts-stat@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/echarts-stat/download/echarts-stat-1.2.0.tgz#d1e7a05d1827724c5cde81f76ee1d75a901746a2"
+  integrity sha1-0eegXRgnckxc3oH3buHXWpAXRqI=
+
+echarts@5.0.0:
   version "5.0.0"
   resolved "https://registry.npm.taobao.org/echarts/download/echarts-5.0.0.tgz?cache=0&sync_timestamp=1606890742227&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-5.0.0.tgz#66ec0ea47e3c93b2aadfbb2d719869932ad13ce0"
   integrity sha1-ZuwOpH48k7Kq37stcZhpkyrRPOA=
@@ -8135,6 +8132,11 @@ escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npm.taobao.org/escalade/download/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
   integrity sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA=
+
+escape-carriage@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/escape-carriage/download/escape-carriage-1.3.0.tgz#71006b2d4da8cb6828686addafcb094239c742f3"
+  integrity sha1-cQBrLU2oy2goaGrdr8sJQjnHQvM=
 
 escape-goat@^2.0.0:
   version "2.1.1"
@@ -9786,17 +9788,6 @@ highlight.js@^10.0.0:
   resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.4.1.tgz#d48fbcf4a9971c4361b3f95f302747afe19dbad0"
   integrity sha1-1I+89KmXHENhs/lfMCdHr+GdutA=
 
-history@4.7.2:
-  version "4.7.2"
-  resolved "https://registry.npm.taobao.org/history/download/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"
-  integrity sha1-IrXH8xYzxbgCHH9KipVKwTnujVs=
-  dependencies:
-    invariant "^2.2.1"
-    loose-envify "^1.2.0"
-    resolve-pathname "^2.2.0"
-    value-equal "^0.4.0"
-    warning "^3.0.0"
-
 history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.npm.taobao.org/history/download/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
@@ -10464,7 +10455,7 @@ interpret@^1.0.0:
   resolved "https://registry.npm.taobao.org/interpret/download/interpret-1.4.0.tgz#665ab8bc4da27a774a40584e812e3e0fa45b1a1e"
   integrity sha1-Zlq4vE2iendKQFhOgS4+D6RbGh4=
 
-invariant@^2.2.1, invariant@^2.2.2, invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npm.taobao.org/invariant/download/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha1-YQ88ksk1nOHbYW5TgAjSP/NRWOY=
@@ -15187,18 +15178,18 @@ react-color@2.13.8:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
-react-cropper@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.npm.taobao.org/react-cropper/download/react-cropper-1.0.0.tgz#7b65a85bbfcd64fa586be25742b3f16a37847414"
-  integrity sha1-e2WoW7/NZPpYa+JXQrPxajeEdBQ=
+react-cropper@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/react-cropper/download/react-cropper-1.0.1.tgz#6e5595abb8576088ab3e51ecfdcfe5f865d0340f"
+  integrity sha1-blWVq7hXYIirPlHs/c/l+GXQNA8=
   dependencies:
     cropperjs v1.0.0-rc.3
     prop-types "^15.5.8"
 
-react-datetime@2.16.0:
-  version "2.16.0"
-  resolved "https://registry.npm.taobao.org/react-datetime/download/react-datetime-2.16.0.tgz#da02c68e1817b7ce66144e688090d111b4e9b6e6"
-  integrity sha1-2gLGjhgXt85mFE5ogJDREbTptuY=
+react-datetime@2.16.2:
+  version "2.16.2"
+  resolved "https://registry.npm.taobao.org/react-datetime/download/react-datetime-2.16.2.tgz#d5d41fe3f6f3fa8fa1b068f2fae75cec25e1bb39"
+  integrity sha1-1dQf4/bz+o+hsGjy+udc7CXhuzk=
   dependencies:
     create-react-class "^15.5.2"
     object-assign "^3.0.0"
@@ -15319,17 +15310,10 @@ react-hot-loader@^4.12.21:
     shallowequal "^1.1.0"
     source-map "^0.7.3"
 
-react-input-autosize@^2.1.2:
-  version "2.2.2"
-  resolved "https://registry.npm.taobao.org/react-input-autosize/download/react-input-autosize-2.2.2.tgz#fcaa7020568ec206bc04be36f4eb68e647c4d8c2"
-  integrity sha1-/KpwIFaOwga8BL429Oto5kfE2MI=
-  dependencies:
-    prop-types "^15.5.8"
-
-react-input-range@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/react-input-range/download/react-input-range-1.2.1.tgz#10ff5fc1ec6ab9d95e15cddebe6f6879db2c3386"
-  integrity sha1-EP9fwexqudleFc3evm9oedssM4Y=
+react-input-range@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npm.taobao.org/react-input-range/download/react-input-range-1.3.0.tgz#f96d001631ab817417f1e26d8f9f9684b4827f59"
+  integrity sha1-+W0AFjGrgXQX8eJtj5+WhLSCf1k=
   dependencies:
     autobind-decorator "^1.3.4"
     prop-types "^15.5.8"
@@ -15394,11 +15378,6 @@ react-overlays@0.8.3:
     react-transition-group "^2.2.0"
     warning "^3.0.0"
 
-react-progress-2@^4.4.2:
-  version "4.4.3"
-  resolved "https://registry.npm.taobao.org/react-progress-2/download/react-progress-2-4.4.3.tgz#bcdf97c99aac73ebcf5061f05ec1ba39b547ea58"
-  integrity sha1-vN+XyZqsc+vPUGHwXsG6ObVH6lg=
-
 react-router-config@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npm.taobao.org/react-router-config/download/react-router-config-5.1.1.tgz#0f4263d1a80c6b2dc7b9c1902c9526478194a988"
@@ -15434,15 +15413,6 @@ react-router@5.2.0, react-router@^5.2.0:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-select@1.2.1:
-  version "1.2.1"
-  resolved "https://registry.npm.taobao.org/react-select/download/react-select-1.2.1.tgz#a2fe58a569eb14dcaa6543816260b97e538120d1"
-  integrity sha1-ov5YpWnrFNyqZUOBYmC5flOBINE=
-  dependencies:
-    classnames "^2.2.4"
-    prop-types "^15.5.8"
-    react-input-autosize "^2.1.2"
 
 react-side-effect@^2.1.0:
   version "2.1.1"
@@ -16066,11 +16036,6 @@ resolve-from@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npm.taobao.org/resolve-from/download/resolve-from-5.0.0.tgz#c35225843df8f776df21c57557bc087e9dfdfc69"
   integrity sha1-w1IlhD3493bfIcV1V7wIfp39/Gk=
-
-resolve-pathname@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npm.taobao.org/resolve-pathname/download/resolve-pathname-2.2.0.tgz#7e9ae21ed815fd63ab189adeee64dc831eefa879"
-  integrity sha1-fpriHtgV/WOrGJre7mTcgx7vqHk=
 
 resolve-pathname@^3.0.0:
   version "3.0.0"
@@ -17555,10 +17520,10 @@ tinycolor2@^1.4.1:
   resolved "https://registry.npm.taobao.org/tinycolor2/download/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha1-P2pNEHGtB2dtf6Ry4frECnGdiAM=
 
-tinymce@5.4.2:
-  version "5.4.2"
-  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.4.2.tgz#a1df417ea7e85697c2932269f7f93fbef30d4502"
-  integrity sha1-od9BfqfoVpfCkyJp9/k/vvMNRQI=
+tinymce@5.6.2:
+  version "5.6.2"
+  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.6.2.tgz#4c20c22e328c5d0baab204928dbc2b0ecbed18b4"
+  integrity sha1-TCDCLjKMXQuqsgSSjbwrDsvtGLQ=
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -18289,11 +18254,6 @@ validate-npm-package-name@^3.0.0:
   integrity sha1-X6kS2B630MdK/BQN5zF/DKffQ34=
   dependencies:
     builtins "^1.0.3"
-
-value-equal@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.npm.taobao.org/value-equal/download/value-equal-0.4.0.tgz#c5bdd2f54ee093c04839d71ce2e4758a6890abc7"
-  integrity sha1-xb3S9U7gk8BIOdcc4uR1imiQq8c=
 
 value-equal@^1.0.1:
   version "1.0.1"

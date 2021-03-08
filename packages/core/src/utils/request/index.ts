@@ -120,14 +120,17 @@ function cacheSourceCtrl(type: 'set' | 'get', option: Types.ReqOption, resource?
   }
 }
 
-// 读取json结果
+// 读取json结果,非JSON结果 在 request 模块处理
 async function readJsonResponse(response: any) {
-  if (response.headers?.get('content-length') === '0') {
+  try {
+    const text = await response.text()
+    response.responseText = text
+    const data = JSON.parse(text)
+    delete response.responseText // 如果解析成功 将responseText 参数删除
+    return data
+  } catch (e) {
     return {}
   }
-
-  const data = await response.json()
-  return data
 }
 
 // 发出 fetch 请求
