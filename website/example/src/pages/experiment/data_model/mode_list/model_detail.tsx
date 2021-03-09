@@ -126,7 +126,7 @@ const onPreReqModelData = (reqOpts) => {
 }
 
 const onReqSucModelData = (source, reqOpt) => {
-  const { data: items, count: total } = source.data
+  const { data: items = [], count: total = 0 } = source.data || {}
   const { size } = reqOpt.data.paging
 
   source.data = {
@@ -140,7 +140,7 @@ const onReqSucModelData = (source, reqOpt) => {
 
 const onUpdatePreReq = (reqOpts) => {
   const fields = []
-  const {ids} = reqOpts.data
+  const { ids } = reqOpts.data
 
   map(reqOpts.data, (value, id) => {
     if (/^\d+$/.test(id)) {
@@ -322,8 +322,8 @@ const getModelDataTable = (info) => {
         type: 'tpl',
         className: 'toolbar-divider',
         align: 'left',
-        visibleOn: 'total',
-        tpl: '$page/$pageCount 页, 共有 $total 项',
+        visibleOn: 'data.total',
+        tpl: '第 <%= data.page/data.pageCount %> 页, 共有 <%= data.total || 0%> 项',
       },
       {
         type: 'pagination',
@@ -517,7 +517,7 @@ const ModeDetail = (props) => {
   return (
     <S.ModelDetail>
       <Nav {...navProps} />
-      <Crud cls={cls} info={activeInfo} displayMode={displayMode} />
+      {activeId && <Crud cls={cls} info={activeInfo} displayMode={displayMode} />}
     </S.ModelDetail>
   )
 }

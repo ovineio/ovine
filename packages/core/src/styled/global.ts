@@ -72,6 +72,12 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .${ns}CBGroupOrItem {
+      &:before,&:after,&:last-child:before {
+        border-color: var(--Button--info-onActive-bg);
+      }
+    }
+
     .${ns}DateRangePicker {
       align-items: center;
     }
