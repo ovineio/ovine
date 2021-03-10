@@ -84,12 +84,12 @@ class DllManifestPlugin {
         const newContent = content
           .replace(
             /window\.vendor_(\w{6})=function\(e\)\{/m,
-            'window.vendor_$1=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; }'
+            'window.vendor_$1=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.__ovineDllPath = getPath();'
           )
-          .replace(/\+"\.css",(\w{1})=.{3}\+/m, '+".css",$1=getPath()+')
+          .replace(/\+"\.css",(\w{1})=.{3}\+/m, '+".css",$1=window.__ovineDllPath+')
           .replace(
             /function\(e\)\{return .{3}\+"chunk_"/m,
-            'function(e){ return getPath()+"chunk_"'
+            'function(e){ return window.__ovineDllPath+"chunk_"'
           )
 
         fse.writeFile(vendor, newContent, (writeErr) => {

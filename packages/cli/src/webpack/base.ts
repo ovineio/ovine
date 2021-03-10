@@ -18,6 +18,7 @@ import * as amis from './amis'
 import { getBabelConfig } from './babel'
 import HtmlHooksPlugin from './plugins/html_hooks_plugin'
 import LogPlugin from './plugins/log_plugin'
+import MonacoWebpackPlugin from './plugins/monaco_editor_plugin'
 
 const {
   libName,
@@ -91,10 +92,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       filename: isProd ? '[name]_[contenthash:6].js' : '[name].js',
       chunkFilename: isProd ? 'chunks/[name]_[contenthash:6].js' : 'chunks/[name].js',
     },
-    // throw warning when asset created is over 1.5 M
+    // throw warning when asset created is over 2.5 M
     performance: {
-      maxEntrypointSize: 1500 * 1024,
-      maxAssetSize: 1024 * 1024,
+      // TODO: add to config
+      maxEntrypointSize: 2500 * 1024, // 2.5 MB
+      maxAssetSize: 2000 * 1024, // 2MB
       assetFilter: (filePath) => {
         // Filter genDir or theme files
         const isLibFiles = /static[\\/]ovine/.test(filePath)
@@ -301,6 +303,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         name: `${libName}-${isProd ? 'Build' : 'Dev'}`,
       }),
       new CleanPlugin(),
+      !dll && new MonacoWebpackPlugin(),
       getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,

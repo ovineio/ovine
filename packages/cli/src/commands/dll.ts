@@ -4,7 +4,7 @@ import { loadContext } from '../config'
 import { dllDirPath } from '../constants'
 import { BuildCliOptions, Props } from '../types'
 import { compileWebpack, globalStore } from '../utils'
-import { createDllConfig, monacoWorkerConfig } from '../webpack/dll'
+import { createDllConfig } from '../webpack/dll'
 
 // eslint-disable-next-line import/order
 import chalk = require('chalk')
@@ -17,21 +17,25 @@ export async function dll(
   process.env.NODE_ENV = 'production'
   globalStore('set', 'isProd', true)
 
-  console.log(chalk.blue('\nCreating an webpack dll static files build...'))
+  console.log(
+    chalk.blue(
+      '\nCreating an webpack dll static files build.\n\nPlease be patient,it may take a few minutes...'
+    )
+  )
 
   const props: Props = loadContext(siteDir, cliOptions)
   const confOptions = { ...props, ...cliOptions }
 
   const dllConfig = createDllConfig(confOptions)
-  const monacoConfig = monacoWorkerConfig(confOptions)
+  // const monacoConfig = monacoWorkerConfig(confOptions)
 
-  const confArr = [dllConfig, monacoConfig].filter(Boolean)
+  // const confArr = [dllConfig, monacoConfig].filter(Boolean)
 
-  if (!confArr.length) {
-    return
-  }
+  // if (!confArr.length) {
+  //   return
+  // }
 
-  await compileWebpack(confArr)
+  await compileWebpack(dllConfig)
 
   console.log(
     `\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(

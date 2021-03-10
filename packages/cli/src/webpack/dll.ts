@@ -1,6 +1,10 @@
+/**
+ * webpack dll config
+ * do not use publicPath.
+ */
+
 import AssetsPlugin from 'assets-webpack-plugin'
 import CleanPlugin from 'clean-webpack-plugin'
-import fse from 'fs-extra'
 import _ from 'lodash'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -15,6 +19,7 @@ import { getDllBabelConfig } from './babel'
 import DllPostPlugin from './plugins/dll_post_plugin'
 import LogPlugin from './plugins/log_plugin'
 import MomentPlugin from './plugins/moment_plugin'
+import MonacoWebpackPlugin from './plugins/monaco_editor_plugin'
 
 // eslint-disable-next-line import/order
 import chalk = require('chalk')
@@ -98,52 +103,55 @@ function addEditorFilesToDll(options: ConfigOptions) {
   }
 }
 
-export function monacoWorkerConfig(options: ConfigOptions): any {
-  const { siteDir } = options
+/**
+ *  deprecated
+ */
+// export function monacoWorkerConfig(options: ConfigOptions): any {
+//   const { siteDir } = options
 
-  const monacoVar = require('monaco-editor/package.json').version
-  const venderPath = `${siteDir}/${dllDirPath}`
+//   const monacoVar = require('monaco-editor/package.json').version
+//   const venderPath = `${siteDir}/${dllDirPath}`
 
-  const entries = {
-    'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
-    'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
-    'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
-    'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
-    'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker',
-  }
+//   const entries = {
+//     'editor.worker': 'monaco-editor/esm/vs/editor/editor.worker.js',
+//     'json.worker': 'monaco-editor/esm/vs/language/json/json.worker',
+//     'css.worker': 'monaco-editor/esm/vs/language/css/css.worker',
+//     'html.worker': 'monaco-editor/esm/vs/language/html/html.worker',
+//     'ts.worker': 'monaco-editor/esm/vs/language/typescript/ts.worker',
+//   }
 
-  const entry = _.omitBy(entries, (__, key) => {
-    return fse.existsSync(`${venderPath}/${key}.${monacoVar}.js`)
-  })
+//   const entry = _.omitBy(entries, (__, key) => {
+//     return fse.existsSync(`${venderPath}/${key}.${monacoVar}.js`)
+//   })
 
-  // avoid same version repeat pack
-  if (_.isEmpty(entry)) {
-    return false
-  }
+//   // avoid same version repeat pack
+//   if (_.isEmpty(entry)) {
+//     return false
+//   }
 
-  // monaco-editor doc: https://github.com/Microsoft/monaco-editor/blob/HEAD/docs/integrate-esm.md
-  const config = {
-    entry,
-    mode: 'production',
-    output: {
-      pathinfo: false,
-      path: venderPath,
-      filename: `[name].${monacoVar}.js`,
-      libraryTarget: 'window',
-      // publicPath: `${publicPath}${dllVendorDirPath}/`,
-    },
-    performance: {
-      hints: false, // not necessary
-    },
-    plugins: [
-      new CleanPlugin({
-        cleanOnceBeforeBuildPatterns: _.keys(entry).map((i) => `${i}.*`),
-      }),
-    ],
-  }
+//   // monaco-editor doc: https://github.com/Microsoft/monaco-editor/blob/HEAD/docs/integrate-esm.md
+//   const config = {
+//     entry,
+//     mode: 'production',
+//     output: {
+//       pathinfo: false,
+//       path: venderPath,
+//       filename: `[name].${monacoVar}.js`,
+//       libraryTarget: 'window',
+//       // publicPath: `${publicPath}${dllVendorDirPath}/`,
+//     },
+//     performance: {
+//       hints: false, // not necessary
+//     },
+//     plugins: [
+//       new CleanPlugin({
+//         cleanOnceBeforeBuildPatterns: _.keys(entry).map((i) => `${i}.*`),
+//       }),
+//     ],
+//   }
 
-  return config
-}
+//   return config
+// }
 
 const { editorFileReg, factoryFileReg, froalaEditorReg, chartFileReg, apiUtilReg } = amis
 
@@ -236,8 +244,9 @@ export function createDllConfig(options: ConfigOptions) {
       new LogPlugin({
         name: `${libName}-VendorDll`,
       }),
-      new CleanPlugin({
-        cleanOnceBeforeBuildPatterns: ['**/*', '!*.worker.*'],
+      new CleanPlugin(),
+      new MonacoWebpackPlugin({
+        filename: '[name].worker.[contenthash].js',
       }),
       new MomentPlugin({
         localesToKeep: ['zh-cn'],
@@ -275,6 +284,7 @@ export function createDllConfig(options: ConfigOptions) {
            */
           boot: {
             chunks: 'initial',
+            //  pick some core pkgs to be subcontracted
             test: /[\\/]node_modules[\\/](react|react-router-dom|whatwg-fetch|styled-components|lodash|moment|immer|qs|@hot-loader|mobx|mobx-react|mobx-state-tree|jquery)[\\/]/,
             name: 'boot',
             priority: 30,
