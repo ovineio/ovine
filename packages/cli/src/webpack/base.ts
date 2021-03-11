@@ -453,11 +453,11 @@ function getAppEntries(option: any) {
 }
 
 function getFixLibLoaders(option: any) {
-  const { dll, babelLoader, publicPath } = option
+  const { dll, babelLoader } = option
   const loaders = [
     {
       test: amis.editorFileReg,
-      use: [babelLoader, amis.fixEditorLoader({ publicPath })],
+      use: [babelLoader, amis.fixEditorLoader()],
     },
     {
       test: amis.factoryFileReg,

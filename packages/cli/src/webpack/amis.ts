@@ -2,7 +2,6 @@
  * fix amis code by webpack loader
  */
 
-import { dllVendorDirPath } from '../constants'
 import { getModulePath } from '../utils'
 
 const fs = require('fs')
@@ -15,32 +14,17 @@ export const apiUtilReg = /[\\/]amis[\\/]lib[\\/]utils[\\/]api\.js/
 export const bootStropCss = /[\\/]bootstrap[\\/]dist[\\/]css[\\/]bootstrap.css/
 export const fontAwesomeCss = /[\\/]font-awesome[\\/]css[\\/]font-awesome.css/
 
-const monacoVar = require('monaco-editor/package.json').version
-
 function base64Encode(file) {
   const bitmap = fs.readFileSync(file)
   return Buffer.from(bitmap, 'utf-8').toString('base64')
 }
 
-export const fixEditorLoader = (opts: any = {}) => ({
+export const fixEditorLoader = () => ({
   loader: 'string-replace-loader', // transform amis editor worker files
   options: {
-    search: 'function\\sfilterUrl\\(url\\)\\s\\{\\s*return\\s*url;',
+    search: 'window\\.MonacoEnvironment = \\{',
     flags: 'm',
-    replace: opts.publicPath
-      ? `function filterUrl(url) {return '${`${opts.publicPath}${dllVendorDirPath}`}' + url.slice(4, -2) + '${monacoVar}.js';`
-      : `function filterUrl(url) {
-      var _path = "/";
-      try {
-        throw new Error()
-      } catch (e) {
-        var info = e.stack.match(/\\((?:https?|file):.*\\)/);
-        if (info) {
-          var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));
-        }
-        return _path + url.slice(4, -2) + "${monacoVar}.js";
-      }
-    `,
+    replace: 'window.__deprecated_MonacoEnvironment = {',
   },
 })
 
@@ -66,7 +50,7 @@ export const fixApiUtilLoader = () => ({
     search: 'function\\sisValidApi\\(api\\)\\s\\{',
     flags: 'm',
     replace: `function isValidApi(api) { return typeof api === "string" }
-    function deprecated_isValidApi(api) {`,
+    function __deprecated_isValidApi(api) {`,
   },
 })
 
