@@ -1,3 +1,7 @@
+/**
+ * for ovine app build task.
+ */
+
 import OptimizeCSSAssetsPlugin from 'optimize-css-assets-webpack-plugin'
 import path from 'path'
 import TerserPlugin from 'terser-webpack-plugin'

@@ -1,5 +1,5 @@
 import { Api, Payload } from 'amis/lib/types'
-import { qsstringify } from 'amis/lib/utils/helper'
+import { qsstringify, createObject } from 'amis/lib/utils/helper'
 import { dataMapping, tokenize } from 'amis/lib/utils/tpl-builtin'
 import { cloneDeep, isEmpty, isPlainObject } from 'lodash'
 import { parse } from 'qs'
@@ -11,23 +11,43 @@ import { str2function } from '@/utils/tool'
 /**
  * amis 请求返回值格式
  * @param res 请求返回值
+ * @param api 请求参数
  */
-function responseAdaptor(res: any) {
+function responseAdaptor(res: any, api: any) {
   const { data } = res
+  let hasStatusField = true
 
   if (!data) {
     throw new Error('Response is empty!')
   } else if (typeof data.status === 'undefined') {
     // 兼容不返回 status 字段的情况
-    data.status = 0
+    hasStatusField = false
   }
 
   const payload: Payload = {
-    ok: data.status === 0,
-    status: data.status,
+    ok: hasStatusField === false || data.status == 0,
+    status: hasStatusField === false ? 0 : data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,
-    data: !data.data && typeof data.status === 'undefined' ? data : data.data, // 兼容直接返回数据的情况
+    data: !data.data && !hasStatusField ? data : data.data, // 兼容直接返回数据的情况
+  }
+
+  if (isPlainObject(data.errors)) {
+    payload.errors = data.errors
+  }
+
+  if (payload.ok && api.responseData) {
+    payload.data = dataMapping(
+      api.responseData,
+      createObject(
+        { api },
+        (Array.isArray(payload.data)
+          ? {
+              items: payload.data,
+            }
+          : payload.data) || {}
+      )
+    )
   }
 
   return payload
@@ -134,5 +154,5 @@ export const libFetcher = (
     }
   }
 
-  return app.request(amisApi).then(responseAdaptor)
+  return app.request(amisApi).then((source) => responseAdaptor(source, amisApi))
 }

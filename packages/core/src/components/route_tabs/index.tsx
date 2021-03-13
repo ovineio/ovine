@@ -369,7 +369,6 @@ export default (props: Props) => {
             <div
               key={item.id}
               className="chrome-tab"
-              data-active={item.active}
               data-root={item.isRoot ? item.pathname : ''}
               data-path={item.pathname}
             >

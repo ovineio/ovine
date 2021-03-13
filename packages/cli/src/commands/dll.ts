@@ -1,3 +1,7 @@
+/**
+ * for build ovine static dll files.
+ */
+
 import path from 'path'
 
 import { loadContext } from '../config'

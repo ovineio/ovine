@@ -1,3 +1,7 @@
+/**
+ * for build css files from amis src scss dir.
+ */
+
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import path from 'path'
@@ -20,7 +24,9 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
   const nodeScssCmd = getNodeScssCmd()
   const scssCmdOpts = { async: true, silent: watch ? false : !verbose }
   if (!nodeScssCmd) {
-    throw new Error('You need install `node-sass` module as devDependencies or globally...')
+    throw new Error(
+      'You need install `node-sass` module as devDependencies or globally...\nYou can run "yarn add global node-sass" or "npm install -g node-sass".\nThen retry "yarn scss".'
+    )
   }
 
   if (watch) {

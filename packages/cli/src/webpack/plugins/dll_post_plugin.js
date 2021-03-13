@@ -1,3 +1,6 @@
+/**
+ * After the dll build is complete, there are some tasks that need to be done
+ */
 const fse = require('fs-extra')
 const glob = require('glob')
 const _ = require('lodash')
@@ -103,6 +106,22 @@ class DllManifestPlugin {
     })
   }
 
+  removeOldVerDllDir(done) {
+    const dllPatten = `${this.options.siteDir}/${constants.generatedDirName}/${constants.staticDirName}/dll*`
+    glob(dllPatten, (err, matches) => {
+      if (err) {
+        console.log('remove old version dll dirs.')
+        throw err
+      }
+      matches.forEach((item) => {
+        if (item.indexOf(`${constants.staticDirName}/${constants.dllDirName}`) === -1) {
+          fse.removeSync(item)
+        }
+      })
+      done()
+    })
+  }
+
   apply(compiler) {
     const taskCount = 2
     compiler.hooks.done.tapAsync({ name: 'DllPostPlugin' }, (__, done) => {
@@ -110,7 +129,7 @@ class DllManifestPlugin {
       const doneTask = () => {
         taskStatus.push(true)
         if (taskStatus.length === taskCount) {
-          done()
+          this.removeOldVerDllDir(done)
         }
       }
 

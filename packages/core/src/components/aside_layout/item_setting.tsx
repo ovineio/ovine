@@ -1,5 +1,6 @@
 /**
  * APP 系统设置
+ * TODO: 添加实时配置 关键主题颜色 设置
  */
 
 import { toast } from 'amis'

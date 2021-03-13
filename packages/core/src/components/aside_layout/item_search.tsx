@@ -92,8 +92,11 @@ export default () => {
           }),
         },
       ],
-      onChange: (formValue: any) => {
+      onChange: (formValue: any, __: any, formIns: any) => {
         const { nodePath } = formValue
+        if (!nodePath) {
+          return
+        }
         const nodeItem = findTree(asideMenus, (item) => nodePath === item.nodePath)
         if (!nodeItem) {
           return
@@ -111,6 +114,7 @@ export default () => {
             history.push(pathItem.path)
           }
         }
+        formIns.store.setValueByName('nodePath', '')
       },
     }
   }, [showInput])

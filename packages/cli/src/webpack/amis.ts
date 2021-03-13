@@ -1,5 +1,5 @@
 /**
- * fix amis code by webpack loader
+ * fix amis lib code by "string-replace-loader" of webpack
  */
 
 import { getModulePath } from '../utils'

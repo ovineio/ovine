@@ -128,7 +128,7 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
   }
 
   apply(compiler: webpack.Compiler): void {
-    const { languages, features, filename } = this.options
+    const { languages, features, filename, publicPath } = this.options
     // const compilationPublicPath = getCompilationPublicPath(compiler)
     const modules = [EDITOR_MODULE].concat(languages).concat(features)
     const workers: ILabeledWorkerDefinition[] = []
@@ -145,8 +145,8 @@ class MonacoEditorWebpackPlugin implements webpack.WebpackPluginInstance {
       languages,
       features,
       workers,
-      filename
-      // publicPath,
+      filename,
+      publicPath
       // compilationPublicPath
     )
     const plugins = createPlugins(workers, filename)
@@ -190,8 +190,8 @@ function createLoaderRules(
   languages: IFeatureDefinition[],
   features: IFeatureDefinition[],
   workers: ILabeledWorkerDefinition[],
-  filename: string
-  // pluginPublicPath: string,
+  filename: string,
+  pluginPublicPath: string
   // compilationPublicPath: string
 ): webpack.RuleSetRule[] {
   if (!languages.length && !features.length) {
@@ -227,7 +227,8 @@ function createLoaderRules(
   //   : `typeof __webpack_public_path__ === 'string' ` +
   //     `? __webpack_public_path__ ` +
   //     `: ${JSON.stringify(compilationPublicPath)}`
-  const pathPrefix = 'window.__ovineDllPath'
+  // Fix dll path
+  const pathPrefix = `window.__ovineDllPath || ${JSON.stringify(pluginPublicPath)}`
 
   const globals = {
     MonacoEnvironment: `(function (paths) {

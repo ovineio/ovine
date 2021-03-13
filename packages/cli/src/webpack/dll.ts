@@ -1,6 +1,6 @@
 /**
  * webpack dll config
- * do not use publicPath.
+ * do not use "publicPath".
  */
 
 import AssetsPlugin from 'assets-webpack-plugin'
@@ -246,7 +246,7 @@ export function createDllConfig(options: ConfigOptions) {
       }),
       new CleanPlugin(),
       new MonacoWebpackPlugin({
-        filename: '[name].worker.[contenthash].js',
+        filename: '[name].worker.[contenthash:6].js',
       }),
       new MomentPlugin({
         localesToKeep: ['zh-cn'],

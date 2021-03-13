@@ -86,6 +86,7 @@ export const SearchInput = styled.div`
     .${ns}TreeSelect {
       width: 0;
       display: none;
+      box-shadow: none;
       border-width: 0 0 1px 0;
       border-radius: 0;
     }
@@ -97,10 +98,17 @@ export const SearchInput = styled.div`
       margin-top: 6px;
       border-radius: 2px;
     }
+    .${ns}ResultBox-singleValue {
+      white-space: nowrap;
+
+      & + input {
+        display: none;
+      }
+    }
     .active {
       .${ns}TreeSelect {
         display: flex;
-        width: 180px;
+        min-width: 180px;
       }
     }
   `}

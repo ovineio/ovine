@@ -6,6 +6,17 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
+### 0.1.1 ---- 2021.3.11
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
+- 主要优化
+  - 升级 Amis 版本至 1.1.4（支持仿 ANTD 主题）
+  - 修复 代码编辑器 语法校验失效 BUG
+  - 修复 切换标签时查询条件丢失的情况 [issue](https://github.com/CareyToboo/ovine/issues/41)
+  - 修复 请求模块 cache 参数异常 [issue](https://github.com/CareyToboo/ovine/issues/44)
+  - 支持 非 JSON 返回的 API 请求
+
 ### 0.1.0 ---- 2021.1.10
 
 [0.1.x 更新迁移文档](https://ovine.igroupes.com/org/blog/migration_v1)

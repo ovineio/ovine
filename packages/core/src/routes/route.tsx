@@ -53,13 +53,19 @@ export const getPageAsync = (option: PresetRouteProps) => {
   return lazy(() =>
     getPageFileAsync(option).then((file: any) => {
       const { default: content = {}, schema, getSchema } = file
-
+      const defaultSchema = {
+        type: 'wrapper',
+        body: '请传入正确的 schema',
+      }
       const compProps: PresetComponentProps = {}
       if (isFunction(content)) {
         compProps.LazyFileComponent = content
       } else {
         if (schema || getSchema) {
-          content.schema = isFunction(getSchema) ? getSchema(option) : schema || {}
+          content.schema = isFunction(getSchema) ? getSchema(option) : schema || defaultSchema
+        }
+        if (!content.schema) {
+          content.schema = defaultSchema
         }
         compProps.lazyFileAmisProps = content
       }

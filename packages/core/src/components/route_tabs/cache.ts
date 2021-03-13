@@ -36,10 +36,6 @@ export const cacheTabs = (allTabs: any) => {
       item.isRoot = true
     }
 
-    if (tabEl.hasAttribute('active')) {
-      item.active = true
-    }
-
     list.push(item)
   })
 

@@ -1,5 +1,5 @@
 /**
- *   scss importer 主要用于 扩展 amis 主题 scss 文件的编译
+ *   scss importer of ovine app scss files for  rewrite amis scss theme variables.
  */
 import fs from 'fs-extra'
 import _ from 'lodash'

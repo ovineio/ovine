@@ -1,3 +1,7 @@
+/**
+ * ovine cli main webpack config file.
+ */
+
 import AssetsPlugin from 'assets-webpack-plugin'
 import { version as cacheLoaderVersion } from 'cache-loader/package.json'
 import CleanPlugin from 'clean-webpack-plugin'
@@ -55,7 +59,9 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     scssUpdate = false,
   } = options
 
-  const { envModes, ui, styledConfig } = siteConfig
+  const { envModes, ui, styledConfig, dllPublicPath } = siteConfig
+
+  const dllPathPrefix = dllPublicPath || publicPath
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -303,7 +309,10 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         name: `${libName}-${isProd ? 'Build' : 'Dev'}`,
       }),
       new CleanPlugin(),
-      !dll && new MonacoWebpackPlugin(),
+      !dll &&
+        new MonacoWebpackPlugin({
+          publicPath,
+        }),
       getCopyPlugin(siteDir, outDir),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
@@ -370,11 +379,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(publicPath, siteDir, dllVendorFileName, 'css'),
+        dllVendorCss: getDllDistFile(dllPathPrefix, siteDir, dllVendorFileName, 'css'),
         dllVendorJs:
           dll &&
           dllFileKeys
-            .map((fileKey) => getDllDistFile(publicPath, siteDir, fileKey, 'js'))
+            .map((fileKey) => getDllDistFile(dllPathPrefix, siteDir, fileKey, 'js'))
             .join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
       }),
     ].filter(Boolean) as any[],
@@ -481,12 +490,12 @@ function getFixLibLoaders(option: any) {
 }
 
 function getDllDistFile(
-  publicPath: string,
+  dllPathPrefix: string,
   siteDir: string,
   fileKey: string = dllVendorFileName,
   type: string = 'js'
 ) {
-  const dllBasePath = `${publicPath}${dllVendorDirPath}/`
+  const dllBasePath = `${dllPathPrefix}${dllVendorDirPath}/`
 
   const dllFile = `${siteDir}/${dllAssetsFile.replace('[name]', dllVendorFileName)}`
   const assetJson = fse.existsSync(dllFile) && require(dllFile)
@@ -548,11 +557,13 @@ function getThemeScript(options: any) {
     return ''
   }
 
-  const themes = cssAssets.map((i) => `${publicPath}${i}`)
+  const themes = cssAssets
+    .filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
+    .map((i) => `${publicPath}${i}`)
 
   let presetTheme = ''
   if (defaultTheme) {
-    if (themes.some((theme) => theme.indexOf(`themes/${defaultTheme}`) > -1)) {
+    if (themes.some((theme) => theme.indexOf(`${defaultTheme}_`) > -1)) {
       presetTheme = defaultTheme
     }
   }
@@ -568,7 +579,7 @@ function getThemeScript(options: any) {
         var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
         var currThemeLink = '';
         for (var i = 0; i < themes.length; i++) {
-          if (themes[i].indexOf('themes/'+theme) > -1) {
+          if (themes[i].indexOf(theme + '_') > -1) {
             currThemeLink = themes[i];
             break;
           }

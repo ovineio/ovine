@@ -1,5 +1,5 @@
 /**
- * dev command for webpack dev server
+ * ovine app dev command which simply used webpack dev server.
  */
 
 import chokidar from 'chokidar'
