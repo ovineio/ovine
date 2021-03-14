@@ -25,6 +25,7 @@ import LogPlugin from './plugins/log_plugin'
 import MonacoWebpackPlugin from './plugins/monaco_editor_plugin'
 
 const {
+  libVer,
   libName,
   generatedDirName,
   staticDirName,
@@ -249,7 +250,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
               options: {
                 publicPath,
                 limit: 1, // always use url, instate of base64
-                name: `${staticDirName}/${libName}/themes/[name]_[contenthash:6].css`,
+                name: `${staticDirName}/${libName}/${stylesDirName}/themes/[name]_[contenthash:6].css`,
               },
             },
             require.resolve('./loaders/extract_loader'),
@@ -371,10 +372,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
+        libVer,
         scssUpdate,
         publicPath,
         title: siteConfig.title,
         favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
+        withIconfont: siteConfig.ui?.withIconfont,
         withoutPace: siteConfig.ui?.withoutPace,
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
@@ -509,7 +512,7 @@ function getDllDistFile(
 
 function getCopyPlugin(siteDir: string, outDir: string) {
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
-  const generatedThemes = `${siteDir}/${generatedDirName}/${stylesDirName}/themes`
+  const generatedStylesDir = `${siteDir}/${generatedDirName}/${stylesDirName}`
   const siteStaticDir = `${siteDir}/${staticDirName}`
   const outStaticDir = `${outDir}/${staticDirName}`
   const outLibDir = `${outDir}/${staticLibDirPath}`
@@ -529,10 +532,10 @@ function getCopyPlugin(siteDir: string, outDir: string) {
   }
 
   // copy static theme files
-  if (fse.pathExistsSync(`${generatedThemes}/default.css`)) {
+  if (fse.pathExistsSync(`${generatedStylesDir}/themes/default.css`)) {
     copyFiles.unshift({
-      from: generatedThemes,
-      to: `${outLibDir}/themes`,
+      from: generatedStylesDir,
+      to: `${outLibDir}/${stylesDirName}`,
     })
   }
 

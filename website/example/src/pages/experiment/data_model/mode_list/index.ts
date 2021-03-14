@@ -272,6 +272,7 @@ export default {
               onChange: (mode: string) => {
                 utils.displayModeCtrl('set', mode)
               },
+              className: 'm-b-none',
               options: [
                 {
                   label: '列表',
@@ -343,6 +344,9 @@ export default {
                       columnsTogglable: false,
                       affixHeader: false,
                       onSuccess: utils.onGetTableFileSuc,
+                    },
+                    defaultParams: {
+                      perPage: 50,
                     },
                     loadDataOnce: true,
                     filter: false,

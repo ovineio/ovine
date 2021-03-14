@@ -2,7 +2,6 @@
 export const libName = 'ovine'
 export const libRootPath = `/${libName}`
 export const libVer = require('../package.json').version
-export const libVerVariant = libVer.replace(/\./g, '_')
 
 // basic
 export const defaultPort = 7050
@@ -16,13 +15,12 @@ export const staticLibDirPath = `${staticDirName}/${libName}`
 // scss
 export const stylesDirName = 'styles'
 export const scssDirName = 'scss'
-export const libThemes = ['default', 'cdx', 'dark']
 export const cssAssetsFile = `${generatedDirName}/css_assets.json`
 
 // dll config
 export const dllVendorFileName = 'vendor'
 export const dllFileKeys = ['boot', 'amis', 'vendor']
-export const dllDirName = `dll_${libVerVariant}`
+export const dllDirName = `dll/${libVer}`
 export const dllVendorDirPath = `${staticLibDirPath}/${dllDirName}`
 export const dllDirPath = `${generatedDirName}/${staticDirName}/${dllDirName}`
 export const dllManifestFile = `${generatedDirName}/dll_[name]_manifest.json`

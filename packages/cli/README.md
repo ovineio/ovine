@@ -1,7 +1,5 @@
-## @ovine/cli 命令行工具
+## @ovine/cli
 
-对 webpack 简单封装，提供开箱即用的开发与构建功能。
+A set of commands of the ovine app, providing out-of-box features for efficient development of the admin system.
 
-TODO:
-
-- build 时添加 dll 文件 publicPath 前缀，允许多个项目使用相同的 dll 文件。
+ovine 应用程序的一组命令，提供了开箱即用的功能，可有效开发管理系统。

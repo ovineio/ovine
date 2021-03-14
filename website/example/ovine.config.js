@@ -18,6 +18,7 @@ module.exports = (option) => {
 
   const config = {
     publicPath: publicPathMap[env], // 静态资源公共路径
+    // dllPublicPath: 'https://ovine.igroupes.com/demo/',
     favicon: '/static/images/favicon.ico',
     title: 'Ovine管理系统', // 页面标题
     envModes: ['localhost', 'staging', 'production'], // 环境列表

@@ -14,6 +14,7 @@ const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
   'publicPath',
+  'dllPublicPath',
   'envModes',
   'devServer',
   'ui',
@@ -71,7 +72,7 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
 
-  const { publicPath = '/', envModes } = config
+  const { publicPath = '/', dllPublicPath, envModes } = config
   // TODO: use json schema for Configuration verification!
   if (unrecognizedFields.length) {
     throw new Error(
@@ -85,10 +86,16 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
     )
   }
 
+  if (dllPublicPath && dllPublicPath.substr(-1) !== '/') {
+    throw new Error(
+      `publicPath: "${publicPath}" is not allowed. The "dllPublicPath" must be string end with "/". eg: "/subPath/"`
+    )
+  }
+
   if (envModes) {
     if (!_.isArray(envModes) || envModes.some((i) => typeof i !== 'string')) {
       throw new Error(
-        `envModes: "${envModes}" is not allowed. The "envModes" must be array of string.`
+        `envModes: "${envModes}" is not allowed. The "envModes" must be array of string. eg: ["local", "test", "prod"]`
       )
     }
   }

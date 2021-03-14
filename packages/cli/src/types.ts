@@ -24,6 +24,7 @@ export type SiteConfig = {
   // UI 相关配套
   ui: {
     defaultTheme?: string // 初始化主题
+    withIconfont?: boolean // 使用预设 iconfont
     withoutPace?: boolean // 是否使用 默认的 顶部 loadingBar
   }
   envModes?: string[] // 应用环境列表

@@ -90,6 +90,9 @@ export const SearchInput = styled.div`
       border-width: 0 0 1px 0;
       border-radius: 0;
     }
+    .${ns}ResultBox.is-clickable:not(.is-disabled):hover {
+      box-shadow: none;
+    }
     .${ns}TreeSelect-value {
       ${ellipsis()};
     }
@@ -109,6 +112,7 @@ export const SearchInput = styled.div`
       .${ns}TreeSelect {
         display: flex;
         min-width: 180px;
+        background-color: transparent;
       }
     }
   `}

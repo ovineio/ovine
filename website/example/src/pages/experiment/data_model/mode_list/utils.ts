@@ -85,10 +85,12 @@ export const getFieldFormData = (apiSource) => {
     addTime,
     updateTime,
     attributes,
+    editStyle,
     id,
   } = apiSource
   const fieldData = {
     id: `${id}`,
+    editStyle,
     typeLabel,
     typeDesc,
     addTime,
@@ -120,7 +122,7 @@ export const getTableFieldList = (fields = []) => {
 export const fetchModelTplData = () => {
   app
     .request({
-      url: 'GET ovhapi/model/template',
+      url: 'GET ovhapi/model/v2/template',
     })
     .then((source) => {
       setGlobal(erdStoreKey.modelTemplate, source.data.data)
@@ -188,8 +190,9 @@ export const onTableFieldSchemaSuc = (source) => {
   const fieldItem = fieldModel.find((i) => i.beanType === beanType) || {}
 
   const attrs = omit(fieldItem.attributes, ['name', 'desc', 'isNull']) || {}
+  const schema = transAttrsToSchema(attrs)
 
-  return !attrs ? null : transAttrsToSchema(attrs)
+  return !attrs ? null : schema
 }
 
 export const onGetTableFileSuc = (source) => {

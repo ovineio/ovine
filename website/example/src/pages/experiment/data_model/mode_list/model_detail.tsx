@@ -18,95 +18,127 @@ import apis from './apis'
 import * as S from './styled'
 import * as utils from './utils'
 
-const getAdvanceQueryForm = () => {
+const getViewTypeByInputType = (type: string) => {
+  let viewType = 'static'
+  switch (type) {
+    case 'image':
+      viewType = 'static-image'
+      break
+    case 'json':
+      viewType = 'static-json'
+      break
+    default:
+  }
+  return viewType
+}
+
+const getColumns = (tableInfo: any) => {
+  const { fields = {} } = tableInfo
+
+  const columns = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
+    const { id: name, type = 'text', name: label, ...rest } = field
+    const column = {
+      name,
+      label,
+      type,
+      fieldExtra: rest,
+      toggled: true,
+      sortable: true,
+      searchable: true,
+      // searchable: {
+      //   mode: 'horizontal',
+      //   controls: [
+      //     {
+      //       label,
+      //       type,
+      //     },
+      //   ],
+      // },
+    }
+
+    return column
+  })
+
+  const dateTimeField = {
+    toggled: false,
+    sortable: true,
+    searchable: true,
+    fieldExtra: {
+      editStyle: {
+        type: 'datetime',
+      },
+    },
+  }
+
+  const tableColumns = [
+    {
+      name: 'id',
+      label: 'ID',
+      type: 'text',
+      toggled: true,
+    } as any,
+  ].concat(columns, [
+    {
+      name: 'addTime',
+      label: '添加时间',
+      type: 'text',
+      width: 160,
+      toggled: false,
+      ...dateTimeField,
+    },
+    {
+      name: 'updateTime',
+      label: '更新时间',
+      width: 160,
+      type: 'text',
+      toggled: false,
+      ...dateTimeField,
+    },
+  ])
+
+  return tableColumns
+}
+
+const getAdvanceQueryForm = (info) => {
+  const columns = getColumns(info)
+
+  const fields = columns.map((field) => {
+    const { name, label, fieldExtra = {} } = field
+    const item: any = { name, label, type: 'text' }
+
+    const { editStyle = {} } = fieldExtra
+
+    switch (editStyle.type) {
+      case 'number':
+        item.type = 'number'
+        break
+      case 'time':
+        item.type = 'time'
+        break
+      case 'month':
+      case 'year':
+        item.type = 'date'
+        break
+      case 'datetime':
+        item.type = 'datetime'
+        break
+      default:
+    }
+
+    return item
+  })
+
   const advanceQueryForm = {
     type: 'form',
     title: '',
-    mode: 'horizontal',
-    horizontal: {
-      leftFixed: true,
-    },
-    actions: [
-      {
-        label: '查看数据',
-        type: 'button',
-        actionType: 'dialog',
-        dialog: {
-          title: '数据',
-          body: '<pre>${conditions|json:2}</pre>',
-        },
-      },
-    ],
+    mode: 'normal',
+    target: 'modelDataTable',
     controls: [
       {
         type: 'condition-builder',
-        label: '条件组件',
+        label: '高级查询条件组合',
         name: 'conditions',
-        description: '适合让用户自己拼查询条件，然后后端根据数据生成 query where',
-        fields: [
-          {
-            label: '文本',
-            type: 'text',
-            name: 'text',
-          },
-          {
-            label: '数字',
-            type: 'number',
-            name: 'number',
-          },
-          {
-            label: '布尔',
-            type: 'boolean',
-            name: 'boolean',
-          },
-          {
-            label: '选项',
-            type: 'select',
-            name: 'select',
-            options: [
-              {
-                label: 'A',
-                value: 'a',
-              },
-              {
-                label: 'B',
-                value: 'b',
-              },
-              {
-                label: 'C',
-                value: 'c',
-              },
-              {
-                label: 'D',
-                value: 'd',
-              },
-              {
-                label: 'E',
-                value: 'e',
-              },
-            ],
-          },
-          {
-            label: '日期',
-            children: [
-              {
-                label: '日期',
-                type: 'date',
-                name: 'date',
-              },
-              {
-                label: '时间',
-                type: 'time',
-                name: 'time',
-              },
-              {
-                label: '日期时间',
-                type: 'datetime',
-                name: 'datetime',
-              },
-            ],
-          },
-        ],
+        fields,
       },
     ],
   }
@@ -115,11 +147,20 @@ const getAdvanceQueryForm = () => {
 }
 
 const onPreReqModelData = (reqOpts) => {
-  const { page, size, ...rest } = reqOpts.data
+  const { page, size, orderDir, orderBy, ...rest } = reqOpts.data
 
   reqOpts.data = {
     paging: { page, size },
     ...rest,
+  }
+
+  if (orderBy) {
+    reqOpts.data.ordering = [
+      {
+        fieldId: orderBy,
+        asc: orderDir === 'asc',
+      },
+    ]
   }
 
   return reqOpts
@@ -156,38 +197,15 @@ const onUpdatePreReq = (reqOpts) => {
   return reqOpts
 }
 
-const getColumns = (tableInfo: any) => {
-  const { fields = {} } = tableInfo
-
-  const columns = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
-    const { id: name, name: label } = field
-    const column = {
-      name,
-      label,
-      type: 'text',
-    }
-
-    return column
-  })
-
-  columns.unshift({
-    name: 'id',
-    label: 'ID',
-    type: 'text',
-  })
-
-  return columns
-}
-
 const getUpdateForm = (type, tableInfo: any) => {
   const { fields = {}, detailDataApis } = tableInfo
-
   const controls: any = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
-    const { id: name, name: label } = field
+    const { id: name, name: label, editStyle } = field
     const column = {
       name,
       label,
       type: 'text',
+      ...editStyle,
     }
 
     return column
@@ -210,8 +228,24 @@ const getUpdateForm = (type, tableInfo: any) => {
   return schema
 }
 
-const getViewModel = () => {
-  //
+const getViewModel = (info) => {
+  const columns = getColumns(info)
+
+  const controls = columns.map((item) => {
+    const { type } = item
+    item.type = getViewTypeByInputType(type)
+    return item
+  })
+
+  const schema = {
+    controls,
+    type: 'form',
+    mode: 'horizontal',
+    wrapWithPanel: false,
+    actions: [],
+  }
+
+  return schema
 }
 
 const getModelDataTable = (info) => {
@@ -277,7 +311,7 @@ const getModelDataTable = (info) => {
         drawer: {
           title: `【${name}】高级查询`,
           size: 'lg',
-          body: getAdvanceQueryForm(),
+          body: getAdvanceQueryForm(info),
         },
       },
       {
@@ -366,10 +400,13 @@ const getModelDataTable = (info) => {
         type: 'button',
         label: '查看',
         icon: 'fa fa-eye pull-left',
-        actionType: 'dialog',
-        dialog: {
-          title: '查看',
-          body: getViewModel(),
+        actionType: 'drawer',
+        drawer: {
+          title: '查看信息',
+          closeOnOutside: true,
+          size: 'lg',
+          actions: [],
+          body: getViewModel(info),
         },
       },
       {
@@ -380,7 +417,7 @@ const getModelDataTable = (info) => {
         drawer: {
           position: 'right',
           size: 'lg',
-          title: '编辑',
+          title: '编辑信息',
           body: getUpdateForm('edit', { ...info, detailDataApis }),
         },
       },

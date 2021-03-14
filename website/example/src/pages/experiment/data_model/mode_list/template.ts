@@ -1,6 +1,6 @@
 import * as utils from './utils'
 
-export const getTableFieldColumn = () => {
+export const getTableFieldColumn = (type?: string) => {
   const columns: any[] = [
     {
       name: 'name',
@@ -33,13 +33,13 @@ export const getTableFieldColumn = () => {
       name: 'addTime',
       label: '创建时间',
       type: 'datetime',
-      width: 155,
+      width: type === 'subList' ? 170 : 150,
     },
     {
       name: 'updateTime',
       label: '更新时间',
       type: 'datetime',
-      width: 155,
+      width: type === 'subList' ? 170 : 150,
     },
   ]
 
@@ -94,7 +94,7 @@ export const getModeList = () => {
           columnsTogglable: false,
           footable: true,
           columns: [
-            ...getTableFieldColumn(),
+            ...getTableFieldColumn('subList'),
             {
               name: 'extra',
               label: '其他信息',

@@ -107,7 +107,7 @@ class DllManifestPlugin {
   }
 
   removeOldVerDllDir(done) {
-    const dllPatten = `${this.options.siteDir}/${constants.generatedDirName}/${constants.staticDirName}/dll*`
+    const dllPatten = `${this.options.siteDir}/${constants.generatedDirName}/${constants.staticDirName}/dll/*`
     glob(dllPatten, (err, matches) => {
       if (err) {
         console.log('remove old version dll dirs.')

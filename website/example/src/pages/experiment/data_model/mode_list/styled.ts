@@ -14,9 +14,7 @@ export const modelListPageCss = ({ ns }) => css`
   .${ns}Table-foot {
     background: var(--Table-bg);
   }
-  .${ns}Form-item {
-    margin-bottom: 0;
-  }
+
   .model-list-crud {
     & > .${ns}Table {
       border: 0;
@@ -72,6 +70,7 @@ export const ModelDetail = styled.div`
     .detail-crud {
       flex: 1;
       padding: 0 20px 20px;
+      overflow: hidden;
     }
 
     .toolbar-divider {

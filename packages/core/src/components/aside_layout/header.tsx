@@ -1,3 +1,8 @@
+/**
+ * TODO:
+ * 1. 将预先设置的 HerderItem 项，都拆为独立组件，可以独自放于任何地方
+ */
+
 import { RendererProps } from 'amis/lib/factory'
 import { SchemaNode } from 'amis/lib/types'
 import { uuid } from 'amis/lib/utils/helper'
