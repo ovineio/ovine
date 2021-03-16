@@ -1,17 +1,17 @@
 /**
  *  TODO:
- * 1. 动态列
- * 2. 编辑/增加/删除
- * 3. 高级查询
+ * 1. 解析查询信息  列举查询/清除查询
  */
+import { Button } from 'amis'
 import { get, map, omit } from 'lodash'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { app } from '@core/app'
 import { Amis } from '@core/components/amis/schema'
 import { useImmer } from '@core/utils/hooks'
 
 import { emptyListHolder } from '~/app/constants'
+import PopOver from '~/components/popover'
 import ScrollBar from '~/components/scroll_bar'
 
 import apis from './apis'
@@ -132,12 +132,20 @@ const getAdvanceQueryForm = (info) => {
     type: 'form',
     title: '',
     mode: 'normal',
+    // horizontal: { left: 'col-sm-2', right: 'col-sm-10' },
     target: 'modelDataTable',
     controls: [
       {
+        ...getSearchLogSchema('search'),
+        label: '查询列表',
+        mode: 'inline',
+        className: 'm-b-sm',
+      },
+      {
         type: 'condition-builder',
-        label: '高级查询条件组合',
+        label: '查询条件组合',
         name: 'conditions',
+        required: true,
         fields,
       },
     ],
@@ -211,18 +219,19 @@ const getUpdateForm = (type, tableInfo: any) => {
     return column
   })
 
-  if (type === 'batchEdit') {
-    controls.unshift({
-      type: 'hidden',
-      name: 'ids',
-    })
-  }
-
   const schema = {
     type: 'form',
     api: detailDataApis[type],
     className: type,
     controls,
+  }
+
+  if (type === 'batchEdit') {
+    schema.controls.unshift({
+      type: 'hidden',
+      name: 'ids',
+    })
+    return schema
   }
 
   return schema
@@ -248,8 +257,135 @@ const getViewModel = (info) => {
   return schema
 }
 
+const getSearchLogSchema = (type: string, options: any = {}) => {
+  const storeData = {
+    parentKey: 'modelDetailData',
+    key: `modelTableId_${options.id}`,
+  }
+
+  const logApis = {
+    list: {
+      url: 'GET ovhapi/fontstored',
+      domain: 'modelApi',
+      data: storeData,
+      onSuccess: (source) => {
+        source.data = {
+          options: source.data.data.map((item, index) => {
+            return {
+              label1: item.label1,
+              label2: item.label2,
+              stored: item.value,
+              value: index,
+            }
+          }),
+        }
+        return source
+      },
+    },
+    add: {
+      url: 'POST ovhapi/fontstored',
+      domain: 'modelApi',
+      data: {
+        '&': '$$',
+        value: '$conditions',
+        ...storeData,
+      },
+      onPreRequest: (reqOpts) => {
+        reqOpts.data.value = JSON.stringify({ conditions: reqOpts.data.value })
+        return reqOpts
+      },
+    },
+    edit: {
+      url: 'PUT ovhapi/fontstored/$id',
+      domain: 'modelApi',
+      data: {
+        '&': '$$',
+        ...storeData,
+      },
+      onPreRequest: (reqOpts) => {
+        // console.log('@--->', reqOpts)
+        return reqOpts
+      },
+    },
+    del: {
+      url: 'DELETE ovhapi/fontstored/$id',
+      domain: 'modelApi',
+    },
+  }
+
+  const logFormSchema = {
+    type: 'form',
+    api: logApis.add,
+    // onSubmit: (...args: any) => {
+    // console.log('@===>', args)
+    // },
+    controls: [
+      {
+        type: 'text',
+        name: 'label1',
+        require: true,
+        label: '查询名称',
+      },
+      {
+        type: 'textarea',
+        name: 'label2',
+        label: '查询描述',
+      },
+    ],
+  }
+
+  if (type === 'add') {
+    return logFormSchema
+  }
+
+  const selectControl = {
+    type: 'select',
+    name: 'select',
+    placeholder: '选择查询条件',
+    className: 'w-md m-none',
+    searchable: true,
+    editable: true,
+    removable: true,
+    source: logApis.list,
+    editApi: logApis.edit,
+    deleteApi: logApis.del,
+    menuTpl: `
+      <span style="font-weight:bold;">$label1</span>
+      <span style="padding-left:10px; color:#666;">$label2</span>
+    `,
+    editControls: [
+      {
+        type: 'tpl',
+        mode: 'normal',
+        tpl:
+          '<div class="text-sm m-b-md text-black-50">此处只能编辑查询的 名称/描述。如果要修改查询的内容，请删除该该项，重新使用高级查询添加。</div>',
+      },
+      ...logFormSchema.controls,
+    ],
+    submitOnChange: type !== 'search',
+  }
+
+  if (type === 'select') {
+    const fromSchema = {
+      type: 'form',
+      className: 'p-sm',
+      wrapWithPanel: false,
+      autoFocus: true,
+      onSubmit: () => {
+        options.close()
+      },
+      controls: [selectControl],
+    }
+    return fromSchema
+  }
+
+  if (type === 'search') {
+    return selectControl
+  }
+}
+
 const getModelDataTable = (info) => {
-  const { id, name } = info
+  const { id, name, tableRef } = info
 
   const detailDataApis = {
     list: {
@@ -302,23 +438,10 @@ const getModelDataTable = (info) => {
     headerToolbar: [
       {
         type: 'action',
-        icon: 'fa fa-search pull-left',
-        className: 'toolbar-divider',
-        label: '高级查询',
-        align: 'left',
-        size: 'sm',
-        actionType: 'drawer',
-        drawer: {
-          title: `【${name}】高级查询`,
-          size: 'lg',
-          body: getAdvanceQueryForm(info),
-        },
-      },
-      {
-        type: 'action',
         icon: 'fa fa-plus pull-left',
         level: 'primary',
         label: '添加',
+        className: 'toolbar-divider',
         size: 'sm',
         align: 'left',
         actionType: 'drawer',
@@ -333,16 +456,90 @@ const getModelDataTable = (info) => {
         align: 'left',
       },
       {
-        // limits: 'add',
         type: 'action',
+        icon: 'fa fa-search pull-left',
+        label: '高级查询',
+        reload: 'none',
         align: 'left',
-        tooltip: '刷新数据',
+        size: 'sm',
+        actionType: 'drawer',
+        drawer: {
+          title: `【${name}】高级查询`,
+          size: 'lg',
+          actions: [
+            {
+              type: 'action',
+              label: '立即查询',
+              level: 'primary',
+
+              actionType: 'submit',
+            },
+            {
+              type: 'action',
+              label: '保存条件',
+              actionType: 'dialog',
+              dialog: {
+                title: '保存查询条件',
+                body: getSearchLogSchema('add', { id }),
+              },
+            },
+            {
+              type: 'action',
+              actionType: 'close',
+              label: '取消',
+            },
+          ],
+          body: getAdvanceQueryForm(info),
+        },
+      },
+      {
+        // limits: 'add',
+        type: 'container',
+        body: {
+          component: (btnProps) => {
+            return (
+              <PopOver
+                placement="bottom"
+                Popup={(popProps) => (
+                  <Amis schema={getSearchLogSchema('select', { ...popProps, id, tableRef })} />
+                )}
+              >
+                <Button
+                  iconOnly
+                  placement="top"
+                  tooltip="选择查询条件"
+                  theme={btnProps.theme}
+                  size="sm"
+                >
+                  <i className={btnProps.classnames('Button-icon fa fa-sliders')} />
+                </Button>
+              </PopOver>
+            )
+          },
+        },
+        align: 'left',
+        tooltip: '筛选条件',
+        className: 'search-select',
+        tooltipPlacement: 'top',
+        icon: 'fa fa-sliders',
+        size: 'sm',
+        iconOnly: true,
+        onClick: () => {
+          tableRef.current.getComponentByName('curd.modelDataTable').handleFilterReset()
+        },
+      },
+      {
+        // limits: 'add',
+        type: 'button',
+        align: 'left',
+        tooltip: '清空筛选条件',
         tooltipPlacement: 'top',
         icon: 'fa fa-refresh',
         size: 'sm',
         iconOnly: true,
-        actionType: 'reload',
-        target: 'modelDataTable',
+        onClick: () => {
+          tableRef.current.getComponentByName('curd.modelDataTable').handleFilterReset()
+        },
       },
       {
         type: 'columns-toggler',
@@ -393,6 +590,10 @@ const getModelDataTable = (info) => {
         confirmText: '删除后将不可恢复，您确认要批量删除?',
         align: 'left',
         api: detailDataApis.batchDel,
+        messages: {
+          success: '删除成功',
+          failed: '删除失败',
+        },
       },
     ],
     itemActions: [
@@ -428,6 +629,10 @@ const getModelDataTable = (info) => {
         actionType: 'ajax',
         confirmText: '删除后将不可恢复，您确认要删除?',
         api: detailDataApis.del,
+        messages: {
+          success: '删除成功',
+          failed: '删除失败',
+        },
       },
     ],
     columns: getColumns(info),
@@ -489,16 +694,23 @@ const Nav = (props) => {
 
 const Crud = (props) => {
   const { info = {} } = props
+  const tableRef = useRef()
+  const amisProps = {
+    scopeRef: (ref) => {
+      tableRef.current = ref
+    },
+  }
 
   const schema = {
     type: 'page',
+    name: 'curd',
     bodyClassName: 'p-none',
-    body: getModelDataTable(info),
+    body: getModelDataTable({ ...info, tableRef }),
   }
 
   return (
     <div className="detail-crud">
-      <Amis schema={schema} />
+      <Amis schema={schema} props={amisProps} />
     </div>
   )
 }

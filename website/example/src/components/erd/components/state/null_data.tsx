@@ -3,11 +3,11 @@ import React from 'react'
 import PlusCircleOutlined from '@ant-design/icons/PlusCircleOutlined'
 import { Amis } from '@core/components/amis/schema'
 
+import PopOver from '~/components/popover'
+
 import EmptyIcon from '../../icons/empty.svg'
 import NoChooseIcon from '../../icons/no_choose.svg'
 import NoSearchItemIcon from '../../icons/no_search_item.svg'
-
-import PopOver from './popover'
 
 import * as S from './styled'
 

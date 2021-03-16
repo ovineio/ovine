@@ -2,7 +2,6 @@ import Overlay from 'amis/lib/components/Overlay'
 import APopOver from 'amis/lib/components/PopOver'
 import React, { useRef, useState } from 'react'
 
-
 import { app } from '@core/app'
 
 type Props = {
