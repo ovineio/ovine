@@ -66,6 +66,7 @@ export type BuildCliOptions = CliOptions & {
 
 export type DllCliOptions = {
   embedAssets: boolean // convert all asset files to base64, reduce http request
+  withHash: boolean
   bundleAnalyzer: boolean
 }
 

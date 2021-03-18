@@ -31,10 +31,8 @@ const {
   dllManifestFile,
   dllAssetsFile,
   libName,
-  // dllVendorDirPath,
+  dllChunkFilePrefix,
 } = constants
-
-const dllName = '[name]_[hash:6]'
 
 const dllModules = [
   'react-router-dom',
@@ -71,7 +69,7 @@ function setDllVendorModules(config) {
   } else {
     console.error(
       chalk.red(
-        '\nDll webpack config must set entry.vendor must function or array of module name...'
+        '\nDll webpack config must set entry.dll_vendor must function or array of module name...'
       )
     )
     return
@@ -83,7 +81,9 @@ function setDllVendorModules(config) {
       _.set(config, venderConfKey, vendorDllModules)
     } else {
       console.error(
-        chalk.red('\nDll webpack config entry.vendor function must return array of module name...')
+        chalk.red(
+          '\nDll webpack config entry.dll_vendor function must return array of module name...'
+        )
       )
     }
   }
@@ -157,7 +157,11 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, chartFileReg, apiUtilReg
 
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
-  const { siteDir, siteConfig, bundleAnalyzer, embedAssets } = options
+  const { siteDir, siteConfig, withHash, bundleAnalyzer, embedAssets } = options
+  console.log('@==?>', withHash)
+
+  const getHashStr = (hashTpl) => (!withHash ? '' : `_${hashTpl}`)
+  const dllName = `[name]${getHashStr('[hash:6]')}`
 
   const babelLoader = {
     loader: 'babel-loader',
@@ -219,7 +223,7 @@ export function createDllConfig(options: ConfigOptions) {
               options: {
                 publicPath: './', // : `${publicPath}${dllVendorDirPath}/`,
                 limit: embedAssets ? 500 * 1000 : 2000, // 低于2K 使用 base64
-                name: '[name]_[contenthash:6].[ext]',
+                name: `dll_[name]${getHashStr('[contenthash:6]')}.[ext]`,
               },
             },
           ],
@@ -235,25 +239,25 @@ export function createDllConfig(options: ConfigOptions) {
       pathinfo: false,
       path: `${siteDir}/${dllDirPath}`,
       filename: `${dllName}.js`,
-      chunkFilename: 'chunk_[name]_[chunkhash:6].js',
+      chunkFilename: `${dllChunkFilePrefix}[name]${getHashStr('[chunkhash:6]')}.js`,
       library: dllName,
       libraryTarget: 'window',
       // publicPath: `${publicPath}${dllVendorDirPath}/`,
     },
     plugins: [
       new LogPlugin({
-        name: `${libName}-VendorDll`,
+        name: `${libName}-Dll`,
       }),
       new CleanPlugin(),
       new MonacoWebpackPlugin({
-        filename: '[name].worker.[contenthash:6].js',
+        filename: `monaco_worker_[name]${getHashStr('[contenthash:6]')}.js`,
       }),
       new MomentPlugin({
         localesToKeep: ['zh-cn'],
       }),
       new MiniCssExtractPlugin({
         filename: `${dllName}.css`,
-        chunkFilename: 'chunk_[name]_[chunkhash:6].css',
+        chunkFilename: `${dllChunkFilePrefix}[name]${getHashStr('[chunkhash:6]')}.css`,
       }),
       new DllPlugin({
         path: `${siteDir}/${dllManifestFile}`,
@@ -266,6 +270,7 @@ export function createDllConfig(options: ConfigOptions) {
       }),
       new DllPostPlugin({
         siteDir,
+        withHash,
       }),
     ],
     performance: {

@@ -89,20 +89,24 @@ cli
 cli
   .command('dll [siteDir]')
   .description('Build dll static files')
+  .option('--no-hash', 'Pack all static files without hash postfix (default: false)')
   .option(
     '--bundle-analyzer',
     'Visualize size of webpack output files with an interactive zoomable treemap (default: false)'
   )
   .option(
     '--embed-assets',
-    'Convert all static assets to base64 embed style files. (default: false)'
+    'Convert all static assets to base64 embed style files (default: false)'
   )
-  .action((siteDir = '.', { bundleAnalyzer = false, embedAssets = false }) => {
-    wrapCommand(dll)(path.resolve(siteDir), {
-      bundleAnalyzer,
-      embedAssets,
-    })
-  })
+  .action(
+    (siteDir = '.', { bundleAnalyzer = false, embedAssets = false, hash: withHash = true }) => {
+      wrapCommand(dll)(path.resolve(siteDir), {
+        bundleAnalyzer,
+        embedAssets,
+        withHash,
+      })
+    }
+  )
 
 cli
   .command('scss [siteDir]')

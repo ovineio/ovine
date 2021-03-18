@@ -18,13 +18,14 @@ export const scssDirName = 'scss'
 export const cssAssetsFile = `${generatedDirName}/css_assets.json`
 
 // dll config
-export const dllVendorFileName = 'vendor'
-export const dllFileKeys = ['boot', 'amis', 'vendor']
+export const dllVendorFileName = 'dll_entry'
+export const dllChunkFilePrefix = 'dll_chunk_'
+export const dllFileKeys = ['boot', 'amis', dllVendorFileName]
 export const dllDirName = `dll/${libVer}`
 export const dllVendorDirPath = `${staticLibDirPath}/${dllDirName}`
 export const dllDirPath = `${generatedDirName}/${staticDirName}/${dllDirName}`
-export const dllManifestFile = `${generatedDirName}/dll_[name]_manifest.json`
-export const dllAssetsFile = `${generatedDirName}/dll_[name]_assets.json`
+export const dllManifestFile = `${generatedDirName}/[name]_manifest.json`
+export const dllAssetsFile = `${generatedDirName}/[name]_assets.json`
 
 // config files
 export const webpackConfFileName = 'webpack.config.js'

@@ -2,9 +2,14 @@
  * 应用入口
  */
 
+import { defaultsDeep } from 'lodash'
+
+import { getStore } from '@core/utils/store'
+
 import remoteTestMock from '~/pages/application/hot/mock'
 import remoteTestPreset from '~/pages/application/hot/preset'
 
+import { storeKeys } from './constants'
 import { layout } from './layout'
 import { onAuth } from './user'
 
@@ -48,8 +53,11 @@ export const entry = [
 // app 回调方法
 export const hook = {
   // 也可以是 async 异步读取接口
-  beforeCreate: (app) => {
+  beforeCreate: (app, appConfig) => {
     // 重写 app 的一些配置
+    const debugProps = getStore(storeKeys.debugProps) || {}
+    appConfig.env.localhost = defaultsDeep(debugProps, appConfig.env.localhost)
+    appConfig.env.staging = defaultsDeep(debugProps, appConfig.env.staging)
     app.asyncPage = {
       preset: {
         '/test/remote_schema': remoteTestPreset,

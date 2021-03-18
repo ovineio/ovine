@@ -18,7 +18,7 @@ module.exports = (option) => {
 
   const config = {
     publicPath: publicPathMap[env], // 静态资源公共路径
-    dllPublicPath: 'https://ovine.igroupes.com/demo/',
+    // dllPublicPath: 'https://ovine.igroupes.com/demo/',
     favicon: '/static/images/favicon.ico',
     title: 'Ovine管理系统', // 页面标题
     envModes: ['localhost', 'staging', 'production'], // 环境列表
@@ -30,6 +30,12 @@ module.exports = (option) => {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀
       openPage: '/demo/',
     },
+    splitRoutes: [
+      {
+        test: /experiment[\\/]data_model/,
+        name: 'data_model',
+      },
+    ],
     cacheGroups: {
       amisEditor: {
         chunks: 'async',
@@ -41,7 +47,19 @@ module.exports = (option) => {
         chunks: 'async',
         name: 'ovine_craft',
         test: /[\\/]node_modules[\\/]@ovine[\\/]craft[\\/]/,
-        priority: 30,
+        priority: 40,
+      },
+      tuiCalendar: {
+        chunks: 'async',
+        name: 'tui_calendar',
+        test: /[\\/]node_modules[\\/]tui-calendar/,
+        priority: 40,
+      },
+      butterflyDag: {
+        chunks: 'async',
+        name: 'butterfly_dag',
+        test: /[\\/]node_modules[\\/]butterfly-dag/,
+        priority: 40,
       },
     },
   }

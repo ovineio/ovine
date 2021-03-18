@@ -61,6 +61,10 @@ export const menuRoutes: LimitMenuItem = {
           ],
         },
         {
+          label: '行程表',
+          nodePath: 'calendar',
+        },
+        {
           label: '记录面板',
           nodePath: 'recorder',
         },

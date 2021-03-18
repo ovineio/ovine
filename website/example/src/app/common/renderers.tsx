@@ -12,6 +12,7 @@ import ScrollBar from '~/components/scroll_bar'
 
 import { limitKeys } from '../constants'
 import { apis } from './apis'
+import './custom_renderer'
 
 export const definitions = {
   sysRoleIdPicker: {

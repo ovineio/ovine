@@ -2,6 +2,10 @@
  * 布局配置
  */
 
+import { getStore, setStore } from '@core/utils/store'
+import { getUrlParams } from '@core/utils/tool'
+
+import { storeKeys } from '../constants'
 import routes from '../routes/index'
 import { SocketDialogManger } from './dialog'
 import { itemUserSchema } from './item_user'
@@ -51,6 +55,41 @@ export const layout = {
         faIcon: 'edit',
         tip: '体验编辑器',
         href: '/demo/editor',
+      },
+      {
+        type: 'button',
+        icon: 'fa fa-bug',
+        iconOnly: true,
+        level: 'link',
+        tooltip: '修改调试信息',
+        className: getUrlParams('debug') || getStore(storeKeys.debugProps) ? '' : 'd-none', // 设置为不显示状态
+        actionType: 'dialog',
+        dialog: {
+          title: '设置调试信息',
+          body: {
+            type: 'form',
+            mode: 'normal',
+            onSubmit: (value) => {
+              const { env } = value
+              setStore(storeKeys.debugProps, typeof env === 'string' ? JSON.parse(env) : env)
+              window.location.reload()
+            },
+            controls: [
+              {
+                name: 'env',
+                label: '环境变量',
+                value: getStore(storeKeys.debugProps) || {},
+                type: 'json-editor',
+                validations: {
+                  isJson: true,
+                },
+                validationErrors: {
+                  isJson: '请输入正确的JSON格式数据',
+                },
+              },
+            ],
+          },
+        },
       },
       {
         type: 'item-search-menu', // 搜索侧边栏

@@ -15,7 +15,7 @@
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "yarn run eslint && ovine build --mock",
     "build:staging": "yarn run eslint && ovine build --env=staging",
-    "test:build": "yarn run cp:lib && ovine build --bundle-analyzer",
+    "analyzer:build": "ovine build --bundle-analyzer",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "ovine": "ovine",
     "scss": "ovine scss",
@@ -39,6 +39,7 @@
     "@ovine/cli": "file:../../packages/cli",
     "@ovine/core": "file:../../packages/core",
     "@ovine/editor": "file:../../packages/editor",
+    "@toast-ui/editor": "^2.5.1",
     "butterfly-dag": "^3.1.8",
     "immer": "^8.0.1",
     "lodash": "^4.17.15",
@@ -46,6 +47,7 @@
     "react": "^16.8.6",
     "react-router-dom": "^5.1.2",
     "styled-components": "^5.0.0",
+    "tui-calendar": "^1.13.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {

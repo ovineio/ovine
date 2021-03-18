@@ -11,6 +11,9 @@ const constants = require('../../constants')
 const schema = {
   type: 'object',
   properties: {
+    withHash: {
+      type: 'boolean',
+    },
     siteDir: {
       type: 'string',
     },
@@ -65,8 +68,12 @@ class DllManifestPlugin {
   }
 
   applyVendorEntry(done) {
-    const dllDir = `${this.options.siteDir}/${constants.dllDirPath}`
-    glob(`${dllDir}/${constants.dllVendorFileName}_*.js`, (err, files) => {
+    const { withHash, siteDir } = this.options
+    const { dllVendorFileName: vendorName, dllChunkFilePrefix: chunk, dllDirPath } = constants
+
+    const dllDir = `${siteDir}/${dllDirPath}`
+
+    glob(`${dllDir}/${withHash ? `${vendorName}_*` : vendorName}.js`, (err, files) => {
       if (err) {
         console.log('apply dll vendor file error.')
         throw err
@@ -79,20 +86,25 @@ class DllManifestPlugin {
 
       fse.readFile(vendor, 'utf8', function(readErr, content) {
         if (readErr) {
-          console.log(`Unable to read: ${vendor}`, readErr)
+          console.log(`Unable to read: ${vendorName}`, readErr)
           return
         }
 
         // rewrite CSS,JS chunk files url
         const newContent = content
           .replace(
-            /window\.vendor_(\w{6})=function\(e\)\{/m,
-            'window.vendor_$1=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.__ovineDllPath = getPath();'
+            new RegExp(
+              `window\\.${withHash ? `${vendorName}_(\\w{6})` : vendorName}=function\\(e\\)\\{`,
+              'm'
+            ),
+            `window.${
+              withHash ? `${vendorName}_$1` : vendorName
+            }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.__ovineDllPath = getPath();`
           )
           .replace(/\+"\.css",(\w{1})=.{3}\+/m, '+".css",$1=window.__ovineDllPath+')
           .replace(
-            /function\(e\)\{return .{3}\+"chunk_"/m,
-            'function(e){ return window.__ovineDllPath+"chunk_"'
+            new RegExp(`function\\(e\\)\\{return .{3}\\+"${chunk}"`, 'm'),
+            `function(e){ return window.__ovineDllPath+"${chunk}"`
           )
 
         fse.writeFile(vendor, newContent, (writeErr) => {
