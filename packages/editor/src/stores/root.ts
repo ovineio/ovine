@@ -10,6 +10,7 @@ import { editorStore } from './editor'
 
 const initState = {
   isPreview: false,
+  isMobile: false,
   editorInstance: {
     canUndo: () => {},
     canRedo: () => {},
@@ -20,6 +21,7 @@ const initState = {
 
 const RootStore = types
   .model('RootStore', {
+    isMobile: types.boolean,
     isPreview: types.boolean,
     lastSavedSchema: types.frozen({}),
     editorInstance: types.frozen<any>({}),
@@ -39,6 +41,10 @@ const RootStore = types
   .actions((self) => {
     const togglePreview = (toggle?: any) => {
       self.isPreview = typeof toggle === 'boolean' ? toggle : !self.isPreview
+    }
+
+    const toggleViewMode = (toggle?: any) => {
+      self.isMobile = typeof toggle === 'boolean' ? toggle : !self.isMobile
     }
 
     const setLastSavedSchema = (schema) => {
@@ -89,6 +95,7 @@ const RootStore = types
     return {
       setOption,
       // setHistoryStatus,
+      toggleViewMode,
       togglePreview,
       setLastSavedSchema,
       setEditorInstance,

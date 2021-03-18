@@ -12,7 +12,7 @@ export const getTableFieldColumn = (type?: string) => {
       type: 'mapping',
       map: {
         '1': '<span class=\'label label-info\'>否</span>',
-        '2': '<span class=\'label label-info\'>是</span>',
+        '0': '<span class=\'label label-info\'>是</span>',
       },
     },
     {

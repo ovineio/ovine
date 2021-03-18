@@ -3,17 +3,14 @@ import { createGlobalStyle, css } from 'styled-components'
 const getThemeStyle = (ns: string) => {
   return css`
     .ae-Editor {
-      ul {
-        padding: 0;
-      }
-      .${ns}ContextMenu {
+      /* .${ns}ContextMenu {
         &-list > li {
           &:nth-last-child(2),
           &:nth-last-child(1) {
             display: none;
           }
         }
-      }
+      } */
       .${ns}Remark-icon.icon-question {
         border: 0;
       }
@@ -69,6 +66,62 @@ const getThemeStyle = (ns: string) => {
       }
     }
 
+    .${ns}ClassNamePicker-popover {
+      padding: 10px;
+      width: 610px;
+      max-height: 400px;
+      overflow: auto;
+
+      &.${ns}PopOver--leftBottomLeftTop {
+        margin-top: 1px
+      }
+      &.${ns}PopOver--leftTopLeftBottom {
+        margin-top: -1px
+      }
+    }
+
+    .${ns}ClassNameControl-group {
+      margin: 10px;
+      display: inline-block;
+      width: 265px;
+
+      &.w2x {
+         width: 550px
+      }
+
+      .${ns}ClassNameControl-group {
+         padding-left: 65px;
+        margin: 0;
+        display: block;
+        width: auto;
+
+        &:not(:last-child) {
+          margin: 0 0 10px 0
+        }
+
+        .${ns}ClassNameControl-groupLabel {
+          float: left;
+          border: none;
+          padding-top: 5px;
+          padding-bottom: 0;
+          text-align: right;
+          margin: 0 0 0 -60px;
+          font-size: 12px;
+        }
+      }
+
+      .${ns}ButtonGroup+.${ns}ButtonGroup {
+        margin-left: 5px;
+      }
+    }
+
+    .${ns}ClassNameControl-groupLabel {
+      border-bottom: .0625rem solid #dfe2e6;
+      display: block;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
   `
 }
 
@@ -115,65 +168,6 @@ export const GlobalEditorStyle = createGlobalStyle`
         }
       }
     }
-  }
-
-  /** editor 写死的主题 */
-  .cxd-ClassNamePicker-popover {
-    padding: 10px;
-    width: 610px;
-    max-height: 400px;
-    overflow: auto;
-  }
-
-  .cxd-ClassNamePicker-popover.cxd-PopOver--leftBottomLeftTop {
-    margin-top: 1px;
-  }
-
-  .cxd-ClassNamePicker-popover.cxd-PopOver--leftTopLeftBottom {
-    margin-top: -1px;
-  }
-
-  .cxd-ClassNameControl-group {
-    margin: 10px;
-    display: inline-block;
-    width: 265px;
-  }
-
-  .cxd-ClassNameControl-group.w2x {
-    width: 550px;
-  }
-
-  .cxd-ClassNameControl-group .cxd-ClassNameControl-group {
-    padding-left: 65px;
-    margin: 0;
-    display: block;
-    width: auto;
-  }
-
-  .cxd-ClassNameControl-group .cxd-ClassNameControl-group:not(:last-child) {
-    margin: 0 0 10px 0;
-  }
-
-  .cxd-ClassNameControl-group .cxd-ClassNameControl-group .cxd-ClassNameControl-groupLabel {
-    float: left;
-    border: none;
-    padding-top: 5px;
-    padding-bottom: 0;
-    text-align: right;
-    margin: 0 0 0 -60px;
-    font-size: 12px;
-  }
-
-  .cxd-ClassNameControl-group .cxd-ButtonGroup + .cxd-ButtonGroup {
-    margin-left: 5px;
-  }
-
-  .cxd-ClassNameControl-groupLabel {
-    border-bottom: 0.0625rem solid #edeff1;
-    display: block;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    font-size: 14px;
   }
 
   ${({ theme: { ns } }: any) => getThemeStyle(ns)};

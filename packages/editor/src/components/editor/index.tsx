@@ -5,23 +5,26 @@ import React, { useEffect, useRef } from 'react'
 
 import { app } from '@core/app'
 
-import { Editor } from '../../assets/scripts/editor.view'
+import { Editor } from '../../assets/scripts/editor.view.bak_2.0.11'
 
 import { GlobalEditorStyle } from './styled'
 
 export default inject('store')(
   observer((props) => {
-    const { isPreview, setEditorInstance, setLastSavedSchema, option } = props.store
+    const { isPreview, isMobile, setEditorInstance, setLastSavedSchema, option } = props.store
     const { editorStore } = props
     const $editor = useRef(null)
     const editorProps = pick(option, [
-      'plugins',
-      'isMobile',
       'autoFocus',
       'schemaFilter',
       'className',
+
       'amisEnv',
       'ctx',
+      'plugins',
+
+      'iframeUrl',
+      'isHiddenProps',
     ])
     const { className } = editorProps
     const editorData = {
@@ -43,10 +46,11 @@ export default inject('store')(
         <GlobalEditorStyle />
         <Editor
           {...editorProps}
+          className="is-fixed"
           ref={$editor}
           data={editorData}
           preview={false}
-          className="is-fixed"
+          isMobile={isMobile}
           theme={app.theme.getName()}
           value={editorStore.schema}
           onChange={(value: any) => editorStore.updateSchema(value)}

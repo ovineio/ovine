@@ -42,7 +42,7 @@
 .ae-Outline-sublist>.ae-Outline-node::before, .ae-Outline-sublist>.ae-Outline-node::after {
   position: absolute;
   content: "";
-  background: #dee2e6;
+  background: #d1d5db;
   display: block
 }
 
@@ -71,7 +71,7 @@
 }
 
 .ae-Outline-node>a {
-  color: #212529;
+  color: #58666e;
   text-decoration: none;
   user-select: none;
   cursor: pointer;
@@ -136,14 +136,25 @@
 .ae-Settings {
   display: block;
   position: relative;
-  background-color: #3a3f51;
-  color: #a6a8b1;
+  background: #fff;
   box-shadow: -2px 0 20px 0 rgba(0, 0, 0, .1);
-  z-index: 5
+  z-index: 5;
+  transition: width ease-in-out .2s;
+  transform: translateZ(0);
+  text-align: right
 }
 
 .ae-Settings.is-left {
-  box-shadow: 2px 0 20px 0 rgba(0, 0, 0, .1)
+  box-shadow: 2px 0 20px 0 rgba(0, 0, 0, .1);
+  text-align: left
+}
+
+.ae-Settings.is-left .ae-Settings-inner {
+  overflow: visible
+}
+
+.ae-Settings.is-left .ae-Settings-tabs {
+  float: none
 }
 
 .ae-Settings.has-popover {
@@ -151,9 +162,14 @@
 }
 
 .ae-Settings-inner {
+  color: #a6a8b1;
+  text-align: left;
+  display: inline-block;
   position: relative;
-  width: 100%;
-  height: 100%
+  height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: top
 }
 
 .ae-Settings-inner.has-popover {
@@ -161,14 +177,21 @@
 }
 
 .ae-Settings-tabs {
-  display: flex;
+  display: inline-flex;
+  vertical-align: top;
+  float: right;
   flex-direction: row-reverse;
   height: 100%
 }
 
 .ae-Settings-tabs>ul {
+  background-color: #3a3f51;
   min-width: 40px;
   border: none
+}
+
+.ae-Settings-tabs>ul:empty {
+  min-width: unset
 }
 
 .ae-Settings-tabs>ul>li {
@@ -257,66 +280,112 @@
   overflow: auto
 }
 
-.ae-Settings-content.only-tabs {
-  position: relative;
-  padding: 0;
-  height: 100%;
-  overflow: hidden !important
-}
-
-.ae-Settings-content.only-tabs>div {
-  display: flex;
-  flex-direction: column;
-  height: 100%
-}
-
-.ae-Settings-content.only-tabs>div>ul[role=tablist] {
-  margin: 10px 0;
-  padding: 0 15px
-}
-
-.ae-Settings-content.only-tabs>div>ul[role=tablist]>li>a {
-  margin-right: 30px !important
-}
-
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div {
-  padding: 0;
-  flex-grow: 1;
-  overflow: auto
-}
-
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div::-webkit-scrollbar {
+.ae-Settings-content::-webkit-scrollbar {
   background-color: #fff;
   width: 10px
 }
 
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div ::-webkit-scrollbar-track {
+.ae-Settings-content ::-webkit-scrollbar-track {
   background-color: #fff
 }
 
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div::-webkit-scrollbar-thumb {
+.ae-Settings-content::-webkit-scrollbar-thumb {
   background-color: #babac0;
   border-radius: 8px;
   border: 2px solid #fff
 }
 
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div::-webkit-scrollbar-thumb:hover {
+.ae-Settings-content::-webkit-scrollbar-thumb:hover {
   background-color: #7d7d7d
 }
 
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div::-webkit-scrollbar-button {
+.ae-Settings-content::-webkit-scrollbar-button {
   display: none
 }
 
-.ae-Settings-content.only-tabs>div>ul[role=tablist]+div>div {
+.ae-Settings-content.only-tabs {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  height: 100%;
+  overflow: hidden !important
+}
+
+.ae-Settings-content.only-tabs>div:first-child {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist] {
+  margin: 10px 0;
   padding: 0 15px
 }
 
-.ae-Settings.is-active .ae-Settings-tabs-content {
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]>li>a {
+  margin-right: 30px !important
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div {
+  padding: 0;
+  height: 0;
+  flex-grow: 1;
+  overflow: auto
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div::-webkit-scrollbar {
+  background-color: #fff;
+  width: 10px
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div ::-webkit-scrollbar-track {
+  background-color: #fff
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 8px;
+  border: 2px solid #fff
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div::-webkit-scrollbar-thumb:hover {
+  background-color: #7d7d7d
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div::-webkit-scrollbar-button {
+  display: none
+}
+
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div>div {
+  padding: 0 15px
+}
+
+.ae-Settings-content.only-tabs .ae-Settings-actions {
+  margin-bottom: 0;
+  padding: 10px;
+  width: 100%
+}
+
+.ae-Settings-content.with-actions {
+  margin-bottom: 45px;
+  height: calc(100% - 45px) !important
+}
+
+.ae-Settings-content.with-actions .ae-Settings-actions {
+  margin-bottom: 0;
+  padding: 10px 0;
+  position: absolute;
+  bottom: 0;
+  position: fixed;
+  width: 290px
+}
+
+.ae-Editor-configPane {
   min-width: 320px
 }
 
-.ae-Settings.is-active .ae-LeftSettings-tabs .ae-Settings-tabs-content {
+.ae-Editor-outlinePane {
   min-width: 200px
 }
 
@@ -464,63 +533,7 @@
   color: #333
 }
 
-.a-ClassNamePicker-popover {
-  padding: 10px;
-  width: 610px;
-  max-height: 400px;
-  overflow: auto
-}
-
-.a-ClassNamePicker-popover.a-PopOver--leftBottomLeftTop {
-  margin-top: 1px
-}
-
-.a-ClassNamePicker-popover.a-PopOver--leftTopLeftBottom {
-  margin-top: -1px
-}
-
-.a-ClassNameControl-group {
-  margin: 10px;
-  display: inline-block;
-  width: 265px
-}
-
-.a-ClassNameControl-group.w2x {
-  width: 550px
-}
-
-.a-ClassNameControl-group .a-ClassNameControl-group {
-  padding-left: 65px;
-  margin: 0;
-  display: block;
-  width: auto
-}
-
-.a-ClassNameControl-group .a-ClassNameControl-group:not(:last-child) {
-  margin: 0 0 10px 0
-}
-
-.a-ClassNameControl-group .a-ClassNameControl-group .a-ClassNameControl-groupLabel {
-  float: left;
-  border: none;
-  padding-top: 5px;
-  padding-bottom: 0;
-  text-align: right;
-  margin: 0 0 0 -60px;
-  font-size: 12px
-}
-
-.a-ClassNameControl-group .a-ButtonGroup+.a-ButtonGroup {
-  margin-left: 5px
-}
-
-.a-ClassNameControl-groupLabel {
-  border-bottom: .0625rem solid #edeff1;
-  display: block;
-  padding-bottom: 5px;
-  margin-bottom: 10px;
-  font-size: 14px
-}
+// ovine
 
 .ae-RendererList {
   padding: 10px 0 10px;
@@ -939,6 +952,78 @@ a.ae-RendererIcon:hover {
   pointer-events: none
 }
 
+.ae-Preview.is-mobile {
+  border: 15px solid #3a4051;
+  border-radius: 30px;
+  width: 375px;
+  height: 812px;
+  flex-grow: unset;
+  min-height: unset;
+  margin: 0 auto;
+  min-width: unset;
+  margin-top: 40px;
+  padding: 0;
+  position: relative;
+  overflow: visible
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 20px 0
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner::-webkit-scrollbar {
+  background-color: #fff;
+  width: 10px
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner ::-webkit-scrollbar-track {
+  background-color: #fff
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 8px;
+  border: 2px solid #fff
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner::-webkit-scrollbar-thumb:hover {
+  background-color: #7d7d7d
+}
+
+.ae-Preview.is-mobile>.ae-Preview-inner::-webkit-scrollbar-button {
+  display: none
+}
+
+.ae-PreviewFrame {
+  pointer-events: all !important;
+  border: 0;
+  width: 100%
+}
+
+.ae-IframeMask {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
+
+.ae-IFramePreview>*:first-child {
+  min-width: 100%;
+  position: relative;
+  min-height: 100%;
+  background: #fff
+}
+
+.ae-IFramePreview.is-edting input, .ae-IFramePreview.is-edting textarea, .ae-IFramePreview.is-edting select, .ae-IFramePreview.is-edting iframe {
+  pointer-events: none
+}
+
 .ae-Editor-hlbox {
   position: absolute;
   z-index: 1;
@@ -1229,7 +1314,9 @@ a.ae-RendererIcon:hover {
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 100
+  z-index: 100;
+  background: #f8f9fa;
+  padding: 10px
 }
 
 .ae-RenderersPicker-thumb .ae-Editor-rendererThumbIcon {
@@ -1287,7 +1374,8 @@ a.ae-RendererIcon:hover {
 }
 
 .ae-RenderersPicker-thumb .ae-Editor-rendererThumbInner>* {
-  text-align: left
+  text-align: left;
+  margin-bottom: 0
 }
 
 .ae-RenderersPicker-thumb.is-scaled .ae-Editor-rendererThumbInner {
@@ -1643,7 +1731,7 @@ div.ae-DragImage>span {
   flex-direction: column;
   height: auto;
   width: 100%;
-  border: 1px solid #dee2e6
+  border: 1px solid #d1d5db
 }
 
 .ae-EditableRenderers {
@@ -1696,6 +1784,32 @@ div.ae-DragImage>span {
   min-width: 200px
 }
 
+.ae-ApiSample>pre {
+  overflow: auto;
+  border: 1px solid #999;
+  page-break-inside: avoid;
+  display: block;
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.42857143;
+  color: #333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px
+}
+
 .ae-ApiSample>pre>code {
   white-space: pre
+}
+
+.ae-ApiSample-tooltip {
+  max-width: 360px
+}
+
+.ae-JsonEditor {
+  height: 400px;
+  border: 1px solid #d1d5db
 }

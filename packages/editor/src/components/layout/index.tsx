@@ -22,16 +22,17 @@ const placeholder = {
 
 export default inject('store')(
   observer((props) => {
-    const { isPreview, option } = props.store
+    const { isPreview, option, isMobile } = props.store
     const previewProps = pick(option, ['data'])
 
+    // TODO: 使用 iframe 模拟 浏览 移动端效果
     return (
       <S.StyledLayout>
         <Amis schema={placeholder} props={previewProps} />
         <Header />
         <S.StyledBody>
           {isPreview && (
-            <S.StyledPreview>
+            <S.StyledPreview className={`ae-Preview ${isMobile ? 'is-mobile' : 'in-pc'}`}>
               <Amis schema={editorStore.schema as any} />
             </S.StyledPreview>
           )}

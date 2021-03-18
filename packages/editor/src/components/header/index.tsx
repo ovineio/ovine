@@ -20,7 +20,9 @@ export default inject('store')(
       isPreview,
       option,
       isDirty,
+      isMobile,
       togglePreview,
+      toggleViewMode,
       setLastSavedSchema,
       editorInstance,
     } = props.store
@@ -189,7 +191,15 @@ export default inject('store')(
             <i className={`fa ${isPreview ? 'fa-eye-slash' : 'fa-eye'}`} />
             <span>预览</span>
           </div>
-
+          <div
+            className={cls('toolbar-item view-mode', {
+              active: !isPreview && isMobile,
+            })}
+            onClick={toggleViewMode}
+          >
+            <i className={`fa ${isMobile ? 'fa-mobile' : 'fa-desktop'}`} />
+            <span>{isMobile ? '移动端' : 'PC端'}</span>
+          </div>
           <div
             className={cls('toolbar-item', { disabled: isPreview || !hasPrevStep })}
             onClick={() => editorInstance.undo()}

@@ -57,6 +57,7 @@ export const StyledHeader = styled.div`
     transition: color 0.1s linear 0s;
     user-select: none;
     cursor: pointer;
+    white-space: nowrap;
 
     &:hover {
       background-color: rgb(232, 232, 232);
@@ -70,6 +71,16 @@ export const StyledHeader = styled.div`
       color: rgb(200, 205, 208);
       pointer-events: none;
       cursor: not-allowed;
+    }
+
+    &.view-mode {
+      i {
+        padding-top: 2px;
+      }
+    }
+
+    .fa-mobile {
+      font-size: 20px;
     }
 
     i {
