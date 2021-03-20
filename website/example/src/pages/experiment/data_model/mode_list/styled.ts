@@ -116,3 +116,24 @@ export const ModelDetail = styled.div`
     }
   `}
 `
+
+export const QueryItem = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+
+  & > div {
+    background: var(--light);
+    margin-right: 4px;
+    padding: 2px 10px;
+    border-radius: 15px;
+    span {
+      &:nth-child(2) {
+        padding: 0 5px;
+      }
+    }
+    i {
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
+`

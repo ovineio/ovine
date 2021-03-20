@@ -167,10 +167,11 @@ export default {
           actionType: 'drawer',
           drawer: {
             position: 'right',
-            title: '添加一个字段',
+            title: '【$tableName】添加一个字段',
             size: 'md',
             data: {
               id: '$id',
+              tableName: '$name',
             },
             body: {
               $preset: 'forms.updateField',
@@ -230,7 +231,7 @@ export default {
           actionType: 'drawer',
           drawer: {
             position: 'right',
-            title: '编辑字段',
+            title: '编辑模型字段',
             size: 'md',
             body: {
               $preset: 'forms.updateField',
@@ -492,7 +493,7 @@ export default {
               name: 'isNull',
               type: 'switch',
               required: true,
-              label: '是否必须',
+              label: '是否必填',
               falseValue: 1,
               trueValue: 0,
               value: 1,

@@ -12,7 +12,9 @@ export default ({ ns }: DefaultTheme) => css`
   .w-md {
     width: 240px !important;
   }
-
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .${ns}Layout {
     background-color: transparent;
   }

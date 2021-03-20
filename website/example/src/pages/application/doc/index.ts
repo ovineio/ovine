@@ -83,7 +83,7 @@ export const schema = {
           name: 'content',
           label: '文档',
           type: 'rich-text',
-          reciever: apis.uploadImg,
+          receiver: apis.uploadImg,
         },
       ],
     },

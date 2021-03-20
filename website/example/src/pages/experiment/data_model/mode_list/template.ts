@@ -25,6 +25,11 @@ export const getTableFieldColumn = (type?: string) => {
         },
       },
     },
+    type !== 'subList' && {
+      name: 'order',
+      label: '字段排序',
+      remark: '从小大到大排序',
+    },
     {
       name: 'desc',
       label: '字段描述',
@@ -33,15 +38,15 @@ export const getTableFieldColumn = (type?: string) => {
       name: 'addTime',
       label: '创建时间',
       type: 'datetime',
-      width: type === 'subList' ? 170 : 150,
+      width: type === 'subList' ? 180 : 150,
     },
     {
       name: 'updateTime',
       label: '更新时间',
       type: 'datetime',
-      width: type === 'subList' ? 170 : 150,
+      width: type === 'subList' ? 180 : 150,
     },
-  ]
+  ].filter(Boolean)
 
   return columns
 }

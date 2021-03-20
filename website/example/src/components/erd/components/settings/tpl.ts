@@ -66,7 +66,7 @@ export const getUpdateFieldSchema = (options) => {
           name: 'isNull',
           type: 'switch',
           required: true,
-          label: '是否必须',
+          label: '是否必填',
           falseValue: 1,
           trueValue: 0,
           value: 1,

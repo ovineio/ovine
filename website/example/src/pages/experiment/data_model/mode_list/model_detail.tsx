@@ -149,13 +149,16 @@ const getAdvanceQueryForm = (info) => {
 
     return item
   })
-
+  // let formRef: any = {}
   const advanceQueryForm = {
     type: 'form',
     title: '',
     mode: 'normal',
     // horizontal: { left: 'col-sm-2', right: 'col-sm-10' },
     target: 'modelDataTable',
+    // onInit: (...args: any[]) => {
+    //   formRef = args[1]
+    // },
     controls: [
       {
         type: 'group',
@@ -172,9 +175,21 @@ const getAdvanceQueryForm = (info) => {
             type: 'container',
             body: {
               type: 'action',
-              actionType: 'reset',
+              actionType: 'clear',
               icon: 'fa fa-remove pull-left text-error',
               label: '清空条件',
+              disabledOn: 'data.searchLog',
+              onClick: () => {
+                //
+              },
+              // onAction: (...args: any[]) => {
+              //   // formRef.store.setInited({})
+              //   formRef.store.setValueByName('searchLog', '')
+              //   // const names = ['searchLog', 'label1', 'label2', 'conditions']
+              //   // names.forEach((name) => {
+
+              //   // })
+              // },
             },
           },
         ],
@@ -325,6 +340,10 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
     })
   }
 
+  const doCrudQuery = (query) => {
+    options.tableRef.current.getComponentByName('curd.modelDataTable').handleQuery(query, true)
+  }
+
   const storeData = {
     parentKey: 'modelDetailData',
     key: `modelTableId_${options.id}`,
@@ -396,9 +415,8 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
     return {
       type: 'action',
       label: '更新条件',
-      visibleOn: 'data.searchLog',
+      visibleOn: '!!data.searchLog',
       actionType: 'ajax',
-      reload: 'searchLog',
       api: logApis.edit,
     }
   }
@@ -409,7 +427,6 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
       label: '保存条件',
       visibleOn: '!data.searchLog',
       actionType: 'ajax',
-      reload: 'searchLog',
       api: logApis.add,
     }
   }
@@ -422,11 +439,11 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
     inputClassName: 'w-md',
     searchable: true,
     removable: true,
+    clearable: true,
     labelField: 'label1',
     valueField: 'id',
     source: logApis.list,
     deleteApi: logApis.del,
-    // submitOnChange: type === 'search',
     menuTpl: {
       type: 'container',
       body: {
@@ -442,6 +459,9 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
       },
     },
     onChange: (selectId, _, itemIns, formIns) => {
+      if (!selectId) {
+        return
+      }
       const item = find(itemIns.options.toJSON(), { id: selectId })
       const formData = { ...omit(item, ['stored']), ...JSON.parse(item.stored) }
 
@@ -449,9 +469,7 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
         formIns.setValues(formData)
       } else if (type === 'search') {
         formData.searchLog = selectId
-        options.tableRef.current
-          .getComponentByName('curd.modelDataTable')
-          .handleQuery(omit(formData, ['id', 'value']), true)
+        doCrudQuery(omit(formData, ['id', 'value']))
         options.close()
       }
     },
@@ -480,6 +498,12 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
 
 const getModelDataTable = (info) => {
   const { id, name, tableRef } = info
+
+  const doCrudQuery = (query) => {
+    const crudIns = tableRef.current.getComponentByName('curd.modelDataTable')
+    crudIns.props.store.updateQuery(query, undefined, 'page', 'size', true)
+    crudIns.search(undefined, undefined, undefined, undefined, true)
+  }
 
   const detailDataApis = {
     list: {
@@ -516,7 +540,10 @@ const getModelDataTable = (info) => {
     },
   }
 
+  const columns = getColumns(info)
+
   const modelCrud = {
+    columns,
     type: 'lib-crud',
     name: 'modelDataTable',
     syncLocation: false,
@@ -638,8 +665,16 @@ const getModelDataTable = (info) => {
         align: 'left',
       },
       {
-        type: 'tpl',
+        type: 'container',
         className: 'toolbar-divider',
+        body: {
+          component: (props) => (
+            <QueryItem {...props} doCrudQuery={doCrudQuery} columns={columns} />
+          ),
+        },
+      },
+      {
+        type: 'tpl',
         align: 'left',
         visibleOn: 'data.total',
         tpl: '第 <%= data.page/data.pageCount %> 页, 共有 <%= data.total || 0%> 项',
@@ -723,7 +758,6 @@ const getModelDataTable = (info) => {
         },
       },
     ],
-    columns: getColumns(info),
   }
 
   return modelCrud
@@ -767,7 +801,7 @@ const Nav = (props) => {
             const isActive = item.id === activeId
             return (
               <div
-                className={`${isActive ? 'is-active' : ''} ${cls('Nav-item')}`}
+                className={`${isActive ? 'is-active' : ''} ${cls('Nav-item text-truncate')}`}
                 data-tid={item.id}
                 onClick={setActiveItem}
               >
@@ -781,7 +815,74 @@ const Nav = (props) => {
   )
 }
 
-// TODO: 切换表的时候 带有搜索信息
+const QueryItem = (props: any) => {
+  const { store, columns, doCrudQuery } = props
+  const { query = {} } = store
+
+  // console.log('@==?>', props)
+
+  // const getQueryInfo = () => {
+  //   if (tableRef.current) {
+  //     console.log('@==>.tableRef', tableRef)
+  //   }
+  // }
+
+  const filed = columns.find((i) => i.name === query.orderBy)
+  const isAsc = query.orderDir === 'asc'
+
+  const clearSort = () => {
+    doCrudQuery(omit(query, ['orderBy', 'orderDir']))
+  }
+
+  const sortList = () => {
+    doCrudQuery({
+      ...query,
+      orderDir: isAsc ? 'desc' : 'asc',
+    })
+  }
+
+  const clearQuery = () => {
+    const newQuery = omit(query, ['label1', 'label2', 'searchLog', 'id', 'value', 'conditions'])
+    doCrudQuery(newQuery)
+  }
+
+  return (
+    <S.QueryItem>
+      {query.conditions && (
+        <div>
+          <span>查询:</span>
+          <span>{query.label1 || '未命名查询'}</span>
+          <i
+            data-tooltip="取消查询"
+            data-position="bottom"
+            className="iconfont icon-close"
+            onClick={clearQuery}
+          />
+        </div>
+      )}
+      {query.orderBy && (
+        <div>
+          <span>{get(filed, 'label')}:</span>
+          <span
+            className="cursor-pointer"
+            data-tooltip={isAsc ? '切换为降序' : '切换为降序'}
+            data-position="bottom"
+            onClick={sortList}
+          >
+            {isAsc ? '升序' : '降序'}
+          </span>
+          <i
+            data-tooltip="取消排序"
+            data-position="bottom"
+            className="iconfont icon-close"
+            onClick={clearSort}
+          />
+        </div>
+      )}
+    </S.QueryItem>
+  )
+}
+
 const Crud = (props) => {
   const { info = {} } = props
   const tableRef = useRef()

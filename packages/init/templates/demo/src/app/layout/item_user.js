@@ -52,7 +52,7 @@ export const itemUserSchema = {
                   type: 'image',
                   label: '头像',
                   name: 'avatar',
-                  reciever: apis.uploadImg,
+                  receiver: apis.uploadImg,
                   autoUpload: false,
                   maxLength: 1,
                   maxSize: 1024 * 300,
