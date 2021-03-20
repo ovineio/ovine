@@ -5,7 +5,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { app } from '@core/app'
 
-import { Editor } from '../../assets/scripts/editor.view.bak_2.0.11'
+import { Editor } from '../../assets/scripts/editor.view'
 
 import { GlobalEditorStyle } from './styled'
 

@@ -15,11 +15,21 @@ export const modelListPageCss = ({ ns }) => css`
     background: var(--Table-bg);
   }
 
+  .${ns}Table-itemActions {
+    padding-left: 15px;
+    transform: translateY(-100%);
+    background: var(--light);
+  }
+
   .model-list-crud {
     & > .${ns}Table {
       border: 0;
+      .${ns}Table-content {
+        overflow-y: hidden;
+      }
     }
   }
+
   .field-extra {
     ul {
       padding: 0;

@@ -117,6 +117,7 @@ export default {
           align: 'right',
           actionType: 'dialog',
           label: '复制模型',
+          hiddenOn: 'true',
           icon: 'fa fa-copy pull-left',
           size: 'sm',
           dialog: {
@@ -182,6 +183,7 @@ export default {
           },
         },
         batchAddField: {
+          hiddenOn: 'true',
           limits: 'add',
           type: 'button',
           align: 'right',
@@ -198,6 +200,7 @@ export default {
           },
         },
         copyAddField: {
+          hiddenOn: 'true',
           limits: 'add',
           type: 'button',
           align: 'right',
@@ -213,6 +216,7 @@ export default {
           },
         },
         copyField: {
+          hiddenOn: 'true',
           limits: 'edit',
           type: 'button',
           icon: 'fa fa-copy',
@@ -350,7 +354,7 @@ export default {
                     },
                     loadDataOnce: true,
                     filter: false,
-                    draggable: true,
+                    // draggable: true,
                     headerToolbar: [
                       {
                         align: 'left',
@@ -397,7 +401,10 @@ export default {
                       api: {
                         $preset: 'apis.editTable',
                         onPreRequest: utils.onPreUpdateTableReq,
-                        onSuccess: utils.onTableInfoSchemaSuc,
+                        onSuccess: (source) => {
+                          utils.onUpdateTableData(true)
+                          return utils.onTableInfoSchemaSuc(source)
+                        },
                       },
                       controls: [
                         {

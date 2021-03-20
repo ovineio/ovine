@@ -55,7 +55,6 @@ export const getModeList = () => {
       $preset: 'apis.listTable',
       onSuccess: utils.onGetTableListSuc,
     },
-    loadDataOnce: true,
     footable: true,
     columnsTogglable: false,
     affixHeader: false,

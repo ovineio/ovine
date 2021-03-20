@@ -3,7 +3,7 @@
  * 1. 解析查询信息  列举查询/清除查询
  */
 import { Button } from 'amis'
-import { get, map, omit } from 'lodash'
+import { get, map, omit, find } from 'lodash'
 import React, { useEffect, useRef } from 'react'
 
 import { app } from '@core/app'
@@ -33,18 +33,25 @@ const getViewTypeByInputType = (type: string) => {
 }
 
 const getColumns = (tableInfo: any) => {
-  const { fields = {} } = tableInfo
+  const { fields = {}, isSearchItem = false } = tableInfo
 
-  const columns = map(omit(fields, ['id', 'addTime', 'updateTime']), (field: any) => {
+  let items = omit(fields, ['id', 'addTime', 'updateTime'])
+
+  if (isSearchItem) {
+    items = items.filter((item) => get(item, 'meta.sortable'))
+  }
+
+  const columns = map(items, (field: any) => {
     const { id: name, type = 'text', name: label, ...rest } = field
-    const column = {
+    // console.log('@==>rest', field)
+    const editType = get(rest, 'editStyle.type') || 'text'
+    let column: any = {
       name,
       label,
       type,
       fieldExtra: rest,
       toggled: true,
-      sortable: true,
-      searchable: true,
+      sortable: get(rest, 'meta.sortable'),
       // searchable: {
       //   mode: 'horizontal',
       //   controls: [
@@ -56,13 +63,27 @@ const getColumns = (tableInfo: any) => {
       // },
     }
 
+    if (editType === 'url') {
+      column = {
+        ...column,
+        type: 'tpl',
+        tpl: `
+        <% if (data[${name}]) {%>
+            <a class="text-truncate d-inline-block" title="<%= data[${name}] %>" 
+              style="width:150px;" target="_blank" href="<%= data[${name}] %>"><%= data[${name}] %></a>
+        <%} else {%>
+          -
+        <%}%>`,
+      }
+    }
+
     return column
   })
 
   const dateTimeField = {
     toggled: false,
     sortable: true,
-    searchable: true,
+    // searchable: true,
     fieldExtra: {
       editStyle: {
         type: 'datetime',
@@ -75,6 +96,7 @@ const getColumns = (tableInfo: any) => {
       name: 'id',
       label: 'ID',
       type: 'text',
+      sortable: true,
       toggled: true,
     } as any,
   ].concat(columns, [
@@ -136,10 +158,49 @@ const getAdvanceQueryForm = (info) => {
     target: 'modelDataTable',
     controls: [
       {
-        ...getSearchLogSchema('search'),
-        label: '查询列表',
+        type: 'group',
+        controls: [
+          getSearchLogSchema('select', {
+            ...info,
+            props: {
+              label: '查询列表',
+              mode: 'inline',
+              className: 'm-b-sm',
+            },
+          }),
+          {
+            type: 'container',
+            body: {
+              type: 'action',
+              actionType: 'reset',
+              icon: 'fa fa-remove pull-left text-error',
+              label: '清空条件',
+            },
+          },
+        ],
+      },
+      {
+        type: 'hidden',
+        name: 'id',
+      },
+      {
+        type: 'group',
         mode: 'inline',
-        className: 'm-b-sm',
+        controls: [
+          {
+            type: 'text',
+            name: 'label1',
+            inputClassName: 'w-md',
+            label: '查询名称',
+            placeholder: '请输入查询名称',
+          },
+          {
+            type: 'text',
+            mode: 'normal',
+            name: 'label2',
+            placeholder: '请输入查询描述',
+          },
+        ],
       },
       {
         type: 'condition-builder',
@@ -258,6 +319,12 @@ const getViewModel = (info) => {
 }
 
 const getSearchLogSchema = (type: string, options: any = {}) => {
+  const doAdvanceQuery = () => {
+    options.tableRef.current.getComponentByName('curd.advanceQueryDrawer').tryChildrenToHandle({
+      actionType: 'submit',
+    })
+  }
+
   const storeData = {
     parentKey: 'modelDetailData',
     key: `modelTableId_${options.id}`,
@@ -270,12 +337,12 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
       data: storeData,
       onSuccess: (source) => {
         source.data = {
-          options: source.data.data.map((item, index) => {
+          options: source.data.data.map((item) => {
             return {
+              id: item.id,
               label1: item.label1,
               label2: item.label2,
               stored: item.value,
-              value: index,
             }
           }),
         }
@@ -294,6 +361,10 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
         reqOpts.data.value = JSON.stringify({ conditions: reqOpts.data.value })
         return reqOpts
       },
+      onSuccess: (source) => {
+        doAdvanceQuery()
+        return source
+      },
     },
     edit: {
       url: 'PUT ovhapi/fontstored/$id',
@@ -303,8 +374,16 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
         ...storeData,
       },
       onPreRequest: (reqOpts) => {
-        // console.log('@--->', reqOpts)
+        const { conditions } = reqOpts.data
+        reqOpts.data.id = reqOpts.data.searchLog
+        if (conditions) {
+          reqOpts.data.value = JSON.stringify({ conditions })
+        }
         return reqOpts
+      },
+      onSuccess: (source) => {
+        doAdvanceQuery()
+        return source
       },
     },
     del: {
@@ -313,73 +392,88 @@ const getSearchLogSchema = (type: string, options: any = {}) => {
     },
   }
 
-  const logFormSchema = {
-    type: 'form',
-    api: logApis.add,
-    // onSubmit: (...args: any) => {
-    // console.log('@===>', args)
-    // },
-    controls: [
-      {
-        type: 'text',
-        name: 'label1',
-        require: true,
-        label: '查询名称',
-      },
-      {
-        type: 'textarea',
-        name: 'label2',
-        label: '查询描述',
-      },
-    ],
+  if (type === 'update') {
+    return {
+      type: 'action',
+      label: '更新条件',
+      visibleOn: 'data.searchLog',
+      actionType: 'ajax',
+      reload: 'searchLog',
+      api: logApis.edit,
+    }
   }
 
   if (type === 'add') {
-    return logFormSchema
+    return {
+      type: 'action',
+      label: '保存条件',
+      visibleOn: '!data.searchLog',
+      actionType: 'ajax',
+      reload: 'searchLog',
+      api: logApis.add,
+    }
   }
 
   const selectControl = {
     type: 'select',
-    name: 'select',
+    name: 'searchLog',
     placeholder: '选择查询条件',
-    className: 'w-md m-none',
+    className: 'm-none',
+    inputClassName: 'w-md',
     searchable: true,
-    editable: true,
     removable: true,
+    labelField: 'label1',
+    valueField: 'id',
     source: logApis.list,
-    editApi: logApis.edit,
     deleteApi: logApis.del,
-    menuTpl: `
-      <span style="font-weight:bold;">$label1</span>
-      <span style="padding-left:10px; color:#666;">$label2</span>
-    `,
-    editControls: [
-      {
-        type: 'tpl',
-        mode: 'normal',
-        tpl:
-          '<div class="text-sm m-b-md text-black-50">此处只能编辑查询的 名称/描述。如果要修改查询的内容，请删除该该项，重新使用高级查询添加。</div>',
+    // submitOnChange: type === 'search',
+    menuTpl: {
+      type: 'container',
+      body: {
+        component: (props) => {
+          const { label1, label2, onClick = () => {} } = props.data
+          return (
+            <div onClick={onClick}>
+              <span className="font-weight-bold">{label1}</span>
+              <span className="p-l-sm text-black-50">{label2}</span>
+            </div>
+          )
+        },
       },
-      ...logFormSchema.controls,
-    ],
-    submitOnChange: type !== 'search',
+    },
+    onChange: (selectId, _, itemIns, formIns) => {
+      const item = find(itemIns.options.toJSON(), { id: selectId })
+      const formData = { ...omit(item, ['stored']), ...JSON.parse(item.stored) }
+
+      if (type === 'select') {
+        formIns.setValues(formData)
+      } else if (type === 'search') {
+        formData.searchLog = selectId
+        options.tableRef.current
+          .getComponentByName('curd.modelDataTable')
+          .handleQuery(omit(formData, ['id', 'value']), true)
+        options.close()
+      }
+    },
+    ...options.props,
   }
 
-  if (type === 'select') {
+  if (type === 'search') {
     const fromSchema = {
       type: 'form',
       className: 'p-sm',
       wrapWithPanel: false,
       autoFocus: true,
+      mode: 'inline',
+      controls: selectControl,
       onSubmit: () => {
-        options.close()
+        // options.close()
       },
-      controls: [selectControl],
     }
     return fromSchema
   }
 
-  if (type === 'search') {
+  if (type === 'select') {
     return selectControl
   }
 }
@@ -466,23 +560,17 @@ const getModelDataTable = (info) => {
         drawer: {
           title: `【${name}】高级查询`,
           size: 'lg',
+          name: 'advanceQueryDrawer',
           actions: [
             {
               type: 'action',
               label: '立即查询',
               level: 'primary',
-
+              className: 'btn-advance-query',
               actionType: 'submit',
             },
-            {
-              type: 'action',
-              label: '保存条件',
-              actionType: 'dialog',
-              dialog: {
-                title: '保存查询条件',
-                body: getSearchLogSchema('add', { id }),
-              },
-            },
+            getSearchLogSchema('update', info),
+            getSearchLogSchema('add', info),
             {
               type: 'action',
               actionType: 'close',
@@ -501,7 +589,7 @@ const getModelDataTable = (info) => {
               <PopOver
                 placement="bottom"
                 Popup={(popProps) => (
-                  <Amis schema={getSearchLogSchema('select', { ...popProps, id, tableRef })} />
+                  <Amis schema={getSearchLogSchema('search', { ...popProps, id, tableRef })} />
                 )}
               >
                 <Button
@@ -651,12 +739,13 @@ const Nav = (props) => {
     setActiveId(e.currentTarget.dataset.tid)
   }
 
+  // 列表/表单 切换功能
   return (
     <div className="detail-nav border-right">
       <ScrollBar>
         <div className="detail-nav-hd border-bottom">
           <h6 className="m-b-none">模型导航</h6>
-          <div className={cls('ButtonGroup')}>
+          <div className={cls('ButtonGroup', 'd-none')}>
             <button
               type="button"
               onClick={() => setDisplayMode('list')}
@@ -692,6 +781,7 @@ const Nav = (props) => {
   )
 }
 
+// TODO: 切换表的时候 带有搜索信息
 const Crud = (props) => {
   const { info = {} } = props
   const tableRef = useRef()
@@ -766,7 +856,7 @@ const ModeDetail = (props) => {
   return (
     <S.ModelDetail>
       <Nav {...navProps} />
-      {activeId && <Crud cls={cls} info={activeInfo} displayMode={displayMode} />}
+      {activeId && <Crud key={activeId} cls={cls} info={activeInfo} displayMode={displayMode} />}
     </S.ModelDetail>
   )
 }

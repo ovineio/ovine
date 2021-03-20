@@ -86,10 +86,12 @@ export const getFieldFormData = (apiSource) => {
     updateTime,
     attributes,
     editStyle,
+    meta,
     id,
   } = apiSource
   const fieldData = {
     id: `${id}`,
+    meta,
     editStyle,
     typeLabel,
     typeDesc,
@@ -103,6 +105,9 @@ export const getFieldFormData = (apiSource) => {
     if (fiedKeys.includes(key)) {
       fieldData[key] = item.value
     } else {
+      if (item.value) {
+        fieldData[key] = item.value
+      }
       fieldData.extra.push(pick(item, ['value', 'label']))
     }
   })
@@ -253,11 +258,11 @@ export const markTableListDataDirty = (source?: any) => {
   return source
 }
 
-export const onUpdateTableData = async () => {
-  if (scopeRef.isDirty) {
+export const onUpdateTableData = async (force?: boolean) => {
+  if (scopeRef.isDirty || force) {
     const modelTableList = scopeRef.getComponentByName('page.modelTableList')
     const source = await app.request({
-      url: 'GET ovhapi/model/table',
+      url: 'GET ovhapi/model/v2/table',
     })
     const apiData = await onGetTableListSuc(source.data)
     modelTableList.props.store.reInitData(apiData.data) // .initFromScope(apiData.data, '$items')

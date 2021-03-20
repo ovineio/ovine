@@ -3,26 +3,12 @@ import { createGlobalStyle, css } from 'styled-components'
 const getThemeStyle = (ns: string) => {
   return css`
     .ae-Editor {
-      /* .${ns}ContextMenu {
-        &-list > li {
-          &:nth-last-child(2),
-          &:nth-last-child(1) {
-            display: none;
-          }
-        }
-      } */
       .${ns}Remark-icon.icon-question {
         border: 0;
       }
       .${ns}Button--xs {
         min-width: auto;
       }
-      /*
-      .${ns}Remark:hover > .${ns}Remark-icon {
-        color: #f38900;
-        background-color: transparent;
-      } */
-
       .${ns}ClassNamePicker-popover {
         height: 410px;
       }
@@ -38,7 +24,7 @@ const getThemeStyle = (ns: string) => {
       & .${ns}Tabs-content {
         border-width: 0;
       }
-     
+
       & > .${ns}Tabs-links {
         background: #fff;
         border-left: 1px solid rgb(219, 219, 219);
@@ -73,10 +59,10 @@ const getThemeStyle = (ns: string) => {
       overflow: auto;
 
       &.${ns}PopOver--leftBottomLeftTop {
-        margin-top: 1px
+        margin-top: 1px;
       }
       &.${ns}PopOver--leftTopLeftBottom {
-        margin-top: -1px
+        margin-top: -1px;
       }
     }
 
@@ -86,17 +72,17 @@ const getThemeStyle = (ns: string) => {
       width: 265px;
 
       &.w2x {
-         width: 550px
+        width: 550px;
       }
 
       .${ns}ClassNameControl-group {
-         padding-left: 65px;
+        padding-left: 65px;
         margin: 0;
         display: block;
         width: auto;
 
         &:not(:last-child) {
-          margin: 0 0 10px 0
+          margin: 0 0 10px 0;
         }
 
         .${ns}ClassNameControl-groupLabel {
@@ -116,7 +102,7 @@ const getThemeStyle = (ns: string) => {
     }
 
     .${ns}ClassNameControl-groupLabel {
-      border-bottom: .0625rem solid #dfe2e6;
+      border-bottom: 0.0625rem solid #dfe2e6;
       display: block;
       padding-bottom: 5px;
       margin-bottom: 10px;

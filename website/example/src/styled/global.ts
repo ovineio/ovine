@@ -9,6 +9,10 @@ import { DefaultTheme, css } from 'styled-components'
 // 全局样式, 这里和 scss 类似支持嵌套，与styled变量，
 // 以下用作举例：
 export default ({ ns }: DefaultTheme) => css`
+  .w-md {
+    width: 240px !important;
+  }
+
   .${ns}Layout {
     background-color: transparent;
   }
