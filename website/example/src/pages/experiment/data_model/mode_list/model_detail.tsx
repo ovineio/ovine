@@ -73,8 +73,8 @@ const getColumns = (tableInfo: any) => {
         column = {
           type: 'mapping',
           map: {
-            '1': '<span class=\'label bg-secondary\'>否</span>',
-            '0': '<span class=\'label label-info\'>是</span>',
+            '0': '<span class=\'label bg-secondary\'>否</span>',
+            '1': '<span class=\'label label-info\'>是</span>',
           },
         }
         break
@@ -821,6 +821,7 @@ const Nav = (props) => {
             const isActive = item.id === activeId
             return (
               <div
+                key={item.id}
                 className={`${isActive ? 'is-active' : ''} ${cls('Nav-item text-truncate')}`}
                 data-tid={item.id}
                 onClick={setActiveItem}

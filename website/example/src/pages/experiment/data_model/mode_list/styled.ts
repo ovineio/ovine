@@ -101,6 +101,19 @@ export const ModelDetail = styled.div`
         border-radius: 0;
       }
     }
+    // 重写提示
+    .${ns}Image-overlay {
+      a {
+        &[data-position='bottom']:after {
+          left: 100%;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        &[data-position='bottom']:hover:after {
+          margin: 0 0 0 var(--Tooltip--attr-gap);
+        }
+      }
+    }
     .${ns}Crud-body {
       border: 0;
     }

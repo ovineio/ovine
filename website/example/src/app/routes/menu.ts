@@ -108,6 +108,11 @@ export const menuRoutes: LimitMenuItem = {
           nodePath: 'doc', // 对应 src/pages/application/doc
         },
         {
+          label: 'Ovine文档',
+          nodePath: 'ovineDoc',
+          href: ['_self', 'https://ovine.igroupes.com/org/'], // 对应 src/pages/application/doc
+        },
+        {
           label: '父级页面',
           nodePath: 'parent',
           exact: true,

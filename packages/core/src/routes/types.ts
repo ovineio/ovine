@@ -47,6 +47,7 @@ export type RouteItem = Omit<LinkItem, 'children' | 'component'> &
     ignoreLimit?: boolean // 是否忽略权限，默认 false
     limitOnly?: boolean // 该配置只为权限
     routeTabShared?: boolean // 共用 routeTab
+    href?: string | string[] // https://asd
     // routeTabInitQuery?: object
   }
 

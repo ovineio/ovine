@@ -9,10 +9,11 @@
 
 import { openContextMenus } from 'amis'
 import { MenuItem, MenuDivider } from 'amis/lib/components/ContextMenu'
+import { History } from 'history'
 import { findTree } from 'amis/lib/utils/helper'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
-import { useHistory, matchPath } from 'react-router-dom'
+import { matchPath, withRouter } from 'react-router-dom'
 
 import { app } from '@/app'
 import { message, storage as storeKeys, rootRoute as defRouteRoute } from '@/constants'
@@ -29,6 +30,7 @@ export type RouteMenuItem = Array<MenuItem | MenuDivider>
 type Props = {
   themeNs: string
   routes: RouteItem[]
+  history: History
   rootRoute?: string
   maxCount?: number
   storage?: boolean
@@ -54,12 +56,11 @@ type RefType = {
   routeQuery: any
   routes: RouteItem[]
 }
-export default (props: Props) => {
-  const history = useHistory()
-
+export default withRouter<any, any>((props: Props) => {
   const {
     routes: routesProp,
     themeNs,
+    history,
     maxCount = 20,
     storage,
     rootRoute: rootRouteProp = defRouteRoute,
@@ -437,4 +438,4 @@ export default (props: Props) => {
   return (
     <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>{Tabs}</StyledRouteTabs>
   )
-}
+})

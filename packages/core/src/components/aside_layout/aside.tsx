@@ -52,6 +52,7 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
     badge,
     badgeClassName,
     path,
+    href,
   } = link
 
   const children = []
@@ -110,6 +111,15 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
   if (active) {
     // eslint-disable-next-line
     return <a> {children} </a>
+  }
+
+  if (href) {
+    const [target, urlHref] = typeof href === 'string' ? ['_blank', href] : href
+    return (
+      <a target={target} href={urlHref}>
+        {children}
+      </a>
+    )
   }
 
   if (enableRouteTabs) {
