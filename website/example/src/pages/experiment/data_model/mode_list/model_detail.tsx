@@ -1,6 +1,7 @@
 /**
  *  TODO:
- * 1. 解析查询信息  列举查询/清除查询
+ * 1. 两列布局
+ * 1. 设置 展示/编辑 内容
  */
 import { Button } from 'amis'
 import { get, map, omit, find } from 'lodash'
@@ -45,36 +46,49 @@ const getColumns = (tableInfo: any) => {
     const { id: name, type = 'text', name: label, ...rest } = field
     // console.log('@==>rest', field)
     const editType = get(rest, 'editStyle.type') || 'text'
-    let column: any = {
+    let column: any = {}
+
+    switch (editType) {
+      case 'url':
+        column = {
+          type: 'tpl',
+          tpl: `
+          <% if (data[${name}]) {%>
+              <a class="text-truncate d-inline-block" title="<%= data[${name}] %>" 
+                style="width:150px;" target="_blank" href="<%= data[${name}] %>"><%= data[${name}] %></a>
+          <%} else {%>
+            -
+          <%}%>`,
+        }
+        break
+      case 'image':
+        column = {
+          type: 'image',
+          className: 'table-cell-image',
+          thumbMode: 'cover',
+          enlargeAble: true,
+        }
+        break
+      case 'switch':
+        column = {
+          type: 'mapping',
+          map: {
+            '1': '<span class=\'label bg-secondary\'>否</span>',
+            '0': '<span class=\'label label-info\'>是</span>',
+          },
+        }
+        break
+      default:
+    }
+
+    column = {
       name,
       label,
       type,
       fieldExtra: rest,
       toggled: true,
       sortable: get(rest, 'meta.sortable'),
-      // searchable: {
-      //   mode: 'horizontal',
-      //   controls: [
-      //     {
-      //       label,
-      //       type,
-      //     },
-      //   ],
-      // },
-    }
-
-    if (editType === 'url') {
-      column = {
-        ...column,
-        type: 'tpl',
-        tpl: `
-        <% if (data[${name}]) {%>
-            <a class="text-truncate d-inline-block" title="<%= data[${name}] %>" 
-              style="width:150px;" target="_blank" href="<%= data[${name}] %>"><%= data[${name}] %></a>
-        <%} else {%>
-          -
-        <%}%>`,
-      }
+      ...column,
     }
 
     return column
@@ -546,6 +560,7 @@ const getModelDataTable = (info) => {
     columns,
     type: 'lib-crud',
     name: 'modelDataTable',
+    // alwaysShowPagination: true,
     syncLocation: false,
     api: detailDataApis.list,
     filterTogglable: false,
@@ -580,6 +595,7 @@ const getModelDataTable = (info) => {
         type: 'action',
         icon: 'fa fa-search pull-left',
         label: '高级查询',
+        className: 'btn-open-query-drawer',
         reload: 'none',
         align: 'left',
         size: 'sm',
@@ -666,6 +682,7 @@ const getModelDataTable = (info) => {
       },
       {
         type: 'container',
+        align: 'left',
         className: 'toolbar-divider',
         body: {
           component: (props) => (
@@ -676,8 +693,11 @@ const getModelDataTable = (info) => {
       {
         type: 'tpl',
         align: 'left',
-        visibleOn: 'data.total',
-        tpl: '第 <%= data.page/data.pageCount %> 页, 共有 <%= data.total || 0%> 项',
+        tpl: `<% if(data.pageCount) {%> 
+            第 <%= data.page/data.pageCount %> 页, 共有 <%= data.total || 0%> 项
+          <%} else { %>
+            <span class="text-black-50">列表暂无数据</span>
+          <%}%>`,
       },
       {
         type: 'pagination',
@@ -819,8 +839,6 @@ const QueryItem = (props: any) => {
   const { store, columns, doCrudQuery } = props
   const { query = {} } = store
 
-  // console.log('@==?>', props)
-
   // const getQueryInfo = () => {
   //   if (tableRef.current) {
   //     console.log('@==>.tableRef', tableRef)
@@ -846,12 +864,23 @@ const QueryItem = (props: any) => {
     doCrudQuery(newQuery)
   }
 
+  const openQuery = () => {
+    $('.btn-open-query-drawer').trigger('click')
+  }
+
   return (
     <S.QueryItem>
       {query.conditions && (
         <div>
           <span>查询:</span>
-          <span>{query.label1 || '未命名查询'}</span>
+          <span
+            className="cursor-pointer"
+            data-tooltip="编辑查询"
+            data-position="bottom"
+            onClick={openQuery}
+          >
+            {query.label1 || '未命名查询'}
+          </span>
           <i
             data-tooltip="取消查询"
             data-position="bottom"

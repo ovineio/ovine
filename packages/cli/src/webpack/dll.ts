@@ -158,7 +158,6 @@ const { editorFileReg, factoryFileReg, froalaEditorReg, chartFileReg, apiUtilReg
 type ConfigOptions = Props & Partial<DllCliOptions>
 export function createDllConfig(options: ConfigOptions) {
   const { siteDir, siteConfig, withHash, bundleAnalyzer, embedAssets } = options
-  console.log('@==?>', withHash)
 
   const getHashStr = (hashTpl) => (!withHash ? '' : `_${hashTpl}`)
   const dllName = `[name]${getHashStr('[hash:6]')}`

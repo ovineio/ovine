@@ -286,6 +286,7 @@ type AppMenuRoutesProps = {
   authRoutes: RouteItem[]
   fallback: any
   // eslint-disable-next-line
+  pathPrefix?: string
   debounceRoute?: number
 }
 
@@ -293,18 +294,19 @@ type AppMenuRoutesProps = {
 export const AppMenuRoutes = (props: AppMenuRoutesProps) => {
   const menuRoutes: any = []
 
-  const { debounceRoute, authRoutes, fallback: FallBack } = props
+  const { debounceRoute, pathPrefix = '', authRoutes, fallback: FallBack } = props
 
   // eslint-disable-next-line
   eachTree(authRoutes, (item: RouteItem) => {
     const { path, limitOnly } = item
     if (path && !limitOnly) {
       const routeProps = {
+        debounceRoute,
         key: menuRoutes.length + 1,
         fallback: <FallBack />,
-        debounceRoute,
         ...item,
       }
+      routeProps.path = `${pathPrefix}${path}`
       menuRoutes.push(<PrestRoute {...routeProps} />)
     }
   })

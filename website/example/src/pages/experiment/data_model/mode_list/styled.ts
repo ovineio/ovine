@@ -15,8 +15,14 @@ export const modelListPageCss = ({ ns }) => css`
     background: var(--Table-bg);
   }
 
+  .${ns}Crud-selection {
+    margin: 5px 0;
+  }
+
   .${ns}Table-itemActions {
-    padding-left: 15px;
+    border-radius: 2px 2px 0 0;
+    padding-left: 12px;
+    height: 40px;
     transform: translateY(-100%);
     background: var(--light);
   }
@@ -101,6 +107,15 @@ export const ModelDetail = styled.div`
     .${ns}Table-itemActions {
       .fa {
         padding-top: 4px;
+      }
+    }
+    .${ns}Table-table {
+      td > span {
+        display: inline-block;
+        max-width: 150px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
     .${ns}Crud-pageSwitch {

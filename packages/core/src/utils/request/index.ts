@@ -4,7 +4,7 @@
 
 /* eslint-disable consistent-return */
 import { getApiCache, setApiCache } from 'amis/lib/utils/api'
-import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
+import { object2formData, qsstringify, hasFile, isEmpty } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
 import { get, map, isPlainObject, isFunction, toUpper, pick } from 'lodash'
 import { parse } from 'qs'
@@ -296,7 +296,7 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
   // fetch 请求参数封装
   let fetchBody = body
   const fetchHeaders = headers
-  if (!fetchBody && data && !/GET|HEAD|OPTIONS/.test(method)) {
+  if (isEmpty(fetchBody) && data && !/GET|HEAD|OPTIONS/.test(method)) {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
     } else if (hasFile(data) || dataType === 'form-data') {

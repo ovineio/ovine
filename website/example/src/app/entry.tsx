@@ -1,16 +1,18 @@
 /**
  * 应用入口
  */
-
 import { defaultsDeep } from 'lodash'
+import React from 'react'
 
 import { getStore } from '@core/utils/store'
 
+import PrdLayout from '~/components/prd_layout'
 import remoteTestMock from '~/pages/application/hot/mock'
 import remoteTestPreset from '~/pages/application/hot/preset'
 
-import { storeKeys } from './constants'
+import { prdPathPrefix, storeKeys } from './constants'
 import { layout } from './layout'
+import { prdMenus } from './routes/prd'
 import { onAuth } from './user'
 
 // entry 实际上就是路由配置，必须为数组
@@ -22,6 +24,11 @@ export const entry = [
   },
   {
     type: 'preset-route', // 路由组件
+    path: '/prd/login',
+    pathToComponent: true,
+  },
+  {
+    type: 'preset-route', // 路由组件
     path: '/register',
     pathToComponent: true,
   },
@@ -29,6 +36,13 @@ export const entry = [
     type: 'preset-route', // 路由组件
     path: '/craft',
     pathToComponent: true,
+  },
+  {
+    type: 'private-route', // 鉴权路由
+    path: `${prdPathPrefix}/`,
+    redirect: `${prdPathPrefix}/login`,
+    onAuth, // 每次页面鉴权 需要调用的认证方法
+    component: (props) => <PrdLayout {...props} routes={prdMenus} />,
   },
   {
     type: 'private-route', // 鉴权路由

@@ -15,6 +15,17 @@ export default ({ ns }: DefaultTheme) => css`
   .cursor-pointer {
     cursor: pointer;
   }
+  .table-cell-image {
+    .${ns}Image {
+      width: 50px;
+      height: 50px;
+      padding: 0;
+      &-thumb {
+        overflow: inherit;
+        height: 100%;
+      }
+    }
+  }
   .${ns}Layout {
     background-color: transparent;
   }

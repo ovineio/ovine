@@ -2,9 +2,14 @@
  * 应用内常量模块
  */
 
+export const prdPathPrefix = '/prd'
+
+export const isPrdApp = window.location.pathname.indexOf(prdPathPrefix) > -1
+
 // 用于存储的key
 export const storeKeys = {
   auth: 'auth',
+  rememberLogin: 'rememberLogin',
   schemaEditor: 'schemaEditor',
   testEditorSchema: 'testEditorSchema',
   debugProps: 'debugProps',

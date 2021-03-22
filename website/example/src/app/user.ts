@@ -12,7 +12,7 @@ import { setAppLimits } from '@core/routes/limit/exports'
 import { clearStore, getStore } from '@core/utils/store'
 
 import { apis } from './common/apis'
-import { storeKeys } from './constants'
+import { isPrdApp, prdPathPrefix, storeKeys } from './constants'
 
 let userInfo: any = {}
 
@@ -83,7 +83,7 @@ export function getUserInfo(callback?: (info: any) => void) {
 export function logout(option?: { tip?: string; useApi?: boolean }) {
   const { tip = '您已经成功退出登录', useApi = false } = option || {}
 
-  app.routerHistory.push('/login')
+  app.routerHistory.push(isPrdApp ? `${prdPathPrefix}/login` : '/login')
   toast.info(tip, '系统提示')
   clearStore(storeKeys.auth)
 

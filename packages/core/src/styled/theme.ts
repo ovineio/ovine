@@ -17,6 +17,7 @@ export const dispatchLink = (theme: string, callback?: () => void) => {
     return
   }
   $('head link[data-theme]').remove()
+
   const linkAttr = {
     rel: 'stylesheet',
     type: 'text/css',
