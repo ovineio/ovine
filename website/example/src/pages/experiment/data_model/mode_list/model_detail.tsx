@@ -1,7 +1,7 @@
 /**
  *  TODO:
  * 1. 两列布局
- * 1. 设置 展示/编辑 内容
+ * 1. 可自定义 展示/编辑 内容
  */
 import { Button } from 'amis'
 import { get, map, omit, find } from 'lodash'
@@ -569,6 +569,7 @@ const getModelDataTable = (info) => {
     defaultParams: {
       size: 50,
     },
+    checkOnItemClick: true,
     perPageField: 'size',
     pageField: 'page',
     headerToolbar: [

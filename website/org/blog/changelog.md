@@ -6,6 +6,18 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
+### 0.1.2 ---- 2021.3.23
+
+- 主要功能
+
+  - dll 文件支持 CDN 文件配置，多么项目同时使用“ovine”开发时，可共用 DLL CDN 文件
+  - 升级 @ovine/editor 添加 PC/移动端 预览，并将升级依赖 `amis-editor@2.0.11` 最新版
+
+- 主要优化
+  - 添加 侧边栏 外链跳转支持
+  - 修复 路由标切换时，标签未增加 BUG
+  - 修复 请求模块相关的 BUG
+
 ### 0.1.1 ---- 2021.3.11
 
 > 更新此版本后需要执行 `yarn dll` 与 `yarn scss`

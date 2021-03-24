@@ -130,7 +130,7 @@ export type RouteItem = {
   limitLabel?: string // 权限label，在权限面板中展示
   className?: string // 节点的样式
   children?: RouteItem[]
-
+  href?: string | string[] // 需要跳转的外链 https://xxx 或者 ["_self", "https://xxx"] 数组第一个参数确定 target
   hidden?: boolean // 隐藏该节点
   open?: boolean // 打开该节点
   active?: boolean // 选中状态

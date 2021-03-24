@@ -7,7 +7,7 @@
 
 import { Spinner } from 'amis'
 import { eachTree } from 'amis/lib/utils/helper'
-import { isFunction, map, get, cloneDeep, omit } from 'lodash'
+import { isFunction, map, get, cloneDeep, omit, pick } from 'lodash'
 import React, {
   createContext,
   lazy,
@@ -57,7 +57,9 @@ export const getPageAsync = (option: PresetRouteProps) => {
         type: 'wrapper',
         body: '请传入正确的 schema',
       }
+
       const compProps: PresetComponentProps = {}
+
       if (isFunction(content)) {
         compProps.LazyFileComponent = content
       } else {
@@ -159,8 +161,11 @@ const PrestComponent = (props: PresetComponentProps) => {
     const fileOption = { path, pathToComponent, nodePath: propNodePath }
     const mockSource = !app.env.isMock ? undefined : getPageMockSource(fileOption)
     const nodePath = getNodePath(fileOption)
-    const rawPresetConf = getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset')
-    const presetConf = !rawPresetConf ? {} : cloneDeep(rawPresetConf)
+
+    const presetConf = cloneDeep({
+      ...pick(rest, ['limits', 'apis']),
+      ...(getPagePreset(fileOption) || get(lazyFileAmisProps, 'schema.preset') || {}),
+    })
 
     presetConf.nodePath = exact && children && path ? path : nodePath
 

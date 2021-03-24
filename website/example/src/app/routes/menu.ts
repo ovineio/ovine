@@ -8,6 +8,8 @@
 
 import { LimitMenuItem } from '@core/routes/types'
 
+import { asyncPageOptions } from '~/pages/application/cases/check/entry'
+
 export const menuRoutes: LimitMenuItem = {
   nodePath: '/',
   limitLabel: '侧边栏目录',
@@ -110,7 +112,7 @@ export const menuRoutes: LimitMenuItem = {
         {
           label: 'Ovine文档',
           nodePath: 'ovineDoc',
-          href: ['_self', 'https://ovine.igroupes.com/org/'], // 对应 src/pages/application/doc
+          href: ['_self', 'https://ovine.igroupes.com/org/'],
         },
         {
           label: '父级页面',
@@ -130,7 +132,7 @@ export const menuRoutes: LimitMenuItem = {
         },
 
         {
-          label: '测试渲染器',
+          label: '测试例子',
           nodePath: 'cases',
           children: [
             {
@@ -144,6 +146,15 @@ export const menuRoutes: LimitMenuItem = {
             {
               label: '自定义',
               nodePath: 'custom',
+            },
+            {
+              label: '侧边栏异步配置',
+              nodePath: 'check',
+              ...asyncPageOptions,
+            },
+            {
+              label: 'server渲染器',
+              nodePath: 'check1',
             },
           ],
         },

@@ -6,7 +6,7 @@
 import { cloneDeep, get, isFunction, isPlainObject } from 'lodash'
 
 import { app } from '@/app'
-import { rootRoute } from '@/constants'
+import { defLoadPageSchema, rootRoute } from '@/constants'
 import logger from '@/utils/logger'
 import { ReqMockSource } from '@/utils/request/types'
 import { isSubStr, retryPromise, loadScriptAsync, deserialize } from '@/utils/tool'
@@ -132,7 +132,6 @@ export function getPageMockSource(option: PageFileOption): ReqMockSource | undef
 export async function getPageFileAsync(option: PageFileOption) {
   const filePath = getPageFilePath(option)
   // TODO: 支持传入 页面出错 自定义 schema，并将注入参数
-  const defaultContent = { schema: { type: 'page', body: '当前页面加载错了...' } }
   const pageAlias = option.nodePath
 
   // 加载本地文件
@@ -147,7 +146,7 @@ export async function getPageFileAsync(option: PageFileOption) {
   }
 
   if (!pageAlias) {
-    return defaultContent
+    return defLoadPageSchema
   }
 
   if (app.asyncPage?.schema && app.asyncPage.schema[pageAlias]) {
@@ -166,13 +165,13 @@ export async function getPageFileAsync(option: PageFileOption) {
             log.error(
               `Please add page schema for "${pageAlias}" by using 'window.ovine.addPageSchemaJs()'.`
             )
-            return defaultContent
+            return defLoadPageSchema
           }
           return cloneDeep(app.asyncPage.schema[pageAlias])
         })
         .catch((err) => {
           log.error('An error occurred by load js scripts.', err)
-          return defaultContent
+          return defLoadPageSchema
         })
     }
 
@@ -191,7 +190,7 @@ export async function getPageFileAsync(option: PageFileOption) {
         const schema = isPlainObject(resSchema) ? resSchema : deserialize(resSchema || '')
         if (!schema) {
           log.error(`Please add page schema string for "${pageAlias}" by http server api.`)
-          return defaultContent
+          return defLoadPageSchema
         }
 
         const pageSchema = { schema }
@@ -200,7 +199,7 @@ export async function getPageFileAsync(option: PageFileOption) {
       })
       .catch((err) => {
         log.error('An error occurred when fetch page schema.', err)
-        return defaultContent
+        return defLoadPageSchema
       })
   })
 }

@@ -10,6 +10,7 @@ export const appRootId = 'app-root'
 export const defaultEnvMode = 'localhost'
 export const coreStatic = `${publicUrl}static/ovine/core`
 export const strDelimiter = '@##@'
+export const defLoadPageSchema = { schema: { type: 'page', body: '当前页面加载错了...' } }
 
 // 屏幕尺寸定义
 export const breakpoints = {

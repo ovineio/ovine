@@ -13,6 +13,7 @@ import { str2function } from '@/utils/tool'
  * @param res 请求返回值
  * @param api 请求参数
  */
+// TODO: 直接使用 amis 的工具函数
 function responseAdaptor(res: any, api: any) {
   const { data } = res
   let hasStatusField = true
