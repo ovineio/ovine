@@ -248,7 +248,7 @@ function logBanner() {
 async function updatePkg(pkgPath: string, obj: any): Promise<void> {
   const content = await fse.readFile(pkgPath, 'utf-8')
   const pkg = JSON.parse(content)
-  const newPkg = Object.assign(pkg, obj)
+  const newPkg = Object.assign({}, pkg, obj)
 
   await fse.outputFile(pkgPath, JSON.stringify(newPkg, null, 2))
 }

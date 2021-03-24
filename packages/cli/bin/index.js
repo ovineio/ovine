@@ -5,7 +5,7 @@ const cli = require('commander')
 const path = require('path')
 const semver = require('semver')
 
-const { build, scss, dev, dll } = require('../lib')
+const { build, scss, dev, dll, info } = require('../lib')
 const { defaultPort } = require('../lib/constants')
 
 const requiredVersion = require('../package.json').engines.node
@@ -115,6 +115,15 @@ cli
   .description('Build scss to css files. Because amis lib use scss for styles.')
   .action((siteDir = '.', { verbose = false, watch = false }) => {
     wrapCommand(scss)(path.resolve(siteDir), { verbose, watch })
+  })
+
+cli
+  .command('info <type>')
+  .description('get ovine info by type. optional type: version')
+  .action((infoType = '') => {
+    wrapCommand(info)(infoType, {
+      siteDir: path.resolve('.'),
+    })
   })
 
 cli.arguments('<command>').action((cmd) => {

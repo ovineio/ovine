@@ -15,6 +15,7 @@ const requiredFields = ['favicon', 'title']
 const optionalFields = [
   'publicPath',
   'dllPublicPath',
+  'dllHostDir',
   'envModes',
   'devServer',
   'ui',
@@ -37,6 +38,15 @@ const defaultConfig = {
 
 function formatFields(fields: string[]): string {
   return fields.map((field) => `'${field}'`).join(', ')
+}
+
+function checkPath(pathStr: string, value?: string, egText?: string) {
+  if (typeof value !== 'string' || value.substr(-1) !== '/') {
+    throw new Error(
+      `${pathStr}: "${value}" is not allowed. The "${pathStr}" must be string end with "/". eg: "${egText ||
+        'https://abc.com/'}"`
+    )
+  }
 }
 
 export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): SiteConfig {
@@ -72,23 +82,16 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
 
-  const { publicPath = '/', dllPublicPath, envModes } = config
+  const { publicPath = '/', dllPublicPath, dllHostDir, envModes } = config
+
+  checkPath('publicPath', publicPath)
+  checkPath('dllPublicPath', dllPublicPath)
+  checkPath('dllHostDir', dllHostDir)
+
   // TODO: use json schema for Configuration verification!
   if (unrecognizedFields.length) {
     throw new Error(
       `The field(s) ${formatFields(unrecognizedFields)} are not recognized in ${configFileName}`
-    )
-  }
-
-  if (typeof publicPath !== 'string' || publicPath.substr(-1) !== '/') {
-    throw new Error(
-      `publicPath: "${publicPath}" is not allowed. The "publicPath" must be string end with "/". eg: "/subPath/"`
-    )
-  }
-
-  if (dllPublicPath && dllPublicPath.substr(-1) !== '/') {
-    throw new Error(
-      `publicPath: "${publicPath}" is not allowed. The "dllPublicPath" must be string end with "/". eg: "/subPath/"`
     )
   }
 

@@ -19,6 +19,7 @@ export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
   publicPath: string // 项目的静态资源前缀路径，可用于CDN部署
+  dllHostDir: string // dll 挂载路径文件夹地址
   dllPublicPath: string // 仅仅对 .ovine/static/dll 文件使用 CND 部署，主要用于多个项目同时使用Ovine的场景
   devServer: Partial<DevServerConfig> // webpack devServer配置
   // UI 相关配套

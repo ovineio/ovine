@@ -16,7 +16,7 @@ import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } f
 
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
-import { mergeWebpackConfig, globalStore, getModulePath } from '../utils'
+import { mergeWebpackConfig, globalStore, getModulePath, loadDllManifest } from '../utils'
 
 import * as amis from './amis'
 import { getBabelConfig } from './babel'
@@ -33,9 +33,7 @@ const {
   tsLintConfFileName,
   webpackConfFileName,
   dllVendorDirPath,
-  dllManifestFile,
   dllVendorFileName,
-  dllAssetsFile,
   staticLibDirPath,
   esLintFileName,
   cssAssetsFile,
@@ -45,7 +43,7 @@ const {
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
-export function createBaseConfig(options: BaseConfigOptions): Configuration {
+export async function createBaseConfig(options: BaseConfigOptions): Promise<Configuration> {
   const {
     outDir,
     srcDir,
@@ -60,9 +58,11 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
     scssUpdate = false,
   } = options
 
-  const { envModes, ui, styledConfig, dllPublicPath } = siteConfig
+  const { envModes, ui, styledConfig, dllPublicPath, dllHostDir: confDllHostDir } = siteConfig
 
-  const dllPathPrefix = dllPublicPath || publicPath
+  const { assetsFile, manifestFile } = await loadDllManifest(options)
+
+  const dllFilesHostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -343,7 +343,7 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
       dll &&
         new DllReferencePlugin({
           context: siteDir,
-          manifest: dllManifestFile.replace('[name]', dllVendorFileName),
+          manifest: manifestFile,
         }),
       new MiniCssExtractPlugin({
         filename: isProd ? '[name]_[contenthash:6].css' : '[name].css',
@@ -382,12 +382,12 @@ export function createBaseConfig(options: BaseConfigOptions): Configuration {
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(dllPathPrefix, siteDir, dllVendorFileName, 'css'),
+        dllVendorCss: getDllDistFile(dllFilesHostDir, assetsFile, dllVendorFileName, 'css'),
         dllVendorJs:
           dll &&
           dllFileKeys
-            .map((fileKey) => getDllDistFile(dllPathPrefix, siteDir, fileKey, 'js'))
-            .join(','), // getDllDistFile(siteDir, dllVendorFileName, 'js'), //
+            .map((fileKey) => getDllDistFile(dllFilesHostDir, assetsFile, fileKey, 'js'))
+            .join(','),
       }),
     ].filter(Boolean) as any[],
   }
@@ -493,21 +493,19 @@ function getFixLibLoaders(option: any) {
 }
 
 function getDllDistFile(
-  dllPathPrefix: string,
-  siteDir: string,
+  dllFilesHostDir: string,
+  assetsFile: string,
   fileKey: string = dllVendorFileName,
   type: string = 'js'
 ) {
-  const dllBasePath = `${dllPathPrefix}${dllVendorDirPath}/`
-
-  const dllFile = `${siteDir}/${dllAssetsFile.replace('[name]', dllVendorFileName)}`
-  const assetJson = fse.existsSync(dllFile) && require(dllFile)
+  const assetJson = fse.existsSync(assetsFile) && require(assetsFile)
 
   if (!assetJson) {
+    console.log(`assetsFile: ${assetsFile} not exists.`)
     return ''
   }
 
-  return `${dllBasePath}${_.get(assetJson, `${fileKey}.${type}`)}`
+  return `${dllFilesHostDir}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
 function getCopyPlugin(siteDir: string, outDir: string) {

@@ -61,7 +61,9 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, openPage || publicPath || '/'])
 
-  const config: webpack.Configuration = merge(createBaseConfig({ ...context, ...options }), {
+  const baseConfig = await createBaseConfig({ ...context, ...options })
+
+  const config: webpack.Configuration = merge(baseConfig, {
     plugins: [
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),

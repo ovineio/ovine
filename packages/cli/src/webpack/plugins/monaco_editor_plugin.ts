@@ -11,6 +11,8 @@ import {
 } from 'monaco-editor-webpack-plugin/out/features'
 import { IFeatureDefinition } from 'monaco-editor-webpack-plugin/out/types'
 
+import { winConst } from '../../constants'
+
 const INCLUDE_LOADER_PATH = require.resolve('monaco-editor-webpack-plugin/out/loaders/include')
 
 const EDITOR_MODULE: IFeatureDefinition = {
@@ -228,7 +230,7 @@ function createLoaderRules(
   //     `? __webpack_public_path__ ` +
   //     `: ${JSON.stringify(compilationPublicPath)}`
   // Fix dll path
-  const pathPrefix = `window.__ovineDllPath || ${JSON.stringify(pluginPublicPath)}`
+  const pathPrefix = `window.${winConst.dllPath} || ${JSON.stringify(pluginPublicPath)}`
 
   const globals = {
     MonacoEnvironment: `(function (paths) {

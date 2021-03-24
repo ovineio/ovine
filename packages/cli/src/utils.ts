@@ -1,11 +1,24 @@
-import fs from 'fs-extra'
+import fse from 'fs-extra'
 import importFresh from 'import-fresh'
 import _ from 'lodash'
 import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
+import request from 'request'
+import util from 'util'
 
-import { libRootPath, libName } from './constants'
+import {
+  libRootPath,
+  libName,
+  dllVendorDirPath,
+  dllAssetsFile,
+  dllVendorFileName,
+  dllManifestFile,
+  generatedDirName,
+  winConst,
+  dllVer,
+} from './constants'
+import { BuildCliOptions, Props, SiteConfig } from './types'
 
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls
@@ -92,7 +105,7 @@ export function mergeWebpackConfig(baseConfig: any, config: string | object): Co
 
   if (typeof config === 'object') {
     webpackConfig = merge(baseConfig, config)
-  } else if (typeof config === 'string' && fs.existsSync(config)) {
+  } else if (typeof config === 'string' && fse.existsSync(config)) {
     webpackConfig = merge(baseConfig, importFresh(config) as any)
   }
 
@@ -138,11 +151,82 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
     libPaths.push(`${devRootDir}/packages/${libPath}`)
   }
 
-  const modulePath = libPaths.find((corePath) => fs.pathExistsSync(corePath))
+  const modulePath = libPaths.find((corePath) => fse.pathExistsSync(corePath))
 
   if (!modulePath && required) {
     throw new Error(`Can not find path: ${lib}.\nSearched paths:\n${libPaths.join('\n')}`)
   }
 
   return modulePath
+}
+
+export function getDllHostDir(
+  options: Pick<SiteConfig, 'dllPublicPath' | 'dllHostDir' | 'publicPath'>
+) {
+  const { publicPath, dllPublicPath, dllHostDir: confDllHostDir } = options
+  const hostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
+  return hostDir
+}
+
+export function getDllManifestFile(siteDir: string) {
+  const assetsFile = `${siteDir}/${dllAssetsFile.replace('[name]', dllVendorFileName)}`
+  const manifestFile = `${siteDir}/${dllManifestFile.replace('[name]', dllVendorFileName)}`
+
+  return {
+    assetsFile,
+    manifestFile,
+  }
+}
+
+export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
+  const { siteDir } = options
+  const hostDir = getDllHostDir(options.siteConfig)
+  const files = getDllManifestFile(siteDir)
+
+  const { assetsFile, manifestFile } = files
+
+  const cacheDir = `${siteDir}/${generatedDirName}/cache`
+
+  const assetsFileName = path.basename(assetsFile)
+  const manifestFileName = path.basename(manifestFile)
+  const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
+  const cacheManifestFile = `${cacheDir}/${manifestFileName}`
+
+  const cachedFiles = {
+    assetsFile: cacheAssetsFile,
+    manifestFile: cacheManifestFile,
+  }
+
+  if (!hostDir.startsWith('http')) {
+    return files
+  }
+
+  try {
+    if (fse.existsSync(cacheAssetsFile)) {
+      const assetJson = await fse.readJSON(cacheAssetsFile)
+      // already cached
+      if (assetJson[winConst.dllVersion] === dllVer) {
+        return cachedFiles
+      }
+    }
+
+    const httpAssetFile = `${hostDir}${assetsFileName}`
+    const httpManifestFile = `${hostDir}${manifestFileName}`
+
+    const getFileAsync = util.promisify(request.get)
+
+    // download manifest files to cache
+    await Promise.all(
+      [httpAssetFile, httpManifestFile].map((httpFile) => {
+        getFileAsync(httpFile).then((fileContent) => {
+          return fse.writeFile(fileContent, `${cacheDir}/${path.basename(httpFile)}`, 'utf-8')
+        })
+      })
+    )
+
+    return cachedFiles
+  } catch (err) {
+    console.log('load dll manifest files error.')
+    return files
+  }
 }

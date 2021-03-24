@@ -1,6 +1,7 @@
 /**
  * webpack dll config
  * do not use "publicPath".
+ * TODO: add manifest.json to dll/dir/xx for dllPublic path.
  */
 
 import AssetsPlugin from 'assets-webpack-plugin'

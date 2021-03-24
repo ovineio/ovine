@@ -4,9 +4,23 @@
 const fse = require('fs-extra')
 const glob = require('glob')
 const _ = require('lodash')
+const path = require('path')
 const validateOptions = require('schema-utils') // eslint-disable-line
 
 const constants = require('../../constants')
+const { getDllManifestFile } = require('../../utils')
+
+const {
+  dllVendorFileName,
+  dllManifestFile,
+  dllFileKeys,
+  generatedDirName,
+  staticDirName,
+  dllDirName,
+  dllAssetsFile,
+  winConst,
+  dllVer,
+} = constants
 
 const schema = {
   type: 'object',
@@ -23,14 +37,49 @@ const schema = {
 class DllManifestPlugin {
   constructor(options = {}) {
     validateOptions(schema, options, 'DllPostPlugin')
+
+    const { siteDir } = options
+
     this.options = options
+    this.compute = {
+      getManifestPath: (fileKey) => `${siteDir}/${dllManifestFile.replace('[name]', fileKey)}`,
+      dllDir: `${siteDir}/${dllDirPath}`,
+      ...getDllManifestFile(siteDir),
+    }
+  }
+
+  copyJsonFilesToDllDir(done) {
+    const { dllDir, manifestFile, assetsFile } = this.compute
+    const srcFiles = [manifestFile, assetsFile]
+
+    Promise.all(
+      srcFiles.map((srcFile) => {
+        return fse.copy(srcFile, `${dllDir}/${path.basename(srcFile)}`)
+      })
+    )
+      .then(() => {
+        done()
+      })
+      .catch((err) => {
+        console.log('copy json files to dll error.')
+        throw err
+      })
+  }
+
+  addDllVerToAsset() {
+    const { assetsFile } = this.compute
+    return fse.readJSON(assetsFile).then((content) => {
+      const assetContent = Object.assign({}, content, {
+        [winConst.dllVersion]: dllVer,
+      })
+      fse.writeJSON(assetsFile, assetContent)
+    })
   }
 
   applyManifestJson(done) {
     const jsonFiles = []
 
-    const getFilePath = (fileKey) =>
-      `${this.options.siteDir}/${constants.dllManifestFile.replace('[name]', fileKey)}`
+    const { getManifestPath, manifestFile } = this.compute
 
     const onLoadFiles = () => {
       if (jsonFiles.length < 3) {
@@ -40,24 +89,33 @@ class DllManifestPlugin {
       const entryJson = {}
       const dllContents = []
       jsonFiles.forEach((i) => {
-        if (i.key === constants.dllVendorFileName) {
+        if (i.key === dllVendorFileName) {
           entryJson.name = _.get(i, 'content.name')
         }
         dllContents.push(_.get(i, 'content.content'))
       })
 
       entryJson.content = dllContents.reduce((sum, item) => _.assign({}, sum, item))
-      constants.dllFileKeys.forEach((fileKey) => {
-        fse.removeSync(getFilePath(fileKey))
+      dllFileKeys.forEach((fileKey) => {
+        fse.removeSync(getManifestPath(fileKey))
       })
 
-      fse.writeJSONSync(getFilePath(constants.dllVendorFileName), entryJson)
-
-      done()
+      fse
+        .writeJSON(manifestFile, entryJson)
+        .then(() => {
+          return this.addDllVerToAsset()
+        })
+        .then(() => {
+          copyJsonFilesToDllDir(done)
+        })
+        .catch((err) => {
+          console.log('apply manifest json files error.')
+          throw err
+        })
     }
 
-    constants.dllFileKeys.forEach((fileKey) => {
-      fse.readJSON(getFilePath(fileKey), 'utf-8').then((jsonContent) => {
+    dllFileKeys.forEach((fileKey) => {
+      fse.readJSON(getManifestPath(fileKey)).then((jsonContent) => {
         jsonFiles.push({
           key: fileKey,
           content: jsonContent,
@@ -99,12 +157,14 @@ class DllManifestPlugin {
             ),
             `window.${
               withHash ? `${vendorName}_$1` : vendorName
-            }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.__ovineDllPath = getPath();`
+            }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.${
+              winConst.dllPath
+            } = getPath(); window.${winConst.dllVersion}="${dllVer}";`
           )
-          .replace(/\+"\.css",(\w{1})=.{3}\+/m, '+".css",$1=window.__ovineDllPath+')
+          .replace(/\+"\.css",(\w{1})=.{3}\+/m, `+".css",$1=window.${winConst.dllPath}+`)
           .replace(
             new RegExp(`function\\(e\\)\\{return .{3}\\+"${chunk}"`, 'm'),
-            `function(e){ return window.__ovineDllPath+"${chunk}"`
+            `function(e){ return window.${winConst.dllPath}+"${chunk}"`
           )
 
         fse.writeFile(vendor, newContent, (writeErr) => {
@@ -119,14 +179,14 @@ class DllManifestPlugin {
   }
 
   removeOldVerDllDir(done) {
-    const dllPatten = `${this.options.siteDir}/${constants.generatedDirName}/${constants.staticDirName}/dll/*`
+    const dllPatten = `${this.options.siteDir}/${generatedDirName}/${staticDirName}/dll/*`
     glob(dllPatten, (err, matches) => {
       if (err) {
-        console.log('remove old version dll dirs.')
+        console.log('remove old version dll dirs error.')
         throw err
       }
       matches.forEach((item) => {
-        if (item.indexOf(`${constants.staticDirName}/${constants.dllDirName}`) === -1) {
+        if (item.indexOf(`${staticDirName}/${dllDirName}`) === -1) {
           fse.removeSync(item)
         }
       })
