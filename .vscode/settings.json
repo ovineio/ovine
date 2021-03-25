@@ -15,6 +15,7 @@
     "glyphicon",
     "toboos",
     "tsbuildinfo",
-    "mobx"
+    "mobx",
+    "jsdelivr"
   ]
 }

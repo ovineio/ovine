@@ -32,7 +32,6 @@ const {
   tsConfFileName,
   tsLintConfFileName,
   webpackConfFileName,
-  dllVendorDirPath,
   dllVendorFileName,
   staticLibDirPath,
   esLintFileName,
@@ -58,11 +57,9 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
     scssUpdate = false,
   } = options
 
-  const { envModes, ui, styledConfig, dllPublicPath, dllHostDir: confDllHostDir } = siteConfig
+  const { envModes, ui, styledConfig } = siteConfig
 
-  const { assetsFile, manifestFile } = await loadDllManifest(options)
-
-  const dllFilesHostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
+  const { assetJson, manifestFile, hostDir: dllFilesHostDir } = await loadDllManifest(options)
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -382,11 +379,11 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(dllFilesHostDir, assetsFile, dllVendorFileName, 'css'),
+        dllVendorCss: getDllDistFile(dllFilesHostDir, assetJson, dllVendorFileName, 'css'),
         dllVendorJs:
           dll &&
           dllFileKeys
-            .map((fileKey) => getDllDistFile(dllFilesHostDir, assetsFile, fileKey, 'js'))
+            .map((fileKey) => getDllDistFile(dllFilesHostDir, assetJson, fileKey, 'js'))
             .join(','),
       }),
     ].filter(Boolean) as any[],
@@ -494,17 +491,10 @@ function getFixLibLoaders(option: any) {
 
 function getDllDistFile(
   dllFilesHostDir: string,
-  assetsFile: string,
+  assetJson: any,
   fileKey: string = dllVendorFileName,
   type: string = 'js'
 ) {
-  const assetJson = fse.existsSync(assetsFile) && require(assetsFile)
-
-  if (!assetJson) {
-    console.log(`assetsFile: ${assetsFile} not exists.`)
-    return ''
-  }
-
   return `${dllFilesHostDir}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
@@ -551,8 +541,8 @@ function getCopyPlugin(siteDir: string, outDir: string) {
 function getThemeScript(options: any) {
   const { siteDir, localFs, defaultTheme, publicPath } = options
 
-  const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
-  const cssAssets = _.get(assetsJson, '.css') || []
+  const cssAssetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
+  const cssAssets = _.get(cssAssetsJson, '.css') || []
 
   if (!cssAssets || !cssAssets.map) {
     return ''
@@ -574,25 +564,23 @@ function getThemeScript(options: any) {
   }
 
   return `
-    <script>
-      (function() {
-        var themes = "${themes}".split(',');
-        var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
-        var currThemeLink = '';
-        for (var i = 0; i < themes.length; i++) {
-          if (themes[i].indexOf(theme + '_') > -1) {
-            currThemeLink = themes[i];
-            break;
-          }
+    (function() {
+      var themes = "${themes}".split(',');
+      var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
+      var currThemeLink = '';
+      for (var i = 0; i < themes.length; i++) {
+        if (themes[i].indexOf(theme + '_') > -1) {
+          currThemeLink = themes[i];
+          break;
         }
-        var head = document.head || document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        head.appendChild(link);
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.dataset.theme = theme;
-        link.href= currThemeLink;
-      })();
-    </script>
-  `.replace(/\n\s{2,}/g, '')
+      }
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var link = document.createElement('link');
+      head.appendChild(link);
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.dataset.theme = theme;
+      link.href= currThemeLink;
+    })();   
+  `
 }

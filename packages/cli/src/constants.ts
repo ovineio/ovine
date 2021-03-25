@@ -1,13 +1,20 @@
 // lib
+
 export const libName = 'ovine'
 export const libRootPath = `/${libName}`
 export const libVer = require('../package.json').version
-export const dllVer = libVer // 如果当前升级不需要更新 dll,需要指定特定DLL版本,默认和版本号一致
+// publish_mark 如果当前升级不需要更新 dll,需要指定特定DLL版本,默认和版本号一致
+export const dllVer = libVer
 export const winConst = {
   dllPath: 'OVINE_DLL_PATH',
   dllVersion: 'OVINE_DLL_VERSION',
+  dllRequireVer: 'OVINE_DLL_REQUIRE_VER',
 }
-export const ovDocDomain = 'https://ovine.igroupes.com/'
+
+export const domain = {
+  jsdelivr: 'https://cdn.jsdelivr.net/',
+  libDoc: 'https://ovine.igroupes.com/',
+}
 
 // basic
 export const defaultPort = 7050
@@ -33,6 +40,7 @@ export const dllVendorDirPath = `${staticLibDirPath}/${dllDirName}`
 export const dllDirPath = `${generatedDirName}/${staticDirName}/${dllDirName}`
 export const dllManifestFile = `${generatedDirName}/[name]_manifest.json`
 export const dllAssetsFile = `${generatedDirName}/[name]_assets.json`
+export const dllJsdelivrHostDir = `${domain.jsdelivr}npm/@${libName}/init@${dllVer}/env/${dllDirPath}/${dllVer}/`
 
 // config files
 export const webpackConfFileName = 'webpack.config.js'

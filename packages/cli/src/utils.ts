@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import fse from 'fs-extra'
 import importFresh from 'import-fresh'
 import _ from 'lodash'
@@ -10,13 +11,15 @@ import util from 'util'
 import {
   libRootPath,
   libName,
+  dllVer,
+  libVer,
   dllVendorDirPath,
   dllAssetsFile,
   dllVendorFileName,
   dllManifestFile,
   generatedDirName,
   winConst,
-  dllVer,
+  dllJsdelivrHostDir,
 } from './constants'
 import { BuildCliOptions, Props, SiteConfig } from './types'
 
@@ -160,12 +163,17 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
   return modulePath
 }
 
-export function getDllHostDir(
-  options: Pick<SiteConfig, 'dllPublicPath' | 'dllHostDir' | 'publicPath'>
-) {
-  const { publicPath, dllPublicPath, dllHostDir: confDllHostDir } = options
-  const hostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
-  return hostDir
+export function getDllHostDir(options: Partial<SiteConfig>) {
+  const { publicPath, dll = {} } = options
+  const confHostDir = dll.hostDir || `${dll.publicPath || publicPath}${dllVendorDirPath}/`
+
+  const hostDir = (dll.useJsdelivr ? dllJsdelivrHostDir : confHostDir)
+    .replace('[libVer]', libVer)
+    .replace('[dllVer]', dllVer)
+
+  const backHostDir = `${publicPath}${dllVendorDirPath}/`
+
+  return [hostDir, backHostDir]
 }
 
 export function getDllManifestFile(siteDir: string) {
@@ -178,55 +186,104 @@ export function getDllManifestFile(siteDir: string) {
   }
 }
 
+type ManifestInfo = {
+  hostDir: string
+  assetsFile: string
+  manifestFile: string
+  assetJson: any
+}
 export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
   const { siteDir } = options
-  const hostDir = getDllHostDir(options.siteConfig)
+  const [hostDir, backHostDir] = getDllHostDir(options.siteConfig)
   const files = getDllManifestFile(siteDir)
 
   const { assetsFile, manifestFile } = files
 
+  const backFiles = {
+    ...files,
+    hostDir: backHostDir,
+  }
+
   const cacheDir = `${siteDir}/${generatedDirName}/cache`
 
+  const dllHostDirKey = 'DLL_HOST_DIR'
   const assetsFileName = path.basename(assetsFile)
   const manifestFileName = path.basename(manifestFile)
   const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
   const cacheManifestFile = `${cacheDir}/${manifestFileName}`
 
   const cachedFiles = {
+    hostDir,
     assetsFile: cacheAssetsFile,
     manifestFile: cacheManifestFile,
   }
 
-  if (!hostDir.startsWith('http')) {
-    return files
+  const getManifest = (filesData: any) => {
+    try {
+      const assetJson = require(filesData.assetsFile)
+      return {
+        assetJson,
+        hostDir,
+        ...filesData,
+      }
+    } catch (err) {
+      console.log(chalk.red(`\nload assetsFile: ${filesData.assetsFile} with error. \n`, err))
+    }
   }
 
-  try {
-    if (fse.existsSync(cacheAssetsFile)) {
+  const fetchManifest = async () => {
+    // check cache files if exits
+    if (_.values(cachedFiles).every((filePath) => fse.existsSync(filePath))) {
       const assetJson = await fse.readJSON(cacheAssetsFile)
-      // already cached
-      if (assetJson[winConst.dllVersion] === dllVer) {
-        return cachedFiles
+      // check the cache if valid
+      if (assetJson[winConst.dllVersion] === dllVer && assetJson[dllHostDirKey] === hostDir) {
+        // already cached
+        return getManifest(cachedFiles)
       }
     }
 
     const httpAssetFile = `${hostDir}${assetsFileName}`
     const httpManifestFile = `${hostDir}${manifestFileName}`
-
     const getFileAsync = util.promisify(request.get)
 
     // download manifest files to cache
     await Promise.all(
       [httpAssetFile, httpManifestFile].map((httpFile) => {
-        getFileAsync(httpFile).then((fileContent) => {
-          return fse.writeFile(fileContent, `${cacheDir}/${path.basename(httpFile)}`, 'utf-8')
+        return getFileAsync(httpFile).then((fileRes) => {
+          if (fileRes.headers['content-type'].indexOf('application/json') === -1) {
+            throw new Error(`apply ${httpFile} with error.`)
+          }
+          const cachePath = `${cacheDir}/${path.basename(httpFile)}`
+          let jsonBody = fileRes.body
+
+          if (httpFile === httpManifestFile) {
+            const assetJson = JSON.parse(jsonBody)
+            assetJson[dllHostDirKey] = hostDir
+            jsonBody = JSON.stringify(assetJson)
+          }
+
+          fse.ensureFileSync(cachePath)
+          fse.writeFileSync(cachePath, jsonBody, {
+            encoding: 'utf-8',
+          })
         })
       })
     )
-
-    return cachedFiles
-  } catch (err) {
-    console.log('load dll manifest files error.')
-    return files
+    return getManifest(cachedFiles)
   }
+
+  let manifestInfo: any = {}
+
+  if (hostDir.startsWith('http')) {
+    try {
+      manifestInfo = await fetchManifest()
+    } catch (err) {
+      manifestInfo = getManifest(backFiles)
+      // console.log(`load host dll manifest files.`,err) // print log when needed
+    }
+  } else {
+    manifestInfo = getManifest(backFiles)
+  }
+
+  return manifestInfo as ManifestInfo
 }

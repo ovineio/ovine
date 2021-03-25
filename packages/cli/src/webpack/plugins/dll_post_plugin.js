@@ -2,6 +2,7 @@
  * After the dll build is complete, there are some tasks that need to be done
  */
 const fse = require('fs-extra')
+const chalk = require('chalk')
 const glob = require('glob')
 const _ = require('lodash')
 const path = require('path')
@@ -17,7 +18,7 @@ const {
   generatedDirName,
   staticDirName,
   dllDirName,
-  dllAssetsFile,
+  dllDirPath,
   winConst,
   dllVer,
 } = constants
@@ -61,7 +62,7 @@ class DllManifestPlugin {
         done()
       })
       .catch((err) => {
-        console.log('copy json files to dll error.')
+        console.log(chalk.red('copy json files to dll error.\n'))
         throw err
       })
   }
@@ -106,10 +107,10 @@ class DllManifestPlugin {
           return this.addDllVerToAsset()
         })
         .then(() => {
-          copyJsonFilesToDllDir(done)
+          this.copyJsonFilesToDllDir(done)
         })
         .catch((err) => {
-          console.log('apply manifest json files error.')
+          console.log(chalk.red('apply manifest json files error.\n'))
           throw err
         })
     }
@@ -126,14 +127,14 @@ class DllManifestPlugin {
   }
 
   applyVendorEntry(done) {
-    const { withHash, siteDir } = this.options
-    const { dllVendorFileName: vendorName, dllChunkFilePrefix: chunk, dllDirPath } = constants
+    const { withHash } = this.options
+    const { dllDir } = this.compute
 
-    const dllDir = `${siteDir}/${dllDirPath}`
+    const { dllVendorFileName: vendorName, dllChunkFilePrefix: chunk } = constants
 
     glob(`${dllDir}/${withHash ? `${vendorName}_*` : vendorName}.js`, (err, files) => {
       if (err) {
-        console.log('apply dll vendor file error.')
+        console.log(chalk.red('apply dll vendor file error.\n'))
         throw err
       }
 
@@ -159,7 +160,11 @@ class DllManifestPlugin {
               withHash ? `${vendorName}_$1` : vendorName
             }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.${
               winConst.dllPath
-            } = getPath(); window.${winConst.dllVersion}="${dllVer}";`
+            } = getPath(); window.${winConst.dllVersion}="${dllVer}";  if (window.${
+              winConst.dllRequireVer
+            } !== "${dllVer}") { console.error('current dll version is not match ovine lib require. Please replace the dll version to "'+ window.${
+              winConst.dllRequireVer
+            } +'".'); }`
           )
           .replace(/\+"\.css",(\w{1})=.{3}\+/m, `+".css",$1=window.${winConst.dllPath}+`)
           .replace(
@@ -182,7 +187,7 @@ class DllManifestPlugin {
     const dllPatten = `${this.options.siteDir}/${generatedDirName}/${staticDirName}/dll/*`
     glob(dllPatten, (err, matches) => {
       if (err) {
-        console.log('remove old version dll dirs error.')
+        console.log(chalk.red('remove old version dll dirs error.\n'))
         throw err
       }
       matches.forEach((item) => {

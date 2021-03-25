@@ -3,7 +3,7 @@ import fse from 'fs-extra'
 import { execSync } from 'child_process'
 import semver from 'semver'
 
-import { dllVer, libName, libVer, ovDocDomain } from '../constants'
+import { dllVer, domain, libName, libVer } from '../constants'
 
 type InfoType = 'version'
 type InfoOptions = {
@@ -69,7 +69,7 @@ function printVersionInfo(options: InfoOptions) {
     }
 
     console.log(
-      `Ovine version changelog doc: ${chalk.blueBright(`${ovDocDomain}org/blog/changelog/`)}\n`
+      `Ovine version changelog doc: ${chalk.blueBright(`${domain.libDoc}org/blog/changelog/`)}\n`
     )
   })
 }
