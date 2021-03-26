@@ -361,7 +361,8 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         }),
       !scssUpdate &&
         new HtmlHooksPlugin({
-          keepInMemory: !isProd,
+          scssUpdate,
+          isProd,
           indexHtml: `${outDir}/index.html`,
           getThemeScript: (opts: any) =>
             getThemeScript({ publicPath, siteDir, defaultTheme: ui.defaultTheme, ...opts }),
@@ -370,7 +371,6 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
         libVer,
-        scssUpdate,
         publicPath,
         title: siteConfig.title,
         favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！

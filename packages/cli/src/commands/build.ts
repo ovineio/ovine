@@ -25,7 +25,7 @@ export async function build(
   process.env.NODE_ENV = 'production'
   globalStore('set', 'isProd', true)
 
-  console.log(chalk.blue('\nCreating an optimized production build...'))
+  console.log(chalk.blue('\nCreating an optimized production build...\n'))
 
   const context = loadContext(siteDir, cliOptions)
   const { bundleAnalyzer } = cliOptions

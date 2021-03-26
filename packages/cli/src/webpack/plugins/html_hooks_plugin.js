@@ -6,7 +6,10 @@ const { winConst, dllVer } = require('../../constants')
 const schema = {
   type: 'object',
   properties: {
-    keepInMemory: {
+    scssUpdate: {
+      type: 'boolean',
+    },
+    isProd: {
       type: 'boolean',
     },
     indexHtml: {
@@ -27,15 +30,25 @@ class HtmlHooksPlugin {
   }
 
   getInjectScript(opts) {
+    const { scssUpdate, isProd } = this.options
     const { themeScript } = opts
-    const requiredDllVer = `
+
+    const globalVer = `
       window.${winConst.dllRequireVer} = "${dllVer}";
+      ${
+        isProd
+          ? ''
+          : `
+      window.IS_SCSS_UPDATE = ${scssUpdate};
+      window.IS_WEBPACK_DEV_SERVER = true;
+      `
+      }
     `
 
     const script = `
       <script>
       ${themeScript}
-      ${requiredDllVer}
+      ${globalVer}
       </script>
     `
 
@@ -44,9 +57,10 @@ class HtmlHooksPlugin {
 
   apply(compiler) {
     compiler.hooks.done.tapAsync({ name: 'HtmlHooksPlugin' }, (_, done) => {
-      const { getThemeScript, indexHtml, keepInMemory } = this.options
+      const { getThemeScript, indexHtml, isProd } = this.options
 
-      const localFs = keepInMemory ? compiler.outputFileSystem : fs
+      const localFs = !isProd ? compiler.outputFileSystem : fs
+      const themeScript = getThemeScript({ localFs })
 
       localFs.readFile(indexHtml, 'utf8', (readErr, content) => {
         if (readErr) {
@@ -55,11 +69,10 @@ class HtmlHooksPlugin {
         }
 
         const newContent = content.replace(
-          '<script id="libScriptHolder"></script>',
-          this.getInjectScript({
-            themeScript: getThemeScript({ localFs }),
-          })
+          '<script id="injectScriptHolder"></script>',
+          this.getInjectScript({ themeScript })
         )
+
         localFs.writeFile(indexHtml, newContent, function(writeErr) {
           if (writeErr) {
             console.error(`Unable to write: ${indexHtml}`, writeErr)

@@ -1,9 +1,9 @@
 import chalk from 'chalk'
 import fse from 'fs-extra'
-import { execSync } from 'child_process'
 import semver from 'semver'
 
-import { dllVer, domain, libName, libVer } from '../constants'
+import { dllVer, domain, libVer } from '../constants'
+import { getPkgLatestVer, getPkgName } from '../utils'
 
 type InfoType = 'version'
 type InfoOptions = {
@@ -25,25 +25,22 @@ export async function info(type: InfoType, options: InfoOptions): Promise<void> 
 function printVersionInfo(options: InfoOptions) {
   const { siteDir } = options
   const verInfo: any = {}
-  const libModuleDir = `${siteDir}/node_modules/@${libName}`
+  const modulesDir = `${siteDir}/node_modules/`
 
   console.log(`\n${chalk.grey('loading version info...')}`)
 
-  const getPkgName = (pkg: string) => `@${libName}/${pkg}`
+  const latestVer = getPkgLatestVer()
 
-  const latestVer = execSync(`npm view @${libName}/cli version`)
-    .toString()
-    .replace('\n', '')
-
-  fse.readdir(libModuleDir).then((dirs) => {
+  fse.readdir(`${modulesDir}${getPkgName()}`).then((dirs) => {
     dirs.forEach((pkg) => {
-      const pkgPath = `${libModuleDir}/${pkg}/package.json`
+      const pkgName = getPkgName(pkg as any)
+      const pkgPath = `${modulesDir}${pkgName}/package.json`
       const version = require(pkgPath).version
       const info = {
         version,
         remark: semver.eq(libVer, version) ? '--' : `"${pkg}" ver should same as "cli".`,
       }
-      verInfo[getPkgName(pkg)] = info
+      verInfo[pkgName] = info
     })
 
     verInfo[getPkgName('cli')] = {
@@ -68,8 +65,6 @@ function printVersionInfo(options: InfoOptions) {
       )
     }
 
-    console.log(
-      `Ovine version changelog doc: ${chalk.blueBright(`${domain.libDoc}org/blog/changelog/`)}\n`
-    )
+    console.log(`Ovine changelog doc: ${chalk.blueBright(`${domain.libDoc}org/blog/changelog/`)}\n`)
   })
 }

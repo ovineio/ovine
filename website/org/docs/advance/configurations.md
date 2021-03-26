@@ -13,6 +13,12 @@ export type SiteConfig = {
   title: string // 项目 title，必须配置
   publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
   devServer: Partial<DevServerConfig> // webpack devServer配置
+  // dll 相关的配置
+  dll: {
+    useJsdelivr?: boolean // 使用 jsdelivr cdn
+    hostDir?: string // 托管 dll 路径文件夹地址 (推荐)， 支持 [libVer] [dllVer] 的模版变量替换
+    publicPath?: string // dll文件前缀，适合直接将 dist放入cdn的情况 ，会拼接 publicPath + 'static/ovine/dll/'
+  }
   // UI 相关配套
   ui: {
     defaultTheme?: string // 初始化主题
@@ -32,7 +38,7 @@ export type SiteConfig = {
     [key: string]: object // webpack cacheGroups 配置
   }
   splitRoutes?: Array<{
-    // witch route page should be split
+    // which route page should be split
     test: RegExp // 路由正则匹配
     name: string // 被匹配的路由，将分割为一个文件
   }>

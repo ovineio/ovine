@@ -9,11 +9,11 @@ title: 版本更新日志
 ### 0.1.2 ---- 2021.3.23
 
 - 主要功能
-
-  - dll 文件支持 CDN 文件配置，多么项目同时使用“ovine”开发时，可共用 DLL CDN 文件
+  - dll 文件支持 CDN 文件配置，多个项目同时使用 `ovine` 开发时，可共用 `DLL CDN` 文件，可减小 `dist` 目录 20M 大小。
   - 升级 @ovine/editor 添加 PC/移动端 预览，并将升级依赖 `amis-editor@2.0.11` 最新版
+  - cli 添加了 `info` 命令，可通过 `yarn ovine info version` 查看版本信息。
 
-- 主要优化
+* 主要优化
   - 添加 侧边栏 外链跳转支持
   - 修复 路由标切换时，标签未增加 BUG
   - 修复 请求模块相关的 BUG

@@ -23,7 +23,7 @@ export async function dll(
 
   console.log(
     chalk.blue(
-      '\nCreating an webpack dll static files build.\n\nPlease be patient,it may take a few minutes...'
+      '\nCreating an webpack dll static files build.\n\nPlease be patient,it may take a few minutes...\n'
     )
   )
 
@@ -42,7 +42,7 @@ export async function dll(
   await compileWebpack(dllConfig)
 
   console.log(
-    `\n${chalk.green('Success!')} Generated dll files in ${chalk.cyan(
+    `${chalk.green('Success!')} Generated dll files in ${chalk.cyan(
       path.relative(siteDir, dllDirPath)
     )}.\n`
   )

@@ -1,6 +1,6 @@
 {
   "name": "@ovine/init",
-  "version": "0.1.2-alpha.0",
+  "version": "0.1.2-alpha.1",
   "description": "Apply ovine template more easily.",
   "private": false,
   "publishConfig": {
@@ -31,7 +31,7 @@
     "clean": "rimraf ./lib",
     "clean:tmp": "rimraf ./tmp/*",
     "cli": "node ../cli/bin/index.js",
-    "gen:env": "rm -rf ./env/.ovine && yarn cli dll --no-hash env && yarn cli scss env && sed -i '' 's/\\\"\\.\\.\\/\\./\\\"/g' ./env/.ovine/dll_entry_manifest.json",
+    "gen:env": "rimraf ./env/.ovine && yarn cli dll --no-hash env && yarn cli scss env && node ./post_gen_env.js",
     "test:js:normal": "rimraf ./tmp/js_normal && node ./bin/index.js init js_normal ./tmp",
     "test:js:eslint": "rimraf ./tmp/js_eslint && node ./bin/index.js init js_eslint ./tmp",
     "test:ts:normal": "rimraf ./tmp/ts_normal && node ./bin/index.js init ts_normal ./tmp",

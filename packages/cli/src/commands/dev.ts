@@ -42,9 +42,9 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   globalStore('set', 'isProd', false)
 
   if (options.isReload) {
-    console.log(chalk.blue('\nConfig changed restart the development server...'))
+    console.log(chalk.blue('\nConfig changed restart the development server... \n'))
   } else {
-    console.log(chalk.blue('\nStarting the development server...'))
+    console.log(chalk.blue('\nStarting the development server... \n'))
   }
 
   // get all config context.

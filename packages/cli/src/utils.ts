@@ -6,6 +6,7 @@ import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
 import request from 'request'
+import { execSync } from 'child_process'
 import util from 'util'
 
 import {
@@ -21,7 +22,7 @@ import {
   winConst,
   dllJsdelivrHostDir,
 } from './constants'
-import { BuildCliOptions, Props, SiteConfig } from './types'
+import { BuildCliOptions, PkgName, Props, SiteConfig } from './types'
 
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls
@@ -256,7 +257,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
           const cachePath = `${cacheDir}/${path.basename(httpFile)}`
           let jsonBody = fileRes.body
 
-          if (httpFile === httpManifestFile) {
+          if (httpFile === httpAssetFile) {
             const assetJson = JSON.parse(jsonBody)
             assetJson[dllHostDirKey] = hostDir
             jsonBody = JSON.stringify(assetJson)
@@ -286,4 +287,16 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
   }
 
   return manifestInfo as ManifestInfo
+}
+
+export function getPkgName(pkg?: PkgName) {
+  return `@${libName}/${pkg || ''}`
+}
+
+export function getPkgLatestVer() {
+  const latestVer = execSync(`npm view ${getPkgName('cli')} version`)
+    .toString()
+    .replace('\n', '')
+
+  return latestVer
 }

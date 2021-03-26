@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@6.6.0"></script><script src="https://cdn.jsdelivr.net/npm/markmap-view@0.2.3"></script><script>((e,t,r)=>{const{Markmap:n}=e();window.mm=n.create("svg#mindmap",null==t?void 0:t(),r)})(()=>window.markmap,t=>{return t=t||window.d3,{color:(n=t.scaleOrdinal(t.schemeCategory10),t=>n(t.p.i))};var n},{"t":"heading","d":1,"p":{"lines":[1,2]},"v":"Ovine 命令","c":[{"t":"heading","d":2,"p":{"lines":[2,3]},"v":"<code>yarn ovine -h</code> 查看帮助"},{"t":"heading","d":2,"p":{"lines":[6,7]},"v":"<code>yarn ovine dev</code>","c":[{"t":"heading","d":3,"p":{"lines":[8,9]},"v":"<code>-p</code> 启动端口"},{"t":"heading","d":3,"p":{"lines":[12,13]},"v":"<code>--env</code> 当前应用环境"},{"t":"heading","d":3,"p":{"lines":[16,17]},"v":"<code>--host</code> 启动的 host"},{"t":"heading","d":3,"p":{"lines":[20,21]},"v":"<code>--mock</code> 是否开启 mock 数据功能"},{"t":"heading","d":3,"p":{"lines":[24,25]},"v":"<code>--scss</code> 开启 scss 更新"},{"t":"heading","d":3,"p":{"lines":[28,29]},"v":"<code>--local-ip</code> 使用 本机 IP 地址启动"},{"t":"heading","d":3,"p":{"lines":[32,33]},"v":"<code>--no-hot</code> 关闭热更新"},{"t":"heading","d":3,"p":{"lines":[36,37]},"v":"<code>--no-open</code> 不默认打开浏览器"},{"t":"heading","d":3,"p":{"lines":[40,41]},"v":"<code>--no-dll</code> 不启用 dll"}]},{"t":"heading","d":2,"p":{"lines":[44,45]},"v":"<code>yarn ovine build</code>","c":[{"t":"heading","d":3,"p":{"lines":[46,47]},"v":"<code>--mock</code> 是否开启 mock 数据功能"},{"t":"heading","d":3,"p":{"lines":[50,51]},"v":"<code>--env</code> 当前应用环境"},{"t":"heading","d":3,"p":{"lines":[54,55]},"v":"<code>--bundle-analyzer</code> 开启打包分析"}]},{"t":"heading","d":2,"p":{"lines":[58,59]},"v":"<code>yarn ovine dll</code> 打包 dll 文件","c":[{"t":"heading","d":3,"p":{"lines":[64,65]},"v":"<code>--bundle-analyzer</code> 开启打包分析"},{"t":"heading","d":3,"p":{"lines":[68,69]},"v":"<code>--embed-assets</code> 内嵌静态资源"},{"t":"heading","d":3,"p":{"lines":[72,73]},"v":"<code>--no-hash</code> 打包后文件不加 hash 信息"}]},{"t":"heading","d":2,"p":{"lines":[76,77]},"v":"<code>yarn ovine scss</code> 编译 scss","c":[{"t":"heading","d":3,"p":{"lines":[80,81]},"v":"<code>-w</code> 监听 scss 文件改动，实时编译"},{"t":"heading","d":3,"p":{"lines":[82,83]},"v":"<code>--verbose</code> 打印详细日志"}]},{"t":"heading","d":2,"p":{"lines":[84,85]},"v":"<code>yarn ovine info &lt;infoType&gt;</code> 查看信息","c":[{"t":"list_item","d":4,"p":{"lines":[88,89]},"v":"<code>yarn ovine info version</code> 查看 ovine 库版本信息。"}]}]})</script>
+</body>
+</html>

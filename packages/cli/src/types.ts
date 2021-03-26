@@ -96,3 +96,5 @@ export interface ConfigureWebpackUtils {
   getCacheLoader: (isServer: boolean, cacheOptions?: {}) => Loader | null
   getBabelLoader: (isServer: boolean, babelOptions?: {}) => Loader
 }
+
+export type PkgName = 'cli' | 'init' | 'editor' | 'core' | 'craft'
