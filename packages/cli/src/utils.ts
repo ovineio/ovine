@@ -1,13 +1,12 @@
-import chalk from 'chalk'
+import http from 'http'
+import https from 'https'
 import fse from 'fs-extra'
 import importFresh from 'import-fresh'
 import _ from 'lodash'
 import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
-import request from 'request'
 import { execSync } from 'child_process'
-import util from 'util'
 
 import {
   libRootPath,
@@ -18,11 +17,9 @@ import {
   dllAssetsFile,
   dllVendorFileName,
   dllManifestFile,
-  generatedDirName,
-  winConst,
   dllJsdelivrHostDir,
 } from './constants'
-import { BuildCliOptions, PkgName, Props, SiteConfig } from './types'
+import { PkgName, SiteConfig } from './types'
 
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls
@@ -187,108 +184,6 @@ export function getDllManifestFile(siteDir: string) {
   }
 }
 
-type ManifestInfo = {
-  hostDir: string
-  assetsFile: string
-  manifestFile: string
-  assetJson: any
-}
-export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
-  const { siteDir } = options
-  const [hostDir, backHostDir] = getDllHostDir(options.siteConfig)
-  const files = getDllManifestFile(siteDir)
-
-  const { assetsFile, manifestFile } = files
-
-  const backFiles = {
-    ...files,
-    hostDir: backHostDir,
-  }
-
-  const cacheDir = `${siteDir}/${generatedDirName}/cache`
-
-  const dllHostDirKey = 'DLL_HOST_DIR'
-  const assetsFileName = path.basename(assetsFile)
-  const manifestFileName = path.basename(manifestFile)
-  const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
-  const cacheManifestFile = `${cacheDir}/${manifestFileName}`
-
-  const cachedFiles = {
-    hostDir,
-    assetsFile: cacheAssetsFile,
-    manifestFile: cacheManifestFile,
-  }
-
-  const getManifest = (filesData: any) => {
-    try {
-      const assetJson = require(filesData.assetsFile)
-      return {
-        assetJson,
-        hostDir,
-        ...filesData,
-      }
-    } catch (err) {
-      console.log(chalk.red(`\nload assetsFile: ${filesData.assetsFile} with error. \n`, err))
-    }
-  }
-
-  const fetchManifest = async () => {
-    // check cache files if exits
-    if (_.values(cachedFiles).every((filePath) => fse.existsSync(filePath))) {
-      const assetJson = await fse.readJSON(cacheAssetsFile)
-      // check the cache if valid
-      if (assetJson[winConst.dllVersion] === dllVer && assetJson[dllHostDirKey] === hostDir) {
-        // already cached
-        return getManifest(cachedFiles)
-      }
-    }
-
-    const httpAssetFile = `${hostDir}${assetsFileName}`
-    const httpManifestFile = `${hostDir}${manifestFileName}`
-    const getFileAsync = util.promisify(request.get)
-
-    // download manifest files to cache
-    await Promise.all(
-      [httpAssetFile, httpManifestFile].map((httpFile) => {
-        return getFileAsync(httpFile).then((fileRes) => {
-          if (fileRes.headers['content-type'].indexOf('application/json') === -1) {
-            throw new Error(`apply ${httpFile} with error.`)
-          }
-          const cachePath = `${cacheDir}/${path.basename(httpFile)}`
-          let jsonBody = fileRes.body
-
-          if (httpFile === httpAssetFile) {
-            const assetJson = JSON.parse(jsonBody)
-            assetJson[dllHostDirKey] = hostDir
-            jsonBody = JSON.stringify(assetJson)
-          }
-
-          fse.ensureFileSync(cachePath)
-          fse.writeFileSync(cachePath, jsonBody, {
-            encoding: 'utf-8',
-          })
-        })
-      })
-    )
-    return getManifest(cachedFiles)
-  }
-
-  let manifestInfo: any = {}
-
-  if (hostDir.startsWith('http')) {
-    try {
-      manifestInfo = await fetchManifest()
-    } catch (err) {
-      manifestInfo = getManifest(backFiles)
-      // console.log(`load host dll manifest files.`,err) // print log when needed
-    }
-  } else {
-    manifestInfo = getManifest(backFiles)
-  }
-
-  return manifestInfo as ManifestInfo
-}
-
 export function getPkgName(pkg?: PkgName) {
   return `@${libName}/${pkg || ''}`
 }
@@ -299,4 +194,41 @@ export function getPkgLatestVer() {
     .replace('\n', '')
 
   return latestVer
+}
+
+export async function fetchFile(url: string): Promise<any> {
+  const proto = url.startsWith('https') ? https : http
+
+  return new Promise((resolve, reject) => {
+    const onError = (tip: string = '') => {
+      reject(new Error(`Failed to get '${url}'. ${tip}`))
+    }
+
+    const request = proto.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        onError(`StatusCode: ${response.statusCode}`)
+        return
+      }
+
+      let body = ''
+      response.on('data', (chunk) => {
+        body += chunk
+      })
+
+      response.on('error', () => {
+        onError('Response an error occurred.')
+      })
+
+      response.on('end', () => {
+        resolve({
+          ...response,
+          body,
+        })
+      })
+    })
+
+    request.on('error', () => {
+      onError('Request an error occurred.')
+    })
+  })
 }

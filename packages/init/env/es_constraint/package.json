@@ -8,7 +8,7 @@
     "dev": "ovine dev --no-dll --mock",
     "build": "yarn eslint && ovine build",
     "scss": "ovine scss",
-    "dll": "ovine dll",
+    "dll": "ovine dll --no-hash",
     "ovine": "ovine",
     "clean": "rimraf ./dist ./node_modules/.cache",
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
@@ -16,8 +16,8 @@
     "eslint": "eslint --cache \"**/*.{js,jsx}\" --fix"
   },
   "dependencies": {
-    "@ovine/core": "0.1.2-alpha.1",
-    "@ovine/cli": "0.1.2-alpha.1",
+    "@ovine/core": "0.1.2-alpha.2",
+    "@ovine/cli": "0.1.2-alpha.2",
     "@hot-loader/react-dom": "^16.8.6",
     "immer": "^5.3.2",
     "react": "^16.8.6",

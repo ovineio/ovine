@@ -4,6 +4,7 @@
 
 import AssetsPlugin from 'assets-webpack-plugin'
 import { version as cacheLoaderVersion } from 'cache-loader/package.json'
+import chalk from 'chalk'
 import CleanPlugin from 'clean-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
@@ -16,7 +17,14 @@ import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } f
 
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
-import { mergeWebpackConfig, globalStore, getModulePath, loadDllManifest } from '../utils'
+import {
+  mergeWebpackConfig,
+  globalStore,
+  getModulePath,
+  fetchFile,
+  getDllHostDir,
+  getDllManifestFile,
+} from '../utils'
 
 import * as amis from './amis'
 import { getBabelConfig } from './babel'
@@ -39,6 +47,8 @@ const {
   dllFileKeys,
   srcDirName,
   stylesDirName,
+  winConst,
+  dllVer,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -583,4 +593,105 @@ function getThemeScript(options: any) {
       link.href= currThemeLink;
     })();   
   `
+}
+
+type ManifestInfo = {
+  hostDir: string
+  assetsFile: string
+  manifestFile: string
+  assetJson: any
+}
+export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
+  const { siteDir } = options
+  const [hostDir, backHostDir] = getDllHostDir(options.siteConfig)
+  const files = getDllManifestFile(siteDir)
+
+  const { assetsFile, manifestFile } = files
+
+  const backFiles = {
+    ...files,
+    hostDir: backHostDir,
+  }
+
+  const cacheDir = `${siteDir}/${generatedDirName}/cache`
+
+  const dllHostDirKey = 'DLL_HOST_DIR'
+  const assetsFileName = path.basename(assetsFile)
+  const manifestFileName = path.basename(manifestFile)
+  const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
+  const cacheManifestFile = `${cacheDir}/${manifestFileName}`
+
+  const cachedFiles = {
+    hostDir,
+    assetsFile: cacheAssetsFile,
+    manifestFile: cacheManifestFile,
+  }
+
+  const getManifest = (filesData: any) => {
+    try {
+      const assetJson = require(filesData.assetsFile)
+      return {
+        assetJson,
+        hostDir,
+        ...filesData,
+      }
+    } catch (err) {
+      console.log(chalk.red(`\nload assetsFile: ${filesData.assetsFile} with error. \n`, err))
+    }
+  }
+
+  const fetchManifest = async () => {
+    // check cache files if exits
+    if (_.values(cachedFiles).every((filePath) => fse.existsSync(filePath))) {
+      const assetJson = await fse.readJSON(cacheAssetsFile)
+      // check the cache if valid
+      if (assetJson[winConst.dllVersion] === dllVer && assetJson[dllHostDirKey] === hostDir) {
+        // already cached
+        return getManifest(cachedFiles)
+      }
+    }
+
+    const httpAssetFile = `${hostDir}${assetsFileName}`
+    const httpManifestFile = `${hostDir}${manifestFileName}`
+
+    // download manifest files to cache
+    await Promise.all(
+      [httpAssetFile, httpManifestFile].map((httpFile) => {
+        return fetchFile(httpFile).then((fileRes) => {
+          if (fileRes.headers['content-type'].indexOf('application/json') === -1) {
+            throw new Error(`apply ${httpFile} with error.`)
+          }
+          const cachePath = `${cacheDir}/${path.basename(httpFile)}`
+          let jsonBody = fileRes.body
+
+          if (httpFile === httpAssetFile) {
+            const assetJson = JSON.parse(jsonBody)
+            assetJson[dllHostDirKey] = hostDir
+            jsonBody = JSON.stringify(assetJson)
+          }
+
+          fse.ensureFileSync(cachePath)
+          fse.writeFileSync(cachePath, jsonBody, {
+            encoding: 'utf-8',
+          })
+        })
+      })
+    )
+    return getManifest(cachedFiles)
+  }
+
+  let manifestInfo: any = {}
+
+  if (hostDir.startsWith('http')) {
+    try {
+      manifestInfo = await fetchManifest()
+    } catch (err) {
+      manifestInfo = getManifest(backFiles)
+      // console.log(`load host dll manifest files.`, err) // print log when needed
+    }
+  } else {
+    manifestInfo = getManifest(backFiles)
+  }
+
+  return manifestInfo as ManifestInfo
 }

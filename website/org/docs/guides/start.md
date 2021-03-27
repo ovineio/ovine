@@ -11,7 +11,7 @@ title: 快速开始
 
 ```bash
 # !! my-app 是你想创建应用的名字，也就是项目的文件夹名。可以按照自己需要修改。
-npx @ovine/init@latest init my-app
+npx @ovine/init@^0.1.0 init my-app
 
 cd my-app # 切换到生成的项目文件夹下
 yarn install # 安装项目依赖
@@ -41,7 +41,7 @@ npm config set registry https://registry.npmjs.org/
 
 ```bash
 # 使用最新包生成 ovine 应用
-npx @ovine/init@latest init my-app
+npx @ovine/init@^0.1.0 init my-app
 ```
 
 执行初始化命令时有以下步骤
