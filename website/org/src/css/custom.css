@@ -35,3 +35,11 @@ html[data-theme='dark'] {
 html[data-theme='dark'] .docusaurus-highlight-code-line {
   background-color: rgb(0, 0, 0, 0.3);
 }
+
+.header-github-link::before {
+  content: "";
+  width: 94px;
+  height: 24px;
+  display: flex;
+  background: transparent url(https://img.shields.io/github/stars/CareyToboo/ovine?style=social) no-repeat center center;
+}

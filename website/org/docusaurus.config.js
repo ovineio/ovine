@@ -10,6 +10,7 @@ module.exports = {
   baseUrl: '/org/',
   onBrokenLinks: 'ignore',
   themeConfig: {
+    hideableSidebar: true,
     algolia: {
       apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',
       indexName: 'igroupes_ovine',
@@ -35,8 +36,16 @@ module.exports = {
           position: 'left',
           to: 'https://github.com/users/CareyToboo/projects/2',
         },
-        { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/login' },
-        { label: '编辑器', position: 'left', href: 'https://ovine.igroupes.com/demo/editor' },
+        {
+          label: '案例项目',
+          to: '/org/showcase',
+        },
+        {
+          href: 'https://github.com/CareyToboo/ovine',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
       ],
     },
     footer: {
@@ -44,6 +53,7 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} CareyToboo Ovine.`,
     },
   },
+  themes: ['@docusaurus/plugin-ideal-image'],
   presets: [
     [
       '@docusaurus/preset-classic',
