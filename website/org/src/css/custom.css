@@ -37,9 +37,10 @@ html[data-theme='dark'] .docusaurus-highlight-code-line {
 }
 
 .header-github-link::before {
-  content: "";
+  content: '';
   width: 94px;
   height: 24px;
   display: flex;
-  background: transparent url(https://img.shields.io/github/stars/CareyToboo/ovine?style=social) no-repeat center center;
+  background: transparent url(https://img.shields.io/github/stars/CareyToboo/ovine?style=social)
+    no-repeat center center;
 }

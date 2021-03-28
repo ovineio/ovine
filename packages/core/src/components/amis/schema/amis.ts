@@ -1,6 +1,6 @@
 import { confirm, render, toast, alert } from 'amis'
-import { RenderOptions } from 'amis/lib/factory'
 import { RootRenderProps } from 'amis/lib/Root'
+import { RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
 import { tokenize } from 'amis/lib/utils/tpl-builtin'
 import copy from 'copy-to-clipboard'

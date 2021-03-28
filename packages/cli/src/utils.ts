@@ -1,12 +1,12 @@
+import { execSync } from 'child_process'
+import fse from 'fs-extra'
 import http from 'http'
 import https from 'https'
-import fse from 'fs-extra'
 import importFresh from 'import-fresh'
 import _ from 'lodash'
 import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
-import { execSync } from 'child_process'
 
 import {
   libRootPath,

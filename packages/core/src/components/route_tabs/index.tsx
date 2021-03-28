@@ -9,8 +9,8 @@
 
 import { openContextMenus } from 'amis'
 import { MenuItem, MenuDivider } from 'amis/lib/components/ContextMenu'
-import { History } from 'history'
 import { findTree } from 'amis/lib/utils/helper'
+import { History } from 'history'
 import { debounce } from 'lodash'
 import React, { useEffect, useMemo, useRef } from 'react'
 import { matchPath, withRouter } from 'react-router-dom'
