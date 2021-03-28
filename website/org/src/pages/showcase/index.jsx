@@ -17,7 +17,7 @@ import users from '../../data/user'
 
 const TITLE = '项目案例'
 const DESCRIPTION = '这些项目都是由 Ovine 作为基础库开发的'
-const EDIT_URL = 'https://github.com/CareyToboo/ovine/master/website/org/src/data/user.js'
+const EDIT_URL = 'https://github.com/CareyToboo/ovine/blob/master/website/org/src/data/user.js'
 
 function Showcase() {
   return (

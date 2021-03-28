@@ -19,7 +19,7 @@ module.exports = (option) => {
   const config = {
     publicPath: publicPathMap[env], // 静态资源公共路径
     dll: {
-      // useJsdelivr: true,
+      // useJsdelivr: env !== 'localhost',
       // hostDir: 'https://ovine.igroupes.com/demo/static/ovine/dll/[dllVer]/',
     },
     favicon: '/static/images/favicon.ico',
@@ -28,6 +28,7 @@ module.exports = (option) => {
     staticFileExts: ['cur'],
     ui: {
       defaultTheme: 'antd',
+      // appTheme: 'dark',
     },
     devServer: {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀

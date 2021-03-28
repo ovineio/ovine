@@ -13,3 +13,8 @@
   max-height: 175px;
   overflow: hidden;
 }
+
+:global(.card__image>div) {
+  width: 100%;
+  height: 100%;
+}

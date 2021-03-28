@@ -325,7 +325,7 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
-        INIT_THEME: ui.defaultTheme,
+        INIT_THEME: ui.appTheme || ui.defaultTheme,
         HOT: options.hot || false,
         MOCK: mock,
         ENV: env,
@@ -374,8 +374,16 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
           scssUpdate,
           isProd,
           indexHtml: `${outDir}/index.html`,
-          getThemeScript: (opts: any) =>
-            getThemeScript({ publicPath, siteDir, defaultTheme: ui.defaultTheme, ...opts }),
+          getThemeTpl: (opts: any) => {
+            const themeOpts = {
+              publicPath,
+              siteDir,
+              defaultTheme: ui.defaultTheme,
+              appTheme: ui.appTheme,
+              ...opts,
+            }
+            return getThemeTpl(themeOpts)
+          },
         }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
@@ -548,8 +556,8 @@ function getCopyPlugin(siteDir: string, outDir: string) {
   return new CopyPlugin(copyFiles)
 }
 
-function getThemeScript(options: any) {
-  const { siteDir, localFs, defaultTheme, publicPath } = options
+function getThemeTpl(options: any) {
+  const { siteDir, localFs, defaultTheme, publicPath, appTheme } = options
 
   const cssAssetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(cssAssetsJson, '.css') || []
@@ -562,28 +570,45 @@ function getThemeScript(options: any) {
     .filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
     .map((i) => `${publicPath}${i}`)
 
-  let presetTheme = ''
-  if (defaultTheme) {
-    if (themes.some((theme) => theme.indexOf(`${defaultTheme}_`) > -1)) {
-      presetTheme = defaultTheme
-    }
-  }
-
   if (!themes.length) {
     return ''
   }
 
-  return `
+  const checkTheme = (t: string) => t && themes.some((theme) => theme.indexOf(`${t}_`) > -1)
+
+  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'default'
+
+  const tpl = {
+    link: '',
+    script: '',
+  }
+
+  if (appTheme === 'false') {
+    return tpl
+  }
+
+  if (checkTheme(appTheme)) {
+    const link = themes.filter((t) => t.indexOf(`${appTheme}_`) > -1)
+    tpl.link = `<link rel="stylesheet" href="${link}" />`
+    tpl.script = `localStorage.setItem('libAppThemeStore', '"${appTheme}"');`
+    return tpl
+  }
+
+  tpl.script = `
     (function() {
       var themes = "${themes}".split(',');
-      var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
-      var currThemeLink = '';
-      for (var i = 0; i < themes.length; i++) {
-        if (themes[i].indexOf(theme + '_') > -1) {
-          currThemeLink = themes[i];
-          break;
+      var getLink = function(t) {
+        var link = '';
+        for (var i = 0; i < themes.length; i++) {
+          if (themes[i].indexOf(theme + '_') > -1) {
+            link = themes[i];
+            break;
+          }
         }
-      }
+        return link;
+      };
+      var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}';
+      var currThemeLink = getLink(theme);
       var head = document.head || document.getElementsByTagName('head')[0];
       var link = document.createElement('link');
       head.appendChild(link);
@@ -591,8 +616,10 @@ function getThemeScript(options: any) {
       link.type = 'text/css';
       link.dataset.theme = theme;
       link.href= currThemeLink;
-    })();   
+    })();
   `
+
+  return tpl
 }
 
 type ManifestInfo = {
@@ -627,7 +654,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
     manifestFile: cacheManifestFile,
   }
 
-  const getManifest = (filesData: any) => {
+  function getManifest(filesData: any) {
     try {
       const assetJson = require(filesData.assetsFile)
       return {
@@ -637,6 +664,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
       }
     } catch (err) {
       console.log(chalk.red(`\nload assetsFile: ${filesData.assetsFile} with error. \n`, err))
+      throw err
     }
   }
 

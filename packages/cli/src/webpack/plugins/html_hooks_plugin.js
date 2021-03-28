@@ -1,4 +1,5 @@
 const fs = require('fs')
+const _ = require('lodash')
 const validateOptions = require('schema-utils') // eslint-disable-line
 
 const { winConst, dllVer } = require('../../constants')
@@ -15,7 +16,7 @@ const schema = {
     indexHtml: {
       type: 'string',
     },
-    getThemeScript: {
+    getThemeTpl: {
       instanceof: 'Function',
     },
   },
@@ -25,13 +26,16 @@ class HtmlHooksPlugin {
   // options = {}
 
   constructor(options = {}) {
-    validateOptions(schema, options, 'HtmlHooksPlugin')
+    const check = _.isFunction(validateOptions) ? validateOptions : validateOptions.validate
+    if (check) {
+      check(schema, options, 'HtmlHooksPlugin')
+    }
     this.options = options
   }
 
-  getInjectScript(opts) {
+  getInjectTpl(opts) {
     const { scssUpdate, isProd } = this.options
-    const { themeScript } = opts
+    const { themeTpl } = opts
 
     const globalVer = `
       window.${winConst.dllRequireVer} = "${dllVer}";
@@ -46,9 +50,10 @@ class HtmlHooksPlugin {
     `
 
     const script = `
+      ${themeTpl.link}
       <script>
-      ${themeScript}
       ${globalVer}
+      ${themeTpl.script}
       </script>
     `
 
@@ -56,11 +61,11 @@ class HtmlHooksPlugin {
   }
 
   apply(compiler) {
-    compiler.hooks.done.tapAsync({ name: 'HtmlHooksPlugin' }, (_, done) => {
-      const { getThemeScript, indexHtml, isProd } = this.options
+    compiler.hooks.done.tapAsync({ name: 'HtmlHooksPlugin' }, (__, done) => {
+      const { getThemeTpl, indexHtml, isProd } = this.options
 
       const localFs = !isProd ? compiler.outputFileSystem : fs
-      const themeScript = getThemeScript({ localFs })
+      const injectTpl = this.getInjectTpl({ themeTpl: getThemeTpl({ localFs }) })
 
       localFs.readFile(indexHtml, 'utf8', (readErr, content) => {
         if (readErr) {
@@ -68,10 +73,11 @@ class HtmlHooksPlugin {
           return
         }
 
-        const newContent = content.replace(
-          '<script id="injectScriptHolder"></script>',
-          this.getInjectScript({ themeScript })
-        )
+        const libHolder = '<script id="injectScriptHolder"></script>'
+        const newContent =
+          content.indexOf(libHolder) > -1
+            ? content.replace(libHolder, injectTpl)
+            : content.replace('</head>', `${injectTpl}</head>`)
 
         localFs.writeFile(indexHtml, newContent, function(writeErr) {
           if (writeErr) {

@@ -35,12 +35,11 @@ function printVersionInfo(options: InfoOptions) {
     dirs.forEach((pkg) => {
       const pkgName = getPkgName(pkg as any)
       const pkgPath = `${modulesDir}${pkgName}/package.json`
-      const version = require(pkgPath).version
-      const info = {
+      const {version} = require(pkgPath)
+      verInfo[pkgName] = {
         version,
         remark: semver.eq(libVer, version) ? '--' : `"${pkg}" ver should same as "cli".`,
       }
-      verInfo[pkgName] = info
     })
 
     verInfo[getPkgName('cli')] = {

@@ -1,8 +1,8 @@
 /**
  * After the dll build is complete, there are some tasks that need to be done
  */
-const fse = require('fs-extra')
 const chalk = require('chalk')
+const fse = require('fs-extra')
 const glob = require('glob')
 const _ = require('lodash')
 const path = require('path')
@@ -37,7 +37,10 @@ const schema = {
 
 class DllManifestPlugin {
   constructor(options = {}) {
-    validateOptions(schema, options, 'DllPostPlugin')
+    const check = _.isFunction(validateOptions) ? validateOptions : validateOptions.validate
+    if (check) {
+      check(schema, options, 'DllPostPlugin')
+    }
 
     const { siteDir } = options
 
@@ -70,9 +73,7 @@ class DllManifestPlugin {
   addDllVerToAsset() {
     const { assetsFile } = this.compute
     return fse.readJSON(assetsFile).then((content) => {
-      const assetContent = Object.assign({}, content, {
-        [winConst.dllVersion]: dllVer,
-      })
+      const assetContent = { ...content, [winConst.dllVersion]: dllVer,}
       fse.writeJSON(assetsFile, assetContent)
     })
   }

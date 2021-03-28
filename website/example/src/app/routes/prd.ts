@@ -38,19 +38,19 @@ export const prdMenus = [
       // },
     ],
   },
-  {
-    label: '系统管理',
-    icon: 'fa fa-cog',
-    nodePath: 'system',
-    children: [
-      {
-        label: '管理员用户',
-        nodePath: 'user_list', // 对应 src/pages/system/user_list
-      },
-      {
-        label: '管理员角色',
-        nodePath: 'user_role', // 对应 src/pages/system/user_role
-      },
-    ],
-  },
+  // {
+  //   label: '系统管理',
+  //   icon: 'fa fa-cog',
+  //   nodePath: 'system',
+  //   children: [
+  //     {
+  //       label: '管理员用户',
+  //       nodePath: 'user_list', // 对应 src/pages/system/user_list
+  //     },
+  //     {
+  //       label: '管理员角色',
+  //       nodePath: 'user_role', // 对应 src/pages/system/user_role
+  //     },
+  //   ],
+  // },
 ]

@@ -51,9 +51,13 @@ export const LoginPage = styled.div`
       display: block;
       margin-bottom: 0;
       color: darken(#ccc, 10%);
+      user-select: none;
     }
 
     input {
+      position: relative;
+      z-index: 2;
+      text-indent: 28px;
       background: transparent;
       border-bottom: 1px solid #ccc;
     }

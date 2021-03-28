@@ -26,7 +26,7 @@ function responseAdaptor(res: any, api: any) {
   }
 
   const payload: Payload = {
-    ok: hasStatusField === false || data.status == 0,
+    ok: hasStatusField === false || data.status === 0,
     status: hasStatusField === false ? 0 : data.status,
     msg: data.msg,
     msgTimeout: data.msgTimeout,

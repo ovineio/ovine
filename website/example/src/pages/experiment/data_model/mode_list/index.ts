@@ -1,3 +1,4 @@
+import { isPrdApp } from '~/app/constants'
 import Erd from '~/components/erd'
 
 import { modelDetailSchema } from './model_detail'
@@ -13,7 +14,7 @@ export default {
     type: 'page',
     name: 'page',
     title: '数据模型',
-    remark: '数据模型可以用于在线生成API',
+    remark: isPrdApp ? '' : '数据模型可以用于在线生成API',
     bodyClassName: 'p-none',
     css: styled.modelListPageCss,
     cssVars: {
@@ -284,7 +285,7 @@ export default {
                   value: 'list',
                   size: 'sm',
                 },
-                {
+                !isPrdApp && {
                   label: '图示',
                   value: 'diagram',
                   size: 'sm',
@@ -294,7 +295,7 @@ export default {
                   value: 'detail',
                   size: 'sm',
                 },
-              ],
+              ].filter(Boolean),
             },
           ],
         },
@@ -351,7 +352,7 @@ export default {
                       onSuccess: utils.onGetTableFileSuc,
                     },
                     defaultParams: {
-                      perPage: 50,
+                      perPage: 100,
                     },
                     loadDataOnce: true,
                     filter: false,
@@ -490,12 +491,12 @@ export default {
               required: true,
             },
             {
-              name: 'isNull',
+              name: 'required',
               type: 'switch',
               required: true,
               label: '是否必填',
-              falseValue: 1,
-              trueValue: 0,
+              falseValue: 0,
+              trueValue: 1,
               value: 1,
             },
             {

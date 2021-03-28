@@ -31,7 +31,6 @@ export default (props) => {
           return i
         }),
     }
-
     return {
       ...configs,
       AuthRoutes: (

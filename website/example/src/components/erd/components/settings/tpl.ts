@@ -63,12 +63,12 @@ export const getUpdateFieldSchema = (options) => {
           desc: '字段底部显示的描述信息',
         },
         {
-          name: 'isNull',
+          name: 'required',
           type: 'switch',
           required: true,
           label: '是否必填',
-          falseValue: 1,
-          trueValue: 0,
+          falseValue: 0,
+          trueValue: 1,
           value: 1,
         },
         {

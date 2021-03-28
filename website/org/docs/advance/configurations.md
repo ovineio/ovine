@@ -23,6 +23,7 @@ export type SiteConfig = {
   ui: {
     defaultTheme?: string // 初始化主题
     withoutPace?: boolean // 是否使用 默认的 顶部 loadingBar
+    appTheme?: string // 应用主题
   }
   envModes?: string[] // 应用环境列表
   staticFileExts?: string[] // 需要处理的静态资源类型

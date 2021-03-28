@@ -36,9 +36,9 @@
   "dependencies": {
     "@ant-design/icons": "^4.4.0",
     "@hot-loader/react-dom": "^16.8.6",
-    "@ovine/cli": "file:../../packages/cli",
-    "@ovine/core": "file:../../packages/core",
-    "@ovine/editor": "file:../../packages/editor",
+    "@ovine/cli": "^0.1.0",
+    "@ovine/core": "^0.1.0",
+    "@ovine/editor": "^0.1.0",
     "@toast-ui/editor": "^2.5.1",
     "butterfly-dag": "^3.1.8",
     "immer": "^8.0.1",
