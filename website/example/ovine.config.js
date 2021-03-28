@@ -19,7 +19,7 @@ module.exports = (option) => {
   const config = {
     publicPath: publicPathMap[env], // 静态资源公共路径
     dll: {
-      // useJsdelivr: env !== 'localhost',
+      // useJsdelivr: true,
       // hostDir: 'https://ovine.igroupes.com/demo/static/ovine/dll/[dllVer]/',
     },
     favicon: '/static/images/favicon.ico',

@@ -4,7 +4,7 @@ export const libName = 'ovine'
 export const libRootPath = `/${libName}`
 export const libVer = require('../package.json').version
 // publish_mark 如果当前升级不需要更新 dll,需要指定特定DLL版本,默认和版本号一致
-export const dllVer = '0.1.2-alpha.1' // libVer
+export const dllVer = libVer
 export const winConst = {
   dllPath: 'OVINE_DLL_PATH',
   dllVersion: 'OVINE_DLL_VERSION',
