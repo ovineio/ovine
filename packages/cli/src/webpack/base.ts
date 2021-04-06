@@ -562,34 +562,35 @@ function getThemeTpl(options: any) {
   const cssAssetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(cssAssetsJson, '.css') || []
 
-  if (!cssAssets || !cssAssets.map) {
-    return ''
-  }
-
-  const themes = cssAssets
-    .filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
-    .map((i) => `${publicPath}${i}`)
-
-  if (!themes.length) {
-    return ''
-  }
-
-  const checkTheme = (t: string) => t && themes.some((theme) => theme.indexOf(`${t}_`) > -1)
-
-  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'default'
-
   const tpl = {
     link: '',
     script: '',
   }
+
+  if (!cssAssets || !cssAssets.map) {
+    return tpl
+  }
+
+  const themes = cssAssets
+    .filter((i) => /themes\/.*\.css$/.test(i))
+    .sort((i) => i.indexOf('_'))
+    .map((i) => `${publicPath}${i}`)
+
+  if (!themes.length) {
+    return tpl
+  }
+
+  const checkTheme = (t: string) => t && themes.some((theme) => theme.indexOf(t) > -1)
+
+  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'default'
 
   if (appTheme === 'false') {
     return tpl
   }
 
   if (checkTheme(appTheme)) {
-    const link = themes.filter((t) => t.indexOf(`${appTheme}_`) > -1)
-    tpl.link = `<link rel="stylesheet" href="${link}" />`
+    const links = themes.find((t) => t.indexOf(appTheme) > -1)
+    tpl.link = `<link rel="stylesheet" href="${links[1] || links[0]}" />`
     tpl.script = `localStorage.setItem('libAppThemeStore', '"${appTheme}"');`
     return tpl
   }
@@ -597,25 +598,15 @@ function getThemeTpl(options: any) {
   tpl.script = `
     (function() {
       var themes = "${themes}".split(',');
-      var getLink = function(t) {
-        var link = '';
-        for (var i = 0; i < themes.length; i++) {
-          if (themes[i].indexOf(theme + '_') > -1) {
-            link = themes[i];
-            break;
-          }
-        }
-        return link;
-      };
       var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}';
-      var currThemeLink = getLink(theme);
+      var links = themes.find((t) => t.indexOf(theme) > -1);
       var head = document.head || document.getElementsByTagName('head')[0];
       var link = document.createElement('link');
       head.appendChild(link);
       link.rel = 'stylesheet';
       link.type = 'text/css';
       link.dataset.theme = theme;
-      link.href= currThemeLink;
+      link.href= theme[1] || theme[0];
     })();
   `
 
