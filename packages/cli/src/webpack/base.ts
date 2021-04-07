@@ -571,10 +571,11 @@ function getThemeTpl(options: any) {
     return tpl
   }
 
-  const themes = cssAssets
-    .filter((i) => /themes\/.*\.css$/.test(i))
-    .sort((i) => i.indexOf('_'))
-    .map((i) => `${publicPath}${i}`)
+  const themesArr = cssAssets.filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
+  const themes = (themesArr.length
+    ? themesArr
+    : cssAssets.filter((i) => /themes\/.*\.css$/.test(i))
+  ).map((i) => `${publicPath}${i}`)
 
   if (!themes.length) {
     return tpl
@@ -589,8 +590,8 @@ function getThemeTpl(options: any) {
   }
 
   if (checkTheme(appTheme)) {
-    const links = themes.find((t) => t.indexOf(appTheme) > -1)
-    tpl.link = `<link rel="stylesheet" href="${links[1] || links[0]}" />`
+    const link = themes.find((t) => t.indexOf(appTheme) > -1)
+    tpl.link = `<link rel="stylesheet" href="${link}" />`
     tpl.script = `localStorage.setItem('libAppThemeStore', '"${appTheme}"');`
     return tpl
   }
@@ -598,15 +599,15 @@ function getThemeTpl(options: any) {
   tpl.script = `
     (function() {
       var themes = "${themes}".split(',');
-      var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}';
-      var links = themes.find((t) => t.indexOf(theme) > -1);
+      var themeName = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}';
+      var linkHref = themes.find((t) => t.indexOf(themeName) > -1);
       var head = document.head || document.getElementsByTagName('head')[0];
       var link = document.createElement('link');
       head.appendChild(link);
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.dataset.theme = theme;
-      link.href= theme[1] || theme[0];
+      link.dataset.theme = themeName;
+      link.href= linkHref;
     })();
   `
 

@@ -17,7 +17,6 @@ const {
   dllFileKeys,
   generatedDirName,
   staticDirName,
-  dllDirName,
   dllDirPath,
   winConst,
   dllVer,
@@ -73,7 +72,7 @@ class DllManifestPlugin {
   addDllVerToAsset() {
     const { assetsFile } = this.compute
     return fse.readJSON(assetsFile).then((content) => {
-      const assetContent = { ...content, [winConst.dllVersion]: dllVer,}
+      const assetContent = { ...content, [winConst.dllVersion]: dllVer }
       fse.writeJSON(assetsFile, assetContent)
     })
   }
@@ -192,7 +191,7 @@ class DllManifestPlugin {
         throw err
       }
       matches.forEach((item) => {
-        if (item.indexOf(`${staticDirName}/${dllDirName}`) === -1) {
+        if (path.basename(item) !== dllVer) {
           fse.removeSync(item)
         }
       })
