@@ -29,7 +29,7 @@ export default (props: RendererProps) => {
   const toggleDrawer = () => toggle((t) => !t)
 
   const onEditorMounted = () => {
-    if (loading && (window as any).monaco) {
+    if (loading) {
       toggleLoading(false)
     }
   }
@@ -80,8 +80,8 @@ export default (props: RendererProps) => {
       type: 'button',
       iconOnly: true,
       icon: 'fa fa-code',
-      level: 'link',
-      className: 'h-full',
+      level: 'blank',
+      // className: 'h-full',
     },
     items: [
       {

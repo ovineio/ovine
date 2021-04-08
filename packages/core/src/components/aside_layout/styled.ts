@@ -78,7 +78,6 @@ export const StyledLayout = styled.div`
 export const SearchInput = styled.div`
   position: relative;
   top: 4px;
-  height: 34px;
   ${({ theme: { ns } }) => css`
     .${ns}TreeSelect-arrow {
       display: none;
@@ -89,6 +88,9 @@ export const SearchInput = styled.div`
       box-shadow: none;
       border-width: 0 0 1px 0;
       border-radius: 0;
+      &.is-opened {
+        box-shadow: none;
+      }
     }
     .${ns}ResultBox.is-clickable:not(.is-disabled):hover {
       box-shadow: none;

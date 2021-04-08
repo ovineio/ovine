@@ -2,7 +2,7 @@ import chalk from 'chalk'
 import fse from 'fs-extra'
 import semver from 'semver'
 
-import { dllVer, domain, libVer } from '../constants'
+import { dllVer, domain, libVer, amisEditorVer } from '../constants'
 import { getPkgLatestVer, getPkgName } from '../utils'
 
 type InfoType = 'version'
@@ -30,21 +30,32 @@ function printVersionInfo(options: InfoOptions) {
   console.log(`\n${chalk.grey('loading version info...')}`)
 
   const latestVer = getPkgLatestVer()
+  const amisVer = require('amis/package.json').version
+
+  const remarks: any = {
+    core: `amis: ${amisVer}`,
+    editor: `amis-editor: ${amisEditorVer}`,
+  }
 
   fse.readdir(`${modulesDir}${getPkgName()}`).then((dirs) => {
     dirs.forEach((pkg) => {
       const pkgName = getPkgName(pkg as any)
       const pkgPath = `${modulesDir}${pkgName}/package.json`
-      const {version} = require(pkgPath)
+      const { version } = require(pkgPath)
+
+      const remark = semver.eq(libVer, version)
+        ? remarks[pkg] || '--'
+        : `"${pkg}" ver should same as "cli".`
+
       verInfo[pkgName] = {
         version,
-        remark: semver.eq(libVer, version) ? '--' : `"${pkg}" ver should same as "cli".`,
+        remark,
       }
     })
 
     verInfo[getPkgName('cli')] = {
       version: libVer,
-      remark: `required dll version: ${dllVer}`,
+      remark: `required dll: ${dllVer}`,
     }
 
     console.log(`\n${chalk.cyan('Ovine verion info:')}\n`)

@@ -57,7 +57,7 @@ export default (props: Props) => {
       theme={theme}
       className={`no-shadow ${className}`}
       onClick={onItemClick}
-      level="link"
+      level="blank"
     >
       {!icon && !faIcon ? null : (
         <i className={`${icon || `fa fa-${faIcon}`}`} data-position="bottom" data-tooltip={tip} />

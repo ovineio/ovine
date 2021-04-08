@@ -47,7 +47,7 @@ export default () => {
   const theme = app.theme.getName()
 
   const onEditorMounted = () => {
-    if (loading && window.monaco) {
+    if (loading) {
       setState((d) => {
         d.loading = false
       })

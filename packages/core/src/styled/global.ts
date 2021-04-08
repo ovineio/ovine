@@ -66,6 +66,31 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .${ns}Button {
+      &--blank {
+        color: var(--text-color);
+        &:hover {
+          background-color: var(--Button--light-bg);
+        }
+        &.${ns}Button--iconOnly>i.fa{
+          font-size: var(--fontSizeBased);
+        }
+      }
+    }
+  
+    .cxd-Button--blank {
+      &:hover {
+        background-color: #d9d9d9;
+      }
+      &.cxd-Button--iconOnly {
+        line-height: 0.9rem;
+        &>i.fa {
+          font-size: 0.9rem;
+          line-height: 0.9rem;
+        }
+      }
+    }
+
     .cxd-Page-title {
       .cxd-Remark-icon {
         vertical-align: baseline;

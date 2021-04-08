@@ -25,14 +25,12 @@ const EDITOR_MODULE: IFeatureDefinition = {
 }
 
 const languagesById: { [language: string]: IFeatureDefinition } = {}
-languagesArr.forEach((language) => {
-  languagesById[language.label] = language
-})
+// eslint-disable-next-line
+languagesArr.forEach((language) => (languagesById[language.label] = language))
 
 const featuresById: { [feature: string]: IFeatureDefinition } = {}
-featuresArr.forEach((feature) => {
-  featuresById[feature.label] = feature
-})
+// eslint-disable-next-line
+featuresArr.forEach((feature) => (featuresById[feature.label] = feature))
 
 /**
  * Return a resolved path for a given Monaco file.
@@ -170,7 +168,7 @@ interface ILabeledWorkerDefinition {
 function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule[]): void {
   const compilerOptions = compiler.options
   if (!compilerOptions.module) {
-    compilerOptions.module = <any>{ rules }
+    compilerOptions.module = { rules }
   } else {
     const moduleOptions = compilerOptions.module
     moduleOptions.rules = (moduleOptions.rules || []).concat(rules)
@@ -233,7 +231,6 @@ function createLoaderRules(
   //   : `typeof __webpack_public_path__ === 'string' ` +
   //     `? __webpack_public_path__ ` +
   //     `: ${JSON.stringify(compilationPublicPath)}`
-
   // Fix dll path
   const pathPrefix = `window.${winConst.dllPath} || ${JSON.stringify(pluginPublicPath)}`
 

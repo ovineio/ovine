@@ -2913,10 +2913,8 @@
   dependencies:
     "@octokit/openapi-types" "^6.0.0"
 
-"@ovine/cli@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.npm.taobao.org/@ovine/cli/download/@ovine/cli-0.1.1.tgz#5a2c433d0a7a0dc5ef3ffb65fc03bcd3df27e479"
-  integrity sha1-WixDPQp6DcXvP/tl/AO8098n5Hk=
+"@ovine/cli@file:packages/cli":
+  version "0.1.2"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2948,7 +2946,7 @@
     import-fresh "^3.2.1"
     lodash "^4.17.15"
     mini-css-extract-plugin "^0.8.0"
-    monaco-editor-webpack-plugin "2.1.0"
+    monaco-editor-webpack-plugin "3.0.1"
     null-loader "^3.0.0"
     optimize-css-assets-webpack-plugin "^5.0.3"
     portfinder "^1.0.25"
@@ -2970,23 +2968,19 @@
     webpack-merge "^4.2.2"
     webpackbar "^4.0.0"
 
-"@ovine/core@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.npm.taobao.org/@ovine/core/download/@ovine/core-0.1.1.tgz#1f1dd737a902453d1e55864a9867c45205aec6ee"
-  integrity sha1-Hx3XN6kCRT0eVYZKmGfEUgWuxu4=
+"@ovine/core@file:packages/core":
+  version "0.1.2"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.1.4"
+    amis "1.1.5"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
     core-js "^3.6.4"
     proxy-polyfill "^0.3.0"
 
-"@ovine/editor@^0.1.0":
-  version "0.1.1"
-  resolved "https://registry.npm.taobao.org/@ovine/editor/download/@ovine/editor-0.1.1.tgz#738a322d6a8c307d320694ebcd6341c7b2958c27"
-  integrity sha1-c4oyLWqMMH0yBpTrzWNBx7KVjCc=
+"@ovine/editor@file:packages/editor":
+  version "0.1.2"
   dependencies:
     deep-diff "1.0.2"
     json-ast-comments "^1.0.4"
@@ -4258,10 +4252,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis@1.1.4:
-  version "1.1.4"
-  resolved "https://registry.npm.taobao.org/amis/download/amis-1.1.4.tgz#27261ba572ff926ad94a5ed7df94531f598b05d3"
-  integrity sha1-JyYbpXL/kmrZSl7X35RTH1mLBdM=
+amis@1.1.5:
+  version "1.1.5"
+  resolved "https://registry.npmjs.org/amis/-/amis-1.1.5.tgz#d0a14cb67b656b2bdc76cebdc455ff494f45b043"
+  integrity sha512-OVt24Gun3kBvACUtBlSTkT5kQSZ7HX4r0eVAK2hUlHJbrie4EHVVmX58UCodHPpUNbMFyl/ZNoZoqFGbyq31AQ==
   dependencies:
     ansi-to-react "^6.1.4"
     async "2.6.0"
@@ -4287,7 +4281,7 @@ amis@1.1.4:
     mobx-react "^6.1.4"
     mobx-state-tree "^3.7.0"
     moment "^2.19.3"
-    monaco-editor "0.21.2"
+    monaco-editor "0.23.0"
     papaparse "^5.3.0"
     prop-types "^15.6.1"
     qrcode.react "^0.8.0"
@@ -4308,7 +4302,7 @@ amis@1.1.4:
     setimmediate "1.0.5"
     sortablejs "1.10.0"
     tinymce "5.6.2"
-    tslib "^1.10.0"
+    tslib "^2.1.0"
     uncontrollable "7.0.2"
     video-react "0.14.1"
 
@@ -13428,17 +13422,19 @@ moment@^2.19.3:
   resolved "https://registry.npm.taobao.org/moment/download/moment-2.29.1.tgz?cache=0&sync_timestamp=1601983320283&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmoment%2Fdownload%2Fmoment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=
 
-monaco-editor-webpack-plugin@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npm.taobao.org/monaco-editor-webpack-plugin/download/monaco-editor-webpack-plugin-2.1.0.tgz?cache=0&sync_timestamp=1615198296876&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmonaco-editor-webpack-plugin%2Fdownload%2Fmonaco-editor-webpack-plugin-2.1.0.tgz#216bd35512a282beac7befd2fcdc5adb110403ff"
-  integrity sha1-IWvTVRKigr6se+/S/Nxa2xEEA/8=
+
+
+monaco-editor-webpack-plugin@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/monaco-editor-webpack-plugin/-/monaco-editor-webpack-plugin-3.0.1.tgz#b9bf93314eb2708907c232cfbf359622e7a6d98a"
+  integrity sha512-Hym4HqWgIpyoi9G0spln/b/7rkDKfYwIOrNzo1fHHMc+MLYSwD1JXHwKSDS77X27ZHfVJsEXbMZYdGhSYuVF0w==
   dependencies:
     loader-utils "^2.0.0"
 
-monaco-editor@0.21.2:
-  version "0.21.2"
-  resolved "https://registry.npm.taobao.org/monaco-editor/download/monaco-editor-0.21.2.tgz?cache=0&sync_timestamp=1614959318535&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmonaco-editor%2Fdownload%2Fmonaco-editor-0.21.2.tgz#37054e63e480d51a2dd17d609dcfb192304d5605"
-  integrity sha1-NwVOY+SA1Rot0X1gnc+xkjBNVgU=
+monaco-editor@0.23.0:
+  version "0.23.0"
+  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.23.0.tgz#24844ba5640c7adb3a2a3ff3b520cf2d7170a6f0"
+  integrity sha512-q+CP5zMR/aFiMTE9QlIavGyGicKnG2v/H8qVvybLzeFsARM8f6G9fL0sMST2tyVYCwDKkGamZUI6647A0jR/Lg==
 
 moo@^0.5.0:
   version "0.5.1"
@@ -18621,7 +18617,7 @@ tslib@1.10.0:
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.10.0.tgz?cache=0&sync_timestamp=1609887438976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha1-w8GflZc/sKYpc/sJ2Q2WHuQ+XIo=
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1609887438976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
@@ -18630,6 +18626,11 @@ tslib@^2.0.3:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/tslib/download/tslib-2.1.0.tgz?cache=0&sync_timestamp=1609887438976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha1-2mCGDxwuyqVwOrfTm8Bba/mIuXo=
+
+tslib@^2.1.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.2.0.tgz#fb2c475977e35e241311ede2693cee1ec6698f5c"
+  integrity sha512-gS9GVHRU+RGn5KQM2rllAlR3dU6m7AcpJKdtH8gFvQiC4Otgk98XnmMU+nZenHt/+VhnBPWwgrJsyrdcw6i23w==
 
 tsutils@^3.17.1:
   version "3.21.0"
