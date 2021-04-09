@@ -6,7 +6,17 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
+### 0.1.3 ---- 2021.4.09
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
+- 主要优化
+  - 升级 `amis` 到 `1.1.5` 版本
+  - 修复 字体文件 可能夹在不到的情况
+
 ### 0.1.2 ---- 2021.3.23
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
 
 - 主要功能
   - dll 文件支持 CDN 文件配置，多个项目同时使用 `ovine` 开发时，可共用 `DLL CDN` 文件，可减小 `dist` 目录 20M 大小。

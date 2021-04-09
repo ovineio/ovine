@@ -11,6 +11,9 @@
 @import '../layout/hbox';
 @import '../layout/vbox';
 @import '../components/button'; // 这个要放在最前面
+@import '../components/avatar';
+@import '../components/breadcrumb';
+@import '../components/badge';
 @import '../components/modal';
 @import '../components/drawer';
 @import '../components/tooltip';
@@ -47,6 +50,7 @@
 @import '../components/quick-edit';
 @import '../components/popoverable';
 @import '../components/progress';
+@import '../components/property';
 @import '../components/copyable';
 @import '../components/divider';
 @import '../components/pagination';
@@ -101,6 +105,7 @@
 @import '../components/form/nested-select';
 @import '../components/form/icon-picker';
 @import '../components/form/form';
+@import '../components/anchor-nav';
 // --- end
 
 // lib core -- start

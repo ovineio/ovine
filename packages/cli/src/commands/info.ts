@@ -37,6 +37,8 @@ function printVersionInfo(options: InfoOptions) {
     editor: `amis-editor: ${amisEditorVer}`,
   }
 
+  const requiredSameAsCliVerPkgs = ['core']
+
   fse.readdir(`${modulesDir}${getPkgName()}`).then((dirs) => {
     dirs.forEach((pkg) => {
       const pkgName = getPkgName(pkg as any)
@@ -45,7 +47,9 @@ function printVersionInfo(options: InfoOptions) {
 
       const remark = semver.eq(libVer, version)
         ? remarks[pkg] || '--'
-        : `"${pkg}" ver should same as "cli".`
+        : requiredSameAsCliVerPkgs.includes(pkg)
+        ? `"${pkg}" ver should same as "cli".`
+        : '--'
 
       verInfo[pkgName] = {
         version,
