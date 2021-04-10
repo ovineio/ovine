@@ -38,11 +38,6 @@ export const entry = [
     pathToComponent: true,
   },
   {
-    type: 'preset-route', // 路由组件
-    path: '/factory',
-    pathToComponent: '/prd/factory',
-  },
-  {
     type: 'private-route', // 鉴权路由
     path: `${prdPathPrefix}/`,
     redirect: `${prdPathPrefix}/login`,

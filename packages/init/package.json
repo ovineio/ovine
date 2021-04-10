@@ -14,7 +14,7 @@
     "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "author": "carey toboos",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "ovine-init": "bin/index.js"
   },

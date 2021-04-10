@@ -9,15 +9,13 @@ export const LoginPage = styled.div`
   }
   a {
     transition: 0.3s all ease;
+    color: #888;
+    text-decoration: underline;
     &:hover {
       text-decoration: none !important;
     }
   }
 
-  a {
-    color: #888;
-    text-decoration: underline;
-  }
   h2 {
     font-size: 20px;
   }

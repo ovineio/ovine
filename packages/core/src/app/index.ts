@@ -30,8 +30,7 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    // TODO 兼容动态 routePrefix
-    routePrefix: process.env.ROUTE_PREFIX || rootRoute,
+    routePrefix: rootRoute,
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,

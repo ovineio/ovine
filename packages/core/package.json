@@ -21,7 +21,7 @@
     "admin-template"
   ],
   "author": "carey toboos",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "tsc": "rimraf ./lib && ttsc",
     "dev": "ttsc -w",

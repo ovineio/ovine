@@ -50,7 +50,7 @@ function checkAppLimitStr(limitStr) {
 export async function onAuth() {
   // demo 项目用于统计的接口，可以自行删除
   app.request({
-    url: apis.pageStat.url,
+    ...apis.pageStat,
     data: { code: 100001 },
   })
   try {

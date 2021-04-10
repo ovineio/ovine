@@ -61,7 +61,6 @@ async function requestSuccessCtrl(this: Request, response: any, option: Types.Re
 // 模拟数据
 async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const { mockSource, api, method, url, mock = true, mockDelay = 200 } = option
-
   if (!this.isMock || !mock || !mockSource) {
     return 'none'
   }
@@ -512,6 +511,21 @@ export class Request<IS = {}, IP = {}> {
     const reqOption = await getReqOption.call(that, option)
     const { onFakeRequest } = option
 
+    // 命中缓存 直接返回
+    const cachedResponse = cacheSourceCtrl('get', reqOption)
+    if (cachedResponse) {
+      return {
+        data: cachedResponse,
+      }
+    }
+
+    // mock 数据拦截
+    const mockSource = await mockSourceCtrl.call(that, reqOption)
+    if (mockSource !== 'none') {
+      cacheSourceCtrl('set', reqOption, mockSource.data)
+      return mockSource
+    }
+
     // 兼容 cache 参数, 用于多请求并发情况
     if (reqOption.method === 'GET' && reqOption.cache && reqOption.cache > 0) {
       const apiObj: any = pick(reqOption, ['url', 'cache', 'method', 'data'])
@@ -540,21 +554,6 @@ export class Request<IS = {}, IP = {}> {
       const fakeResponse = await fakeSourceCtrl.call(that, reqOption)
       log.log('[fakeSource]', option.url, fakeResponse.data, reqOption)
       return fakeResponse
-    }
-
-    // 命中缓存 直接返回
-    const cachedResponse = cacheSourceCtrl('get', reqOption)
-    if (cachedResponse) {
-      return {
-        data: cachedResponse,
-      }
-    }
-
-    // mock 数据拦截
-    const mockSource = await mockSourceCtrl.call(that, reqOption)
-    if (mockSource !== 'none') {
-      cacheSourceCtrl('set', reqOption, mockSource.data)
-      return mockSource
     }
 
     const response = await fetchSourceCtrl.call(that, reqOption)
