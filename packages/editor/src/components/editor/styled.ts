@@ -14,6 +14,17 @@ const getThemeStyle = (ns: string) => {
       }
     }
 
+    .ae-Preview {
+      padding: 15px;
+
+      &::-webkit-scrollbar {
+        background: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        border: 2px solid #eaeaea;
+      }
+    }
+
     .ae-Settings-tabs {
       &.ae-LeftSettings-tabs {
         & > .${ns}Tabs-links {
@@ -125,18 +136,8 @@ export const GlobalEditorStyle = createGlobalStyle`
       background: transparent;
     }
 
-    .ae-Preview {
-      &::-webkit-scrollbar {
-        background: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        border: 2px solid #eaeaea;
-      }
-      padding: 15px;
-    }
   }
   
-
   .ae-Settings {
     box-shadow: none;
     .ae-Settings-tabs-content {

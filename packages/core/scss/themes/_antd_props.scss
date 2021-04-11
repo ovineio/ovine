@@ -71,6 +71,8 @@
   --ListItem-onChecked-bg: #{$blue-1};
   --ListItem--strip-bg: #fff;
 
+  --Nav-item-onActive-borderLeft: 0;
+
   --Modal-header-bg: #fff;
   --Modal-title-fontWeight: 500;
 
@@ -100,6 +102,8 @@
   --Form-select-search-height: #{px2rem(30px)};
   --Form-selectValue-color: var(--primary);
   --Form-select-onFocus-boxShadow: 0 0 0 3px rgb(24 144 255 / 8%);
+
+  --Page-aside-bg: #ffffff;
 
   --Pagination-onActive-backgroundColor: #fff;
   --Pagination-onActive-color: rgb(24, 144, 255);

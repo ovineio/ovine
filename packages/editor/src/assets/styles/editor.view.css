@@ -533,7 +533,63 @@
   color: #333;
 }
 
-/* ovine */
+.ae-ClassNamePicker-popover {
+  padding: 10px;
+  width: 610px;
+  max-height: 400px;
+  overflow: auto
+}
+
+.ae-ClassNamePicker-popover.ae-PopOver--leftBottomLeftTop {
+  margin-top: 1px
+}
+
+.ae-ClassNamePicker-popover.ae-PopOver--leftTopLeftBottom {
+  margin-top: -1px
+}
+
+.ae-ClassNameControl-group {
+  margin: 10px;
+  display: inline-block;
+  width: 265px
+}
+
+.ae-ClassNameControl-group.w2x {
+  width: 550px
+}
+
+.ae-ClassNameControl-group .ae-ClassNameControl-group {
+  padding-left: 65px;
+  margin: 0;
+  display: block;
+  width: auto
+}
+
+.ae-ClassNameControl-group .ae-ClassNameControl-group:not(:last-child) {
+  margin: 0 0 10px 0
+}
+
+.ae-ClassNameControl-group .ae-ClassNameControl-group .ae-ClassNameControl-groupLabel {
+  float: left;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 0;
+  text-align: right;
+  margin: 0 0 0 -60px;
+  font-size: 12px
+}
+
+.ae-ClassNameControl-group .ae-ButtonGroup+.ae-ButtonGroup {
+  margin-left: 5px
+}
+
+.ae-ClassNameControl-groupLabel {
+  border-bottom: .0625rem solid #dfe2e6;
+  display: block;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 14px
+}
 
 .ae-RendererList {
   padding: 10px 0 10px;

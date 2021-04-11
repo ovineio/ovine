@@ -15,4 +15,23 @@ export const StyledBody = styled.div`
 export const StyledPreview = styled.div`
   height: 100%;
   overflow: auto;
+
+  &.ae-Preview {
+    &.in-pc {
+      padding: 15px;
+    }
+    &.is-mobile {
+      height: calc(100% - 80px);
+      max-height: 812px;
+      background: #ebebeb;
+      & > .ae-Preview-inner {
+        position: relative;
+        margin: 18px 0;
+        padding: 0;
+        height: calc(100% - 36px);
+        min-height: unset;
+        background-color: #fff;
+      }
+    }
+  }
 `

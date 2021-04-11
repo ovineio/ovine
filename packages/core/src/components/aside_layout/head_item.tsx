@@ -2,10 +2,10 @@
  * App头部工具 ICON 按钮
  */
 
-import { Button } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
 import React, { cloneElement } from 'react'
 
+import { withAppTheme } from '@/app/theme'
 import { jumpTo, JumpToOption } from '@/routes/exports'
 
 import { Amis } from '../amis/schema'
@@ -25,8 +25,9 @@ type Props = Partial<RendererProps> & {
   itemProps: HeadItemProps
 }
 
-export default (props: Props) => {
-  const { itemProps, theme } = props
+export default withAppTheme<Props>((props) => {
+  const { itemProps, theme, classPrefix } = props
+  const ns = theme.ns || classPrefix
   const {
     className = '',
     icon,
@@ -52,12 +53,9 @@ export default (props: Props) => {
   }
 
   return (
-    <Button
-      iconOnly
-      theme={theme}
-      className={`no-shadow ${className}`}
+    <div
+      className={`${ns}Button ${className} ${ns}Button--blank ${ns}Button--iconOnly`}
       onClick={onItemClick}
-      level="blank"
     >
       {!icon && !faIcon ? null : (
         <i className={`${icon || `fa fa-${faIcon}`}`} data-position="bottom" data-tooltip={tip} />
@@ -67,6 +65,6 @@ export default (props: Props) => {
           ? children
           : cloneElement(children, { 'data-tooltip': tip, 'data-position': 'bottom' }))}
       {body && <Amis schema={body} />}
-    </Button>
+    </div>
   )
-}
+})

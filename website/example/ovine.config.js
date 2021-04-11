@@ -8,10 +8,10 @@
 // const path = require('path')
 
 module.exports = (option) => {
-  const { env, port } = option
+  const { env } = option
 
   const publicPathMap = {
-    localhost: `http://localhost:${port}/demo/`,
+    localhost: '/demo/',
     staging: 'https://ovine.igroupes.com/demo/',
     production: 'https://cdn-igroupes.com/ovine/',
   }

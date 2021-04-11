@@ -188,10 +188,16 @@ export function getPkgName(pkg?: PkgName) {
   return `@${libName}/${pkg || ''}`
 }
 
-export function getPkgLatestVer() {
-  const latestVer = execSync(`npm view ${getPkgName('cli')} version`)
-    .toString()
-    .replace('\n', '')
+export function getPkgLatestVer(): string {
+  let latestVer = libVer
+
+  try {
+    latestVer = execSync(`npm view ${getPkgName('cli')} version`)
+      .toString()
+      .replace('\n', '')
+  } catch (err) {
+    //
+  }
 
   return latestVer
 }

@@ -24,6 +24,9 @@ export default inject('store')(
   observer((props) => {
     const { isPreview, option, isMobile } = props.store
     const previewProps = pick(option, ['data'])
+    const renderProps: any = {
+      affixOffsetTop: isMobile ? 125 : 53,
+    }
 
     // TODO: 使用 iframe 模拟 浏览 移动端效果
     return (
@@ -33,7 +36,9 @@ export default inject('store')(
         <S.StyledBody>
           {isPreview && (
             <S.StyledPreview className={`ae-Preview ${isMobile ? 'is-mobile' : 'in-pc'}`}>
-              <Amis schema={editorStore.schema as any} />
+              <div className="ae-Preview-inner">
+                <Amis schema={editorStore.schema as any} props={renderProps} />
+              </div>
             </S.StyledPreview>
           )}
           <Editor editorStore={editorStore} />

@@ -214,7 +214,7 @@ export default (props: Props) => {
 
   return (
     <>
-      <HeadItem theme={theme} itemProps={cofItemProps} />
+      <HeadItem itemProps={cofItemProps} />
       <Amis schema={schema} />
     </>
   )

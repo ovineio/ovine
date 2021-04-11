@@ -69,6 +69,7 @@ const GlobalStyle = createGlobalStyle`
     .${ns}Button {
       &--blank {
         color: var(--text-color);
+        height: auto;
         &:hover {
           background-color: var(--Button--light-bg);
         }

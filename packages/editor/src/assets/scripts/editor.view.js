@@ -1,10 +1,9 @@
 /* eslint-disable */
 
-// ovine 切换文档地址
 ;!function(e, t) {
     for (var a in t) e[a] = t[a]
-  } (exports,
-  function(e) {
+} (exports,
+function(e) {
     var t = {};
     function a(n) {
         if (t[n]) return t[n].exports;
@@ -63,10 +62,10 @@
     },
     a.p = "",
     a(a.s = 46)
-  } ([function(e, t) {
+} ([function(e, t) {
     e.exports = require("tslib")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -84,7 +83,7 @@
     p = a(5),
     m = n.__importDefault(a(54)),
     f = a(38),
-    h = n.__importDefault(a(13)),
+    h = n.__importDefault(a(11)),
     g = a(55),
     b = [];
     t.registerEditorPlugin = function(e) {
@@ -669,8 +668,8 @@
         e
     } ();
     t.EditorManager = v
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -808,8 +807,8 @@
         e
     } ();
     t.BasePlugin = r
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -1499,11 +1498,12 @@
                         description: "默认数据都是追加方式，开启这个后是完全替换"
                     },
                     {
+                        // ovine
                         title: "自定义适配器",
                         type: "fieldSet",
                         className: "m-b-none",
                         size: "sm",
-                        collapsable: !0, // ovine
+                        collapsable: !0,
                         collapsedOn: "!this.onPreRequest && !this.onSuccess && !this.onFakeRequest",
                         controls: [{
                           name: "onPreRequest",
@@ -2330,14 +2330,14 @@
         }
     },
     t.defaultValue = m
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("react")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("amis")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -2700,29 +2700,26 @@
             } (t, e, a)
         }), e) : e
     }
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("mobx-react")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("classnames")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("mobx-state-tree")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("lodash/find")
-  },
-  function(e, t) {
-    e.exports = require("react-dom")
-  },
-  function(e, t) {
-    e.exports = require("amis/lib/utils/helper")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("lodash/findIndex")
-  },
-  function(e, t, a) {
+},
+function(e, t) {
+    e.exports = require("react-dom")
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -2731,7 +2728,7 @@
     var n = a(0),
     l = a(9),
     i = n.__importDefault(a(4)),
-    r = a(11),
+    r = a(12),
     o = a(17),
     s = function(e) {
         function t() {
@@ -2781,10 +2778,13 @@
         t.contextType = o.EditorNodeContext,
         t
     } (i.
-  default.Component);
+default.Component);
     t.RegionWrapper = s
-  },
-  function(e, t, a) {
+},
+function(e, t) {
+    e.exports = require("amis/lib/utils/helper")
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -2793,7 +2793,7 @@
     var n = a(0),
     l = a(9),
     i = n.__importDefault(a(4)),
-    r = a(11),
+    r = a(12),
     o = a(17),
     s = function(e) {
         function t() {
@@ -2844,10 +2844,10 @@
         t.contextType = o.EditorNodeContext,
         t
     } (i.
-  default.Component);
+default.Component);
     t.VRenderer = s
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -2860,15 +2860,15 @@
     o = a(35),
     s = n.__importDefault(a(8)),
     d = n.__importDefault(a(51)),
-    c = a(14),
+    c = a(13),
     u = n.__importDefault(a(10)),
     p = a(36),
     m = a(7),
     f = a(17),
     h = n.__importDefault(a(18)),
-    g = a(11),
+    g = a(12),
     b = a(6),
-    v = a(12);
+    v = a(14);
     function y(e) {
         var t, a = e.controls,
         i = e.definitions,
@@ -3214,8 +3214,8 @@
         g.unmountComponentAtNode(S),
         S.innerHTML = ""
     }
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -3226,7 +3226,7 @@
     i = a(6),
     r = a(5),
     o = n.__importDefault(a(4)),
-    s = a(13);
+    s = a(11);
     t.EditorNode = l.types.model("EditorNode", {
         parentId: "",
         parentRegion: "",
@@ -3525,12 +3525,12 @@
         }
     })),
     t.EditorNodeContext = o.
-  default.createContext(null)
-  },
-  function(e, t) {
+default.createContext(null)
+},
+function(e, t) {
     e.exports = require("lodash/flatten")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -3564,168 +3564,169 @@
                 label: "按钮"
             },
             t.panelTitle = "按钮",
+            // ovine
             t.panelControlsCreator = function(e) {
-              /(?:\/|^)dialog\/.+$/.test(e.path);
-              var t = /(?:\/|^)dropdown-button\/.+$/.test(e.path);
-              return [r.getSchemaTpl("tabs", [{
-                  title: "常规",
-                  controls: [{
-                      label: "名称",
-                      type: "text",
-                      name: "label"
-                  },
-                  {
-                      label: "类型",
-                      type: "button-group",
-                      name: "type",
-                      size: "sm",
-                      options: [{
-                          label: "按钮",
-                          value: "button"
-                      },
-                      {
-                          label: "提交",
-                          value: "submit"
-                      },
-                      {
-                          label: "重置",
-                          value: "reset"
-                      }]
-                  },
-                  {
-                      type: "text",
-                      name: "tooltip",
-                      hidden: t,
-                      label: "提示文案",
-                      description: "鼠标停留时弹出该内容"
-                  },
-                  {
-                      type: "button-group",
-                      name: "tooltipPlacement",
-                      visibleOn: "data.tooltip || data.disabledTip",
-                      label: "提示信息位置",
-                      size: "sm",
-                      mode: "inline",
-                      className: "w-full",
-                      value: "bottom",
-                      options: [{
-                          label: "上",
-                          value: "top"
-                      },
-                      {
-                          label: "右",
-                          value: "right"
-                      },
-                      {
-                          label: "下",
-                          value: "bottom"
-                      },
-                      {
-                          label: "左",
-                          value: "left"
-                      }]
-                  },
-                  r.getSchemaTpl("icon"), {
-                      type: "button-group",
-                      label: "图标位置",
-                      clearable: !0,
-                      visibleOn: "this.icon",
-                      name: "iconClassName",
-                      size: "sm",
-                      pipeIn: function(e) {
-                          return "string" == typeof e && /\bpull\-(left|right)\b/.test(e) ? RegExp.$1: ""
-                      },
-                      pipeOut: function(e, t) {
-                          return (t || "").replace(/\bpull\-(left|right)\b/, "").trim() + e ? "pull-" + e: ""
-                      },
-                      options: [{
-                          label: "居左",
-                          value: "left"
-                      },
-                      {
-                          label: "居右",
-                          value: "right"
-                      }]
-                  },
-                  r.getSchemaTpl("size", {
-                      label: "尺寸"
-                  }), {
-                      label: "样式",
-                      type: "select",
-                      name: "level",
-                      hidden: t,
-                      clearable: !1,
-                      btnActiveLevel: "",
-                      options: [{
-                          label: "默认",
-                          value: "default",
-                          level: "default"
-                      },
-                      {
-                          label: "链接",
-                          value: "link",
-                          level: "link"
-                      },
-                      {
-                          label: "主色",
-                          value: "primary",
-                          level: "primary"
-                      },
-                      {
-                          label: "淡色",
-                          value: "light",
-                          level: "light"
-                      },
-                      {
-                          label: "深色",
-                          value: "dark",
-                          level: "dark"
-                      },
-                      {
-                          label: "提示",
-                          value: "info",
-                          level: "info"
-                      },
-                      {
-                          label: "成功",
-                          value: "success",
-                          level: "success"
-                      },
-                      {
-                          label: "警告",
-                          value: "warning",
-                          level: "warning"
-                      },
-                      {
-                          label: "严重",
-                          value: "danger",
-                          level: "danger"
-                      }]
-                  },
-                  {
-                      name: "block",
-                      type: "switch",
-                      label: "块状显示",
-                      mode: "inline"
-                  },
-                  r.getSchemaTpl("className", {
-                      label: "按钮 CSS 类名"
-                  }), r.getSchemaTpl("className", {
-                      name: "iconClassName",
-                      label: "图标 CSS 类名",
-                      visibleOn: "this.icon"
-                  })]
-              },
-              {
-                  title: "其他",
-                  controls: [r.getSchemaTpl("disabled", [{
-                      type: "text",
-                      name: "disabledTip",
-                      label: "禁用提示信息",
-                      hidden: t,
-                      description: "按钮被禁用时，鼠标停留弹出该段文字"
-                  }]), r.getSchemaTpl("visible")]
-              }])]
+                /(?:\/|^)dialog\/.+$/.test(e.path);
+                var t = /(?:\/|^)dropdown-button\/.+$/.test(e.path);
+                return [r.getSchemaTpl("tabs", [{
+                    title: "常规",
+                    controls: [{
+                        label: "名称",
+                        type: "text",
+                        name: "label"
+                    },
+                    {
+                        label: "类型",
+                        type: "button-group",
+                        name: "type",
+                        size: "sm",
+                        options: [{
+                            label: "按钮",
+                            value: "button"
+                        },
+                        {
+                            label: "提交",
+                            value: "submit"
+                        },
+                        {
+                            label: "重置",
+                            value: "reset"
+                        }]
+                    },
+                    {
+                        type: "text",
+                        name: "tooltip",
+                        hidden: t,
+                        label: "提示文案",
+                        description: "鼠标停留时弹出该内容"
+                    },
+                    {
+                        type: "button-group",
+                        name: "tooltipPlacement",
+                        visibleOn: "data.tooltip || data.disabledTip",
+                        label: "提示信息位置",
+                        size: "sm",
+                        mode: "inline",
+                        className: "w-full",
+                        value: "bottom",
+                        options: [{
+                            label: "上",
+                            value: "top"
+                        },
+                        {
+                            label: "右",
+                            value: "right"
+                        },
+                        {
+                            label: "下",
+                            value: "bottom"
+                        },
+                        {
+                            label: "左",
+                            value: "left"
+                        }]
+                    },
+                    r.getSchemaTpl("icon"), {
+                        type: "button-group",
+                        label: "图标位置",
+                        clearable: !0,
+                        visibleOn: "this.icon",
+                        name: "iconClassName",
+                        size: "sm",
+                        pipeIn: function(e) {
+                            return "string" == typeof e && /\bpull\-(left|right)\b/.test(e) ? RegExp.$1: ""
+                        },
+                        pipeOut: function(e, t) {
+                            return (t || "").replace(/\bpull\-(left|right)\b/, "").trim() + e ? "pull-" + e: ""
+                        },
+                        options: [{
+                            label: "居左",
+                            value: "left"
+                        },
+                        {
+                            label: "居右",
+                            value: "right"
+                        }]
+                    },
+                    r.getSchemaTpl("size", {
+                        label: "尺寸"
+                    }), {
+                        label: "样式",
+                        type: "select",
+                        name: "level",
+                        hidden: t,
+                        clearable: !1,
+                        btnActiveLevel: "",
+                        options: [{
+                            label: "默认",
+                            value: "default",
+                            level: "default"
+                        },
+                        {
+                            label: "链接",
+                            value: "link",
+                            level: "link"
+                        },
+                        {
+                            label: "主色",
+                            value: "primary",
+                            level: "primary"
+                        },
+                        {
+                            label: "淡色",
+                            value: "light",
+                            level: "light"
+                        },
+                        {
+                            label: "深色",
+                            value: "dark",
+                            level: "dark"
+                        },
+                        {
+                            label: "提示",
+                            value: "info",
+                            level: "info"
+                        },
+                        {
+                            label: "成功",
+                            value: "success",
+                            level: "success"
+                        },
+                        {
+                            label: "警告",
+                            value: "warning",
+                            level: "warning"
+                        },
+                        {
+                            label: "严重",
+                            value: "danger",
+                            level: "danger"
+                        }]
+                    },
+                    {
+                        name: "block",
+                        type: "switch",
+                        label: "块状显示",
+                        mode: "inline"
+                    },
+                    r.getSchemaTpl("className", {
+                        label: "按钮 CSS 类名"
+                    }), r.getSchemaTpl("className", {
+                        name: "iconClassName",
+                        label: "图标 CSS 类名",
+                        visibleOn: "this.icon"
+                    })]
+                },
+                {
+                    title: "其他",
+                    controls: [r.getSchemaTpl("disabled", [{
+                        type: "text",
+                        name: "disabledTip",
+                        label: "禁用提示信息",
+                        hidden: t,
+                        description: "按钮被禁用时，鼠标停留弹出该段文字"
+                    }]), r.getSchemaTpl("visible")]
+                }])]
             },
             t
         }
@@ -3753,8 +3754,8 @@
     } (i.BasePlugin);
     t.ButtonPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -3866,7 +3867,7 @@
             },
             {
                 name: "autoComplete",
-                label: "自动填充",
+                label: "自动补全",
                 mode: "inline",
                 className: "w-full",
                 type: "switch",
@@ -3884,7 +3885,7 @@
                 visibleOn: "data.autoComplete !== false"
             }), r.getSchemaTpl("api", {
                 name: "autoComplete",
-                label: "自动完成接口",
+                label: "自动补全接口",
                 description: "每次输入新内容后，将调用接口，根据接口返回更新选项。当前用户输入值在 `\\${term}` 中。",
                 visibleOn: "data.autoComplete !== false"
             }), r.getSchemaTpl("multiple", {
@@ -3902,8 +3903,8 @@
     } (i.BasePlugin);
     t.TextControlPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4035,7 +4036,7 @@
             }))), t ? null: l.
         default.createElement(c.Panels, {
                 store: this.store,
-                manager: this.manager,
+                manager: this.manager
             })), l.
         default.createElement(p.SubEditor, {
                 store: this.store,
@@ -4055,15 +4056,15 @@
         t
     } (l.Component);
     t.
-  default = g
-  },
-  function(e, t) {
+default = g
+},
+function(e, t) {
     e.exports = require("mobx")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("amis/lib/factory")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4074,7 +4075,7 @@
     r = a(6),
     o = n.__importDefault(a(8)),
     s = a(37),
-    d = a(13),
+    d = a(11),
     c = a(38),
     u = /^\/schemas\/(.*).json$/;
     var p = function(e) {
@@ -4234,11 +4235,11 @@
         },
         t
     } (l.
-  default.Component);
+default.Component);
     t.
-  default = p
-  },
-  function(e, t, a) {
+default = p
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4275,8 +4276,8 @@
     } (a(19).ButtonPlugin);
     t.ButtonControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4288,8 +4289,8 @@
     default().format("X"):
         "image" === e.type || "static-image" === e.type ? "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80": "images" === e.type || "static-images" === e.type ? ["https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"] : "假数据"
     }
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4415,11 +4416,11 @@
     } (a(2).BasePlugin);
     t.DateControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("amis/lib/renderers/Form/Editor")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4487,8 +4488,8 @@
     } (i.BasePlugin);
     t.DatePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4500,13 +4501,13 @@
     o = a(6),
     s = a(23),
     d = a(7),
-    c = a(11),
+    c = a(12),
     u = n.__importDefault(a(50)),
     p = n.__importDefault(a(32)),
     m = a(33),
     f = n.__importDefault(a(34)),
     h = a(9),
-    g = a(12),
+    g = a(14),
     b = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -4727,7 +4728,7 @@
         t = n.__decorate([d.observer], t)
     } (i.Component);
     t.
-  default = b;
+default = b;
     var v = function(e) {
         function t() {
             return null !== e && e.apply(this, arguments) || this
@@ -4760,12 +4761,12 @@
         },
         t = n.__decorate([d.observer], t)
     } (i.
-  default.Component)
-  },
-  function(e, t) {
+default.Component)
+},
+function(e, t) {
     e.exports = require("lodash/isPlainObject")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4877,11 +4878,11 @@
         n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], a.prototype, "handleMouseLeave", null),
         a = n.__decorate([r.observer, n.__metadata("design:paramtypes", [Object])], a)
     } (l.
-  default.Component);
+default.Component);
     t.
-  default = s
-  },
-  function(e, t, a) {
+default = s
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4903,10 +4904,10 @@
         },
         t
     } (l.
-  default.Component);
+default.Component);
     t.ErrorRenderer = i
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -4916,7 +4917,7 @@
     l = a(7),
     i = a(9),
     r = n.__importDefault(a(4)),
-    o = a(11),
+    o = a(12),
     s = a(1),
     d = a(6),
     c = n.__importDefault(a(40)),
@@ -4974,9 +4975,9 @@
         n.__decorate([d.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "iframeRef", null),
         t = n.__decorate([l.observer, n.__metadata("design:paramtypes", [Object])], t)
     } (r.
-  default.PureComponent);
+default.PureComponent);
     t.
-  default = u;
+default = u;
     var p = function(e) {
         function t(t) {
             var a = e.call(this, t) || this;
@@ -5021,7 +5022,7 @@
         },
         t
     } (r.
-  default.Component);
+default.Component);
     t.mountInIframe = function(e, t, a) {
         if (!location.hash || parent === window) throw new Error("只能在 Iframe 里面调用");
         var n = location.hash.substring(1);
@@ -5034,8 +5035,8 @@
             o.unmountComponentAtNode(e)
         }
     }
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5044,7 +5045,7 @@
     var n = a(0),
     l = a(9),
     i = n.__importDefault(a(4)),
-    r = a(11),
+    r = a(12),
     o = a(6),
     s = function(e) {
         function t() {
@@ -5100,10 +5101,10 @@
         n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "refFn", null),
         t
     } (i.
-  default.Component);
+default.Component);
     t.NodeWrapper = s
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5115,7 +5116,7 @@
     r = a(7),
     o = a(6),
     s = n.__importDefault(a(10)),
-    d = a(14),
+    d = a(13),
     c = function(e) {
         function t() {
             return null !== e && e.apply(this, arguments) || this
@@ -5189,16 +5190,16 @@
         n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [String, Object, Object]), n.__metadata("design:returntype", void 0)], t.prototype, "renderChild", null),
         t = n.__decorate([r.observer], t)
     } (i.
-  default.Component);
+default.Component);
     t.ContainerWrapper = c
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("lodash/debounce")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("json-ast-comments")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5206,7 +5207,7 @@
     t.DefaultDNDMode = void 0;
     var n = a(0),
     l = a(5),
-    i = n.__importDefault(a(13)),
+    i = n.__importDefault(a(11)),
     r = a(16),
     o = function() {
         function e(e, t) {
@@ -5277,8 +5278,8 @@
         e
     } ();
     t.DefaultDNDMode = o
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5289,9 +5290,9 @@
     r = a(6),
     o = a(33),
     s = n.__importDefault(a(8)),
-    d = a(11),
+    d = a(12),
     c = a(9),
-    u = a(12),
+    u = a(14),
     p = function(e) {
         function t() {
             var t, a, l = e.apply(this, arguments) || this;
@@ -5455,11 +5456,11 @@
         n.__decorate([r.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [String, Object, Object]), n.__metadata("design:returntype", void 0)], t.prototype, "rendererResolver", null),
         t
     } (l.
-  default.Component);
+default.Component);
     t.
-  default = p
-  },
-  function(e, t, a) {
+default = p
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5624,10 +5625,10 @@
         n.__decorate([s.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleBuildPanels", null),
         t = n.__decorate([r.observer], t)
     } (l.
-  default.Component);
+default.Component);
     t.SubEditor = d
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5638,7 +5639,7 @@
     i = a(5),
     r = a(7),
     o = a(6),
-    s = a(12),
+    s = a(14),
     d = function(e) {
         function t() {
             return null !== e && e.apply(this, arguments) || this
@@ -5708,10 +5709,10 @@
         n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleConfirm", null),
         t = n.__decorate([r.observer], t)
     } (l.
-  default.Component);
+default.Component);
     t.ScaffoldModal = d
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -5724,8 +5725,8 @@
     o = a(3),
     s = a(16),
     d = a(15),
-    c = n.__importDefault(a(13)),
-    u = a(14),
+    c = n.__importDefault(a(11)),
+    u = a(13),
     p = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -5814,7 +5815,7 @@
                     }]
                 },
                 o.getSchemaTpl("className"), o.getSchemaTpl("className", {
-                    name: "tabClassName",
+                    name: "contentClassName",
                     label: "选项卡成员 CSS 类名"
                 })]
             }), o.getSchemaTpl("fieldSet", {
@@ -6000,313 +6001,213 @@
     } (r.BasePlugin);
     t.TabsPlugin = p,
     i.registerEditorPlugin(p)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
     }),
-    t.TablePlugin = void 0;
+    t.AnchorNavPlugin = void 0;
     var n = a(0),
-    l = a(5),
+    l = n.__importDefault(a(4)),
     i = a(1),
     r = a(2),
     o = a(3),
-    s = a(6),
-    d = a(12),
-    c = a(26),
-    u = function(e) {
+    s = a(16),
+    d = a(15),
+    c = n.__importDefault(a(11)),
+    u = a(13),
+    p = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
-            return t.rendererName = "table",
-            t.$schema = "/schemas/TableSchema.json",
-            t.name = "表格",
-            t.description = "用来展示表格数据，可以配置列信息，然后关联数据便能完成展示。支持嵌套、超级表头、列固定、表头固顶、合并单元格等等。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。",
-            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/table",
-            t.icon = "fa fa-table",
+            return t.rendererName = "anchor-nav",
+            t.$schema = "/schemas/AnchorNavSchema.json",
+            t.name = "锚点导航",
+            t.description = "锚点导航，在多行内容展示时，可以将内容用锚点导航分组的形式展示，点击导航菜单可以定位到对应内容区域。",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/anchor-nav",
+            t.tags = ["容器"],
+            t.icon = "fa fa-link",
             t.scaffold = {
-                type: "table",
-                columns: [{
-                    label: "列信息",
-                    name: "a"
-                }]
-            },
-            t.regions = [{
-                key: "columns",
-                label: "列集合",
-                renderMethod: "renderTableContent",
-                preferTag: "展示",
-                dndMode: "position-h"
-            }],
-            t.previewSchema = {
-                type: "table",
-                className: "text-left m-b-none",
-                affixHeader: !1,
-                items: [{
-                    a: 1,
-                    b: 2
+                type: "anchor-nav",
+                links: [{
+                    title: "用户信息",
+                    body: "用户信息"
                 },
                 {
-                    a: 3,
-                    b: 4
-                },
-                {
-                    a: 5,
-                    b: 6
-                }],
-                columns: [{
-                    label: "A",
-                    name: "a"
-                },
-                {
-                    label: "B",
-                    name: "b"
-                }]
-            },
-            t.scaffoldForm = {
-                title: "快速构建表格",
-                controls: [{
-                    name: "columns",
-                    type: "combo",
-                    multiple: !0,
-                    label: !1,
-                    addButtonText: "新增一列",
-                    draggable: !0,
-                    controls: [{
-                        type: "text",
-                        name: "label",
-                        placeholder: "标题"
-                    },
-                    {
-                        type: "text",
-                        name: "name",
-                        placeholder: "绑定字段名"
-                    },
-                    {
-                        type: "select",
-                        name: "type",
-                        placeholder: "类型",
-                        value: "text",
-                        options: [{
-                            value: "text",
-                            label: "纯文本"
-                        },
-                        {
-                            value: "tpl",
-                            label: "模板"
-                        },
-                        {
-                            value: "image",
-                            label: "图片"
-                        },
-                        {
-                            value: "date",
-                            label: "日期"
-                        },
-                        {
-                            value: "progress",
-                            label: "进度"
-                        },
-                        {
-                            value: "status",
-                            label: "状态"
-                        },
-                        {
-                            value: "mapping",
-                            label: "映射"
-                        },
-                        {
-                            value: "operation",
-                            label: "操作栏"
+                    title: "系统配置信息",
+                    body: [{
+                        type: "form",
+                        controls: [{
+                            type: "fieldSet",
+                            title: "系统配置信息",
+                            controls: [{
+                                type: "email",
+                                name: "email",
+                                placeholder: "请输入邮箱地址",
+                                label: "邮箱"
+                            }]
                         }]
                     }]
-                }],
-                canRebuild: !0
+                },
+                {
+                    title: "权限管理",
+                    body: [{
+                        type: "form",
+                        controls: [{
+                            type: "fieldSet",
+                            title: "权限管理",
+                            controls: [{
+                                type: "email",
+                                name: "email",
+                                placeholder: "请输入邮箱地址",
+                                label: "邮箱"
+                            }]
+                        }]
+                    }]
+                },
+                {
+                    title: "角色管理",
+                    body: "角色管理"
+                },
+                {
+                    title: "网络配置信息",
+                    body: "网络配置信息"
+                }]
             },
-            t.panelTitle = "表格",
-            t.panelControlsCreator = function(e) {
-                var t = "crud" === e.schema.type;
-                return o.getSchemaTpl("tabs", [{
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.panelTitle = "锚点导航",
+            t.panelControls = [o.getSchemaTpl("fieldSet", {
+                title: "常规",
+                controls: [{
+                    name: "links",
+                    type: "combo",
+                    label: "锚点管理",
+                    multiple: !0,
+                    draggable: !0,
+                    minLength: 1,
+                    controls: [{
+                        type: "text",
+                        name: "title",
+                        required: !0
+                    }],
+                    scaffold: {
+                        title: "锚点内容",
+                        body: {
+                            type: "tpl",
+                            tpl: "内容",
+                            inline: !1
+                        }
+                    },
+                    addButtonText: "新增锚点",
+                    draggableTip: ""
+                }]
+            }), o.getSchemaTpl("fieldSet", {
+                title: "外观",
+                controls: [o.getSchemaTpl("className"), o.getSchemaTpl("className", {
+                    name: "linkClassName",
+                    label: "导航 CSS 类名"
+                }), o.getSchemaTpl("className", {
+                    name: "sectionClassName",
+                    label: "区域内容 CSS 类名"
+                })]
+            })],
+            t.patchContainers = ["anchor-nav.body"],
+            t.vRendererConfig = {
+                regions: {
+                    body: {
+                        key: "body",
+                        label: "内容区"
+                    }
+                },
+                panelTitle: "内容区域",
+                panelControls: [o.getSchemaTpl("fieldSet", {
                     title: "常规",
                     controls: [{
                         name: "title",
+                        label: "标题",
                         type: "text",
-                        label: "标题"
-                    },
-                    t ? null: {
-                        name: "source",
-                        type: "text",
-                        label: "数据源",
-                        pipeIn: o.defaultValue("${items}"),
-                        description: "绑定当前环境变量"
-                    },
-                    {
-                        name: "combineNum",
-                        label: "自动合并单元格",
-                        type: "number",
-                        placeholder: "设置列数",
-                        description: "设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。"
+                        required: !0
                     }]
-                },
-                {
+                }), o.getSchemaTpl("fieldSet", {
                     title: "外观",
-                    controls: [{
-                        name: "columnsTogglable",
-                        label: "展示列显示开关",
-                        type: "button-group",
-                        pipeIn: o.defaultValue("auto"),
-                        mode: "inline",
-                        className: "w-full",
-                        size: "xs",
-                        options: [{
-                            label: "自动",
-                            value: "auto"
-                        },
-                        {
-                            label: "开启",
-                            value: !0
-                        },
-                        {
-                            label: "关闭",
-                            value: !1
-                        }],
-                        description: "自动即列数量大于5个时自动开启"
-                    },
-                    {
-                        name: "affixHeader",
-                        type: "switch",
-                        label: "是否固顶表头",
-                        mode: "inline",
-                        className: "w-full",
-                        pipeIn: o.defaultValue(!0)
-                    },
-                    {
-                        name: "showHeader",
-                        type: "switch",
-                        mode: "inline",
-                        className: "w-full",
-                        label: "是否显示头部",
-                        pipeIn: o.defaultValue(!0)
-                    },
-                    {
-                        name: "showFooter",
-                        type: "switch",
-                        mode: "inline",
-                        className: "w-full",
-                        label: "是否显示底部",
-                        pipeIn: o.defaultValue(!0)
-                    },
-                    {
-                        name: "footable",
-                        type: "switch",
-                        mode: "inline",
-                        className: "w-full",
-                        label: "是否开启单条底部展示",
-                        description: "如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示",
-                        pipeIn: function(e) {
-                            return !! e
-                        }
-                    },
-                    {
-                        name: "footable.expand",
-                        type: "button-group",
-                        size: "xs",
-                        visibleOn: "data.footable",
-                        label: "底部默认展开",
-                        pipeIn: o.defaultValue("none"),
-                        mode: "inline",
-                        className: "w-full",
-                        options: [{
-                            label: "第一条",
-                            value: "first"
-                        },
-                        {
-                            label: "所有",
-                            value: "all"
-                        },
-                        {
-                            label: "不展开",
-                            value: "none"
-                        }]
-                    },
-                    {
-                        name: "placeholder",
-                        pipeIn: o.defaultValue("暂无数据"),
-                        type: "text",
-                        label: "无数据提示"
-                    },
-                    o.getSchemaTpl("className", {
-                        label: "外层 CSS 类名"
-                    }), o.getSchemaTpl("className", {
-                        name: "tableClassName",
-                        label: "表格 CSS 类名"
-                    }), o.getSchemaTpl("className", {
-                        name: "headerClassName",
-                        label: "顶部外层 CSS 类名"
-                    }), o.getSchemaTpl("className", {
-                        name: "footerClassName",
-                        label: "底部外层 CSS 类名"
-                    }), o.getSchemaTpl("className", {
-                        name: "toolbarClassName",
-                        label: "工具栏 CSS 类名"
-                    })]
-                },
-                {
-                    title: "其他",
-                    controls: [o.getSchemaTpl("ref"), o.getSchemaTpl("visible")]
-                }])
+                    controls: [o.getSchemaTpl("className")]
+                })]
+            },
+            t.wrapperProps = {
+                unmountOnExit: !0,
+                mountOnEnter: !0
+            },
+            t.sectionWrapperResolve = function(e) {
+                return e.parentElement
+            },
+            t.overrides = {
+                render: function() {
+                    var e = this,
+                    t = this.super();
+                    if (!this.renderSection && this.props.$$editor && t) {
+                        var a = this.props.links;
+                        return s.mapReactElement(t, (function(t) {
+                            var n;
+                            if (~ (null === (n = t.type.displayName) || void 0 === n ? void 0 : n.indexOf("SectionComponent")) && t.props.$$id) {
+                                var i = t.props.$$id,
+                                r = c.
+                            default(a, (function(e) {
+                                    return e.$$id === i
+                                })),
+                                o = e.props.$$editor,
+                                s = o.plugin;
+                                if (~r) {
+                                    var p = s.vRendererConfig.regions.body;
+                                    return l.
+                                default.cloneElement(t, {
+                                        children: l.
+                                    default.createElement(d.VRenderer, {
+                                            key: i,
+                                            plugin: o.plugin,
+                                            renderer: o.renderer,
+                                            $schema: "/schemas/SectionSchema.json",
+                                            hostId: o.id,
+                                            memberIndex: r,
+                                            name: "" + (t.props.title || "锚点内容" + (r + 1)),
+                                            id: i,
+                                            draggable: !1,
+                                            wrapperResolve: s.sectionWrapperResolve,
+                                            schemaPath: o.schemaPath + "/anchor-nav/" + r,
+                                            path: e.props.$path + "/" + r,
+                                            data: e.props.data
+                                        },
+                                        l.
+                                    default.createElement(u.RegionWrapper, {
+                                            key: p.key,
+                                            preferTag: p.preferTag,
+                                            name: p.key,
+                                            label: p.label,
+                                            regionConfig: p,
+                                            editorStore: s.manager.store,
+                                            manager: s.manager,
+                                            children: t.props.children,
+                                            wrapperResolve: p.wrapperResolve,
+                                            rendererName: o.renderer.name
+                                        }))
+                                    })
+                                }
+                            }
+                            return t
+                        }))
+                    }
+                    return t
+                }
             },
             t
         }
         return n.__extends(t, e),
-        t.prototype.filterProps = function(e) {
-            var t = Array.isArray(e.value) ? e.value: "string" == typeof e.source ? l.resolveVariable(e.source, e.data) : l.resolveVariable("${items}", e.data);
-            if (Array.isArray(t) && t.length) e.value = t.slice(0, 10);
-            else {
-                var a = {};
-                Array.isArray(e.columns) && e.columns.forEach((function(e) {
-                    e.name && d.setVariable(a, e.name, c.mockValue(e))
-                })),
-                e.value = s.repeatArray(a, 1).map((function(e, t) {
-                    return n.__assign(n.__assign({},
-                    e), {
-                        id: t + 1
-                    })
-                }))
-            }
-            return e
-        },
-        t.prototype.getRendererInfo = function(t) {
-            var a, l = t.schema,
-            i = t.renderer;
-            return l.$$id || "crud" !== (null === (a = l.$$editor) || void 0 === a ? void 0 : a.renderer.name) || "table" !== i.name ? e.prototype.getRendererInfo.call(this, t) : n.__assign(n.__assign({},
-            {
-                id: l.$$editor.id
-            }), {
-                name: this.name,
-                regions: this.regions,
-                patchContainers: this.patchContainers,
-                vRendererConfig: this.vRendererConfig,
-                wrapperProps: this.wrapperProps,
-                wrapperResolve: this.wrapperResolve,
-                filterProps: this.filterProps,
-                $schema: this.$schema,
-                renderRenderer: this.renderRenderer
-            })
-        },
-        t.prototype.beforeInsert = function(e) {
-            var t, a, l, i, r = e.context;
-            r.info.plugin !== this && (null === (t = r.node.sameIdChild) || void 0 === t ? void 0 : t.info.plugin) !== this || "columns" !== r.region || (r.data = n.__assign(n.__assign({},
-            r.data), {
-                label: null !== (i = null !== (a = r.data.label) && void 0 !== a ? a: null === (l = r.subRenderer) || void 0 === l ? void 0 : l.name) && void 0 !== i ? i: "列名称"
-            }))
-        },
         t
     } (r.BasePlugin);
-    t.TablePlugin = u,
-    i.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
+    t.AnchorNavPlugin = p,
+    i.registerEditorPlugin(p)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -6503,13 +6404,13 @@
         },
         t
     } (l.
-  default.Component);
+default.Component);
     t.InlineModal = c
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     e.exports = a(47)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -6518,7 +6419,7 @@
     var n = a(0),
     l = n.__importDefault(a(21));
     t.Editor = l.
-  default,
+default,
     a(63),
     a(64),
     a(66),
@@ -6590,9 +6491,9 @@
     a(132),
     a(133),
     a(134),
-    a(19),
     a(135),
     a(136),
+    a(19),
     a(137),
     a(138),
     a(139),
@@ -6601,14 +6502,12 @@
     a(142),
     a(143),
     a(144),
-    a(29),
     a(145),
-    a(45),
     a(146),
-    a(147),
-    a(148),
     a(149),
+    a(29),
     a(150),
+    a(45),
     a(151),
     a(152),
     a(153),
@@ -6633,15 +6532,23 @@
     a(172),
     a(173),
     a(174),
-    a(44),
     a(175),
-    a(43),
     a(176),
     a(177),
     a(178),
     a(179),
     a(180),
-    a(181);
+    a(181),
+    a(182),
+    a(183),
+    a(43),
+    a(184),
+    a(185),
+    a(186),
+    a(44),
+    a(187),
+    a(188),
+    a(189);
     var i = n.__importStar(a(6));
     t.utils = i;
     var r = a(3);
@@ -6677,7 +6584,7 @@
             return s.BasePlugin
         }
     });
-    var d = a(182);
+    var d = a(190);
     Object.defineProperty(t, "BasicEditor", {
         enumerable: !0,
         get: function() {
@@ -6690,15 +6597,15 @@
             return d.RendererEditor
         }
     });
-    var c = n.__importDefault(a(183));
+    var c = n.__importDefault(a(191));
     t.MiniEditor = c.
-  default;
+default;
     var u = n.__importDefault(a(24));
     t.CodeEditor = u.
-  default;
+default;
     var p = n.__importDefault(a(40));
     t.IFrameEditor = p.
-  default;
+default;
     var m = a(34);
     Object.defineProperty(t, "mountInIframe", {
         enumerable: !0,
@@ -6706,14 +6613,14 @@
             return m.mountInIframe
         }
     })
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("lodash/isEqual")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("deep-diff")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -6845,14 +6752,14 @@
         },
         t = n.__decorate([r.observer], t)
     } (l.
-  default.Component);
+default.Component);
     t.
-  default = o
-  },
-  function(e, t) {
+default = o
+},
+function(e, t) {
     e.exports = require("lodash/groupBy")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -6862,18 +6769,18 @@
     l = a(5);
     // ovine
     t.env = {
-      updateLocation: function() {},
-      jumpTo: function() {}
+        updateLocation: function() {},
+        jumpTo: function() {},
     }
-  },
-  function(e, t) {
+},
+function(e, t) {
     // ovine
     // e.exports = require("axios")
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("copy-to-clipboard")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -7085,15 +6992,15 @@
         e
     } ();
     t.EditorDNDManager = s
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
     }),
     t.PositionHDNDMode = void 0;
     var n = a(0),
-    l = n.__importDefault(a(13)),
+    l = n.__importDefault(a(11)),
     i = function(e) {
         function t() {
             return null !== e && e.apply(this, arguments) || this
@@ -7138,15 +7045,15 @@
         t
     } (a(39).DefaultDNDMode);
     t.PositionHDNDMode = i
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
     }),
     t.EditorStore = void 0;
     var n = a(0),
-    l = a(12),
+    l = a(14),
     i = a(9),
     r = a(6),
     o = a(6),
@@ -7156,7 +7063,7 @@
     u = a(59),
     p = n.__importDefault(a(31)),
     m = a(17),
-    f = n.__importDefault(a(13));
+    f = n.__importDefault(a(11));
     t.EditorStore = i.types.model("EditorRoot", {
         isMobile: !1,
         root: i.types.optional(m.EditorNode, {
@@ -7206,8 +7113,8 @@
                 return r.filterSchemaForEditor(null !== (n = null === (a = (t = i.getEnv(e)).schemaFilter) || void 0 === a ? void 0 : a.call(t, e.schema)) && void 0 !== n ? n: e.schema)
             },
             get filteredSchemaForPreview() {
-                var t, a, n;
-                return null !== (n = null === (a = (t = i.getEnv(e)).schemaFilter) || void 0 === a ? void 0 : a.call(t, e.schema)) && void 0 !== n ? n: e.schema
+                var t, a, n, l = o.JSONPipeOut(e.schema);
+                return null !== (n = null === (a = (t = i.getEnv(e)).schemaFilter) || void 0 === a ? void 0 : a.call(t, l)) && void 0 !== n ? n: l
             },
             isHoved: function(t) {
                 return t && e.hoverId === t
@@ -7810,8 +7717,8 @@
             }
         }
     }))
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -7941,10 +7848,10 @@
         n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleDrop", null),
         t = n.__decorate([l.observer], t)
     } (i.
-  default.Component);
+default.Component);
     t.OutlinePanel = d
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -8118,10 +8025,10 @@
         n.__decorate([s.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], t.prototype, "handleCancel", null),
         t = n.__decorate([r.observer], t)
     } (o.
-  default.Component);
+default.Component);
     t.InsertSubRendererPanel = c
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -8218,10 +8125,10 @@
         },
         t
     } (i.
-  default.Component);
+default.Component);
     t.RendererThumb = o
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -8233,7 +8140,7 @@
     r = n.__importDefault(a(8)),
     o = a(5),
     s = a(6),
-    d = a(11),
+    d = a(12),
     c = n.__importDefault(a(10)),
     u = function(e) {
         function t() {
@@ -8350,10 +8257,10 @@
         n.__decorate([s.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "innerRef", null),
         t = n.__decorate([l.observer], t)
     } (i.
-  default.Component);
+default.Component);
     t.Panels = u
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -8426,11 +8333,11 @@
         n.__decorate([r.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleMouseEnter", null),
         t = n.__decorate([i.observer], t)
     } (l.
-  default.Component);
+default.Component);
     t.
-  default = o
-  },
-  function(e, t, a) {
+default = o
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -8439,7 +8346,7 @@
     var n = a(0),
     l = a(5),
     i = n.__importDefault(a(4)),
-    r = a(11),
+    r = a(12),
     o = [{
         label: "外边距",
         children: [{
@@ -9143,7 +9050,8 @@
             r = t.disabled,
             o = t.value,
             s = t.className,
-            d = t.popOverContainer;
+            d = t.name,
+            c = t.popOverContainer;
             return i.
         default.createElement("div", {
                 className: a(s, "TextControl", (e = {},
@@ -9155,7 +9063,7 @@
             },
             i.
         default.createElement("input", {
-                name: name,
+                name: d,
                 placeholder: "请输入 css 类名",
                 disabled: r,
                 readOnly: n,
@@ -9180,14 +9088,14 @@
         default.createElement(l.Overlay, {
                 placement: "right-bottom-right-top  right-top-right-bottom right-bottom-right-top",
                 target: this.getTarget,
-                container: d || this.getParent,
+                container: c || this.getParent,
                 rootClose: !1,
                 show: this.state.isOpened,
                 watchTargetSizeChange: !1
             },
             i.
         default.createElement(l.PopOver, {
-                className: a("ClassNamePicker-popover"),
+                className: "ae-ClassNamePicker-popover",
                 onHide: this.close,
                 overlay: !0
             },
@@ -9205,10 +9113,10 @@
             type: "ae-classname"
         })], t)
     } (i.
-  default.Component);
+default.Component);
     t.ClassNameControl = s
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9241,8 +9149,8 @@
     } (a(2).BasePlugin);
     t.AvailableRenderersPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9320,9 +9228,9 @@
         default.createElement("div", {
                 className: "ae-RendererList-groupWrap"
             },
-            n.length ? n.map((function(t) {
-                var n = a[t];
-                return n && n.length ? r.
+            n.length ? n.map((function(t, n) {
+                var i = a[t];
+                return i && i.length ? r.
             default.createElement("div", {
                     key: t,
                     className: "ae-RendererList-group"
@@ -9331,17 +9239,18 @@
             default.createElement("div", {
                     className: "ae-RendererList-groupLabel"
                 },
-                t), n.map((function(t) {
+                t), i.map((function(t) {
+                    var a = n + "_" + t.id;
                     return r.
                 default.createElement("div", {
                         onDragStart: e.handleDragStart,
-                        "data-id": t.id,
+                        "data-id": a,
                         "data-dnd-type": "subrenderer",
-                        "data-dnd-id": t.id,
+                        "data-dnd-id": a,
                         "data-dnd-data": JSON.stringify(t.scaffold || {
                             type: t.type
                         }),
-                        key: t.id,
+                        key: a,
                         draggable: !0,
                         className: "ae-RendererList-item"
                     },
@@ -9406,10 +9315,10 @@
         n.__decorate([s.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleRegionFilterClick", null),
         t = n.__decorate([i.observer], t)
     } (r.
-  default.Component);
+default.Component);
     t.AvailableRenderersPanel = d
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9443,8 +9352,8 @@
     } (a(2).BasePlugin);
     t.CodePlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9503,13 +9412,13 @@
         n.__decorate([i.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], t.prototype, "handleCodePaste", null),
         t
     } (l.
-  default.Component);
+default.Component);
     t.CodeEditorPanel = o
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("amis/lib/components/Editor")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9530,8 +9439,8 @@
     } (a(2).BasePlugin);
     t.ErrorRendererPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9852,8 +9761,8 @@
     } (l.BasePlugin);
     t.BasicToolbarPlugin = o,
     i.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -9885,8 +9794,8 @@
     } (a(2).BasePlugin);
     t.UnkownRendererPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10078,8 +9987,8 @@
     } (r.BasePlugin);
     t.ArrayControlPlugin = c,
     i.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10150,8 +10059,8 @@
     } (i.BasePlugin);
     t.ButtonGroupControlPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10245,8 +10154,8 @@
     } (i.BasePlugin);
     t.ButtonToolbarControlPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10308,8 +10217,8 @@
     } (i.BasePlugin);
     t.ChainedSelectControlPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10395,8 +10304,8 @@
     } (a(2).BasePlugin);
     t.CheckboxControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10497,8 +10406,8 @@
     } (a(2).BasePlugin);
     t.CheckboxesControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10582,8 +10491,8 @@
     } (a(2).BasePlugin);
     t.CityControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10662,8 +10571,8 @@
     } (a(2).BasePlugin);
     t.ColorControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -10678,7 +10587,7 @@
     d = a(6),
     c = a(6),
     u = a(26),
-    p = a(12),
+    p = a(14),
     m = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -11077,11 +10986,11 @@
     } (r.BasePlugin);
     t.ComboControlPlugin = m,
     i.registerEditorPlugin(m)
-  },
-  function(e, t) {
+},
+function(e, t) {
     e.exports = require("moment")
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11192,8 +11101,8 @@
     } (a(2).BasePlugin);
     t.ContainerControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11353,8 +11262,8 @@
     } (a(2).BasePlugin);
     t.DateRangeControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11486,8 +11395,8 @@
     } (a(2).BasePlugin);
     t.DateTimeControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11588,8 +11497,8 @@
     } (a(2).BasePlugin);
     t.DiffEditorControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11672,8 +11581,8 @@
     } (a(2).BasePlugin);
     t.EditorControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11710,8 +11619,8 @@
     } (a(20).TextControlPlugin);
     t.EmailControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11854,8 +11763,8 @@
     } (a(2).BasePlugin);
     t.FieldSetControlPlugin = s,
     o.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -11898,7 +11807,7 @@
                 },
                 l.getSchemaTpl("apiString", {
                     label: "文件接收器",
-                    name: "reciever",
+                    name: "receiver",
                     description: "默认不填写将上传到 bos，可以在系统配置中设置为自己的 bos 地址。",
                     value: "/api/upload/file"
                 }), {
@@ -12041,8 +11950,8 @@
     } (a(2).BasePlugin);
     t.FileControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -12052,7 +11961,7 @@
     l = a(1),
     i = a(2),
     r = a(3),
-    o = a(12),
+    o = a(14),
     s = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -12481,8 +12390,8 @@
     } (i.BasePlugin);
     t.FormPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -12566,8 +12475,8 @@
     } (a(2).BasePlugin);
     t.FormulaControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -12580,7 +12489,7 @@
     o = a(15),
     s = a(1),
     d = a(2),
-    c = a(14),
+    c = a(13),
     u = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -12866,8 +12775,8 @@
     } (d.BasePlugin);
     t.GridControlPlugin = u,
     s.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13047,8 +12956,8 @@
     } (o.BasePlugin);
     t.GroupControlPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13061,7 +12970,7 @@
     o = a(15),
     s = a(1),
     d = a(2),
-    c = a(14),
+    c = a(13),
     u = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -13313,8 +13222,8 @@
     } (d.BasePlugin);
     t.HBoxControlPlugin = u,
     s.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13371,8 +13280,8 @@
     } (a(2).BasePlugin);
     t.HiddenControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13429,7 +13338,7 @@
             },
             l.getSchemaTpl("apiString", {
                 label: "文件接收接口",
-                name: "reciever",
+                name: "receiver",
                 description: "文件接收接口，默认不填则上传到 hiphoto",
                 value: "/api/upload"
             }), {
@@ -13438,6 +13347,19 @@
                 name: "accept",
                 label: "图片类型",
                 description: "请填入图片的后缀或 <code>MimeType</code>，多个类型用<code>,</code>隔开。"
+            },
+            {
+                type: "text",
+                name: "defaultImage",
+                label: "占位图片地址"
+            },
+            {
+                type: "switch",
+                name: "fixedSize",
+                value: !1,
+                label: "是否开启固定尺寸",
+                mode: "inline",
+                className: "w-full"
             },
             {
                 type: "switch",
@@ -13595,8 +13517,8 @@
     } (a(2).BasePlugin);
     t.ImageControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13687,8 +13609,8 @@
     } (a(2).BasePlugin);
     t.InputGroupControlPlugin = s,
     o.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13705,7 +13627,7 @@
             return t.panelTitle = "表单项",
             t.panelControlsCreator = function(e) {
                 var t = ~ ["button", "submit", "reset"].indexOf(e.schema.type),
-                a = ~ ["button-toobar", "container", "fieldSet", "group", "grid", "hbox", "input-group", "panel", "service", "tabs", "table"].indexOf(e.schema.type),
+                a = ~ ["button-toobar", "container", "fieldSet", "group", "grid", "hbox", "input-group", "panel", "service", "tabs", "table", "elevator"].indexOf(e.schema.type),
                 n = e.info.renderer;
                 return [r.getSchemaTpl("tabs", [{
                     title: "常规",
@@ -13812,8 +13734,8 @@
     } (i.BasePlugin);
     t.ControlPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13881,8 +13803,8 @@
     } (a(2).BasePlugin);
     t.ListControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -13952,8 +13874,8 @@
     } (a(2).BasePlugin);
     t.LocationControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14005,14 +13927,14 @@
         default.createElement("span", {
                 className: "text-muted"
             },
-            "UUID"))
+            "UUID（展现将隐藏）"))
         },
         t
     } (a(2).BasePlugin);
     t.UUIDControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14136,8 +14058,8 @@
     } (a(2).BasePlugin);
     t.MatrixControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14173,8 +14095,8 @@
     } (a(27).DateControlPlugin);
     t.MonthControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14335,8 +14257,8 @@
     } (a(2).BasePlugin);
     t.MonthRangeControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14460,8 +14382,8 @@
     } (a(2).BasePlugin);
     t.NestedSelectControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14540,8 +14462,8 @@
     } (i.BasePlugin);
     t.NumberControlPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14706,8 +14628,8 @@
     } (a(2).BasePlugin);
     t.PanelControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14744,8 +14666,8 @@
     } (a(20).TextControlPlugin);
     t.PasswordControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -14916,8 +14838,8 @@
     } (s.BasePlugin);
     t.PickerControlPlugin = c,
     o.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15010,8 +14932,8 @@
     } (a(2).BasePlugin);
     t.QRCodeControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15096,8 +15018,8 @@
     } (a(2).BasePlugin);
     t.RadiosControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15206,8 +15128,8 @@
     } (a(2).BasePlugin);
     t.RangeControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15279,8 +15201,8 @@
     } (a(2).BasePlugin);
     t.RangeControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15339,8 +15261,8 @@
     } (a(2).BasePlugin);
     t.RepeatControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15362,8 +15284,8 @@
     } (a(25).ButtonControlPlugin);
     t.ResetControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15403,7 +15325,7 @@
                 visibleOn: 'typeof this.value !== "undefined"'
             },
             l.getSchemaTpl("api", {
-                name: "reciever",
+                name: "receiver",
                 label: "文件接收接口",
                 value: "/api/upload/image"
             }), {
@@ -15528,8 +15450,8 @@
     } (a(2).BasePlugin);
     t.RichTextControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15656,8 +15578,8 @@
     } (a(2).BasePlugin);
     t.SelectControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -15842,8 +15764,8 @@
     } (a(2).BasePlugin);
     t.ServiceControlPlugin = s,
     o.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16127,8 +16049,8 @@
     } (s.BasePlugin);
     t.StaticControlPlugin = c,
     o.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16294,8 +16216,8 @@
     } (o.BasePlugin);
     t.SubFormControlPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16316,8 +16238,8 @@
     } (a(25).ButtonControlPlugin);
     t.SubmitControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16401,6 +16323,16 @@
                 name: "falseValue",
                 value: !1,
                 pipeOut: l.valuePipeOut
+            },
+            {
+                name: "onText",
+                type: "text",
+                label: "开启时的文本"
+            },
+            {
+                name: "offText",
+                type: "text",
+                label: "关闭时的文本"
             }],
             t
         }
@@ -16414,8 +16346,8 @@
     } (a(2).BasePlugin);
     t.SwitchControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16480,8 +16412,8 @@
     } (a(2).BasePlugin);
     t.TableControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16494,8 +16426,8 @@
     o = a(15),
     s = a(1),
     d = a(43),
-    c = a(14),
-    u = n.__importDefault(a(13)),
+    c = a(13),
+    u = n.__importDefault(a(11)),
     p = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -16703,8 +16635,8 @@
     } (d.TabsPlugin);
     t.TabsControlPlugin = p,
     s.registerEditorPlugin(p)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16774,8 +16706,8 @@
     } (a(2).BasePlugin);
     t.TagControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16829,6 +16761,11 @@
             },
             {
                 type: "switch",
+                name: "readOnly",
+                label: "是否只读"
+            },
+            {
+                type: "switch",
                 name: "trimContents",
                 label: "去除首尾空白",
                 mode: "inline",
@@ -16847,8 +16784,8 @@
     } (a(2).BasePlugin);
     t.TextareaControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -16933,8 +16870,8 @@
     } (a(2).BasePlugin);
     t.TimeControlPlugin = o,
     r.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17134,8 +17071,8 @@
     } (a(2).BasePlugin);
     t.TreeControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17326,8 +17263,8 @@
     } (a(2).BasePlugin);
     t.TreeSelectControlPlugin = r,
     i.registerEditorPlugin(r)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17364,8 +17301,8 @@
     } (a(20).TextControlPlugin);
     t.URLControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17401,8 +17338,195 @@
     } (a(27).DateControlPlugin);
     t.YearControlPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.AnchorNavControlPlugin = void 0;
+    var n = a(0),
+    l = n.__importDefault(a(4)),
+    i = a(16),
+    r = a(3),
+    o = a(15),
+    s = a(1),
+    d = a(44),
+    c = a(13),
+    u = n.__importDefault(a(11)),
+    p = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "anchor-nav-control",
+            t.$schema = "/schemas/AnchorNavControlSchema.json",
+            t.name = "锚点导航(AnchorNav)",
+            t.icon = "fa fa-link",
+            t.description = "可以将多个表单项通过锚点导航的方式分组",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/anchor-nav",
+            t.tags = ["表单项"],
+            t.scaffold = {
+                type: "anchor-nav",
+                links: [{
+                    title: "锚点导航1",
+                    controls: [{
+                        label: "文本",
+                        name: "text1",
+                        type: "text"
+                    }]
+                },
+                {
+                    title: "锚点导航2",
+                    controls: [{
+                        label: "文本",
+                        name: "text1",
+                        type: "text"
+                    }]
+                }]
+            },
+            t.previewSchema = {
+                type: "form",
+                className: "text-left",
+                mode: "horizontal",
+                wrapWithPanel: !1,
+                controls: n.__assign({},
+                t.scaffold)
+            },
+            t.patchContainers = ["anchor-nav.body", "anchor-nav.controls"],
+            t.vRendererConfig = {
+                regions: {
+                    body: {
+                        key: "body",
+                        label: "内容区"
+                    },
+                    controls: {
+                        key: "controls",
+                        label: "子表单项",
+                        preferTag: "表单项"
+                    }
+                },
+                panelTitle: "锚点内容",
+                panelControls: [r.getSchemaTpl("fieldSet", {
+                    title: "常规",
+                    controls: [{
+                        name: "title",
+                        label: "标题",
+                        type: "text",
+                        required: !0
+                    },
+                    {
+                        label: "内容形式",
+                        name: "__mode",
+                        type: "button-group",
+                        size: "xs",
+                        description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
+                        pipeIn: function(e, t) {
+                            return Array.isArray(t.body) ? "other": "form"
+                        },
+                        onChange: function(e, t, a, n) {
+                            "form" === e ? (n.setValues({
+                                controls: n.data.__controls || [{
+                                    placeholder: "文本1",
+                                    type: "text",
+                                    name: "a",
+                                    label: !1
+                                }],
+                                __body: n.data.body
+                            }), n.deleteValueByName("body")) : (n.setValues({
+                                body: n.data.__body || [{
+                                    type: "tpl",
+                                    tpl: "内容",
+                                    inline: !1
+                                }],
+                                __controls: n.data.controls
+                            }), n.deleteValueByName("controls"))
+                        },
+                        options: [{
+                            label: "表单",
+                            value: "form"
+                        },
+                        {
+                            label: "其他",
+                            value: "other"
+                        }]
+                    }]
+                }), r.getSchemaTpl("fieldSet", {
+                    title: "外观",
+                    controls: [r.getSchemaTpl("className")]
+                })]
+            },
+            t.overrides = {
+                render: function() {
+                    var e = this,
+                    t = this.super();
+                    if (this.renderSection && this.props.$$editor && t) {
+                        var a = this.props.links;
+                        return i.mapReactElement(t, (function(t) {
+                            var n;
+                            if (~ (null === (n = t.type.displayName) || void 0 === n ? void 0 : n.indexOf("SectionComponent")) && t.props.$$id) {
+                                var i = t.props.$$id,
+                                r = u.
+                            default(a, (function(e) {
+                                    return e.$$id === i
+                                })),
+                                s = a[r],
+                                d = e.props.$$editor,
+                                p = d.plugin;
+                                if (~r) {
+                                    var m = Array.isArray(s.controls) ? p.vRendererConfig.regions.controls: p.vRendererConfig.regions.body;
+                                    return l.
+                                default.cloneElement(t, {
+                                        children: l.
+                                    default.createElement(o.VRenderer, {
+                                            plugin: d.plugin,
+                                            renderer: d.renderer,
+                                            key: i,
+                                            $schema: "/schemas/SectionControlSchema.json",
+                                            hostId: d.id,
+                                            memberIndex: r,
+                                            name: "" + (t.props.title || "锚点内容" + (r + 1)),
+                                            id: i,
+                                            draggable: !1,
+                                            wrapperResolve: p.sectionWrapperResolve,
+                                            schemaPath: d.schemaPath + "/anchor-nav/" + r,
+                                            path: e.props.$path + "/" + r,
+                                            data: e.props.data
+                                        },
+                                        l.
+                                    default.createElement(c.RegionWrapper, {
+                                            key: m.key,
+                                            preferTag: m.preferTag,
+                                            name: m.key,
+                                            label: m.label,
+                                            regionConfig: m,
+                                            editorStore: p.manager.store,
+                                            manager: p.manager,
+                                            children: t.props.children,
+                                            wrapperResolve: m.wrapperResolve,
+                                            rendererName: d.renderer.name
+                                        }))
+                                    })
+                                }
+                            }
+                            return t
+                        }))
+                    }
+                    return t
+                }
+            },
+            t
+        }
+        return n.__extends(t, e),
+        t.prototype.buildSubRenderers = function(t, a) {
+            if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
+                return "controls" === e.region
+            }))) return e.prototype.buildSubRenderers.call(this, t, a)
+        },
+        t
+    } (d.AnchorNavPlugin);
+    t.AnchorNavControlPlugin = p,
+    s.registerEditorPlugin(p)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17617,6 +17741,22 @@
                     description: "请使用 JS 表达式如：`this.xxx == 1`"
                 },
                 {
+                    name: "feedback.skipRestOnCancel",
+                    label: "弹框取消是否中断后续操作",
+                    type: "switch",
+                    mode: "inline",
+                    className: "block",
+                    visibleOn: "this.feedback"
+                },
+                {
+                    name: "feedback.skipRestOnConfirm",
+                    label: "弹框确认是否中断后续操作",
+                    type: "switch",
+                    mode: "inline",
+                    className: "block",
+                    visibleOn: "this.feedback"
+                },
+                {
                     type: "text",
                     label: "目标地址",
                     name: "link",
@@ -17696,8 +17836,8 @@
     } (o.BasePlugin);
     t.ActionPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17781,8 +17921,8 @@
     } (i.BasePlugin);
     t.PagePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -17799,7 +17939,7 @@
             t.$schema = "/schemas/AudioSchema.json",
             t.name = "音频",
             t.description = "音频控件，可以用来播放各种音频文件。",
-            t.tags = [],
+            t.tags = ["功能"],
             t.icon = "fa fa-music",
             t.scaffold = {
                 type: "audio",
@@ -17921,8 +18061,83 @@
     } (i.BasePlugin);
     t.AudioPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.AvatarPlugin = void 0;
+    var n = a(0),
+    l = a(1),
+    i = a(2),
+    r = a(3),
+    o = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "avatar",
+            t.$schema = "/schemas/AvatarSchema.json",
+            t.name = "头像",
+            t.icon = "fa fa-user",
+            t.description = "用户头像",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/avatar",
+            t.tags = ["其他"],
+            t.scaffold = {
+                type: "avatar",
+                icon: "fa fa-user"
+            },
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.panelTitle = "头像",
+            t.panelControls = [r.getSchemaTpl("tabs", [{
+                title: "常规",
+                controls: [{
+                    type: "text",
+                    label: "文字",
+                    name: "text"
+                },
+                {
+                    type: "select",
+                    label: "图片拉伸方式",
+                    options: ["cover", "fill", "contain", "none", "scale-down"]
+                },
+                {
+                    type: "radios",
+                    name: "shape",
+                    inline: !0,
+                    value: "circle",
+                    label: "形状",
+                    options: ["circle", "square"]
+                },
+                {
+                    name: "icon",
+                    label: "图标",
+                    type: "icon-picker"
+                },
+                {
+                    name: "size",
+                    label: "大小",
+                    value: 40,
+                    type: "number"
+                }]
+            },
+            {
+                title: "外观",
+                controls: [r.getSchemaTpl("className")]
+            },
+            {
+                title: "其他",
+                controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+            }])],
+            t
+        }
+        return n.__extends(t, e),
+        t
+    } (i.BasePlugin);
+    t.AvatarPlugin = o,
+    l.registerEditorPlugin(o)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18001,8 +18216,8 @@
     } (a(2).BasePlugin);
     t.ButtonGroupPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18019,7 +18234,7 @@
             t.$schema = "/schemas/ButtonToolbarSchema.json",
             t.name = "按钮工具栏",
             t.description = "可以用来放置多个按钮或者按钮组，按钮之间会存在一定的间隔",
-            t.tags = [],
+            t.tags = ["按钮"],
             t.icon = "fa fa-ellipsis-h",
             t.scaffold = {
                 type: "button-toolbar",
@@ -18085,8 +18300,102 @@
     } (i.BasePlugin);
     t.ButtonToolbarPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.BreadcrumbPlugin = void 0;
+    var n = a(0),
+    l = a(1),
+    i = a(2),
+    r = a(3),
+    o = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "breadcrumb",
+            t.$schema = "/schemas/BreadcrumbSchema.json",
+            t.name = "面包屑",
+            t.icon = "fa fa-list",
+            t.description = "面包屑导航",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/breadcrumb",
+            t.tags = ["其他"],
+            t.scaffold = {
+                type: "breadcrumb",
+                items: [{
+                    label: "首页",
+                    href: "https://baidu.gitee.com/",
+                    icon: "fa fa-home"
+                },
+                {
+                    label: "上级页面"
+                },
+                {
+                    label: "<b>当前页面</b>"
+                }]
+            },
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.panelTitle = "面包屑",
+            t.panelControls = [r.getSchemaTpl("tabs", [{
+                title: "常规",
+                controls: [{
+                    label: "分隔符",
+                    type: "text",
+                    name: "separator"
+                },
+                r.getSchemaTpl("api", {
+                    label: "动态数据",
+                    name: "source"
+                }), {
+                    label: "面包屑",
+                    name: "items",
+                    type: "combo",
+                    multiple: !0,
+                    multiLine: !0,
+                    draggable: !0,
+                    addButtonText: "新增",
+                    controls: [{
+                        type: "text",
+                        placeholder: "文本",
+                        name: "label"
+                    },
+                    {
+                        type: "text",
+                        name: "href",
+                        placeholder: "链接"
+                    },
+                    {
+                        name: "icon",
+                        label: "图标",
+                        type: "icon-picker"
+                    }]
+                }]
+            },
+            {
+                title: "外观",
+                controls: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+                    name: "itemClassName",
+                    label: "面包屑的 CSS 类名"
+                }), , r.getSchemaTpl("className", {
+                    name: "separatorClassName",
+                    label: "分隔符的 CSS 类名"
+                })]
+            },
+            {
+                title: "其他",
+                controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+            }])],
+            t
+        }
+        return n.__extends(t, e),
+        t
+    } (i.BasePlugin);
+    t.BreadcrumbPlugin = o,
+    l.registerEditorPlugin(o)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18107,7 +18416,7 @@
             t.$schema = "/schemas/CardSchema.json",
             t.name = "卡片",
             t.description = "展示单个卡片。",
-            t.tags = [],
+            t.tags = ["展示"],
             t.icon = "",
             t.scaffold = {
                 type: "card",
@@ -18316,8 +18625,8 @@
     } (o.BasePlugin);
     t.CardPlugin = u,
     r.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18337,8 +18646,8 @@
             t.$schema = "/schemas/CardsSchema.json",
             t.name = "卡片列表",
             t.description = "功能类似于表格，但是用一个个小卡片来展示数据。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。",
-            t.tags = [],
-            t.icon = "",
+            t.tags = ["展示"],
+            t.icon = "fa fa-window-maximize",
             t.scaffold = {
                 type: "cards",
                 data: {
@@ -18564,8 +18873,8 @@
     } (o.BasePlugin);
     t.CardsPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18582,8 +18891,8 @@
             t.$schema = "/schemas/CarouselSchema.json",
             t.name = "轮播图",
             t.description = "用来渲染轮播图，可以配置每一页的内容（不只是图片），可以配置过渡动画。",
-            t.tags = [],
-            t.icon = "",
+            t.tags = ["展示"],
+            t.icon = "fa fa-images",
             t.scaffold = {
                 type: "carousel",
                 options: [{
@@ -18849,8 +19158,8 @@
     } (i.BasePlugin);
     t.CarouselPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -18885,7 +19194,7 @@
             t.$schema = "/schemas/ChartSchema.json",
             t.name = "图表",
             t.description = "用来渲染图表，基于 echarts 图表库，理论上 echarts 所有图表类型都支持。",
-            t.tags = [],
+            t.tags = ["展示"],
             t.icon = "fa fa-pie-chart",
             t.scaffold = {
                 type: "chart",
@@ -19052,8 +19361,8 @@
     } (o.BasePlugin);
     t.ChartPlugin = p,
     r.registerEditorPlugin(p)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -19070,8 +19379,8 @@
             t.$schema = "/schemas/CollapseSchema.json",
             t.name = "折叠器",
             t.description = "折叠器，用户可以觉得是否将内容区展开或者收缩。",
-            t.tags = [],
-            t.icon = "",
+            t.tags = ["展示"],
+            t.icon = "fa fa-window-minimize",
             t.scaffold = {
                 type: "collapse",
                 body: "内容",
@@ -19128,8 +19437,8 @@
     } (i.BasePlugin);
     t.CollapsePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -19146,7 +19455,7 @@
             t.$schema = "/schemas/ContainerSchema.json",
             t.name = "容器",
             t.description = "一个简单的容器，可以将多个渲染器放置在一起。",
-            t.tags = [],
+            t.tags = ["容器"],
             t.icon = "fa fa-square-o",
             t.scaffold = {
                 type: "container",
@@ -19172,22 +19481,24 @@
     } (i.BasePlugin);
     t.ContainerPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
     }),
     t.CRUDPlugin = void 0;
     var n = a(0),
-    l = n.__importDefault(a(4)),
-    i = a(1),
-    r = a(2),
-    o = a(3),
-    s = a(6),
-    d = a(12),
-    c = a(44),
-    u = function(e) {
+    l = a(5),
+    i = n.__importDefault(a(147)),
+    r = n.__importDefault(a(148)),
+    o = n.__importDefault(a(4)),
+    s = a(1),
+    d = a(2),
+    c = a(3),
+    u = a(6),
+    p = a(14),
+    m = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
             return t.rendererName = "crud",
@@ -19208,8 +19519,369 @@
                 },
                 {
                     name: "engine",
-                    label: "渲染引擎"
-                }]
+                    label: "渲染引擎",
+                    type: "text"
+                }],
+                bulkActions: [],
+                itemActions: []
+            },
+            t.sampleBuilder = function(e) {
+                var t = {
+                    items: [],
+                    total: 0
+                };
+                if (Array.isArray(e.columns)) {
+                    var a = {};
+                    e.columns.forEach((function(e) {
+                        e.name && p.setVariable(a, e.name, "sample")
+                    })),
+                    t.items.push(a)
+                }
+                return JSON.stringify({
+                    status: 0,
+                    msg: "",
+                    data: t
+                },
+                null, 2)
+            },
+            t.btnSchemas = {
+                create: {
+                    label: "新建",
+                    type: "button",
+                    actionType: "dialog",
+                    level: "link",
+                    dialog: {
+                        title: "新增",
+                        body: {
+                            type: "form",
+                            api: "xxx/create",
+                            controls: [{
+                                label: "字段1",
+                                text: "字段1",
+                                type: "text"
+                            }]
+                        }
+                    }
+                },
+                update: {
+                    label: "编辑",
+                    type: "button",
+                    actionType: "dialog",
+                    level: "link",
+                    dialog: {
+                        title: "新增表单",
+                        body: {
+                            type: "form",
+                            api: "xxx/update",
+                            controls: [{
+                                label: "字段1",
+                                text: "字段1",
+                                type: "text"
+                            }]
+                        }
+                    }
+                },
+                view: {
+                    label: "查看",
+                    type: "button",
+                    actionType: "dialog",
+                    level: "link",
+                    dialog: {
+                        title: "查看详情",
+                        body: {
+                            type: "form",
+                            controls: [{
+                                label: "字段1",
+                                text: "字段1",
+                                type: "text"
+                            }]
+                        }
+                    }
+                },
+                delete: {
+                    type: "button",
+                    label: "删除",
+                    actionType: "ajax",
+                    level: "link",
+                    className: "text-danger",
+                    confirmText: "确定要删除？",
+                    api: "/xxx/delete"
+                },
+                bulkDelete: {
+                    type: "button",
+                    level: "danger",
+                    label: "批量删除",
+                    actionType: "ajax",
+                    confirmText: "确定要删除？",
+                    api: "/xxx/batch-delete"
+                },
+                bulkUpdate: {
+                    type: "button",
+                    level: "danger",
+                    label: "批量编辑",
+                    actionType: "dialog",
+                    dialog: {
+                        title: "批量编辑",
+                        size: "md",
+                        body: {
+                            type: "form",
+                            api: "/xxx/bacth-edit",
+                            controls: [{
+                                label: "字段1",
+                                text: "字段1",
+                                type: "text"
+                            }]
+                        }
+                    }
+                },
+                itemDelete: {
+                    type: "button",
+                    level: "danger",
+                    label: "删除",
+                    api: "/xxx/delete-one",
+                    actionType: "ajax",
+                    confirmText: "确定要删除？"
+                },
+                filter: {
+                    title: "查询条件",
+                    controls: [{
+                        type: "text",
+                        name: "keywords",
+                        label: "关键字"
+                    }]
+                }
+            },
+            t.scaffoldForm = {
+                title: "增删改查快速开始-CRUD",
+                controls: [{
+                    name: "api",
+                    type: "text",
+                    label: "请求地址",
+                    placeholder: "http://",
+                    labelRemark: t.sampleBuilder ? {
+                        icon: "",
+                        label: "示例",
+                        placement: "right",
+                        title: "接口返回示例",
+                        tooltipClassName: "ae-ApiSample-tooltip",
+                        render: function(e) {
+                            return o.
+                        default.createElement(l.Html, {
+                                className: "ae-ApiSample",
+                                inline: !1,
+                                html: "\n                  <pre><code>" + t.sampleBuilder(e) + "</code></pre>\n                  "
+                            })
+                        },
+                        trigger: "click",
+                        className: "m-l-xs",
+                        rootClose: !0
+                    }: void 0
+                },
+                {
+                    name: "panelTarget",
+                    type: "panel",
+                    bodyClassName: "p-0",
+                    actionsClassName: "p-0",
+                    body: [{
+                        visibleOn: "data.api && data.rows && !data.rows.length",
+                        type: "alert",
+                        className: "w-full mt-4",
+                        body: {
+                            type: "html",
+                            html: 'API返回格式不正确，请查看上方API示例右侧问号核对。您还可以参照<code><a target="_blank" href="//baidu.gitee.io/amis/zh-CN/docs/types/api">API配置</a>或者<a href="https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample" target="_blank">样例API</a>修改。</code>'
+                        },
+                        level: "danger"
+                    },
+                    {
+                        visibleOn: "data.errorMsg",
+                        type: "alert",
+                        className: "w-full mt-4",
+                        body: {
+                            type: "html",
+                            html: "${errorMsg}"
+                        },
+                        level: "danger"
+                    },
+                    {
+                        visibleOn: "data.api && data.rows && data.rows.length",
+                        type: "alert",
+                        className: "w-36 mt-4 inline-block text-center",
+                        body: {
+                            type: "html",
+                            html: "API返回格式正确"
+                        },
+                        level: "success"
+                    }],
+                    actions: [{
+                        type: "button",
+                        label: "返回格式校验",
+                        actionType: "ajax",
+                        api: "${api | raw}"
+                    }]
+                },
+                {
+                    name: "mock",
+                    visibleOn: "data.api && data.rows.length",
+                    label: "自动填充",
+                    type: "switch",
+                    mode: "inline",
+                    className: "inline-block",
+                    labelRemark: {
+                        icon: "",
+                        label: "",
+                        placement: "right",
+                        title: "自动填充",
+                        render: function(e) {
+                            return o.
+                        default.createElement(l.Html, {
+                                className: "ae-ApiSample",
+                                inline: !1,
+                                html: "\n              如果API返回格式正确，根据正确的接口返回结果，将字段值全量填充至行内操作的新增，查看，编辑操作中\n              "
+                            })
+                        },
+                        trigger: "click",
+                        className: "m-l-xs",
+                        rootClose: !0
+                    }
+                },
+                {
+                    name: "features",
+                    label: "常用功能",
+                    type: "checkboxes",
+                    joinValues: !1,
+                    extractValue: !0,
+                    inline: !0,
+                    itemClassName: "max-w-lg",
+                    options: [{
+                        label: "新增",
+                        value: "create"
+                    },
+                    {
+                        label: "编辑",
+                        value: "update"
+                    },
+                    {
+                        label: "查看详情",
+                        value: "view"
+                    },
+                    {
+                        label: "删除",
+                        value: "delete"
+                    },
+                    {
+                        label: "批量操作-删除",
+                        value: "bulkDelete"
+                    },
+                    {
+                        label: "批量操作-修改",
+                        value: "bulkUpdate"
+                    },
+                    {
+                        label: "查询",
+                        value: "filter"
+                    },
+                    {
+                        label: "单条操作-删除",
+                        value: "itemDelete"
+                    }]
+                },
+                {
+                    name: "columns",
+                    type: "combo",
+                    multiple: !0,
+                    label: !1,
+                    strictMode: !1,
+                    addButtonText: "新增一列",
+                    draggable: !1,
+                    controls: [{
+                        type: "text",
+                        name: "label",
+                        placeholder: "标题"
+                    },
+                    {
+                        type: "text",
+                        name: "name",
+                        placeholder: "绑定字段名"
+                    },
+                    {
+                        type: "select",
+                        name: "type",
+                        placeholder: "类型",
+                        value: "text",
+                        options: [{
+                            value: "text",
+                            label: "纯文本"
+                        },
+                        {
+                            value: "tpl",
+                            label: "模板"
+                        },
+                        {
+                            value: "image",
+                            label: "图片"
+                        },
+                        {
+                            value: "date",
+                            label: "日期"
+                        },
+                        {
+                            value: "progress",
+                            label: "进度"
+                        },
+                        {
+                            value: "status",
+                            label: "状态"
+                        },
+                        {
+                            value: "mapping",
+                            label: "映射"
+                        },
+                        {
+                            value: "operation",
+                            label: "操作栏"
+                        }]
+                    }]
+                }],
+                pipeOut: function(e) {
+                    var a = r.
+                default(e),
+                    n = (a.api, a.rows),
+                    l = a.features,
+                    o = a.mock,
+                    s = [],
+                    d = r.
+                default(t.scaffold);
+                    n && n.length && (n.forEach((function(e) {
+                        for (var t in e) s.push({
+                            label: t,
+                            type: "text",
+                            name: t
+                        })
+                    })), a.columns = d.columns.concat(s), delete a.rows, delete a.count);
+                    var c = {
+                        type: "operation",
+                        label: "操作",
+                        buttons: []
+                    },
+                    u = ["update", "view", "create"],
+                    p = i.
+                default(l, "length");
+                    return p && l.forEach((function(n) {
+                        var l = r.
+                    default(t.btnSchemas[n]);
+                        if (u.includes(n)) {
+                            var i = l;
+                            i.dialog.body.controls = o ? e.columns.concat(s) : e.columns,
+                            c.buttons.push(i)
+                        } else n.includes("bulk") && a.bulkActions.push(l),
+                        "itemDelete" === n && a.itemActions.push(l),
+                        "filter" === n && (a.filter = l)
+                    })),
+                    p && a.columns.push(c),
+                    p || (a.columns = e.columns),
+                    a
+                },
+                canRebuild: !0
             },
             t.multifactor = !0,
             t.previewSchema = {
@@ -19258,7 +19930,7 @@
             t.panelControlsCreator = function(e) {
                 t.manager.store;
                 var a = e.id;
-                return o.getSchemaTpl("tabs", [{
+                return c.getSchemaTpl("tabs", [{
                     title: "常规",
                     controls: [{
                         name: "filter",
@@ -19270,7 +19942,7 @@
                             return !! e
                         },
                         pipeOut: function(e, a) {
-                            return e ? t.oldFilter || s.JSONPipeIn({
+                            return e ? t.oldFilter || u.JSONPipeIn({
                                 title: "查询条件",
                                 controls: [{
                                     type: "text",
@@ -19312,14 +19984,14 @@
                             columnClassName: "p-t-xs col-edit",
                             children: function(e) {
                                 var n = e.index;
-                                return l.
+                                return o.
                             default.createElement("button", {
                                     onClick: t.handleBulkActionEdit.bind(t, a, n),
                                     "data-tooltip": "修改",
                                     "data-position": "bottom",
                                     className: "text-muted"
                                 },
-                                l.
+                                o.
                             default.createElement("i", {
                                     className: "fa fa-pencil"
                                 }))
@@ -19363,14 +20035,14 @@
                             columnClassName: "p-t-xs col-edit",
                             children: function(e) {
                                 var n = e.index;
-                                return l.
+                                return o.
                             default.createElement("button", {
                                     onClick: t.handleItemActionEdit.bind(t, a, n),
                                     "data-tooltip": "修改",
                                     "data-position": "bottom",
                                     className: "text-muted"
                                 },
-                                l.
+                                o.
                             default.createElement("i", {
                                     className: "fa fa-pencil"
                                 }))
@@ -19387,7 +20059,7 @@
                         type: "switch",
                         mode: "inline",
                         className: "block",
-                        pipeIn: o.defaultValue(!0),
+                        pipeIn: c.defaultValue(!0),
                         labelRemark: {
                             className: "m-l-xs",
                             trigger: "click",
@@ -19409,7 +20081,7 @@
                             placement: "left"
                         },
                         pipeIn: function(e) {
-                            if (!s.isObject(e)) return e;
+                            if (!u.isObject(e)) return e;
                             var t = [];
                             return Object.keys(e).forEach((function(a) {
                                 "$$id" != a && t.push({
@@ -19480,13 +20152,13 @@
                         name: "primaryField",
                         label: "指定主键",
                         type: "text",
-                        pipeIn: o.defaultValue("id"),
+                        pipeIn: c.defaultValue("id"),
                         description: "默认<code>id</code>，用于批量操作获取行级数据"
                     }]
                 },
                 {
                     title: "接口",
-                    controls: [o.getSchemaTpl("api", {
+                    controls: [c.getSchemaTpl("api", {
                         label: "数据拉取接口",
                         sampleBuilder: function(e) {
                             var t = {
@@ -19496,7 +20168,7 @@
                             if (Array.isArray(e.columns)) {
                                 var a = {};
                                 e.columns.forEach((function(e) {
-                                    e.name && d.setVariable(a, e.name, "sample")
+                                    e.name && p.setVariable(a, e.name, "sample")
                                 })),
                                 t.items.push(a)
                             }
@@ -19606,21 +20278,21 @@
                         mode: "inline",
                         className: "block"
                     },
-                    o.getSchemaTpl("api", {
+                    c.getSchemaTpl("api", {
                         label: "顺序保存接口",
                         name: "saveOrderApi",
                         visibleOn: "data.draggable"
                     }), {
                         type: "divider"
                     },
-                    o.getSchemaTpl("api", {
+                    c.getSchemaTpl("api", {
                         label: "快速保存接口",
                         name: "quickSaveApi",
                         description: "当 column 中设置了快速编辑后将使用此接口批量保存数据。"
                     }), {
                         type: "divider"
                     },
-                    o.getSchemaTpl("api", {
+                    c.getSchemaTpl("api", {
                         label: "快速保存单条接口",
                         name: "quickSaveItemApi",
                         description: "当 column 中设置了快速编辑且设置了立即保存，将使用此接口保存数据。"
@@ -19677,7 +20349,28 @@
                             return null !== (a = "grid" === e ? "cards": e) && void 0 !== a ? a: "table"
                         },
                         onChange: function(e, t, a, n) {
-                            "table" === e ? (n.setValues({
+                            var l, i, o, s, d, c, u = null === (i = null === (l = null == n ? void 0 : n.data) || void 0 === l ? void 0 : l.headerToolbar) || void 0 === i ? void 0 : i.some((function(e) {
+                                return "columns-toggler" === e.type
+                            })),
+                            p = r.
+                        default(null === (o = null == n ? void 0 : n.data) || void 0 === o ? void 0 : o.headerToolbar);
+                            "table" !== e && "table" === t && (c = (null == p ? void 0 : p.find((function(e) {
+                                return "columns-toggler" === e.type
+                            }))) || {
+                                type: "columns-toggler",
+                                align: "right"
+                            },
+                            n.setValues({
+                                __headerHasColumnsToggler: u
+                            })),
+                            p = "table" === e ? p: null == p ? void 0 : p.filter((function(e) {
+                                return "columns-toggler" !== e.type
+                            })),
+                            "table" === e ? ((null === (s = null == n ? void 0 : n.data) || void 0 === s ? void 0 : s.__headerHasColumnsToggler) && !u && (null == p || p.push((null === (d = null == n ? void 0 : n.data) || void 0 === d ? void 0 : d.__cacheColumnsToggler) || {
+                                type: "columns-toggler",
+                                align: "right"
+                            })), n.setValues({
+                                headerToolbar: p,
                                 columns: n.data.__columns || [{
                                     label: "ID",
                                     name: "id"
@@ -19686,9 +20379,13 @@
                                     label: "列信息",
                                     name: "name"
                                 }],
+                                __headerHasColumnsToggler: u,
                                 __card: n.data.__card || n.data.card,
                                 __listItem: n.data.__listItem || n.data.listItem
-                            }), n.deleteValueByName("card"), n.deleteValueByName("listItem")) : "cards" === e ? (n.setValues({
+                            }), n.deleteValueByName("card"), n.deleteValueByName("listItem")) : "cards" === e ? ("table" === t && n.setValues({
+                                __cacheColumnsToggler: c
+                            }), n.setValues({
+                                headerToolbar: p,
                                 card: n.data.__card || {
                                     type: "card",
                                     header: {
@@ -19710,7 +20407,10 @@
                                 },
                                 __columns: n.data.__columns || n.data.columns,
                                 __listItem: n.data.__listItem || n.data.listItem
-                            }), n.deleteValueByName("columns"), n.deleteValueByName("listItem")) : (n.setValues({
+                            }), n.deleteValueByName("columns"), n.deleteValueByName("listItem")) : ("table" === t && n.setValues({
+                                __cacheColumnsToggler: c
+                            }), n.setValues({
+                                headerToolbar: p,
                                 listItem: n.data.__listItem || {
                                     body: [{
                                         type: "tpl",
@@ -19763,11 +20463,11 @@
                         },
                         pipeOut: function(e) {
                             return Array.isArray(e) ? e.map((function(e) {
-                                return "button" === e.type ? s.JSONPipeIn(n.__assign({
+                                return "button" === e.type ? u.JSONPipeIn(n.__assign({
                                     label: "按钮",
                                     type: "button"
                                 },
-                                e)) : "tpl" === e.type ? s.JSONPipeIn(n.__assign({
+                                e)) : "tpl" === e.type ? u.JSONPipeIn(n.__assign({
                                     type: "tpl",
                                     tpl: "内容"
                                 },
@@ -19878,11 +20578,11 @@
                         },
                         pipeOut: function(e) {
                             return Array.isArray(e) ? e.map((function(e) {
-                                return "button" === e.type ? s.JSONPipeIn(n.__assign({
+                                return "button" === e.type ? u.JSONPipeIn(n.__assign({
                                     label: "按钮",
                                     type: "button"
                                 },
-                                e)) : "tpl" === e.type ? s.JSONPipeIn(n.__assign({
+                                e)) : "tpl" === e.type ? u.JSONPipeIn(n.__assign({
                                     type: "tpl",
                                     tpl: "内容"
                                 },
@@ -19990,7 +20690,7 @@
                         name: "filterDefaultVisible",
                         type: "switch",
                         label: "查询条件默认是否可见",
-                        pipeIn: o.defaultValue(!0),
+                        pipeIn: c.defaultValue(!0),
                         mode: "inline",
                         className: "block",
                         visibleOn: "data.filter && data.filterTogglable"
@@ -20017,30 +20717,49 @@
                         className: "block",
                         visibleOn: "data.checkOnItemClick"
                     },
-                    o.getSchemaTpl("className"), o.getSchemaTpl("className", {
+                    c.getSchemaTpl("className"), c.getSchemaTpl("className", {
                         name: "bodyClassName",
                         label: "内容 CSS 类名"
                     })]
                 },
                 {
                     title: "其他",
-                    controls: [o.getSchemaTpl("ref"), {
+                    controls: [c.getSchemaTpl("ref"), {
                         name: "source",
                         label: "数据源",
                         type: "text",
                         description: "不填写，默认读取接口返回的 items 或者 rows 属性，如果是别的，请在此设置，如： <code>\\${xxxx}</code>"
                     },
                     {
+                        name: "perPage",
+                        label: "每页数量",
+                        type: "text"
+                    },
+                    {
+                        name: "keepItemSelectionOnPageChange",
+                        label: "翻页时保留选择",
+                        type: "switch",
+                        mode: "inline",
+                        className: "block"
+                    },
+                    {
+                        name: "maxKeepItemSelectionLength",
+                        label: "最大选择数量",
+                        type: "number",
+                        mode: "inline",
+                        className: "block"
+                    },
+                    {
                         name: "pageField",
                         label: "页码字段名",
                         type: "text",
-                        pipeIn: o.defaultValue("page")
+                        pipeIn: c.defaultValue("page")
                     },
                     {
                         name: "perPageField",
                         label: "分页步长字段名",
                         type: "text",
-                        pipeIn: o.defaultValue("perPage")
+                        pipeIn: c.defaultValue("perPage")
                     },
                     {
                         name: "orderField",
@@ -20068,7 +20787,7 @@
                         },
                         options: ["5", "10", "20", "50", "100"]
                     },
-                    o.getSchemaTpl("name"), {
+                    c.getSchemaTpl("name"), {
                         name: "itemCheckableOn",
                         type: "text",
                         label: "配置单条可选中的表达式",
@@ -20089,7 +20808,7 @@
                         label: "自动跳顶部",
                         mode: "inline",
                         className: "block",
-                        description: "当切分页的时候，是否自动跳顶部。"
+                        description: "当切分页的时候，是否自动跳顶部"
                     },
                     {
                         name: "syncResponse2Query",
@@ -20097,7 +20816,7 @@
                         label: "同步查询条件",
                         mode: "inline",
                         className: "block",
-                        description: "每次查询后，将返回的数据同步到查询条件上。"
+                        description: "查询后将返回的数据同步到查询条件上"
                     }]
                 }])
             },
@@ -20120,7 +20839,6 @@
             l && l.$$id && a.setActiveId(l.$$id)
         },
         t.prototype.buildSubRenderers = function(e, t) {
-            var a;
             if (this.name && this.description) return {
                 name: this.name,
                 icon: this.icon,
@@ -20130,29 +20848,29 @@
                 docLink: this.docLink,
                 type: this.type,
                 scaffold: this.scaffold,
-                scaffoldForm: null === (a = this.getPlugin(c.TablePlugin)) || void 0 === a ? void 0 : a.scaffoldForm
+                scaffoldForm: this.scaffoldForm
             }
         },
         t.prototype.getRendererInfo = function(t) {
-            var a, n = e.prototype.getRendererInfo.call(this, t);
-            return n && (n.scaffoldForm = null === (a = this.getPlugin(c.TablePlugin)) || void 0 === a ? void 0 : a.scaffoldForm),
-            n
+            var a = e.prototype.getRendererInfo.call(this, t);
+            return a && (a.scaffoldForm = this.scaffoldForm),
+            a
         },
         t.prototype.renderEditableComponents = function(e) {
             var t = e.render,
             a = e.bulkActions,
-            i = e.itemActions,
-            r = [];
-            return Array.isArray(a) && a.length && r.push(l.
+            l = e.itemActions,
+            i = [];
+            return Array.isArray(a) && a.length && i.push(o.
         default.createElement("div", {
                 key: "bulkActions",
                 className: "ae-EditableRender"
             },
-            l.
+            o.
         default.createElement("div", {
                 className: "ae-EditableRender-title"
             },
-            "批量操作"), l.
+            "批量操作"), o.
         default.createElement("div", {
                 className: "ae-EditableRender-body"
             },
@@ -20165,20 +20883,20 @@
                     key: e.$$id
                 })
             }))))),
-            Array.isArray(i) && i.length && r.push(l.
+            Array.isArray(l) && l.length && i.push(o.
         default.createElement("div", {
                 key: "itemActions",
                 className: "ae-EditableRender"
             },
-            l.
+            o.
         default.createElement("div", {
                 className: "ae-EditableRender-title"
             },
-            "单条操作"), l.
+            "单条操作"), o.
         default.createElement("div", {
                 className: "ae-EditableRender-body"
             },
-            i.map((function(e) {
+            l.map((function(e) {
                 return t("bulk-action", n.__assign({
                     type: "button",
                     size: "sm"
@@ -20187,23 +20905,23 @@
                     key: e.$$id
                 })
             }))))),
-            r.length ? l.
+            i.length ? o.
         default.createElement("div", {
                 className: "ae-EditableRenderers"
             },
-            l.
+            o.
         default.createElement("div", {
                 className: "ae-EditableRenderers-tip"
             },
-            "「增删改查」编辑辅助区"), r) : null
+            "「增删改查」编辑辅助区"), i) : null
         },
         t.prototype.renderRenderer = function(e) {
             var t = e.$$editor.renderer;
-            return l.
+            return o.
         default.createElement("div", {
                 className: "ae-CRUDEditor"
             },
-            this.renderEditableComponents(e), l.
+            this.renderEditableComponents(e), o.
         default.createElement(t.component, n.__assign({},
             e)))
         },
@@ -20223,11 +20941,17 @@
             }), 20)
         },
         t
-    } (r.BasePlugin);
-    t.CRUDPlugin = u,
-    i.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
+    } (d.BasePlugin);
+    t.CRUDPlugin = m,
+    s.registerEditorPlugin(m)
+},
+function(e, t) {
+    e.exports = require("lodash/get")
+},
+function(e, t) {
+    e.exports = require("lodash/cloneDeep")
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20242,17 +20966,17 @@
             var t = null !== e && e.apply(this, arguments) || this;
             return t.rendererName = "custom",
             t.$schema = "/schemas/CustomSchema.json",
-            t.name = "自定义组件",
+            t.name = "自定义代码",
             t.description = "通过内嵌代码来实现功能",
             t.tags = ["功能", "表单项"],
             t.icon = "fa fa-gears",
             t.scaffold = {
                 type: "custom",
-                onMount: "\nconst button = document.createElement('button');\nbutton.innerText = '点击修改姓名';\nbutton.onclick = event => {\n  onChange('new name');\n  event.preventDefault();\n};\ndom.appendChild(button);"
+                onMount: "\n      const button = document.createElement('button');\n      button.innerText = '点击修改姓名';\n      button.onclick = event => {\n        event.preventDefault();\n      };\n      dom.appendChild(button);"
             },
             t.previewSchema = n.__assign({},
             t.scaffold),
-            t.panelTitle = "自定义组件",
+            t.panelTitle = "自定义代码",
             t.panelControls = [r.getSchemaTpl("tabs", [{
                 title: "onMount",
                 controls: [{
@@ -20289,12 +21013,19 @@
             t
         }
         return n.__extends(t, e),
+        t.prototype.buildSubRenderers = function(t, a) {
+            var n = e.prototype.buildSubRenderers.call(this, t, a);
+            return ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
+                return "controls" === e.region
+            }))) && (n.scaffold.onMount = "\n        const button = document.createElement('button');\n        button.innerText = '点击修改姓名ddd';\n        button.onclick = event => {\n          onChange('new name');\n          event.preventDefault();\n        };\n        dom.appendChild(button);"),
+            n
+        },
         t
     } (i.BasePlugin);
     t.CustomPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20319,8 +21050,8 @@
     } (a(29).DatePlugin);
     t.DatetimePlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20338,7 +21069,7 @@
             t.$schema = "/schemas/DiffEditorControlSchema.json",
             t.name = "Diff查看器",
             t.description = "可以用来展示配置或者代码的 Diff 结果。",
-            t.tags = [],
+            t.tags = ["功能"],
             t.icon = "fa fa-columns",
             t.scaffold = {
                 type: "diff-editor",
@@ -20412,8 +21143,8 @@
     } (i.BasePlugin);
     t.DiffEditorPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20454,8 +21185,8 @@
     } (i.BasePlugin);
     t.DividerPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20675,8 +21406,8 @@
     } (i.BasePlugin);
     t.DrawerPlugin = d,
     l.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20858,8 +21589,8 @@
     } (o.BasePlugin);
     t.DropDownButtonPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -20985,8 +21716,111 @@
     } (o.BasePlugin);
     t.EachPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.FlexPlugin = void 0;
+    var n = a(0),
+    l = a(1),
+    i = a(2),
+    r = a(3),
+    o = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "flex",
+            t.$schema = "/schemas/FlexSchema.json",
+            t.name = "Flex 布局",
+            t.icon = "fa fa-columns",
+            t.description = "flex 布局",
+            t.tags = ["容器"],
+            t.scaffold = {
+                type: "flex",
+                items: [{
+                    type: "wrapper",
+                    body: "第一列"
+                },
+                {
+                    type: "wrapper",
+                    body: "第二列"
+                },
+                {
+                    type: "wrapper",
+                    body: "第三列"
+                }]
+            },
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.panelTitle = "Flex",
+            t.panelControls = [{
+                name: "items",
+                label: "内容集合",
+                type: "combo",
+                scaffold: {
+                    type: "wrapper",
+                    body: "子节点内容"
+                },
+                minLength: 2,
+                multiple: !0,
+                draggableTip: "",
+                controls: [{
+                    type: "tpl",
+                    tpl: '<span class="label label-default">子节点${index | plus}</span>'
+                }]
+            },
+            {
+                name: "justify",
+                type: "select",
+                value: "center",
+                label: "子节点水平分布方式",
+                options: ["start", "flex-start", "center", "end", "flex-end", "space-around", "space-between", "space-evenly"]
+            },
+            {
+                name: "alignItems",
+                type: "select",
+                value: "center",
+                label: "子节点垂直方向位置",
+                options: ["stretch", "start", "flex-start", "flex-end", "end", "center", "baseline"]
+            },
+            {
+                name: "direction",
+                type: "radios",
+                label: "布局方向",
+                value: "column",
+                inline: !0,
+                options: [{
+                    label: "水平",
+                    value: "column"
+                },
+                {
+                    label: "垂直",
+                    value: "row"
+                }]
+            },
+            r.getSchemaTpl("className"), r.getSchemaTpl("visible")],
+            t.regions = [{
+                key: "items",
+                label: "子节点集合",
+                renderMethod: "render",
+                dndMode: "position-h"
+            }],
+            t
+        }
+        return n.__extends(t, e),
+        t.prototype.exchangeRenderer = function(e) {
+            this.manager.showReplacePanel(e)
+        },
+        t.prototype.afterResolveJsonSchema = function(e) {
+            var t, a, n = null === (t = e.context.node.parent) || void 0 === t ? void 0 : t.host; (null === (a = null == n ? void 0 : n.info) || void 0 === a ? void 0 : a.plugin) === this && e.setData("/schemas/FlexColumn.json")
+        },
+        t
+    } (i.BasePlugin);
+    t.FlexPlugin = o,
+    l.registerEditorPlugin(o)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21213,8 +22047,8 @@
     } (o.BasePlugin);
     t.GridPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21338,8 +22172,8 @@
     } (o.BasePlugin);
     t.HBoxPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21407,8 +22241,8 @@
     } (i.BasePlugin);
     t.IFramePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21454,6 +22288,16 @@
                         name: "defaultImage",
                         label: "默认图片地址",
                         type: "text"
+                    },
+                    {
+                        name: "width",
+                        label: "宽度",
+                        type: "number"
+                    },
+                    {
+                        name: "height",
+                        label: "高度",
+                        type: "number"
                     },
                     t ? null: {
                         name: "src",
@@ -21532,6 +22376,9 @@
                     }), r.getSchemaTpl("className", {
                         name: "imageClassName",
                         label: "图片 CSS 类名"
+                    }), r.getSchemaTpl("className", {
+                        name: "thumbClassName",
+                        label: "缩略图 CSS 类名"
                     })]
                 },
                 {
@@ -21546,8 +22393,8 @@
     } (i.BasePlugin);
     t.ImagePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21685,8 +22532,8 @@
     } (i.BasePlugin);
     t.ImagesPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21752,8 +22599,8 @@
     } (i.BasePlugin);
     t.JsonPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21820,8 +22667,8 @@
     } (i.BasePlugin);
     t.LinkPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -21841,8 +22688,8 @@
             t.$schema = "/schemas/ListSchema.json",
             t.name = "列表",
             t.description = "展示一个列表，可以自定标题、副标题，内容及按钮组部分。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。",
-            t.tags = [],
-            t.icon = "",
+            t.tags = ["展示"],
+            t.icon = "fa fa-list",
             t.scaffold = {
                 type: "list",
                 listItem: {
@@ -21928,6 +22775,9 @@
                     },
                     s.getSchemaTpl("className", {
                         label: "CSS 类名"
+                    }), s.getSchemaTpl("className", {
+                        name: "listClassName",
+                        label: "List div CSS 类名"
                     }), s.getSchemaTpl("className", {
                         name: "headerClassName",
                         label: "头部 CSS 类名"
@@ -22035,8 +22885,8 @@
     } (o.BasePlugin);
     t.ListPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22181,8 +23031,8 @@
     } (o.BasePlugin);
     t.ListItemPlugin = c,
     r.registerEditorPlugin(c)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22233,8 +23083,8 @@
     } (i.BasePlugin);
     t.LogPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22281,10 +23131,14 @@
                     }: null, {
                         label: "映射表",
                         type: "combo",
+                        scaffold: {
+                            key: "key-{index}",
+                            value: "value-{index}"
+                        },
                         required: !0,
                         name: "map",
                         descriptionClassName: "help-block text-xs m-b-none",
-                        description: "<p>当值命中左侧 Key 时，展示右侧内容，当没有命中时，默认实现 Key 为 <code>*</code>的内容</div>",
+                        description: "<p>当值命中左侧 Key 时，展示右侧内容，当没有命中时，默认实现 Key 为 <code>*</code>的内容</div>(请确保key值唯一)",
                         multiple: !0,
                         pipeIn: function(e) {
                             if (!o.isObject(e)) return [{
@@ -22303,13 +23157,14 @@
                         pipeOut: function(e) {
                             if (!Array.isArray(e)) return e;
                             var t = {};
-                            return e.forEach((function(e) {
-                                var a = e.key || "",
-                                n = e.value;
+                            return e.forEach((function(e, a) {
+                                var n = e.key || "",
+                                l = e.value;
+                                "key-{index}" === n && "value-{index}" === l && (n = n.replace("-{index}", "" + a), l = l.replace("-{index}", "" + a));
                                 try {
-                                    n = JSON.parse(n)
+                                    l = JSON.parse(l)
                                 } catch(e) {}
-                                t[a] = n
+                                t[n] = l
                             })),
                             t
                         },
@@ -22350,8 +23205,8 @@
     } (i.BasePlugin);
     t.MappingPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22368,8 +23223,8 @@
             t.$schema = "/schemas/NavSchema.json",
             t.name = "导航",
             t.description = "用来渲染导航菜单，支持横排和竖排。",
-            t.tags = [],
-            t.icon = "",
+            t.tags = ["功能"],
+            t.icon = "fa fa-map-signs",
             t.scaffold = {
                 type: "nav",
                 stacked: !0,
@@ -22521,8 +23376,8 @@
     } (i.BasePlugin);
     t.NavPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22590,8 +23445,8 @@
     } (o.BasePlugin);
     t.OperationPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22760,8 +23615,8 @@
     } (r.BasePlugin);
     t.PagePlugin = s,
     i.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -22934,8 +23789,8 @@
     } (o.BasePlugin);
     t.PanelPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23011,8 +23866,8 @@
     } (i.BasePlugin);
     t.PlainPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23113,8 +23968,136 @@
     } (i.BasePlugin);
     t.ProgressPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.PropertyPlugin = void 0;
+    var n = a(0),
+    l = a(1),
+    i = a(2),
+    r = a(3),
+    o = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "property",
+            t.$schema = "/schemas/PropertySchema.json",
+            t.name = "属性表",
+            t.icon = "fa fa-list",
+            t.description = "属性表",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/property",
+            t.tags = ["其他"],
+            t.scaffold = {
+                type: "property",
+                title: "机器配置",
+                items: [{
+                    label: "cpu",
+                    content: "1 core"
+                },
+                {
+                    label: "memory",
+                    content: "4G"
+                },
+                {
+                    label: "disk",
+                    content: "80G"
+                },
+                {
+                    label: "network",
+                    content: "4M",
+                    span: 2
+                },
+                {
+                    label: "IDC",
+                    content: "beijing"
+                },
+                {
+                    label: "Note",
+                    content: "其它说明",
+                    span: 3
+                }]
+            },
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.panelTitle = "属性表",
+            t.panelControls = [r.getSchemaTpl("tabs", [{
+                title: "常规",
+                controls: [{
+                    label: "每行显示几列",
+                    type: "number",
+                    value: 3,
+                    name: "column"
+                },
+                {
+                    type: "radios",
+                    name: "mode",
+                    inline: !0,
+                    value: "table",
+                    label: "显示模式",
+                    options: ["table", "simple"]
+                },
+                {
+                    label: "分隔符",
+                    type: "text",
+                    name: "separator",
+                    visibleOn: 'data.mode === "simple"'
+                },
+                {
+                    label: "属性取自变量",
+                    type: "text",
+                    name: "source"
+                },
+                {
+                    label: "属性列表",
+                    name: "items",
+                    type: "combo",
+                    multiple: !0,
+                    multiLine: !0,
+                    draggable: !0,
+                    addButtonText: "新增",
+                    controls: [{
+                        type: "text",
+                        mode: "inline",
+                        size: "sm",
+                        label: "属性名",
+                        name: "label"
+                    },
+                    {
+                        type: "text",
+                        mode: "inline",
+                        size: "sm",
+                        label: "属性值",
+                        name: "content"
+                    },
+                    {
+                        type: "number",
+                        mode: "inline",
+                        size: "sm",
+                        label: "跨几列",
+                        value: 1,
+                        name: "span"
+                    }]
+                }]
+            },
+            {
+                title: "外观",
+                controls: [r.getSchemaTpl("className")]
+            },
+            {
+                title: "其他",
+                controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+            }])],
+            t
+        }
+        return n.__extends(t, e),
+        t
+    } (i.BasePlugin);
+    t.PropertyPlugin = o,
+    l.registerEditorPlugin(o)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23131,7 +24114,7 @@
             t.$schema = "/schemas/QRCodeSchema.json",
             t.name = "二维码",
             t.description = "可以用来生成二维码",
-            t.tags = [],
+            t.tags = ["功能"],
             t.icon = "fa fa-qrcode",
             t.scaffold = {
                 type: "qrcode",
@@ -23205,8 +24188,8 @@
     } (i.BasePlugin);
     t.QRCodePlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23236,8 +24219,8 @@
     } (a(19).ButtonPlugin);
     t.ResetPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23372,8 +24355,8 @@
     } (o.BasePlugin);
     t.ServicePlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23430,8 +24413,8 @@
     } (i.BasePlugin);
     t.StatusPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23468,8 +24451,8 @@
     } (a(2).BasePlugin);
     t.SparklinePlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23499,8 +24482,8 @@
     } (a(19).ButtonPlugin);
     t.SubmitPlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23560,6 +24543,16 @@
                     pipeOut: r.valuePipeOut
                 },
                 {
+                    name: "onText",
+                    type: "text",
+                    label: "开启时的文本"
+                },
+                {
+                    name: "offText",
+                    type: "text",
+                    label: "关闭时的文本"
+                },
+                {
                     name: "placeholder",
                     type: "text",
                     pipeIn: r.defaultValue("-"),
@@ -23574,8 +24567,313 @@
     } (i.BasePlugin);
     t.SwitchPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.TablePlugin = void 0;
+    var n = a(0),
+    l = a(5),
+    i = a(1),
+    r = a(2),
+    o = a(3),
+    s = a(6),
+    d = a(14),
+    c = a(26),
+    u = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "table",
+            t.$schema = "/schemas/TableSchema.json",
+            t.name = "表格",
+            t.description = "用来展示表格数据，可以配置列信息，然后关联数据便能完成展示。支持嵌套、超级表头、列固定、表头固顶、合并单元格等等。当前组件需要配置数据源，不自带数据拉取，请优先使用 「CRUD」 组件。",
+            t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/table",
+            t.icon = "fa fa-table",
+            t.scaffold = {
+                type: "table",
+                columns: [{
+                    label: "列信息",
+                    name: "a"
+                }]
+            },
+            t.regions = [{
+                key: "columns",
+                label: "列集合",
+                renderMethod: "renderTableContent",
+                preferTag: "展示",
+                dndMode: "position-h"
+            }],
+            t.previewSchema = {
+                type: "table",
+                className: "text-left m-b-none",
+                affixHeader: !1,
+                items: [{
+                    a: 1,
+                    b: 2
+                },
+                {
+                    a: 3,
+                    b: 4
+                },
+                {
+                    a: 5,
+                    b: 6
+                }],
+                columns: [{
+                    label: "A",
+                    name: "a"
+                },
+                {
+                    label: "B",
+                    name: "b"
+                }]
+            },
+            t.scaffoldForm = {
+                title: "快速构建表格",
+                controls: [{
+                    name: "columns",
+                    type: "combo",
+                    multiple: !0,
+                    label: !1,
+                    addButtonText: "新增一列",
+                    draggable: !0,
+                    controls: [{
+                        type: "text",
+                        name: "label",
+                        placeholder: "标题"
+                    },
+                    {
+                        type: "text",
+                        name: "name",
+                        placeholder: "绑定字段名"
+                    },
+                    {
+                        type: "select",
+                        name: "type",
+                        placeholder: "类型",
+                        value: "text",
+                        options: [{
+                            value: "text",
+                            label: "纯文本"
+                        },
+                        {
+                            value: "tpl",
+                            label: "模板"
+                        },
+                        {
+                            value: "image",
+                            label: "图片"
+                        },
+                        {
+                            value: "date",
+                            label: "日期"
+                        },
+                        {
+                            value: "progress",
+                            label: "进度"
+                        },
+                        {
+                            value: "status",
+                            label: "状态"
+                        },
+                        {
+                            value: "mapping",
+                            label: "映射"
+                        },
+                        {
+                            value: "operation",
+                            label: "操作栏"
+                        }]
+                    }]
+                }],
+                canRebuild: !0
+            },
+            t.panelTitle = "表格",
+            t.panelControlsCreator = function(e) {
+                var t = "crud" === e.schema.type;
+                return o.getSchemaTpl("tabs", [{
+                    title: "常规",
+                    controls: [{
+                        name: "title",
+                        type: "text",
+                        label: "标题"
+                    },
+                    t ? null: {
+                        name: "source",
+                        type: "text",
+                        label: "数据源",
+                        pipeIn: o.defaultValue("${items}"),
+                        description: "绑定当前环境变量"
+                    },
+                    {
+                        name: "combineNum",
+                        label: "自动合并单元格",
+                        type: "number",
+                        placeholder: "设置列数",
+                        description: "设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。"
+                    }]
+                },
+                {
+                    title: "外观",
+                    controls: [{
+                        name: "columnsTogglable",
+                        label: "展示列显示开关",
+                        type: "button-group",
+                        pipeIn: o.defaultValue("auto"),
+                        mode: "inline",
+                        className: "w-full",
+                        size: "xs",
+                        options: [{
+                            label: "自动",
+                            value: "auto"
+                        },
+                        {
+                            label: "开启",
+                            value: !0
+                        },
+                        {
+                            label: "关闭",
+                            value: !1
+                        }],
+                        description: "自动即列数量大于5个时自动开启"
+                    },
+                    {
+                        name: "affixHeader",
+                        type: "switch",
+                        label: "是否固顶表头",
+                        mode: "inline",
+                        className: "w-full",
+                        pipeIn: o.defaultValue(!0)
+                    },
+                    {
+                        name: "showHeader",
+                        type: "switch",
+                        mode: "inline",
+                        className: "w-full",
+                        label: "是否显示头部",
+                        pipeIn: o.defaultValue(!0)
+                    },
+                    {
+                        name: "showFooter",
+                        type: "switch",
+                        mode: "inline",
+                        className: "w-full",
+                        label: "是否显示底部",
+                        pipeIn: o.defaultValue(!0)
+                    },
+                    {
+                        name: "footable",
+                        type: "switch",
+                        mode: "inline",
+                        className: "w-full",
+                        label: "是否开启单条底部展示",
+                        description: "如果列太多显示会很臃肿，可以考虑把部分列放在当前行的底部展示",
+                        pipeIn: function(e) {
+                            return !! e
+                        }
+                    },
+                    {
+                        name: "footable.expand",
+                        type: "button-group",
+                        size: "xs",
+                        visibleOn: "data.footable",
+                        label: "底部默认展开",
+                        pipeIn: o.defaultValue("none"),
+                        mode: "inline",
+                        className: "w-full",
+                        options: [{
+                            label: "第一条",
+                            value: "first"
+                        },
+                        {
+                            label: "所有",
+                            value: "all"
+                        },
+                        {
+                            label: "不展开",
+                            value: "none"
+                        }]
+                    },
+                    {
+                        name: "placeholder",
+                        pipeIn: o.defaultValue("暂无数据"),
+                        type: "text",
+                        label: "无数据提示"
+                    },
+                    o.getSchemaTpl("className", {
+                        label: "外层 CSS 类名"
+                    }), o.getSchemaTpl("className", {
+                        name: "tableClassName",
+                        label: "表格 CSS 类名"
+                    }), o.getSchemaTpl("className", {
+                        name: "headerClassName",
+                        label: "顶部外层 CSS 类名"
+                    }), o.getSchemaTpl("className", {
+                        name: "footerClassName",
+                        label: "底部外层 CSS 类名"
+                    }), o.getSchemaTpl("className", {
+                        name: "toolbarClassName",
+                        label: "工具栏 CSS 类名"
+                    })]
+                },
+                {
+                    title: "其他",
+                    controls: [o.getSchemaTpl("ref"), o.getSchemaTpl("visible")]
+                }])
+            },
+            t
+        }
+        return n.__extends(t, e),
+        t.prototype.filterProps = function(e) {
+            var t = Array.isArray(e.value) ? e.value: "string" == typeof e.source ? l.resolveVariable(e.source, e.data) : l.resolveVariable("${items}", e.data);
+            if (Array.isArray(t) && t.length) e.value = t.slice(0, 10);
+            else {
+                var a = {};
+                Array.isArray(e.columns) && e.columns.forEach((function(e) {
+                    e.name && d.setVariable(a, e.name, c.mockValue(e))
+                })),
+                e.value = s.repeatArray(a, 1).map((function(e, t) {
+                    return n.__assign(n.__assign({},
+                    e), {
+                        id: t + 1
+                    })
+                }))
+            }
+            return e
+        },
+        t.prototype.getRendererInfo = function(t) {
+            var a, l = t.schema,
+            i = t.renderer;
+            return l.$$id || "crud" !== (null === (a = l.$$editor) || void 0 === a ? void 0 : a.renderer.name) || "table" !== i.name ? e.prototype.getRendererInfo.call(this, t) : n.__assign(n.__assign({},
+            {
+                id: l.$$editor.id
+            }), {
+                name: this.name,
+                regions: this.regions,
+                patchContainers: this.patchContainers,
+                vRendererConfig: this.vRendererConfig,
+                wrapperProps: this.wrapperProps,
+                wrapperResolve: this.wrapperResolve,
+                filterProps: this.filterProps,
+                $schema: this.$schema,
+                renderRenderer: this.renderRenderer
+            })
+        },
+        t.prototype.beforeInsert = function(e) {
+            var t, a, l, i, r = e.context;
+            r.info.plugin !== this && (null === (t = r.node.sameIdChild) || void 0 === t ? void 0 : t.info.plugin) !== this || "columns" !== r.region || (r.data = n.__assign(n.__assign({},
+            r.data), {
+                label: null !== (i = null !== (a = r.data.label) && void 0 !== a ? a: null === (l = r.subRenderer) || void 0 === l ? void 0 : l.name) && void 0 !== i ? i: "列名称"
+            }))
+        },
+        t
+    } (r.BasePlugin);
+    t.TablePlugin = u,
+    i.registerEditorPlugin(u)
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23969,8 +25267,8 @@
     } (o.BasePlugin);
     t.TableCellPlugin = d,
     r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -23987,7 +25285,7 @@
             t.$schema = "/schemas/TasksSchema.json",
             t.name = "异步任务",
             t.description = "用来做异步任务呈现或者操作。",
-            t.tags = [],
+            t.tags = ["功能"],
             t.icon = "",
             t.scaffold = {
                 type: "tasks",
@@ -24198,8 +25496,8 @@
     } (i.BasePlugin);
     t.TasksPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -24224,8 +25522,8 @@
     } (a(29).DatePlugin);
     t.TimePlugin = i,
     l.registerEditorPlugin(i)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -24282,7 +25580,7 @@
                         return e || t && t.html
                     },
                     name: "tpl",
-                    description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/concepts/template">详情</a>',
+                    description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>',
                     size: "lg"
                 },
                 {
@@ -24329,8 +25627,8 @@
     } (i.BasePlugin);
     t.TplPlugin = o,
     l.registerEditorPlugin(o)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -24348,7 +25646,7 @@
             t.$schema = "/schemas/VideoSchema.json",
             t.name = "视频",
             t.description = "视频控件，可以用来播放各种视频文件，包括 flv 和 hls 格式。",
-            t.tags = [],
+            t.tags = ["功能"],
             t.icon = "fa fa-video-camera",
             t.scaffold = {
                 type: "video",
@@ -24466,8 +25764,8 @@
     } (i.BasePlugin);
     t.VideoPlugin = s,
     l.registerEditorPlugin(s)
-  },
-  function(e, t, a) {
+},
+function(e, t, a) {
     "use strict";
     Object.defineProperty(t, "__esModule", {
         value: !0
@@ -24480,7 +25778,7 @@
     o = n.__importDefault(a(4)),
     s = a(15),
     d = a(16),
-    c = a(14),
+    c = a(13),
     u = function(e) {
         function t() {
             var t = null !== e && e.apply(this, arguments) || this;
@@ -24552,707 +25850,709 @@
                         }
                     },
                     {
-                      type: "fieldSet",
-                      title: "其他设置",
-                      collapsed: !0,
-                      collapsable: !0,
-                      className: "fieldset m-b-none",
-                      controls: [{
-                          name: "mode",
-                          label: "展示模式",
-                          type: "button-group",
-                          size: "xs",
-                          mode: "inline",
-                          className: "w-full",
-                          value: "normal",
-                          options: [{
-                              label: "默认",
-                              value: "normal"
-                          },
-                          {
-                              label: "左右摆放",
-                              value: "horizontal"
-                          },
-                          {
-                              label: "内联",
-                              value: "inline"
-                          }]
-                      },
-                      r.getSchemaTpl("horizontal", {
-                          visibleOn: 'data.mode == "horizontal"'
-                      }), r.getSchemaTpl("api", {
-                          label: "保存接口",
-                          description: "如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步"
-                      }), {
-                          label: "采用异步方式?",
-                          remark: {
-                              trigger: "click",
-                              rootClose: !0,
-                              title: "什么是异步方式？",
-                              content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                              placement: "left"
-                          },
-                          type: "switch",
-                          name: "asyncApi",
-                          visibleOn: "data.api",
-                          pipeIn: function(e) {
-                              return null != e
-                          },
-                          pipeOut: function(e) {
-                              return e ? "": void 0
-                          },
-                          mode: "inline",
-                          className: "block"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "asyncApi",
-                          label: "异步检测接口",
-                          visibleOn: "data.asyncApi != null",
-                          description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-                      }), {
-                          type: "divider"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "initApi",
-                          label: "初始化接口",
-                          description: "用来初始化表单数据"
-                      }), {
-                          label: "采用异步方式？",
-                          remark: {
-                              trigger: "click",
-                              rootClose: !0,
-                              title: "什么是异步方式？",
-                              content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                              placement: "left"
-                          },
-                          type: "switch",
-                          name: "initAsyncApi",
-                          visibleOn: "data.initApi",
-                          pipeIn: function(e) {
-                              return null != e
-                          },
-                          pipeOut: function(e) {
-                              return e ? "": void 0
-                          },
-                          mode: "inline",
-                          className: "block"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "initAsyncApi",
-                          label: "异步检测接口",
-                          visibleOn: "data.initAsyncApi != null",
-                          description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-                      }), r.getSchemaTpl("initFetch"), {
-                          label: "是否可被点开",
-                          type: "text",
-                          name: "jumpableOn",
-                          description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
-                      }]
-                  }]
-              }]
-          },
-          {
-              title: "接口",
-              controls: [r.getSchemaTpl("api", {
-                  name: "initApi",
-                  label: "初始化接口",
-                  description: "用来初始化向导数据，当接口中返回 <code>step</code> 字段时，可以控制默认跳转到第几步，注意数值一定得是数字类型。当返回 <code>submiting</code> 并且当前步骤中存在异步保存接口时，可以让 wizard 初始进入异步提交状态。"
-              }), {
-                  label: "采用异步方式？",
-                  remark: {
-                      trigger: "click",
-                      rootClose: !0,
-                      title: "什么是异步方式？",
-                      content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                      placement: "left"
-                  },
-                  type: "switch",
-                  name: "initAsyncApi",
-                  visibleOn: "data.initApi",
-                  pipeIn: function(e) {
-                      return null != e
-                  },
-                  pipeOut: function(e) {
-                      return e ? "": void 0
-                  },
-                  mode: "inline"
-              },
-              r.getSchemaTpl("api", {
-                  name: "initAsyncApi",
-                  label: "异步检测接口",
-                  visibleOn: "data.initAsyncApi != null",
-                  description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-              }), {
-                  name: "initFetch",
-                  type: "radios",
-                  label: "是否初始拉取",
-                  inline: !0,
-                  options: [{
-                      label: "是",
-                      value: !0
-                  },
-                  {
-                      label: "否",
-                      value: !1
-                  },
-                  {
-                      label: "表达式",
-                      value: ""
-                  }]
-              },
-              {
-                  name: "initFetch",
-                  autoComplete: !1,
-                  visibleOn: 'typeof this.initFetch !== "boolean"',
-                  type: "text",
-                  placeholder: "",
-                  className: "m-t-n-sm"
-              },
-              {
-                  type: "divider"
-              },
-              r.getSchemaTpl("api", {
-                  label: "保存接口",
-                  description: "用来保存表单数据, 最后一步点击完成触发，<code>如果最后一步中已经设置保存接口，则此处设置无效。</code>"
-              }), {
-                  label: "采用异步方式?",
-                  remark: {
-                      trigger: "click",
-                      rootClose: !0,
-                      title: "什么是异步方式？",
-                      content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                      placement: "left"
-                  },
-                  type: "switch",
-                  name: "asyncApi",
-                  visibleOn: "data.api",
-                  pipeIn: function(e) {
-                      return null != e
-                  },
-                  pipeOut: function(e) {
-                      return e ? "": void 0
-                  },
-                  mode: "inline"
-              },
-              r.getSchemaTpl("api", {
-                  name: "asyncApi",
-                  label: "异步检测接口",
-                  visibleOn: "data.asyncApi != null",
-                  description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-              })]
-          },
-          {
-              title: "外观",
-              controls: [{
-                  name: "mode",
-                  label: "展示模式",
-                  type: "button-group",
-                  size: "sm",
-                  mode: "inline",
-                  className: "w-full",
-                  value: "horizontal",
-                  options: [{
-                      label: "水平",
-                      value: "horizontal"
-                  },
-                  {
-                      label: "垂直",
-                      value: "vertical"
-                  }]
-              },
-              {
-                  name: "actionPrevLabel",
-                  label: "上一步按钮名称",
-                  type: "text",
-                  pipeIn: r.defaultValue("上一步")
-              },
-              {
-                  name: "actionNextLabel",
-                  label: "下一步按钮名称",
-                  type: "text",
-                  pipeIn: r.defaultValue("下一步")
-              },
-              {
-                  name: "actionNextSaveLabel",
-                  label: "保存并下一步按钮名称",
-                  type: "text",
-                  pipeIn: r.defaultValue("保存并下一步")
-              },
-              {
-                  name: "actionFinishLabel",
-                  label: "完成按钮名称",
-                  type: "text",
-                  pipeIn: r.defaultValue("完成")
-              },
-              r.getSchemaTpl("className"), r.getSchemaTpl("className", {
-                  name: "actionClassName",
-                  label: "按钮 CSS 类名"
-              })]
-          },
-          {
-              title: "其他",
-              controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("name"), r.getSchemaTpl("reload"), {
-                  label: "跳转",
-                  name: "redirect",
-                  type: "text",
-                  description: "当设置此值后，表单提交完后跳转到目标地址。"
-              },
-              r.getSchemaTpl("visible")]
-          }])],
-          t.patchContainers = ["steps.controls"],
-          t.vRendererConfig = {
-              regions: {
-                  controls: {
-                      key: "controls",
-                      label: "表单集合",
-                      wrapperResolve: function(e) {
-                          return e
-                      }
-                  },
-                  actions: {
-                      label: "按钮组",
-                      key: "actions",
-                      preferTag: "按钮",
-                      wrapperResolve: function(e) {
-                          return e
-                      }
-                  }
-              },
-              panelTitle: "步骤",
-              panelControlsCreator: function(e) {
-                  return r.getSchemaTpl("tabs", [{
-                      title: "常规",
-                      controls: [{
-                          name: "title",
-                          type: "text",
-                          label: "标题",
-                          pipeIn: function(e, t) {
-                              return e || t.label
-                          }
-                      },
-                      r.getSchemaTpl("api", {
-                          label: "保存接口",
-                          description: "如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步"
-                      }), {
-                          label: "采用异步方式?",
-                          remark: {
-                              trigger: "click",
-                              rootClose: !0,
-                              title: "什么是异步方式？",
-                              content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                              placement: "left"
-                          },
-                          type: "switch",
-                          name: "asyncApi",
-                          visibleOn: "data.api",
-                          pipeIn: function(e) {
-                              return null != e
-                          },
-                          pipeOut: function(e) {
-                              return e ? "": void 0
-                          },
-                          mode: "inline",
-                          className: "block"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "asyncApi",
-                          label: "异步检测接口",
-                          visibleOn: "data.asyncApi != null",
-                          description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-                      }), {
-                          type: "divider"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "initApi",
-                          label: "初始化接口",
-                          description: "用来初始化表单数据"
-                      }), {
-                          label: "采用异步方式？",
-                          remark: {
-                              trigger: "click",
-                              rootClose: !0,
-                              title: "什么是异步方式？",
-                              content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
-                              placement: "left"
-                          },
-                          type: "switch",
-                          name: "initAsyncApi",
-                          visibleOn: "data.initApi",
-                          pipeIn: function(e) {
-                              return null != e
-                          },
-                          pipeOut: function(e) {
-                              return e ? "": void 0
-                          },
-                          mode: "inline",
-                          className: "block"
-                      },
-                      r.getSchemaTpl("api", {
-                          name: "initAsyncApi",
-                          label: "异步检测接口",
-                          visibleOn: "data.initAsyncApi != null",
-                          description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
-                      }), r.getSchemaTpl("initFetch")]
-                  },
-                  {
-                      title: "外观",
-                      controls: [{
-                          name: "mode",
-                          label: "展示模式",
-                          type: "button-group",
-                          size: "xs",
-                          mode: "inline",
-                          className: "w-full",
-                          value: "normal",
-                          options: [{
-                              label: "默认",
-                              value: "normal"
-                          },
-                          {
-                              label: "左右摆放",
-                              value: "horizontal"
-                          },
-                          {
-                              label: "内联",
-                              value: "inline"
-                          }]
-                      },
-                      r.getSchemaTpl("horizontal", {
-                          visibleOn: 'data.mode == "horizontal"'
-                      })]
-                  },
-                  {
-                      title: "其他",
-                      controls: [{
-                          label: "是否可被点开",
-                          type: "text",
-                          name: "jumpableOn",
-                          description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
-                      }]
-                  }])
-              }
-          },
-          t.wizardWrapperResolve = function(e) {
-              return [].slice.call(e.querySelectorAll('[role="wizard-body"],[role="wizard-footer"]'))
-          },
-          t.overrides = {
-              renderWizard: function() {
-                  var e = this,
-                  t = this.props.$$editor,
-                  a = this.props.steps,
-                  l = this.state.currentStep,
-                  i = this.super();
-                  if (!t || !(null == a ? void 0 : a[l - 1])) return i;
-                  var r = l - 1,
-                  u = a[r],
-                  p = u.$$id,
-                  m = t.plugin;
-                  return d.mapReactElement(i, (function(a) {
-                      return /Wizard-step\b/.test(a.props.className) ? o.
-                  default.createElement(s.VRenderer, {
-                          key: p,
-                          plugin: t.plugin,
-                          renderer: t.renderer,
-                          $schema: "/schemas/WizardStepSchema.json",
-                          hostId: t.id,
-                          memberIndex: r,
-                          name: u.title || "步骤" + (r + 1),
-                          id: p,
-                          draggable: !1,
-                          wrapperResolve: m.wizardWrapperResolve,
-                          schemaPath: t.schemaPath + "/steps/" + r,
-                          path: e.props.$path + "/" + r,
-                          data: e.props.data
-                      },
-                      d.mapReactElement(a, (function(e, a) {
-                          var l;
-                          if ((null === (l = e.props.schema) || void 0 === l ? void 0 : l.controls) && e.props.schema.$$id) {
-                              var i = m.vRendererConfig.regions.controls,
-                              r = n.__assign({},
-                              e.props.schema);
-                              return delete r.$$id,
-                              o.
-                          default.createElement(c.RegionWrapper, {
-                                  key: i.key,
-                                  preferTag: i.preferTag,
-                                  name: i.key,
-                                  label: i.label,
-                                  regionConfig: i,
-                                  editorStore: m.manager.store,
-                                  manager: m.manager,
-                                  children: o.
-                              default.cloneElement(e, {
-                                      schema: r
-                                  }),
-                                  wrapperResolve: i.wrapperResolve,
-                                  rendererName: t.renderer.name
-                              })
-                          }
-                          return e
-                      }))) : a
-                  }))
-              },
-              renderFooter: function() {
-                  var e = this.props.$$editor,
-                  t = this.props.steps,
-                  a = this.state.currentStep,
-                  n = this.super();
-                  if (!e || !(null == t ? void 0 : t[a - 1])) return n;
-                  var l = e.plugin,
-                  i = l.vRendererConfig.regions.actions;
-                  return o.
-              default.createElement(c.RegionWrapper, {
-                      key: i.key,
-                      preferTag: i.preferTag,
-                      name: i.key,
-                      label: i.label,
-                      regionConfig: i,
-                      editorStore: l.manager.store,
-                      manager: l.manager,
-                      children: n,
-                      wrapperResolve: i.wrapperResolve,
-                      rendererName: e.renderer.name
-                  })
-              }
-          },
-          t
-      }
-      return n.__extends(t, e),
-      t.prototype.buildEditorToolbar = function(e, t) {
-          if (e.info.plugin === this && e.info.renderer.name === this.rendererName && !e.info.hostId) {
-              var a = e.node;
-              t.push({
-                  level: "secondary",
-                  icon: "fa fa-chevron-left",
-                  tooltip: "上个步骤",
-                  onClick: function() {
-                      var e = a.getComponent();
-                      if (null == e ? void 0 : e.gotoStep) {
-                          var t = e.state.currentStep;
-                          e.gotoStep(t - 1)
-                      }
-                  }
-              }),
-              t.push({
-                  level: "secondary",
-                  icon: "fa fa-chevron-right",
-                  tooltip: "下个步骤",
-                  onClick: function() {
-                      var e = a.getComponent();
-                      if (null == e ? void 0 : e.gotoStep) {
-                          var t = e.state.currentStep;
-                          e.gotoStep(t + 1)
-                      }
-                  }
-              })
-          }
-      },
-      t.prototype.filterProps = function(e) {
-          return e.affixFooter = !1,
-          e
-      },
-      t
-  } (i.BasePlugin);
-  t.WizardPlugin = u,
-  l.registerEditorPlugin(u)
-  },
-  function(e, t, a) {
-  "use strict";
-  Object.defineProperty(t, "__esModule", {
-      value: !0
-  }),
-  t.WrapperPlugin = void 0;
-  var n = a(0),
-  l = a(5),
-  i = n.__importDefault(a(4)),
-  r = a(1),
-  o = a(2),
-  s = a(3),
-  d = function(e) {
-      function t() {
-          var t = null !== e && e.apply(this, arguments) || this;
-          return t.rendererName = "wrapper",
-          t.$schema = "/schemas/WrapperSchema.json",
-          t.name = "包裹",
-          t.description = "类似于容器，唯一的区别在于会默认会有一层内边距。",
-          t.tags = ["容器"],
-          t.icon = "fa fa-square-o",
-          t.scaffold = {
-              type: "wrapper",
-              body: "内容"
-          },
-          t.previewSchema = n.__assign({},
-          t.scaffold),
-          t.regions = [{
-              key: "body",
-              label: "内容区"
-          }],
-          t.panelTitle = "包裹",
-          t.panelControls = [{
-              children: i.
-          default.createElement(l.Button, {
-                  size: "sm",
-                  className: "m-b-sm",
-                  level: "info",
-                  block: !0,
-                  onClick: function() {
-                      t.manager.showInsertPanel("body")
-                  }
-              },
-              "新增内容")
-          },
-          {
-              type: "divider"
-          },
-          s.getSchemaTpl("size", {
-              label: "内间距大小",
-              options: [{
-                  label: "极小",
-                  value: "xs"
-              },
-              {
-                  label: "小",
-                  value: "sm"
-              },
-              {
-                  label: "默认",
-                  value: ""
-              },
-              {
-                  label: "中",
-                  value: "md"
-              },
-              {
-                  label: "大",
-                  value: "lg"
-              },
-              {
-                  label: "无",
-                  value: "none"
-              }],
-              pipeIn: s.defaultValue("")
-          }), s.getSchemaTpl("className", {
-              description: "设置样式后，大小设置将无效。",
-              pipeIn: s.defaultValue("bg-white")
-          })],
-          t
-      }
-      return n.__extends(t, e),
-      t
-  } (o.BasePlugin);
-  t.WrapperPlugin = d,
-  r.registerEditorPlugin(d)
-  },
-  function(e, t, a) {
-  "use strict";
-  Object.defineProperty(t, "__esModule", {
-      value: !0
-  }),
-  t.BasicEditor = t.RendererEditor = void 0;
-  var n = a(0),
-  l = a(1),
-  i = a(2);
-  t.RendererEditor = function(e, t) {
-      return function(a) {
-          l.registerEditorPlugin(function(a) {
-              function l(n) {
-                  var l = a.call(this, n) || this;
-                  return l.rendererName = e,
-                  l.name = l.tipName || t.name,
-                  l.description = t.description,
-                  l.scaffold = t.scaffold || {
-                      type: t.type
-                  },
-                  l.previewSchema = t.previewSchema || l.scaffold,
-                  l.settingsSchema && (l.panelTitle = l.settingsSchema.title, l.panelControls = l.settingsSchema.controls),
-                  l
-              }
-              return n.__extends(l, a),
-              l
-          } (a))
-      }
-  };
-  var r = function(e) {
-      function t() {
-          return null !== e && e.apply(this, arguments) || this
-      }
-      return n.__extends(t, e),
-      t
-  } (i.BasePlugin);
-  t.BasicEditor = r
-  },
-  function(e, t, a) {
-  "use strict";
-  Object.defineProperty(t, "__esModule", {
-      value: !0
-  });
-  var n = a(0),
-  l = n.__importDefault(a(4)),
-  i = n.__importDefault(a(21)),
-  r = n.__importDefault(a(8)),
-  o = n.__importDefault(a(30)),
-  s = a(41),
-  d = a(42),
-  c = a(6),
-  u = function(e) {
-      function t(t) {
-          var a = e.call(this, t) || this;
-          return a.manager.on("build-panels", a.buildPanels),
-          a
-      }
-      return n.__extends(t, e),
-      t.prototype.componentWillUnmount = function() {
-          this.manager.off("build-panels", this.buildPanels)
-      },
-      t.prototype.buildPanels = function(e) {
-          var t = e.context.data;
-          Array.isArray(t) && t.splice(0, t.length)
-      },
-      t.prototype.render = function() {
-          var e = this.props,
-          t = e.preview,
-          a = e.className,
-          n = e.theme,
-          i = e.data;
-          return l.
-      default.createElement("div", {
-              className: r.
-          default("ae-Editor", {
-                  preview: t
-              },
-              a)
-          },
-          l.
-      default.createElement("div", {
-              className: "ae-Editor-inner",
-              onContextMenu: this.handleContextMenu
-          },
-          l.
-      default.createElement("div", {
-              className: "ae-Main"
-          },
-          l.
-      default.createElement(o.
-      default, {
-              editable: !t,
-              store: this.store,
-              manager: this.manager,
-              theme: n,
-              data: i
-          }))), l.
-      default.createElement(s.SubEditor, {
-              store: this.store,
-              manager: this.manager,
-              theme: n
-          }), l.
-      default.createElement(d.ScaffoldModal, {
-              store: this.store,
-              manager: this.manager,
-              theme: n
-          }))
-      },
-      n.__decorate([c.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "buildPanels", null),
-      t
-  } (i.default);
-      t.default = u
-  }]));
+                        type: "fieldSet",
+                        title: "其他设置",
+                        collapsed: !0,
+                        collapsable: !0,
+                        className: "fieldset m-b-none",
+                        controls: [{
+                            name: "mode",
+                            label: "展示模式",
+                            type: "button-group",
+                            size: "xs",
+                            mode: "inline",
+                            className: "w-full",
+                            value: "normal",
+                            options: [{
+                                label: "默认",
+                                value: "normal"
+                            },
+                            {
+                                label: "左右摆放",
+                                value: "horizontal"
+                            },
+                            {
+                                label: "内联",
+                                value: "inline"
+                            }]
+                        },
+                        r.getSchemaTpl("horizontal", {
+                            visibleOn: 'data.mode == "horizontal"'
+                        }), r.getSchemaTpl("api", {
+                            label: "保存接口",
+                            description: "如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步"
+                        }), {
+                            label: "采用异步方式?",
+                            remark: {
+                                trigger: "click",
+                                rootClose: !0,
+                                title: "什么是异步方式？",
+                                content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                                placement: "left"
+                            },
+                            type: "switch",
+                            name: "asyncApi",
+                            visibleOn: "data.api",
+                            pipeIn: function(e) {
+                                return null != e
+                            },
+                            pipeOut: function(e) {
+                                return e ? "": void 0
+                            },
+                            mode: "inline",
+                            className: "block"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "asyncApi",
+                            label: "异步检测接口",
+                            visibleOn: "data.asyncApi != null",
+                            description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                        }), {
+                            type: "divider"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "initApi",
+                            label: "初始化接口",
+                            description: "用来初始化表单数据"
+                        }), {
+                            label: "采用异步方式？",
+                            remark: {
+                                trigger: "click",
+                                rootClose: !0,
+                                title: "什么是异步方式？",
+                                content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                                placement: "left"
+                            },
+                            type: "switch",
+                            name: "initAsyncApi",
+                            visibleOn: "data.initApi",
+                            pipeIn: function(e) {
+                                return null != e
+                            },
+                            pipeOut: function(e) {
+                                return e ? "": void 0
+                            },
+                            mode: "inline",
+                            className: "block"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "initAsyncApi",
+                            label: "异步检测接口",
+                            visibleOn: "data.initAsyncApi != null",
+                            description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                        }), r.getSchemaTpl("initFetch"), {
+                            label: "是否可被点开",
+                            type: "text",
+                            name: "jumpableOn",
+                            description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
+                        }]
+                    }]
+                }]
+            },
+            {
+                title: "接口",
+                controls: [r.getSchemaTpl("api", {
+                    name: "initApi",
+                    label: "初始化接口",
+                    description: "用来初始化向导数据，当接口中返回 <code>step</code> 字段时，可以控制默认跳转到第几步，注意数值一定得是数字类型。当返回 <code>submiting</code> 并且当前步骤中存在异步保存接口时，可以让 wizard 初始进入异步提交状态。"
+                }), {
+                    label: "采用异步方式？",
+                    remark: {
+                        trigger: "click",
+                        rootClose: !0,
+                        title: "什么是异步方式？",
+                        content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                        placement: "left"
+                    },
+                    type: "switch",
+                    name: "initAsyncApi",
+                    visibleOn: "data.initApi",
+                    pipeIn: function(e) {
+                        return null != e
+                    },
+                    pipeOut: function(e) {
+                        return e ? "": void 0
+                    },
+                    mode: "inline"
+                },
+                r.getSchemaTpl("api", {
+                    name: "initAsyncApi",
+                    label: "异步检测接口",
+                    visibleOn: "data.initAsyncApi != null",
+                    description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                }), {
+                    name: "initFetch",
+                    type: "radios",
+                    label: "是否初始拉取",
+                    inline: !0,
+                    options: [{
+                        label: "是",
+                        value: !0
+                    },
+                    {
+                        label: "否",
+                        value: !1
+                    },
+                    {
+                        label: "表达式",
+                        value: ""
+                    }]
+                },
+                {
+                    name: "initFetch",
+                    autoComplete: !1,
+                    visibleOn: 'typeof this.initFetch !== "boolean"',
+                    type: "text",
+                    placeholder: "",
+                    className: "m-t-n-sm"
+                },
+                {
+                    type: "divider"
+                },
+                r.getSchemaTpl("api", {
+                    label: "保存接口",
+                    description: "用来保存表单数据, 最后一步点击完成触发，<code>如果最后一步中已经设置保存接口，则此处设置无效。</code>"
+                }), {
+                    label: "采用异步方式?",
+                    remark: {
+                        trigger: "click",
+                        rootClose: !0,
+                        title: "什么是异步方式？",
+                        content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                        placement: "left"
+                    },
+                    type: "switch",
+                    name: "asyncApi",
+                    visibleOn: "data.api",
+                    pipeIn: function(e) {
+                        return null != e
+                    },
+                    pipeOut: function(e) {
+                        return e ? "": void 0
+                    },
+                    mode: "inline"
+                },
+                r.getSchemaTpl("api", {
+                    name: "asyncApi",
+                    label: "异步检测接口",
+                    visibleOn: "data.asyncApi != null",
+                    description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                })]
+            },
+            {
+                title: "外观",
+                controls: [{
+                    name: "mode",
+                    label: "展示模式",
+                    type: "button-group",
+                    size: "sm",
+                    mode: "inline",
+                    className: "w-full",
+                    value: "horizontal",
+                    options: [{
+                        label: "水平",
+                        value: "horizontal"
+                    },
+                    {
+                        label: "垂直",
+                        value: "vertical"
+                    }]
+                },
+                {
+                    name: "actionPrevLabel",
+                    label: "上一步按钮名称",
+                    type: "text",
+                    pipeIn: r.defaultValue("上一步")
+                },
+                {
+                    name: "actionNextLabel",
+                    label: "下一步按钮名称",
+                    type: "text",
+                    pipeIn: r.defaultValue("下一步")
+                },
+                {
+                    name: "actionNextSaveLabel",
+                    label: "保存并下一步按钮名称",
+                    type: "text",
+                    pipeIn: r.defaultValue("保存并下一步")
+                },
+                {
+                    name: "actionFinishLabel",
+                    label: "完成按钮名称",
+                    type: "text",
+                    pipeIn: r.defaultValue("完成")
+                },
+                r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+                    name: "actionClassName",
+                    label: "按钮 CSS 类名"
+                })]
+            },
+            {
+                title: "其他",
+                controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("name"), r.getSchemaTpl("reload"), {
+                    label: "跳转",
+                    name: "redirect",
+                    type: "text",
+                    description: "当设置此值后，表单提交完后跳转到目标地址。"
+                },
+                r.getSchemaTpl("visible")]
+            }])],
+            t.patchContainers = ["steps.controls"],
+            t.vRendererConfig = {
+                regions: {
+                    controls: {
+                        key: "controls",
+                        label: "表单集合",
+                        wrapperResolve: function(e) {
+                            return e
+                        }
+                    },
+                    actions: {
+                        label: "按钮组",
+                        key: "actions",
+                        preferTag: "按钮",
+                        wrapperResolve: function(e) {
+                            return e
+                        }
+                    }
+                },
+                panelTitle: "步骤",
+                panelControlsCreator: function(e) {
+                    return r.getSchemaTpl("tabs", [{
+                        title: "常规",
+                        controls: [{
+                            name: "title",
+                            type: "text",
+                            label: "标题",
+                            pipeIn: function(e, t) {
+                                return e || t.label
+                            }
+                        },
+                        r.getSchemaTpl("api", {
+                            label: "保存接口",
+                            description: "如果接口返回了 <code>step</code> 变量，且数值是数字类型，比如 <code>3</code>，提交完后回跳到第 3 步"
+                        }), {
+                            label: "采用异步方式?",
+                            remark: {
+                                trigger: "click",
+                                rootClose: !0,
+                                title: "什么是异步方式？",
+                                content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                                placement: "left"
+                            },
+                            type: "switch",
+                            name: "asyncApi",
+                            visibleOn: "data.api",
+                            pipeIn: function(e) {
+                                return null != e
+                            },
+                            pipeOut: function(e) {
+                                return e ? "": void 0
+                            },
+                            mode: "inline",
+                            className: "block"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "asyncApi",
+                            label: "异步检测接口",
+                            visibleOn: "data.asyncApi != null",
+                            description: "设置此属性后，表单提交发送保存接口后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                        }), {
+                            type: "divider"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "initApi",
+                            label: "初始化接口",
+                            description: "用来初始化表单数据"
+                        }), {
+                            label: "采用异步方式？",
+                            remark: {
+                                trigger: "click",
+                                rootClose: !0,
+                                title: "什么是异步方式？",
+                                content: "异步方式主要用来解决请求超时问题，启用异步方式后，程序会在请求完后，定时轮询请求额外的接口用来咨询操作是否完成。所以接口可以快速的返回，而不需要等待流程真正完成。",
+                                placement: "left"
+                            },
+                            type: "switch",
+                            name: "initAsyncApi",
+                            visibleOn: "data.initApi",
+                            pipeIn: function(e) {
+                                return null != e
+                            },
+                            pipeOut: function(e) {
+                                return e ? "": void 0
+                            },
+                            mode: "inline",
+                            className: "block"
+                        },
+                        r.getSchemaTpl("api", {
+                            name: "initAsyncApi",
+                            label: "异步检测接口",
+                            visibleOn: "data.initAsyncApi != null",
+                            description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
+                        }), r.getSchemaTpl("initFetch")]
+                    },
+                    {
+                        title: "外观",
+                        controls: [{
+                            name: "mode",
+                            label: "展示模式",
+                            type: "button-group",
+                            size: "xs",
+                            mode: "inline",
+                            className: "w-full",
+                            value: "normal",
+                            options: [{
+                                label: "默认",
+                                value: "normal"
+                            },
+                            {
+                                label: "左右摆放",
+                                value: "horizontal"
+                            },
+                            {
+                                label: "内联",
+                                value: "inline"
+                            }]
+                        },
+                        r.getSchemaTpl("horizontal", {
+                            visibleOn: 'data.mode == "horizontal"'
+                        })]
+                    },
+                    {
+                        title: "其他",
+                        controls: [{
+                            label: "是否可被点开",
+                            type: "text",
+                            name: "jumpableOn",
+                            description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
+                        }]
+                    }])
+                }
+            },
+            t.wizardWrapperResolve = function(e) {
+                return [].slice.call(e.querySelectorAll('[role="wizard-body"],[role="wizard-footer"]'))
+            },
+            t.overrides = {
+                renderWizard: function() {
+                    var e = this,
+                    t = this.props.$$editor,
+                    a = this.props.steps,
+                    l = this.state.currentStep,
+                    i = this.super();
+                    if (!t || !(null == a ? void 0 : a[l - 1])) return i;
+                    var r = l - 1,
+                    u = a[r],
+                    p = u.$$id,
+                    m = t.plugin;
+                    return d.mapReactElement(i, (function(a) {
+                        return /Wizard-step\b/.test(a.props.className) ? o.
+                    default.createElement(s.VRenderer, {
+                            key: p,
+                            plugin: t.plugin,
+                            renderer: t.renderer,
+                            $schema: "/schemas/WizardStepSchema.json",
+                            hostId: t.id,
+                            memberIndex: r,
+                            name: u.title || "步骤" + (r + 1),
+                            id: p,
+                            draggable: !1,
+                            wrapperResolve: m.wizardWrapperResolve,
+                            schemaPath: t.schemaPath + "/steps/" + r,
+                            path: e.props.$path + "/" + r,
+                            data: e.props.data
+                        },
+                        d.mapReactElement(a, (function(e, a) {
+                            var l;
+                            if ((null === (l = e.props.schema) || void 0 === l ? void 0 : l.controls) && e.props.schema.$$id) {
+                                var i = m.vRendererConfig.regions.controls,
+                                r = n.__assign({},
+                                e.props.schema);
+                                return delete r.$$id,
+                                o.
+                            default.createElement(c.RegionWrapper, {
+                                    key: i.key,
+                                    preferTag: i.preferTag,
+                                    name: i.key,
+                                    label: i.label,
+                                    regionConfig: i,
+                                    editorStore: m.manager.store,
+                                    manager: m.manager,
+                                    children: o.
+                                default.cloneElement(e, {
+                                        schema: r
+                                    }),
+                                    wrapperResolve: i.wrapperResolve,
+                                    rendererName: t.renderer.name
+                                })
+                            }
+                            return e
+                        }))) : a
+                    }))
+                },
+                renderFooter: function() {
+                    var e = this.props.$$editor,
+                    t = this.props.steps,
+                    a = this.state.currentStep,
+                    n = this.super();
+                    if (!e || !(null == t ? void 0 : t[a - 1])) return n;
+                    var l = e.plugin,
+                    i = l.vRendererConfig.regions.actions;
+                    return o.
+                default.createElement(c.RegionWrapper, {
+                        key: i.key,
+                        preferTag: i.preferTag,
+                        name: i.key,
+                        label: i.label,
+                        regionConfig: i,
+                        editorStore: l.manager.store,
+                        manager: l.manager,
+                        children: n,
+                        wrapperResolve: i.wrapperResolve,
+                        rendererName: e.renderer.name
+                    })
+                }
+            },
+            t
+        }
+        return n.__extends(t, e),
+        t.prototype.buildEditorToolbar = function(e, t) {
+            if (e.info.plugin === this && e.info.renderer.name === this.rendererName && !e.info.hostId) {
+                var a = e.node;
+                t.push({
+                    level: "secondary",
+                    icon: "fa fa-chevron-left",
+                    tooltip: "上个步骤",
+                    onClick: function() {
+                        var e = a.getComponent();
+                        if (null == e ? void 0 : e.gotoStep) {
+                            var t = e.state.currentStep;
+                            e.gotoStep(t - 1)
+                        }
+                    }
+                }),
+                t.push({
+                    level: "secondary",
+                    icon: "fa fa-chevron-right",
+                    tooltip: "下个步骤",
+                    onClick: function() {
+                        var e = a.getComponent();
+                        if (null == e ? void 0 : e.gotoStep) {
+                            var t = e.state.currentStep;
+                            e.gotoStep(t + 1)
+                        }
+                    }
+                })
+            }
+        },
+        t.prototype.filterProps = function(e) {
+            return e.affixFooter = !1,
+            e
+        },
+        t
+    } (i.BasePlugin);
+    t.WizardPlugin = u,
+    l.registerEditorPlugin(u)
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.WrapperPlugin = void 0;
+    var n = a(0),
+    l = a(5),
+    i = n.__importDefault(a(4)),
+    r = a(1),
+    o = a(2),
+    s = a(3),
+    d = function(e) {
+        function t() {
+            var t = null !== e && e.apply(this, arguments) || this;
+            return t.rendererName = "wrapper",
+            t.$schema = "/schemas/WrapperSchema.json",
+            t.name = "包裹",
+            t.description = "类似于容器，唯一的区别在于会默认会有一层内边距。",
+            t.tags = ["容器"],
+            t.icon = "fa fa-square-o",
+            t.scaffold = {
+                type: "wrapper",
+                body: "内容"
+            },
+            t.previewSchema = n.__assign({},
+            t.scaffold),
+            t.regions = [{
+                key: "body",
+                label: "内容区"
+            }],
+            t.panelTitle = "包裹",
+            t.panelControls = [{
+                children: i.
+            default.createElement(l.Button, {
+                    size: "sm",
+                    className: "m-b-sm",
+                    level: "info",
+                    block: !0,
+                    onClick: function() {
+                        t.manager.showInsertPanel("body")
+                    }
+                },
+                "新增内容")
+            },
+            {
+                type: "divider"
+            },
+            s.getSchemaTpl("size", {
+                label: "内间距大小",
+                options: [{
+                    label: "极小",
+                    value: "xs"
+                },
+                {
+                    label: "小",
+                    value: "sm"
+                },
+                {
+                    label: "默认",
+                    value: ""
+                },
+                {
+                    label: "中",
+                    value: "md"
+                },
+                {
+                    label: "大",
+                    value: "lg"
+                },
+                {
+                    label: "无",
+                    value: "none"
+                }],
+                pipeIn: s.defaultValue("")
+            }), s.getSchemaTpl("className", {
+                description: "设置样式后，大小设置将无效。",
+                pipeIn: s.defaultValue("bg-white")
+            })],
+            t
+        }
+        return n.__extends(t, e),
+        t
+    } (o.BasePlugin);
+    t.WrapperPlugin = d,
+    r.registerEditorPlugin(d)
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    }),
+    t.BasicEditor = t.RendererEditor = void 0;
+    var n = a(0),
+    l = a(1),
+    i = a(2);
+    t.RendererEditor = function(e, t) {
+        return function(a) {
+            l.registerEditorPlugin(function(a) {
+                function l(n) {
+                    var l = a.call(this, n) || this;
+                    return l.rendererName = e,
+                    l.name = l.tipName || t.name,
+                    l.description = t.description,
+                    l.scaffold = t.scaffold || {
+                        type: t.type
+                    },
+                    l.previewSchema = t.previewSchema || l.scaffold,
+                    l.settingsSchema && (l.panelTitle = l.settingsSchema.title, l.panelControls = l.settingsSchema.controls),
+                    l
+                }
+                return n.__extends(l, a),
+                l
+            } (a))
+        }
+    };
+    var r = function(e) {
+        function t() {
+            return null !== e && e.apply(this, arguments) || this
+        }
+        return n.__extends(t, e),
+        t
+    } (i.BasePlugin);
+    t.BasicEditor = r
+},
+function(e, t, a) {
+    "use strict";
+    Object.defineProperty(t, "__esModule", {
+        value: !0
+    });
+    var n = a(0),
+    l = n.__importDefault(a(4)),
+    i = n.__importDefault(a(21)),
+    r = n.__importDefault(a(8)),
+    o = n.__importDefault(a(30)),
+    s = a(41),
+    d = a(42),
+    c = a(6),
+    u = function(e) {
+        function t(t) {
+            var a = e.call(this, t) || this;
+            return a.manager.on("build-panels", a.buildPanels),
+            a
+        }
+        return n.__extends(t, e),
+        t.prototype.componentWillUnmount = function() {
+            this.manager.off("build-panels", this.buildPanels)
+        },
+        t.prototype.buildPanels = function(e) {
+            var t = e.context.data;
+            Array.isArray(t) && t.splice(0, t.length)
+        },
+        t.prototype.render = function() {
+            var e = this.props,
+            t = e.preview,
+            a = e.className,
+            n = e.theme,
+            i = e.data;
+            return l.
+        default.createElement("div", {
+                className: r.
+            default("ae-Editor", {
+                    preview: t
+                },
+                a)
+            },
+            l.
+        default.createElement("div", {
+                className: "ae-Editor-inner",
+                onContextMenu: this.handleContextMenu
+            },
+            l.
+        default.createElement("div", {
+                className: "ae-Main"
+            },
+            l.
+        default.createElement(o.
+        default, {
+                editable: !t,
+                store: this.store,
+                manager: this.manager,
+                theme: n,
+                data: i
+            }))), l.
+        default.createElement(s.SubEditor, {
+                store: this.store,
+                manager: this.manager,
+                theme: n
+            }), l.
+        default.createElement(d.ScaffoldModal, {
+                store: this.store,
+                manager: this.manager,
+                theme: n
+            }))
+        },
+        n.__decorate([c.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "buildPanels", null),
+        t
+    } (i.
+default);
+    t.
+default = u
+}]));

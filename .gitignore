@@ -16,6 +16,7 @@ dist
 node_modules
 
 editor.view.*.js
+editor.view.*.css
 
 # workspace
 /website/docs/build

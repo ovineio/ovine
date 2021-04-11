@@ -100,7 +100,7 @@ function addEditorFilesToDll(options: ConfigOptions) {
   const editorPath = getEditorFile('scripts/editor.view.js')
   if (editorPath) {
     dllModules.push(editorPath)
-    dllModules.push(getEditorFile('styles/editor.min.css'))
+    dllModules.push(getEditorFile('styles/editor.view.css'))
   }
 }
 
