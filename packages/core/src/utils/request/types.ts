@@ -28,6 +28,7 @@ export type ReqOption<S = any, P = any> = {
   headers?: any // 请求头
   body?: any // 请求体
   dataType?: 'json' | 'form-data' | 'form' // 提交类型
+  responseType?: 'blob' // 返回 blob
   expired?: number // 请求超时时间毫秒数 0
   cache?: number // 前置缓存适用于并发请求
   fetchOptions?: Omit<RequestInit, 'header' | 'body' | 'signal' | 'url' | 'method'> // fetch 参数

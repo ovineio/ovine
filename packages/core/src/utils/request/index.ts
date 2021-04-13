@@ -14,6 +14,8 @@ import logger from '@/utils/logger'
 import { getSessionStore, setSessionStore } from '@/utils/store'
 import { isExpired, promisedTimeout, rmUrlRepeatSlant } from '@/utils/tool'
 
+import { saveFile } from '../file'
+
 import * as Types from './types'
 
 const log = logger.getLogger('lib:utils:request')
@@ -132,9 +134,16 @@ async function readJsonResponse(response: any) {
   }
 }
 
+function saveFileFromRes(options: { blob: any; disposition: string }) {
+  const { blob, disposition } = options
+  const fileName = get(/filename=(.*)$/.exec(disposition), '1') || undefined
+
+  saveFile(blob, fileName)
+}
+
 // 发出 fetch 请求
 async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { url, body, config } = option
+  const { url, body, config, responseType } = option
 
   if (config.onUploadProgress && body && typeof XMLHttpRequest !== 'undefined') {
     const result = await uploadWithProgress.call(this, option)
@@ -169,7 +178,13 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       }
 
       try {
-        response.data = await readJsonResponse(response)
+        if (responseType === 'blob' || config.responseType === 'blob') {
+          const blob = await response.blob()
+          response.data = { blob }
+          saveFileFromRes({ blob, disposition: response.headers.get('Content-Disposition') || '' })
+        } else {
+          response.data = await readJsonResponse(response)
+        }
         await requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {

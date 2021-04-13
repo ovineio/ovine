@@ -30,7 +30,6 @@ class HtmlHooksPlugin {
     if (check) {
       check(schema, options, 'HtmlHooksPlugin')
     }
-    this.isApplied = false // apply only once
     this.options = options
   }
 
@@ -63,11 +62,6 @@ class HtmlHooksPlugin {
 
   apply(compiler) {
     compiler.hooks.done.tapAsync({ name: 'HtmlHooksPlugin' }, (__, done) => {
-      if (this.isApplied) {
-        done()
-        return
-      }
-
       const { getThemeTpl, indexHtml, isProd } = this.options
 
       const localFs = !isProd ? compiler.outputFileSystem : fs
@@ -80,16 +74,17 @@ class HtmlHooksPlugin {
         }
 
         const libHolder = '<script id="injectScriptHolder"></script>'
-        const newContent =
-          content.indexOf(libHolder) > -1
-            ? content.replace(libHolder, injectTpl)
-            : content.replace('</head>', `${injectTpl}</head>`)
 
+        if (content.indexOf(libHolder) === -1) {
+          done()
+          return
+        }
+
+        const newContent = content.replace(libHolder, injectTpl)
         localFs.writeFile(indexHtml, newContent, (writeErr) => {
           if (writeErr) {
             console.error(`Unable to write: ${indexHtml}`, writeErr)
           }
-          this.isApplied = true
           done()
         })
       })

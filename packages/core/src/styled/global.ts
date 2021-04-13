@@ -84,7 +84,7 @@ const GlobalStyle = createGlobalStyle`
         background-color: #d9d9d9;
       }
       &.cxd-Button--iconOnly {
-        line-height: 0.9rem;
+        line-height: 1.4rem;
         &>i.fa {
           font-size: 0.9rem;
           line-height: 0.9rem;

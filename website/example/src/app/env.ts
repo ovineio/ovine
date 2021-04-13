@@ -20,6 +20,7 @@ export const env = {
     domains: {
       // api: 'http://localhost:7050/',
       modelApi: 'https://ovine.igroupes.com', // ovine api
+      testApi: 'http://localhost:3000',
       // modelApi: 'http://cr3mgb.natappfree.cc',
     },
     // 日志配置
