@@ -42,6 +42,7 @@ export const LoginPage = styled.div`
     position: relative;
     label {
       position: absolute;
+      z-index: 3;
       top: 50%;
       transform: translateY(-50%);
       transition: 0.3s all ease;
@@ -58,6 +59,10 @@ export const LoginPage = styled.div`
       text-indent: 28px;
       background: transparent;
       border-bottom: 1px solid #ccc;
+
+      &:-webkit-autofill {
+        box-shadow: inset 0 0 0 1000px #fff;
+      }
     }
 
     &.first {
