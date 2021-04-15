@@ -1,6 +1,6 @@
 /**
  * amis env 配置
- * 文档: https://baidu.github.io/amis/docs/start/getting-started
+ * 文档: https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started
  *
  * 可重写 ovine 内部对 amis 一些列 env 配置
  */

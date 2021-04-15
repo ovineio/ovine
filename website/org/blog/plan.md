@@ -20,7 +20,7 @@ title: 迭代计划表
     - 将 `routePrefix` 默认设置为 `config.js`中的 `publicPath`
     - 修复: `theme 初始化加载 css 文件 可能会出现, 界面抖动的情况`
 - 0.1.5
-  - 添加 `yarn ovine version`
+  - 添加 `yarn ovine version upgrade`
 
 #### `0.2.x` 着重处理编辑器相关的需求
 

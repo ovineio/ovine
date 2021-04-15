@@ -1231,7 +1231,7 @@ function(e, t, a) {
                 trigger: "click",
                 className: "m-l-xs",
                 rootClose: !0,
-                content: '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.github.io/amis/docs/concepts/style" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
+                content: '有哪些辅助类 CSS 类名？请前往 <a href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/style" target="_blank">样式说明</a>，除此之外你可以添加自定义类名，然后在系统配置中添加自定义样式。',
                 placement: "left"
             }
         },
@@ -2140,7 +2140,7 @@ function(e, t, a) {
                     trigger: "click",
                     className: "m-l-xs",
                     rootClose: !0,
-                    content: '纯粹的 JS 语法，this 指向当前数据层。文档：<a href="https://baidu.github.io/amis/docs/concepts/expression">表达式语法</a>',
+                    content: '纯粹的 JS 语法，this 指向当前数据层。文档：<a href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/expression">表达式语法</a>',
                     placement: "left"
                 },
                 placeholder: "如：this.type === 1",
@@ -2242,7 +2242,7 @@ function(e, t, a) {
                         trigger: "click",
                         className: "m-l-xs",
                         rootClose: !0,
-                        content: '纯粹的 JS 语法，this 指向当前数据层。文档：<a href="https://baidu.github.io/amis/docs/concepts/expression">表达式语法</a>',
+                        content: '纯粹的 JS 语法，this 指向当前数据层。文档：<a href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/expression">表达式语法</a>',
                         placement: "left"
                     },
                     type: "text",

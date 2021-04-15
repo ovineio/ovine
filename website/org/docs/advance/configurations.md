@@ -238,5 +238,5 @@ export type SchemaPreset = {
 **查看关联资源**
 
 - [ReqOption 类型](/org/docs/modules/request#reqoption-%E9%80%89%E9%A1%B9)
-- [Amis Action 渲染器](https://baidu.github.io/amis/docs/components/action)
-- [Amis from 渲染器](https://baidu.github.io/amis/docs/components/form/index)
+- [Amis Action 渲染器](https://baidu.gitee.io/amis/zh-CN/docs/components/action)
+- [Amis from 渲染器](https://baidu.gitee.io/amis/zh-CN/docs/components/form/index)

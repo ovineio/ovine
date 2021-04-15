@@ -6,13 +6,20 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
-### 0.1.3 ---- 2021.4.09
+### 0.1.3 ---- 2021.4.13
 
 > 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
 
+- 主要功能
+
+  - 支持 `request`配置 `responseType: "blob"` 下载文件
+
 - 主要优化
   - 升级 `amis` 到 `1.1.5` 版本
-  - 修复 字体文件 可能夹在不到的情况
+  - 升级 `amis-editor` 到 `2.0.14` 版本
+  - 修复 字体文件 可能加载不到的情况
+  - 修复 `init` 初始化模版的部分 BUG
+  - 修复 `request` 模块部分小 BUG
 
 ### 0.1.2 ---- 2021.3.23
 
@@ -89,7 +96,7 @@ title: 版本更新日志
 
 ### 0.0.6 ---- 2020.7.14
 
-- 支持 [Amis Definitions](https://baidu.github.io/amis/docs/components/Definitions#definitions) 功能使用 `Function` 做 Json 转换
+- 支持 [Amis Definitions](https://baidu.gitee.io/amis/zh-CN/docs/components/Definitions#definitions) 功能使用 `Function` 做 Json 转换
 - `aside-layout` 中 `header,footer` 配置支持权限过滤
 - 将 `demo` 模版变为初始化项目默认选项
 - 修复项目在 `Safari 浏览器` 白屏 BUG

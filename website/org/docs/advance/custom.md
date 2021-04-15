@@ -21,7 +21,7 @@ export default () => {
 
 #### 自定义复杂的渲染器
 
-请参考 [Amis 官方文档](https://baidu.github.io/amis/docs/start/custom)自定义比较复杂的渲染器，Ovine 没有额外任何处理。
+请参考 [Amis 官方文档](https://baidu.gitee.io/amis/zh-CN/docs/extend/addon)自定义比较复杂的渲染器，Ovine 没有额外任何处理。
 
 ### 多个页面公用相同的 Json 配置
 

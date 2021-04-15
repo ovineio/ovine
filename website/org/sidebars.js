@@ -12,6 +12,7 @@ module.exports = {
       'advance/limit',
       'advance/mock',
       'advance/custom',
+      'advance/editor',
     ],
   },
 }

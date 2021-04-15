@@ -6,6 +6,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": "lib/index.js",
   "scripts": {
     "tsc:editor": "rimraf ./lib && yarn copy && ttsc",
     "dev": "ttsc -w ",
