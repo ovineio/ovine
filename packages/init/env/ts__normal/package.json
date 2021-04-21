@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "start": "ovine dev --mock",
-    "dev": "ovine dev --no-dll --mock",
     "build": "ovine build",
     "scss": "ovine scss",
     "dll": "ovine dll --no-hash",

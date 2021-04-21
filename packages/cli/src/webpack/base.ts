@@ -662,7 +662,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
 
   const fetchManifest = async () => {
     // check cache files if exits
-    if (_.values(cachedFiles).every((filePath) => fse.existsSync(filePath))) {
+    if ([cacheAssetsFile, cacheManifestFile].every((filePath) => fse.existsSync(filePath))) {
       const assetJson = await fse.readJSON(cacheAssetsFile)
       // check the cache if valid
       if (assetJson[winConst.dllVersion] === dllVer && assetJson[dllHostDirKey] === hostDir) {

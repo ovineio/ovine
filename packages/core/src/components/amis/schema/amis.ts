@@ -64,7 +64,7 @@ export default (option: Option) => {
     notify: (msgType: string = 'error', msg: string = '') => {
       log.log('notify', { msgType, msg })
       // 默认跳过表单错误 提示
-      if (/表单验证失败/.test(msg)) {
+      if (/依赖的部分字段没有通过验证/.test(msg)) {
         return
       }
       const tipMsg = (toast as any)[msgType]

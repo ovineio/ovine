@@ -29,12 +29,12 @@ module.exports = {
       },
       items: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
-        { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         {
-          label: '迭代进度',
+          label: '创建应用',
           position: 'left',
-          to: 'https://github.com/users/CareyToboo/projects/2',
+          to: 'http://ovine.igroupes.com/apps/factory/',
         },
+        { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         {
           label: '案例项目',
           to: '/org/showcase',
@@ -66,5 +66,9 @@ module.exports = {
       },
     ],
   ],
-  scripts: ['/org/scripts/jquery.min.js', '/org/scripts/jquery.localscroll.js'],
+  scripts: [
+    '/org/scripts/bdstat.js',
+    '/org/scripts/jquery.min.js',
+    '/org/scripts/jquery.localscroll.js',
+  ],
 }

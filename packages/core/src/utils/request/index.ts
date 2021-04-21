@@ -1,10 +1,11 @@
 /**
  * 封装 fetch 请求
+ * TODO: 请求模块需要 编写测试用例
  */
 
 /* eslint-disable consistent-return */
 import { getApiCache, setApiCache } from 'amis/lib/utils/api'
-import { object2formData, qsstringify, hasFile, isEmpty } from 'amis/lib/utils/helper'
+import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
 import { get, map, isPlainObject, isFunction, toUpper, pick } from 'lodash'
 import { parse } from 'qs'
@@ -136,7 +137,7 @@ async function readJsonResponse(response: any) {
 
 function saveFileFromRes(options: { blob: any; disposition: string }) {
   const { blob, disposition } = options
-  const fileName = get(/filename=(.*)$/.exec(disposition), '1') || undefined
+  const fileName = get(/filename="(.*)"$/.exec(disposition), '1') || undefined
 
   saveFile(blob, fileName)
 }
@@ -287,7 +288,7 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const { headers, data, body, fetchOptions, dataType = 'json', qsOptions } = option
+  const { headers, data = {}, fetchOptions, dataType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
 
@@ -308,18 +309,18 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
    */
 
   // fetch 请求参数封装
-  let fetchBody = body
+  let fetchBody
   const fetchHeaders = headers
-  if (isEmpty(fetchBody) && data && !/GET|HEAD|OPTIONS/.test(method)) {
+  if (!/GET|HEAD|OPTIONS/i.test(method)) {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
     } else if (hasFile(data) || dataType === 'form-data') {
       fetchBody = object2formData(data, qsOptions)
     } else if (dataType === 'form') {
-      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
+      fetchBody = qsstringify(data, qsOptions)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
     } else if (dataType === 'json') {
-      fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
+      fetchBody = JSON.stringify(data)
       fetchHeaders['Content-Type'] = 'application/json'
     }
   }

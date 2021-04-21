@@ -26,7 +26,6 @@ export type ReqOption<S = any, P = any> = {
   domain?: string // 当前域名的 key 数值简写
   data?: Partial<P> // 请求数据
   headers?: any // 请求头
-  body?: any // 请求体
   dataType?: 'json' | 'form-data' | 'form' // 提交类型
   responseType?: 'blob' // 返回 blob
   responseData?: any // amis 配置中，可以使用该参数，用于修改返回值

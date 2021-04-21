@@ -11,7 +11,6 @@
   "scripts": {
     "gen:static": "node-sass -v && yarn scss && yarn dll",
     "start": "ovine dev --mock",
-    "dev": "ovine dev --no-dll --mock",
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "yarn run eslint && ovine build --mock",
     "build:staging": "yarn run eslint && ovine build --env=staging",

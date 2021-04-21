@@ -188,6 +188,7 @@ const LimitSetting = (props: LimitSettingProps) => {
                   hideRoot
                   multiple
                   joinValues
+                  cascade
                   withChildren
                   initiallyOpen={isUnfolded}
                   value={selectedVal}
