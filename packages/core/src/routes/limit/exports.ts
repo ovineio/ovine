@@ -31,8 +31,30 @@ export const convertLimitStr = (limitStr: string = '') => {
   return tpl
 }
 
+// 处理 onlyChildren 导致的父级不再的问题
+function addLimitParent(limits: any[]): string {
+  const limitOrigin: any = {}
+  const newLimitObj: any = {}
+  limits.forEach((item) => {
+    limitOrigin[`${item.slice(0, item.lastIndexOf('/'))}`] = 1
+    newLimitObj[item] = 1
+  })
+
+  Object.keys(limitOrigin).forEach((item) => {
+    const limitPath = item.split('/').slice(1, item.length + 1)
+    limitPath.forEach((_val: string, i: number) => {
+      newLimitObj[`/${limitPath.slice(0, i + 1).join('/')}`] = 1
+    })
+  })
+
+  // 去重
+  const delRepeatLimit = Object.keys(newLimitObj)
+
+  return delRepeatLimit.join(',')
+}
+
 export const setAppLimits = (limitStr: string) => {
-  store = convertLimitStr(limitStr)
+  store = convertLimitStr(addLimitParent(limitStr.split(',')))
 }
 
 export const getAppLimits = () => store
