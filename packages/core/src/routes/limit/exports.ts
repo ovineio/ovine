@@ -31,7 +31,7 @@ export const convertLimitStr = (limitStr: string = '') => {
   return tpl
 }
 
-// 处理 onlyChildren 导致的父级不再的问题
+// 处理 onlyChildren 导致的父级不在的问题
 function addLimitParent(limits: any[]): string {
   const limitOrigin: any = {}
   const newLimitObj: any = {}

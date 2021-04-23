@@ -86,7 +86,6 @@ const LimitSetting = (props: LimitSettingProps) => {
   const onTreeChange = (value: string) => {
     const limitValue = resolveSelectVal(menuConfig, value)
     storeRef.current[activeTab] = limitValue
-
     setState((d) => {
       d.selectedVal = limitValue
       d.isUnfolded = undefined
@@ -190,7 +189,7 @@ const LimitSetting = (props: LimitSettingProps) => {
                   multiple
                   joinValues
                   onlyChildren
-                  initiallyOpen={!isUnfolded}
+                  initiallyOpen={isUnfolded}
                   value={selectedVal}
                   valueField="nodePath"
                   options={item.children}
@@ -211,7 +210,6 @@ function resolveSelectVal(menusConfig: any[], limitValue: string) {
 
   eachTree<LimitMenuItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
-
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return
     }
@@ -241,7 +239,6 @@ function resolveLimitMenus(menusConfig: any[], option: { limitValue: string }) {
   return mapTree<LimitItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
     // item.unfolded = isUnfolded
-
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return item
     }
@@ -260,6 +257,7 @@ function getAllAuthLimitStr(
   store: ObjectOf<string>
 ): string {
   const limitValue: string[] = []
+
   map(store, (value, storeTab) => {
     const index = Number(storeTab)
     if (value && visitedTabs.findIndex((tab) => tab === index) > -1) {
