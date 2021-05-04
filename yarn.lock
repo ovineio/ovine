@@ -2972,7 +2972,7 @@
   version "0.1.3"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.1.6-beta.10"
+    amis "1.1.6"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
@@ -4252,30 +4252,32 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis@1.1.6-beta.10:
-  version "1.1.6-beta.10"
-  resolved "https://registry.npmjs.org/amis/-/amis-1.1.6-beta.10.tgz#8247ccb3c358bb933775dafecb805d51eb455b19"
-  integrity sha512-sUsqHXXra35tSkOZuFjCbdiF6/NUTgtsWNpFCCoNqc6uHhqnSw2QOTVR4OgcIkYeCpV9cnGBZsBwtIz5vYC+aA==
+amis@1.1.6:
+  version "1.1.6"
+  resolved "https://registry.npmjs.org/amis/-/amis-1.1.6.tgz#5fa99ccc2b39bb59653ba9b09dc4de7670774177"
+  integrity sha512-meDTR6KUuRmI4PZRAPlU3HWRySnRfmm3X/uiUrY1NsbDxK/BThoOmq7siaRBKPb/1QLFlIsAs9LZ+zFLZdxLig==
   dependencies:
     ansi-to-react "^6.1.4"
     async "2.6.0"
     attr-accept "2.2.2"
     blueimp-canvastoblob "2.1.0"
-    classnames "2.2.5"
+    classnames "2.3.1"
     dom-helpers "^3.3.1"
     downshift "3.1.4"
-    echarts "5.0.0"
+    echarts "5.0.2"
     echarts-stat "^1.2.0"
     exceljs "^4.2.0"
     file-saver "^2.0.2"
     flv.js "1.5.0"
     froala-editor "2.9.6"
+    highlight.js "^10.7.2"
     hls.js "0.12.2"
     hoist-non-react-statics "3.3.0"
     immutability-helper "^3.1.1"
     jquery "^3.2.1"
     keycode "^2.1.9"
     lodash "^4.17.15"
+    markdown-it "^12.0.6"
     match-sorter "2.2.1"
     mobx "^4.5.0"
     mobx-react "^6.1.4"
@@ -4284,6 +4286,7 @@ amis@1.1.6-beta.10:
     monaco-editor "0.23.0"
     papaparse "^5.3.0"
     prop-types "^15.6.1"
+    punycode "^2.1.1"
     qrcode.react "^0.8.0"
     qs "6.5.1"
     rc-input-number "6.1.1"
@@ -4481,6 +4484,11 @@ argparse@^1.0.7:
   integrity sha1-vNZ5HqWuCXJeF+WtmIE0zUCz2RE=
   dependencies:
     sprintf-js "~1.0.2"
+
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
 aria-query@^4.2.2:
   version "4.2.2"
@@ -6588,10 +6596,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.2.5:
-  version "2.2.5"
-  resolved "https://registry.npm.taobao.org/classnames/download/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
-  integrity sha1-+zgB1FNGdknvNgPH1hoCvRKb3m0=
+classnames@2.3.1:
+  version "2.3.1"
+  resolved "https://registry.npmjs.org/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
@@ -8328,13 +8336,13 @@ echarts-stat@^1.2.0:
   resolved "https://registry.npm.taobao.org/echarts-stat/download/echarts-stat-1.2.0.tgz#d1e7a05d1827724c5cde81f76ee1d75a901746a2"
   integrity sha1-0eegXRgnckxc3oH3buHXWpAXRqI=
 
-echarts@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npm.taobao.org/echarts/download/echarts-5.0.0.tgz?cache=0&sync_timestamp=1612592564808&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fecharts%2Fdownload%2Fecharts-5.0.0.tgz#66ec0ea47e3c93b2aadfbb2d719869932ad13ce0"
-  integrity sha1-ZuwOpH48k7Kq37stcZhpkyrRPOA=
+echarts@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.npmjs.org/echarts/-/echarts-5.0.2.tgz#1726d17a57cf05d62cd0567b4325e1201a56baf6"
+  integrity sha512-En0VYpc96nw2/2AZoBWPHsGi471zMublttj50kfFpYAeR4geup0Tj9iVgEXh7QYZFPnRiruDJEjcB5PXZ+BYzQ==
   dependencies:
-    tslib "1.10.0"
-    zrender "5.0.1"
+    tslib "2.0.3"
+    zrender "5.0.4"
 
 ecstatic@^3.3.2:
   version "3.3.2"
@@ -10353,6 +10361,11 @@ highlight.js@^10.0.0:
   resolved "https://registry.npm.taobao.org/highlight.js/download/highlight.js-10.7.1.tgz#a8ec4152db24ea630c90927d6cae2a45f8ecb955"
   integrity sha1-qOxBUtsk6mMMkJJ9bK4qRfjsuVU=
 
+highlight.js@^10.7.2:
+  version "10.7.2"
+  resolved "https://registry.npmjs.org/highlight.js/-/highlight.js-10.7.2.tgz#89319b861edc66c48854ed1e6da21ea89f847360"
+  integrity sha512-oFLl873u4usRM9K63j4ME9u3etNF0PLiJhSQ8rdfuL51Wn3zkD6drf9ZW0dOzjnZI22YYG24z30JcmfCZjMgYg==
+
 history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.npm.taobao.org/history/download/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
@@ -12326,6 +12339,13 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.npm.taobao.org/lines-and-columns/download/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
+linkify-it@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/linkify-it/-/linkify-it-3.0.2.tgz#f55eeb8bc1d3ae754049e124ab3bb56d97797fb8"
+  integrity sha512-gDBO4aHNZS6coiZCKVhSNh43F9ioIL4JwRjLZPkoLIY4yZFwg264Y5lu2x6rb1Js42Gh6Yqm2f6L2AJcnkzinQ==
+  dependencies:
+    uc.micro "^1.0.1"
+
 lint-staged@^10.0.7:
   version "10.5.4"
   resolved "https://registry.npm.taobao.org/lint-staged/download/lint-staged-10.5.4.tgz#cd153b5f0987d2371fc1d2847a409a2fe705b665"
@@ -12900,6 +12920,17 @@ markdown-escapes@^1.0.0:
   resolved "https://registry.npm.taobao.org/markdown-escapes/download/markdown-escapes-1.0.4.tgz?cache=0&sync_timestamp=1615301558936&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmarkdown-escapes%2Fdownload%2Fmarkdown-escapes-1.0.4.tgz#c95415ef451499d7602b91095f3c8e8975f78535"
   integrity sha1-yVQV70UUmddgK5EJXzyOiXX3hTU=
 
+markdown-it@^12.0.6:
+  version "12.0.6"
+  resolved "https://registry.npmjs.org/markdown-it/-/markdown-it-12.0.6.tgz#adcc8e5fe020af292ccbdf161fe84f1961516138"
+  integrity sha512-qv3sVLl4lMT96LLtR7xeRJX11OUFjsaD5oVat2/SNBIb21bJXwal2+SklcRbTwGwqWpWH/HRtYavOoJE+seL8w==
+  dependencies:
+    argparse "^2.0.1"
+    entities "~2.1.0"
+    linkify-it "^3.0.1"
+    mdurl "^1.0.1"
+    uc.micro "^1.0.5"
+
 match-sorter@2.2.1:
   version "2.2.1"
   resolved "https://registry.npm.taobao.org/match-sorter/download/match-sorter-2.2.1.tgz#899a5b900f4855204bc2d3aa8cb23ba16fc528dc"
@@ -12964,7 +12995,7 @@ mdn-data@2.0.4:
   resolved "https://registry.npm.taobao.org/mdn-data/download/mdn-data-2.0.4.tgz?cache=0&sync_timestamp=1614722039269&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmdn-data%2Fdownload%2Fmdn-data-2.0.4.tgz#699b3c38ac6f1d728091a64650b65d388502fd5b"
   integrity sha1-aZs8OKxvHXKAkaZGULZdOIUC/Vs=
 
-mdurl@^1.0.0:
+mdurl@^1.0.0, mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/mdurl/download/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
   integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
@@ -18610,10 +18641,10 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.npm.taobao.org/tslib/download/tslib-1.10.0.tgz?cache=0&sync_timestamp=1609887438976&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftslib%2Fdownload%2Ftslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
-  integrity sha1-w8GflZc/sKYpc/sJ2Q2WHuQ+XIo=
+tslib@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npmjs.org/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
+  integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
 
 tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
@@ -18770,6 +18801,11 @@ ua-parser-js@^0.7.18:
   version "0.7.25"
   resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.25.tgz?cache=0&sync_timestamp=1616576781413&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fua-parser-js%2Fdownload%2Fua-parser-js-0.7.25.tgz#67689fa263a87a52dabbc251ede89891f59156ce"
   integrity sha1-Z2ifomOoelLau8JR7eiYkfWRVs4=
+
+uc.micro@^1.0.1, uc.micro@^1.0.5:
+  version "1.0.6"
+  resolved "https://registry.npmjs.org/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
 uglify-js@^3.1.4:
   version "3.13.2"
@@ -20014,12 +20050,12 @@ zip-stream@^4.1.0:
     compress-commons "^4.1.0"
     readable-stream "^3.6.0"
 
-zrender@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.npm.taobao.org/zrender/download/zrender-5.0.1.tgz#cc377136a9d00d0a177ca7f65c32aed2901928da"
-  integrity sha1-zDdxNqnQDQoXfKf2XDKu0pAZKNo=
+zrender@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.npmjs.org/zrender/-/zrender-5.0.4.tgz#89c355af908b9f64a301b38f751b7951f2c8a95a"
+  integrity sha512-DJpy0yrHYY5CuH6vhb9IINWbjvBUe/56J8aH86Jb7O8rRPAYZ3M2E469Qf5B3EOIfM3o3aUrO5edRQfLJ+l1Qw==
   dependencies:
-    tslib "1.10.0"
+    tslib "2.0.3"
 
 zwitch@^1.0.0:
   version "1.0.5"
