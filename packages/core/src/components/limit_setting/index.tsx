@@ -188,8 +188,7 @@ const LimitSetting = (props: LimitSettingProps) => {
                   hideRoot
                   multiple
                   joinValues
-                  cascade
-                  withChildren
+                  onlyChildren
                   initiallyOpen={isUnfolded}
                   value={selectedVal}
                   valueField="nodePath"
@@ -239,9 +238,7 @@ function resolveLimitMenus(menusConfig: any[], option: { limitValue: string }) {
 
   return mapTree<LimitItem>(menusConfig, (item) => {
     const { needs, nodePath } = item
-
     // item.unfolded = isUnfolded
-
     if (!needs || isSubStr(nodePath, routeLimitKey)) {
       return item
     }
