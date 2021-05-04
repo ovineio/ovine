@@ -18,14 +18,28 @@ export const getModelTplData = () => {
 export const fetchTables = async () => {
   return app.request(modelApis.listTable).then((source) => {
     const tables = source.data.data
-
-    const modeTables = tables.map((table) => {
-      const data = utils.getTableFormData(table)
-      return data
-    })
-
-    return modeTables
+    return getTablesData(tables)
   })
+}
+
+export const fetchModelMap = async () => {
+  return app.request(modelApis.modelMap).then((source) => {
+    const { modelDatas, relationships } = source.data.data
+    const result = {
+      tables: getTablesData(modelDatas),
+      relationships,
+    }
+    return result
+  })
+}
+
+export const getTablesData = (tables) => {
+  const modeTables = tables.map((table) => {
+    const data = utils.getTableFormData(table)
+    return data
+  })
+
+  return modeTables
 }
 
 export const fetchTableById = async (id: string) => {

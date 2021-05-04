@@ -19,7 +19,8 @@ title: 迭代计划表
     - 添加 `appKey`标识符，用于区分同域名下,不同`ovineApp`的 `store`
     - 默认设置为 `dll: { useJsdelivr: true }`, 并当 `dll cdn` 配置生效时，不将 dll 目录下的文件复制到 `dist` 目录中
     - 将 `routePrefix` 默认设置为 `config.js`中的 `publicPath`
-    - 修复: `theme 初始化加载 css 文件 可能会出现, 界面抖动的情况`
+    - 修复 `theme 初始化加载 css 文件 可能会出现, 界面抖动的情况`
+    - 修复
 - 0.1.5
   - 添加 `yarn ovine upgrade`
 

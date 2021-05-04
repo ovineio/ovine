@@ -172,7 +172,7 @@ const PrestComponent = (props: PresetComponentProps) => {
     map(presetConf.apis, (api) => {
       // 自动注入规则
       if (api.url && api.mock !== false && !api.mockSource && mockSource) {
-        api.mockSource = mockSource[api.url] || mockSource
+        api.mockSource = mockSource[api.api || api.url] || mockSource
       }
     })
 
