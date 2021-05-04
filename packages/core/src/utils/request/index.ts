@@ -137,9 +137,9 @@ async function readJsonResponse(response: any) {
 
 function saveFileFromRes(options: { blob: any; disposition: string }) {
   const { blob, disposition } = options
-  const fileName = get(/filename="(.*)"$/.exec(disposition), '1') || undefined
+  const fileName = get(/filename="(.*)"$/.exec(disposition), '1')
 
-  saveFile(blob, fileName)
+  saveFile(blob, fileName ? decodeURIComponent(fileName) : undefined)
 }
 
 // 发出 fetch 请求

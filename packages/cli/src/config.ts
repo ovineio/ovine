@@ -13,6 +13,7 @@ import { BuildCliOptions, LoadContext, SiteConfig } from './types'
 const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
+  'appKey',
   'publicPath',
   'dll',
   'envModes',
@@ -26,6 +27,7 @@ const optionalFields = [
 ]
 
 const defaultConfig = {
+  appKey: '',
   publicPath: '/',
   template: {},
   devServer: {},
@@ -73,10 +75,19 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   }
 
   // Merge default config with loaded config.
-  const config = {
-    ...defaultConfig,
-    ...loadedConfig,
-  }
+  const config = _.defaultsDeep(
+    loadedConfig,
+    {
+      // defaultDevConfig
+      devServer: loadedConfig.publicPath?.startsWith('/')
+        ? {
+            publicPath: loadedConfig.publicPath,
+            openPage: loadedConfig.publicPath,
+          }
+        : {},
+    },
+    defaultConfig
+  )
 
   // Don't allow unrecognized fields.
   const allowedFields = [...requiredFields, ...optionalFields]

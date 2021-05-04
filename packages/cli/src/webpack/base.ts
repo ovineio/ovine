@@ -67,7 +67,7 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
     scssUpdate = false,
   } = options
 
-  const { envModes, ui, styledConfig } = siteConfig
+  const { envModes, ui, styledConfig, appKey } = siteConfig
 
   const { assetJson, manifestFile, hostDir: dllFilesHostDir } = await loadDllManifest(options)
 
@@ -325,6 +325,7 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
+        APP_KEY: appKey,
         INIT_THEME: ui.appTheme || ui.defaultTheme,
         HOT: options.hot || false,
         MOCK: mock,
@@ -378,6 +379,7 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
             const themeOpts = {
               publicPath,
               siteDir,
+              appKey,
               defaultTheme: ui.defaultTheme,
               appTheme: ui.appTheme,
               ...opts,
@@ -557,7 +559,7 @@ function getCopyPlugin(siteDir: string, outDir: string) {
 }
 
 function getThemeTpl(options: any) {
-  const { siteDir, localFs, defaultTheme, publicPath, appTheme } = options
+  const { siteDir, localFs, defaultTheme, publicPath, appTheme, appKey } = options
 
   const cssAssetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
   const cssAssets = _.get(cssAssetsJson, '.css') || []
@@ -589,17 +591,19 @@ function getThemeTpl(options: any) {
     return tpl
   }
 
+  const themeKey = `${appKey ? `${appKey}_` : ''}libAppThemeStore`
+
   if (checkTheme(appTheme)) {
     const link = themes.find((t) => t.indexOf(appTheme) > -1)
     tpl.link = `<link rel="stylesheet" href="${link}" />`
-    tpl.script = `localStorage.setItem('libAppThemeStore', '"${appTheme}"');`
+    tpl.script = `localStorage.setItem('${themeKey}', '"${appTheme}"');`
     return tpl
   }
 
   tpl.script = `
     (function() {
       var themes = "${themes}".split(',');
-      var themeName = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}';
+      var themeName = (localStorage.getItem('${themeKey}') || '').replace(/"/g, '') || '${presetTheme}';
       var linkHref = themes.find((t) => t.indexOf(themeName) > -1);
       var head = document.head || document.getElementsByTagName('head')[0];
       var link = document.createElement('link');
@@ -608,6 +612,21 @@ function getThemeTpl(options: any) {
       link.type = 'text/css';
       link.dataset.theme = themeName;
       link.href= linkHref;
+      var hideApp = function() {
+        var $app = document.getElementById('app-root');
+        if ($app) {
+          $app.style.display = 'none';
+        }
+      };
+      var showApp = function() {
+        var $app = document.getElementById('app-root');
+        if ($app) {
+          $app.style.display = 'block';
+        }
+      };
+      setTimeout(hideApp,0);
+      link.onload = showApp;
+      link.onerror = showApp;
     })();
   `
 

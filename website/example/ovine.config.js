@@ -17,6 +17,7 @@ module.exports = (option) => {
   }
 
   const config = {
+    appKey: 'ovineDemo',
     publicPath: publicPathMap[env], // 静态资源公共路径
     dll: {
       // useJsdelivr: true,

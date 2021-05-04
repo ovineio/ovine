@@ -18,6 +18,7 @@ type DevServerConfig = {
 export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
+  appKey?: string // 当前app的标示
   publicPath: string // 项目的静态资源前缀路径，可用于CDN部署
   devServer: Partial<DevServerConfig> // webpack devServer配置
   dll: {
@@ -31,7 +32,7 @@ export type SiteConfig = {
     defaultTheme?: string // 初始化主题
     withIconfont?: boolean // 使用预设 iconfont
     withoutPace?: boolean // 是否使用 默认的 顶部 loadingBar
-    appTheme?: string
+    appTheme?: string // 当不需要 主题切换时需要
   }
   envModes?: string[] // 应用环境列表
   staticFileExts?: string[] // 需要处理的静态资源类型
