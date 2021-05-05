@@ -69,7 +69,12 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
 
   const { envModes, ui, styledConfig, appKey } = siteConfig
 
-  const { assetJson, manifestFile, hostDir: dllFilesHostDir } = await loadDllManifest(options)
+  const {
+    assetJson,
+    manifestFile,
+    hostDir: dllFilesHostDir,
+    withCdnDll = false,
+  } = await loadDllManifest(options)
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -321,7 +326,7 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         new MonacoWebpackPlugin({
           publicPath,
         }),
-      getCopyPlugin(siteDir, outDir),
+      getCopyPlugin(siteDir, outDir, { withCdnDll }),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
@@ -518,7 +523,8 @@ function getDllDistFile(
   return `${dllFilesHostDir}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
-function getCopyPlugin(siteDir: string, outDir: string) {
+function getCopyPlugin(siteDir: string, outDir: string, option: { withCdnDll: boolean }) {
+  const { withCdnDll } = option
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
   const generatedStylesDir = `${siteDir}/${generatedDirName}/${stylesDirName}`
   const siteStaticDir = `${siteDir}/${staticDirName}`
@@ -529,6 +535,7 @@ function getCopyPlugin(siteDir: string, outDir: string) {
     {
       from: generatedStaticDir,
       to: outLibDir,
+      ignore: withCdnDll ? ['dll/**/*'] : undefined,
     },
   ]
 
@@ -638,6 +645,7 @@ type ManifestInfo = {
   assetsFile: string
   manifestFile: string
   assetJson: any
+  withCdnDll?: boolean
 }
 export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
   const { siteDir } = options
@@ -661,6 +669,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
 
   const cachedFiles = {
     hostDir,
+    withCdnDll: true,
     assetsFile: cacheAssetsFile,
     manifestFile: cacheManifestFile,
   }
@@ -721,7 +730,7 @@ export async function loadDllManifest(options: Props & Partial<BuildCliOptions>)
 
   let manifestInfo: any = {}
 
-  if (hostDir.startsWith('http')) {
+  if (hostDir.startsWith('http') && hostDir !== backHostDir) {
     try {
       manifestInfo = await fetchManifest()
     } catch (err) {

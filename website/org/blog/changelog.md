@@ -6,6 +6,20 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
+### 0.1.4 ---- 2021.5.5
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
+- 主要功能
+  - `ovine.config.js` 添加 `appKey`标识符，用于区分同域名下,不同`ovineApp`的 `localStorage`
+  - 默认设置为 `dll: { useJsdelivr: true }`, 并当 `dll cdn` 配置生效时，不将 `dll` 目录下的文件复制到 `dist` 目录中
+- 主要优化
+  - 升级 `amis` 到 `1.1.5` 版本
+  - 修复 权限面板的展示问题
+  - 修复 初始化加载 主题 css 文件，可能会出现，界面抖动的情况
+  - 修复 上传文件时 `receiver` 参数传入 `data: {}` 参数无效
+  - 修复 文件下载时中文名称乱码
+
 ### 0.1.3 ---- 2021.4.13
 
 > 更新此版本后需要执行 `yarn dll` 与 `yarn scss`

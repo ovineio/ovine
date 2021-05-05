@@ -48,9 +48,9 @@ function addLimitParent(limits: any[]): string {
   })
 
   // 去重
-  const delRepeatLimit = Object.keys(newLimitObj)
+  const limitArr = Object.keys(newLimitObj)
 
-  return delRepeatLimit.join(',')
+  return limitArr.join(',')
 }
 
 export const setAppLimits = (limitStr: string) => {
