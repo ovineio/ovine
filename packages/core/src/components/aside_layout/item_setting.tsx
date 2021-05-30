@@ -100,7 +100,7 @@ export default (props: Props) => {
           getLimit: () => {
             return getStore<string>(storage.dev.limit) || ''
           },
-          onSave: (data: any) => {
+          onSaveClick: (data: any) => {
             setStore(storage.dev.limit, data.authLimit)
             setStore(storage.dev.api, data.authApi)
             setAppLimits(data.authLimit)

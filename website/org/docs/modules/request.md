@@ -145,9 +145,9 @@ type ApiObject = {
   /**
    * Ovine 不支持 Amis 以下参数，主要是因为功能重叠了
    */
-  // requestAdaptor 请使用 onSuccess 代替
+  // requestAdaptor 请使用 onPreRequest 或者 onRequest  代替
   requestAdaptor?: (api: ApiObject) => ApiObject
-  // adaptor 请使用 onPreRequest 代替
+  // adaptor 请使用 onSuccess 代替
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any
 }
 ```

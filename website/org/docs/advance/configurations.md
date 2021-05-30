@@ -12,6 +12,7 @@ export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
   publicPath: string // 项目静态资源文件 前缀--(dist目录位置，主要用于CDN)，支持 '/abc/d/xx/' 或者 'https://abc.com/d/'
+  appKey: string // 用于标示当前应用，主要用于，在同一个域名，多个ovine项目时，作区分
   devServer: Partial<DevServerConfig> // webpack devServer配置
   // dll 相关的配置
   dll: {

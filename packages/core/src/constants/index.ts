@@ -28,9 +28,8 @@ export const breakpoints = {
 const getAppKey = (v: any) => {
   if (isString(v) && v.startsWith('lib')) {
     return `${appKey}_${v}`
-  } 
-    return v
-  
+  }
+  return v
 }
 
 const getAppKeys = (values: any) => {

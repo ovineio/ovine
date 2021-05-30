@@ -88,24 +88,12 @@ export default ({ colors, ns }: DefaultTheme) => css`
     .${ns}Table-contentWrap {
       background-color: transparent;
     }
-    .${ns}Table-table {
+    .${ns}Table-content {
       height: 380px;
+    }
+    .${ns}Table-table {
       min-width: 300px;
-      thead,
-      tbody {
-        tr {
-          table-layout: fixed;
-          display: table;
-          width: 100%;
-          box-sizing: content-box;
-        }
-      }
-      tbody {
-        /* background-color: ${colors.layoutHeaderBg}; */
-        display: block;
-        overflow-y: auto;
-        height: 100%;
-      }
+
       th {
         border-right: 0 !important;
       }

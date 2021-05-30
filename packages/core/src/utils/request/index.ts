@@ -7,7 +7,7 @@
 import { getApiCache, setApiCache } from 'amis/lib/utils/api'
 import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, map, isPlainObject, isFunction, toUpper, pick } from 'lodash'
+import { get, map, isPlainObject, isFunction, toUpper, pick, assign } from 'lodash'
 import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
@@ -288,7 +288,7 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const { headers, data = {}, fetchOptions, dataType = 'json', qsOptions } = option
+  const { headers, data = {}, fetchOptions, body, dataType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
 
@@ -320,7 +320,7 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
       fetchBody = qsstringify(data, qsOptions)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
     } else if (dataType === 'json') {
-      fetchBody = JSON.stringify(data)
+      fetchBody = JSON.stringify(assign({}, body, data))
       fetchHeaders['Content-Type'] = 'application/json'
     }
   }
