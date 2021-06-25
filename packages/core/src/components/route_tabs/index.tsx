@@ -328,7 +328,7 @@ export default withRouter<any, any>((props: Props) => {
     // 已经 在列表的 直接 定位当前路由
     const tabEl = $tabs.find(`.chrome-tab[data-path="${curr.pathname}"]`).get(0)
     if (tabEl) {
-      tabEl.dataset.state = '' // 清除当前状态
+      // tabEl.dataset.state = '' // 清除当前状态
       tabs.setCurrentTab(tabEl, { changeRoute: false })
       return
     }
