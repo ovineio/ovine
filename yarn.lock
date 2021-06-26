@@ -2914,7 +2914,7 @@
     "@octokit/openapi-types" "^6.0.0"
 
 "@ovine/cli@file:packages/cli":
-  version "0.1.3"
+  version "0.1.4-alpha.0"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2969,10 +2969,10 @@
     webpackbar "^4.0.0"
 
 "@ovine/core@file:packages/core":
-  version "0.1.3"
+  version "0.1.4-alpha.0"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
-    amis "1.1.6"
+    amis "1.1.7"
     animate.css "^3.7.2"
     bootstrap "^4.4.1"
     copy-to-clipboard "^3.3.1"
@@ -2980,7 +2980,7 @@
     proxy-polyfill "^0.3.0"
 
 "@ovine/editor@file:packages/editor":
-  version "0.1.3"
+  version "0.1.4-alpha.0"
   dependencies:
     deep-diff "1.0.2"
     json-ast-comments "^1.0.4"
@@ -4252,10 +4252,10 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.npm.taobao.org/alphanum-sort/download/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amis@1.1.6:
-  version "1.1.6"
-  resolved "https://registry.npmjs.org/amis/-/amis-1.1.6.tgz#5fa99ccc2b39bb59653ba9b09dc4de7670774177"
-  integrity sha512-meDTR6KUuRmI4PZRAPlU3HWRySnRfmm3X/uiUrY1NsbDxK/BThoOmq7siaRBKPb/1QLFlIsAs9LZ+zFLZdxLig==
+amis@1.1.7:
+  version "1.1.7"
+  resolved "https://registry.npmjs.org/amis/-/amis-1.1.7.tgz#b2759feb16835a1be2058d1369dbfeb9cfb7a5e7"
+  integrity sha512-nE2l1yhyU4IehtdpFf8/4womYcJJ47EY1NoceW4IDLRuftVO8kBxoWT9Q3loOit3/mJd5cfSQ7OGsmKBb2Lobg==
   dependencies:
     ansi-to-react "^6.1.4"
     async "2.6.0"
@@ -4264,7 +4264,7 @@ amis@1.1.6:
     classnames "2.3.1"
     dom-helpers "^3.3.1"
     downshift "3.1.4"
-    echarts "5.0.2"
+    echarts "5.1.1"
     echarts-stat "^1.2.0"
     exceljs "^4.2.0"
     file-saver "^2.0.2"
@@ -4281,9 +4281,9 @@ amis@1.1.6:
     match-sorter "2.2.1"
     mobx "^4.5.0"
     mobx-react "^6.1.4"
-    mobx-state-tree "^3.7.0"
+    mobx-state-tree "^3.17.3"
     moment "^2.19.3"
-    monaco-editor "0.23.0"
+    monaco-editor "0.24.0"
     papaparse "^5.3.0"
     prop-types "^15.6.1"
     punycode "^2.1.1"
@@ -4304,7 +4304,7 @@ amis@1.1.6:
     react-visibility-sensor "3.11.0"
     setimmediate "1.0.5"
     sortablejs "1.10.0"
-    tinymce "5.6.2"
+    tinymce ">=5.7.1"
     tslib "^2.1.0"
     uncontrollable "7.0.2"
     video-react "0.14.1"
@@ -8336,13 +8336,13 @@ echarts-stat@^1.2.0:
   resolved "https://registry.npm.taobao.org/echarts-stat/download/echarts-stat-1.2.0.tgz#d1e7a05d1827724c5cde81f76ee1d75a901746a2"
   integrity sha1-0eegXRgnckxc3oH3buHXWpAXRqI=
 
-echarts@5.0.2:
-  version "5.0.2"
-  resolved "https://registry.npmjs.org/echarts/-/echarts-5.0.2.tgz#1726d17a57cf05d62cd0567b4325e1201a56baf6"
-  integrity sha512-En0VYpc96nw2/2AZoBWPHsGi471zMublttj50kfFpYAeR4geup0Tj9iVgEXh7QYZFPnRiruDJEjcB5PXZ+BYzQ==
+echarts@5.1.1:
+  version "5.1.1"
+  resolved "https://registry.npmjs.org/echarts/-/echarts-5.1.1.tgz#b186f162f017c555cfd67b12ede6762bdc3ddfda"
+  integrity sha512-b3nP8M9XwZM2jISuA+fP0EuJv8lcfgWrinel185Npy8bE/UhXTDIPJcqgQOCWdvk0c5CeT6Dsm1xBjmJXAGlxQ==
   dependencies:
     tslib "2.0.3"
-    zrender "5.0.4"
+    zrender "5.1.0"
 
 ecstatic@^3.3.2:
   version "3.3.2"
@@ -13428,10 +13428,10 @@ mobx-react@^6.1.4:
   dependencies:
     mobx-react-lite "^2.2.0"
 
-mobx-state-tree@^3.7.0:
+mobx-state-tree@^3.17.3:
   version "3.17.3"
-  resolved "https://registry.npm.taobao.org/mobx-state-tree/download/mobx-state-tree-3.17.3.tgz#e9c40dca17e7b72ad01270852a516145bf6b6c72"
-  integrity sha1-6cQNyhfntyrQEnCFKlFhRb9rbHI=
+  resolved "https://registry.npmjs.org/mobx-state-tree/-/mobx-state-tree-3.17.3.tgz#e9c40dca17e7b72ad01270852a516145bf6b6c72"
+  integrity sha512-ph4ee/Lh1qUJqHEGkfdWdBAUGdG+VAu7xZbYX/+4qem5hSSpdeZYAJOcN3bhtgEH8Wh/ZxRpQVOLM0aMFXfBSw==
 
 mobx@^4.5.0:
   version "4.15.7"
@@ -13460,10 +13460,10 @@ monaco-editor-webpack-plugin@3.0.1:
   dependencies:
     loader-utils "^2.0.0"
 
-monaco-editor@0.23.0:
-  version "0.23.0"
-  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.23.0.tgz#24844ba5640c7adb3a2a3ff3b520cf2d7170a6f0"
-  integrity sha512-q+CP5zMR/aFiMTE9QlIavGyGicKnG2v/H8qVvybLzeFsARM8f6G9fL0sMST2tyVYCwDKkGamZUI6647A0jR/Lg==
+monaco-editor@0.24.0:
+  version "0.24.0"
+  resolved "https://registry.npmjs.org/monaco-editor/-/monaco-editor-0.24.0.tgz#990b55096bcc95d08d8d28e55264c6eb17707269"
+  integrity sha512-o1f0Lz6ABFNTtnEqqqvlY9qzNx24rQZx1RgYNQ8SkWkE+Ka63keHH/RqxQ4QhN4fs/UYOnvAtEUZsPrzccH++A==
 
 moo@^0.5.0:
   version "0.5.1"
@@ -18440,10 +18440,10 @@ tinycolor2@^1.4.1:
   resolved "https://registry.npm.taobao.org/tinycolor2/download/tinycolor2-1.4.2.tgz#3f6a4d1071ad07676d7fa472e1fac40a719d8803"
   integrity sha1-P2pNEHGtB2dtf6Ry4frECnGdiAM=
 
-tinymce@5.6.2:
-  version "5.6.2"
-  resolved "https://registry.npm.taobao.org/tinymce/download/tinymce-5.6.2.tgz#4c20c22e328c5d0baab204928dbc2b0ecbed18b4"
-  integrity sha1-TCDCLjKMXQuqsgSSjbwrDsvtGLQ=
+tinymce@>=5.7.1:
+  version "5.8.2"
+  resolved "https://registry.npmjs.org/tinymce/-/tinymce-5.8.2.tgz#54eb8160b697796c3b52282e648d9d12b1a7399a"
+  integrity sha512-qfWThBrSzbj4DoUk+lgGeDoP2GzLDSWrfvVUxf40HZhTzsG15X2nZ4N49IFqwaVgRl5AyFDtuWiEH/lCmiAcRA==
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -20050,10 +20050,10 @@ zip-stream@^4.1.0:
     compress-commons "^4.1.0"
     readable-stream "^3.6.0"
 
-zrender@5.0.4:
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/zrender/-/zrender-5.0.4.tgz#89c355af908b9f64a301b38f751b7951f2c8a95a"
-  integrity sha512-DJpy0yrHYY5CuH6vhb9IINWbjvBUe/56J8aH86Jb7O8rRPAYZ3M2E469Qf5B3EOIfM3o3aUrO5edRQfLJ+l1Qw==
+zrender@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/zrender/-/zrender-5.1.0.tgz#b6a84c3aa7ccc6642ee0519901ca4c0835c4d85e"
+  integrity sha512-c+8VRx52ycbmqwHeHLlo/BAfIHBl/JZNLM6cfDQFgzIH05yb+f5J9F/fbRsP+zGc8dW9XHuhdt8/iqukgMZSeg==
   dependencies:
     tslib "2.0.3"
 
