@@ -2,7 +2,7 @@
 
 #### 开发相关
 
-- amis-editor: 2.0.4
+- amis-editor: amis-editor@2.0.15-beta.15
   防止依赖 amis 包有异常，先写死 amis-editor 包的内容，每次升级需要自行关联 amis-editor 更新相关的内容
 - amis-editor 修改
   - 去除多余的 env 变量
@@ -19,4 +19,3 @@
 
 - 表格头部悬浮，由于 amis-editor 不识别引起的
 - 预览时不能滚动
-- 部分按钮集合太长，撑开了面板

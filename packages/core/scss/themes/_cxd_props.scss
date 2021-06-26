@@ -86,7 +86,6 @@
   --Form-selectValue-color: var(--primary);
 
   --InputGroup-select-borderWidth: #{px2rem(1px)};
-  --InputGroup-select-bg: #f6f7fb;
   --InputGroup-select-onFocused-bg: #eaf6fe;
   --InputGroup-select-color: #333;
   --InputGroup-select-onFocused-color: var(--primary);
@@ -164,12 +163,7 @@
   --Button-borderRadius: 0;
   --Button--lg-borderRadius: 0;
   --Button--sm-borderRadius: 0;
-  --Button-onDisabled-opacity: 1;
 
-  --Button-onDisabled-bg: #{$Button-onDisabled-bg};
-  --Button-onDisabledActive-bg: #f5f5f5;
-  --Button-onDisabled-borderColor: #{$Button-onDisabled-borderColor};
-  --Button-onDisabled-color: #{$Button-onDisabled-color};
   --Button-paddingX: #{px2rem(10px)};
 
   --Button--lg-height: #{px2rem(40px)};

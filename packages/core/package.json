@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",
-    "amis": "1.1.6",
+    "amis": "1.1.7",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "copy-to-clipboard": "^3.3.1",
