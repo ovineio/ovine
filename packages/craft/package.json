@@ -1,6 +1,6 @@
 {
   "name": "@ovine/craft",
-  "version": "0.1.4-alpha.1",
+  "version": "0.1.4",
   "description": "Ovine json editor.",
   "private": false,
   "publishConfig": {
