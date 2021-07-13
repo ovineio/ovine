@@ -4,7 +4,7 @@ export const libName = 'ovine'
 export const libRootPath = `/${libName}`
 export const libVer = require('../package.json').version
 
-export const amisEditorVer = '2.0.15-beta.15'
+export const amisEditorVer = '3.0.6'
 // publish_mark 如果当前升级不需要更新 dll,需要指定特定DLL版本,默认和版本号一致
 export const dllVer = libVer
 export const winConst = {

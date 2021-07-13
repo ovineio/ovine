@@ -81,32 +81,34 @@ export default (props: Props) => {
     devItems = [
       { type: 'divider' },
       {
-        type: 'lib-blank',
+        type: 'button-toolbar',
         label: '测试权限',
         className: 'from-item-button',
-        body: {
-          type: 'lib-limit-setting',
-          saveConfirmText:
-            '权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。',
-          button: {
-            actionType: 'drawer',
+        buttons: [
+          {
+            type: 'lib-limit-setting',
+            saveConfirmText:
+              '权限测试修改，仅对自己有效，刷新页面后可预览最新权限。清除缓存可恢复所有权限。',
+            button: {
+              actionType: 'drawer',
+            },
+            modal: {
+              title: '测试环境设置权限',
+              postion: 'right',
+              resizable: true,
+              className: 'hide-close-button',
+            },
+            getLimit: () => {
+              return getStore<string>(storage.dev.limit) || ''
+            },
+            onSaveClick: (data: any) => {
+              setStore(storage.dev.limit, data.authLimit)
+              setStore(storage.dev.api, data.authApi)
+              setAppLimits(data.authLimit)
+              window.location.reload()
+            },
           },
-          modal: {
-            title: '测试环境设置权限',
-            postion: 'right',
-            resizable: true,
-            className: 'hide-close-button',
-          },
-          getLimit: () => {
-            return getStore<string>(storage.dev.limit) || ''
-          },
-          onSaveClick: (data: any) => {
-            setStore(storage.dev.limit, data.authLimit)
-            setStore(storage.dev.api, data.authApi)
-            setAppLimits(data.authLimit)
-            window.location.reload()
-          },
-        },
+        ],
       },
     ]
   }
@@ -133,9 +135,6 @@ export default (props: Props) => {
         .form-control-static {
           padding: 0;
         }
-        label {
-          padding-top: 13px;
-        }
       }
     `,
       body: {
@@ -147,7 +146,7 @@ export default (props: Props) => {
           theme,
           locale: getStore(storage.appLocale) || app.amis.locale || 'zh-CN',
         },
-        controls: [
+        body: [
           {
             type: 'select',
             name: 'theme',
@@ -176,6 +175,8 @@ export default (props: Props) => {
           },
           supportRouteTabs && {
             type: 'switch',
+            onText: '启用',
+            offText: '关闭',
             name: 'enableRouteTabs',
             label: '路由选项卡',
             value: enableRouteTabs,
@@ -188,17 +189,19 @@ export default (props: Props) => {
             },
           },
           {
-            type: 'lib-blank',
+            type: 'button-toolbar',
             name: '',
             label: '系统缓存',
             className: 'from-item-button',
-            body: {
-              type: 'button',
-              icon: 'fa fa-trash-o',
-              label: '清除',
-              confirmText: '本地缓存数据将被删除，确认清除？',
-              onAction: onClearCache,
-            },
+            buttons: [
+              {
+                type: 'button',
+                icon: 'fa fa-trash-o',
+                label: '清除',
+                confirmText: '本地缓存数据将被删除，确认清除？',
+                onAction: onClearCache,
+              },
+            ],
           },
           ...devItems,
         ].filter(Boolean),

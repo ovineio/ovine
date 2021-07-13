@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.1.4",
+  "version": "0.1.5-alpha.0",
   "description": "your awesome project.",
   "private": true,
   "workspaces": {

@@ -1,6 +1,6 @@
 {
   "lerna": "3.14.1",
-  "version": "0.1.4",
+  "version": "0.1.5-alpha.0",
   "useWorkspaces": true,
   "changelog": {
     "repo": "CareyToboo/ovine",

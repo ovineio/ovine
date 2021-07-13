@@ -63,7 +63,7 @@ function(e) {
 		return Object.prototype.hasOwnProperty.call(e, t)
 	},
 	a.p = "",
-	a(a.s = 47)
+	a(a.s = 45)
 } ([function(e, t) {
 	e.exports = require("tslib")
 },
@@ -72,27 +72,33 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.EditorManager = t.getEditorPlugins = t.registerEditorPlugin = void 0;
+	t.EditorManager = t.unRegisterEditorPlugin = t.getEditorPlugins = t.registerEditorPlugin = void 0;
 	var n = a(0),
-	l = a(23),
+	l = a(26),
 	i = a(2),
 	r = a(6),
-	o = a(22),
+	o = a(25),
 	s = a(16),
-	d = a(53),
-	c = n.__importDefault(a(10)),
-	u = n.__importDefault(a(37)),
-	p = a(5),
-	m = n.__importDefault(a(55)),
-	f = a(38),
-	h = n.__importDefault(a(11)),
-	g = a(56),
-	b = [];
+	d = a(51),
+	u = n.__importDefault(a(12)),
+	p = n.__importDefault(a(37)),
+	c = a(5),
+	m = n.__importDefault(a(53)),
+	h = a(38),
+	f = n.__importDefault(a(13)),
+	b = a(54),
+	g = [];
 	t.registerEditorPlugin = function(e) {
-		b.push(e)
+		g.push(e)
 	},
 	t.getEditorPlugins = function() {
-		return b.concat()
+		return g.concat()
+	},
+	t.unRegisterEditorPlugin = function(e) {
+		var t = f.
+	default(g, (function(t) {
+			return t.id === e
+		}));~t && g.splice(t, 1)
 	};
 	var v = function() {
 		function e(e, t, a) {
@@ -103,7 +109,7 @@ function(e, t, a) {
 			this.toDispose = [],
 			this.id = r.guid(),
 			this.listeners = [],
-			this.lazyPatchSchema = u.
+			this.lazyPatchSchema = p.
 		default(this.patchSchema.bind(this), 250, {
 				leading: !1,
 				trailing: !0
@@ -114,14 +120,14 @@ function(e, t, a) {
 			d.env), e.amisEnv), {
 				theme: e.theme
 			}),
-			this.plugins = (null == a ? void 0 : a.plugins) || b.concat(e.plugins || []).map((function(e) {
+			this.plugins = (null == a ? void 0 : a.plugins) || g.concat(e.plugins || []).map((function(e) {
 				var t, a = new e(l);
 				return a.order = null !== (t = a.order) && void 0 !== t ? t: 0,
 				a
 			})).sort((function(e, t) {
 				return e.order - t.order
 			})),
-			this.dnd = (null == a ? void 0 : a.dnd) || new g.EditorDNDManager(this, t),
+			this.dnd = (null == a ? void 0 : a.dnd) || new b.EditorDNDManager(this, t),
 			this.hackRenderers(),
 			i || this.toDispose.push(o.reaction((function() {
 				var e;
@@ -312,7 +318,7 @@ function(e, t, a) {
 			})
 		},
 		e.prototype.off = function(e, t) {
-			var a = h.
+			var a = f.
 		default(this.listeners, (function(a) {
 				return a.type === e && a.fn === t
 			}));~a && this.listeners.splice(a, 1)
@@ -344,7 +350,7 @@ function(e, t, a) {
 					switch (n.label) {
 					case 0:
 						return e = this.store,
-						(t = e.selectedInsertRendererInfo) ? (a = e.insertId, l = e.insertRegion, i = e.insertBeforeId, r = t.scaffold || {
+						(t = e.selectedInsertRendererInfo) ? (a = e.insertId, l = e.insertRegion, i = e.insertBeforeId, r = ("function" == typeof t.scaffold ? t.scaffold(e) : t.scaffold) || {
 							type: t.type
 						},
 						t.scaffoldForm ? [4, this.scaffold(t.scaffoldForm, r)] : [3, 2]) : [2];
@@ -437,7 +443,7 @@ function(e, t, a) {
 				region: t,
 				data: i
 			})),
-			i.length && (this.store.setContextId(e), p.openContextMenus({
+			i.length && (this.store.setContextId(e), c.openContextMenus({
 				x: a.x,
 				y: a.y
 			},
@@ -492,7 +498,7 @@ function(e, t, a) {
 		e.prototype.copy = function(e) {
 			var t = this.store.getValueOf(e);
 			m.
-		default("/*amis-schema*/" + f.stringify(t)) && p.toast.info("配置项已复制到剪切板")
+		default("/*amis-schema*/" + h.stringify(t)) && c.toast.info("配置项已复制到剪切板")
 		},
 		e.prototype.cut = function(e) {
 			this.copy(e),
@@ -507,7 +513,7 @@ function(e, t, a) {
 					case 0:
 						return [4, null === (a = navigator.clipboard) || void 0 === a ? void 0 : a.readText()];
 					case 1:
-						return "string" == typeof(l = n.sent()) && 0 === l.indexOf("/*amis-schema*/") ? (i = f.parse(l), t ? this.addChild(e, t, i) : this.replaceChild(e, i)) : l ? p.alert("剪切板内容不是有效的数据，请通过编辑器复制节点") : p.alert("剪切板内容为空"),
+						return "string" == typeof(l = n.sent()) && 0 === l.indexOf("/*amis-schema*/") ? (i = h.parse(l), t ? this.addChild(e, t, i) : this.replaceChild(e, i)) : l ? c.alert("剪切板内容不是有效的数据，请通过编辑器复制节点") : c.alert("剪切板内容为空"),
 						[2]
 					}
 				}))
@@ -521,13 +527,13 @@ function(e, t, a) {
 			s = -1,
 			d = this.buildEventContext(e);
 			if (l) {
-				var c = d.schema[t];
-				Array.isArray(c) && (s = h.
-			default(c, (function(e) {
+				var u = d.schema[t];
+				Array.isArray(u) && (s = f.
+			default(u, (function(e) {
 					return (null == e ? void 0 : e.$$id) === l
 				})))
 			}
-			var u = n.__assign(n.__assign({},
+			var p = n.__assign(n.__assign({},
 			d), {
 				beforeId: l,
 				index: s,
@@ -536,10 +542,10 @@ function(e, t, a) {
 				subRenderer: i,
 				dragInfo: r
 			}),
-			p = this.trigger("before-insert", u);
-			if (!p.prevented) {
-				var m = o.insertSchema(p);
-				return this.trigger("after-insert", u),
+			c = this.trigger("before-insert", p);
+			if (!c.prevented) {
+				var m = o.insertSchema(c);
+				return this.trigger("after-insert", p),
 				m
 			}
 			return null
@@ -627,7 +633,7 @@ function(e, t, a) {
 			void 0 === e && (e = l.getRenderers());
 			var a = [];
 			e.forEach((function(e) {
-				var n, l = c.
+				var n, l = u.
 			default(t.plugins, (function(t) {
 					return t.rendererName && t.rendererName === e.name && (t.regions || t.overrides)
 				}));
@@ -679,7 +685,7 @@ function(e, t, a) {
 	t.BasePlugin = t.createEvent = void 0;
 	var n = a(0),
 	l = n.__importDefault(a(4)),
-	i = n.__importDefault(a(10));
+	i = n.__importDefault(a(12));
 	t.createEvent = function(e, t) {
 		var a = {
 			context: t,
@@ -722,18 +728,8 @@ function(e, t, a) {
 			}
 		},
 		e.prototype.buildEditorPanel = function(e, t) {
-			var a, l;
-			if (e.info.hostId || !this.panelControls && !this.panelControlsCreator || e.info.plugin !== this ? e.info.plugin === this && e.info.hostId && ((null === (a = this.vRendererConfig) || void 0 === a ? void 0 : a.panelControls) || (null === (l = this.vRendererConfig) || void 0 === l ? void 0 : l.panelControlsCreator)) && t.push({
-				key: (e.info.multifactor, "config"),
-				icon: this.vRendererConfig.panelIcon || "fa fa-cog",
-				title: this.vRendererConfig.panelTitle || "设置",
-				render: this.manager.makeSchemaFormRender({
-					submitOnChange: this.panelSubmitOnChange,
-					api: this.panelApi,
-					definitions: this.vRendererConfig.panelDefinitions,
-					controls: this.vRendererConfig.panelControlsCreator ? this.vRendererConfig.panelControlsCreator(e) : this.vRendererConfig.panelControls
-				})
-			}) : t.push({
+			var a, l, i, r;
+			if (!e.info.hostId && (this.panelControls || this.panelControlsCreator || this.panelBody || this.panelBodyCreator) && e.info.plugin === this ? t.push({
 				key: "config",
 				icon: this.panelIcon || this.icon || "fa fa-cog",
 				title: this.panelTitle || "设置",
@@ -741,11 +737,23 @@ function(e, t, a) {
 					definitions: this.panelDefinitions,
 					submitOnChange: this.panelSubmitOnChange,
 					api: this.panelApi,
+					body: this.panelBodyCreator ? this.panelBodyCreator(e) : this.panelBody,
 					controls: this.panelControlsCreator ? this.panelControlsCreator(e) : this.panelControls
 				})
+			}) : e.info.plugin === this && e.info.hostId && ((null === (a = this.vRendererConfig) || void 0 === a ? void 0 : a.panelControls) || (null === (l = this.vRendererConfig) || void 0 === l ? void 0 : l.panelControlsCreator) || (null === (i = this.vRendererConfig) || void 0 === i ? void 0 : i.panelBody) || (null === (r = this.vRendererConfig) || void 0 === r ? void 0 : r.panelBodyCreator)) && t.push({
+				key: (e.info.multifactor, "config"),
+				icon: this.vRendererConfig.panelIcon || "fa fa-cog",
+				title: this.vRendererConfig.panelTitle || "设置",
+				render: this.manager.makeSchemaFormRender({
+					submitOnChange: this.panelSubmitOnChange,
+					api: this.panelApi,
+					definitions: this.vRendererConfig.panelDefinitions,
+					controls: this.vRendererConfig.panelControlsCreator ? this.vRendererConfig.panelControlsCreator(e) : this.vRendererConfig.panelControls,
+					body: this.vRendererConfig.panelBodyCreator ? this.vRendererConfig.panelBodyCreator(e) : this.vRendererConfig.panelBody
+				})
 			}), e.info.plugin === this && e.info.multifactor) {
-				var i = e.node.sameIdChild;
-				if (i) this.manager.collectPanels(i).forEach((function(e) {
+				var o = e.node.sameIdChild;
+				if (o) this.manager.collectPanels(o).forEach((function(e) {
 					var a, l;
 					if ("code" === e.key) t.some((function(e) {
 						return "code" === e.key
@@ -754,10 +762,10 @@ function(e, t, a) {
 						t.some((function(e) {
 							return "renderers" === e.key
 						})) || t.push(e)
-					} else t.push(n.__assign(n.__assign({},
+					} else "commonConfig" === e.key || t.push(n.__assign(n.__assign({},
 					e), {
 						key: "sub-" + e.key,
-						icon: (null === (l = null === (a = i.info) || void 0 === a ? void 0 : a.plugin) || void 0 === l ? void 0 : l.icon) || e.icon
+						icon: (null === (l = null === (a = o.info) || void 0 === a ? void 0 : a.plugin) || void 0 === l ? void 0 : l.icon) || e.icon
 					}))
 				}))
 			}
@@ -783,6 +791,7 @@ function(e, t, a) {
 			s = this;
 			o.plugin === s && ((null === (a = s.scaffoldForm) || void 0 === a ? void 0 : a.canRebuild) || (null === (n = o.scaffoldForm) || void 0 === n ? void 0 : n.canRebuild)) && t.push({
 				label: "快速构建「" + o.plugin.name + "」",
+				disabled: r.$$commonSchema,
 				onSelect: function() {
 					return l.manager.reScaffold(i, o.scaffoldForm || s.scaffoldForm, r)
 				}
@@ -818,20 +827,20 @@ function(e, t, a) {
 	t.defaultValue = t.valuePipeOut = t.setSchemaTpl = t.getSchemaTpl = void 0;
 	var n, l, i = a(0),
 	r = a(6),
-	o = a(10),
+	o = a(12),
 	s = a(5),
-	d = i.__importDefault(a(18)),
-	c = a(4),
-	u = {
+	d = i.__importDefault(a(17)),
+	u = a(4),
+	p = {
 		formItemName: {
 			label: "字段名",
 			name: "name",
-			type: "text"
+			type: "input-text"
 		},
 		formItemMode: {
 			label: "展示模式",
 			name: "mode",
-			type: "button-group",
+			type: "button-group-select",
 			size: "sm",
 			option: "继承",
 			pipeIn: m(""),
@@ -864,7 +873,7 @@ function(e, t, a) {
 		formItemSize: {
 			name: "size",
 			label: "控件尺寸",
-			type: "button-group",
+			type: "button-group-select",
 			size: "sm",
 			pipeIn: m("full"),
 			options: [{
@@ -890,18 +899,18 @@ function(e, t, a) {
 		},
 		minLength: {
 			name: "minLength",
-			type: "number",
+			type: "input-number",
 			label: "限制最小数量"
 		},
 		maxLength: {
 			name: "maxLength",
-			type: "number",
+			type: "input-number",
 			label: "限制最大数量"
 		},
 		label: [{
 			label: "Label",
 			name: "label",
-			type: "text",
+			type: "input-text",
 			hiddenOn: "data.label === false"
 		},
 		{
@@ -922,7 +931,7 @@ function(e, t, a) {
 		placeholder: {
 			label: "占位符",
 			name: "placeholder",
-			type: "text",
+			type: "input-text",
 			placeholder: "占位符"
 		},
 		tabs: function(e) {
@@ -935,8 +944,8 @@ function(e, t, a) {
 				})).map((function(e) {
 					return i.__assign(i.__assign({},
 					e), {
-						controls: d.
-					default(e.controls)
+						body: d.
+					default(e.body)
 					})
 				}))
 			}
@@ -949,8 +958,8 @@ function(e, t, a) {
 			e), {
 				type: "fieldset",
 				title: e.title,
-				controls: d.
-			default(e.controls.filter((function(e) {
+				body: d.
+			default(e.body.filter((function(e) {
 					return e
 				})))
 			})
@@ -964,7 +973,7 @@ function(e, t, a) {
 		},
 		hint: {
 			label: "输入提示",
-			type: "text",
+			type: "input-text",
 			name: "hint",
 			description: "当输入框获得焦点的时候显示，用来提示用户输入内容。"
 		},
@@ -992,9 +1001,9 @@ function(e, t, a) {
 			className: "no-padder",
 			visibleOn: "this.remark",
 			multiLine: !0,
-			controls: [{
+			items: [{
 				name: "title",
-				type: "text",
+				type: "input-text",
 				label: "标题"
 			},
 			{
@@ -1004,7 +1013,7 @@ function(e, t, a) {
 			},
 			{
 				name: "placement",
-				type: "button-group",
+				type: "button-group-select",
 				size: "xs",
 				label: "弹出位置",
 				options: [{
@@ -1032,7 +1041,7 @@ function(e, t, a) {
 			{
 				name: "className",
 				label: "CSS 类名",
-				type: "text",
+				type: "input-text",
 				labelRemark: {
 					trigger: "click",
 					className: "m-l-xs",
@@ -1055,10 +1064,6 @@ function(e, t, a) {
 				options: [{
 					label: "鼠标悬停",
 					value: "hover"
-				},
-				{
-					label: "聚焦",
-					value: "focus"
 				},
 				{
 					label: "点击",
@@ -1097,9 +1102,9 @@ function(e, t, a) {
 			className: "no-padder",
 			visibleOn: "this.labelRemark",
 			multiLine: !0,
-			controls: [{
+			items: [{
 				name: "title",
-				type: "text",
+				type: "input-text",
 				label: "标题"
 			},
 			{
@@ -1109,7 +1114,7 @@ function(e, t, a) {
 			},
 			{
 				name: "placement",
-				type: "button-group",
+				type: "button-group-select",
 				size: "xs",
 				label: "弹出位置",
 				options: [{
@@ -1137,7 +1142,7 @@ function(e, t, a) {
 			{
 				name: "className",
 				label: "CSS 类名",
-				type: "text"
+				type: "input-text"
 			},
 			{
 				name: "trigger",
@@ -1171,7 +1176,7 @@ function(e, t, a) {
 			}]
 		}],
 		expression: {
-			type: "text",
+			type: "input-text",
 			description: "支持 JS 表达式，如：`this.xxx == 1`"
 		},
 		icon: {
@@ -1184,7 +1189,7 @@ function(e, t, a) {
 		},
 		size: {
 			label: "控件尺寸",
-			type: "button-group",
+			type: "button-group-select",
 			name: "size",
 			size: "sm",
 			clearable: !0,
@@ -1208,14 +1213,14 @@ function(e, t, a) {
 		name: {
 			label: "名字",
 			name: "name",
-			type: "text",
+			type: "input-text",
 			description: "需要联动时才需要，其他组件可以通过这个名字跟当前组件联动",
 			placeholder: "请输入字母或者数字"
 		},
 		reload: {
 			label: "刷新目标组件",
 			name: "reload",
-			type: "text",
+			type: "input-text",
 			description: "可以指定操作完成后刷新目标组件，请填写目标组件的 <code>name</code> 属性，多个组件请用<code>,</code>隔开，如果目标组件为表单项，请先填写表单的名字，再用<code>.</code>连接表单项的名字如：<code>xxForm.xxControl</code>。另外如果刷新目标对象设置为 <code>window</code>，则会刷新整个页面。",
 			labelRemark: {
 				trigger: "click",
@@ -1249,7 +1254,7 @@ function(e, t, a) {
 				type: "fieldSet",
 				className: "",
 				collapsable: !1,
-				controls: [{
+				body: [{
 					type: "checkbox",
 					label: a || "API",
 					labelRemark: o ? {
@@ -1258,7 +1263,7 @@ function(e, t, a) {
 						title: "接口返回示例",
 						tooltipClassName: "ae-ApiSample-tooltip",
 						render: function(e) {
-							return c.createElement(s.Html, {
+							return u.createElement(s.Html, {
 								className: "ae-ApiSample",
 								inline: !1,
 								html: "\n                    <pre><code>" + o(e) + "</code></pre>\n                    "
@@ -1274,6 +1279,9 @@ function(e, t, a) {
 					mode: "inline",
 					className: "w-full m-b-sm",
 					inputClassName: "pull-right text-sm m-t-sm p-t-none",
+					onChange: function() {
+						document.getElementsByClassName("ae-Settings-content")[0].scrollTop = 0
+					},
 					pipeIn: function(e) {
 						return e && "string" != typeof e
 					},
@@ -1287,7 +1295,7 @@ function(e, t, a) {
 				},
 				{
 					name: t || "api",
-					type: "text",
+					type: "input-text",
 					value: n,
 					placeholder: "",
 					description: l,
@@ -1319,7 +1327,7 @@ function(e, t, a) {
 						}
 						return e
 					},
-					controls: [{
+					items: [{
 						label: "发送方式",
 						name: "method",
 						value: "get",
@@ -1351,7 +1359,7 @@ function(e, t, a) {
 					},
 					{
 						label: "接口地址",
-						type: "text",
+						type: "input-text",
 						name: "url",
 						placeholder: "",
 						required: !0
@@ -1410,9 +1418,9 @@ function(e, t, a) {
 							})),
 							t
 						},
-						controls: [{
+						items: [{
 							placeholder: "Key",
-							type: "text",
+							type: "input-text",
 							unique: !0,
 							name: "key",
 							required: !0,
@@ -1420,13 +1428,13 @@ function(e, t, a) {
 						},
 						{
 							placeholder: "Value",
-							type: "text",
+							type: "input-text",
 							name: "value"
 						}]
 					},
 					{
 						label: "发送条件",
-						type: "text",
+						type: "input-text",
 						name: "sendOn",
 						placeholder: '如：this.type == "123"',
 						description: "用表达式来设置该请求的发送条件"
@@ -1446,7 +1454,7 @@ function(e, t, a) {
 						}
 					},
 					{
-						type: "number",
+						type: "input-number",
 						name: "cache",
 						mode: "inline",
 						min: 0,
@@ -1472,7 +1480,7 @@ function(e, t, a) {
 					},
 					{
 						label: "数据格式",
-						type: "button-group",
+						type: "button-group-select",
 						name: "dataType",
 						description: '发送体格式为：<%= data.dataType === "json" ? "application/json" : data.dataType === "form-data" ? "multipart/form-data" : data.dataType === "form" ? "application/x-www-form-urlencoded" : "" %>，当发送内容中存在文件时会自动使用 form-data 格式。',
 						size: "sm",
@@ -1552,9 +1560,9 @@ function(e, t, a) {
 							})),
 							t
 						},
-						controls: [{
+						items: [{
 							placeholder: "Key",
-							type: "text",
+							type: "input-text",
 							unique: !0,
 							name: "key",
 							required: !0,
@@ -1562,7 +1570,7 @@ function(e, t, a) {
 						},
 						{
 							placeholder: "Value",
-							type: "text",
+							type: "input-text",
 							name: "value"
 						}]
 					},
@@ -1599,7 +1607,7 @@ function(e, t, a) {
 		},
 		source: function(e) {
 			return void 0 === e && (e = {}),
-			p("api", i.__assign({
+			c("api", i.__assign({
 				name: "source",
 				label: "获取选项接口",
 				description: "可以通过接口获取动态选项，一次拉取全部。",
@@ -1623,9 +1631,55 @@ function(e, t, a) {
 			},
 			e))
 		},
+		autoFill: {
+			type: "combo",
+			name: "autoFill",
+			label: "自动填充",
+			descriptionClassName: "help-block text-xs m-b-none",
+			description: "将当前已选中的选项的某个字段的值，自动填充到表单中某个表单项中，支持数据映射",
+			multiple: !0,
+			pipeIn: function(e) {
+				if (!r.isObject(e)) return e;
+				var t = [];
+				return Object.keys(e).forEach((function(a) {
+					t.push({
+						key: a || "",
+						value: "string" == typeof e[a] ? e[a] : JSON.stringify(e[a])
+					})
+				})),
+				t
+			},
+			pipeOut: function(e) {
+				if (!Array.isArray(e)) return e;
+				var t = {};
+				return e.forEach((function(e) {
+					var a = e.key || "",
+					n = e.value;
+					try {
+						n = JSON.parse(n)
+					} catch(e) {}
+					t[a] = n
+				})),
+				console.log("obj", t),
+				t
+			},
+			items: [{
+				placeholder: "Key",
+				type: "input-text",
+				unique: !0,
+				name: "key",
+				required: !0,
+				columnClassName: "w-xs"
+			},
+			{
+				placeholder: "Value",
+				type: "input-text",
+				name: "value"
+			}]
+		},
 		apiString: {
 			name: "api",
-			type: "text",
+			type: "input-text",
 			placeholder: ""
 		},
 		required: {
@@ -1657,16 +1711,58 @@ function(e, t, a) {
 			pipeIn: function(e) {
 				return s.normalizeOptions(e)
 			},
-			controls: [{
-				type: "text",
+			items: [{
+				type: "input-text",
 				name: "label",
 				placeholder: "名称",
 				required: !0
 			},
 			{
-				type: "text",
+				type: "select",
+				name: "value",
+				pipeIn: function(e) {
+					return "string" == typeof e ? "text": "boolean" == typeof e ? "boolean": "number" == typeof e ? "number": "text"
+				},
+				pipeOut: function(e, t) {
+					if ("text" === e) return String(t);
+					if ("number" === e) {
+						var a = Number(t);
+						return isNaN(a) ? 0 : a
+					}
+					return "boolean" === e ? Boolean(t) : ""
+				},
+				options: [{
+					label: "文本",
+					value: "text"
+				},
+				{
+					label: "数字",
+					value: "number"
+				},
+				{
+					label: "布尔",
+					value: "boolean"
+				}]
+			},
+			{
+				type: "input-number",
 				name: "value",
 				placeholder: "值",
+				visibleOn: 'typeof data.value === "number"',
+				unique: !0
+			},
+			{
+				type: "switch",
+				name: "value",
+				placeholder: "值",
+				visibleOn: 'typeof data.value === "boolean"',
+				unique: !0
+			},
+			{
+				type: "input-text",
+				name: "value",
+				placeholder: "值",
+				visibleOn: 'typeof data.value === "undefined" || typeof data.value === "string"',
 				unique: !0
 			}]
 		},
@@ -1682,14 +1778,14 @@ function(e, t, a) {
 				label: "",
 				value: ""
 			},
-			controls: [{
-				type: "text",
+			items: [{
+				type: "input-text",
 				name: "label",
 				placeholder: "名称",
 				required: !0
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "value",
 				placeholder: "值",
 				unique: !0
@@ -1731,9 +1827,9 @@ function(e, t, a) {
 				}
 			},
 			inputClassName: "no-padder",
-			controls: [{
+			items: [{
 				name: "leftFixed",
-				type: "button-group",
+				type: "button-group-select",
 				label: "左侧宽度",
 				size: "xs",
 				options: [{
@@ -1757,7 +1853,7 @@ function(e, t, a) {
 			},
 			{
 				name: "leftRate",
-				type: "range",
+				type: "input-range",
 				visibleOn: "!this.leftFixed",
 				min: 1,
 				max: 11,
@@ -1821,12 +1917,24 @@ function(e, t, a) {
 			value: "minimum"
 		},
 		{
-			label: "JSON格式",
-			value: "isJson"
+			label: "手机号码",
+			value: "isPhoneNumber"
 		},
 		{
-			label: "不为空",
-			value: "notEmptyString"
+			label: "电话号码",
+			value: "isTelNumber"
+		},
+		{
+			label: "邮编号码",
+			value: "isZipcode"
+		},
+		{
+			label: "身份证号码",
+			value: "isId"
+		},
+		{
+			label: "JSON格式",
+			value: "isJson"
 		},
 		{
 			label: "与指定值相同",
@@ -1855,7 +1963,7 @@ function(e, t, a) {
 		{
 			label: "自定义正则5",
 			value: "matchRegexp4"
-		}], l = ["isEmail", "isUrl", "isNumeric", "isAlpha", "isAlphanumeric", "isInt", "isFloat", "isJson"], {
+		}], l = ["isEmail", "isUrl", "isNumeric", "isAlpha", "isAlphanumeric", "isInt", "isFloat", "isJson", "isPhoneNumber", "isTelNumber", "isZipcode", "isId"], {
 			type: "combo",
 			syncDefaultValue: !1,
 			name: "validations",
@@ -1884,7 +1992,7 @@ function(e, t, a) {
 				})),
 				t
 			},
-			controls: [{
+			items: [{
 				type: "select",
 				unique: !0,
 				name: "type",
@@ -1892,76 +2000,76 @@ function(e, t, a) {
 				columnClassName: "w-sm"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "isLength",
 				visibleOn: 'data.type == "isLength"',
 				placeholder: "设置长度",
 				value: "1"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "maximum",
 				visibleOn: 'data.type == "maximum"',
 				placeholder: "设置最大值"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "minimum",
 				visibleOn: 'data.type == "minimum"',
-				placeholder: "设置最大值"
+				placeholder: "设置最小值"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "maxLength",
 				visibleOn: 'data.type == "maxLength"',
 				placeholder: "设置最大长度值"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "minLength",
 				visibleOn: 'data.type == "minLength"',
 				placeholder: "设置最小长度值"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "equals",
 				visibleOn: 'data.type == "equals"',
 				placeholder: "设置值",
 				value: ""
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "equalsField",
 				visibleOn: 'data.type == "equalsField"',
 				placeholder: "设置字段名",
 				value: ""
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "matchRegexp",
 				visibleOn: 'data.type == "matchRegexp"',
 				placeholder: "设置正则规则"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "matchRegexp1",
 				visibleOn: 'data.type == "matchRegexp1"',
 				placeholder: "设置正则规则"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "matchRegexp2",
 				visibleOn: 'data.type == "matchRegexp2"',
 				placeholder: "设置正则规则"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "matchRegexp3",
 				visibleOn: 'data.type == "matchRegexp3"',
 				placeholder: "设置正则规则"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "matchRegexp4",
 				visibleOn: 'data.type == "matchRegexp4"',
 				placeholder: "设置正则规则"
@@ -2021,8 +2129,20 @@ function(e, t, a) {
 				value: "isJson"
 			},
 			{
-				label: "不为空",
-				value: "notEmptyString"
+				label: "手机号码",
+				value: "isPhoneNumber"
+			},
+			{
+				label: "电话号码",
+				value: "isTelNumber"
+			},
+			{
+				label: "邮编号码",
+				value: "isZipcode"
+			},
+			{
+				label: "身份证号码",
+				value: "isId"
 			},
 			{
 				label: "与指定值相同",
@@ -2069,6 +2189,10 @@ function(e, t, a) {
 				maximum: "当前输入值超出最大值 $1，请检查",
 				minimum: "当前输入值低于最小值 $1，请检查",
 				isJson: "请检查 Json 格式。",
+				isPhoneNumber: "请输入合法的手机号码",
+				isTelNumber: "请输入合法的电话号码",
+				isZipcode: "请输入合法的邮编地址",
+				isId: "请输入合法的身份证号",
 				isLength: "请输入长度为 $1 的内容",
 				notEmptyString: "请不要全输入空白字符",
 				equalsField: "输入的数据与 $1 值不一致",
@@ -2103,7 +2227,7 @@ function(e, t, a) {
 					})),
 					n
 				},
-				controls: [{
+				items: [{
 					type: "select",
 					unique: !0,
 					name: "type",
@@ -2111,7 +2235,7 @@ function(e, t, a) {
 					columnClassName: "w-sm"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "msg",
 					placeholder: "提示信息"
 				},
@@ -2119,7 +2243,7 @@ function(e, t, a) {
 					type: "formula",
 					name: "msg",
 					initSet: !1,
-					formula: "({\n                        isEmail: 'Email 格式不正确',\n                        isRequired: '这是必填项',\n                        isUrl: 'Url 格式不正确',\n                        isInt: '请输入整形数字',\n                        isAlpha: '请输入字母',\n                        isNumeric: '请输入数字',\n                        isAlphanumeric: '请输入字母或者数字',\n                        isFloat: '请输入浮点型数值',\n                        isWords: '请输入字母',\n                        isUrlPath: '只能输入字母、数字、`-` 和 `_`.',\n                        matchRegexp: '格式不正确, 请输入符合规则为 `$1` 的内容。',\n                        minLength: '请输入更多的内容，至少输入 $1 个字符。',\n                        maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',\n                        maximum: '当前输入值超出最大值 $1，请检查',\n                        minimum: '当前输入值低于最小值 $1，请检查',\n                        isJson: '请检查 Json 格式。',\n                        isLength: '请输入长度为 $1 的内容',\n                        notEmptyString: '请不要全输入空白字符',\n                        equalsField: '输入的数据与 $1 值不一致',\n                        equals: '输入的数据与 $1 不一致'\n                    })[data.type] || ''"
+					formula: "({\n                        isEmail: 'Email 格式不正确',\n                        isRequired: '这是必填项',\n                        isUrl: 'Url 格式不正确',\n                        isInt: '请输入整形数字',\n                        isAlpha: '请输入字母',\n                        isNumeric: '请输入数字',\n                        isAlphanumeric: '请输入字母或者数字',\n                        isFloat: '请输入浮点型数值',\n                        isWords: '请输入字母',\n                        isUrlPath: '只能输入字母、数字、`-` 和 `_`.',\n                        matchRegexp: '格式不正确, 请输入符合规则为 `$1` 的内容。',\n                        minLength: '请输入更多的内容，至少输入 $1 个字符。',\n                        maxLength: '请控制内容长度, 请不要输入 $1 个字符以上',\n                        maximum: '当前输入值超出最大值 $1，请检查',\n                        minimum: '当前输入值低于最小值 $1，请检查',\n                        isJson: '请检查 Json 格式。',\n                        isLength: '请输入长度为 $1 的内容',\n                        notEmptyString: '请不要全输入空白字符',\n                        equalsField: '输入的数据与 $1 值不一致',\n                        equals: '输入的数据与 $1 不一致',\n                        isPhoneNumber: '请输入合法的手机号码',\n                        isTelNumber: '请输入合法的电话号码',\n                        isZipcode: '请输入合法的邮编地址',\n                        isId: '请输入合法的身份证号',\n                    })[data.type] || ''"
 				}]
 			}
 		} (),
@@ -2138,7 +2262,7 @@ function(e, t, a) {
 			}
 		},
 		validateOnChange: {
-			type: "button-group",
+			type: "button-group-select",
 			name: "validateOnChange",
 			label: "修改即触发表单验证",
 			description: "默认为当表单提交过则每次修改都触发验证。",
@@ -2166,10 +2290,10 @@ function(e, t, a) {
 			type: "fieldSet",
 			title: "显隐配置",
 			collapsable: !0,
-			controls: [{
+			body: [{
 				label: "设置方式",
 				name: "visible",
-				type: "button-group",
+				type: "button-group-select",
 				size: "xs",
 				mode: "inline",
 				className: "w-full",
@@ -2213,7 +2337,7 @@ function(e, t, a) {
 					placement: "left"
 				},
 				placeholder: "如：this.type === 1",
-				type: "text",
+				type: "input-text",
 				visibleOn: 'typeof this.visible !== "boolean"',
 				autoComplete: !1,
 				pipeIn: function(e, t) {
@@ -2235,10 +2359,13 @@ function(e, t, a) {
 				content: "当配置初始化接口后，组件初始就会拉取接口数据，可以通过以下配置修改。",
 				placement: "left"
 			},
-			controls: [{
+			body: [{
 				name: "initFetch",
 				type: "radios",
 				inline: !0,
+				onChange: function() {
+					document.getElementsByClassName("ae-Settings-content")[0].scrollTop = 0
+				},
 				options: [{
 					label: "是",
 					value: !0
@@ -2256,7 +2383,7 @@ function(e, t, a) {
 				name: "initFetchOn",
 				autoComplete: !1,
 				visibleOn: 'typeof this.initFetch !== "boolean"',
-				type: "text",
+				type: "input-text",
 				placeholder: "如：this.id 表示有 id 值时初始加载",
 				className: "m-t-n-sm"
 			}]
@@ -2267,10 +2394,10 @@ function(e, t, a) {
 				type: "fieldSet",
 				title: "禁用配置",
 				collapsable: !0,
-				controls: i.__spreadArrays(e, [{
+				body: i.__spreadArrays(e, [{
 					label: "设置方式",
 					name: "disabled",
-					type: "button-group",
+					type: "button-group-select",
 					size: "xs",
 					mode: "inline",
 					className: "w-full",
@@ -2314,7 +2441,7 @@ function(e, t, a) {
 						content: '纯粹的 JS 语法，this 指向当前数据层。文档：<a href="https://baidu.github.io/amis/docs/concepts/expression">表达式语法</a>',
 						placement: "left"
 					},
-					type: "text",
+					type: "input-text",
 					visibleOn: 'typeof this.disabled !== "boolean"',
 					className: "m-b-none"
 				}])
@@ -2352,7 +2479,7 @@ function(e, t, a) {
 			description: "开启后将选中的选项 value 的值用连接符拼接起来，作为当前表单项的值。"
 		},
 		delimiter: {
-			type: "text",
+			type: "input-text",
 			name: "delimiter",
 			label: "连接符",
 			visibleOn: "data.multiple && data.joinValues",
@@ -2368,12 +2495,58 @@ function(e, t, a) {
 			pipeIn: m(!1),
 			description: "开启后将选中的选项 value 的值封装为数组，作为当前表单项的值。"
 		},
+		creatable: {
+			label: "可创建选项",
+			name: "creatable",
+			type: "switch",
+			mode: "inline",
+			className: "w-full"
+		},
+		createBtnLabel: {
+			label: "创建按钮文字",
+			name: "createBtnLabel",
+			type: "input-text",
+			mode: "inline",
+			placeholder: "新增选项",
+			className: "w-full"
+		},
+		editable: {
+			label: "可编辑选项",
+			name: "editable",
+			type: "switch",
+			mode: "inline",
+			className: "w-full"
+		},
+		removable: {
+			label: "可删除选项",
+			name: "removable",
+			type: "switch",
+			mode: "inline",
+			className: "w-full"
+		},
 		ref: function() {
 			return null
+		},
+		imageUrl: {
+			type: "input-text",
+			label: "图片"
+		},
+		markdownBody: {
+			name: "value",
+			type: "textarea",
+			label: "Markdown 内容"
+		},
+		richText: {
+			label: "富文本",
+			type: "input-rich-text",
+			buttons: ["paragraphFormat", "quote", "color", "|", "bold", "italic", "underline", "strikeThrough", "|", "formatOL", "formatUL", "align", "|", "insertLink", "insertImage", "insertTable", "|", "undo", "redo", "fullscreen"],
+			name: "html",
+			description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>',
+			size: "lg"
 		}
 	};
-	function p(e, t) {
-		var a = u[e];
+	function c(e, t) {
+		var a = p[e];
 		return "function" == typeof a ? a(t) : a ? t ? i.__assign(i.__assign({},
 		a), t) : a: null
 	}
@@ -2386,9 +2559,9 @@ function(e, t, a) {
 			return t || e
 		}
 	}
-	t.getSchemaTpl = p,
+	t.getSchemaTpl = c,
 	t.setSchemaTpl = function(e, t) {
-		u[e] = t
+		p[e] = t
 	},
 	t.valuePipeOut = function(e) {
 		try {
@@ -2411,28 +2584,28 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.patchDiff = t.diff = t.repeatArray = t.reactionWithOldValue = t.camelize = t.removeDragingClass = t.addDragingClass = t.autobind = t.normalizeId = t.persistSet = t.persistGet = t.sortByList = t.blackList = t.filterSchemaForEditor = t.createElementFromHTML = t.JSONDuplicate = t.JSONMoveDownById = t.JSONCanMoveDown = t.JSONMoveUpById = t.JSONCanMoveUp = t.JSONMerge = t.JSONDelete = t.JSONUpdate = t.JSONGetParentById = t.JSONGetById = t.JSONGetPathById = t.JSONGetByPath = t.JSONPipeOut = t.JSONPipeIn = t.cleanUndefined = t.__uri = t.omitControls = t.makeHorizontalDeeper = t.noop = t.anyChanged = t.isObject = t.isObjectShallowModified = t.guid = void 0;
+	t.patchDiff = t.diff = t.repeatArray = t.reactionWithOldValue = t.camelize = t.removeDragingClass = t.addDragingClass = t.autobind = t.normalizeId = t.persistSet = t.persistGet = t.sortByList = t.blackList = t.filterSchemaForEditor = t.filterSchemaForConfig = t.deepFind = t.createElementFromHTML = t.JSONDuplicate = t.JSONMoveDownById = t.JSONCanMoveDown = t.JSONMoveUpById = t.JSONCanMoveUp = t.JSONMerge = t.JSONDelete = t.JSONUpdate = t.JSONGetParentById = t.JSONGetById = t.JSONGetPathById = t.JSONGetByPath = t.JSONPipeOut = t.JSONPipeIn = t.cleanUndefined = t.__uri = t.omitControls = t.makeHorizontalDeeper = t.noop = t.anyChanged = t.isObject = t.isObjectShallowModified = t.guid = void 0;
 	var n = a(0),
 	l = a(5),
-	i = n.__importDefault(a(49)),
-	r = a(22),
-	o = n.__importDefault(a(50)),
-	s = n.__importDefault(a(31)),
+	i = n.__importDefault(a(31)),
+	r = a(25),
+	o = n.__importDefault(a(47)),
+	s = n.__importDefault(a(32)),
 	d = l.utils.guid,
-	c = l.utils.omitControls,
-	u = l.utils.isObjectShallowModified,
-	p = l.utils.isObject,
+	u = l.utils.omitControls,
+	p = l.utils.isObjectShallowModified,
+	c = l.utils.isObject,
 	m = l.utils.anyChanged,
-	f = l.utils.noop,
-	h = l.utils.makeHorizontalDeeper,
-	g = l.utils.findIndex;
-	function b(e) {
-		return p(e) ? (Object.keys(e).forEach((function(t) {
+	h = l.utils.noop,
+	f = l.utils.makeHorizontalDeeper,
+	b = l.utils.findIndex;
+	function g(e) {
+		return c(e) ? (Object.keys(e).forEach((function(t) {
 			void 0 === e[t] && delete e[t]
 		})), e) : e
 	}
 	function v(e) {
-		if (!p(e) || e.$$typeof) return e;
+		if (!c(e) || e.$$typeof) return e;
 		var t = {},
 		a = !1;
 		return e.$$id || (a = !0, t.$$id = d()),
@@ -2449,7 +2622,7 @@ function(e, t, a) {
 			} else { (r = v(l)) !== l && (a = !0, t[n] = r)
 			}
 		})),
-		a && (e = b(n.__assign(n.__assign({},
+		a && (e = g(n.__assign(n.__assign({},
 		e), t))),
 		e
 	}
@@ -2463,7 +2636,7 @@ function(e, t, a) {
 			}));
 			return a ? l: e
 		}
-		if (!p(e) || r.isObservable(e)) return e;
+		if (!c(e) || r.isObservable(e)) return e;
 		var i = !1,
 		o = {};
 		return e.$$id && (i = !0, o.$$id = void 0),
@@ -2474,7 +2647,7 @@ function(e, t, a) {
 			var l = y(n, t);
 			l !== n && (i = !0, o[a] = l)
 		})),
-		i && (e = b(n.__assign(n.__assign({},
+		i && (e = g(n.__assign(n.__assign({},
 		e), o))),
 		e
 	}
@@ -2503,11 +2676,11 @@ function(e, t, a) {
 			Object.keys(i).forEach((function(e) {
 				var t = i[e];
 				Array.isArray(t) ? t.forEach((function(t, a) {
-					p(t) && l.push({
+					c(t) && l.push({
 						data: t,
 						path: r + "." + e + "." + a
 					})
-				})) : p(t) && l.push({
+				})) : c(t) && l.push({
 					data: t,
 					path: r + "." + e
 				})
@@ -2529,17 +2702,27 @@ function(e, t, a) {
 		})); a && Array.isArray(i[0]);) i.shift();
 		return i[0]
 	}
+	function C(e, t, a) {
+		return void 0 === a && (a = {}),
+		(null == e ? void 0 : e.$$commonSchema) === t ? a[t] = e: s.
+	default(e) ? Object.keys(e).forEach((function(n) {
+			C(e[n], t, a)
+		})) : Array.isArray(e) && e.map((function(e) {
+			return C(e, t, a)
+		})),
+		a
+	}
 	t.guid = d,
-	t.omitControls = c,
-	t.isObjectShallowModified = u,
-	t.isObject = p,
+	t.omitControls = u,
+	t.isObjectShallowModified = p,
+	t.isObject = c,
 	t.anyChanged = m,
-	t.noop = f,
-	t.makeHorizontalDeeper = h,
+	t.noop = h,
+	t.makeHorizontalDeeper = f,
 	t.__uri = function(e) {
 		return e
 	},
-	t.cleanUndefined = b,
+	t.cleanUndefined = g,
 	t.JSONPipeIn = v,
 	t.JSONPipeOut = y,
 	t.JSONGetByPath = _,
@@ -2583,8 +2766,8 @@ function(e, t, a) {
 		return o[0]
 	},
 	t.JSONMerge = function e(t, a) {
-		if (!p(t) || !p(a)) return a;
-		if (!u(t, a)) return t;
+		if (!c(t) || !c(a)) return a;
+		if (!p(t, a)) return t;
 		var n = {};
 		return t.$$id && (n.$$id = t.$$id),
 		Object.keys(a).forEach((function(l) {
@@ -2596,7 +2779,7 @@ function(e, t, a) {
 	},
 	t.JSONCanMoveUp = function(e, t) {
 		var a = x(e, t);
-		return ! (!a || !Array.isArray(a)) && g(a, (function(e) {
+		return ! (!a || !Array.isArray(a)) && b(a, (function(e) {
 			return e.$$id === t
 		})) > 0
 	},
@@ -2621,7 +2804,7 @@ function(e, t, a) {
 	t.JSONCanMoveDown = function(e, t) {
 		var a = x(e, t);
 		if (!a || !Array.isArray(a)) return ! 1;
-		var n = g(a, (function(e) {
+		var n = b(a, (function(e) {
 			return e.$$id === t
 		}));
 		return~n && n < a.length - 1
@@ -2664,6 +2847,32 @@ function(e, t, a) {
 		var t = document.createElement("div");
 		return t.innerHTML = e.trim(),
 		t.firstChild
+	},
+	t.deepFind = C,
+	t.filterSchemaForConfig = function e(t, a) {
+		if (Array.isArray(t)) return t.map((function(t) {
+			return e(t, a)
+		}));
+		if (s.
+	default(t)) {
+			var l = {},
+			i = !1;
+			return Object.keys(t).forEach((function(r) {
+				var o = t[r],
+				s = e(o, a);
+				if (l[r] = s, s !== o && (i = !0), "$$commonSchema" !== r || a) {
+					if ("$$commonSchema" === r && a) {
+						var d = C(a, o);
+						d[o] && (t = l = n.__assign({},
+						d[o]))
+					}
+				} else t = l = {
+					$$commonSchema: o
+				}
+			})),
+			i ? l: t
+		}
+		return t
 	},
 	t.filterSchemaForEditor = function e(t) {
 		if (Array.isArray(t)) return t.map((function(t) {
@@ -2777,6 +2986,12 @@ function(e, t) {
 	e.exports = require("classnames")
 },
 function(e, t) {
+	e.exports = require("amis/lib/utils/helper")
+},
+function(e, t) {
+	e.exports = require("react-dom")
+},
+function(e, t) {
 	e.exports = require("mobx-state-tree")
 },
 function(e, t) {
@@ -2785,74 +3000,6 @@ function(e, t) {
 function(e, t) {
 	e.exports = require("lodash/findIndex")
 },
-function(e, t) {
-	e.exports = require("react-dom")
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.RegionWrapper = void 0;
-	var n = a(0),
-	l = a(9),
-	i = n.__importDefault(a(4)),
-	r = a(12),
-	o = a(17),
-	s = function(e) {
-		function t() {
-			return null !== e && e.apply(this, arguments) || this
-		}
-		return n.__extends(t, e),
-		t.prototype.componentWillMount = function() {
-			var e = this.context;
-			e && (this.editorNode = e.addChild({
-				id: e.id,
-				label: this.props.label,
-				path: e.path + "/" + this.props.name,
-				region: this.props.name,
-				regionInfo: this.props.regionConfig,
-				preferTag: this.props.preferTag
-			}))
-		},
-		t.prototype.componentDidMount = function() {
-			this.markDom(this.editorNode.id, this.props.name, this.props.rendererName)
-		},
-		t.prototype.componentDidUpdate = function(e) {
-			this.markDom(this.editorNode.id, this.props.name, this.props.rendererName)
-		},
-		t.prototype.componentWillUnmount = function() {
-			this.editorNode && l.isAlive(this.editorNode) && this.context.removeChild(this.editorNode)
-		},
-		t.prototype.markDom = function(e, t, a) {
-			var n = r.findDOMNode(this);
-			if (n) {
-				var l = this.props.wrapperResolve,
-				i = l ? l(n) : n.parentElement;
-				i.setAttribute("data-region", t),
-				i.setAttribute("data-region-host", e),
-				a && i.setAttribute("data-renderer", a)
-			}
-		},
-		t.prototype.render = function() {
-			return i.
-		default.createElement(o.EditorNodeContext.Provider, {
-				value: this.editorNode
-			},
-			this.props.children, i.
-		default.createElement("span", {
-				className: "ae-Region-Placeholder"
-			}))
-		},
-		t.contextType = o.EditorNodeContext,
-		t
-	} (i.
-default.Component);
-	t.RegionWrapper = s
-},
-function(e, t) {
-	e.exports = require("amis/lib/utils/helper")
-},
 function(e, t, a) {
 	"use strict";
 	Object.defineProperty(t, "__esModule", {
@@ -2860,10 +3007,10 @@ function(e, t, a) {
 	}),
 	t.VRenderer = void 0;
 	var n = a(0),
-	l = a(9),
+	l = a(11),
 	i = n.__importDefault(a(4)),
-	r = a(12),
-	o = a(17),
+	r = a(10),
+	o = a(20),
 	s = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
@@ -2921,73 +3068,130 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
+	t.RegionWrapper = void 0;
+	var n = a(0),
+	l = a(11),
+	i = n.__importDefault(a(4)),
+	r = a(10),
+	o = a(20),
+	s = function(e) {
+		function t() {
+			return null !== e && e.apply(this, arguments) || this
+		}
+		return n.__extends(t, e),
+		t.prototype.componentWillMount = function() {
+			var e = this.context;
+			e && (this.editorNode = e.addChild({
+				id: e.id,
+				label: this.props.label,
+				path: e.path + "/" + this.props.name,
+				region: this.props.name,
+				regionInfo: this.props.regionConfig,
+				preferTag: this.props.preferTag
+			}))
+		},
+		t.prototype.componentDidMount = function() {
+			this.markDom(this.editorNode.id, this.props.name, this.props.rendererName)
+		},
+		t.prototype.componentDidUpdate = function(e) {
+			this.markDom(this.editorNode.id, this.props.name, this.props.rendererName)
+		},
+		t.prototype.componentWillUnmount = function() {
+			this.editorNode && l.isAlive(this.editorNode) && this.context.removeChild(this.editorNode)
+		},
+		t.prototype.markDom = function(e, t, a) {
+			var n = r.findDOMNode(this);
+			if (n) {
+				var l = this.props.wrapperResolve,
+				i = l ? l(n) : n.parentElement;
+				i.setAttribute("data-region", t),
+				i.setAttribute("data-region-host", e),
+				a && i.setAttribute("data-renderer", a)
+			}
+		},
+		t.prototype.render = function() {
+			return i.
+		default.createElement(o.EditorNodeContext.Provider, {
+				value: this.editorNode
+			},
+			this.props.children, i.
+		default.createElement("span", {
+				className: "ae-Region-Placeholder"
+			}))
+		},
+		t.contextType = o.EditorNodeContext,
+		t
+	} (i.
+default.Component);
+	t.RegionWrapper = s
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
 	t.renderThumbToGhost = t.mapReactElement = t.hackIn = t.makeSchemaFormRender = t.makeWrapper = void 0;
 	var n = a(0),
-	l = a(23),
-	i = a(9),
+	l = a(26),
+	i = a(11),
 	r = n.__importDefault(a(4)),
-	o = a(35),
+	o = a(27),
 	s = n.__importDefault(a(8)),
-	d = n.__importDefault(a(52)),
-	c = a(13),
-	u = n.__importDefault(a(10)),
-	p = a(36),
+	d = n.__importDefault(a(49)),
+	u = a(15),
+	p = n.__importDefault(a(12)),
+	c = a(36),
 	m = a(7),
-	f = a(17),
-	h = n.__importDefault(a(18)),
-	g = a(12),
-	b = a(6),
-	v = a(14);
-	function y(e) {
-		var t, a = e.controls,
-		i = e.definitions,
-		r = e.onChange,
-		o = e.value,
-		d = e.env,
+	h = a(20),
+	f = n.__importDefault(a(17)),
+	b = a(10),
+	g = a(6),
+	v = a(9),
+	y = a(50);
+	function _(e) {
+		var t, a, i = e.body,
+		r = e.definitions,
+		o = e.controls,
+		d = e.onChange,
+		u = e.value,
+		p = e.env,
 		c = e.api,
-		u = e.popOverContainer,
-		p = e.submitOnChange;
-		return a = Array.isArray(a) ? a.concat() : [],
-		!1 === p && a.push({
+		m = e.popOverContainer,
+		h = e.submitOnChange,
+		f = "body";
+		Array.isArray(o) && (i = o, f = "controls"),
+		i = Array.isArray(i) ? i.concat() : [],
+		!1 === h && i.push({
 			type: "submit",
 			label: "保存",
 			level: "primary",
 			block: !0,
 			className: "ae-Settings-actions"
-		}),
-		l.render({
-			definitions: i,
-			controls: a,
-			className: s.
-		default("ae-Settings-content", Array.isArray(a) && a.length && "tabs" === (null === (t = a[0]) || void 0 === t ? void 0 : t.type) ? "only-tabs": "", !1 === p ? "with-actions": ""),
-			wrapperComponent: "div",
-			type: "form",
-			title: "",
-			mode: "normal",
-			api: c,
-			wrapWithPanel: !1,
-			submitOnChange: !1 !== p,
-			messages: {
-				validateFailed: ""
-			}
+		});
+		var b = ((t = {
+			definitions: r
+		})[f] = i, t.className = s.
+	default("ae-Settings-content", Array.isArray(i) && i.length && "tabs" === (null === (a = i[0]) || void 0 === a ? void 0 : a.type) ? "only-tabs": "", !1 === h ? "with-actions": ""), t.wrapperComponent = "div", t.type = "form", t.title = "", t.mode = "normal", t.api = c, t.wrapWithPanel = !1, t.submitOnChange = !1 !== h, t.messages = {
+			validateFailed: ""
 		},
-		{
+		t);
+		return l.render(b, {
 			onFinished: function(e) {
-				return r(e, b.diff(o, e))
+				return d(e, g.diff(u, e))
 			},
-			data: o,
-			popOverContainer: u
+			data: u,
+			popOverContainer: m
 		},
 		n.__assign({},
-		d))
+		p))
 	}
-	function _(e, t, a, n, l) {
-		var i = u.
+	function S(e, t, a, n, l) {
+		var i = p.
 	default(a, (function(e) {
 			return ! e.matchRegion
 		}));
 		if (i) {
-			var o = i.wrapper || c.RegionWrapper;
+			var o = i.wrapper || u.RegionWrapper;
 			return "inner" === i.insertPosition && r.
 		default.isValidElement(t) ? r.
 		default.cloneElement(t, {
@@ -3028,10 +3232,10 @@ function(e, t, a) {
 				[l, n]
 			} (e, t, a),
 			d = s[0],
-			p = s[1];
+			c = s[1];
 			if (d) {
-				o = d.wrapper || c.RegionWrapper;
-				if (a.splice(p, 1), "outter" === d.insertPosition) return r.
+				o = d.wrapper || u.RegionWrapper;
+				if (a.splice(c, 1), "outter" === d.insertPosition) return r.
 			default.createElement(o, {
 					key: d.key,
 					preferTag: d.preferTag,
@@ -3066,8 +3270,8 @@ function(e, t, a) {
 		default.isValidElement(t) && t.props.children) {
 				m = t.props.children;
 				return m = Array.isArray(m) ? m.map((function(t) {
-					return _(e, t, a, n, l)
-				})) : _(e, m, a, n, l),
+					return S(e, t, a, n, l)
+				})) : S(e, m, a, n, l),
 				r.
 			default.cloneElement(t, {
 					children: m
@@ -3090,6 +3294,7 @@ function(e, t, a) {
 				this.editorNode = t.id ? a.addChild({
 					id: t.id,
 					label: t.name,
+					isCommonConfig: !!this.props.$$commonSchema,
 					path: this.props.$path,
 					schemaPath: t.schemaPath,
 					info: t,
@@ -3106,16 +3311,16 @@ function(e, t, a) {
 				this.editorNode && i.isAlive(this.editorNode) && this.editorNode.setComponent(e)
 			},
 			a.prototype.render = function() {
-				var e = this.props,
-				a = (e.$$id, n.__rest(e, ["$$id"])),
-				l = t.regions ? p.ContainerWrapper: o.NodeWrapper;
+				var e, a = this.props,
+				l = (a.$$id, n.__rest(a, ["$$id"])),
+				i = (null === (e = this.editorNode) || void 0 === e ? void 0 : e.isCommonConfig) ? y.CommonConfigWrapper: t.regions ? c.ContainerWrapper: o.NodeWrapper;
 				return r.
-			default.createElement(f.EditorNodeContext.Provider, {
+			default.createElement(h.EditorNodeContext.Provider, {
 					value: this.editorNode || this.context
 				},
 				r.
-			default.createElement(l, n.__assign({},
-				a, {
+			default.createElement(i, n.__assign({},
+				l, {
 					$$editor: t,
 					$$node: this.editorNode,
 					ref: this.wrapperRef
@@ -3123,8 +3328,8 @@ function(e, t, a) {
 			},
 			a.displayName = s.displayName,
 			a.propsList = (s && s.propsList || []).concat(["$$id", "$$editor"]),
-			a.contextType = f.EditorNodeContext,
-			n.__decorate([b.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], a.prototype, "wrapperRef", null),
+			a.contextType = h.EditorNodeContext,
+			n.__decorate([g.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], a.prototype, "wrapperRef", null),
 			a = n.__decorate([m.observer], a)
 		} (r.
 	default.Component)
@@ -3139,22 +3344,25 @@ function(e, t, a) {
 			o = l.onChange,
 			s = l.popOverContainer,
 			d = l.id,
-			c = l.store,
-			u = n.__assign({},
+			u = l.store,
+			p = n.__assign({},
 			e.store.ctx);
-			return d && Object.defineProperty(u, "__props__", {
+			return d && Object.defineProperty(p, "__props__", {
 				get: function() {
-					var e, t = c.getNodeById(d);
+					var e, t = u.getNodeById(d);
 					return (null === (e = null == t ? void 0 : t.getComponent()) || void 0 === e ? void 0 : e.props) || {}
 				}
 			}),
 			r.
-		default.createElement(y, {
+		default.createElement(_, {
+				key: "" + d,
 				api: t.api,
 				definitions: t.definitions,
-				controls: h.
-			default(Array.isArray(t.controls) ? t.controls: [t.controls]),
-				value: v.createObject(u, i),
+				body: t.body ? f.
+			default(Array.isArray(t.body) ? t.body: [t.body]) : void 0,
+				controls: t.controls ? f.
+			default(Array.isArray(t.controls) ? t.controls: [t.controls]) : void 0,
+				value: v.createObject(p, i),
 				submitOnChange: t.submitOnChange,
 				onChange: o,
 				env: a,
@@ -3176,19 +3384,19 @@ function(e, t, a) {
 					var a, l, o = r[e],
 					s = null === (t = o[0]) || void 0 === t ? void 0 : t.renderMethodOverride;
 					i["__" + e] = i[e],
-					i[e] = (a = i["__" + e], l = (null == s ? void 0 : s(o.concat(), _)) ||
+					i[e] = (a = i["__" + e], l = (null == s ? void 0 : s(o.concat(), S)) ||
 					function() {
 						for (var e = [], t = 0; t < arguments.length; t++) e[t] = arguments[t];
 						var a = this.props.$$editor,
 						l = this.super.apply(this, e);
-						if (a && Array.isArray(a.regions) && o.every((function(e) {
-							return u.
+						if (a && !this.props.$$commonSchema && Array.isArray(a.regions) && o.every((function(e) {
+							return p.
 						default(a.regions, (function(t) {
 								return t.key === e.key
 							}))
 						}))) {
 							var i = o.map((function(e) {
-								var t = u.
+								var t = p.
 							default(a.regions, (function(t) {
 									return t.key === e.key
 								}));
@@ -3198,7 +3406,7 @@ function(e, t, a) {
 									preferTag: t.preferTag
 								}) : e
 							}));
-							return _(this, l, i, a, a.plugin.manager)
+							return S(this, l, i, a, a.plugin.manager)
 						}
 						return l
 					},
@@ -3254,20 +3462,20 @@ function(e, t, a) {
 		}
 		return l
 	};
-	var S = document.createElement("div");
+	var x = document.createElement("div");
 	t.renderThumbToGhost = function(e, t, a, i) {
 		e.innerHTML = "";
 		var r = t.host.getComponent(),
-		o = (null == r ? void 0 : r.renderControl) && "controls" === t.region;
+		o = (null == r ? void 0 : r.renderControl) && "body" === t.region;
 		try {
-			g.render(l.render({
+			b.render(l.render({
 				children: function(e) {
 					var n = e.render;
 					return o ? n("", {
 						type: "form",
 						wrapWithPanel: !1,
 						mode: r.props.mode,
-						controls: [a]
+						body: [a]
 					}) : n(t.region, a)
 				}
 			},
@@ -3276,13 +3484,244 @@ function(e, t, a) {
 			i.env), {
 				theme: (null == r ? void 0 : r.props.theme) || i.env.theme,
 				session: "ghost-thumb"
-			}), ""), S)
+			}), ""), x)
 		} catch(e) {}
-		var s = S.innerHTML || '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
+		var s = x.innerHTML || '<div class="wrapper-sm b-a b-light m-b-sm">拖入占位</div>';
 		e.innerHTML = s,
-		g.unmountComponentAtNode(S),
-		S.innerHTML = ""
+		b.unmountComponentAtNode(x),
+		x.innerHTML = ""
 	}
+},
+function(e, t) {
+	e.exports = require("lodash/flatten")
+},
+function(e, t) {
+	e.exports = require("moment")
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.ButtonPlugin = void 0;
+	var n = a(0),
+	l = a(1),
+	i = a(2),
+	r = a(3),
+	o = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "button",
+			t.$schema = "/schemas/ActionSchema.json",
+			t.name = "按钮",
+			t.description = "用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/action",
+			t.tags = ["按钮"],
+			t.icon = "fa fa-square",
+			t.scaffold = {
+				type: "button",
+				label: "按钮",
+				actionType: "dialog",
+				dialog: {
+					title: "系统提示",
+					body: "对你点击了"
+				}
+			},
+			t.previewSchema = {
+				type: "button",
+				label: "按钮"
+			},
+			t.panelTitle = "按钮",
+			// ovine
+			t.panelControlsCreator = function(e) {
+				/(?:\/|^)dialog\/.+$/.test(e.path);
+				var t = /(?:\/|^)dropdown-button\/.+$/.test(e.path);
+				return [r.getSchemaTpl("tabs", [{
+					title: "常规",
+					body: [{
+						label: "名称",
+						type: "input-text",
+						name: "label"
+					},
+					{
+						label: "类型",
+						type: "button-group-select",
+						name: "type",
+						size: "sm",
+						options: [{
+							label: "按钮",
+							value: "button"
+						},
+						{
+							label: "提交",
+							value: "submit"
+						},
+						{
+							label: "重置",
+							value: "reset"
+						}]
+					},
+					{
+						type: "input-text",
+						name: "tooltip",
+						hidden: t,
+						label: "提示文案",
+						description: "鼠标停留时弹出该内容"
+					},
+					{
+						type: "button-group-select",
+						name: "tooltipPlacement",
+						visibleOn: "data.tooltip || data.disabledTip",
+						label: "提示信息位置",
+						size: "sm",
+						mode: "inline",
+						className: "w-full",
+						value: "bottom",
+						options: [{
+							label: "上",
+							value: "top"
+						},
+						{
+							label: "右",
+							value: "right"
+						},
+						{
+							label: "下",
+							value: "bottom"
+						},
+						{
+							label: "左",
+							value: "left"
+						}]
+					},
+					r.getSchemaTpl("icon"), {
+						type: "button-group-select",
+						label: "图标位置",
+						clearable: !0,
+						visibleOn: "this.icon",
+						name: "iconClassName",
+						size: "sm",
+						pipeIn: function(e) {
+							return "string" == typeof e && /\bpull\-(left|right)\b/.test(e) ? RegExp.$1: ""
+						},
+						pipeOut: function(e, t) {
+							return (t || "").replace(/\bpull\-(left|right)\b/, "").trim() + e ? "pull-" + e: ""
+						},
+						options: [{
+							label: "居左",
+							value: "left"
+						},
+						{
+							label: "居右",
+							value: "right"
+						}]
+					},
+					r.getSchemaTpl("size", {
+						label: "尺寸"
+					}), {
+						label: "样式",
+						type: "select",
+						name: "level",
+						hidden: t,
+						clearable: !1,
+						btnActiveLevel: "",
+						options: [{
+							label: "默认",
+							value: "default",
+							level: "default"
+						},
+						{
+							label: "链接",
+							value: "link",
+							level: "link"
+						},
+						{
+							label: "主色",
+							value: "primary",
+							level: "primary"
+						},
+						{
+							label: "淡色",
+							value: "light",
+							level: "light"
+						},
+						{
+							label: "深色",
+							value: "dark",
+							level: "dark"
+						},
+						{
+							label: "提示",
+							value: "info",
+							level: "info"
+						},
+						{
+							label: "成功",
+							value: "success",
+							level: "success"
+						},
+						{
+							label: "警告",
+							value: "warning",
+							level: "warning"
+						},
+						{
+							label: "严重",
+							value: "danger",
+							level: "danger"
+						}]
+					},
+					{
+						name: "block",
+						type: "switch",
+						label: "块状显示",
+						mode: "inline"
+					},
+					r.getSchemaTpl("className", {
+						label: "按钮 CSS 类名"
+					}), r.getSchemaTpl("className", {
+						name: "iconClassName",
+						label: "图标 CSS 类名",
+						visibleOn: "this.icon"
+					})]
+				},
+				{
+					title: "其他",
+					body: [r.getSchemaTpl("disabled", [{
+						type: "input-text",
+						name: "disabledTip",
+						label: "禁用提示信息",
+						hidden: t,
+						description: "按钮被禁用时，鼠标停留弹出该段文字"
+					}]), r.getSchemaTpl("visible")]
+				}])]
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.filterProps = function(e) {
+			return e.disabled = !1,
+			e
+		},
+		t.prototype.getRendererInfo = function(e) {
+			var t = e.renderer,
+			a = e.schema;
+			if (a.$$id && this.name && this.rendererName && this.rendererName === t.name) return {
+				name: a.label ? a.label: this.name,
+				regions: this.regions,
+				patchContainers: this.patchContainers,
+				vRendererConfig: this.vRendererConfig,
+				wrapperProps: this.wrapperProps,
+				wrapperResolve: this.wrapperResolve,
+				filterProps: this.filterProps,
+				$schema: this.$schema,
+				renderRenderer: this.renderRenderer
+			}
+		},
+		t
+	} (i.BasePlugin);
+	t.ButtonPlugin = o,
+	l.registerEditorPlugin(o)
 },
 function(e, t, a) {
 	"use strict";
@@ -3291,14 +3730,15 @@ function(e, t, a) {
 	}),
 	t.EditorNodeContext = t.EditorNode = void 0;
 	var n = a(0),
-	l = a(9),
+	l = a(11),
 	i = a(6),
 	r = a(5),
 	o = n.__importDefault(a(4)),
-	s = a(11);
+	s = a(13);
 	t.EditorNode = l.types.model("EditorNode", {
 		parentId: "",
 		parentRegion: "",
+		isCommonConfig: !1,
 		id: "",
 		label: "",
 		regionInfo: l.types.maybe(l.types.frozen()),
@@ -3520,7 +3960,7 @@ function(e, t, a) {
 						d = s; (Array.isArray(o.regions) && o.regions.length || Array.isArray(o.patchContainers)) && (d = function e(t, a) {
 							var l = !1,
 							r = {};
-							return a.forEach((function(a) {
+							if (t) return a.forEach((function(a) {
 								var n = a.split(".");
 								a = n.shift();
 								var o = t[a];
@@ -3596,233 +4036,165 @@ function(e, t, a) {
 	t.EditorNodeContext = o.
 default.createContext(null)
 },
-function(e, t) {
-	e.exports = require("lodash/flatten")
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.mockValue = void 0;
+	var n = a(0).__importDefault(a(18));
+	t.mockValue = function(e) {
+		return "date" === e.type || "datetime" === e.type || "time" === e.type || "month" === e.type || "static-date" === e.type || "static-datetime" === e.type || "static-time" === e.type || "static-month" === e.type ? n.
+	default().format("X"):
+		"image" === e.type || "static-image" === e.type ? "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80": "images" === e.type || "static-images" === e.type ? ["https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"] : "假数据"
+	}
 },
 function(e, t, a) {
 	"use strict";
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.ButtonPlugin = void 0;
+	t.DateControlPlugin = void 0;
 	var n = a(0),
-	l = a(1),
-	i = a(2),
-	r = a(3),
-	o = function(e) {
+	l = a(5),
+	i = a(3),
+	r = a(1),
+	o = a(2),
+	s = n.__importDefault(a(18)),
+	d = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "button",
-			t.$schema = "/schemas/ActionSchema.json",
-			t.name = "按钮",
-			t.description = "用来展示一个按钮，你可以配置不同的展示样式，配置不同的点击行为。",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/action",
-			t.tags = ["按钮"],
-			t.icon = "fa fa-square",
+			return t.rendererName = "input-date",
+			t.$schema = "/schemas/DateControlSchema.json",
+			t.order = -450,
+			t.icon = "fa fa-calendar",
+			t.name = "日期框",
+			t.description = "年月日选择，支持相对值设定，如<code>+2days</code>两天后",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/date",
+			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "button",
-				label: "按钮",
-				actionType: "dialog",
-				dialog: {
-					title: "系统提示",
-					body: "对你点击了"
-				}
+				type: "input-date",
+				label: "日期",
+				name: "date"
 			},
 			t.previewSchema = {
-				type: "button",
-				label: "按钮"
+				type: "form",
+				className: "text-left",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
 			},
-			t.panelTitle = "按钮",
-			// ovine
-			t.panelControlsCreator = function(e) {
-				/(?:\/|^)dialog\/.+$/.test(e.path);
-				var t = /(?:\/|^)dropdown-button\/.+$/.test(e.path);
-				return [r.getSchemaTpl("tabs", [{
-					title: "常规",
-					controls: [{
-						label: "名称",
-						type: "text",
-						name: "label"
-					},
-					{
-						label: "类型",
-						type: "button-group",
-						name: "type",
-						size: "sm",
-						options: [{
-							label: "按钮",
-							value: "button"
-						},
-						{
-							label: "提交",
-							value: "submit"
-						},
-						{
-							label: "重置",
-							value: "reset"
-						}]
-					},
-					{
-						type: "text",
-						name: "tooltip",
-						hidden: t,
-						label: "提示文案",
-						description: "鼠标停留时弹出该内容"
-					},
-					{
-						type: "button-group",
-						name: "tooltipPlacement",
-						visibleOn: "data.tooltip || data.disabledTip",
-						label: "提示信息位置",
-						size: "sm",
-						mode: "inline",
-						className: "w-full",
-						value: "bottom",
-						options: [{
-							label: "上",
-							value: "top"
-						},
-						{
-							label: "右",
-							value: "right"
-						},
-						{
-							label: "下",
-							value: "bottom"
-						},
-						{
-							label: "左",
-							value: "left"
-						}]
-					},
-					r.getSchemaTpl("icon"), {
-						type: "button-group",
-						label: "图标位置",
-						clearable: !0,
-						visibleOn: "this.icon",
-						name: "iconClassName",
-						size: "sm",
-						pipeIn: function(e) {
-							return "string" == typeof e && /\bpull\-(left|right)\b/.test(e) ? RegExp.$1: ""
-						},
-						pipeOut: function(e, t) {
-							return (t || "").replace(/\bpull\-(left|right)\b/, "").trim() + e ? "pull-" + e: ""
-						},
-						options: [{
-							label: "居左",
-							value: "left"
-						},
-						{
-							label: "居右",
-							value: "right"
-						}]
-					},
-					r.getSchemaTpl("size", {
-						label: "尺寸"
-					}), {
-						label: "样式",
-						type: "select",
-						name: "level",
-						hidden: t,
-						clearable: !1,
-						btnActiveLevel: "",
-						options: [{
-							label: "默认",
-							value: "default",
-							level: "default"
-						},
-						{
-							label: "链接",
-							value: "link",
-							level: "link"
-						},
-						{
-							label: "主色",
-							value: "primary",
-							level: "primary"
-						},
-						{
-							label: "淡色",
-							value: "light",
-							level: "light"
-						},
-						{
-							label: "深色",
-							value: "dark",
-							level: "dark"
-						},
-						{
-							label: "提示",
-							value: "info",
-							level: "info"
-						},
-						{
-							label: "成功",
-							value: "success",
-							level: "success"
-						},
-						{
-							label: "警告",
-							value: "warning",
-							level: "warning"
-						},
-						{
-							label: "严重",
-							value: "danger",
-							level: "danger"
-						}]
-					},
-					{
-						name: "block",
-						type: "switch",
-						label: "块状显示",
-						mode: "inline"
-					},
-					r.getSchemaTpl("className", {
-						label: "按钮 CSS 类名"
-					}), r.getSchemaTpl("className", {
-						name: "iconClassName",
-						label: "图标 CSS 类名",
-						visibleOn: "this.icon"
-					})]
-				},
-				{
-					title: "其他",
-					controls: [r.getSchemaTpl("disabled", [{
-						type: "text",
-						name: "disabledTip",
-						label: "禁用提示信息",
-						hidden: t,
-						description: "按钮被禁用时，鼠标停留弹出该段文字"
-					}]), r.getSchemaTpl("visible")]
-				}])]
+			t.panelTitle = "日期配置",
+			t.panelBody = [i.getSchemaTpl("placeholder", {
+				pipeIn: i.defaultValue("请选择日期")
+			}), {
+				type: "input-text",
+				name: "format",
+				label: "值格式",
+				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
+				pipeIn: i.defaultValue("X"),
+				onChange: function(e, t, a, n) {
+					n.setValueByName("value", ""),
+					n.setValueByName("minDate", ""),
+					n.setValueByName("maxDate", "")
+				}
 			},
+			i.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
+				name: "value",
+				label: "默认值",
+				visibleOn: 'typeof this.value !== "undefined"',
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				visibleOn: 'typeof this.value !== "undefined"',
+				body: [{
+					type: "input-date",
+					name: "value",
+					pipeIn: function(e) {
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
+					}
+				}]
+			},
+			i.getSchemaTpl("clearable", {
+				pipeIn: i.defaultValue(!0)
+			}), {
+				type: "input-text",
+				name: "minDate",
+				label: "最小日期",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-date",
+					name: "minDate",
+					pipeIn: function(e) {
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
+					}
+				}]
+			},
+			{
+				type: "divider"
+			},
+			{
+				type: "input-text",
+				name: "maxDate",
+				label: "最大日期",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-date",
+					name: "maxDate",
+					pipeIn: function(e) {
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
+					}
+				}]
+			}],
 			t
 		}
 		return n.__extends(t, e),
-		t.prototype.filterProps = function(e) {
-			return e.disabled = !1,
-			e
-		},
-		t.prototype.getRendererInfo = function(e) {
-			var t = e.renderer,
-			a = e.schema;
-			if (a.$$id && this.name && this.rendererName && this.rendererName === t.name) return {
-				name: a.label ? a.label: this.name,
-				regions: this.regions,
-				patchContainers: this.patchContainers,
-				vRendererConfig: this.vRendererConfig,
-				wrapperProps: this.wrapperProps,
-				wrapperResolve: this.wrapperResolve,
-				filterProps: this.filterProps,
-				$schema: this.$schema,
-				renderRenderer: this.renderRenderer
-			}
+		t.prototype.buildSubRenderers = function(t, a) {
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
-	} (i.BasePlugin);
-	t.ButtonPlugin = o,
-	l.registerEditorPlugin(o)
+	} (o.BasePlugin);
+	t.DateControlPlugin = d,
+	r.registerEditorPlugin(d)
 },
 function(e, t, a) {
 	"use strict";
@@ -3837,7 +4209,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "text-control",
+			return t.rendererName = "input-text",
 			t.$schema = "/schemas/TextControlSchema.json",
 			t.order = -500,
 			t.name = "文本框",
@@ -3846,7 +4218,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/text",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "text",
+				type: "input-text",
 				label: "文本",
 				name: "text"
 			},
@@ -3855,12 +4227,12 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "文本框",
-			t.panelControls = [r.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [r.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
@@ -3886,10 +4258,10 @@ function(e, t, a) {
 				multiLine: !0,
 				name: "addOn",
 				visibleOn: "data.addOn",
-				controls: [{
+				items: [{
 					name: "type",
 					label: "类型",
-					type: "button-group",
+					type: "button-group-select",
 					size: "xs",
 					options: [{
 						label: "文本",
@@ -3907,7 +4279,7 @@ function(e, t, a) {
 				{
 					name: "label",
 					label: "文字",
-					type: "text",
+					type: "input-text",
 					visibleOn: 'this.type === "text"'
 				},
 				{
@@ -3921,7 +4293,7 @@ function(e, t, a) {
 				}), {
 					name: "position",
 					label: "位置",
-					type: "button-group",
+					type: "button-group-select",
 					size: "xs",
 					pipeIn: r.defaultValue("right"),
 					options: [{
@@ -3959,14 +4331,12 @@ function(e, t, a) {
 				visibleOn: "data.autoComplete !== false"
 			}), r.getSchemaTpl("multiple", {
 				visibleOn: "data.options || data.source || data.autoComplete"
-			}), r.getSchemaTpl("joinValues"), r.getSchemaTpl("delimiter"), r.getSchemaTpl("extractValue")],
+			}), r.getSchemaTpl("joinValues"), r.getSchemaTpl("delimiter"), r.getSchemaTpl("extractValue"), r.getSchemaTpl("autoFill")],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (i.BasePlugin);
@@ -3983,30 +4353,33 @@ function(e, t, a) {
 	i = n.__importDefault(a(8)),
 	r = n.__importDefault(a(30)),
 	o = a(6),
-	s = a(58),
+	s = a(56),
 	d = a(1),
-	c = a(62),
-	u = a(22),
-	p = a(41),
-	m = n.__importDefault(a(63)),
-	f = a(9),
-	h = a(42),
-	g = function(e) {
+	u = a(60),
+	p = a(25),
+	c = a(41),
+	m = n.__importDefault(a(61)),
+	h = a(11),
+	f = a(42),
+	b = function(e) {
 		function t(t) {
 			var a = e.call(this, t) || this;
 			a.isInternalChange = !1;
 			var l = t.value,
-			i = (t.onChange, n.__rest(t, ["value", "onChange"])),
-			r = n.__assign({},
-			i);
+			i = t.isSubEditor,
+			r = void 0 !== i && i,
+			o = (t.onChange, n.__rest(t, ["value", "isSubEditor", "onChange"])),
+			u = n.__assign({},
+			o);
 			return a.store = s.EditorStore.create({
 				isMobile: t.isMobile,
+				isSubEditor: r,
 				ctx: t.ctx
 			},
-			r),
+			u),
 			a.store.setSchema(l),
-			a.manager = new d.EditorManager(r, a.store),
-			a.unReaction = u.reaction((function() {
+			a.manager = new d.EditorManager(u, a.store),
+			a.unReaction = p.reaction((function() {
 				return a.store.schemaRaw
 			}), (function(e) {
 				a.lastResult = e,
@@ -4024,7 +4397,7 @@ function(e, t, a) {
 		t.prototype.componentWillUnmount = function() {
 			this.unReaction(),
 			this.manager.dispose(),
-			f.destroy(this.store)
+			h.destroy(this.store)
 		},
 		t.prototype.handleContextMenu = function(e) {
 			var t, a = null === (t = e.target.closest("[data-editor-id]")) || void 0 === t ? void 0 : t.getAttribute("data-editor-id"),
@@ -4060,9 +4433,9 @@ function(e, t, a) {
 			o = e.className,
 			s = e.theme,
 			d = e.data,
-			u = e.iframeUrl,
-			f = e.previewProps,
-			g = e.autoFocus;
+			p = e.iframeUrl,
+			h = e.previewProps,
+			b = e.autoFocus;
 			return l.
 		default.createElement("div", {
 				className: i.
@@ -4077,7 +4450,7 @@ function(e, t, a) {
 				onContextMenu: this.handleContextMenu
 			},
 			t ? null: l.
-		default.createElement(c.Panels, {
+		default.createElement(u.Panels, {
 				store: this.store,
 				manager: this.manager,
 				isLeftPanel: !0
@@ -4093,26 +4466,26 @@ function(e, t, a) {
 			}), l.
 		default.createElement(r.
 		default, n.__assign({},
-			f, {
-				iframeUrl: u,
+			h, {
+				iframeUrl: p,
 				editable: !t,
 				isMobile: a,
 				store: this.store,
 				manager: this.manager,
 				theme: s,
 				data: d,
-				autoFocus: g
+				autoFocus: b
 			}))), t ? null: l.
-		default.createElement(c.Panels, {
+		default.createElement(u.Panels, {
 				store: this.store,
 				manager: this.manager
 			})), l.
-		default.createElement(p.SubEditor, {
+		default.createElement(c.SubEditor, {
 				store: this.store,
 				manager: this.manager,
 				theme: s
 			}), l.
-		default.createElement(h.ScaffoldModal, {
+		default.createElement(f.ScaffoldModal, {
 				store: this.store,
 				manager: this.manager,
 				theme: s
@@ -4125,7 +4498,7 @@ function(e, t, a) {
 		t
 	} (l.Component);
 	t.
-default = g
+default = b
 },
 function(e, t) {
 	e.exports = require("mobx")
@@ -4137,17 +4510,85 @@ function(e, t, a) {
 	"use strict";
 	Object.defineProperty(t, "__esModule", {
 		value: !0
+	}),
+	t.NodeWrapper = void 0;
+	var n = a(0),
+	l = a(11),
+	i = n.__importDefault(a(4)),
+	r = a(10),
+	o = a(6),
+	s = function(e) {
+		function t() {
+			return null !== e && e.apply(this, arguments) || this
+		}
+		return n.__extends(t, e),
+		t.prototype.componentDidMount = function() {
+			this.markDom(this.props.$$editor.id);
+			var e = this.props.$$node;
+			e && setTimeout((function() {
+				return l.isAlive(e) && e.calculateHighlightBox()
+			}), 20)
+		},
+		t.prototype.componentDidUpdate = function(e) {
+			this.markDom(this.props.$$editor.id)
+		},
+		t.prototype.getWrappedInstance = function() {
+			return this.ref
+		},
+		t.prototype.refFn = function(e) {
+			this.ref = e
+		},
+		t.prototype.markDom = function(e) {
+			var t = r.findDOMNode(this);
+			if (t && e) {
+				var a = this.props.$$editor,
+				n = a.wrapperResolve ? a.wrapperResolve(t) : t; (Array.isArray(n) ? n: n ? [n] : []).forEach((function(t) {
+					return t.setAttribute("data-editor-id", e)
+				}))
+			}
+		},
+		t.prototype.render = function() {
+			var e = this.props,
+			t = e.$$editor,
+			a = e.$$node,
+			l = n.__rest(e, ["$$editor", "$$node"]),
+			r = t.renderer;
+			return t.filterProps && (l = t.filterProps.call(t.plugin, l, a)),
+			t.renderRenderer ? t.renderRenderer.call(t.plugin, n.__assign(n.__assign(n.__assign(n.__assign({},
+			l), {
+				$$editor: t
+			}), t.wrapperProps), {
+				ref: this.refFn
+			}), t) : i.
+		default.createElement(r.component, n.__assign({},
+			l, {
+				$$editor: t
+			},
+			t.wrapperProps, {
+				ref: this.refFn
+			}))
+		},
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "refFn", null),
+		t
+	} (i.
+default.Component);
+	t.NodeWrapper = s
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
 	});
 	var n = a(0),
 	l = n.__importDefault(a(4)),
-	i = n.__importDefault(a(69)),
+	i = n.__importDefault(a(67)),
 	r = a(6),
 	o = n.__importDefault(a(8)),
 	s = a(37),
-	d = a(11),
-	c = a(38),
-	u = /^\/schemas\/(.*).json$/;
-	var p = function(e) {
+	d = a(13),
+	u = a(38),
+	p = /^\/schemas\/(.*).json$/;
+	var c = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.state = {
@@ -4162,7 +4603,8 @@ function(e, t, a) {
 				n = e.value,
 				l = t.str2obj(t.state.contents);
 				if (l) {
-					delete l.$schema;
+					delete l.$schema,
+					l = r.filterSchemaForConfig(l, t.props.value);
 					var i = r.diff(t.lastResult || n, l);
 					t.lastResult = l,
 					a(l, i)
@@ -4181,6 +4623,9 @@ function(e, t, a) {
 					selectOnLineNumbers: !0,
 					scrollBeyondLastLine: !1,
 					folding: !0,
+					scrollbar: {
+						alwaysConsumeMouseWheel: !1
+					},
 					minimap: {
 						enabled: !1
 					}
@@ -4213,23 +4658,24 @@ function(e, t, a) {
 		t.prototype.componentDidUpdate = function(e) {
 			var t = this.props;
 			e.$schema !== t.$schema && this.monaco && this.changeJsonOptions(t),
-			r.isObjectShallowModified(t.value, e.value, !1) && r.isObjectShallowModified(t.value, this.lastResult, !1) && (this.lastResult = null, this.setState({
+			JSON.stringify(t.value) !== JSON.stringify(e.value) && JSON.stringify(t.value) !== JSON.stringify(this.lastResult) && (this.lastResult = null, this.setState({
 				value: t.value,
 				contents: this.obj2str(t.value, t)
 			}))
 		},
 		t.prototype.obj2str = function(e, t) {
 			var a;
-			return ! (e = n.__assign({
+			return e = r.filterSchemaForConfig(e),
+			!(e = n.__assign({
 				type: null == e ? void 0 : e.type
 			},
 			e)).type && (null === (a = t.$schema) || void 0 === a ? void 0 : a.match(/PageSchema/i)) ? e.type = "page": e.type || delete e.type,
 			delete e.$schema,
-			c.stringify(e)
+			u.stringify(e)
 		},
 		t.prototype.str2obj = function(e) {
 			try {
-				return c.parse(e)
+				return u.parse(e)
 			} catch(e) {
 				return null
 			}
@@ -4242,7 +4688,7 @@ function(e, t, a) {
 			0 === n.indexOf("/") && (n = window.location.protocol + "//" + window.location.host + n);
 			var l = function(e, t, a, n) {
 				var l = Array.isArray(n) ? n.concat() : [];
-				if (u.test(t)) {
+				if (p.test(t)) {
 					var i = RegExp.$1,
 					r = e.replace(/^(\w+\:\/\/[^\/]+)\/.*$/, "$1") + "/schemas/" + i + ".json",
 					o = d(l, (function(e) {
@@ -4306,188 +4752,7 @@ function(e, t, a) {
 	} (l.
 default.Component);
 	t.
-default = p
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.ButtonControlPlugin = void 0;
-	var n = a(0),
-	l = a(1),
-	i = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "button-control",
-			t.$schema = "/schemas/ButtonControlSchema.json",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/button",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "button",
-				label: "按钮"
-			},
-			t.previewSchema = {
-				type: "form",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(19).ButtonPlugin);
-	t.ButtonControlPlugin = i,
-	l.registerEditorPlugin(i)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.mockValue = void 0;
-	var n = a(0).__importDefault(a(82));
-	t.mockValue = function(e) {
-		return "date" === e.type || "datetime" === e.type || "time" === e.type || "month" === e.type || "static-date" === e.type || "static-datetime" === e.type || "static-time" === e.type || "static-month" === e.type ? n.
-	default().format("X"):
-		"image" === e.type || "static-image" === e.type ? "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80": "images" === e.type || "static-images" === e.type ? ["https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"] : "假数据"
-	}
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.DateControlPlugin = void 0;
-	var n = a(0),
-	l = a(5),
-	i = a(3),
-	r = a(1),
-	o = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "date-control",
-			t.$schema = "/schemas/DateControlSchema.json",
-			t.order = -450,
-			t.icon = "fa fa-calendar",
-			t.name = "日期框",
-			t.description = "年月日选择，支持相对值设定，如<code>+2days</code>两天后",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/date",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "date",
-				label: "日期",
-				name: "date"
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t.panelTitle = "日期配置",
-			t.panelControls = [i.getSchemaTpl("placeholder", {
-				pipeIn: i.defaultValue("请选择日期")
-			}), {
-				type: "text",
-				name: "format",
-				label: "值格式",
-				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
-				pipeIn: i.defaultValue("X")
-			},
-			i.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
-				name: "value",
-				label: "默认值",
-				visibleOn: 'typeof this.value !== "undefined"',
-				placeholder: "请输入相对值",
-				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法"
-			},
-			{
-				type: "fieldSet",
-				title: "使用固定值",
-				collapsed: !0,
-				collapsable: !0,
-				className: "fieldset",
-				visibleOn: 'typeof this.value !== "undefined"',
-				controls: [{
-					type: "date",
-					name: "value",
-					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
-					}
-				}]
-			},
-			i.getSchemaTpl("clearable", {
-				pipeIn: i.defaultValue(!0)
-			}), {
-				type: "text",
-				name: "minDate",
-				label: "最小日期",
-				placeholder: "请输入相对值",
-				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
-			},
-			{
-				type: "fieldSet",
-				title: "使用固定值",
-				collapsed: !0,
-				collapsable: !0,
-				className: "fieldset",
-				controls: [{
-					type: "date",
-					name: "minDate",
-					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
-					}
-				}]
-			},
-			{
-				type: "divider"
-			},
-			{
-				type: "text",
-				name: "maxDate",
-				label: "最大日期",
-				placeholder: "请输入相对值",
-				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
-			},
-			{
-				type: "fieldSet",
-				title: "使用固定值",
-				collapsed: !0,
-				collapsable: !0,
-				className: "fieldset",
-				controls: [{
-					type: "date",
-					name: "maxDate",
-					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
-					}
-				}]
-			}],
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(2).BasePlugin);
-	t.DateControlPlugin = o,
-	r.registerEditorPlugin(o)
-},
-function(e, t) {
-	e.exports = require("amis/lib/renderers/Form/Editor")
+default = c
 },
 function(e, t, a) {
 	"use strict";
@@ -4509,7 +4774,7 @@ function(e, t, a) {
 			t.tags = ["展示"],
 			t.icon = "fa fa-calendar",
 			t.scaffold = {
-				type: "date"
+				type: "input-date"
 			},
 			t.previewSchema = n.__assign(n.__assign({},
 			t.scaffold), {
@@ -4517,18 +4782,18 @@ function(e, t, a) {
 				value: Math.round(Date.now() / 1e3)
 			}),
 			t.panelTitle = "日期展示",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						name: "format",
 						label: "显示日期格式",
 						description: "请参考 moment 中的格式用法。",
 						pipeIn: r.defaultValue("YYYY-MM-DD")
 					},
 					{
-						type: "text",
+						type: "input-text",
 						name: "valueFormat",
 						label: "数据日期格式",
 						description: "请参考 moment 中的格式用法。",
@@ -4536,18 +4801,18 @@ function(e, t, a) {
 					},
 					{
 						name: "placeholder",
-						type: "text",
+						type: "input-text",
 						pipeIn: r.defaultValue("-"),
 						label: "占位符"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("className")]
+					body: [r.getSchemaTpl("className")]
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -4568,16 +4833,16 @@ function(e, t, a) {
 	i = n.__importStar(a(4)),
 	r = n.__importDefault(a(8)),
 	o = a(6),
-	s = a(23),
+	s = a(26),
 	d = a(7),
-	c = a(12),
-	u = n.__importDefault(a(51)),
-	p = n.__importDefault(a(32)),
-	m = a(33),
-	f = n.__importDefault(a(34)),
-	h = a(9),
-	g = a(14),
-	b = function(e) {
+	u = a(10),
+	p = n.__importDefault(a(48)),
+	c = n.__importDefault(a(33)),
+	m = a(34),
+	h = n.__importDefault(a(35)),
+	f = a(11),
+	b = a(9),
+	g = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.env = n.__assign(n.__assign(n.__assign({},
@@ -4606,7 +4871,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.componentDidMount = function() {
-			var e = c.findDOMNode(this);
+			var e = u.findDOMNode(this);
 			e.addEventListener("mouseleave", this.handleMouseLeave),
 			e.addEventListener("mousemove", this.handleMouseMove),
 			e.addEventListener("click", this.handleClick),
@@ -4615,7 +4880,7 @@ function(e, t, a) {
 		},
 		t.prototype.componentWillUnmount = function() {
 			var e = this,
-			t = c.findDOMNode(this);
+			t = u.findDOMNode(this);
 			t.removeEventListener("mouseleave", this.handleMouseLeave),
 			t.removeEventListener("mousemove", this.handleMouseMove),
 			t.removeEventListener("click", this.handleClick),
@@ -4711,9 +4976,9 @@ function(e, t, a) {
 			o = e.manager,
 			s = (e.amisEnv, e.theme),
 			d = e.isMobile,
-			c = e.iframeUrl,
+			u = e.iframeUrl,
 			m = e.autoFocus,
-			h = n.__rest(e, ["className", "editable", "store", "manager", "amisEnv", "theme", "isMobile", "iframeUrl", "autoFocus"]);
+			f = n.__rest(e, ["className", "editable", "store", "manager", "amisEnv", "theme", "isMobile", "iframeUrl", "autoFocus"]);
 			return i.
 		default.createElement("div", {
 				onDragEnter: this.handleDragEnter,
@@ -4728,10 +4993,10 @@ function(e, t, a) {
 				className: "ae-Preview-inner",
 				ref: this.contentsRef
 			},
-			c && d ? i.
-		default.createElement(f.
+			u && d ? i.
+		default.createElement(h.
 		default, n.__assign({},
-			h, {
+			f, {
 				key: "mobile",
 				className: "ae-PreviewFrame",
 				editable: a,
@@ -4739,18 +5004,18 @@ function(e, t, a) {
 				store: l,
 				env: this.env,
 				manager: o,
-				url: c,
+				url: u,
 				theme: s,
 				autoFocus: m
 			})) : i.
 		default.createElement(v, n.__assign({},
-			h, {
+			f, {
 				editable: a,
 				autoFocus: m,
 				store: l,
 				env: this.env,
 				key: "pc"
-			})), c && d && l.contextId ? i.
+			})), u && d && l.contextId ? i.
 		default.createElement("span", {
 				className: "ae-IframeMask"
 			}) : null, i.
@@ -4759,7 +5024,7 @@ function(e, t, a) {
 			},
 			l.highlightNodes.map((function(e) {
 				return i.
-			default.createElement(u.
+			default.createElement(p.
 			default, {
 					node: e,
 					key: e.id,
@@ -4769,7 +5034,7 @@ function(e, t, a) {
 				},
 				e.childRegions.map((function(t) {
 					return ! e.memberImmutable(t.region) && l.isRegionActive(t.id, t.region) ? i.
-				default.createElement(p.
+				default.createElement(c.
 				default, {
 						manager: o,
 						key: t.region,
@@ -4797,7 +5062,7 @@ function(e, t, a) {
 		t = n.__decorate([d.observer], t)
 	} (i.Component);
 	t.
-default = b;
+default = g;
 	var v = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
@@ -4806,11 +5071,11 @@ default = b;
 		t.prototype.componentDidMount = function() {
 			var e = this.props.store;
 			this.props.autoFocus && setTimeout((function() {
-				if (h.isAlive(e)) {
-					var t = g.findTree(e.outline, (function(e) {
+				if (f.isAlive(e)) {
+					var t = b.findTree(e.outline, (function(e) {
 						return ! e.isRegion && e.clickable
 					}));
-					t && h.isAlive(e) && e.setActiveId(t.id)
+					t && f.isAlive(e) && e.setActiveId(t.id)
 				}
 			}), 350)
 		},
@@ -4831,6 +5096,9 @@ default = b;
 		t = n.__decorate([d.observer], t)
 	} (i.
 default.Component)
+},
+function(e, t) {
+	e.exports = require("lodash/isEqual")
 },
 function(e, t) {
 	e.exports = require("lodash/isPlainObject")
@@ -4915,9 +5183,9 @@ function(e, t, a) {
 			o = e.node,
 			s = t.isRegionHighlighted(a, n),
 			d = t.isRegionDragEnter(a, n),
-			c = t.getNodeById(a),
-			u = o.x - c.x,
-			p = o.y - c.y;
+			u = t.getNodeById(a),
+			p = o.x - u.x,
+			c = o.y - u.y;
 			return l.
 		default.createElement("div", {
 				"data-renderer": o.host.info.renderer.name,
@@ -4930,7 +5198,7 @@ function(e, t, a) {
 				style: {
 					width: o.w,
 					height: o.h,
-					borderWidth: Math.max(0, p) + "px " + Math.max(0, c.w - u - o.w) + "px " + Math.max(0, c.h - p - o.h) + "px " + Math.max(0, u) + "px"
+					borderWidth: Math.max(0, c) + "px " + Math.max(0, u.w - p - o.w) + "px " + Math.max(0, u.h - c - o.h) + "px " + Math.max(0, p) + "px"
 				}
 			},
 			l.
@@ -4984,13 +5252,13 @@ function(e, t, a) {
 	t.mountInIframe = void 0;
 	var n = a(0),
 	l = a(7),
-	i = a(9),
+	i = a(11),
 	r = n.__importDefault(a(4)),
-	o = a(12),
+	o = a(10),
 	s = a(1),
 	d = a(6),
-	c = n.__importDefault(a(40)),
-	u = function(e) {
+	u = n.__importDefault(a(40)),
+	p = function(e) {
 		function t(t) {
 			var a = e.call(this, t) || this,
 			n = "__amis_editor_bridge_fn_" + d.guid();
@@ -5046,8 +5314,8 @@ function(e, t, a) {
 	} (r.
 default.PureComponent);
 	t.
-default = u;
-	var p = function(e) {
+default = p;
+	var c = function(e) {
 		function t(t) {
 			var a = e.call(this, t) || this;
 			a.state = {},
@@ -5081,7 +5349,7 @@ default = u;
 		},
 		t.prototype.render = function() {
 			return r.
-		default.createElement(c.
+		default.createElement(u.
 		default, n.__assign({},
 			this.state, {
 				manager: this.manager,
@@ -5096,7 +5364,7 @@ default.Component);
 		if (!location.hash || parent === window) throw new Error("只能在 Iframe 里面调用");
 		var n = location.hash.substring(1);
 		t.render(r.
-	default.createElement(p, {
+	default.createElement(c, {
 			bridgeName: n,
 			envCreator: a
 		}), e),
@@ -5110,83 +5378,15 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.NodeWrapper = void 0;
-	var n = a(0),
-	l = a(9),
-	i = n.__importDefault(a(4)),
-	r = a(12),
-	o = a(6),
-	s = function(e) {
-		function t() {
-			return null !== e && e.apply(this, arguments) || this
-		}
-		return n.__extends(t, e),
-		t.prototype.componentDidMount = function() {
-			this.markDom(this.props.$$editor.id);
-			var e = this.props.$$node;
-			e && setTimeout((function() {
-				return l.isAlive(e) && e.calculateHighlightBox()
-			}), 20)
-		},
-		t.prototype.componentDidUpdate = function(e) {
-			this.markDom(this.props.$$editor.id)
-		},
-		t.prototype.getWrappedInstance = function() {
-			return this.ref
-		},
-		t.prototype.refFn = function(e) {
-			this.ref = e
-		},
-		t.prototype.markDom = function(e) {
-			var t = r.findDOMNode(this);
-			if (t && e) {
-				var a = this.props.$$editor,
-				n = a.wrapperResolve ? a.wrapperResolve(t) : t; (Array.isArray(n) ? n: n ? [n] : []).forEach((function(t) {
-					return t.setAttribute("data-editor-id", e)
-				}))
-			}
-		},
-		t.prototype.render = function() {
-			var e = this.props,
-			t = e.$$editor,
-			a = e.$$node,
-			l = n.__rest(e, ["$$editor", "$$node"]),
-			r = t.renderer;
-			return t.filterProps && (l = t.filterProps.call(t.plugin, l, a)),
-			t.renderRenderer ? t.renderRenderer.call(t.plugin, n.__assign(n.__assign(n.__assign(n.__assign({},
-			l), {
-				$$editor: t
-			}), t.wrapperProps), {
-				ref: this.refFn
-			}), t) : i.
-		default.createElement(r.component, n.__assign({},
-			l, {
-				$$editor: t
-			},
-			t.wrapperProps, {
-				ref: this.refFn
-			}))
-		},
-		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "refFn", null),
-		t
-	} (i.
-default.Component);
-	t.NodeWrapper = s
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
 	t.ContainerWrapper = void 0;
 	var n = a(0),
-	l = a(35),
+	l = a(27),
 	i = n.__importDefault(a(4)),
 	r = a(7),
 	o = a(6),
-	s = n.__importDefault(a(10)),
-	d = a(13),
-	c = function(e) {
+	s = n.__importDefault(a(12)),
+	d = a(15),
+	u = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
 		}
@@ -5201,31 +5401,31 @@ function(e, t, a) {
 			var l = this.props,
 			r = l.render,
 			o = l.$$editor,
-			c = r(e, t, n.__assign(n.__assign({},
+			u = r(e, t, n.__assign(n.__assign({},
 			a), {
 				$$editor: o
 			})),
-			u = s.
+			p = s.
 		default(o.regions, (function(t) {
 				return t.key === e && !t.matchRegion && !t.renderMethod
 			}));
-			if (u) {
-				var p = u.wrapper || d.RegionWrapper;
+			if (p) {
+				var c = p.wrapper || d.RegionWrapper;
 				return i.
-			default.createElement(p, {
+			default.createElement(c, {
 					key: null == a ? void 0 : a.key,
-					preferTag: u.preferTag,
-					name: u.key,
-					label: u.label,
-					regionConfig: u,
+					preferTag: p.preferTag,
+					name: p.key,
+					label: p.label,
+					regionConfig: p,
 					editorStore: o.plugin.manager.store,
-					wrapperResolve: u.wrapperResolve,
+					wrapperResolve: p.wrapperResolve,
 					manager: o.plugin.manager,
-					children: c,
+					children: u,
 					rendererName: o.renderer.name
 				})
 			}
-			return c
+			return u
 		},
 		t.prototype.render = function() {
 			var e = this.props,
@@ -5260,7 +5460,7 @@ function(e, t, a) {
 		t = n.__decorate([r.observer], t)
 	} (i.
 default.Component);
-	t.ContainerWrapper = c
+	t.ContainerWrapper = u
 },
 function(e, t) {
 	e.exports = require("lodash/debounce")
@@ -5276,7 +5476,7 @@ function(e, t, a) {
 	t.DefaultDNDMode = void 0;
 	var n = a(0),
 	l = a(5),
-	i = n.__importDefault(a(11)),
+	i = n.__importDefault(a(13)),
 	r = a(16),
 	o = function() {
 		function e(e, t) {
@@ -5300,9 +5500,9 @@ function(e, t, a) {
 				var d = a.outerHTML.replace("ae-is-draging", "").replace(/\bdata\-editor\-id=(?:'.+?'|".+?")/g, "");
 				t.innerHTML = d
 			} else {
-				var c = this.dnd.manager,
-				u = c.store;
-				r.renderThumbToGhost(t, this.region, u.dragSchema, c),
+				var u = this.dnd.manager,
+				p = u.store;
+				r.renderThumbToGhost(t, this.region, p.dragSchema, u),
 				this.constainer.appendChild(t)
 			}
 		},
@@ -5314,18 +5514,18 @@ function(e, t, a) {
 			o = this.constainer,
 			s = Array.isArray(this.region.schema) ? this.region.schema: [],
 			d = e.clientX - this.exchangeX,
-			c = e.clientY - this.exchangeY;
-			Math.abs(c),
+			u = e.clientY - this.exchangeY;
+			Math.abs(u),
 			Math.abs(d);
 			if (r && !l.animation.animating) {
-				var u = r.getAttribute("data-editor-id"),
-				p = this.getChild(o, r),
+				var p = r.getAttribute("data-editor-id"),
+				c = this.getChild(o, r),
 				m = i.
 			default(s, (function(e) {
-					return e.$$id === u
+					return e.$$id === p
 				})),
-				f = Array.prototype.indexOf.call(o.children, t),
-				h = Array.prototype.indexOf.call(o.children, p);~f && f > h && (!this.exchangeY || c < 0 || d < 0) ? (this.exchangeX = e.clientX, this.exchangeY = e.clientY, this.dropBeforeId = null === (a = s[m]) || void 0 === a ? void 0 : a.$$id, f !== h - 1 && (l.animation.capture(o), o.insertBefore(t, p), l.animation.animateAll())) : ~f && f < h && (!this.exchangeY || c > 0 || d > 0) && (this.exchangeX = e.clientX, this.exchangeY = e.clientY, s[m + 1] ? this.dropBeforeId = null === (n = s[m + 1]) || void 0 === n ? void 0 : n.$$id: delete this.dropBeforeId, f !== h + 1 && (l.animation.capture(o), o.insertBefore(t, p.nextSibling), l.animation.animateAll()))
+				h = Array.prototype.indexOf.call(o.children, t),
+				f = Array.prototype.indexOf.call(o.children, c);~h && h > f && (!this.exchangeY || u < 0 || d < 0) ? (this.exchangeX = e.clientX, this.exchangeY = e.clientY, this.dropBeforeId = null === (a = s[m]) || void 0 === a ? void 0 : a.$$id, h !== f - 1 && (l.animation.capture(o), o.insertBefore(t, c), l.animation.animateAll())) : ~h && h < f && (!this.exchangeY || u > 0 || d > 0) && (this.exchangeX = e.clientX, this.exchangeY = e.clientY, s[m + 1] ? this.dropBeforeId = null === (n = s[m + 1]) || void 0 === n ? void 0 : n.$$id: delete this.dropBeforeId, h !== f + 1 && (l.animation.capture(o), o.insertBefore(t, c.nextSibling), l.animation.animateAll()))
 			}
 			t.parentNode !== o && (delete this.dropBeforeId, l.animation.capture(o), o.appendChild(t), l.animation.animateAll())
 		},
@@ -5357,12 +5557,12 @@ function(e, t, a) {
 	l = n.__importDefault(a(4)),
 	i = a(5),
 	r = a(6),
-	o = a(33),
+	o = a(34),
 	s = n.__importDefault(a(8)),
-	d = a(12),
-	c = a(9),
-	u = a(14),
-	p = function(e) {
+	d = a(10),
+	u = a(11),
+	p = a(9),
+	c = function(e) {
 		function t() {
 			var t, a, l = e.apply(this, arguments) || this;
 			return l.env = n.__assign(n.__assign(n.__assign(n.__assign({},
@@ -5382,8 +5582,8 @@ function(e, t, a) {
 			if (e.addEventListener("mouseleave", this.handleMouseLeave), e.addEventListener("mousemove", this.handleMouseMove), e.addEventListener("click", this.handleClick), e.addEventListener("mouseover", this.handeMouseOver), this.props.autoFocus) {
 				var t = this.props.manager.store;
 				setTimeout((function() {
-					if (c.isAlive(t)) {
-						var e = u.findTree(t.outline, (function(e) {
+					if (u.isAlive(t)) {
+						var e = p.findTree(t.outline, (function(e) {
 							return ! e.isRegion && e.clickable
 						}));
 						e && t.setActiveId(e.id)
@@ -5475,10 +5675,10 @@ function(e, t, a) {
 				},
 				component: o.ErrorRenderer
 			};
-			var c = s.getEditorInfo(d, e, t);
-			return c && (d = n.__assign(n.__assign({},
+			var u = s.getEditorInfo(d, e, t);
+			return u && (d = n.__assign(n.__assign({},
 			d), {
-				component: s.makeWrapper(c, d)
+				component: s.makeWrapper(u, d)
 			})),
 			d
 		},
@@ -5489,7 +5689,7 @@ function(e, t, a) {
 			r = (e.manager, e.className),
 			o = e.schema,
 			d = e.data,
-			c = n.__rest(e, ["store", "editable", "manager", "className", "schema", "data"]);
+			u = n.__rest(e, ["store", "editable", "manager", "className", "schema", "data"]);
 			return l.
 		default.createElement("div", {
 				ref: this.contentsRef,
@@ -5506,7 +5706,7 @@ function(e, t, a) {
 				tpl: "渲染中。。。"
 			},
 			n.__assign(n.__assign({},
-			c), {
+			u), {
 				key: a ? "edit-mode": "preview-mode",
 				theme: this.env.theme,
 				data: null != d ? d: t.ctx
@@ -5527,7 +5727,7 @@ function(e, t, a) {
 	} (l.
 default.Component);
 	t.
-default = p
+default = c
 },
 function(e, t, a) {
 	"use strict";
@@ -5539,7 +5739,7 @@ function(e, t, a) {
 	l = n.__importDefault(a(4)),
 	i = a(5),
 	r = a(7),
-	o = n.__importDefault(a(21)),
+	o = n.__importDefault(a(24)),
 	s = a(6),
 	d = function(e) {
 		function t() {
@@ -5577,6 +5777,9 @@ function(e, t, a) {
 			s = i.subEditorContext,
 			d = r.config;
 			return {
+				data: {
+					schema: i.subEditorValue
+				},
 				show: !!i.subEditorContext,
 				size: "full",
 				title: null === (e = i.subEditorContext) || void 0 === e ? void 0 : e.title,
@@ -5586,9 +5789,6 @@ function(e, t, a) {
 					type: "form",
 					mode: "normal",
 					wrapperComponent: "div",
-					data: {
-						schema: i.subEditorValue
-					},
 					onValidate: function(e) {
 						return n.__awaiter(t, void 0, void 0, (function() {
 							var t, a, l;
@@ -5605,7 +5805,7 @@ function(e, t, a) {
 						}))
 					},
 					onChange: i.subEditorOnChange,
-					controls: [{
+					body: [{
 						name: "schema",
 						children: function(e) {
 							var a, n = e.value,
@@ -5623,6 +5823,7 @@ function(e, t, a) {
 								afterResolveEditorInfo: t.afterResolveEditorInfo,
 								onBuildPanels: t.handleBuildPanels,
 								isMobile: i.isMobile,
+								isSubEditor: !0,
 								iframeUrl: d.iframeUrl,
 								ctx: i.ctx,
 								amisEnv: d.amisEnv,
@@ -5708,7 +5909,7 @@ function(e, t, a) {
 	i = a(5),
 	r = a(7),
 	o = a(6),
-	s = a(14),
+	s = a(9),
 	d = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
@@ -5727,24 +5928,24 @@ function(e, t, a) {
 			r.closeScaffoldForm()
 		},
 		t.prototype.buildSchema = function() {
-			var e = this.props.store,
-			t = e.scaffoldForm;
+			var e, t, a = this.props.store,
+			n = a.scaffoldForm;
 			return {
-				show: !!t,
-				size: (null == t ? void 0 : t.size) || "md",
-				title: null == t ? void 0 : t.title,
-				onClose: e.closeScaffoldForm,
+				show: !!n,
+				size: (null == n ? void 0 : n.size) || "md",
+				title: null == n ? void 0 : n.title,
+				onClose: a.closeScaffoldForm,
 				onConfirm: this.handleConfirm,
-				data: s.createObject(e.ctx, null == t ? void 0 : t.value),
-				body: t ? {
+				data: s.createObject(a.ctx, null == n ? void 0 : n.value),
+				body: n ? (e = {
 					type: "form",
-					initApi: t.initApi,
-					api: t.api,
-					mode: t.mode || "normal",
+					initApi: n.initApi,
+					api: n.api,
+					mode: n.mode || "normal",
 					wrapperComponent: "div",
-					onValidate: t.validate,
-					controls: t.controls
-				}: {
+					onValidate: n.validate
+				},
+				e[n.controls ? "controls": "body"] = null !== (t = n.controls) && void 0 !== t ? t: n.body, e) : {
 					type: "tpl",
 					tpl: "Loading..."
 				},
@@ -5781,503 +5982,8 @@ function(e, t, a) {
 default.Component);
 	t.ScaffoldModal = d
 },
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.TabsPlugin = void 0;
-	var n = a(0),
-	l = n.__importDefault(a(4)),
-	i = a(1),
-	r = a(2),
-	o = a(3),
-	s = a(16),
-	d = a(15),
-	c = n.__importDefault(a(11)),
-	u = a(13),
-	p = a(5),
-	m = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "tabs",
-			t.$schema = "/schemas/TabsSchema.json",
-			t.name = "选项卡",
-			t.description = "选项卡，可以将内容分组用选项卡的形式展示，降低用户使用成本。",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/tabs",
-			t.tags = ["容器"],
-			t.icon = "fa fa-folder-o",
-			t.scaffold = {
-				type: "tabs",
-				tabs: [{
-					title: "选项卡1",
-					body: "内容1"
-				},
-				{
-					title: "选项卡2",
-					body: "内容2"
-				}]
-			},
-			t.previewSchema = n.__assign({},
-			t.scaffold),
-			t.panelTitle = "选项卡",
-			t.panelControls = [o.getSchemaTpl("fieldSet", {
-				title: "常规",
-				controls: [{
-					name: "tabs",
-					type: "combo",
-					label: "选项卡管理",
-					multiple: !0,
-					draggable: !0,
-					minLength: 1,
-					controls: [{
-						type: "text",
-						name: "title",
-						required: !0
-					}],
-					scaffold: {
-						title: "选项卡",
-						body: {
-							type: "tpl",
-							tpl: "内容",
-							inline: !1
-						}
-					},
-					addButtonText: "新增选项卡",
-					draggableTip: ""
-				}]
-			}), o.getSchemaTpl("fieldSet", {
-				title: "外观",
-				controls: [{
-					name: "tabsMode",
-					label: "样式",
-					type: "button-group",
-					size: "sm",
-					className: "block",
-					pipeIn: o.defaultValue(""),
-					options: [{
-						label: "默认",
-						value: ""
-					},
-					{
-						label: "线型",
-						value: "line"
-					},
-					{
-						label: "卡片",
-						value: "card"
-					},
-					{
-						label: "仿 Chrome",
-						value: "chrome"
-					},
-					{
-						label: "水平铺满",
-						value: "tiled"
-					},
-					{
-						label: "选择器",
-						value: "radio"
-					},
-					{
-						label: "垂直",
-						value: "vertical"
-					}]
-				},
-				o.getSchemaTpl("className"), o.getSchemaTpl("className", {
-					name: "contentClassName",
-					label: "选项卡成员 CSS 类名"
-				})]
-			}), o.getSchemaTpl("fieldSet", {
-				title: "其他",
-				controls: [{
-					type: "switch",
-					name: "mountOnEnter",
-					label: "激活时才渲染",
-					mode: "inline",
-					className: "block",
-					description: "设置后选项卡的内容只有点开才会渲染，如果有选项卡放的可拉取接口的组件，那么这个接口只有在点开的时候才会拉取。"
-				},
-				{
-					type: "switch",
-					name: "unmountOnExit",
-					label: "隐藏即销毁",
-					mode: "inline",
-					className: "block",
-					description: "设置后，如果选项卡内容关闭则销毁，配置「激活时才渲染」选项可以做到卡片内容每次点开都重新加载的效果。"
-				},
-				o.getSchemaTpl("visible")]
-			})],
-			t.patchContainers = ["tabs.body"],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					}
-				},
-				panelTitle: "卡片",
-				panelControls: [o.getSchemaTpl("fieldSet", {
-					title: "常规",
-					controls: [{
-						name: "title",
-						label: "标题",
-						type: "text",
-						required: !0
-					},
-					o.getSchemaTpl("icon"), {
-						label: "Hash",
-						name: "hash",
-						type: "text",
-						description: "设置后，会同步更新地址栏的 Hash。"
-					}]
-				}), o.getSchemaTpl("fieldSet", {
-					title: "外观",
-					controls: [o.getSchemaTpl("className")],
-					collapsed: !0
-				}), o.getSchemaTpl("fieldSet", {
-					title: "其他",
-					controls: [{
-						type: "switch",
-						name: "reload",
-						label: "内容刷新",
-						mode: "inline",
-						className: "block",
-						description: "配置后，每次点开内容都会重新刷新，如果配置了，下面两个选项就不用配置了。"
-					},
-					{
-						type: "switch",
-						name: "mountOnEnter",
-						visibleOn: "!this.reload",
-						label: "激活时才渲染",
-						mode: "inline",
-						className: "block",
-						description: "设置后选项卡的内容只有点开才会渲染，如果有选项卡放的可拉取接口的组件，那么这个接口只有在点开的时候才会拉取。"
-					},
-					{
-						visibleOn: "!this.reload",
-						type: "switch",
-						name: "unmountOnExit",
-						label: "隐藏即销毁",
-						mode: "inline",
-						className: "block",
-						description: "设置后，如果选项卡内容关闭则销毁，配置「激活时才渲染」选项可以做到卡片内容每次点开都重新加载的效果。"
-					},
-					o.getSchemaTpl("visible"), o.getSchemaTpl("disabled")]
-				})]
-			},
-			t.wrapperProps = {
-				unmountOnExit: !0,
-				mountOnEnter: !0
-			},
-			t.tabWrapperResolve = function(e) {
-				return e.parentElement
-			},
-			t.overrides = {
-				renderTabs: function() {
-					var e = this,
-					t = this.super();
-					if (!this.renderTab && this.props.$$editor && t) {
-						var a = this.props.tabs;
-						return s.mapReactElement(t, (function(t) {
-							if (t.type === p.Tab && t.props.$$id) {
-								var n = t.props.$$id,
-								i = c.
-							default(a, (function(e) {
-									return e.$$id === n
-								})),
-								r = e.props.$$editor,
-								o = r.plugin;
-								if (~i) {
-									var s = o.vRendererConfig.regions.body;
-									return l.
-								default.cloneElement(t, {
-										children: l.
-									default.createElement(d.VRenderer, {
-											key: n,
-											plugin: r.plugin,
-											renderer: r.renderer,
-											$schema: "/schemas/TabSchema.json",
-											hostId: r.id,
-											memberIndex: i,
-											name: "" + (t.props.title || "卡片" + (i + 1)),
-											id: n,
-											draggable: !1,
-											wrapperResolve: o.tabWrapperResolve,
-											schemaPath: r.schemaPath + "/tabs/" + i,
-											path: e.props.$path + "/" + i,
-											data: e.props.data
-										},
-										l.
-									default.createElement(u.RegionWrapper, {
-											key: s.key,
-											preferTag: s.preferTag,
-											name: s.key,
-											label: s.label,
-											regionConfig: s,
-											editorStore: o.manager.store,
-											manager: o.manager,
-											children: t.props.children,
-											wrapperResolve: s.wrapperResolve,
-											rendererName: r.renderer.name
-										}))
-									})
-								}
-							}
-							return t
-						}))
-					}
-					return t
-				}
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildEditorToolbar = function(e, t) {
-			if (e.info.plugin === this && ("tabs" === e.info.renderer.name || "tabs-control" === e.info.renderer.name) && !e.info.hostId) {
-				var a = e.node;
-				t.push({
-					level: "secondary",
-					icon: "fa fa-chevron-left",
-					tooltip: "上个卡片",
-					onClick: function() {
-						var e = a.getComponent();
-						if (null == e ? void 0 : e.switchTo) {
-							var t = e.currentIndex();
-							e.switchTo(t - 1)
-						}
-					}
-				}),
-				t.push({
-					level: "secondary",
-					icon: "fa fa-chevron-right",
-					tooltip: "下个卡片",
-					onClick: function() {
-						var e = a.getComponent();
-						if (null == e ? void 0 : e.switchTo) {
-							var t = e.currentIndex();
-							e.switchTo(t + 1)
-						}
-					}
-				})
-			}
-		},
-		t.prototype.onPreventClick = function(e) {
-			var t = e.context.data;
-			return ! t.defaultPrevented && (!t.target.closest("[role=tablist]>li") && void 0)
-		},
-		t
-	} (r.BasePlugin);
-	t.TabsPlugin = m,
-	i.registerEditorPlugin(m)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.AnchorNavPlugin = void 0;
-	var n = a(0),
-	l = n.__importDefault(a(4)),
-	i = a(1),
-	r = a(2),
-	o = a(3),
-	s = a(16),
-	d = a(15),
-	c = n.__importDefault(a(11)),
-	u = a(13),
-	p = a(45),
-	m = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "anchor-nav",
-			t.$schema = "/schemas/AnchorNavSchema.json",
-			t.name = "锚点导航",
-			t.description = "锚点导航，在多行内容展示时，可以将内容用锚点导航分组的形式展示，点击导航菜单可以定位到对应内容区域。",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/anchor-nav",
-			t.tags = ["容器"],
-			t.icon = "fa fa-link",
-			t.scaffold = {
-				type: "anchor-nav",
-				links: [{
-					title: "用户信息",
-					body: "用户信息"
-				},
-				{
-					title: "系统配置信息",
-					body: [{
-						type: "form",
-						controls: [{
-							type: "fieldSet",
-							title: "系统配置信息",
-							controls: [{
-								type: "email",
-								name: "email",
-								placeholder: "请输入邮箱地址",
-								label: "邮箱"
-							}]
-						}]
-					}]
-				},
-				{
-					title: "权限管理",
-					body: [{
-						type: "form",
-						controls: [{
-							type: "fieldSet",
-							title: "权限管理",
-							controls: [{
-								type: "email",
-								name: "email",
-								placeholder: "请输入邮箱地址",
-								label: "邮箱"
-							}]
-						}]
-					}]
-				},
-				{
-					title: "角色管理",
-					body: "角色管理"
-				},
-				{
-					title: "网络配置信息",
-					body: "网络配置信息"
-				}]
-			},
-			t.previewSchema = n.__assign({},
-			t.scaffold),
-			t.panelTitle = "锚点导航",
-			t.panelControls = [o.getSchemaTpl("fieldSet", {
-				title: "常规",
-				controls: [{
-					name: "links",
-					type: "combo",
-					label: "锚点管理",
-					multiple: !0,
-					draggable: !0,
-					minLength: 1,
-					controls: [{
-						type: "text",
-						name: "title",
-						required: !0
-					}],
-					scaffold: {
-						title: "锚点内容",
-						body: {
-							type: "tpl",
-							tpl: "内容",
-							inline: !1
-						}
-					},
-					addButtonText: "新增锚点",
-					draggableTip: ""
-				}]
-			}), o.getSchemaTpl("fieldSet", {
-				title: "外观",
-				controls: [o.getSchemaTpl("className"), o.getSchemaTpl("className", {
-					name: "linkClassName",
-					label: "导航 CSS 类名"
-				}), o.getSchemaTpl("className", {
-					name: "sectionClassName",
-					label: "区域内容 CSS 类名"
-				})]
-			})],
-			t.patchContainers = ["anchor-nav.body"],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					}
-				},
-				panelTitle: "内容区域",
-				panelControls: [o.getSchemaTpl("fieldSet", {
-					title: "常规",
-					controls: [{
-						name: "title",
-						label: "标题",
-						type: "text",
-						required: !0
-					}]
-				}), o.getSchemaTpl("fieldSet", {
-					title: "外观",
-					controls: [o.getSchemaTpl("className")]
-				})]
-			},
-			t.wrapperProps = {
-				unmountOnExit: !0,
-				mountOnEnter: !0
-			},
-			t.sectionWrapperResolve = function(e) {
-				return e.parentElement
-			},
-			t.overrides = {
-				render: function() {
-					var e = this,
-					t = this.super();
-					if (!this.renderSection && this.props.$$editor && t) {
-						var a = this.props.links;
-						return s.mapReactElement(t, (function(t) {
-							if (t.type === p.AnchorNavSection && t.props.$$id) {
-								var n = t.props.$$id,
-								i = c.
-							default(a, (function(e) {
-									return e.$$id === n
-								})),
-								r = e.props.$$editor,
-								o = r.plugin;
-								if (~i) {
-									var s = o.vRendererConfig.regions.body;
-									return l.
-								default.cloneElement(t, {
-										children: l.
-									default.createElement(d.VRenderer, {
-											key: n,
-											plugin: r.plugin,
-											renderer: r.renderer,
-											$schema: "/schemas/SectionSchema.json",
-											hostId: r.id,
-											memberIndex: i,
-											name: "" + (t.props.title || "锚点内容" + (i + 1)),
-											id: n,
-											draggable: !1,
-											wrapperResolve: o.sectionWrapperResolve,
-											schemaPath: r.schemaPath + "/anchor-nav/" + i,
-											path: e.props.$path + "/" + i,
-											data: e.props.data
-										},
-										l.
-									default.createElement(u.RegionWrapper, {
-											key: s.key,
-											preferTag: s.preferTag,
-											name: s.key,
-											label: s.label,
-											regionConfig: s,
-											editorStore: o.manager.store,
-											manager: o.manager,
-											children: t.props.children,
-											wrapperResolve: s.wrapperResolve,
-											rendererName: r.renderer.name
-										}))
-									})
-								}
-							}
-							return t
-						}))
-					}
-					return t
-				}
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t
-	} (r.BasePlugin);
-	t.AnchorNavPlugin = m,
-	i.registerEditorPlugin(m)
-},
 function(e, t) {
-	e.exports = require("amis/lib/components/AnchorNav")
+	e.exports = require("amis/lib/renderers/Form/Editor")
 },
 function(e, t, a) {
 	"use strict";
@@ -6298,8 +6004,9 @@ function(e, t, a) {
 			t.$schema = "/schemas/DialogSchema.json",
 			t.name = "弹框",
 			t.wrapperProps = {
-				wrapperComponent: c,
-				onClose: s.noop
+				wrapperComponent: u,
+				onClose: s.noop,
+				show: !0
 			},
 			t.regions = [{
 				key: "body",
@@ -6323,11 +6030,11 @@ function(e, t, a) {
 				}
 			}],
 			t.panelTitle = "弹框",
-			t.panelControls = [o.getSchemaTpl("tabs", [{
+			t.panelBody = [o.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					label: "标题",
-					type: "text",
+					type: "input-text",
 					name: "title"
 				},
 				{
@@ -6385,16 +6092,16 @@ function(e, t, a) {
 						})),
 						t
 					},
-					controls: [{
+					items: [{
 						placeholder: "Key",
-						type: "text",
+						type: "input-text",
 						unique: !0,
 						name: "key",
 						required: !0
 					},
 					{
 						placeholder: "Value",
-						type: "text",
+						type: "input-text",
 						name: "value"
 					}]
 				},
@@ -6405,13 +6112,21 @@ function(e, t, a) {
 					mode: "inline",
 					className: "block",
 					value: !1
+				},
+				{
+					label: "点击弹框外区域关闭弹框",
+					type: "switch",
+					name: "closeOnOutside",
+					mode: "inline",
+					className: "block",
+					value: !1
 				}]
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					label: "尺寸",
-					type: "button-group",
+					type: "button-group-select",
 					name: "size",
 					size: "sm",
 					className: "block",
@@ -6461,11 +6176,12 @@ function(e, t, a) {
 	} (r.BasePlugin);
 	t.DialogPlugin = d,
 	i.registerEditorPlugin(d);
-	var c = function(e) {
+	var u = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
 		}
 		return n.__extends(t, e),
+		t.prototype.componentDidMount = function() {},
 		t.prototype.render = function() {
 			var e = this.props.children;
 			return l.
@@ -6477,10 +6193,10 @@ function(e, t, a) {
 		t
 	} (l.
 default.Component);
-	t.InlineModal = c
+	t.InlineModal = u
 },
 function(e, t, a) {
-	e.exports = a(48)
+	e.exports = a(46)
 },
 function(e, t, a) {
 	"use strict";
@@ -6489,17 +6205,18 @@ function(e, t, a) {
 	}),
 	t.IFrameEditor = t.mountInIframe = t.CodeEditor = t.BasicEditor = t.RendererEditor = t.registerEditorPlugin = t.defaultValue = t.setSchemaTpl = t.getSchemaTpl = t.BasePlugin = t.utils = t.MiniEditor = t.Editor = void 0;
 	var n = a(0),
-	l = n.__importDefault(a(21));
+	l = n.__importDefault(a(24));
 	t.Editor = l.
 default,
-	a(64),
+	a(62),
+	a(63),
 	a(65),
-	a(67),
+	a(68),
+	a(69),
 	a(70),
 	a(71),
 	a(72),
 	a(73),
-	a(25),
 	a(74),
 	a(75),
 	a(76),
@@ -6507,9 +6224,9 @@ default,
 	a(78),
 	a(79),
 	a(80),
-	a(81),
+	a(82),
+	a(22),
 	a(83),
-	a(27),
 	a(84),
 	a(85),
 	a(86),
@@ -6549,11 +6266,11 @@ default,
 	a(120),
 	a(121),
 	a(122),
+	a(23),
 	a(123),
 	a(124),
 	a(125),
 	a(126),
-	a(20),
 	a(127),
 	a(128),
 	a(129),
@@ -6562,10 +6279,10 @@ default,
 	a(132),
 	a(133),
 	a(134),
+	a(19),
 	a(135),
 	a(136),
 	a(137),
-	a(19),
 	a(138),
 	a(139),
 	a(140),
@@ -6573,13 +6290,13 @@ default,
 	a(142),
 	a(143),
 	a(144),
-	a(145),
-	a(146),
 	a(147),
-	a(150),
 	a(29),
+	a(148),
+	a(44),
+	a(149),
+	a(150),
 	a(151),
-	a(46),
 	a(152),
 	a(153),
 	a(154),
@@ -6614,14 +6331,12 @@ default,
 	a(183),
 	a(184),
 	a(185),
-	a(43),
 	a(186),
-	a(187),
 	a(188),
-	a(44),
 	a(189),
 	a(190),
-	a(191);
+	a(191),
+	a(193);
 	var i = n.__importStar(a(6));
 	t.utils = i;
 	var r = a(3);
@@ -6657,7 +6372,7 @@ default,
 			return s.BasePlugin
 		}
 	});
-	var d = a(192);
+	var d = a(194);
 	Object.defineProperty(t, "BasicEditor", {
 		enumerable: !0,
 		get: function() {
@@ -6670,25 +6385,22 @@ default,
 			return d.RendererEditor
 		}
 	});
-	var c = n.__importDefault(a(193));
-	t.MiniEditor = c.
+	var u = n.__importDefault(a(195));
+	t.MiniEditor = u.
 default;
-	var u = n.__importDefault(a(24));
-	t.CodeEditor = u.
+	var p = n.__importDefault(a(28));
+	t.CodeEditor = p.
 default;
-	var p = n.__importDefault(a(40));
-	t.IFrameEditor = p.
+	var c = n.__importDefault(a(40));
+	t.IFrameEditor = c.
 default;
-	var m = a(34);
+	var m = a(35);
 	Object.defineProperty(t, "mountInIframe", {
 		enumerable: !0,
 		get: function() {
 			return m.mountInIframe
 		}
 	})
-},
-function(e, t) {
-	e.exports = require("lodash/isEqual")
 },
 function(e, t) {
 	e.exports = require("deep-diff")
@@ -6716,16 +6428,16 @@ function(e, t, a) {
 			o = e.children,
 			s = e.node,
 			d = a.sortedToolbars,
-			c = a.sortedSecondaryToolbars,
-			u = a.sortedSpecialToolbars,
-			p = a.isActive(n),
+			u = a.sortedSecondaryToolbars,
+			p = a.sortedSpecialToolbars,
+			c = a.isActive(n),
 			m = a.isHoved(n) || a.dropId === n || a.insertOrigId === n;
 			return l.
 		default.createElement("div", {
 				className: i.
 			default("ae-Editor-hlbox", {
 					shake: n === a.insertOrigId,
-					selected: p,
+					selected: c,
 					hover: m,
 					regionOn: s.childRegions.some((function(e) {
 						return a.isRegionHighlighted(e.id, e.region)
@@ -6745,7 +6457,7 @@ function(e, t, a) {
 				key: "tip",
 				className: "ae-Editor-tip"
 			},
-			r), p && d.length ? l.
+			r), c && d.length ? l.
 		default.createElement("div", {
 				className: "ae-Editor-toolbar",
 				key: "toolbar"
@@ -6771,12 +6483,12 @@ function(e, t, a) {
 			default.createElement("i", {
 					className: e.icon
 				}))
-			}))) : null, p && c.length ? l.
+			}))) : null, c && u.length ? l.
 		default.createElement("div", {
 				className: "ae-Editor-toolbar sencondary",
 				key: "sencondary-toolbar"
 			},
-			c.map((function(e) {
+			u.map((function(e) {
 				return l.
 			default.createElement("button", {
 					key: e.id,
@@ -6796,12 +6508,12 @@ function(e, t, a) {
 			default.createElement("i", {
 					className: e.icon
 				}))
-			}))) : null, p && u.length ? l.
+			}))) : null, c && p.length ? l.
 		default.createElement("div", {
 				className: "ae-Editor-toolbar special",
 				key: "special-toolbar"
 			},
-			u.map((function(e) {
+			p.map((function(e) {
 				return l.
 			default.createElement("button", {
 					key: e.id,
@@ -6837,8 +6549,63 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
+	t.CommonConfigWrapper = void 0;
+	var n = a(0),
+	l = a(10),
+	i = a(6),
+	r = n.__importDefault(a(4)),
+	o = function(e) {
+		function t() {
+			return null !== e && e.apply(this, arguments) || this
+		}
+		return n.__extends(t, e),
+		t.prototype.markDom = function(e) {
+			var t = l.findDOMNode(this);
+			if (t && e) {
+				var a = this.props.$$editor,
+				n = a.wrapperResolve ? a.wrapperResolve(t) : t;
+				this.props.$$commonSchema && (Array.isArray(n) ? n: n ? [n] : []).forEach((function(t) {
+					t.setAttribute("data-editor-id", e),
+					t.className = t.className + " ae-Editor-common-config"
+				}))
+			}
+		},
+		t.prototype.render = function() {
+			var e = this.props,
+			t = e.$$editor,
+			a = e.$$node,
+			l = e.$schema,
+			o = n.__rest(e, ["$$editor", "$$node", "$schema"]),
+			s = t.renderer;
+			return o = i.JSONPipeOut(o),
+			t.filterProps && (o = t.filterProps.call(t.plugin, o, a)),
+			t.renderRenderer ? t.renderRenderer.call(t.plugin, n.__assign(n.__assign(n.__assign(n.__assign({},
+			o), {
+				$schema: l,
+				$$editor: t
+			}), t.wrapperProps), {
+				ref: this.refFn
+			}), t) : r.
+		default.createElement(s.component, n.__assign({},
+			o, {
+				$schema: l,
+				$$editor: t
+			},
+			t.wrapperProps, {
+				ref: this.refFn
+			}))
+		},
+		t
+	} (a(27).NodeWrapper);
+	t.CommonConfigWrapper = o
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
 	t.env = void 0;
-	var n = a(0).__importDefault(a(54)),
+	var n = a(0).__importDefault(a(52)),
 	l = a(5);
 	// ovine
 	t.env = {
@@ -6860,10 +6627,10 @@ function(e, t, a) {
 	}),
 	t.EditorDNDManager = void 0;
 	var n = a(0),
-	l = n.__importDefault(a(10)),
+	l = n.__importDefault(a(12)),
 	i = a(6),
 	r = a(39),
-	o = a(57),
+	o = a(55),
 	s = function() {
 		function e(e, t) {
 			this.manager = e,
@@ -6911,7 +6678,7 @@ function(e, t, a) {
 			s = o.regionInfo,
 			d = r.dragSchema;
 			if (!1 === (null === (n = null == s ? void 0 : s.accept) || void 0 === n ? void 0 : n.call(s, d))) return ! 1;
-			var c = {
+			var u = {
 				mode: r.dragMode,
 				sourceType: r.dragType,
 				sourceId: r.dragId,
@@ -6919,7 +6686,7 @@ function(e, t, a) {
 				targetId: t,
 				targetRegion: a
 			};
-			return ! this.manager.trigger("dnd-accept", c).prevented && (null === (l = this.dndMode) || void 0 === l || l.leave(e, this.dragGhost), null === (i = this.dndMode) || void 0 === i || i.dispose(), r.setDropId(t, a), this.makeDNDModeInstance(o), this.dndMode.enter(e, this.dragGhost), !0)
+			return ! this.manager.trigger("dnd-accept", u).prevented && (null === (l = this.dndMode) || void 0 === l || l.leave(e, this.dragGhost), null === (i = this.dndMode) || void 0 === i || i.dispose(), r.setDropId(t, a), this.makeDNDModeInstance(o), this.dndMode.enter(e, this.dragGhost), !0)
 		},
 		e.prototype.makeDNDModeInstance = function(e) {
 			var t, a = null === (t = e.regionInfo) || void 0 === t ? void 0 : t.dndMode,
@@ -6953,9 +6720,9 @@ function(e, t, a) {
 						tpl: "Unknown"
 					};
 					t.setDragId(r, "copy", o, d);
-					var c = t.activeContainerId;
-					if (c) {
-						var u = t.getNodeById(c); (null == u ? void 0 : u.childRegions.length) && this.switchToRegion(e, u.id, u.childRegions[0].region)
+					var u = t.activeContainerId;
+					if (u) {
+						var p = t.getNodeById(u); (null == p ? void 0 : p.childRegions.length) && this.switchToRegion(e, p.id, p.childRegions[0].region)
 					}
 					break
 				}
@@ -6981,9 +6748,9 @@ function(e, t, a) {
 					this.lastMoveAt = r,
 					this.lastX = e.clientX,
 					this.lastY = e.clientY;
-					var c = a.closest('[data-region][data-region-host="' + t.dropId + '"]'),
-					u = null == c ? void 0 : c.getAttribute("data-region");
-					u && u !== t.dropRegion && this.switchToRegion(e, t.dropId, u),
+					var u = a.closest('[data-region][data-region-host="' + t.dropId + '"]'),
+					p = null == u ? void 0 : u.getAttribute("data-region");
+					p && p !== t.dropRegion && this.switchToRegion(e, t.dropId, p),
 					this.dndMode.over(e, this.dragGhost)
 				}
 			}
@@ -7073,7 +6840,7 @@ function(e, t, a) {
 	}),
 	t.PositionHDNDMode = void 0;
 	var n = a(0),
-	l = n.__importDefault(a(11)),
+	l = n.__importDefault(a(13)),
 	i = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
@@ -7126,19 +6893,20 @@ function(e, t, a) {
 	}),
 	t.EditorStore = void 0;
 	var n = a(0),
-	l = a(14),
-	i = a(9),
+	l = a(9),
+	i = a(11),
 	r = a(6),
 	o = a(6),
-	s = a(59),
+	s = a(57),
 	d = a(5),
-	c = n.__importDefault(a(10)),
-	u = a(60),
-	p = n.__importDefault(a(31)),
-	m = a(17),
-	f = n.__importDefault(a(11));
+	u = n.__importDefault(a(12)),
+	p = a(58),
+	c = n.__importDefault(a(32)),
+	m = a(20),
+	h = n.__importDefault(a(13));
 	t.EditorStore = i.types.model("EditorRoot", {
 		isMobile: !1,
+		isSubEditor: !1,
 		root: i.types.optional(m.EditorNode, {
 			id: "root",
 			label: "Root"
@@ -7251,7 +7019,7 @@ function(e, t, a) {
 				var t, a = e.panelKey;
 				if ("none" === a) return a;
 				var n = this.getPanels();
-				return c.
+				return u.
 			default(n, (function(e) {
 					return a && e.key === a
 				})) ? a: (null === (t = n[0]) || void 0 === t ? void 0 : t.key) || "none"
@@ -7261,7 +7029,7 @@ function(e, t, a) {
 				if (this.dragging) return "outline";
 				if ("none" === t) return t;
 				var a = this.getLeftPanels();
-				return c.
+				return u.
 			default(a, (function(e) {
 					return t && e.key === t
 				})) ? t: "outline"
@@ -7294,7 +7062,7 @@ function(e, t, a) {
 					icon: "fa fa-bolt",
 					position: "left",
 					title: "replace" === e.insertMode ? "变更": "插入",
-					component: u.InsertSubRendererPanel,
+					component: p.InsertSubRendererPanel,
 					order: 9999
 				}),
 				t.sort((function(e, t) {
@@ -7331,7 +7099,7 @@ function(e, t, a) {
 			get valueWithoutHiddenProps() {
 				if (e.activeId) return o.JSONPipeOut(r.JSONGetById(e.schema, e.activeId), i.getEnv(e).isHiddenProps ||
 				function(e) {
-					return "$$" === e.substring(0, 2) && "$$comments" !== e || "__" === e.substring(0, 2)
+					return "$$" === e.substring(0, 2) && "$$comments" !== e && "$$commonSchema" !== e || "__" === e.substring(0, 2)
 				})
 			},
 			get outline() {
@@ -7390,7 +7158,7 @@ function(e, t, a) {
 				t
 			},
 			getSubRendererById: function(t) {
-				return c.
+				return u.
 			default(e.subRenderers || [], (function(e) {
 					return e.id === t
 				}))
@@ -7414,7 +7182,7 @@ function(e, t, a) {
 				t
 			},
 			get selectedInsertRendererInfo() {
-				return c.
+				return u.
 			default(e.insertRenderers, (function(t) {
 					return t.id === e.insertSelected
 				}))
@@ -7427,7 +7195,7 @@ function(e, t, a) {
 					return void 0 === t && (t = []),
 					!(!Array.isArray(e) || !e.some((function(e, a) {
 						return l(e, t.concat("" + a))
-					}))) || (p.
+					}))) || (c.
 				default(e) ? Object.keys(e).some((function(a) {
 						return l(e[a], t.concat(a))
 					})) : "$$" === e && (n = t.concat(), !0))
@@ -7460,7 +7228,7 @@ function(e, t, a) {
 		a = null,
 		s = void 0,
 		d = document,
-		c = void 0;
+		u = void 0;
 		return {
 			setLayer: function(e) {
 				s = e
@@ -7475,16 +7243,19 @@ function(e, t, a) {
 				return d
 			},
 			setIframe: function(e) {
-				c = e
+				u = e
 			},
 			getIframe: function() {
-				return c
+				return u
 			},
 			setIsMobile: function(t) {
 				e.isMobile = !!t
 			},
 			setCtx: function(t) {
 				e.ctx = t
+			},
+			setIsSubEditor: function(t) {
+				e.isSubEditor = t
 			},
 			setSchema: function(t) {
 				var a = o.JSONPipeIn(t || {});
@@ -7504,10 +7275,10 @@ function(e, t, a) {
 					var s = o.JSONPipeIn(t.context.data),
 					d = Array.isArray(i[l]) ? i[l].concat() : i[l] ? [i[l]] : [];
 					if (t.context.beforeId) {
-						var c = f.
+						var u = h.
 					default(d, (function(e) {
 							return e.$$id === t.context.beforeId
-						}));~c ? d.splice(c, 0, s) : d.push(s)
+						}));~u ? d.splice(u, 0, s) : d.push(s)
 					} else d.push(s);
 					return this.traceableSetSchema(o.JSONUpdate(e.schema, n, ((a = {})[l] = d, a))),
 					s
@@ -7522,12 +7293,12 @@ function(e, t, a) {
 					var s = n.region,
 					d = r.JSONGetById(l, n.id)[s];
 					if (d = Array.isArray(d) ? d.concat() : d ? [d] : [], n.beforeId) {
-						var c = f.
+						var u = h.
 					default(d, (function(e) {
 							return e.$$id === n.beforeId
 						}));
-						if (!~c) throw new Error("位置错误，目标位置没有找到");
-						d.splice(c, 0, i)
+						if (!~u) throw new Error("位置错误，目标位置没有找到");
+						d.splice(u, 0, i)
 					} else d.push(i);
 					this.traceableSetSchema(o.JSONUpdate(l, n.id, ((a = {})[s] = d, a)))
 				}
@@ -7679,14 +7450,14 @@ function(e, t, a) {
 				o = i.onChange,
 				s = i.slot,
 				d = n.schema,
-				c = (null === (a = n.__pristine) || void 0 === a ? void 0 : a.schema) || d;
+				u = (null === (a = n.__pristine) || void 0 === a ? void 0 : a.schema) || d;
 				if (s) {
-					var u = e.subEditorSlotPath.replace(/(?:\/)/g, ".");
-					d = l.getVariable(d, u),
-					c = l.getVariable(c, u),
-					Array.isArray(d) && 1 === d.length && !Array.isArray(c) && (d = d[0])
+					var p = e.subEditorSlotPath.replace(/(?:\/)/g, ".");
+					d = l.getVariable(d, p),
+					u = l.getVariable(u, p),
+					Array.isArray(d) && 1 === d.length && !Array.isArray(u) && (d = d[0])
 				}
-				o(d, o.length > 1 ? r.diff(c, d) : void 0),
+				o(d, o.length > 1 ? r.diff(u, d) : void 0),
 				e.subEditorContext = void 0
 			},
 			closeSubEditor: function() {
@@ -7840,20 +7611,20 @@ function(e, t, a) {
 			this.props.manager.dnd.drop(e.nativeEvent)
 		},
 		t.prototype.renderItem = function(e, t) {
-			var a = this,
-			n = this.props.store,
-			l = !n.dragging && e.singleRegion ? e.uniqueChildren[0].uniqueChildren: e.uniqueChildren,
-			o = l.length;
-			return ! n.dragging || e.isRegion || e.children.length ? i.
+			var a, n = this,
+			l = this.props.store,
+			o = !l.dragging && e.singleRegion ? e.uniqueChildren[0].uniqueChildren: e.uniqueChildren,
+			d = o.length;
+			return ! l.dragging || e.isRegion || e.children.length ? i.
 		default.createElement("li", {
 				className: r.
 			default("ae-Outline-node", {
 					"is-folded": e.folded,
-					"is-active": n.activeId === e.id && !e.region || e.isRegion && n.dropId === e.id && n.dropRegion === e.region,
+					"is-active": l.activeId === e.id && !e.region || e.isRegion && l.dropId === e.id && l.dropRegion === e.region,
 					"is-region": e.isRegion,
-					"is-hover": !e.isRegion && (n.isHoved(e.id) || n.isContextOn(e.id)),
-					"has-children": o,
-					"is-dragging": n.dragId === e.id && "schema" === n.dragType
+					"is-hover": !e.isRegion && (l.isHoved(e.id) || l.isContextOn(e.id)),
+					"has-children": d,
+					"is-dragging": l.dragId === e.id && "schema" === l.dragType
 				}),
 				key: t
 			},
@@ -7863,10 +7634,11 @@ function(e, t, a) {
 				onMouseEnter: this.handleEnter,
 				"data-node-id": e.id,
 				"data-node-region": e.region,
+				"data-node-common-config": null === (a = e.schema) || void 0 === a ? void 0 : a.$$commonSchema,
 				draggable: e.draggable,
 				onDragStart: this.handleDragStart
 			},
-			o ? i.
+			d ? i.
 		default.createElement("span", {
 				onClick: e.toggleFold,
 				className: r.
@@ -7879,12 +7651,12 @@ function(e, t, a) {
 			i.
 		default.createElement(s.Icon, {
 				icon: "right-arrow-bold"
-			})) : null, e.label), o ? i.
+			})) : null, e.isCommonConfig ? e.label + "-[公共配置]": e.label), d ? i.
 		default.createElement("ul", {
 				className: "ae-Outline-sublist"
 			},
-			l.map((function(e, t) {
-				return a.renderItem(e, t)
+			o.map((function(e, t) {
+				return n.renderItem(e, t)
 			}))) : null) : null
 		},
 		t.prototype.render = function() {
@@ -7932,12 +7704,12 @@ function(e, t, a) {
 	t.InsertSubRendererPanel = void 0;
 	var n = a(0),
 	l = a(5),
-	i = n.__importDefault(a(10)),
+	i = n.__importDefault(a(12)),
 	r = a(7),
 	o = n.__importDefault(a(4)),
 	s = a(6),
-	d = a(61),
-	c = function(e) {
+	d = a(59),
+	u = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
 		}
@@ -7951,9 +7723,11 @@ function(e, t, a) {
 			this.props.store.setInsertSelected(t)
 		},
 		t.prototype.hadnlDBClick = function(e) {
-			var t = e.currentTarget.getAttribute("data-value");
-			this.props.store.setInsertSelected(t),
-			this.props.manager.insert()
+			var t = e.currentTarget.getAttribute("data-value"),
+			a = this.props.store;
+			a.setInsertSelected(t);
+			var n = this.props.manager;
+			"replace" === a.insertMode ? n.replace() : n.insert()
 		},
 		t.prototype.handleInsert = function() {
 			this.props.manager.insert()
@@ -7969,14 +7743,14 @@ function(e, t, a) {
 			n = this.props.store,
 			r = this.props.manager,
 			s = null === (e = n.getNodeById(n.insertId)) || void 0 === e ? void 0 : e.info,
-			c = null === (t = i.
+			u = null === (t = i.
 		default(s.regions, (function(e) {
 				return e.key === n.insertRegion
 			}))) || void 0 === t ? void 0 : t.label,
-			u = n.groupedInsertRenderers,
-			p = Object.keys(u),
+			p = n.groupedInsertRenderers,
+			c = Object.keys(p),
 			m = n.insertTag || "全部",
-			f = u[m];
+			h = p[m];
 			return o.
 		default.createElement("div", {
 				className: "ae-InsertPanel"
@@ -7990,7 +7764,7 @@ function(e, t, a) {
 				className: "ae-InsertPanel-title"
 			},
 			"选中组件插入到 ", o.
-		default.createElement("code", null, s.name, " > ", c)), o.
+		default.createElement("code", null, s.name, " > ", u)), o.
 		default.createElement("div", {
 				className: "m-b-xs"
 			},
@@ -8018,7 +7792,7 @@ function(e, t, a) {
 				className: "ae-RenderersPicker-list"
 			},
 			o.
-		default.createElement("ul", null, p.map((function(e) {
+		default.createElement("ul", null, c.map((function(e) {
 				return o.
 			default.createElement("li", {
 					key: e,
@@ -8034,8 +7808,8 @@ function(e, t, a) {
 		default.createElement("div", {
 				className: "ae-RenderersPicker-content"
 			},
-			Array.isArray(f) && f.length ? o.
-		default.createElement("ul", null, f.map((function(e) {
+			Array.isArray(h) && h.length ? o.
+		default.createElement("ul", null, h.map((function(e) {
 				return o.
 			default.createElement("li", {
 					key: e.id,
@@ -8099,7 +7873,7 @@ function(e, t, a) {
 		t = n.__decorate([r.observer], t)
 	} (o.
 default.Component);
-	t.InsertSubRendererPanel = c
+	t.InsertSubRendererPanel = u
 },
 function(e, t, a) {
 	"use strict";
@@ -8213,9 +7987,9 @@ function(e, t, a) {
 	r = n.__importDefault(a(8)),
 	o = a(5),
 	s = a(6),
-	d = a(12),
-	c = n.__importDefault(a(10)),
-	u = function(e) {
+	d = a(10),
+	u = n.__importDefault(a(12)),
+	p = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
 		}
@@ -8236,6 +8010,10 @@ function(e, t, a) {
 				}))
 			} else this.resizeSensor && (this.resizeSensor(), delete this.resizeSensor)
 		},
+		t.prototype.isShow = function(e, t, a) {
+			var n = e.key;
+			return a ? "commonConfig" !== n && "insert" !== n: "insert" !== e.key && !t
+		},
 		t.prototype.render = function() {
 			var e = this,
 			t = this.props.store,
@@ -8245,15 +8023,17 @@ function(e, t, a) {
 			l = this.props.manager.env.theme, // ovine
 			s = t.activeId,
 			d = t.getNodeById(s),
-			u = this.isLeftPanel ? t.getLeftPanelKey() : t.getPanelKey(),
-			p = t.insertId && t.insertRegion && c.
+			p = t.getSchema(s),
+			c = this.isLeftPanel ? t.getLeftPanelKey() : t.getPanelKey(),
+			m = t.insertId && t.insertRegion && u.
 		default(n, (function(e) {
 				return "insert" === e.key
-			}));
+			})),
+			h = t.isSubEditor;
 			return i.
 		default.createElement("div", {
 				className: r.
-			default("ae-Settings", "none" !== u ? "is-active": "", this.isLeftPanel ? "is-left": "")
+			default("ae-Settings", "none" !== c ? "is-active": "", this.isLeftPanel ? "is-left": "")
 			},
 			i.
 		default.createElement("div", {
@@ -8269,11 +8049,12 @@ function(e, t, a) {
 				}),
 				contentClassName: r.
 			default("ae-Settings-tabs-content"),
-				activeKey: u,
+				activeKey: c,
 				onSelect: this.handleSelect
 			},
 			n.map((function(n) {
-				return "insert" !== n.key ? i.
+				var l = (null == p ? void 0 : p.$$commonSchema) && "outline" !== n.key;
+				return e.isShow(n, l, h) ? i.
 			default.createElement(o.Tab, {
 					key: n.key,
 					eventKey: n.key,
@@ -8283,7 +8064,7 @@ function(e, t, a) {
 					mountOnEnter: !0,
 					unmountOnExit: !0
 				},
-				n.key !== u ? null: n.render ? n.render({
+				n.key !== c ? null: n.render ? n.render({
 					id: s,
 					info: null == d ? void 0 : d.info,
 					path: null == d ? void 0 : d.path,
@@ -8308,13 +8089,13 @@ function(e, t, a) {
 		default.createElement(o.Drawer, {
 				position: "left",
 				size: "md",
-				show: !!p,
+				show: !!m,
 				theme: l, // ovine
 				onHide: t.closeInsertPanel
 			},
-			p && p.component ? i.
-		default.createElement(p.component, {
-				key: p.key,
+			m && m.component ? i.
+		default.createElement(m.component, {
+				key: m.key,
 				id: s,
 				info: null == d ? void 0 : d.info,
 				path: null == d ? void 0 : d.path,
@@ -8331,7 +8112,7 @@ function(e, t, a) {
 		t = n.__decorate([l.observer], t)
 	} (i.
 default.Component);
-	t.Panels = u
+	t.Panels = p
 },
 function(e, t, a) {
 	"use strict";
@@ -8419,7 +8200,7 @@ function(e, t, a) {
 	var n = a(0),
 	l = a(5),
 	i = n.__importDefault(a(4)),
-	r = a(12),
+	r = a(10),
 	o = [{
 		label: "外边距",
 		children: [{
@@ -9069,11 +8850,11 @@ function(e, t, a) {
 			return i.
 		default.createElement("div", {
 				key: t,
-				className: n("ClassNameControl-group", e.className)
+				className: n("ae-ClassNameControl-group", e.className)
 			},
 			i.
 		default.createElement("label", {
-				className: n("ClassNameControl-groupLabel", e.labelClassName)
+				className: n("ae-ClassNameControl-groupLabel", e.labelClassName)
 			},
 			e.label), e.children && e.children.length ? e.children[0].value ? this.renderOptions(e.children, t) : e.children.map((function(e, t) {
 				return a.renderGroup(e, t)
@@ -9124,7 +8905,7 @@ function(e, t, a) {
 			o = t.value,
 			s = t.className,
 			d = t.name,
-			c = t.popOverContainer;
+			u = t.popOverContainer;
 			return i.
 		default.createElement("div", {
 				className: a(s, "TextControl", (e = {},
@@ -9161,7 +8942,7 @@ function(e, t, a) {
 		default.createElement(l.Overlay, {
 				placement: "right-bottom-right-top  right-top-right-bottom right-bottom-right-top",
 				target: this.getTarget,
-				container: c || this.getParent,
+				container: u || this.getParent,
 				rootClose: !1,
 				show: this.state.isOpened,
 				watchTargetSizeChange: !1
@@ -9196,7 +8977,7 @@ function(e, t, a) {
 	}),
 	t.AvailableRenderersPlugin = void 0;
 	var n = a(0),
-	l = a(66),
+	l = a(64),
 	i = a(1),
 	r = function(e) {
 		function t() {
@@ -9398,7 +9179,7 @@ function(e, t, a) {
 	}),
 	t.CodePlugin = void 0;
 	var n = a(0),
-	l = a(68),
+	l = a(66),
 	i = a(1),
 	r = function(e) {
 		function t() {
@@ -9435,7 +9216,7 @@ function(e, t, a) {
 	var n = a(0),
 	l = n.__importDefault(a(4)),
 	i = a(6),
-	r = n.__importDefault(a(24)),
+	r = n.__importDefault(a(28)),
 	o = function(e) {
 		function t() {
 			return null !== e && e.apply(this, arguments) || this
@@ -9522,7 +9303,7 @@ function(e, t, a) {
 	var n = a(0),
 	l = a(2),
 	i = a(1),
-	r = a(32),
+	r = a(33),
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
@@ -9535,71 +9316,71 @@ function(e, t, a) {
 			o = e.id,
 			s = e.schema,
 			d = this.manager.store,
-			c = d.getNodeById(o),
-			u = d.getSchemaParentById(o),
-			p = !0,
-			m = c.parent;
-			if (Array.isArray(u) && (null == m ? void 0 : m.isRegion)) {
-				var f = c.host;
-				c.draggable && t.push({
+			u = d.getNodeById(o),
+			p = d.getSchemaParentById(o),
+			c = !0,
+			m = u.parent;
+			if (Array.isArray(p) && (null == m ? void 0 : m.isRegion)) {
+				var h = u.host;
+				u.draggable && t.push({
 					icon: "fa fa-arrows",
 					tooltip: "按住拖动调整位置",
 					draggable: !0,
 					onDragStart: this.manager.startDrag.bind(this.manager, o)
 				});
-				var h = u.indexOf(s);
-				if (h > 0 && c.moveable) {
-					var g = "fa fa-arrow-up",
-					b = "向上移动",
+				var f = p.indexOf(s);
+				if (f > 0 && u.moveable) {
+					var b = "fa fa-arrow-up",
+					g = "向上移动",
 					v = this.manager.store.getDoc().querySelector('[data-editor-id="' + o + '"]'),
-					y = this.manager.store.getDoc().querySelector('[data-editor-id="' + (null === (a = u[h - 1]) || void 0 === a ? void 0 : a.$$id) + '"]');
+					y = this.manager.store.getDoc().querySelector('[data-editor-id="' + (null === (a = p[f - 1]) || void 0 === a ? void 0 : a.$$id) + '"]');
 					if (v && y) {
 						var _ = y.getBoundingClientRect(),
 						S = v.getBoundingClientRect();
-						Math.abs(S.x - _.x) > Math.abs(S.y - _.y) && (p = !1, g = "fa fa-arrow-left", b = "向前移动"),
+						Math.abs(S.x - _.x) > Math.abs(S.y - _.y) && (c = !1, b = "fa fa-arrow-left", g = "向前移动"),
 						t.push({
-							icon: g,
-							tooltip: b,
+							icon: b,
+							tooltip: g,
 							onClick: function() {
 								return i.manager.moveUp()
 							}
 						})
 					}
 				}
-				if (h < u.length - 1 && c.moveable) {
-					g = "fa fa-arrow-down",
-					b = "向下移动",
+				if (f < p.length - 1 && u.moveable) {
+					b = "fa fa-arrow-down",
+					g = "向下移动",
 					v = this.manager.store.getDoc().querySelector('[data-editor-id="' + o + '"]');
-					var x = this.manager.store.getDoc().querySelector('[data-editor-id="' + (null === (n = u[h + 1]) || void 0 === n ? void 0 : n.$$id) + '"]');
+					var x = this.manager.store.getDoc().querySelector('[data-editor-id="' + (null === (n = p[f + 1]) || void 0 === n ? void 0 : n.$$id) + '"]');
 					if (v && x) {
 						var C = x.getBoundingClientRect();
 						S = v.getBoundingClientRect();
-						Math.abs(S.x - C.x) > Math.abs(S.y - C.y) && (p = !1, g = "fa fa-arrow-right", b = "向后移动"),
+						Math.abs(S.x - C.x) > Math.abs(S.y - C.y) && (c = !1, b = "fa fa-arrow-right", g = "向后移动"),
 						t.push({
-							icon: g,
-							tooltip: b,
+							icon: b,
+							tooltip: g,
 							onClick: function() {
 								return i.manager.moveDown()
 							}
 						})
 					}
 				}
-				if (c.removable && t.push({
+				if (u.removable && t.push({
 					icon: "fa fa-trash-o",
 					tooltip: "删除",
 					onClick: function() {
 						return i.manager.del(o)
 					}
-				}), !(null == f ? void 0 : f.memberImmutable(m.region)) && d.panels.some((function(e) {
+				}), !(null == h ? void 0 : h.memberImmutable(m.region)) && d.panels.some((function(e) {
 					return "renderers" === e.key
 				}))) {
-					var N = null === (l = u[h + 1]) || void 0 === l ? void 0 : l.$$id;
+					var N = null === (l = p[f + 1]) || void 0 === l ? void 0 : l.$$id;
 					t.push({
 						icon: r.AddBTNSvg,
 						tooltip: "前面插入节点",
 						level: "special",
-						placement: p ? "bottom": "right",
-						className: p ? "ae-InsertBefore is-vertical": "ae-InsertBefore",
+						placement: c ? "bottom": "right",
+						className: c ? "ae-InsertBefore is-vertical": "ae-InsertBefore",
 						onClick: function() {
 							return i.manager.showInsertPanel(m.region, m.id, m.preferTag, "insert", void 0, o)
 						}
@@ -9608,8 +9389,8 @@ function(e, t, a) {
 						icon: r.AddBTNSvg,
 						tooltip: "后面插入节点",
 						level: "special",
-						placement: p ? "top": "left",
-						className: p ? "ae-InsertAfter is-vertical": "ae-InsertAfter",
+						placement: c ? "top": "left",
+						className: c ? "ae-InsertAfter is-vertical": "ae-InsertAfter",
 						onClick: function() {
 							return i.manager.showInsertPanel(m.region, m.id, m.preferTag, "insert", void 0, N)
 						}
@@ -9638,12 +9419,12 @@ function(e, t, a) {
 			o = e.region,
 			s = this.manager,
 			d = s.store,
-			c = d.getSchemaParentById(i),
-			u = d.getNodeById(i),
-			p = d.getNodePathById(i),
-			m = p.pop(),
-			f = u.host,
-			h = u.parent;
+			u = d.getSchemaParentById(i),
+			p = d.getNodeById(i),
+			c = d.getNodePathById(i),
+			m = c.pop(),
+			h = p.host,
+			f = p.parent;
 			if (o) {
 				d.panels.find((function(e) {
 					return "renderers" === e.key
@@ -9677,8 +9458,8 @@ function(e, t, a) {
 					onHighlight: function(e, t) {
 						return e && d.setHoverId(t)
 					}
-				}), p.length) {
-					var g = p.filter((function(e) {
+				}), c.length) {
+					var b = c.filter((function(e) {
 						var t;
 						return ! e.isRegion && !1 !== (null === (t = e.info) || void 0 === t ? void 0 : t.editable)
 					})).reverse().map((function(e) {
@@ -9693,9 +9474,9 @@ function(e, t, a) {
 							}
 						}
 					}));
-					g.length && t.push({
+					b.length && t.push({
 						label: "选中层级",
-						children: g
+						children: b
 					})
 				}
 				t.push({
@@ -9708,7 +9489,7 @@ function(e, t, a) {
 				t.push("|"),
 				t.push({
 					label: "重复一份",
-					disabled: !u.duplicatable,
+					disabled: !p.duplicatable,
 					onSelect: function() {
 						return s.duplicate(i)
 					}
@@ -9721,59 +9502,59 @@ function(e, t, a) {
 				}),
 				t.push({
 					label: "剪切配置",
-					disabled: !u.removable,
+					disabled: !p.removable,
 					onSelect: function() {
 						return s.cut(i)
 					}
 				}),
 				t.push({
 					label: "粘贴配置",
-					disabled: !Array.isArray(c) || !u.parent || !1 === (null === (a = u.info) || void 0 === a ? void 0 : a.typeMutable) || !u.replaceable,
+					disabled: !Array.isArray(u) || !p.parent || !1 === (null === (a = p.info) || void 0 === a ? void 0 : a.typeMutable) || !p.replaceable,
 					onSelect: function() {
 						return s.paste(i)
 					}
 				}),
 				t.push({
 					label: "删除",
-					disabled: !u.removable,
+					disabled: !p.removable,
 					className: "text-danger",
 					onSelect: function() {
 						return s.del(i)
 					}
 				}),
 				t.push("|");
-				var b = Array.isArray(c) ? c.indexOf(r) : -1;
+				var g = Array.isArray(u) ? u.indexOf(r) : -1;
 				t.push({
 					label: "向前移动",
-					disabled: !(Array.isArray(c) && b > 0 && u.moveable && u.prevSibling),
+					disabled: !(Array.isArray(u) && g > 0 && p.moveable && p.prevSibling),
 					onSelect: function() {
 						return s.moveUp()
 					}
 				}),
 				t.push({
 					label: "向后移动",
-					disabled: !(Array.isArray(c) && b < c.length - 1 && u.moveable && u.nextSibling),
+					disabled: !(Array.isArray(u) && g < u.length - 1 && p.moveable && p.nextSibling),
 					onSelect: function() {
 						return s.moveDown()
 					}
 				}),
 				t.push({
 					label: "前面插入节点",
-					disabled: !Array.isArray(c) || !h || !h.isRegion || !f || f.memberImmutable(h.region) || !d.panels.some((function(e) {
+					disabled: !Array.isArray(u) || !f || !f.isRegion || !h || h.memberImmutable(f.region) || !d.panels.some((function(e) {
 						return "renderers" === e.key
 					})),
 					onSelect: function() {
-						return l.manager.showInsertPanel(h.region, h.id, h.preferTag, "insert", void 0, i)
+						return l.manager.showInsertPanel(f.region, f.id, f.preferTag, "insert", void 0, i)
 					}
 				}),
 				t.push({
 					label: "后面插入节点",
-					disabled: !Array.isArray(c) || !h || !h.isRegion || !f || f.memberImmutable(h.region) || !d.panels.some((function(e) {
+					disabled: !Array.isArray(u) || !f || !f.isRegion || !h || h.memberImmutable(f.region) || !d.panels.some((function(e) {
 						return "renderers" === e.key
 					})),
 					onSelect: function() {
 						var e;
-						return l.manager.showInsertPanel(h.region, h.id, h.preferTag, "insert", void 0, null === (e = c[b + 1]) || void 0 === e ? void 0 : e.$$id)
+						return l.manager.showInsertPanel(f.region, f.id, f.preferTag, "insert", void 0, null === (e = u[g + 1]) || void 0 === e ? void 0 : e.$$id)
 					}
 				}),
 				t.push("|"),
@@ -9821,9 +9602,9 @@ function(e, t, a) {
 				})),
 				t.push({
 					label: "更改类型",
-					disabled: !(u.host && !1 !== (null === (n = u.info) || void 0 === n ? void 0 : n.typeMutable) && u.parent.isRegion && d.panels.some((function(e) {
+					disabled: !(p.host && !1 !== (null === (n = p.info) || void 0 === n ? void 0 : n.typeMutable) && p.parent.isRegion && d.panels.some((function(e) {
 						return "renderers" === e.key
-					})) && u.replaceable),
+					})) && p.replaceable),
 					onSelect: function() {
 						return s.showReplacePanel(i)
 					}
@@ -9881,10 +9662,10 @@ function(e, t, a) {
 	o = a(3),
 	s = n.__importDefault(a(4)),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "array-control",
+			return t.rendererName = "input-array",
 			t.$schema = "/schemas/ArrayControlSchema.json",
 			t.name = "数组输入框",
 			t.icon = "fa fa-bars",
@@ -9892,11 +9673,11 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/array",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "array",
+				type: "input-array",
 				label: "数组输入框",
 				name: "array",
 				items: {
-					type: "text",
+					type: "input-text",
 					placeholder: "请输入"
 				}
 			},
@@ -9905,14 +9686,14 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: ["row1", ""],
 					draggable: !0
 				})]
 			},
 			t.panelTitle = "数组框",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [o.getSchemaTpl("switchDefaultValue"), {
 					type: "textarea",
 					name: "value",
@@ -9942,7 +9723,7 @@ function(e, t, a) {
 				{
 					label: "新增按钮文字",
 					name: "addButtonText",
-					type: "text",
+					type: "input-text",
 					visibleOn: "data.addable",
 					pipeIn: o.defaultValue("新增")
 				},
@@ -9969,7 +9750,7 @@ function(e, t, a) {
 				}), {
 					label: "删除确认提示",
 					name: "deleteConfirmText",
-					type: "text",
+					type: "input-text",
 					visibleOn: "data.deleteApi",
 					pipeIn: o.defaultValue("确认要删除")
 				},
@@ -9981,22 +9762,15 @@ function(e, t, a) {
 					className: "w-full"
 				},
 				{
-					label: "拖拽排序的提示文字",
-					name: "draggableTip",
-					type: "text",
-					visibleOn: "data.draggable",
-					pipeIn: o.defaultValue("可通过拖动每行中的【交换】按钮进行顺序调整")
-				},
-				{
 					name: "draggableTip",
 					visibleOn: "data.draggable",
-					type: "text",
+					type: "input-text",
 					label: "可拖拽排序提示文字",
 					pipeIn: o.defaultValue("可通过拖动每行中的【交换】按钮进行顺序调整")
 				},
 				{
 					name: "addButtonText",
-					type: "text",
+					type: "input-text",
 					label: "新增按钮文字",
 					pipeIn: o.defaultValue("新增")
 				},
@@ -10010,13 +9784,11 @@ function(e, t, a) {
 			e
 		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.buildEditorToolbar = function(e, t) {
 			var a = e.id;
-			"array-control" === e.info.renderer.name && t.push({
+			"input-array" === e.info.renderer.name && t.push({
 				icon: "fa fa-expand",
 				order: 100,
 				tooltip: "配置子表单项",
@@ -10027,7 +9799,7 @@ function(e, t, a) {
 			var a = e.id;
 			e.schema,
 			e.region;
-			"array-control" === e.info.renderer.name && t.push("|", {
+			"input-array" === e.info.renderer.name && t.push("|", {
 				label: "配置成员渲染器",
 				onSelect: this.editDetail.bind(this, a)
 			})
@@ -10043,7 +9815,7 @@ function(e, t, a) {
 				slot: {
 					type: "form",
 					mode: "normal",
-					controls: "$$",
+					body: "$$",
 					wrapWithPanel: !1,
 					className: "wrapper"
 				},
@@ -10058,8 +9830,8 @@ function(e, t, a) {
 		},
 		t
 	} (r.BasePlugin);
-	t.ArrayControlPlugin = c,
-	i.registerEditorPlugin(c)
+	t.ArrayControlPlugin = u,
+	i.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -10074,7 +9846,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "button-group-control",
+			return t.rendererName = "button-group-select",
 			t.$schema = "/schemas/ButtonGroupControlSchema.json",
 			t.name = "按钮组",
 			t.icon = "fa fa-object-group",
@@ -10082,7 +9854,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/button-group",
 			t.tags = ["表单项", "按钮"],
 			t.scaffold = {
-				type: "button-group",
+				type: "button-group-select",
 				name: "a",
 				options: [{
 					label: "选项1",
@@ -10097,7 +9869,7 @@ function(e, t, a) {
 				type: "form",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: n.__assign(n.__assign({},
+				body: n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "a",
 					label: "按钮组",
@@ -10105,10 +9877,10 @@ function(e, t, a) {
 				})
 			},
 			t.panelTitle = "按钮组",
-			t.panelControls = [r.getSchemaTpl("switchDefaultValue", {
+			t.panelBody = [r.getSchemaTpl("switchDefaultValue", {
 				visibleOn: "!this.defaultCheckAll"
 			}), {
-				type: "button-group",
+				type: "button-group-select",
 				name: "value",
 				label: "默认值",
 				source: "${options}",
@@ -10119,14 +9891,12 @@ function(e, t, a) {
 				visibleOn: !0
 			}), r.getSchemaTpl("delimiter", {
 				hiddenOn: "this.joinValues === false"
-			}), r.getSchemaTpl("extractValue")],
+			}), r.getSchemaTpl("extractValue"), r.getSchemaTpl("autoFill")],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (i.BasePlugin);
@@ -10146,7 +9916,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "button-toolbar-control",
+			return t.rendererName = "button-toolbar",
 			t.$schema = "/schemas/ButtonToolbarControlSchema.json",
 			t.name = "按钮工具栏",
 			t.icon = "fa fa-ellipsis-h",
@@ -10178,7 +9948,7 @@ function(e, t, a) {
 				type: "form",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: n.__assign(n.__assign({},
+				body: n.__assign(n.__assign({},
 				t.scaffold), {
 					label: "按钮工具栏"
 				})
@@ -10190,13 +9960,13 @@ function(e, t, a) {
 				renderMethod: "renderButtons"
 			}],
 			t.panelTitle = "工具栏",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [r.getSchemaTpl("label"), r.getSchemaTpl("description"), r.getSchemaTpl("remark"), r.getSchemaTpl("labelRemark")]
+				body: [r.getSchemaTpl("label"), r.getSchemaTpl("description"), r.getSchemaTpl("remark"), r.getSchemaTpl("labelRemark")]
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
+				body: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
 					label: "",
 					visibleOn: '(data.$$formMode == "horizontal" || data.mode == "horizontal") && data.label !== false && data.horizontal'
 				}), r.getSchemaTpl("className"), r.getSchemaTpl("className", {
@@ -10213,15 +9983,13 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (i.BasePlugin);
@@ -10241,7 +10009,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "chained-select-control",
+			return t.rendererName = "chained-select",
 			t.$schema = "/schemas/ChainedSelectControlSchema.json",
 			t.name = "级联下拉框",
 			t.icon = "fa fa-th-list",
@@ -10258,12 +10026,12 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "级联选择",
-			t.panelControls = [r.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [r.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"',
@@ -10282,9 +10050,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (i.BasePlugin);
@@ -10303,7 +10069,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "checkbox-control",
+			return t.rendererName = "checkbox",
 			t.$schema = "/schemas/CheckboxControlSchema.json",
 			t.name = "勾选框",
 			t.icon = "fa fa-check-square-o",
@@ -10320,7 +10086,7 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign(n.__assign({
+				body: [n.__assign(n.__assign({
 					value: !0
 				},
 				t.scaffold), {
@@ -10328,9 +10094,9 @@ function(e, t, a) {
 				})]
 			},
 			t.panelTitle = "勾选框",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "option",
-				type: "text",
+				type: "input-text",
 				label: "选项说明"
 			},
 			l.getSchemaTpl("switchDefaultValue", {
@@ -10352,14 +10118,14 @@ function(e, t, a) {
 				}
 			},
 			{
-				type: "text",
+				type: "input-text",
 				label: "勾选后的值",
 				name: "trueValue",
 				pipeIn: l.defaultValue(!0),
 				pipeOut: l.valuePipeOut
 			},
 			{
-				type: "text",
+				type: "input-text",
 				label: "未勾选的值",
 				name: "falseValue",
 				pipeIn: l.defaultValue(!1),
@@ -10369,9 +10135,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -10390,7 +10154,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "checkboxes-control",
+			return t.rendererName = "checkboxes",
 			t.$schema = "/schemas/CheckboxesControlSchema.json",
 			t.order = -470,
 			t.name = "复选框",
@@ -10416,13 +10180,13 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({
+				body: [n.__assign({
 					value: "A"
 				},
 				t.scaffold)]
 			},
 			t.panelTitle = "复选框",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue", {
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue", {
 				visibleOn: "!this.defaultCheckAll"
 			}), {
 				type: "checkboxes",
@@ -10432,48 +10196,70 @@ function(e, t, a) {
 				visibleOn: 'typeof this.value !== "undefined"',
 				multiple: !0
 			},
-			l.getSchemaTpl("options"), l.getSchemaTpl("source"), {
-				name: "checkAll",
-				label: "是否开启全选功能",
-				type: "switch",
-				mode: "inline",
-				className: "w-full"
-			},
-			{
-				name: "defaultCheckAll",
-				label: "是否默认全选",
-				type: "switch",
-				mode: "inline",
-				className: "w-full",
-				description: "勾选后，默认值的配置将无效。",
-				onChange: function(e, t, a, n) {
-					return e && n.setValueByName("value", void 0)
-				}
-			},
-			l.getSchemaTpl("joinValues", {
-				visibleOn: !0
-			}), l.getSchemaTpl("delimiter", {
-				hiddenOn: "data.joinValues === false"
-			}), l.getSchemaTpl("extractValue"), {
-				label: "每行显示多少列",
-				name: "columnsCount",
-				hiddenOn: "data.inline === true",
-				type: "range",
-				min: 1,
-				max: 6,
-				pipeIn: l.defaultValue(1)
-			},
-			l.getSchemaTpl("className", {
-				label: "单个 checkbox 类名",
-				name: "itemClassName"
+			l.getSchemaTpl("fieldSet", {
+				title: "选项",
+				body: [l.getSchemaTpl("options"), l.getSchemaTpl("source"), {
+					name: "checkAll",
+					label: "是否开启全选功能",
+					type: "switch",
+					mode: "inline",
+					className: "w-full"
+				},
+				{
+					name: "defaultCheckAll",
+					label: "是否默认全选",
+					type: "switch",
+					mode: "inline",
+					className: "w-full",
+					description: "勾选后，默认值的配置将无效。",
+					onChange: function(e, t, a, n) {
+						return e && n.setValueByName("value", void 0)
+					}
+				},
+				l.getSchemaTpl("joinValues", {
+					visibleOn: !0
+				}), l.getSchemaTpl("delimiter", {
+					hiddenOn: "data.joinValues === false"
+				}), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill"), l.getSchemaTpl("creatable"), l.getSchemaTpl("createBtnLabel"), l.getSchemaTpl("api", {
+					label: "新增选项接口",
+					name: "addApi"
+				}), l.getSchemaTpl("editable"), l.getSchemaTpl("api", {
+					label: "编辑选项接口",
+					name: "editApi"
+				}), l.getSchemaTpl("removable"), l.getSchemaTpl("api", {
+					label: "删除选项接口",
+					name: "deleteApi"
+				})]
+			}), l.getSchemaTpl("fieldSet", {
+				title: "外观",
+				body: [{
+					label: "选项在一行显示",
+					name: "inline",
+					type: "switch",
+					visibleOn: 'data.mode != "inline"',
+					mode: "inline",
+					className: "w-full",
+					pipeIn: l.defaultValue(!0)
+				},
+				{
+					label: "每行显示多少列",
+					name: "columnsCount",
+					hiddenOn: 'typeof data.inline === "undefined" || data.inline === true',
+					type: "input-range",
+					min: 1,
+					max: 6,
+					pipeIn: l.defaultValue(1)
+				},
+				l.getSchemaTpl("className", {
+					label: "单个 Checkbox 的 CSS 类名",
+					name: "itemClassName"
+				})]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -10492,7 +10278,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "city-control",
+			return t.rendererName = "input-city",
 			t.$schema = "/schemas/CityControlSchema.json",
 			t.name = "城市选择",
 			t.icon = "fa fa-building-o",
@@ -10500,7 +10286,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/city",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "city",
+				type: "input-city",
 				label: "城市选择",
 				name: "city"
 			},
@@ -10509,11 +10295,11 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "城市选择",
-			t.panelControls = [{
+			t.panelBody = [{
 				type: "switch",
 				name: "allowDistrict",
 				label: "允许选择区域",
@@ -10531,7 +10317,7 @@ function(e, t, a) {
 			},
 			l.getSchemaTpl("switchDefaultValue"), {
 				name: "value",
-				type: "city",
+				type: "input-city",
 				label: "默认值",
 				visibleOn: 'typeof data.value !== "undefined"',
 				validations: "isNumeric",
@@ -10556,9 +10342,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -10577,7 +10361,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "color-control",
+			return t.rendererName = "input-color",
 			t.$schema = "/schemas/ColorControlSchema.json",
 			t.name = "颜色框",
 			t.icon = "fa fa-eyedropper",
@@ -10585,7 +10369,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/color",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "color",
+				type: "input-color",
 				label: "颜色",
 				name: "color"
 			},
@@ -10594,51 +10378,59 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "颜色框",
-			t.panelControls = [{
+			t.panelBody = [{
 				label: "格式",
 				name: "format",
-				type: "button-group",
+				type: "button-group-select",
 				size: "sm",
-				pipeIn: l.defaultValue("hex"),
-				options: ["hex", "hls", "rgb", "rgba"]
+				value: "hex",
+				options: ["hex", "hsl", "rgb", "rgba"],
+				onChange: function(e, t, a, n) {
+					n.setValueByName("value", ""),
+					n.setValueByName("presetColors", "")
+				}
 			},
-			l.getSchemaTpl("switchDefaultValue"), {
-				type: "color",
-				name: "value",
-				visibleOn: 'typeof this.value !== "undefined"',
-				label: "默认值"
-			},
-			l.getSchemaTpl("switchDefaultValue", {
+			l.getSchemaTpl("switchDefaultValue"), t.getConditionalColorPanel("hex"), t.getConditionalColorPanel("hsl"), t.getConditionalColorPanel("rgb"), t.getConditionalColorPanel("rgba"), l.getSchemaTpl("switchDefaultValue", {
 				name: "presetColors",
 				label: "设置选择器中颜色默认值",
 				description: "为空时不显示选择器中的默认值"
-			}), {
-				type: "array",
-				name: "presetColors",
-				label: "选择器中颜色默认值",
-				addable: !0,
-				removable: !0,
-				visibleOn: 'typeof this.presetColors !== "undefined"',
-				items: {
-					type: "color"
-				},
-				value: ["#D0021B", "#F5A623", "#F8E71C", "#8B572A", "#7ED321", "#417505", "#BD10E0", "#9013FE", "#4A90E2", "#50E3C2", "#B8E986", "#000000", "#4A4A4A", "#9B9B9B", "#FFFFFF"]
-			},
-			l.getSchemaTpl("clearable", {
+			}), t.getConditionalColorArray("hex"), t.getConditionalColorArray("hsl"), t.getConditionalColorArray("rgb"), t.getConditionalColorArray("rgba"), l.getSchemaTpl("clearable", {
 				label: "显示清除按钮",
 				pipeIn: l.defaultValue(!0)
 			})],
 			t
 		}
 		return n.__extends(t, e),
+		t.prototype.getConditionalColorPanel = function(e) {
+			return {
+				type: "input-color",
+				name: "value",
+				format: e,
+				visibleOn: 'typeof this.value !== "undefined" && this.format==="' + e + '"',
+				label: "默认值"
+			}
+		},
+		t.prototype.getConditionalColorArray = function(e) {
+			return {
+				type: "input-array",
+				name: "presetColors",
+				label: "选择器中颜色默认值",
+				addable: !0,
+				removable: !0,
+				visibleOn: 'typeof this.presetColors !== "undefined" && this.format === "' + e + '"',
+				items: {
+					type: "input-color",
+					format: e
+				},
+				value: ["#D0021B", "#F5A623", "#F8E71C", "#8B572A", "#7ED321", "#417505", "#BD10E0", "#9013FE", "#4A90E2", "#50E3C2", "#B8E986", "#000000", "#4A4A4A", "#9B9B9B", "#FFFFFF"]
+			}
+		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -10658,13 +10450,13 @@ function(e, t, a) {
 	o = a(3),
 	s = n.__importDefault(a(4)),
 	d = a(6),
-	c = a(6),
-	u = a(26),
-	p = a(14),
+	u = a(6),
+	p = a(21),
+	c = a(9),
 	m = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "combo-control",
+			return t.rendererName = "combo",
 			t.$schema = "/schemas/ComboControlSchema.json",
 			t.name = "组合输入",
 			t.icon = "fa fa-group",
@@ -10676,9 +10468,9 @@ function(e, t, a) {
 				label: "组合输入",
 				name: "combo",
 				multiple: !0,
-				controls: [{
-					type: "text",
-					name: "text",
+				items: [{
+					type: "input-text",
+					name: "input-text",
 					placeholder: "文本"
 				},
 				{
@@ -10700,7 +10492,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: [{
 						text: "Row 1",
@@ -10710,10 +10502,10 @@ function(e, t, a) {
 				})]
 			},
 			t.panelTitle = "组合输入",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
 					name: "conditions",
-					type: "button-group",
+					type: "button-group-select",
 					size: "sm",
 					mode: "inline",
 					className: "block",
@@ -10732,8 +10524,8 @@ function(e, t, a) {
 						return 2 == e ? [{
 							label: "类型名称",
 							test: "",
-							controls: [{
-								type: "text",
+							items: [{
+								type: "input-text",
 								label: "文本",
 								name: "text"
 							}],
@@ -10749,17 +10541,17 @@ function(e, t, a) {
 					multiple: !0,
 					multiLine: !0,
 					minLength: 1,
-					controls: [{
+					items: [{
 						label: "名称",
 						name: "label",
-						type: "text",
+						type: "input-text",
 						required: !0
 					},
 					{
 						label: "命中条件",
 						name: "test",
 						required: !0,
-						type: "text",
+						type: "input-text",
 						placeholder: '比如: this.type === "text"',
 						description: "根据成员数据判断是否使用此分支"
 					},
@@ -10788,8 +10580,8 @@ function(e, t, a) {
 					scaffold: {
 						label: "类型名称",
 						test: "",
-						controls: [{
-							type: "text",
+						items: [{
+							type: "input-text",
 							label: "文本",
 							name: "text"
 						}],
@@ -10806,7 +10598,7 @@ function(e, t, a) {
 					pipeIn: o.defaultValue(!0)
 				},
 				{
-					name: "controls",
+					name: "items",
 					visibleOn: "!this.conditions",
 					children: function(e) {
 						var a = e.value,
@@ -10824,7 +10616,7 @@ function(e, t, a) {
 									slot: {
 										type: "form",
 										mode: "normal",
-										controls: "$$",
+										body: "$$",
 										wrapWithPanel: !1,
 										className: "wrapper"
 									},
@@ -10861,7 +10653,7 @@ function(e, t, a) {
 					mode: "inline",
 					className: "w-full",
 					label: "是否将值打平",
-					visibleOn: "Array.isArray(data.controls) && data.controls.length === 1 && data.multiple",
+					visibleOn: "Array.isArray(data.items) && data.items.length === 1 && data.multiple",
 					description: "默认数组内的数据结构为对象，如果只有一个表单项，可以配置将值打平，那么数组内放置的就是那个表单项的值"
 				},
 				{
@@ -10884,7 +10676,7 @@ function(e, t, a) {
 				{
 					label: "新增按钮文字",
 					name: "addButtonText",
-					type: "text",
+					type: "input-text",
 					visibleOn: "data.addable",
 					pipeIn: o.defaultValue("新增")
 				},
@@ -10904,7 +10696,7 @@ function(e, t, a) {
 				}), {
 					label: "删除确认提示",
 					name: "deleteConfirmText",
-					type: "text",
+					type: "input-text",
 					visibleOn: "data.deleteApi",
 					pipeIn: o.defaultValue("确认要删除")
 				},
@@ -10919,7 +10711,7 @@ function(e, t, a) {
 				{
 					label: "拖拽排序的提示文字",
 					name: "draggableTip",
-					type: "text",
+					type: "input-text",
 					visibleOn: "data.draggable",
 					pipeIn: o.defaultValue("可通过拖动每行中的【交换】按钮进行顺序调整")
 				},
@@ -10933,12 +10725,12 @@ function(e, t, a) {
 				},
 				{
 					name: "minLength",
-					type: "number",
+					type: "input-number",
 					label: "限制最小数量"
 				},
 				{
 					name: "maxLength",
-					type: "number",
+					type: "input-number",
 					label: "限制最大数量"
 				},
 				{
@@ -10947,19 +10739,19 @@ function(e, t, a) {
 					name: "messages",
 					multiLine: !0,
 					description: "",
-					controls: [{
+					items: [{
 						label: "有子表单项限制失败时提示",
-						type: "text",
+						type: "input-text",
 						name: "validateFailed"
 					},
 					{
 						label: "最小长度验证失败时提示",
-						type: "text",
+						type: "input-text",
 						name: "minLengthValidateFailed"
 					},
 					{
 						label: "最大长度验证失败时提示",
-						type: "text",
+						type: "input-text",
 						name: "maxLengthValidateFailed"
 					}]
 				},
@@ -10972,6 +10764,51 @@ function(e, t, a) {
 					className: "w-full"
 				},
 				{
+					name: "tabsMode",
+					label: "采用 Tabs 展示方式",
+					type: "switch",
+					mode: "inline",
+					className: "w-full",
+					pipeIn: o.defaultValue(!1)
+				},
+				{
+					name: "tabsStyle",
+					label: "Tabs 的展示模式",
+					visibleOn: "data.tabsMode",
+					type: "list-select",
+					options: [{
+						label: "正常",
+						value: "normal"
+					},
+					{
+						label: "水平",
+						value: "horizontal"
+					},
+					{
+						label: "内联",
+						value: "inline"
+					}],
+					mode: "inline",
+					className: "w-full"
+				},
+				{
+					name: "tabsLabelTpl",
+					label: "选项卡标题的生成模板",
+					visibleOn: "data.tabsMode",
+					type: "input-text",
+					mode: "inline",
+					className: "w-full"
+				},
+				{
+					name: "lazyLoad",
+					label: "懒加载",
+					type: "switch",
+					mode: "inline",
+					className: "w-full",
+					pipeIn: o.defaultValue(!1),
+					description: "如果数据比较多，比较卡顿时，可开启此配置项"
+				},
+				{
 					name: "strictMode",
 					label: "严格模式",
 					type: "switch",
@@ -10981,17 +10818,36 @@ function(e, t, a) {
 					description: "如果你希望环境变量的值实时透传到 Combo 中，请关闭此选项。"
 				},
 				{
-					name: "controls",
+					name: "syncFields",
+					visibleOn: "!data.strictMode",
+					label: "配置同步字段",
+					type: "input-text",
+					multiple: !0,
+					joinValues: !1,
+					extractValue: !0,
+					description: "如果 Combo 层级比较深，底层的获取外层的数据可能不同步。但是给 combo 配置这个属性就能同步下来。"
+				},
+				{
+					name: "nullable",
+					label: "允许为空",
+					type: "switch",
+					mode: "inline",
+					className: "w-full",
+					pipeIn: o.defaultValue(!1),
+					description: "如果子表单项里面配置验证器，且又是单条模式。可以允许用户选择清空（不填）。"
+				},
+				{
+					name: "items",
 					label: "各列 CSS 配置",
 					hiddenOn: "this.multiLine",
 					type: "combo",
 					addable: !1,
 					removable: !1,
 					multiple: !0,
-					controls: [{
+					items: [{
 						name: "columnClassName",
 						placeholder: "CSS 类名",
-						type: "text"
+						type: "input-text"
 					}]
 				}]
 			},
@@ -10999,23 +10855,21 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.filterProps = function(e) {
-			if ((e = c.JSONPipeOut(e)).multiple && !e.value && !e.$ref) {
+			if ((e = u.JSONPipeOut(e)).multiple && !e.value && !e.$ref) {
 				var t = {};
-				Array.isArray(e.controls) && e.controls.forEach((function(e) {
-					e.name && p.setVariable(t, e.name, u.mockValue(e))
+				Array.isArray(e.items) && e.items.forEach((function(e) {
+					e.name && c.setVariable(t, e.name, p.mockValue(e))
 				})),
 				e.value = [t]
 			}
 			return e
 		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.buildEditorToolbar = function(e, t) {
 			var a = e.id;
-			"combo-control" === e.info.renderer.name && t.push({
+			"combo" === e.info.renderer.name && t.push({
 				icon: "fa fa-expand",
 				order: 100,
 				tooltip: "配置子表单项",
@@ -11026,7 +10880,7 @@ function(e, t, a) {
 			var a = e.id;
 			e.schema,
 			e.region;
-			"combo-control" === e.info.renderer.name && t.push("|", {
+			"combo" === e.info.renderer.name && t.push("|", {
 				label: "配置成员渲染器",
 				onSelect: this.editDetail.bind(this, a)
 			})
@@ -11038,18 +10892,18 @@ function(e, t, a) {
 			i = a.getValueOf(e);
 			l && i && this.manager.openSubEditor({
 				title: "配置子表单项",
-				value: i.controls,
+				value: i.items,
 				slot: {
 					type: "form",
 					mode: "normal",
-					controls: "$$",
+					body: "$$",
 					wrapWithPanel: !1,
 					className: "wrapper"
 				},
 				onChange: function(e) {
 					e = n.__assign(n.__assign({},
 					i), {
-						controls: e
+						items: e
 					}),
 					t.panelChangeValue(e, d.diff(i, e))
 				}
@@ -11060,120 +10914,370 @@ function(e, t, a) {
 	t.ComboControlPlugin = m,
 	i.registerEditorPlugin(m)
 },
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.ConditionBilderPlugin = void 0;
+	var n = a(0),
+	l = a(1),
+	i = a(2),
+	r = a(3),
+	o = n.__importStar(a(81)),
+	s = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "condition-builder",
+			t.$schema = "/schemas/ConditionBuilderControlSchema.json",
+			t.name = "条件组件",
+			t.icon = "fa fa-group",
+			t.description = "用于设置复杂组合条件，支持添加条件，添加分组，设置组合方式，拖拽排序等功能。",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/condition-builder",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				type: "condition-builder",
+				label: "条件组件",
+				name: "conditions",
+				description: "适合让用户自己拼查询条件，然后后端根据数据生成 query where",
+				fields: [{
+					label: "文本",
+					type: "text",
+					name: "text"
+				},
+				{
+					label: "数字",
+					type: "number",
+					name: "number"
+				},
+				{
+					label: "布尔",
+					type: "boolean",
+					name: "boolean"
+				},
+				{
+					label: "选项",
+					type: "select",
+					name: "select",
+					options: [{
+						label: "A",
+						value: "a"
+					},
+					{
+						label: "B",
+						value: "b"
+					},
+					{
+						label: "C",
+						value: "c"
+					},
+					{
+						label: "D",
+						value: "d"
+					},
+					{
+						label: "E",
+						value: "e"
+					}]
+				},
+				{
+					label: "动态选项",
+					type: "select",
+					name: "select2",
+					source: "https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/mock2/form/getOptions?waitSeconds=1"
+				},
+				{
+					label: "日期",
+					type: "date",
+					name: "date"
+				},
+				{
+					label: "时间",
+					type: "time",
+					name: "time"
+				},
+				{
+					label: "日期时间",
+					type: "datetime",
+					name: "datetime"
+				}]
+			},
+			t.scaffoldForm = {
+				title: "增删改查快速开始-CRUD",
+				body: [{
+					type: "combo",
+					name: "fields",
+					multiple: !0,
+					draggable: !0,
+					multiLine: !0,
+					items: [{
+						type: "group",
+						body: [{
+							type: "select",
+							name: "type",
+							placeholder: "条件类型",
+							options: [{
+								label: "文本",
+								value: "text"
+							},
+							{
+								label: "数字",
+								value: "number"
+							},
+							{
+								label: "布尔",
+								value: "boolean"
+							},
+							{
+								label: "日期",
+								value: "date"
+							},
+							{
+								label: "日期时间",
+								value: "datetime"
+							},
+							{
+								label: "时间",
+								value: "time"
+							},
+							{
+								label: "选项",
+								value: "select"
+							}]
+						},
+						{
+							type: "input-text",
+							name: "name",
+							placeholder: "字段名"
+						},
+						{
+							type: "input-text",
+							placeholder: "字段名称",
+							name: "label"
+						}]
+					},
+					{
+						type: "group",
+						visibleOn: 'data.type === "number"',
+						body: [{
+							type: "input-number",
+							name: "minimum",
+							placeholder: "最小值"
+						},
+						{
+							type: "input-number",
+							name: "maximum",
+							placeholder: "最大值"
+						},
+						{
+							type: "input-number",
+							name: "step",
+							min: 0,
+							placeholder: "步长"
+						}]
+					},
+					{
+						type: "group",
+						visibleOn: '!!~["date", "datetime", "time"].indexOf(data.type)',
+						body: [{
+							type: "input-text",
+							name: "format",
+							placeholder: "值格式"
+						},
+						{
+							type: "input-text",
+							name: "inputFormat",
+							placeholder: "日期显示格式"
+						},
+						{
+							type: "input-text",
+							name: "timeFormat",
+							placeholder: "时间显示格式",
+							visibleOn: 'data.type === "datetime"'
+						}]
+					},
+					{
+						type: "group",
+						visibleOn: 'data.type === "select"',
+						body: [{
+							type: "input-text",
+							name: "source",
+							placeholder: "字段选项远程拉取，支持接口或数据映射"
+						}]
+					},
+					{
+						type: "group",
+						body: [{
+							type: "input-text",
+							placeholder: "占位符",
+							name: "placeholder"
+						},
+						{
+							name: "operators",
+							placeholder: "操作符",
+							children: function(e) {
+								var t, a, n = e.data,
+								l = e.render,
+								i = e.onChange;
+								return l("operations", {
+									type: "select",
+									name: "operators",
+									multiple: !0,
+									value: n.value || (null === (t = o.
+								default.types[n.type]) || void 0 === t ? void 0 : t.operators) || [],
+									joinValues: !1,
+									extractValue: !0,
+									options: (null === (a = o.
+								default.types[n.type]) || void 0 === a ? void 0 : a.operators.map((function(e) {
+										return {
+											label: o.OperationMap[e],
+											value: e
+										}
+									}))) || []
+								},
+								{
+									onChange: function(e) {
+										return i(e)
+									}
+								})
+							}
+						}]
+					}]
+				}],
+				canRebuild: !0
+			},
+			t.previewSchema = {
+				type: "form",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [t.scaffold]
+			},
+			t.panelTitle = "条件组件",
+			t.panelBodyCreator = function(e) {
+				return [r.getSchemaTpl("source")]
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildSubRenderers = function(e, t) {
+			if (this.name && this.description) return {
+				name: this.name,
+				icon: this.icon,
+				description: this.description,
+				previewSchema: this.previewSchema,
+				tags: this.tags,
+				docLink: this.docLink,
+				type: this.type,
+				scaffold: this.scaffold,
+				scaffoldForm: this.scaffoldForm
+			}
+		},
+		t
+	} (i.BasePlugin);
+	t.ConditionBilderPlugin = s,
+	l.registerEditorPlugin(s)
+},
 function(e, t) {
-	e.exports = require("moment")
+	e.exports = require("amis/lib/components/condition-builder/config")
 },
 function(e, t, a) {
 	"use strict";
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.ContainerControlPlugin = void 0;
+	t.ControlPlugin = void 0;
 	var n = a(0),
-	l = a(1),
-	i = function(e) {
+	l = n.__importDefault(a(4)),
+	i = a(5),
+	r = a(3),
+	o = a(1),
+	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "container-control",
-			t.$schema = "/schemas/ContainerControlSchema.json",
-			t.regions = [{
-				key: "controls",
-				label: "子表单项",
-				renderMethod: "renderBody",
-				preferTag: "表单项",
-				matchRegion: function(e, t) {
-					return Array.isArray(t.props.controls)
-				},
-				optional: !0
-			},
-			{
-				key: "body",
-				label: "子内容",
-				renderMethod: "renderBody",
-				matchRegion: function(e, t) {
-					return ! Array.isArray(t.props.controls)
-				},
-				insertPosition: "outter",
-				optional: !0
-			}],
-			t.name = "容器",
-			t.icon = "fa fa-window-maximize",
-			t.description = "表单项容器，本身是个表单项，同时可以作为容器包含多个表单项。",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/container",
-			t.tags = ["表单项"],
+			return t.rendererName = "control",
+			t.$schema = "/schemas/FormControlSchema.json",
+			t.name = "表单项容器",
+			t.icon = "fa fa-object-group",
+			t.description = "表单项容器",
+			t.tags = ["容器"],
 			t.scaffold = {
-				type: "container",
-				label: "label",
-				controls: [{
-					placeholder: "文本1",
-					type: "text",
-					name: "a",
-					label: !1
-				},
-				{
-					placeholder: "文本2",
-					type: "text",
-					name: "b",
-					label: !1
+				type: "control",
+				label: "表单项容器",
+				body: [{
+					type: "tpl",
+					tpl: "a"
 				}]
 			},
 			t.previewSchema = {
 				type: "form",
 				className: "text-left",
-				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign({},
+				wrapWithPanel: !1,
+				body: [n.__assign({},
 				t.scaffold)]
 			},
-			t.panelTitle = "容器配置",
-			t.panelControls = [{
-				label: "内容形式",
-				name: "__mode",
-				type: "button-group",
-				size: "xs",
-				description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
-				pipeIn: function(e, t) {
-					return Array.isArray(t.body) ? "other": "form"
-				},
-				onChange: function(e, t, a, n) {
-					"form" === e ? (n.setValues({
-						controls: n.data.__controls || [{
-							placeholder: "文本1",
-							type: "text",
-							name: "a",
-							label: !1
-						}],
-						__body: n.data.body
-					}), n.deleteValueByName("body")) : (n.setValues({
-						body: n.data.__body || [{
-							type: "tpl",
-							tpl: "内容",
-							inline: !1
-						}],
-						__controls: n.data.controls
-					}), n.deleteValueByName("controls"))
-				},
-				options: [{
-					label: "表单",
-					value: "form"
-				},
-				{
-					label: "其他",
-					value: "other"
-				}]
+			t.regions = [{
+				key: "body",
+				label: "元素集合",
+				preferTag: "展示"
 			}],
+			t.panelTitle = "表单项容器",
+			t.panelBody = [r.getSchemaTpl("tabs", [{
+				title: "常规",
+				body: [{
+					children: l.
+				default.createElement(i.Button, {
+						className: "m-b",
+						onClick: function() {
+							return t.manager.showInsertPanel("body")
+						},
+						level: "danger",
+						tooltip: "插入一个新的元素",
+						size: "sm",
+						block: !0
+					},
+					"新增元素")
+				},
+				r.getSchemaTpl("description"), r.getSchemaTpl("placeholder"), r.getSchemaTpl("remark"), r.getSchemaTpl("labelRemark")]
+			},
+			{
+				title: "外观",
+				body: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
+					label: "",
+					visibleOn: 'data.mode == "horizontal" && data.label !== false && data.horizontal'
+				}), r.getSchemaTpl("formItemInline"), r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+					label: "Label CSS 类名",
+					name: "labelClassName"
+				}), r.getSchemaTpl("className", {
+					label: "控件 CSS 类名",
+					name: "inputClassName"
+				}), r.getSchemaTpl("className", {
+					label: "描述 CSS 类名",
+					name: "descriptionClassName",
+					visibleOn: "this.description"
+				})]
+			},
+			{
+				title: "显隐",
+				body: [r.getSchemaTpl("disabled"), r.getSchemaTpl("visible"), {
+					type: "switch",
+					name: "clearValueOnHidden",
+					label: "隐藏时删除表单项值",
+					mode: "inline",
+					className: "w-full"
+				}]
+			},
+			{
+				title: "验证",
+				body: [r.getSchemaTpl("validations"), r.getSchemaTpl("validationErrors"), r.getSchemaTpl("validateOnChange"), r.getSchemaTpl("submitOnChange")]
+			}])],
 			t
 		}
 		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
 		t
 	} (a(2).BasePlugin);
-	t.ContainerControlPlugin = i,
-	l.registerEditorPlugin(i)
+	t.ControlPlugin = s,
+	o.registerEditorPlugin(s)
 },
 function(e, t, a) {
 	"use strict";
@@ -11185,10 +11289,12 @@ function(e, t, a) {
 	l = a(5),
 	i = a(3),
 	r = a(1),
-	o = function(e) {
+	o = a(2),
+	s = n.__importDefault(a(18)),
+	d = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "date-range-control",
+			return t.rendererName = "input-date-range",
 			t.$schema = "/schemas/DateRangeControlSchema.json",
 			t.order = -440,
 			t.icon = "fa fa-calendar",
@@ -11197,7 +11303,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/date-range",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "date-range",
+				type: "input-date-range",
 				label: "日期范围",
 				name: "date-range"
 			},
@@ -11206,21 +11312,26 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "日期范围",
-			t.panelControls = [i.getSchemaTpl("placeholder", {
+			t.panelBody = [i.getSchemaTpl("placeholder", {
 				pipeIn: i.defaultValue("请选择日期范围")
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "format",
 				label: "值格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
-				pipeIn: i.defaultValue("X")
+				pipeIn: i.defaultValue("X"),
+				onChange: function(e, t, a, n) {
+					n.setValueByName("value", ""),
+					n.setValueByName("minDate", ""),
+					n.setValueByName("maxDate", "")
+				}
 			},
 			i.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"',
@@ -11234,20 +11345,32 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date-range",
+				body: [{
+					type: "input-date-range",
 					name: "value",
 					pipeIn: function(e) {
 						return e ? e.split(",").map((function(e) {
-							return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+							return s.
+						default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
 						})) : ""
+					},
+					pipeOut: function(e, t, a) {
+						var n = a.format;
+						if (n) {
+							var l = e.split(",");
+							e = l.map((function(e) {
+								return s.
+							default(parseInt(e, 10), "X").format(n)
+							})).join(",")
+						}
+						return e
 					}
 				}]
 			},
 			i.getSchemaTpl("clearable", {
 				pipeIn: i.defaultValue(!0)
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "minDate",
 				label: "最小日期",
 				placeholder: "请输入相对值",
@@ -11259,11 +11382,16 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "minDate",
 					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
 					}
 				}]
 			},
@@ -11271,7 +11399,7 @@ function(e, t, a) {
 				type: "divider"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "maxDate",
 				label: "最大日期",
 				placeholder: "请输入相对值",
@@ -11283,28 +11411,33 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "maxDate",
 					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
 					}
 				}]
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "minDuration",
 				label: "限制最小跨度",
 				description: "比如 2days"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "ranges",
 				label: "日期范围快捷键",
 				description: "比如 today, yesterday, 1dayago, 7daysago, 90daysago, prevweek, thismonth, prevmonth, prevquarter, thisquarter"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "maxDuration",
 				label: "限制最大跨度",
 				description: "比如 1year"
@@ -11327,14 +11460,12 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
-	} (a(2).BasePlugin);
-	t.DateRangeControlPlugin = o,
-	r.registerEditorPlugin(o)
+	} (o.BasePlugin);
+	t.DateRangeControlPlugin = d,
+	r.registerEditorPlugin(d)
 },
 function(e, t, a) {
 	"use strict";
@@ -11346,10 +11477,12 @@ function(e, t, a) {
 	l = a(5),
 	i = a(3),
 	r = a(1),
-	o = function(e) {
+	o = a(2),
+	s = n.__importDefault(a(18)),
+	d = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "datetime-control",
+			return t.rendererName = "input-datetime",
 			t.$schema = "/schemas/DateTimeControlSchema.json",
 			t.icon = "fa fa-calendar",
 			t.name = "日期时间",
@@ -11357,7 +11490,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/datetime",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "datetime",
+				type: "input-datetime",
 				label: "日期时间",
 				name: "datetime"
 			},
@@ -11366,21 +11499,26 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "日期时间",
-			t.panelControls = [i.getSchemaTpl("placeholder", {
+			t.panelBody = [i.getSchemaTpl("placeholder", {
 				pipeIn: i.defaultValue("请选择日期时间")
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "format",
 				label: "值格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
-				pipeIn: i.defaultValue("X")
+				pipeIn: i.defaultValue("X"),
+				onChange: function(e, t, a, n) {
+					n.setValueByName("value", ""),
+					n.setValueByName("minDate", ""),
+					n.setValueByName("maxDate", "")
+				}
 			},
 			i.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"',
@@ -11394,25 +11532,30 @@ function(e, t, a) {
 				collapsable: !0,
 				className: "fieldset",
 				visibleOn: 'typeof this.value !== "undefined"',
-				controls: [{
-					type: "datetime",
+				body: [{
+					type: "input-datetime",
 					name: "value",
 					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
 					}
 				}]
 			},
 			i.getSchemaTpl("clearable", {
 				pipeIn: i.defaultValue(!0)
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "inputFormat",
 				label: "显示格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
 				pipeIn: i.defaultValue("YYYY-MM-DD HH:mm")
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "minDate",
 				label: "最小日期",
 				placeholder: "请输入相对值",
@@ -11424,11 +11567,16 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "minDate",
 					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
 					}
 				}]
 			},
@@ -11436,7 +11584,7 @@ function(e, t, a) {
 				type: "divider"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "maxDate",
 				label: "最大日期",
 				placeholder: "请输入相对值",
@@ -11448,11 +11596,16 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "maxDate",
 					pipeIn: function(e) {
-						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
 					}
 				}]
 			}],
@@ -11460,14 +11613,200 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
-	} (a(2).BasePlugin);
-	t.DateTimeControlPlugin = o,
-	r.registerEditorPlugin(o)
+	} (o.BasePlugin);
+	t.DateTimeControlPlugin = d,
+	r.registerEditorPlugin(d)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.DateTimeRangeControlPlugin = void 0;
+	var n = a(0),
+	l = a(5),
+	i = a(3),
+	r = a(1),
+	o = a(2),
+	s = n.__importDefault(a(18)),
+	d = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "input-datetime-range",
+			t.$schema = "/schemas/DateTimeRangeControlSchema.json",
+			t.order = -440,
+			t.icon = "fa fa-calendar",
+			t.name = "日期时间范围",
+			t.description = "日期时间范围选择，可通过<code>minDate</code>、<code>maxDate</code>设定最小、最大日期",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/input-datetime-range",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				type: "input-datetime-range",
+				label: "日期时间范围",
+				name: "input-datetime-range"
+			},
+			t.previewSchema = {
+				type: "form",
+				className: "text-left",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
+			},
+			t.panelTitle = "日期时间范围",
+			t.panelBody = [i.getSchemaTpl("placeholder", {
+				pipeIn: i.defaultValue("请选择日期时间范围")
+			}), {
+				type: "input-text",
+				name: "format",
+				label: "值格式",
+				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
+				pipeIn: i.defaultValue("X"),
+				onChange: function(e, t, a, n) {
+					n.setValueByName("value", ""),
+					n.setValueByName("minDate", ""),
+					n.setValueByName("maxDate", "")
+				}
+			},
+			i.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
+				name: "value",
+				label: "默认值",
+				visibleOn: 'typeof this.value !== "undefined"',
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，由于包含开始和结束时间，请用逗号隔开。"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				visibleOn: 'typeof this.value !== "undefined"',
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-datetime-range",
+					name: "value",
+					pipeIn: function(e) {
+						return e ? e.split(",").map((function(e) {
+							return s.
+						default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+						})) : ""
+					},
+					pipeOut: function(e, t, a) {
+						var n = a.format;
+						if (n) {
+							var l = e.split(",");
+							e = l.map((function(e) {
+								return s.
+							default(parseInt(e, 10), "X").format(n)
+							})).join(",")
+						}
+						return e
+					}
+				}]
+			},
+			i.getSchemaTpl("clearable", {
+				pipeIn: i.defaultValue(!0)
+			}), {
+				type: "input-text",
+				name: "minDate",
+				label: "最小日期时间",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-datetime",
+					name: "minDate",
+					pipeIn: function(e) {
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
+					}
+				}]
+			},
+			{
+				type: "divider"
+			},
+			{
+				type: "input-text",
+				name: "maxDate",
+				label: "最大日期时间",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-datetime",
+					name: "maxDate",
+					pipeIn: function(e) {
+						return s.
+					default(l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e).format("X")
+					},
+					pipeOut: function(e, t, a) {
+						return s.
+					default(parseInt(e, 10), "X").format(a.format)
+					}
+				}]
+			},
+			{
+				type: "input-text",
+				name: "minDuration",
+				label: "限制最小跨度",
+				description: "比如 2days"
+			},
+			{
+				type: "input-text",
+				name: "ranges",
+				label: "日期范围快捷键",
+				description: "比如 today, yesterday, 1dayago, 7daysago, 90daysago, prevweek, thismonth, prevmonth, prevquarter, thisquarter"
+			},
+			{
+				type: "input-text",
+				name: "maxDuration",
+				label: "限制最大跨度",
+				description: "比如 1year"
+			},
+			{
+				name: "utc",
+				label: "是否使用 UTC 时间",
+				type: "switch",
+				mode: "inline",
+				className: "block"
+			},
+			{
+				name: "embed",
+				label: "是否内嵌模式",
+				type: "switch",
+				mode: "inline",
+				className: "block"
+			}],
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildSubRenderers = function(t, a) {
+			return e.prototype.buildSubRenderers.call(this, t, a)
+		},
+		t
+	} (o.BasePlugin);
+	t.DateTimeRangeControlPlugin = d,
+	r.registerEditorPlugin(d)
 },
 function(e, t, a) {
 	"use strict";
@@ -11476,13 +11815,13 @@ function(e, t, a) {
 	}),
 	t.DiffEditorControlPlugin = void 0;
 	var n = a(0),
-	l = a(28),
+	l = a(43),
 	i = a(3),
 	r = a(1),
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "diff-editor-control",
+			return t.rendererName = "diff-editor",
 			t.$schema = "/schemas/DiffEditorControlSchema.json",
 			t.name = "Diff编辑器",
 			t.icon = "fa fa-columns",
@@ -11499,14 +11838,14 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "Hello World\nLine 1\nNew line\nBla Bla",
 					diffValue: "Hello World\nLine 2"
 				})]
 			},
 			t.panelTitle = "Diff编辑器",
-			t.panelControls = [{
+			t.panelBody = [{
 				type: "textarea",
 				name: "diffValue",
 				label: "左侧值",
@@ -11532,7 +11871,7 @@ function(e, t, a) {
 			},
 			{
 				name: "size",
-				type: "button-group",
+				type: "button-group-select",
 				size: "sm",
 				pipeIn: i.defaultValue(""),
 				className: "w-full",
@@ -11562,9 +11901,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -11578,13 +11915,13 @@ function(e, t, a) {
 	}),
 	t.EditorControlPlugin = void 0;
 	var n = a(0),
-	l = a(28),
+	l = a(43),
 	i = a(3),
 	r = a(1),
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "editor-control",
+			return t.rendererName = "editor",
 			t.$schema = "/schemas/EditorControlSchema.json",
 			t.name = "代码编辑器",
 			t.icon = "fa fa-code",
@@ -11601,13 +11938,13 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: 'console.log("Hello world.");'
 				})]
 			},
 			t.panelTitle = "Editor",
-			t.panelControls = [{
+			t.panelBody = [{
 				label: "语言",
 				name: "language",
 				type: "select",
@@ -11617,7 +11954,7 @@ function(e, t, a) {
 			},
 			{
 				name: "size",
-				type: "button-group",
+				type: "button-group-select",
 				size: "xs",
 				pipeIn: i.defaultValue(""),
 				label: "控件大小",
@@ -11646,9 +11983,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -11666,13 +12001,13 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "email-control",
+			return t.rendererName = "input-email",
 			t.$schema = "/schemas/TextControlSchema.json",
 			t.name = "邮箱框",
 			t.icon = "fa fa-envelope-o",
 			t.description = "验证输入是否符合邮箱的格式",
 			t.scaffold = {
-				type: "email",
+				type: "input-email",
 				label: "邮箱",
 				name: "email"
 			},
@@ -11681,7 +12016,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = t.name,
@@ -11689,7 +12024,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(20).TextControlPlugin);
+	} (a(23).TextControlPlugin);
 	t.EmailControlPlugin = i,
 	l.registerEditorPlugin(i)
 },
@@ -11718,13 +12053,13 @@ function(e, t, a) {
 				type: "fieldset",
 				title: "标题",
 				collapsable: !0,
-				controls: [{
-					type: "text",
+				body: [{
+					type: "input-text",
 					label: "文本1",
 					name: "text"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					label: "文本2",
 					name: "text"
 				}]
@@ -11734,22 +12069,22 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.regions = [{
-				key: "controls",
+				key: "body",
 				label: "子表单项",
 				renderMethod: "renderBody",
 				insertPosition: "inner",
 				preferTag: "表单项"
 			}],
 			t.panelTitle = "字段集",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
 					label: "标题",
 					name: "title",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					name: "collapsable",
@@ -11769,7 +12104,7 @@ function(e, t, a) {
 				},
 				{
 					name: "className",
-					type: "button-group",
+					type: "button-group-select",
 					clearable: !0,
 					size: "sm",
 					label: "控件样式",
@@ -11814,7 +12149,7 @@ function(e, t, a) {
 						className: "m-b-sm",
 						block: !0,
 						onClick: function() {
-							t.manager.showInsertPanel("controls", e.id)
+							t.manager.showInsertPanel("body", e.id)
 						}
 					},
 					"添加子表单项")
@@ -11824,9 +12159,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.filterProps = function(e) {
 			return e.collapsed = !1,
@@ -11849,7 +12182,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "file-control",
+			return t.rendererName = "input-file",
 			t.$schema = "/schemas/FileControlSchema.json",
 			t.name = "文件上传",
 			t.icon = "fa fa-upload",
@@ -11857,7 +12190,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/file",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "file",
+				type: "input-file",
 				label: "文件上传",
 				name: "file"
 			},
@@ -11866,14 +12199,14 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "文件域",
-			t.panelControls = [l.getSchemaTpl("fieldSet", {
+			t.panelBody = [l.getSchemaTpl("fieldSet", {
 				title: "常规",
-				controls: [{
-					type: "text",
+				body: [{
+					type: "input-text",
 					name: "btnLabel",
 					label: "上传按钮名称",
 					value: "请选择文件"
@@ -11884,14 +12217,14 @@ function(e, t, a) {
 					description: "默认不填写将上传到 bos，可以在系统配置中设置为自己的 bos 地址。",
 					value: "/api/upload/file",
 					__isUpload: !0
-				}), {
+				}), l.getSchemaTpl("autoFill"), {
 					type: "fieldSet",
 					title: "分块上传相关",
 					collapsed: !0,
 					collapsable: !0,
 					className: "fieldset",
-					controls: [{
-						type: "button-group",
+					body: [{
+						type: "button-group-select",
 						name: "useChunk",
 						label: "启用分块",
 						size: "xs",
@@ -11912,7 +12245,7 @@ function(e, t, a) {
 					},
 					{
 						name: "chunkSize",
-						type: "number",
+						type: "input-number",
 						label: "分块大小",
 						visibleOn: "data.useChunk != false",
 						value: 5242880
@@ -11932,14 +12265,14 @@ function(e, t, a) {
 					})]
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "accept",
 					label: "文件类型",
-					value: "text/plain",
+					value: "",
 					description: "请填写文件的 <code>mime-types</code>，参考 <code>input[type=file]</code> 的 <code>accept</code> 说明"
 				},
 				l.getSchemaTpl("switchDefaultValue"), {
-					type: "text",
+					type: "input-text",
 					name: "value",
 					label: "默认值",
 					visibleOn: 'typeof this.value !== "undefined"'
@@ -11950,7 +12283,7 @@ function(e, t, a) {
 			}), l.getSchemaTpl("fieldSet", {
 				title: "样式",
 				collapsed: !0,
-				controls: [l.getSchemaTpl("className", {
+				body: [l.getSchemaTpl("className", {
 					name: "btnClassName",
 					label: "按钮 CSS 类名",
 					pipeIn: l.defaultValue("btn-sm btn-info")
@@ -11962,21 +12295,22 @@ function(e, t, a) {
 			}), l.getSchemaTpl("fieldSet", {
 				title: "其他",
 				collapsed: !0,
-				controls: [{
+				body: [{
 					name: "maxSize",
-					type: "number",
+					type: "input-number",
 					label: "文件最大体积",
 					description: "超出大小不允许上传，单位字节"
 				},
 				{
 					name: "maxLength",
-					type: "number",
+					type: "input-number",
 					label: "文件最大数量",
-					description: "超出数量不允许上传"
+					description: "超出数量不允许上传",
+					visibleOn: "data.multiple != false"
 				},
 				{
 					name: "fileField",
-					type: "text",
+					type: "input-text",
 					label: "文件域名称",
 					value: "file"
 				},
@@ -11986,6 +12320,7 @@ function(e, t, a) {
 					mode: "inline",
 					className: "block",
 					label: "作为 Base64 提交",
+					hiddenOn: "data.asBlob",
 					description: "小文件时可以使用，默认给 Form 提交的是文件下载地址，设置后给 Form 提交文件内容的 base64 格式字符串。"
 				},
 				{
@@ -11994,6 +12329,7 @@ function(e, t, a) {
 					mode: "inline",
 					className: "block",
 					label: "作为二进制提交",
+					hiddenOn: "data.asBase64",
 					description: "File 控件不接管文件上传，直接由表单的保存接口完成。和 Base64 选项二选一。"
 				},
 				{
@@ -12001,7 +12337,8 @@ function(e, t, a) {
 					type: "switch",
 					mode: "inline",
 					className: "block",
-					label: "是否自动上传"
+					label: "是否自动上传",
+					value: !0
 				},
 				{
 					name: "hideUploadButton",
@@ -12016,9 +12353,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -12035,7 +12370,7 @@ function(e, t, a) {
 	l = a(1),
 	i = a(2),
 	r = a(3),
-	o = a(14),
+	o = a(9),
 	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
@@ -12050,9 +12385,9 @@ function(e, t, a) {
 			t.scaffold = {
 				type: "form",
 				title: "表单",
-				controls: [{
+				body: [{
 					label: "文本框",
-					type: "text",
+					type: "input-text",
 					name: "text"
 				}]
 			},
@@ -12060,14 +12395,14 @@ function(e, t, a) {
 				type: "form",
 				panelClassName: "Panel--default text-left m-b-none",
 				mode: "horizontal",
-				controls: [{
+				body: [{
 					label: "文本",
 					name: "a",
-					type: "text"
+					type: "input-text"
 				}]
 			},
 			t.regions = [{
-				key: "controls",
+				key: "body",
 				label: "表单集合",
 				matchRegion: function(e) {
 					return !! (null == e ? void 0 : e.props.noValidate)
@@ -12081,17 +12416,23 @@ function(e, t, a) {
 				preferTag: "按钮"
 			}],
 			t.panelTitle = "表单",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/crud\/filter\/form$/.test(e.path),
 				a = /(?:\/|^)dialog\/.+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
+						name: "title",
+						type: "input-text",
+						label: "标题",
+						visibleOn: "this.wrapWithPanel !== false"
+					},
+					{
 						name: "submitText",
-						type: "text",
+						type: "input-text",
 						label: "提交按钮名称",
 						pipeIn: r.defaultValue("提交"),
-						visibleOn: "this.wrapWithPanel !== false && !this.actions && (!Array.isArray(this.controls) || !this.controls.some(function(item) {return !!~['submit','button','reset','button-group'].indexOf(item.type);}))",
+						visibleOn: "this.wrapWithPanel !== false && !this.actions && (!Array.isArray(this.body) || !this.body.some(function(item) {return !!~['submit','button','reset','button-group'].indexOf(item.type);}))",
 						description: "当没有自定义按钮时有效。"
 					},
 					{
@@ -12148,7 +12489,7 @@ function(e, t, a) {
 					}: null, t ? null: {
 						label: "提交给其他组件",
 						name: "target",
-						type: "text",
+						type: "input-text",
 						description: "可以通过设置此属性，把当前表单的值提交给目标组件，而不是自己来通过接口保存，请填写目标组件的 <code>name</code> 属性，多个组件请用逗号隔开。当 <code>target</code> 为 <code>window</code> 时，则把表单数据附属到地址栏。"
 					},
 					r.getSchemaTpl("reload", {
@@ -12156,7 +12497,7 @@ function(e, t, a) {
 					}), t ? null: {
 						label: "跳转",
 						name: "redirect",
-						type: "text",
+						type: "input-text",
 						description: "当设置此值后，表单提交完后跳转到目标地址。"
 					},
 					{
@@ -12204,21 +12545,21 @@ function(e, t, a) {
 						type: "combo",
 						multiple: !0,
 						multiLine: !0,
-						controls: [{
+						items: [{
 							name: "rule",
 							label: "校验规则",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							name: "message",
 							label: "报错提示",
-							type: "text"
+							type: "input-text"
 						}]
 					}]
 				},
 				{
 					title: "接口",
-					controls: [r.getSchemaTpl("api", {
+					body: [r.getSchemaTpl("api", {
 						label: "保存接口",
 						description: "用来保存表单数据",
 						sampleBuilder: function(e) {
@@ -12259,8 +12600,8 @@ function(e, t, a) {
 						description: "用来初始化表单数据",
 						sampleBuilder: function(e) {
 							var t = {};
-							return Array.isArray(e.controls) && e.controls.forEach((function(e) {
-								e.name && !~ ["combo", "array", "form"].indexOf(e.type) && o.setVariable(t, e.name, "sample")
+							return Array.isArray(e.body) && e.body.forEach((function(e) {
+								e.name && !~ ["combo", "input-array", "form"].indexOf(e.type) && o.setVariable(t, e.name, "sample")
 							})),
 							JSON.stringify({
 								status: 0,
@@ -12284,7 +12625,7 @@ function(e, t, a) {
 					},
 					{
 						name: "interval",
-						type: "number",
+						type: "input-number",
 						visibleOn: "data.interval",
 						step: 500,
 						className: "m-t-n-sm",
@@ -12301,7 +12642,7 @@ function(e, t, a) {
 					{
 						name: "stopAutoRefreshWhen",
 						label: "停止定时刷新检测表达式",
-						type: "text",
+						type: "input-text",
 						visibleOn: "!!data.interval",
 						description: "定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。"
 					},
@@ -12342,15 +12683,15 @@ function(e, t, a) {
 						type: "combo",
 						multiLine: !0,
 						description: "可以不设置，接口返回的 msg 字段，优先级更高",
-						controls: [{
+						items: [{
 							label: "获取成功提示",
 							name: "fetchSuccess",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							label: "获取失败提示",
 							name: "fetchFailed",
-							type: "text"
+							type: "input-text"
 						}]
 					}: {
 						name: "messages",
@@ -12363,36 +12704,36 @@ function(e, t, a) {
 						type: "combo",
 						multiLine: !0,
 						description: "可以不设置，接口返回的 msg 字段，优先级更高",
-						controls: [{
+						items: [{
 							label: "获取成功提示",
 							name: "fetchSuccess",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							label: "获取失败提示",
 							name: "fetchFailed",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							label: "保存成功提示",
 							name: "saveSuccess",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							label: "保存失败提示",
 							name: "saveFailed",
-							type: "text"
+							type: "input-text"
 						},
 						{
 							label: "验证失败提示",
 							name: "validateFailed",
-							type: "text"
+							type: "input-text"
 						}]
 					}]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "wrapWithPanel",
 						type: "switch",
 						mode: "inline",
@@ -12410,7 +12751,7 @@ function(e, t, a) {
 					{
 						name: "mode",
 						label: "展示模式",
-						type: "button-group",
+						type: "button-group-select",
 						size: "sm",
 						pipeIn: r.defaultValue("normal", !1),
 						options: [{
@@ -12437,7 +12778,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("name", {
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("name", {
 						test: !t
 					}), {
 						name: "debug",
@@ -12454,7 +12795,7 @@ function(e, t, a) {
 		return n.__extends(t, e),
 		t.prototype.afterUpdate = function(e) {
 			var t, a = e.context; ("form" === a.info.renderer.name || a.node.childRegions.some((function(e) {
-				return "controls" === e.region
+				return "body" === e.region
 			})) && (null === (t = a.diff) || void 0 === t ? void 0 : t.some((function(e) {
 				var t;
 				return "wrapWithPanel" === (null === (t = e.path) || void 0 === t ? void 0 : t.join("."))
@@ -12477,7 +12818,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "formula-control",
+			return t.rendererName = "formula",
 			t.$schema = "/schemas/FormulaControlSchema.json",
 			t.name = "公式",
 			t.icon = "fa fa-calculator",
@@ -12493,25 +12834,25 @@ function(e, t, a) {
 				tpl: "计算公式"
 			},
 			t.panelTitle = "公式",
-			t.panelControls = [{
+			t.panelBody = [{
 				label: "字段名",
 				name: "name",
-				type: "text",
+				type: "input-text",
 				description: "公式计算结果会作用到此字段名对应的变量中。"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "value",
 				label: "默认值"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "formula",
 				label: "公式",
 				description: "支持 JS 表达式，如： <code>data.var_a + 2</code>，即当表单项 <code>var_a</code> 变化的时候，会自动给当前表单项设置为 <code>var_a + 2</code> 的值。若设置为字符串，则需要加引号"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "condition",
 				label: "作用条件",
 				description: '支持如：<code>\\${xxx}</code>或者<code>data.xxx == "a"</code> 表达式来配置作用条件，当满足该作用条件时，会将计算结果设置到目标变量上。'
@@ -12538,9 +12879,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.renderRenderer = function(e) {
 			return this.renderPlaceholder("功能组件（公式）", e.key)
@@ -12555,306 +12894,6 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.GridControlPlugin = void 0;
-	var n = a(0),
-	l = a(5),
-	i = n.__importDefault(a(4)),
-	r = a(3),
-	o = a(15),
-	s = a(1),
-	d = a(2),
-	c = a(13),
-	u = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "grid-control",
-			t.$schema = "/schemas/GridControlSchema.json",
-			t.icon = "fa fa-columns",
-			t.name = "Grid",
-			t.description = "格子布局",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/grid",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "grid",
-				label: "Grid",
-				columns: [{
-					controls: [{
-						label: "文本",
-						name: "var1",
-						type: "text"
-					}]
-				},
-				{
-					controls: [{
-						label: "文本2",
-						name: "var2",
-						type: "text"
-					}]
-				}]
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t.panelTitle = "格子布局",
-			t.panelControls = [{
-				name: "columns",
-				type: "combo",
-				multiple: !0,
-				controls: [{
-					type: "tpl",
-					tpl: '<span class="label label-default">列${index | plus}</span>',
-					columnClassName: "no-grow v-middle"
-				}],
-				draggable: !0,
-				draggableTip: "",
-				minLength: 2,
-				addButtonText: "新增一列",
-				scaffold: {
-					controls: [{
-						label: "文本",
-						name: "var1",
-						type: "text"
-					}]
-				}
-			},
-			r.getSchemaTpl("className")],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					},
-					controls: {
-						key: "controls",
-						label: "子表单项",
-						preferTag: "表单项"
-					}
-				},
-				panelTitle: "格子",
-				panelControlsCreator: function(e) {
-					return [r.getSchemaTpl("className", {
-						label: "格子 CSS 类名",
-						name: "columnClassName"
-					}), {
-						type: "switch",
-						name: "__mode",
-						label: "宽度自动分配",
-						mode: "inline",
-						className: "block",
-						pipeIn: function(e, t) {
-							return ! (t.xs || t.sm || t.md || t.lg)
-						},
-						columnClassName: "w-xs v-middle",
-						onChange: function(e, t, a, n) {
-							e ? (n.deleteValueByName("xsHidden"), n.deleteValueByName("xs"), n.deleteValueByName("smHidden"), n.deleteValueByName("sm"), n.deleteValueByName("mdHidden"), n.deleteValueByName("md"), n.deleteValueByName("lgHidden"), n.deleteValueByName("lg")) : n.setValues({
-								xs: 6
-							})
-						}
-					},
-					{
-						type: "tabs",
-						visibleOn: "this.xs || this.sm || this.md || this.lg",
-						tabs: [{
-							title: "xs",
-							controls: [{
-								type: "switch",
-								name: "xsHidden",
-								label: "是否隐藏",
-								mode: "inline",
-								className: "block",
-								pipeIn: r.defaultValue("false")
-							},
-							{
-								label: "宽度占比",
-								type: "range",
-								name: "xs",
-								min: 1,
-								max: 12,
-								step: 1,
-								pipeIn: r.defaultValue(6)
-							}]
-						},
-						{
-							title: "sm",
-							controls: [{
-								type: "switch",
-								name: "xsHidden",
-								label: "是否隐藏",
-								mode: "inline",
-								className: "block",
-								pipeIn: r.defaultValue("false")
-							},
-							{
-								label: "宽度占比",
-								type: "range",
-								name: "sm",
-								min: 1,
-								max: 12,
-								step: 1,
-								pipeIn: r.defaultValue(6)
-							}]
-						},
-						{
-							title: "md",
-							controls: [{
-								type: "switch",
-								name: "mdHidden",
-								label: "是否隐藏",
-								mode: "inline",
-								className: "block",
-								pipeIn: r.defaultValue("false")
-							},
-							{
-								label: "宽度占比",
-								type: "range",
-								name: "md",
-								min: 1,
-								max: 12,
-								step: 1,
-								pipeIn: r.defaultValue(6)
-							}]
-						},
-						{
-							title: "lg",
-							controls: [{
-								type: "switch",
-								name: "lgHidden",
-								label: "是否隐藏",
-								mode: "inline",
-								className: "block",
-								pipeIn: r.defaultValue("false")
-							},
-							{
-								label: "宽度占比",
-								type: "range",
-								name: "lg",
-								min: 1,
-								max: 12,
-								step: 1,
-								pipeIn: r.defaultValue(6)
-							}]
-						}]
-					},
-					{
-						label: "内容形式",
-						name: "__mode",
-						type: "button-group",
-						size: "xs",
-						description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他非表单类渲染器",
-						pipeIn: function(e, t) {
-							return Array.isArray(t.controls) ? "form": "other"
-						},
-						onChange: function(e, t, a, n) {
-							"form" === e ? (n.setValues({
-								controls: n.data.__controls || [{
-									label: "文本",
-									name: "var1",
-									type: "text"
-								}],
-								__body: n.data.body
-							}), n.deleteValueByName("body")) : (n.setValues({
-								body: n.data.__body || {
-									type: "tpl",
-									tpl: "内容",
-									inline: !1
-								},
-								__controls: n.data.controls
-							}), n.deleteValueByName("controls"))
-						},
-						options: [{
-							label: "表单",
-							value: "form"
-						},
-						{
-							label: "其他",
-							value: "other"
-						}]
-					},
-					{
-						children: function(a) {
-							var n = a.data;
-							return i.
-						default.createElement(l.Button, {
-								size: "sm",
-								level: "info",
-								className: "m-b",
-								block: !0,
-								onClick: t.addControl.bind(t, Array.isArray(n.controls) ? "controls": "body", e.id)
-							},
-							"添加成员")
-						}
-					}]
-				}
-			},
-			t.vWrapperResolve = function(e) {
-				return e.parentElement
-			},
-			t.overrides = {
-				renderChild: function(e, t, a, n) {
-					var l = this.super(e, t, a, n),
-					r = this.props.$$editor;
-					if (r && t.$$id) {
-						var s = r.plugin,
-						d = Array.isArray(t.controls) ? s.vRendererConfig.regions.controls: s.vRendererConfig.regions.body;
-						return i.
-					default.createElement(o.VRenderer, {
-							key: t.$$id,
-							plugin: r.plugin,
-							renderer: r.renderer,
-							$schema: "",
-							hostId: r.id,
-							memberIndex: a,
-							name: "格子" + (a + 1),
-							id: t.$$id,
-							draggable: !1,
-							schemaPath: r.schemaPath + "/tabs/" + a,
-							wrapperResolve: s.vWrapperResolve,
-							path: this.props.$path + "/" + a,
-							data: this.props.data
-						},
-						d ? i.
-					default.createElement(c.RegionWrapper, {
-							key: d.key,
-							preferTag: d.preferTag,
-							name: d.key,
-							label: d.label,
-							regionConfig: d,
-							editorStore: s.manager.store,
-							manager: s.manager,
-							children: l,
-							wrapperResolve: d.wrapperResolve,
-							rendererName: r.renderer.name
-						}) : l)
-					}
-					return l
-				}
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.addControl = function(e, t) {
-			this.manager.showInsertPanel(e, t)
-		},
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (d.BasePlugin);
-	t.GridControlPlugin = u,
-	s.registerEditorPlugin(u)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
 	t.GroupControlPlugin = void 0;
 	var n = a(0),
 	l = a(5),
@@ -12863,10 +12902,10 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "group-control",
+			return t.rendererName = "group",
 			t.$schema = "/schemas/GroupControlSchema.json",
 			t.name = "表单组",
 			t.icon = "fa fa-id-card-o",
@@ -12875,13 +12914,13 @@ function(e, t, a) {
 			t.tags = ["表单项"],
 			t.scaffold = {
 				type: "group",
-				controls: [{
-					type: "text",
+				body: [{
+					type: "input-text",
 					label: "文本",
 					name: "var1"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					label: "文本",
 					name: "var2"
 				}],
@@ -12892,13 +12931,13 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					mode: "normal"
 				})]
 			},
 			t.regions = [{
-				key: "controls",
+				key: "body",
 				label: "子表单",
 				renderMethod: "renderInput",
 				preferTag: "表单项",
@@ -12907,12 +12946,12 @@ function(e, t, a) {
 				}
 			}],
 			t.panelTitle = "表单组",
-			t.panelControls = [s.getSchemaTpl("tabs", [{
+			t.panelBody = [s.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					label: "Label",
 					name: "label",
-					type: "text"
+					type: "input-text"
 				},
 				s.getSchemaTpl("description", {
 					visible: "this.label"
@@ -12921,7 +12960,7 @@ function(e, t, a) {
 				default.createElement(l.Button, {
 						className: "m-b",
 						onClick: function() {
-							return t.manager.showInsertPanel("controls")
+							return t.manager.showInsertPanel("body")
 						},
 						level: "danger",
 						tooltip: "插入一个新的元素",
@@ -12934,16 +12973,16 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [s.getSchemaTpl("formItemMode"), s.getSchemaTpl("horizontalMode"), s.getSchemaTpl("horizontal", {
+				body: [s.getSchemaTpl("formItemMode"), s.getSchemaTpl("horizontalMode"), s.getSchemaTpl("horizontal", {
 					visibleOn: '(data.$$formMode == "horizontal" || data.mode == "horizontal") && data.label !== false && data.horizontal',
 					pipeIn: function(e, t) {
 						return {
-							leftRate: (e = e || t.formHorizontal && d.makeHorizontalDeeper(t.formHorizontal, t.controls.length)) && "number" == typeof e.left ? e.left: e && /\bcol\-(?:xs|sm|md|lg)\-(\d+)\b/.test(e.left) ? parseInt(RegExp.$1, 10) : 2,
+							leftRate: (e = e || t.formHorizontal && d.makeHorizontalDeeper(t.formHorizontal, t.body.length)) && "number" == typeof e.left ? e.left: e && /\bcol\-(?:xs|sm|md|lg)\-(\d+)\b/.test(e.left) ? parseInt(RegExp.$1, 10) : 2,
 							leftFixed: e && e.leftFixed || ""
 						}
 					}
 				}), {
-					name: "controls",
+					name: "body",
 					type: "combo",
 					label: "列宽度配置",
 					multiple: !0,
@@ -12951,7 +12990,7 @@ function(e, t, a) {
 					addable: !1,
 					multiLine: !0,
 					visibleOn: 'data.$$formMode != "inline"',
-					controls: [{
+					items: [{
 						type: "switch",
 						name: "columnRatio",
 						label: "自动分配",
@@ -12971,7 +13010,7 @@ function(e, t, a) {
 					},
 					{
 						label: "宽度占比",
-						type: "range",
+						type: "input-range",
 						name: "columnRatio",
 						visibleOn: 'typeof this.columnRatio !== "undefined" || this.columnClassName && /\\bcol\\-(?:xs|sm|md|lg)\\-(\\d+)\\b/.test(this.columnClassName)',
 						pipeIn: function(e, t) {
@@ -12983,7 +13022,7 @@ function(e, t, a) {
 					}]
 				},
 				{
-					type: "button-group",
+					type: "button-group-select",
 					name: "gap",
 					label: "间隔大小",
 					pipeIn: s.defaultValue(""),
@@ -13002,300 +13041,32 @@ function(e, t, a) {
 					}]
 				},
 				s.getSchemaTpl("className"), {
-					name: "controls",
+					name: "body",
 					type: "combo",
 					label: "列 CSS 类名配置",
 					multiple: !0,
 					removable: !1,
 					addable: !1,
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "columnClassName"
 					}]
 				}]
 			},
 			{
 				title: "其他",
-				controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
+				body: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
 			}])],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (o.BasePlugin);
-	t.GroupControlPlugin = c,
-	r.registerEditorPlugin(c)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.HBoxControlPlugin = void 0;
-	var n = a(0),
-	l = a(5),
-	i = n.__importDefault(a(4)),
-	r = a(3),
-	o = a(15),
-	s = a(1),
-	d = a(2),
-	c = a(13),
-	u = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "hbox-control",
-			t.$schema = "/schemas/HBoxControlSchema.json",
-			t.name = "HBox",
-			t.icon = "fa fa-columns",
-			t.description = "HBox布局，实现表单项左右排列",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/hbox",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "hbox",
-				label: "HBox",
-				columns: [{
-					controls: [{
-						label: "文本",
-						name: "var1",
-						type: "text"
-					}]
-				},
-				{
-					controls: [{
-						label: "文本2",
-						name: "var2",
-						type: "text"
-					}]
-				}]
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t.panelTitle = "HBox",
-			t.panelControls = [{
-				type: "combo",
-				name: "columns",
-				label: "列设置",
-				multiple: !0,
-				multiLine: !0,
-				minLength: 1,
-				draggable: !0,
-				draggableTip: "",
-				addButtonText: "新增一列",
-				scaffold: {
-					controls: [{
-						label: "文本",
-						name: "var",
-						type: "text"
-					}]
-				},
-				strictMode: !1,
-				controls: [{
-					name: "mode",
-					label: "展示模式",
-					type: "button-group",
-					size: "xs",
-					pipeIn: r.defaultValue("normal", !1),
-					hiddenOn: "!Array.isArray(this.controls)",
-					options: [{
-						label: "默认",
-						value: "normal"
-					},
-					{
-						label: "左右摆放",
-						value: "horizontal"
-					},
-					{
-						label: "内联",
-						value: "inline"
-					}]
-				},
-				r.getSchemaTpl("horizontal", {
-					visibleOn: 'this.mode == "horizontal"'
-				}), r.getSchemaTpl("className", {
-					name: "columnClassName",
-					label: "列 CSS 类名",
-					description: "可配置  <code>w 、w-xxs、w-xs、w-sm、w-md、w-lg、w-xl、w-xxl</code> 来固定列的宽度。"
-				})]
-			},
-			{
-				type: "button-group",
-				name: "gap",
-				label: "间隔大小",
-				pipeIn: r.defaultValue(""),
-				size: "xs",
-				options: [{
-					value: "xs",
-					label: "极小"
-				},
-				{
-					value: "sm",
-					label: "小"
-				},
-				{
-					value: "",
-					label: "正常"
-				}]
-			}],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					},
-					controls: {
-						key: "controls",
-						label: "子表单项",
-						preferTag: "表单项"
-					}
-				},
-				panelTitle: "列",
-				panelControlsCreator: function(e) {
-					return [{
-						name: "mode",
-						label: "展示模式",
-						type: "button-group",
-						size: "xs",
-						pipeIn: r.defaultValue("normal", !1),
-						hiddenOn: "!Array.isArray(this.controls)",
-						options: [{
-							label: "默认",
-							value: "normal"
-						},
-						{
-							label: "左右摆放",
-							value: "horizontal"
-						},
-						{
-							label: "内联",
-							value: "inline"
-						}]
-					},
-					r.getSchemaTpl("horizontal", {
-						visibleOn: 'this.mode == "horizontal"'
-					}), r.getSchemaTpl("className", {
-						name: "columnClassName",
-						label: "列 CSS 类名",
-						description: "可配置  <code>w 、w-xxs、w-xs、w-sm、w-md、w-lg、w-xl、w-xxl</code> 来固定列的宽度。"
-					}), {
-						label: "内容形式",
-						name: "__mode",
-						type: "button-group",
-						size: "xs",
-						description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他非表单类渲染器",
-						pipeIn: function(e, t) {
-							return Array.isArray(t.controls) ? "form": "other"
-						},
-						onChange: function(e, t, a, n) {
-							"form" === e ? (n.setValues({
-								controls: n.data.__controls || [{
-									label: "文本",
-									name: "var1",
-									type: "text"
-								}],
-								__body: n.data.body
-							}), n.deleteValueByName("body")) : (n.setValues({
-								body: n.data.__body || {
-									type: "tpl",
-									tpl: "内容",
-									inline: !1
-								},
-								__controls: n.data.controls
-							}), n.deleteValueByName("controls"))
-						},
-						options: [{
-							label: "表单",
-							value: "form"
-						},
-						{
-							label: "其他",
-							value: "other"
-						}]
-					},
-					{
-						children: function(a) {
-							var n = a.data;
-							return i.
-						default.createElement(l.Button, {
-								size: "sm",
-								level: "info",
-								className: "m-b",
-								block: !0,
-								onClick: t.addControl.bind(t, Array.isArray(n.controls) ? "controls": "body", e.id)
-							},
-							"添加成员")
-						}
-					}]
-				}
-			},
-			t.vWrapperResolve = function(e) {
-				return e.parentElement
-			},
-			t.overrides = {
-				renderChild: function(e, t, a) {
-					var n = this.super(e, t, a),
-					l = this.props.$$editor;
-					if (l && t.$$id) {
-						var r = l.plugin,
-						s = Array.isArray(t.controls) ? r.vRendererConfig.regions.controls: r.vRendererConfig.regions.body;
-						return i.
-					default.createElement(o.VRenderer, {
-							key: t.$$id,
-							plugin: l.plugin,
-							renderer: l.renderer,
-							$schema: "",
-							hostId: l.id,
-							memberIndex: a,
-							name: "列" + (a + 1),
-							id: t.$$id,
-							draggable: !1,
-							schemaPath: l.schemaPath + "/tabs/" + a,
-							wrapperResolve: r.vWrapperResolve,
-							path: this.props.$path + "/" + a,
-							data: this.props.data
-						},
-						s ? i.
-					default.createElement(c.RegionWrapper, {
-							key: s.key,
-							preferTag: s.preferTag,
-							name: s.key,
-							label: s.label,
-							regionConfig: s,
-							editorStore: r.manager.store,
-							manager: r.manager,
-							children: n,
-							wrapperResolve: s.wrapperResolve,
-							rendererName: l.renderer.name
-						}) : n)
-					}
-					return n
-				}
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.addControl = function(e, t) {
-			this.manager.showInsertPanel(e, t)
-		},
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (d.BasePlugin);
-	t.HBoxControlPlugin = u,
-	s.registerEditorPlugin(u)
+	t.GroupControlPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -13309,7 +13080,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "hidden-control",
+			return t.rendererName = "hidden",
 			t.$schema = "/schemas/HiddenControlSchema.json",
 			t.name = "隐藏域",
 			t.icon = "fa fa-eye-slash",
@@ -13325,8 +13096,8 @@ function(e, t, a) {
 				tpl: "隐藏域"
 			},
 			t.panelTitle = "隐藏域",
-			t.panelControls = [{
-				type: "text",
+			t.panelBody = [{
+				type: "input-text",
 				name: "value",
 				label: "默认值"
 			}],
@@ -13334,9 +13105,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.renderRenderer = function(e) {
 			return l.
@@ -13367,7 +13136,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "image-control",
+			return t.rendererName = "input-image",
 			t.$schema = "/schemas/ImageControlSchema.json",
 			t.name = "图片上传",
 			t.description = "可以对图片实现裁剪，限制图片的宽高以及大小，支持自动上传及上传多张图片",
@@ -13375,7 +13144,7 @@ function(e, t, a) {
 			t.tags = ["表单项"],
 			t.icon = "fa fa-crop",
 			t.scaffold = {
-				type: "image",
+				type: "input-image",
 				label: "图片上传",
 				name: "image",
 				imageClassName: "r w-full"
@@ -13385,12 +13154,12 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "图片上传",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
@@ -13399,13 +13168,13 @@ function(e, t, a) {
 				value: !1
 			}), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), {
 				name: "maxSize",
-				type: "number",
+				type: "input-number",
 				label: "图片最大体积",
 				description: "超出大小不允许上传，单位字节"
 			},
 			{
 				name: "maxLength",
-				type: "number",
+				type: "input-number",
 				label: "图片最大数量",
 				visibleOn: "data.multiple",
 				description: "超出数量不允许上传"
@@ -13416,15 +13185,15 @@ function(e, t, a) {
 				description: "文件接收接口，默认不填则上传到 hiphoto",
 				value: "/api/upload",
 				__isUpload: !0
-			}), {
-				type: "text",
+			}), l.getSchemaTpl("autoFill"), {
+				type: "input-text",
 				value: ".jpeg, .jpg, .png, .gif",
 				name: "accept",
 				label: "图片类型",
 				description: "请填入图片的后缀或 <code>MimeType</code>，多个类型用<code>,</code>隔开。"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "defaultImage",
 				label: "占位图片地址"
 			},
@@ -13467,13 +13236,13 @@ function(e, t, a) {
 				multiLine: !0,
 				label: "压缩配置",
 				visibleOn: "data.compress",
-				controls: [{
-					type: "number",
+				items: [{
+					type: "input-number",
 					label: "最大宽度",
 					name: "maxWidth"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					label: "最大高度",
 					name: "maxHeight"
 				}]
@@ -13497,7 +13266,7 @@ function(e, t, a) {
 			},
 			{
 				name: "crop.aspectRatio",
-				type: "text",
+				type: "input-text",
 				label: "裁剪比率",
 				visibleOn: "data.crop",
 				pipeOut: l.valuePipeOut
@@ -13538,43 +13307,43 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "number",
+				body: [{
+					type: "input-number",
 					name: "limit.width",
 					label: "限制宽度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.height",
 					label: "限制高度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.maxWidth",
 					label: "限制最大宽度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.maxHeight",
 					label: "限制最大高度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.minWidth",
 					label: "限制最小宽度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.minHeight",
 					label: "限制最小高度"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					name: "limit.aspectRatio",
 					label: "限制宽高比率"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "limit.限制最小高度",
 					label: "宽高比描述",
 					description: "当宽高比没有满足条件时，此描述将作为提示信息显示"
@@ -13584,9 +13353,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -13607,7 +13374,7 @@ function(e, t, a) {
 	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "input-group-control",
+			return t.rendererName = "input-group",
 			t.$schema = "/schemas/InputGroupControlSchema.json",
 			t.name = "输入组合",
 			t.icon = "fa fa-object-group",
@@ -13618,8 +13385,8 @@ function(e, t, a) {
 				type: "input-group",
 				name: "input-group",
 				label: "input 组合",
-				controls: [{
-					type: "text",
+				body: [{
+					type: "input-text",
 					placeholder: "搜索作业ID/名称",
 					inputClassName: "b-r-none p-r-none",
 					name: "input-group"
@@ -13635,20 +13402,20 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "Input 组合",
-			t.panelControls = [[{
-				name: "controls",
+			t.panelBody = [[{
+				name: "body",
 				type: "combo",
 				multiple: !0,
 				addable: !1,
 				draggable: !0,
 				draggableTip: "可排序、可移除、如要编辑请在预览区选中编辑",
 				editable: !1,
-				visibleOn: "this.controls && this.controls.length",
-				controls: [{
+				visibleOn: "this.body && this.body.length",
+				items: [{
 					type: "tpl",
 					inline: !1,
 					className: "p-t-xs",
@@ -13660,7 +13427,7 @@ function(e, t, a) {
 			default.createElement(i.Button, {
 					className: "m-b",
 					onClick: function() {
-						return t.manager.showInsertPanel("controls")
+						return t.manager.showInsertPanel("body")
 					},
 					level: "danger",
 					tooltip: "插入一个新的元素",
@@ -13676,9 +13443,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -13690,39 +13455,46 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.ControlPlugin = void 0;
+	t.ItemPlugin = void 0;
 	var n = a(0),
 	l = a(1),
 	i = a(2),
 	r = a(3),
-	o = n.__importDefault(a(10)),
+	o = n.__importDefault(a(12)),
 	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.panelTitle = "表单项",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = ~ ["button", "submit", "reset"].indexOf(e.schema.type),
 				a = ~ ["button-toobar", "container", "fieldSet", "group", "grid", "hbox", "input-group", "panel", "service", "tabs", "table", "elevator"].indexOf(e.schema.type),
-				n = e.info.renderer;
+				n = ~ ["switch", "wizard", "diff-editor", "editor", "input-rating", "input-text", "textarea"].indexOf(e.schema.type),
+				l = e.info.renderer;
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [t ? null: r.getSchemaTpl("formItemName", {
+					body: [t ? null: r.getSchemaTpl("formItemName", {
 						required: !a
-					}), !1 !== n.renderLabel ? r.getSchemaTpl("label") : null, {
+					}), !1 !== l.renderLabel ? r.getSchemaTpl("label") : null, n ? {
 						type: "switch",
 						name: "readOnly",
 						label: "只读模式",
 						mode: "inline",
 						className: "w-full"
+					}: null, {
+						type: "switch",
+						name: "disabled",
+						label: "禁用",
+						mode: "inline",
+						className: "w-full"
 					},
-					r.getSchemaTpl("required"), r.getSchemaTpl("description"), r.getSchemaTpl("placeholder"), r.getSchemaTpl("remark"), !1 !== n.renderLabel ? r.getSchemaTpl("labelRemark") : null]
+					r.getSchemaTpl("required"), r.getSchemaTpl("description"), r.getSchemaTpl("placeholder"), r.getSchemaTpl("remark"), !1 !== l.renderLabel ? r.getSchemaTpl("labelRemark") : null]
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
+					body: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
 						label: "",
 						visibleOn: 'data.mode == "horizontal" && data.label !== false && data.horizontal'
-					}), !1 !== n.sizeMutable ? r.getSchemaTpl("formItemSize") : null, r.getSchemaTpl("formItemInline"), r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+					}), !1 !== l.sizeMutable ? r.getSchemaTpl("formItemSize") : null, r.getSchemaTpl("formItemInline"), r.getSchemaTpl("className"), r.getSchemaTpl("className", {
 						label: "Label CSS 类名",
 						name: "labelClassName"
 					}), r.getSchemaTpl("className", {
@@ -13736,7 +13508,7 @@ function(e, t, a) {
 				},
 				{
 					title: "显隐",
-					controls: [r.getSchemaTpl("disabled"), r.getSchemaTpl("visible"), {
+					body: [r.getSchemaTpl("disabled"), r.getSchemaTpl("visible"), {
 						type: "switch",
 						name: "clearValueOnHidden",
 						label: "隐藏时删除表单项值",
@@ -13746,7 +13518,11 @@ function(e, t, a) {
 				},
 				{
 					title: "验证",
-					controls: [r.getSchemaTpl("validations"), r.getSchemaTpl("validationErrors"), r.getSchemaTpl("validateOnChange"), r.getSchemaTpl("submitOnChange")]
+					body: [r.getSchemaTpl("validations"), r.getSchemaTpl("validationErrors"), r.getSchemaTpl("validateOnChange"), r.getSchemaTpl("submitOnChange"), r.getSchemaTpl("api", {
+						name: "validateApi",
+						label: "校验接口",
+						description: "单独校验这个表单项的接口"
+					})]
 				}])]
 			},
 			t
@@ -13758,7 +13534,7 @@ function(e, t, a) {
 				icon: "fa fa-desktop",
 				title: this.panelTitle,
 				render: this.manager.makeSchemaFormRender({
-					controls: this.panelControlsCreator(e)
+					body: this.panelBodyCreator(e)
 				}),
 				order: -200
 			})
@@ -13768,12 +13544,12 @@ function(e, t, a) {
 			a = this.manager.store;
 			if ("schema" === t.sourceType) {
 				var n = a.getNodeById(t.sourceId);
-				"controls" !== (null == n ? void 0 : n.parentRegion) || "controls" === t.targetRegion || ~ ["button", "reset", "submit"].indexOf(t.data.type) || e.preventDefault()
+				"body" !== (null == n ? void 0 : n.parentRegion) || "body" === t.targetRegion || ~ ["button", "reset", "submit"].indexOf(t.data.type) || e.preventDefault()
 			}
 		},
 		t.prototype.afterUpdate = function(e) {
 			var t, a, n = e.context;
-			if (/\-control$/.test(n.info.renderer.name) && (null === (t = n.diff) || void 0 === t ? void 0 : t.some((function(e) {
+			if (/\$/.test(n.info.renderer.name) && (null === (t = n.diff) || void 0 === t ? void 0 : t.some((function(e) {
 				var t;
 				return "value" === (null === (t = e.path) || void 0 === t ? void 0 : t.join("."))
 			})))) {
@@ -13796,18 +13572,9 @@ function(e, t, a) {
 			})),
 			t.schema && (t.data.name = t.schema.name || t.data.name)
 		},
-		t.prototype.beforeInsert = function(e) {
-			var t, a = e.context;
-			"controls" === a.region && Array.isArray(null === (t = a.subRenderer) || void 0 === t ? void 0 : t.tags) && !~a.subRenderer.tags.indexOf("表单项") && ~a.subRenderer.tags.indexOf("展示") && (a.data = n.__assign(n.__assign({},
-			a.data), {
-				type: "static-" + a.data.type,
-				label: a.data.label || a.subRenderer.name,
-				name: a.data.name || "var1"
-			}))
-		},
 		t
 	} (i.BasePlugin);
-	t.ControlPlugin = s,
+	t.ItemPlugin = s,
 	l.registerEditorPlugin(s)
 },
 function(e, t, a) {
@@ -13822,7 +13589,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "list-control",
+			return t.rendererName = "list-select",
 			t.$schema = "/schemas/ListControlSchema.json",
 			t.order = -430,
 			t.name = "列表选择",
@@ -13831,7 +13598,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/list",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "list",
+				type: "list-select",
 				label: "列表",
 				name: "list",
 				options: [{
@@ -13848,14 +13615,14 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "A"
 				})]
 			},
 			t.panelTitle = "列表选择",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "list",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "list-select",
 				name: "value",
 				label: "默认值",
 				description: "请填入选项 Options 中 value 值",
@@ -13864,15 +13631,13 @@ function(e, t, a) {
 			},
 			l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [l.getSchemaTpl("multiple"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("options"), l.getSchemaTpl("source")]
+				body: [l.getSchemaTpl("multiple"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("options"), l.getSchemaTpl("source")]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -13890,7 +13655,7 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "location-control",
+			return t.rendererName = "location-picker",
 			t.$schema = "/schemas/LocationControlSchema.json",
 			t.name = "地理位置选择",
 			t.icon = "fa fa-location-arrow",
@@ -13898,7 +13663,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/location",
 			t.tags = ["表单项", "功能"],
 			t.scaffold = {
-				type: "location",
+				type: "location-picker",
 				name: "location"
 			},
 			t.previewSchema = {
@@ -13906,11 +13671,11 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "地理位置选择",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "clearable",
 				label: "是否可清除",
 				type: "switch",
@@ -13918,7 +13683,7 @@ function(e, t, a) {
 				className: "block"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "ak",
 				label: "百度地图的 AK",
 				description: '请从<a href="http://lbsyun.baidu.com/" target="_blank">百度地图开放平台</a>获取'
@@ -13941,9 +13706,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -13962,7 +13725,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "uuid-control",
+			return t.rendererName = "uuid",
 			t.$schema = "/schemas/UUIDControlSchema.json",
 			t.name = "UUID",
 			t.icon = "fa fa-eye-slash",
@@ -13976,11 +13739,11 @@ function(e, t, a) {
 			t.previewSchema = {
 				type: "form",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "UUID",
-			t.panelControls = [{
+			t.panelBody = [{
 				type: "static",
 				value: "自动按 UUID v4 格式生成，无需配置"
 			}],
@@ -13988,9 +13751,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.renderRenderer = function(e) {
 			return l.
@@ -14021,7 +13782,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "matrix-control",
+			return t.rendererName = "matrix-checkboxes",
 			t.$schema = "/schemas/MatrixControlSchema.json",
 			t.name = "矩阵开关",
 			t.icon = "fa fa-th-large",
@@ -14029,7 +13790,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/matrrix",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "matrix",
+				type: "matrix-checkboxes",
 				name: "matrix",
 				label: "矩阵开关",
 				rowLabel: "行标题说明",
@@ -14051,17 +13812,17 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "矩阵开关",
-			t.panelControls = [l.getSchemaTpl("api", {
+			t.panelBody = [l.getSchemaTpl("api", {
 				name: "source",
 				label: "获取矩阵数据接口"
 			}), l.getSchemaTpl("multiple", {
 				value: !0
 			}), {
-				type: "button-group",
+				type: "button-group-select",
 				name: "singleSelectMode",
 				label: "单选模式",
 				description: "行级、列级或者单个单元单选",
@@ -14085,7 +13846,7 @@ function(e, t, a) {
 			},
 			l.getSchemaTpl("fieldSet", {
 				title: "矩阵配置",
-				controls: [{
+				body: [{
 					label: "列配置",
 					name: "columns",
 					type: "combo",
@@ -14094,8 +13855,8 @@ function(e, t, a) {
 					scaffold: {
 						label: "列说明"
 					},
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "label",
 						placeholder: "列说明"
 					}]
@@ -14103,7 +13864,7 @@ function(e, t, a) {
 				{
 					name: "rowLabel",
 					label: "行标题文字",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					label: "行配置",
@@ -14114,8 +13875,8 @@ function(e, t, a) {
 						label: "行说明"
 					},
 					addButtonText: "添加一行",
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "label",
 						placeholder: "行说明"
 					}]
@@ -14125,9 +13886,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -14145,7 +13904,7 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "month-control",
+			return t.rendererName = "input-month",
 			t.$schema = "/schemas/MonthControlSchema.json",
 			t.name = "Month",
 			t.icon = "fa fa-calendar",
@@ -14153,13 +13912,13 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/month",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "month",
+				type: "input-month",
 				name: "month"
 			},
 			t.previewSchema = {
 				type: "form",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "Month",
@@ -14167,7 +13926,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(27).DateControlPlugin);
+	} (a(22).DateControlPlugin);
 	t.MonthControlPlugin = i,
 	l.registerEditorPlugin(i)
 },
@@ -14184,7 +13943,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "month-range-control",
+			return t.rendererName = "input-month-range",
 			t.$schema = "/schemas/MonthRangeControlSchema.json",
 			t.order = -440,
 			t.icon = "fa fa-calendar",
@@ -14193,7 +13952,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/month-range",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "month-range",
+				type: "input-month-range",
 				label: "月份范围",
 				name: "month-range"
 			},
@@ -14202,21 +13961,21 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "月份范围",
-			t.panelControls = [i.getSchemaTpl("placeholder", {
+			t.panelBody = [i.getSchemaTpl("placeholder", {
 				pipeIn: i.defaultValue("请选择月份范围")
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "format",
 				label: "值格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
 				pipeIn: i.defaultValue("X")
 			},
 			i.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"',
@@ -14230,8 +13989,8 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "month-range",
+				body: [{
+					type: "input-month-range",
 					name: "value",
 					pipeIn: function(e) {
 						return e ? e.split(",").map((function(e) {
@@ -14243,7 +14002,7 @@ function(e, t, a) {
 			i.getSchemaTpl("clearable", {
 				pipeIn: i.defaultValue(!0)
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "minDate",
 				label: "最小日期",
 				placeholder: "请输入相对值",
@@ -14255,8 +14014,8 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "minDate",
 					pipeIn: function(e) {
 						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
@@ -14267,7 +14026,7 @@ function(e, t, a) {
 				type: "divider"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "maxDate",
 				label: "最大日期",
 				placeholder: "请输入相对值",
@@ -14279,8 +14038,8 @@ function(e, t, a) {
 				collapsed: !0,
 				collapsable: !0,
 				className: "fieldset",
-				controls: [{
-					type: "date",
+				body: [{
+					type: "input-date",
 					name: "maxDate",
 					pipeIn: function(e) {
 						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
@@ -14288,13 +14047,13 @@ function(e, t, a) {
 				}]
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "minDuration",
 				label: "限制最小跨度",
 				description: "比如 2days"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "maxDuration",
 				label: "限制最大跨度",
 				description: "比如 1year"
@@ -14324,9 +14083,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -14345,7 +14102,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "nested-select-control",
+			return t.rendererName = "nested-select",
 			t.$schema = "/schemas/NestedSelectControlSchema.json",
 			t.name = "嵌套下拉框",
 			t.icon = "fa fa-indent",
@@ -14378,7 +14135,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "嵌套下拉",
@@ -14395,16 +14152,16 @@ function(e, t, a) {
 						label: "",
 						value: ""
 					},
-					controls: [{
+					items: [{
 						type: "group",
-						controls: [{
-							type: "text",
+						body: [{
+							type: "input-text",
 							name: "label",
 							placeholder: "名称",
 							required: !0
 						},
 						{
-							type: "text",
+							type: "input-text",
 							name: "value",
 							placeholder: "值",
 							unique: !0
@@ -14418,8 +14175,8 @@ function(e, t, a) {
 					}]
 				}
 			},
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
@@ -14436,22 +14193,20 @@ function(e, t, a) {
 			},
 			l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [{
+				body: [{
 					$ref: "options",
 					name: "options"
 				},
 				l.getSchemaTpl("api", {
 					name: "source",
 					label: "获取选项接口"
-				}), l.getSchemaTpl("multiple"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue")]
+				}), l.getSchemaTpl("multiple"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -14471,7 +14226,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "number-control",
+			return t.rendererName = "input-number",
 			t.$schema = "/schemas/NumberControlSchema.json",
 			t.order = -410,
 			t.name = "数字框",
@@ -14480,46 +14235,46 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/number",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "number",
+				type: "input-number",
 				label: "数字",
-				name: "text"
+				name: "number-text"
 			},
 			t.previewSchema = {
 				type: "form",
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: 88
 				})]
 			},
 			t.panelTitle = "数字框",
-			t.panelControls = [r.getSchemaTpl("switchDefaultValue"), {
-				type: "number",
+			t.panelBody = [r.getSchemaTpl("switchDefaultValue"), {
+				type: "input-number",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "min",
 				label: "最小值",
 				description: "请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效"
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "max",
 				label: "最大值",
 				description: "请输入数字或使用 <code>\\${xxx}</code> 来获取变量，否则该配置不生效"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "step",
 				label: "步长"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "precision",
 				label: "小数点精度",
 				min: 0,
@@ -14529,180 +14284,12 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (i.BasePlugin);
 	t.NumberControlPlugin = o,
 	l.registerEditorPlugin(o)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.PanelControlPlugin = void 0;
-	var n = a(0),
-	l = a(3),
-	i = a(1),
-	r = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "panel-control",
-			t.$schema = "/schemas/ContainerControlSchema.json",
-			t.regions = [{
-				key: "controls",
-				label: "子表单项",
-				renderMethod: "renderBody",
-				preferTag: "表单项",
-				matchRegion: function(e, t) {
-					return Array.isArray(t.props.controls)
-				},
-				optional: !0
-			},
-			{
-				key: "body",
-				label: "子内容",
-				renderMethod: "renderBody",
-				matchRegion: function(e, t) {
-					return ! Array.isArray(t.props.controls)
-				},
-				insertPosition: "outter",
-				optional: !0
-			},
-			{
-				key: "actions",
-				label: "按钮组",
-				renderMethod: "renderActions",
-				preferTag: "按钮"
-			}],
-			t.name = "面板",
-			t.icon = "fa fa-square-o",
-			t.description = "集合多个表单项进行展示，可以配置标题和底部",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/panel",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "panel",
-				title: "标题",
-				controls: [{
-					label: "文本",
-					type: "text",
-					name: "text"
-				}]
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t.panelTitle = "容器配置",
-			t.panelControls = [{
-				label: "标题",
-				name: "title",
-				type: "text"
-			},
-			{
-				label: "内容形式",
-				name: "__mode",
-				type: "button-group",
-				size: "xs",
-				description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
-				pipeIn: function(e, t) {
-					return Array.isArray(t.body) ? "other": "form"
-				},
-				onChange: function(e, t, a, n) {
-					"form" === e ? (n.setValues({
-						controls: n.data.__controls || [{
-							placeholder: "文本1",
-							type: "text",
-							name: "a",
-							label: !1
-						}],
-						__body: n.data.body
-					}), n.deleteValueByName("body")) : (n.setValues({
-						body: n.data.__body || [{
-							type: "tpl",
-							tpl: "内容",
-							inline: !1
-						}],
-						__controls: n.data.controls
-					}), n.deleteValueByName("controls"))
-				},
-				options: [{
-					label: "表单",
-					value: "form"
-				},
-				{
-					label: "其他",
-					value: "other"
-				}]
-			},
-			{
-				name: "className",
-				label: "样式",
-				type: "button-group",
-				size: "sm",
-				pipeIn: function(e) {
-					return "string" == typeof e && /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(e) ? RegExp.$1: ""
-				},
-				pipeOut: function(e, t) {
-					return t ? (t.replace(/(?:^|\s)(Panel\-\-(\w+))(?=($|\s))/g, "") + " " + e).replace(/\s+/g, " ").trim() : e
-				},
-				options: [{
-					label: "默认",
-					value: "Panel--default"
-				},
-				{
-					label: "主色",
-					value: "Panel--primary"
-				},
-				{
-					label: "提示",
-					value: "Panel--info"
-				},
-				{
-					label: "成功",
-					value: "Panel--success"
-				},
-				{
-					label: "警告",
-					value: "Panel--warning"
-				},
-				{
-					label: "危险",
-					value: "Panel--danger"
-				}]
-			},
-			l.getSchemaTpl("className", {
-				name: "headerClassName",
-				label: "头部区域 CSS 类名"
-			}), l.getSchemaTpl("className", {
-				name: "bodyClassName",
-				label: "内容区域 CSS 类名"
-			}), l.getSchemaTpl("className", {
-				name: "footerClassName",
-				label: "底部区域 CSS 类名"
-			}), l.getSchemaTpl("className", {
-				name: "actionsClassName",
-				label: "按钮外层 CSS 类名"
-			})],
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(2).BasePlugin);
-	t.PanelControlPlugin = r,
-	i.registerEditorPlugin(r)
 },
 function(e, t, a) {
 	"use strict";
@@ -14715,13 +14302,13 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "password-control",
+			return t.rendererName = "input-password",
 			t.$schema = "/schemas/TextControlSchema.json",
 			t.name = "密码框",
 			t.icon = "fa fa-asterisk",
 			t.description = "验证输入是否符合邮箱的格式",
 			t.scaffold = {
-				type: "password",
+				type: "input-password",
 				label: "密码",
 				name: "password"
 			},
@@ -14730,7 +14317,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = t.name,
@@ -14738,9 +14325,206 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(20).TextControlPlugin);
+	} (a(23).TextControlPlugin);
 	t.PasswordControlPlugin = i,
 	l.registerEditorPlugin(i)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.InputQuarterPlugin = void 0;
+	var n = a(0),
+	l = a(1),
+	i = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "input-quarter",
+			t.$schema = "/schemas/QuarterControlSchema.json",
+			t.name = "Quarter",
+			t.icon = "fa fa-calendar",
+			t.description = "季度选择",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/month",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				type: "input-quarter",
+				name: "month"
+			},
+			t.previewSchema = {
+				type: "form",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
+			},
+			t.panelTitle = "Quarter",
+			t
+		}
+		return n.__extends(t, e),
+		t
+	} (a(22).DateControlPlugin);
+	t.InputQuarterPlugin = i,
+	l.registerEditorPlugin(i)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.QuarterRangePlugin = void 0;
+	var n = a(0),
+	l = a(5),
+	i = a(3),
+	r = a(1),
+	o = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "input-quarter-range",
+			t.$schema = "/schemas/MonthRangeControlSchema.json",
+			t.order = -440,
+			t.icon = "fa fa-calendar",
+			t.name = "季度范围",
+			t.description = "月份范围选择，可通过<code>minDate</code>、<code>maxDate</code>设定最小、最大日期",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/quarter-range",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				type: "input-quarter-range",
+				label: "季度范围",
+				name: "quarter-range"
+			},
+			t.previewSchema = {
+				type: "form",
+				className: "text-left",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
+			},
+			t.panelTitle = "季度范围",
+			t.panelBody = [i.getSchemaTpl("placeholder", {
+				pipeIn: i.defaultValue("请选择月份范围")
+			}), {
+				type: "input-text",
+				name: "format",
+				label: "值格式",
+				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
+				pipeIn: i.defaultValue("X")
+			},
+			i.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
+				name: "value",
+				label: "默认值",
+				visibleOn: 'typeof this.value !== "undefined"',
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，由于包含开始和结束时间，请用逗号隔开。"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				visibleOn: 'typeof this.value !== "undefined"',
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-quarter-range",
+					name: "value",
+					pipeIn: function(e) {
+						return e ? e.split(",").map((function(e) {
+							return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+						})) : ""
+					}
+				}]
+			},
+			i.getSchemaTpl("clearable", {
+				pipeIn: i.defaultValue(!0)
+			}), {
+				type: "input-text",
+				name: "minDate",
+				label: "最小日期",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-date",
+					name: "minDate",
+					pipeIn: function(e) {
+						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+					}
+				}]
+			},
+			{
+				type: "divider"
+			},
+			{
+				type: "input-text",
+				name: "maxDate",
+				label: "最大日期",
+				placeholder: "请输入相对值",
+				description: "支持 <code>now、+1day、-2weeks</code>这种相对值用法，同时支持变量如<code>\\${start_date}</code>"
+			},
+			{
+				type: "fieldSet",
+				title: "使用固定值",
+				collapsed: !0,
+				collapsable: !0,
+				className: "fieldset",
+				body: [{
+					type: "input-date",
+					name: "maxDate",
+					pipeIn: function(e) {
+						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
+					}
+				}]
+			},
+			{
+				type: "input-text",
+				name: "minDuration",
+				label: "限制最小跨度",
+				description: "比如 2days"
+			},
+			{
+				type: "input-text",
+				name: "maxDuration",
+				label: "限制最大跨度",
+				description: "比如 1year"
+			},
+			{
+				name: "utc",
+				label: "是否使用 UTC 时间",
+				type: "switch",
+				mode: "inline",
+				className: "block"
+			},
+			{
+				name: "clearable",
+				label: "是否可清除",
+				type: "switch",
+				mode: "inline",
+				className: "block"
+			},
+			{
+				name: "embed",
+				label: "是否内嵌模式",
+				type: "switch",
+				mode: "inline",
+				className: "block"
+			}],
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildSubRenderers = function(t, a) {
+			return e.prototype.buildSubRenderers.call(this, t, a)
+		},
+		t
+	} (a(2).BasePlugin);
+	t.QuarterRangePlugin = o,
+	r.registerEditorPlugin(o)
 },
 function(e, t, a) {
 	"use strict";
@@ -14755,10 +14539,10 @@ function(e, t, a) {
 	o = a(1),
 	s = a(2),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "picker-control",
+			return t.rendererName = "picker",
 			t.$schema = "/schemas/PickerControlSchema.json",
 			t.name = "列表选取",
 			t.icon = "fa fa-window-restore",
@@ -14783,11 +14567,11 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "列表选取",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
 					type: "switch",
 					name: "embed",
@@ -14796,14 +14580,14 @@ function(e, t, a) {
 					label: "开启内嵌模式"
 				},
 				r.getSchemaTpl("switchDefaultValue"), {
-					type: "text",
+					type: "input-text",
 					name: "value",
 					label: "默认值",
 					visibleOn: 'typeof this.value !== "undefined"'
 				},
 				r.getSchemaTpl("fieldSet", {
 					title: "选项",
-					controls: [r.getSchemaTpl("options"), r.getSchemaTpl("api", {
+					body: [r.getSchemaTpl("options"), r.getSchemaTpl("api", {
 						name: "source",
 						label: "获取选项接口"
 					}), {
@@ -14822,10 +14606,10 @@ function(e, t, a) {
 						type: "textarea",
 						name: "labelTpl",
 						labelRemark: "已选定数据的展示样式",
-						description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/docs/renderers/Tpl">详情</a>'
+						description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>'
 					},
 					{
-						type: "button-group",
+						type: "button-group-select",
 						name: "modalMode",
 						label: "选框类型",
 						value: "dialog",
@@ -14839,16 +14623,14 @@ function(e, t, a) {
 							value: "drawer"
 						}]
 					},
-					r.getSchemaTpl("multiple"), r.getSchemaTpl("joinValues"), r.getSchemaTpl("delimiter"), r.getSchemaTpl("extractValue")]
+					r.getSchemaTpl("multiple"), r.getSchemaTpl("joinValues"), r.getSchemaTpl("delimiter"), r.getSchemaTpl("extractValue"), r.getSchemaTpl("autoFill")]
 				})]
 			},
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.buildEditorToolbar = function(e, t) {
 			var a = e.id;
@@ -14911,102 +14693,8 @@ function(e, t, a) {
 		},
 		t
 	} (s.BasePlugin);
-	t.PickerControlPlugin = c,
-	o.registerEditorPlugin(c)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.QRCodeControlPlugin = void 0;
-	var n = a(0),
-	l = a(3),
-	i = a(1),
-	r = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "qr-code-control",
-			t.$schema = "/schemas/QRCodeControlSchema.json",
-			t.name = "二维码",
-			t.icon = "fa fa-qrcode",
-			t.description = "支持配置宽高，前景色和背景色以及复杂度",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/qrcode",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "qr-code",
-				label: "二维码",
-				name: "qrcode",
-				value: "http://baidu.gitee.io/amis/"
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: [n.__assign({},
-				t.scaffold)]
-			},
-			t.panelTitle = "二维码",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				name: "value",
-				type: "text",
-				label: "二维码默认值",
-				description: "支持使用 <code>\\${xxx}</code> 来获取变量",
-				visibleOn: 'typeof this.value !== "undefined"'
-			},
-			{
-				name: "codeSize",
-				type: "number",
-				label: "宽高值",
-				pipeIn: l.defaultValue(128)
-			},
-			{
-				name: "backgroundColor",
-				type: "color",
-				label: "背景色",
-				pipeIn: l.defaultValue("#fff")
-			},
-			{
-				name: "foregroundColor",
-				type: "color",
-				label: "前景色",
-				pipeIn: l.defaultValue("#000")
-			},
-			{
-				name: "level",
-				type: "select",
-				label: "复杂度",
-				pipeIn: l.defaultValue("L"),
-				options: [{
-					label: "L",
-					value: "L"
-				},
-				{
-					label: "M",
-					value: "M"
-				},
-				{
-					label: "Q",
-					value: "Q"
-				},
-				{
-					label: "H",
-					value: "H"
-				}]
-			}],
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(2).BasePlugin);
-	t.QRCodeControlPlugin = r,
-	i.registerEditorPlugin(r)
+	t.PickerControlPlugin = u,
+	o.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -15020,7 +14708,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "radios-control",
+			return t.rendererName = "radios",
 			t.$schema = "/schemas/RadiosControlSchema.json",
 			t.order = -460,
 			t.name = "单选框",
@@ -15046,13 +14734,13 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "A"
 				})]
 			},
 			t.panelTitle = "单选框",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
 				type: "radios",
 				name: "value",
 				label: "默认值",
@@ -15062,16 +14750,25 @@ function(e, t, a) {
 			},
 			l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [l.getSchemaTpl("options"), l.getSchemaTpl("source"), l.getSchemaTpl("joinValues", {
+				body: [l.getSchemaTpl("options"), l.getSchemaTpl("source"), l.getSchemaTpl("joinValues", {
 					visibleOn: !0
-				}), l.getSchemaTpl("extractValue")]
+				}), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
 			}), l.getSchemaTpl("fieldSet", {
 				title: "外观",
-				controls: [{
+				body: [{
+					label: "选项在一行显示",
+					name: "inline",
+					type: "switch",
+					visibleOn: 'data.mode != "inline"',
+					mode: "inline",
+					className: "w-full",
+					pipeIn: l.defaultValue(!0)
+				},
+				{
 					label: "每行显示多少列",
 					name: "columnsCount",
-					hiddenOn: "data.inline === true",
-					type: "range",
+					hiddenOn: 'typeof data.inline === "undefined" || data.inline === true',
+					type: "input-range",
 					min: 1,
 					max: 6,
 					pipeIn: l.defaultValue(1)
@@ -15085,9 +14782,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -15106,7 +14801,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "range-control",
+			return t.rendererName = "input-range",
 			t.$schema = "/schemas/RangeControlSchema.json",
 			t.name = "滑块",
 			t.icon = "fa fa-sliders",
@@ -15114,7 +14809,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/range",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "range",
+				type: "input-range",
 				label: "滑块",
 				name: "range"
 			},
@@ -15123,12 +14818,12 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "滑块",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "number",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-number",
 				name: "value",
 				label: "默认值",
 				validations: "isNumeric",
@@ -15144,14 +14839,14 @@ function(e, t, a) {
 				type: "combo",
 				name: "value",
 				visibleOn: 'typeof data.value !== "undefined" && this.multiple',
-				controls: [{
-					type: "number",
+				items: [{
+					type: "input-number",
 					validations: "isNumeric",
 					name: "min",
 					label: "小值"
 				},
 				{
-					type: "number",
+					type: "input-number",
 					validations: "isNumeric",
 					name: "max",
 					label: "大值"
@@ -15160,23 +14855,23 @@ function(e, t, a) {
 			{
 				label: "最小值",
 				name: "min",
-				type: "number",
+				type: "input-number",
 				value: 0
 			},
 			{
 				label: "最大值",
 				name: "max",
-				type: "number",
+				type: "input-number",
 				value: 100
 			},
 			{
 				label: "步长",
 				name: "step",
-				type: "number",
+				type: "input-number",
 				value: 1
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "unit",
 				label: "单位",
 				value: ""
@@ -15195,9 +14890,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -15216,7 +14909,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "rating-control",
+			return t.rendererName = "input-rating",
 			t.$schema = "/schemas/RatingControlSchema.json",
 			t.name = "评分",
 			t.icon = "fa fa-star-o",
@@ -15224,7 +14917,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/range",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "rating",
+				type: "input-rating",
 				label: "评分",
 				name: "rating"
 			},
@@ -15233,14 +14926,14 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: 3
 				})]
 			},
 			t.panelTitle = "评分",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "number",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-number",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
@@ -15248,7 +14941,7 @@ function(e, t, a) {
 			{
 				label: "最大值",
 				name: "count",
-				type: "number",
+				type: "input-number",
 				value: 5
 			},
 			{
@@ -15257,6 +14950,15 @@ function(e, t, a) {
 				mode: "inline",
 				className: "w-full",
 				label: "允许半星",
+				value: !1
+			},
+			{
+				type: "switch",
+				name: "allowClear",
+				mode: "inline",
+				className: "w-full",
+				label: "可清除",
+				description: "是否允许再次点击后清除",
 				value: !1
 			},
 			l.getSchemaTpl("className", {
@@ -15268,9 +14970,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -15289,7 +14989,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "repeat-control",
+			return t.rendererName = "input-repeat",
 			t.$schema = "/schemas/RepeatControlSchema.json",
 			t.name = "重复周期选择",
 			t.icon = "fa fa-repeat",
@@ -15297,7 +14997,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/repeat",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "repeat",
+				type: "input-repeat",
 				label: "周期",
 				name: "repeat"
 			},
@@ -15306,12 +15006,12 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "周期",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
@@ -15328,9 +15028,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -15348,7 +15046,7 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "reset-control",
+			return t.rendererName = "reset",
 			t.name = "重置",
 			t.icon = "fa fa-eraser",
 			t.panelTitle = "重置",
@@ -15356,7 +15054,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(25).ButtonControlPlugin);
+	} (a(19).ButtonPlugin);
 	t.ResetControlPlugin = i,
 	l.registerEditorPlugin(i)
 },
@@ -15372,7 +15070,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "rich-text-control",
+			return t.rendererName = "input-rich-text",
 			t.$schema = "/schemas/RichTextControlSchema.json",
 			t.name = "富文本编辑器",
 			t.icon = "fa fa-newspaper-o",
@@ -15380,7 +15078,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/rich-text",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "rich-text",
+				type: "input-rich-text",
 				label: "富文本",
 				name: "rich-text"
 			},
@@ -15389,11 +15087,11 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "富文本",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
 				type: "textarea",
 				name: "value",
 				label: "默认值",
@@ -15414,12 +15112,12 @@ function(e, t, a) {
 			l.getSchemaTpl("fieldSet", {
 				title: "froala 设置项",
 				visibleOn: 'data.vendor === "froala"',
-				controls: [{
+				body: [{
 					type: "combo",
 					name: "options",
 					noBorder: !0,
 					multiLine: !0,
-					controls: [{
+					items: [{
 						type: "select",
 						name: "language",
 						label: "语言",
@@ -15481,19 +15179,19 @@ function(e, t, a) {
 			}), l.getSchemaTpl("fieldSet", {
 				title: "tinymce 设置项",
 				visibleOn: 'data.vendor === "tinymce"',
-				controls: [{
+				body: [{
 					type: "combo",
 					name: "options",
 					noBorder: !0,
 					multiLine: !0,
-					controls: [{
+					items: [{
 						type: "switch",
 						label: "是否显示菜单栏",
 						value: "true",
 						name: "menubar"
 					},
 					{
-						type: "number",
+						type: "input-number",
 						label: "高度",
 						min: 0,
 						value: 400,
@@ -15518,9 +15216,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -15534,12 +15230,14 @@ function(e, t, a) {
 	}),
 	t.SelectControlPlugin = void 0;
 	var n = a(0),
-	l = a(3),
-	i = a(1),
-	r = function(e) {
+	l = n.__importDefault(a(4)),
+	i = a(5),
+	r = a(3),
+	o = a(1),
+	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "select-control",
+			return t.rendererName = "select",
 			t.$schema = "/schemas/SelectControlSchema.json",
 			t.order = -480,
 			t.name = "下拉框",
@@ -15565,11 +15263,11 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "下拉框",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
+			t.panelBody = [r.getSchemaTpl("switchDefaultValue"), {
 				type: "select",
 				name: "value",
 				label: "默认值",
@@ -15584,7 +15282,7 @@ function(e, t, a) {
 				multiple: !0,
 				visibleOn: ' data.multiple && typeof this.value !== "undefined"'
 			},
-			l.getSchemaTpl("clearable"), {
+			r.getSchemaTpl("clearable"), {
 				label: "可检索",
 				name: "searchable",
 				type: "switch",
@@ -15598,27 +15296,31 @@ function(e, t, a) {
 				mode: "inline",
 				className: "w-full"
 			},
-			{
-				label: "是可创建",
-				name: "creatable",
-				type: "switch",
-				mode: "inline",
-				className: "w-full"
-			},
-			l.getSchemaTpl("fieldSet", {
+			r.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [l.getSchemaTpl("multiple"), {
+				body: [r.getSchemaTpl("multiple"), {
+					label: "选中内容以单行模式显示",
+					name: "valuesNoWrap",
+					type: "switch",
+					mode: "inline",
+					className: "w-full",
+					visibleOn: "this.multiple"
+				},
+				{
 					label: "可全选",
 					name: "checkAll",
 					type: "switch",
 					mode: "inline",
 					value: !1,
-					className: "w-full"
+					className: "w-full",
+					onChange: function(e, t, a, n) {
+						e && n.setValueByName("multiple", !0)
+					}
 				},
 				{
 					label: "自定义菜单模板",
 					name: "menuTpl",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					label: "默认全选",
@@ -15630,215 +15332,79 @@ function(e, t, a) {
 					className: "w-full"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "checkAllLabel",
 					label: '默认为 "全选" 的文字',
 					visibleOn: "this.checkAll",
 					value: "全选"
 				},
-				l.getSchemaTpl("options"), l.getSchemaTpl("source"), l.getSchemaTpl("api", {
+				r.getSchemaTpl("options"), r.getSchemaTpl("source"), r.getSchemaTpl("api", {
 					name: "autoComplete",
 					label: "自动完成接口",
 					description: "每次输入新内容后，将调用接口，根据接口返回更新选项。当前用户输入值在 <code>\\${term}</code> 中。"
-				}), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue")]
+				}), r.getSchemaTpl("joinValues"), r.getSchemaTpl("delimiter"), r.getSchemaTpl("extractValue"), r.getSchemaTpl("autoFill"), r.getSchemaTpl("creatable"), r.getSchemaTpl("createBtnLabel", {
+					visibleOn: "data.creatable"
+				}), r.getSchemaTpl("api", {
+					label: "新增选项接口",
+					name: "addApi",
+					visibleOn: "data.creatable"
+				}), {
+					name: "addControls",
+					visibleOn: "data.creatable",
+					pipeIn: r.defaultValue([{
+						type: "input-text",
+						name: "label",
+						label: !1,
+						placeholder: "请输入名称"
+					}]),
+					children: function(e) {
+						var a = e.value,
+						n = e.onChange;
+						e.data;
+						return l.
+					default.createElement(i.Button, {
+							size: "sm",
+							level: "danger",
+							className: "m-b",
+							onClick: function() {
+								t.manager.openSubEditor({
+									title: "配置新建选项表单项",
+									value: {
+										type: "dialog",
+										body: a || [{
+											type: "input-text",
+											name: "label",
+											label: !1,
+											placeholder: "请输入名称"
+										}]
+									},
+									onChange: function(e) {
+										return n(e, "addControls")
+									}
+								})
+							},
+							block: !0
+						},
+						"配置新建选项表单项")
+					}
+				},
+				r.getSchemaTpl("editable"), r.getSchemaTpl("api", {
+					label: "编辑选项接口",
+					name: "editApi"
+				}), r.getSchemaTpl("removable"), r.getSchemaTpl("api", {
+					label: "删除选项接口",
+					name: "deleteApi"
+				})]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
-	t.SelectControlPlugin = r,
-	i.registerEditorPlugin(r)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.ServiceControlPlugin = void 0;
-	var n = a(0),
-	l = n.__importDefault(a(4)),
-	i = a(5),
-	r = a(3),
-	o = a(1),
-	s = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "service-control",
-			t.$schema = "/schemas/ServiceControlSchema.json",
-			t.order = -199,
-			t.name = "服务(Service)",
-			t.icon = "fa fa-server",
-			t.description = "功能型容器，自身不负责展示内容，主要职责在于通过配置的 <code>api</code> 拉取数据，数据可用于子组件。通过<code>schemaApi</code>拉取远程<code>schema</code>渲染在当前页面",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/service",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "service",
-				controls: [{
-					type: "text",
-					label: "文本",
-					name: "text"
-				}]
-			},
-			t.previewSchema = {
-				type: "tpl",
-				tpl: "功能性组件，用于数据拉取。"
-			},
-			t.regions = [{
-				key: "controls",
-				label: "子表单项",
-				renderMethod: "renderBody",
-				preferTag: "表单项",
-				matchRegion: function(e, t) {
-					return Array.isArray(t.props.controls)
-				},
-				optional: !0
-			},
-			{
-				key: "body",
-				label: "子内容",
-				renderMethod: "renderBody",
-				matchRegion: function(e, t) {
-					return ! Array.isArray(t.props.controls)
-				},
-				insertPosition: "outter",
-				optional: !0
-			}],
-			t.panelTitle = "服务",
-			t.panelControlsCreator = function(e) {
-				return [{
-					label: "内容形式",
-					name: "__mode",
-					type: "button-group",
-					size: "xs",
-					description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
-					pipeIn: function(e, t) {
-						return Array.isArray(t.body) ? "other": "form"
-					},
-					onChange: function(e, t, a, n) {
-						"form" === e ? (n.setValues({
-							controls: n.data.__controls || [{
-								placeholder: "文本1",
-								type: "text",
-								name: "a",
-								label: !1
-							}],
-							__body: n.data.body
-						}), n.deleteValueByName("body")) : (n.setValues({
-							body: n.data.__body || [{
-								type: "tpl",
-								tpl: "内容",
-								inline: !1
-							}],
-							__controls: n.data.controls
-						}), n.deleteValueByName("controls"))
-					},
-					options: [{
-						label: "表单",
-						value: "form"
-					},
-					{
-						label: "其他",
-						value: "other"
-					}]
-				},
-				{
-					children: function(a) {
-						var n = a.data;
-						return l.
-					default.createElement(i.Button, {
-							size: "sm",
-							level: "info",
-							className: "m-b",
-							block: !0,
-							onClick: function() {
-								t.manager.showInsertPanel(Array.isArray(n.controls) ? "controls": "body", e.id)
-							}
-						},
-						"新增内容")
-					}
-				},
-				{
-					type: "divider"
-				},
-				r.getSchemaTpl("api", {
-					label: "数据接口"
-				}), {
-					name: "ws",
-					type: "text",
-					label: "WebSocket 实时更新接口"
-				},
-				r.getSchemaTpl("initFetch"), {
-					name: "interval",
-					label: "定时刷新间隔",
-					visibleOn: "this.api",
-					type: "number",
-					step: 500,
-					description: "设置后将自动定时刷新，单位 ms"
-				},
-				{
-					name: "silentPolling",
-					label: "静默加载",
-					mode: "inline",
-					className: "block",
-					type: "switch",
-					visibleOn: "!!data.interval",
-					description: "设置自动定时刷新是否显示加载动画"
-				},
-				{
-					name: "stopAutoRefreshWhen",
-					label: "停止定时刷新检测",
-					type: "text",
-					visibleOn: "!!data.interval",
-					description: "定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。"
-				},
-				{
-					type: "divider"
-				},
-				r.getSchemaTpl("api", {
-					name: "schemaApi",
-					label: "内容 Schema 接口"
-				}), {
-					type: "divider"
-				},
-				r.getSchemaTpl("initFetch", {
-					name: "initFetchSchema",
-					visibleOn: "data.schemaApi",
-					label: "初始是否拉取内容 Schema 接口"
-				}), {
-					label: "默认消息信息",
-					type: "combo",
-					name: "messages",
-					multiLine: !0,
-					description: "设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主",
-					controls: [{
-						label: "获取成功",
-						type: "text",
-						name: "fetchSuccess"
-					},
-					{
-						label: "获取失败",
-						type: "text",
-						name: "fetchFailed"
-					}]
-				}]
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(2).BasePlugin);
-	t.ServiceControlPlugin = s,
+	t.SelectControlPlugin = s,
 	o.registerEditorPlugin(s)
 },
 function(e, t, a) {
@@ -15853,11 +15419,11 @@ function(e, t, a) {
 	r = a(3),
 	o = a(1),
 	s = a(2),
-	d = a(26),
-	c = function(e) {
+	d = a(21),
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "static-control",
+			return t.rendererName = "static",
 			t.$schema = "/schemas/StaticControlSchema.json",
 			t.order = -390,
 			t.name = "静态展示框",
@@ -15874,14 +15440,14 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "静态值"
 				})]
 			},
 			t.multifactor = !0,
 			t.panelTitle = "静态展示",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
 					children: l.
 				default.createElement(i.Button, {
@@ -15894,7 +15460,7 @@ function(e, t, a) {
 					"更改渲染器类型")
 				},
 				r.getSchemaTpl("switchDefaultValue"), {
-					type: "text",
+					type: "input-text",
 					name: "value",
 					label: "默认值",
 					visibleOn: 'typeof this.value !== "undefined"'
@@ -15912,7 +15478,7 @@ function(e, t, a) {
 				{
 					visibleOn: "data.quickEdit",
 					name: "quickEdit.mode",
-					type: "button-group",
+					type: "button-group-select",
 					value: "popOver",
 					label: "快速编辑模式",
 					size: "xs",
@@ -15954,7 +15520,7 @@ function(e, t, a) {
 						o = e.data; ! 0 === a && (a = {});
 						var s = a.mode;
 						return delete(a = n.__assign({
-							type: "text",
+							type: "input-text",
 							name: o.name
 						},
 						a)).mode,
@@ -15971,14 +15537,14 @@ function(e, t, a) {
 									slot: {
 										type: "form",
 										mode: "normal",
-										controls: ["$$"],
+										body: ["$$"],
 										wrapWithPanel: !1
 									},
 									onChange: function(e) {
 										return r(n.__assign(n.__assign({},
 										e), {
 											mode: s
-										}))
+										}), "quickEdit")
 									}
 								})
 							}
@@ -16080,7 +15646,9 @@ function(e, t, a) {
 								t.manager.openSubEditor({
 									title: "配置查看更多展示内容",
 									value: a,
-									onChange: r
+									onChange: function(e) {
+										return r(e, "quickEdit")
+									}
 								})
 							}
 						},
@@ -16114,17 +15682,15 @@ function(e, t, a) {
 			e
 		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.exchangeRenderer = function(e) {
 			this.manager.showReplacePanel(e, "展示")
 		},
 		t
 	} (s.BasePlugin);
-	t.StaticControlPlugin = c,
-	o.registerEditorPlugin(c)
+	t.StaticControlPlugin = u,
+	o.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -16141,7 +15707,7 @@ function(e, t, a) {
 	d = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "form-control",
+			return t.rendererName = "input-sub-form",
 			t.$schema = "/schemas/SubFormControlSchema.json",
 			t.name = "子表单项",
 			t.icon = "fa fa-window-restore",
@@ -16149,13 +15715,13 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/subform",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "form",
+				type: "input-sub-form",
 				name: "subform",
 				label: "子表单",
 				form: {
 					title: "标题",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						label: "文本",
 						name: "text"
 					}]
@@ -16166,11 +15732,11 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "子表单项",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
 					children: function(a) {
 						a.value,
@@ -16188,7 +15754,7 @@ function(e, t, a) {
 				},
 				{
 					name: "labelField",
-					type: "text",
+					type: "input-text",
 					value: "label",
 					label: "名称字段名",
 					description: "当值中存在这个字段，则按钮名称将使用此字段的值来展示。"
@@ -16197,28 +15763,26 @@ function(e, t, a) {
 					name: "btnLabel",
 					label: "按钮标签名",
 					value: "设置",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					name: "minLength",
 					visibleOn: "data.multiple",
 					label: "允许最少个数",
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "maxLength",
 					visibleOn: "data.multiple",
 					label: "允许最多个数",
-					type: "number"
+					type: "input-number"
 				}]
 			},
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t.prototype.filterProps = function(e) {
 			return (e = s.JSONPipeOut(e)).value || (e.value = [""]),
@@ -16226,7 +15790,7 @@ function(e, t, a) {
 		},
 		t.prototype.buildEditorToolbar = function(e, t) {
 			var a = e.id;
-			"form-control" === e.info.renderer.name && t.push({
+			"input-sub-form" === e.info.renderer.name && t.push({
 				icon: "fa fa-expand",
 				order: 100,
 				tooltip: "配置成员渲染器",
@@ -16237,7 +15801,7 @@ function(e, t, a) {
 			var a = e.id;
 			e.schema,
 			e.region;
-			"form-control" === e.info.renderer.name && t.push("|", {
+			"input-sub-form" === e.info.renderer.name && t.push("|", {
 				label: "配置成员渲染器",
 				onSelect: this.editDetail.bind(this, a)
 			})
@@ -16251,29 +15815,29 @@ function(e, t, a) {
 				var r = i.form,
 				o = r.title,
 				d = r.actions,
-				c = r.name,
-				u = r.size,
-				p = r.closeOnEsc,
+				u = r.name,
+				p = r.size,
+				c = r.closeOnEsc,
 				m = r.showCloseButton,
-				f = r.bodyClassName,
-				h = (r.type, n.__rest(r, ["title", "actions", "name", "size", "closeOnEsc", "showCloseButton", "bodyClassName", "type"])),
-				g = {
+				h = r.bodyClassName,
+				f = (r.type, n.__rest(r, ["title", "actions", "name", "size", "closeOnEsc", "showCloseButton", "bodyClassName", "type"])),
+				b = {
 					title: o,
 					actions: d,
-					name: c,
-					size: u,
-					closeOnEsc: p,
+					name: u,
+					size: p,
+					closeOnEsc: c,
 					showCloseButton: m,
-					bodyClassName: f,
+					bodyClassName: h,
 					type: "dialog",
 					body: n.__assign({
 						type: "form"
 					},
-					h)
+					f)
 				};
 				this.manager.openSubEditor({
 					title: "配置子表单项",
-					value: g,
+					value: b,
 					memberImmutable: ["body"],
 					onChange: function(e) {
 						var a = e.body[0];
@@ -16304,14 +15868,14 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "submit-control",
+			return t.rendererName = "submit",
 			t.name = "提交",
 			t.panelTitle = "提交",
 			t
 		}
 		return n.__extends(t, e),
 		t
-	} (a(25).ButtonControlPlugin);
+	} (a(19).ButtonPlugin);
 	t.SubmitControlPlugin = i,
 	l.registerEditorPlugin(i)
 },
@@ -16327,7 +15891,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "switch-control",
+			return t.rendererName = "switch",
 			t.$schema = "/schemas/SwitchControlSchema.json",
 			t.order = -400,
 			t.name = "开关",
@@ -16345,13 +15909,13 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: [n.__assign(n.__assign({},
+				body: [n.__assign(n.__assign({},
 				t.scaffold), {
 					label: "开关表单"
 				})]
 			},
 			t.panelTitle = "开关",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue", {
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue", {
 				pipeOut: function(e, t, a) {
 					return e ? a.trueValue: void 0
 				}
@@ -16368,13 +15932,13 @@ function(e, t, a) {
 			},
 			{
 				name: "option",
-				type: "text",
+				type: "input-text",
 				label: "选项说明"
 			},
 			{
 				label: "选项位置",
 				name: "optionAtLeft",
-				type: "button-group",
+				type: "button-group-select",
 				size: "sm",
 				value: !1,
 				options: [{
@@ -16387,14 +15951,14 @@ function(e, t, a) {
 				}]
 			},
 			{
-				type: "text",
+				type: "input-text",
 				label: "勾选后的值",
 				name: "trueValue",
 				value: !0,
 				pipeOut: l.valuePipeOut
 			},
 			{
-				type: "text",
+				type: "input-text",
 				label: "未勾选的值",
 				name: "falseValue",
 				value: !1,
@@ -16402,21 +15966,19 @@ function(e, t, a) {
 			},
 			{
 				name: "onText",
-				type: "text",
+				type: "input-text",
 				label: "开启时的文本"
 			},
 			{
 				name: "offText",
-				type: "text",
+				type: "input-text",
 				label: "关闭时的文本"
 			}],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -16430,11 +15992,18 @@ function(e, t, a) {
 	}),
 	t.TableControlPlugin = void 0;
 	var n = a(0),
-	l = a(1),
-	i = function(e) {
+	l = a(5),
+	i = n.__importDefault(a(17)),
+	r = a(3),
+	o = a(1),
+	s = a(2),
+	d = a(9),
+	u = a(6),
+	p = a(21),
+	c = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "table-control",
+			return t.rendererName = "input-table",
 			t.$schema = "/schemas/TableControlSchema.json",
 			t.name = "表格编辑框",
 			t.icon = "fa fa-table",
@@ -16442,31 +16011,39 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/table",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "table",
+				type: "input-table",
 				name: "table",
 				label: "表格表单",
 				columns: [{
 					label: "color",
 					name: "color",
 					quickEdit: {
-						type: "color"
+						type: "input-color"
 					}
 				},
 				{
 					label: "说明文字",
 					name: "name",
 					quickEdit: {
-						type: "text",
+						type: "input-text",
 						mode: "inline"
 					}
-				}]
+				}],
+				strictMode: !0
 			},
+			t.regions = [{
+				key: "columns",
+				label: "列集合",
+				renderMethod: "renderTableContent",
+				preferTag: "展示",
+				dndMode: "position-h"
+			}],
 			t.previewSchema = {
 				type: "form",
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: n.__assign(n.__assign({},
+				body: n.__assign(n.__assign({},
 				t.scaffold), {
 					value: [{
 						color: "green",
@@ -16474,243 +16051,275 @@ function(e, t, a) {
 					}]
 				})
 			},
-			t.panelTitle = "表格编辑",
-			t.panelControls = [],
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (a(2).BasePlugin);
-	t.TableControlPlugin = i,
-	l.registerEditorPlugin(i)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.TabsControlPlugin = void 0;
-	var n = a(0),
-	l = a(5),
-	i = n.__importDefault(a(4)),
-	r = a(16),
-	o = a(3),
-	s = a(15),
-	d = a(1),
-	c = a(43),
-	u = a(13),
-	p = n.__importDefault(a(11)),
-	m = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "tabs-control",
-			t.$schema = "/schemas/TabsControlSchema.json",
-			t.name = "选项卡(Tabs)",
-			t.icon = "fa fa-folder-o",
-			t.description = "可以将多个表单项通过选项卡的方式分组",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/tabs",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "tabs",
-				tabs: [{
-					title: "选项卡1",
-					controls: [{
-						label: "文本",
-						name: "text1",
-						type: "text"
-					}]
-				},
-				{
-					title: "选项卡2",
-					controls: [{
-						label: "文本",
-						name: "text1",
-						type: "text"
-					}]
-				}]
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: n.__assign({},
-				t.scaffold)
-			},
-			t.patchContainers = ["tabs.body", "tabs.controls"],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					},
-					controls: {
-						key: "controls",
-						label: "子表单项",
-						preferTag: "表单项"
-					}
-				},
-				panelTitle: "卡片",
-				panelControls: [o.getSchemaTpl("fieldSet", {
-					title: "常规",
-					controls: [{
-						name: "title",
-						label: "标题",
-						type: "text",
-						required: !0
-					},
-					o.getSchemaTpl("icon"), {
-						label: "Hash",
-						name: "hash",
-						type: "text",
-						description: "设置后，会同步更新地址栏的 Hash。"
+			t.scaffoldForm = {
+				title: "快速构建表格",
+				body: [{
+					name: "columns",
+					type: "combo",
+					multiple: !0,
+					label: !1,
+					addButtonText: "新增一列",
+					draggable: !0,
+					items: [{
+						type: "input-text",
+						name: "label",
+						placeholder: "标题"
 					},
 					{
-						label: "内容形式",
-						name: "__mode",
-						type: "button-group",
-						size: "xs",
-						description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
-						pipeIn: function(e, t) {
-							return Array.isArray(t.body) ? "other": "form"
-						},
-						onChange: function(e, t, a, n) {
-							"form" === e ? (n.setValues({
-								controls: n.data.__controls || [{
-									placeholder: "文本1",
-									type: "text",
-									name: "a",
-									label: !1
-								}],
-								__body: n.data.body
-							}), n.deleteValueByName("body")) : (n.setValues({
-								body: n.data.__body || [{
-									type: "tpl",
-									tpl: "内容",
-									inline: !1
-								}],
-								__controls: n.data.controls
-							}), n.deleteValueByName("controls"))
-						},
+						type: "input-text",
+						name: "name",
+						placeholder: "绑定字段名"
+					},
+					{
+						type: "select",
+						name: "type",
+						placeholder: "类型",
+						value: "input-text",
 						options: [{
-							label: "表单",
-							value: "form"
+							value: "text",
+							label: "纯文本"
 						},
 						{
-							label: "其他",
-							value: "other"
+							value: "tpl",
+							label: "模板"
+						},
+						{
+							value: "image",
+							label: "图片"
+						},
+						{
+							value: "date",
+							label: "日期"
+						},
+						{
+							value: "progress",
+							label: "进度"
+						},
+						{
+							value: "status",
+							label: "状态"
+						},
+						{
+							value: "mapping",
+							label: "映射"
+						},
+						{
+							value: "operation",
+							label: "操作栏"
 						}]
 					}]
-				}), o.getSchemaTpl("fieldSet", {
-					title: "外观",
-					controls: [o.getSchemaTpl("className")],
-					collapsed: !0
-				}), o.getSchemaTpl("fieldSet", {
-					title: "其他",
-					controls: [{
-						type: "switch",
-						name: "reload",
-						label: "内容刷新",
-						mode: "inline",
-						className: "block",
-						description: "配置后，每次点开内容都会重新刷新，如果配置了，下面两个选项就不用配置了。"
-					},
-					{
-						type: "switch",
-						name: "mountOnEnter",
-						visibleOn: "!this.reload",
-						label: "激活时才渲染",
-						mode: "inline",
-						className: "block",
-						description: "设置后选项卡的内容只有点开才会渲染，如果有选项卡放的可拉取接口的组件，那么这个接口只有在点开的时候才会拉取。"
-					},
-					{
-						visibleOn: "!this.reload",
-						type: "switch",
-						name: "unmountOnExit",
-						label: "隐藏即销毁",
-						mode: "inline",
-						className: "block",
-						description: "设置后，如果选项卡内容关闭则销毁，配置「激活时才渲染」选项可以做到卡片内容每次点开都重新加载的效果。"
-					},
-					o.getSchemaTpl("visible"), o.getSchemaTpl("disabled")]
-				})]
+				}],
+				canRebuild: !0
 			},
-			t.overrides = {
-				renderTabs: function() {
-					var e = this,
-					t = this.super();
-					if (this.renderTab && this.props.$$editor && t) {
-						var a = this.props.tabs;
-						return r.mapReactElement(t, (function(t) {
-							if (t.type === l.Tab && t.props.$$id) {
-								var n = t.props.$$id,
-								r = p.
-							default(a, (function(e) {
-									return e.$$id === n
-								})),
-								o = a[r],
-								d = e.props.$$editor,
-								c = d.plugin;
-								if (~r) {
-									var m = Array.isArray(o.controls) ? c.vRendererConfig.regions.controls: c.vRendererConfig.regions.body;
-									return i.
-								default.cloneElement(t, {
-										children: i.
-									default.createElement(s.VRenderer, {
-											plugin: d.plugin,
-											renderer: d.renderer,
-											key: n,
-											$schema: "/schemas/TabControlSchema.json",
-											hostId: d.id,
-											memberIndex: r,
-											name: "" + (t.props.title || "卡片" + (r + 1)),
-											id: n,
-											draggable: !1,
-											wrapperResolve: c.tabWrapperResolve,
-											schemaPath: d.schemaPath + "/tabs/" + r,
-											path: e.props.$path + "/" + r,
-											data: e.props.data
-										},
-										i.
-									default.createElement(u.RegionWrapper, {
-											key: m.key,
-											preferTag: m.preferTag,
-											name: m.key,
-											label: m.label,
-											regionConfig: m,
-											editorStore: c.manager.store,
-											manager: c.manager,
-											children: t.props.children,
-											wrapperResolve: m.wrapperResolve,
-											rendererName: d.renderer.name
-										}))
-									})
-								}
-							}
-							return t
-						}))
-					}
-					return t
-				}
+			t.panelTitle = "表格编辑",
+			t.panelBodyCreator = function(e) {
+				e.schema.type;
+				return r.getSchemaTpl("tabs", [{
+					title: "常规",
+					body: i.
+				default([r.getSchemaTpl("formItemName", {
+						required: !0
+					}), r.getSchemaTpl("label"), r.getSchemaTpl("description"), {
+						label: "是否可新增",
+						type: "switch",
+						name: "addable",
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						type: "input-text",
+						name: "addBtnLabel",
+						label: "增加按钮名称",
+						visibleOn: "data.addable",
+						pipeIn: r.defaultValue("")
+					},
+					{
+						name: "addBtnIcon",
+						label: "增加按钮图标",
+						type: "icon-picker",
+						visibleOn: "data.addable"
+					},
+					r.getSchemaTpl("api", {
+						name: "addApi",
+						label: "新增时提交的 API",
+						visibleOn: "data.addable"
+					}), {
+						label: "是否可删除",
+						type: "switch",
+						name: "removable",
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						type: "input-text",
+						name: "deleteBtnLabel",
+						label: "删除按钮名称",
+						visibleOn: "data.removable",
+						pipeIn: r.defaultValue("")
+					},
+					{
+						name: "deleteBtnIcon",
+						label: "删除按钮图标",
+						type: "icon-picker",
+						visibleOn: "data.removable"
+					},
+					r.getSchemaTpl("api", {
+						name: "deleteApi",
+						label: "删除时提交的 API",
+						visibleOn: "data.removable"
+					}), {
+						label: "是否可修改",
+						type: "switch",
+						name: "editable",
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						type: "input-text",
+						name: "updateBtnLabel",
+						label: "更新按钮名称",
+						visibleOn: "data.editable",
+						pipeIn: r.defaultValue("")
+					},
+					{
+						name: "updateBtnIcon",
+						label: "更新按钮图标",
+						type: "icon-picker",
+						visibleOn: "data.editable"
+					},
+					r.getSchemaTpl("api", {
+						name: "updateApi",
+						label: "修改时提交的 API",
+						visibleOn: "data.editable"
+					}), {
+						type: "input-text",
+						name: "confirmBtnLabel",
+						label: "确认编辑按钮名称",
+						visibleOn: "data.editable",
+						pipeIn: r.defaultValue("")
+					},
+					{
+						name: "confirmBtnIcon",
+						label: "确认编辑按钮图标",
+						type: "icon-picker",
+						visibleOn: "data.editable"
+					},
+					{
+						type: "input-text",
+						name: "cancelBtnLabel",
+						label: "取消编辑按钮名称",
+						visibleOn: "data.editable",
+						pipeIn: r.defaultValue("")
+					},
+					{
+						name: "cancelBtnIcon",
+						label: "取消编辑按钮图标",
+						type: "icon-picker",
+						visibleOn: "data.editable"
+					},
+					{
+						label: "是否可拖拽排序",
+						type: "switch",
+						name: "draggable",
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						label: "确认模式",
+						type: "switch",
+						name: "needConfirm",
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						label: "严格模式",
+						type: "switch",
+						name: "strictMode",
+						value: !0,
+						mode: "inline",
+						className: "w-full"
+					},
+					{
+						label: "获取父级数据",
+						labelRemark: {
+							trigger: "click",
+							className: "m-l-xs",
+							rootClose: !0,
+							content: '配置"canAccessSuperData": true 同时配置 "strictMode": false 开启此特性，初始会自动映射父级数据域的同名变量。需要注意的是，这里只会初始会映射，一旦修改过就是当前行数据为主了。也就是说，表单项类型的，只会起到初始值的作用',
+							placement: "left"
+						},
+						type: "switch",
+						onChange: function(e, t, a, n) {
+							e && !t ? n.setValues({
+								strictMode: !1
+							}) : n.setValues({
+								strictMode: !0
+							})
+						},
+						name: "canAccessSuperData",
+						mode: "inline",
+						className: "w-full"
+					}])
+				},
+				{
+					title: "外观",
+					body: [r.getSchemaTpl("formItemMode"), r.getSchemaTpl("horizontalMode"), r.getSchemaTpl("horizontal", {
+						label: "",
+						visibleOn: '(data.$$formMode == "horizontal" || data.mode == "horizontal") && data.label !== false && data.horizontal'
+					}), r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+						label: "Label CSS 类名",
+						name: "labelClassName"
+					}), r.getSchemaTpl("className", {
+						label: "Input CSS 类名",
+						name: "inputClassName"
+					}), r.getSchemaTpl("className", {
+						label: "描述 CSS 类名",
+						name: "descriptionClassName",
+						visibleOn: "data.description"
+					})]
+				},
+				{
+					title: "其他",
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("required"), r.getSchemaTpl("validateOnChange"), r.getSchemaTpl("submitOnChange"), r.getSchemaTpl("disabled"), r.getSchemaTpl("visible")]
+				}])
 			},
 			t
 		}
 		return n.__extends(t, e),
+		t.prototype.filterProps = function(e) {
+			var t = Array.isArray(e.value) ? e.value: "string" == typeof e.source ? l.resolveVariable(e.source, e.data) : l.resolveVariable("${items}", e.data);
+			if (Array.isArray(t) && t.length) e.value = t.slice(0, 10);
+			else {
+				var a = {};
+				Array.isArray(e.columns) && e.columns.forEach((function(e) {
+					e.name && d.setVariable(a, e.name, p.mockValue(e))
+				})),
+				e.value = u.repeatArray(a, 1).map((function(e, t) {
+					return n.__assign(n.__assign({},
+					e), {
+						id: t + 1
+					})
+				}))
+			}
+			return e
+		},
+		t.prototype.exchangeRenderer = function(e) {
+			this.manager.showReplacePanel(e, "展示")
+		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
+		},
+		t.prototype.beforeInsert = function(e) {
+			var t, a, l, i, r = e.context;
+			r.info.plugin !== this && (null === (t = r.node.sameIdChild) || void 0 === t ? void 0 : t.info.plugin) !== this || "columns" !== r.region || (r.data = n.__assign(n.__assign({},
+			r.data), {
+				label: null !== (i = null !== (a = r.data.label) && void 0 !== a ? a: null === (l = r.subRenderer) || void 0 === l ? void 0 : l.name) && void 0 !== i ? i: "列名称"
+			}))
 		},
 		t
-	} (c.TabsPlugin);
-	t.TabsControlPlugin = m,
-	d.registerEditorPlugin(m)
+	} (s.BasePlugin);
+	t.TableControlPlugin = c,
+	o.registerEditorPlugin(c)
 },
 function(e, t, a) {
 	"use strict";
@@ -16724,7 +16333,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "tag-control",
+			return t.rendererName = "input-tag",
 			t.$schema = "/schemas/TagControlSchema.json",
 			t.order = -420,
 			t.name = "标签",
@@ -16733,7 +16342,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/tag",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "tag",
+				type: "input-tag",
 				label: "标签",
 				name: "tag",
 				options: ["红色", "绿色", "蓝色"]
@@ -16743,44 +16352,264 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign(n.__assign({},
+				body: n.__assign(n.__assign({},
 				t.scaffold), {
 					value: "红色"
 				})
 			},
 			t.panelTitle = "标签",
-			t.panelControls = [{
-				type: "text",
+			t.panelBody = [{
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
 			},
 			l.getSchemaTpl("clearable"), l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [l.getSchemaTpl("options", {
+				body: [l.getSchemaTpl("options", {
 					visibleOn: "data.autoComplete !== false",
 					description: "设置选项后，输入时会下拉这些选项供用户参考。"
 				}), l.getSchemaTpl("source", {
 					visibleOn: "data.autoComplete !== false"
 				}), {
-					type: "text",
+					type: "input-text",
 					name: "optionsTip",
 					label: "选项提示",
 					value: "最近您使用的标签"
 				},
-				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue")]
+				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
 	t.TagControlPlugin = r,
+	i.registerEditorPlugin(r)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.TabsTransferPlugin = void 0;
+	var n = a(0),
+	l = a(3),
+	i = a(1),
+	r = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "tabs-transfer",
+			t.$schema = "/schemas/TransferControlSchema.json",
+			t.name = "组合穿梭器",
+			t.icon = "fa fa-th-list",
+			t.description = "组合穿梭器组件",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/transfer",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				label: "组合穿梭器",
+				type: "tabs-transfer",
+				name: "a",
+				sortable: !0,
+				searchable: !0,
+				options: [{
+					label: "成员",
+					selectMode: "tree",
+					children: [{
+						label: "法师",
+						children: [{
+							label: "诸葛亮",
+							value: "zhugeliang"
+						}]
+					},
+					{
+						label: "战士",
+						children: [{
+							label: "曹操",
+							value: "caocao"
+						},
+						{
+							label: "钟无艳",
+							value: "zhongwuyan"
+						}]
+					},
+					{
+						label: "打野",
+						children: [{
+							label: "李白",
+							value: "libai"
+						},
+						{
+							label: "韩信",
+							value: "hanxin"
+						},
+						{
+							label: "云中君",
+							value: "yunzhongjun"
+						}]
+					}]
+				},
+				{
+					label: "用户",
+					selectMode: "chained",
+					children: [{
+						label: "法师",
+						children: [{
+							label: "诸葛亮",
+							value: "zhugeliang2"
+						}]
+					},
+					{
+						label: "战士",
+						children: [{
+							label: "曹操",
+							value: "caocao2"
+						},
+						{
+							label: "钟无艳",
+							value: "zhongwuyan2"
+						}]
+					},
+					{
+						label: "打野",
+						children: [{
+							label: "李白",
+							value: "libai2"
+						},
+						{
+							label: "韩信",
+							value: "hanxin2"
+						},
+						{
+							label: "云中君",
+							value: "yunzhongjun2"
+						}]
+					}]
+				}]
+			},
+			t.previewSchema = {
+				type: "form",
+				className: "text-left",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
+			},
+			t.panelTitle = "组合穿梭器",
+			t.panelDefinitions = {
+				options: {
+					label: "选项 Options",
+					name: "options",
+					type: "combo",
+					multiple: !0,
+					multiLine: !0,
+					draggable: !0,
+					addButtonText: "新增选项",
+					scaffold: {
+						label: "",
+						value: ""
+					},
+					items: [{
+						type: "group",
+						body: [{
+							type: "input-text",
+							name: "label",
+							placeholder: "名称",
+							required: !0
+						},
+						{
+							type: "input-text",
+							name: "value",
+							placeholder: "值",
+							unique: !0
+						}]
+					},
+					{
+						$ref: "options",
+						label: "子选项",
+						name: "children",
+						addButtonText: "新增子选项"
+					}]
+				}
+			},
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "select",
+				name: "value",
+				label: "默认值",
+				source: "${options}",
+				multiple: !0,
+				visibleOn: 'typeof this.value !== "undefined"'
+			},
+			{
+				label: "可检索",
+				name: "searchable",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			l.getSchemaTpl("api", {
+				label: "检索接口",
+				name: "searchApi"
+			}), {
+				label: "查询时勾选展示模式",
+				name: "searchResultMode",
+				type: "select",
+				mode: "inline",
+				className: "w-full",
+				options: [{
+					label: "列表形式",
+					value: "list"
+				},
+				{
+					label: "表格形式",
+					value: "table"
+				},
+				{
+					label: "树形选择形式",
+					value: "tree"
+				},
+				{
+					label: "级联选择形式",
+					value: "chained"
+				}]
+			},
+			{
+				label: "可排序",
+				name: "sortable",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			{
+				label: "左侧的标题文字",
+				name: "selectTitle",
+				type: "input-text"
+			},
+			{
+				label: "右侧结果的标题文字",
+				name: "resultTitle",
+				type: "input-text"
+			},
+			l.getSchemaTpl("fieldSet", {
+				title: "选项",
+				body: [{
+					$ref: "options",
+					name: "options"
+				},
+				l.getSchemaTpl("source"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
+			})],
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildSubRenderers = function(t, a) {
+			return e.prototype.buildSubRenderers.call(this, t, a)
+		},
+		t
+	} (a(2).BasePlugin);
+	t.TabsTransferPlugin = r,
 	i.registerEditorPlugin(r)
 },
 function(e, t, a) {
@@ -16795,7 +16624,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "textarea-control",
+			return t.rendererName = "textarea",
 			t.$schema = "/schemas/TextareaControlSchema.json",
 			t.order = -490,
 			t.name = "多行文本框",
@@ -16813,24 +16642,24 @@ function(e, t, a) {
 				className: "text-left",
 				wrapWithPanel: !1,
 				mode: "horizontal",
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "多行文本",
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
 				type: "textarea",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "minRows",
 				value: 3,
 				label: "最小行数"
 			},
 			{
-				type: "number",
+				type: "input-number",
 				name: "maxRows",
 				value: 20,
 				label: "最大行数"
@@ -16852,13 +16681,334 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
 	t.TextareaControlPlugin = r,
+	i.registerEditorPlugin(r)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.TransferPlugin = void 0;
+	var n = a(0),
+	l = a(3),
+	i = a(1),
+	r = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "transfer",
+			t.$schema = "/schemas/TransferControlSchema.json",
+			t.name = "穿梭器",
+			t.icon = "fa fa-th-list",
+			t.description = "穿梭器组件",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/transfer",
+			t.tags = ["表单项"],
+			t.scaffold = {
+				label: "分组",
+				type: "transfer",
+				name: "transfer",
+				options: [{
+					label: "法师",
+					children: [{
+						label: "诸葛亮",
+						value: "zhugeliang"
+					}]
+				},
+				{
+					label: "战士",
+					children: [{
+						label: "曹操",
+						value: "caocao"
+					},
+					{
+						label: "钟无艳",
+						value: "zhongwuyan"
+					}]
+				},
+				{
+					label: "打野",
+					children: [{
+						label: "李白",
+						value: "libai"
+					},
+					{
+						label: "韩信",
+						value: "hanxin"
+					},
+					{
+						label: "云中君",
+						value: "yunzhongjun"
+					}]
+				}]
+			},
+			t.previewSchema = {
+				type: "form",
+				className: "text-left",
+				mode: "horizontal",
+				wrapWithPanel: !1,
+				body: [n.__assign({},
+				t.scaffold)]
+			},
+			t.panelTitle = "穿梭器",
+			t.panelDefinitions = {
+				options: {
+					label: "选项 Options",
+					name: "options",
+					type: "combo",
+					multiple: !0,
+					multiLine: !0,
+					draggable: !0,
+					addButtonText: "新增选项",
+					scaffold: {
+						label: "",
+						value: ""
+					},
+					items: [{
+						type: "group",
+						body: [{
+							type: "input-text",
+							name: "label",
+							placeholder: "名称",
+							required: !0
+						},
+						{
+							type: "input-text",
+							name: "value",
+							placeholder: "值",
+							unique: !0
+						}]
+					},
+					{
+						$ref: "options",
+						label: "子选项",
+						name: "children",
+						addButtonText: "新增子选项"
+					}]
+				}
+			},
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "select",
+				name: "value",
+				label: "默认值",
+				source: "${options}",
+				visibleOn: '!data.multiple && typeof this.value !== "undefined"'
+			},
+			{
+				type: "select",
+				name: "value",
+				label: "默认值",
+				source: "${options}",
+				multiple: !0,
+				visibleOn: ' data.multiple && typeof this.value !== "undefined"'
+			},
+			{
+				label: "勾选展示模式",
+				name: "selectMode",
+				type: "select",
+				mode: "inline",
+				className: "w-full",
+				options: [{
+					label: "列表形式",
+					value: "list"
+				},
+				{
+					label: "表格形式",
+					value: "table"
+				},
+				{
+					label: "树形选择形式",
+					value: "tree"
+				},
+				{
+					label: "级联选择形式",
+					value: "chained"
+				},
+				{
+					label: "关联选择形式",
+					value: "associated"
+				}]
+			},
+			{
+				name: "columns",
+				type: "combo",
+				multiple: !0,
+				label: !1,
+				strictMode: !1,
+				addButtonText: "新增一列",
+				draggable: !1,
+				visibleOn: 'data.selectMode === "table"',
+				items: [{
+					type: "input-text",
+					name: "label",
+					placeholder: "标题"
+				},
+				{
+					type: "input-text",
+					name: "name",
+					placeholder: "绑定字段名"
+				},
+				{
+					type: "select",
+					name: "type",
+					placeholder: "类型",
+					value: "input-text",
+					options: [{
+						value: "text",
+						label: "纯文本"
+					},
+					{
+						value: "tpl",
+						label: "模板"
+					},
+					{
+						value: "image",
+						label: "图片"
+					},
+					{
+						value: "date",
+						label: "日期"
+					},
+					{
+						value: "progress",
+						label: "进度"
+					},
+					{
+						value: "status",
+						label: "状态"
+					},
+					{
+						value: "mapping",
+						label: "映射"
+					},
+					{
+						value: "operation",
+						label: "操作栏"
+					}]
+				}]
+			},
+			{
+				$ref: "options",
+				label: "左边的选项集",
+				name: "leftOptions",
+				visibleOn: 'data.selectMode === "associated"'
+			},
+			{
+				label: "左侧选择形式",
+				name: "leftMode",
+				type: "select",
+				mode: "inline",
+				className: "w-full",
+				visibleOn: 'data.selectMode === "associated"',
+				options: [{
+					label: "列表形式",
+					value: "list"
+				},
+				{
+					label: "树形选择形式",
+					value: "tree"
+				}]
+			},
+			{
+				label: "右侧选择形式",
+				name: "rightMode",
+				type: "select",
+				mode: "inline",
+				className: "w-full",
+				visibleOn: 'data.selectMode === "associated"',
+				options: [{
+					label: "列表形式",
+					value: "list"
+				},
+				{
+					label: "树形选择形式",
+					value: "tree"
+				}]
+			},
+			{
+				label: "可检索",
+				name: "searchable",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			l.getSchemaTpl("api", {
+				label: "检索接口",
+				name: "searchApi"
+			}), {
+				label: "查询时勾选展示模式",
+				name: "searchResultMode",
+				type: "select",
+				mode: "inline",
+				className: "w-full",
+				options: [{
+					label: "列表形式",
+					value: "list"
+				},
+				{
+					label: "表格形式",
+					value: "table"
+				},
+				{
+					label: "树形选择形式",
+					value: "tree"
+				},
+				{
+					label: "级联选择形式",
+					value: "chained"
+				}]
+			},
+			{
+				label: "可排序",
+				name: "sortable",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			{
+				label: "是否默认选择第一个",
+				name: "selectFirst",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			{
+				label: "是否显示统计数据",
+				name: "statistics",
+				type: "switch",
+				mode: "inline",
+				className: "w-full"
+			},
+			{
+				label: "左侧的标题文字",
+				name: "selectTitle",
+				type: "input-text"
+			},
+			{
+				label: "右侧结果的标题文字",
+				name: "resultTitle",
+				type: "input-text"
+			},
+			l.getSchemaTpl("fieldSet", {
+				title: "选项",
+				body: [{
+					$ref: "options",
+					name: "options"
+				},
+				l.getSchemaTpl("source"), l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
+			})],
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildSubRenderers = function(t, a) {
+			return e.prototype.buildSubRenderers.call(this, t, a)
+		},
+		t
+	} (a(2).BasePlugin);
+	t.TransferPlugin = r,
 	i.registerEditorPlugin(r)
 },
 function(e, t, a) {
@@ -16874,7 +17024,7 @@ function(e, t, a) {
 	o = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "time-control",
+			return t.rendererName = "input-time",
 			t.$schema = "/schemas/TimeControlSchema.json",
 			t.name = "时间框",
 			t.icon = "fa fa-clock-o",
@@ -16882,7 +17032,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/time",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "time",
+				type: "input-time",
 				label: "时间",
 				name: "time"
 			},
@@ -16891,12 +17041,12 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "时间框",
-			t.panelControls = [i.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [i.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"',
@@ -16910,8 +17060,8 @@ function(e, t, a) {
 				collapsable: !0,
 				className: "fieldset",
 				visibleOn: 'typeof this.value !== "undefined"',
-				controls: [{
-					type: "time",
+				body: [{
+					type: "input-time",
 					name: "value",
 					pipeIn: function(e) {
 						return l.relativeValueRe.test(e) || ~ ["now", "today"].indexOf(e) ? "": e
@@ -16919,7 +17069,7 @@ function(e, t, a) {
 				}]
 			},
 			{
-				type: "text",
+				type: "input-text",
 				name: "format",
 				label: "值格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
@@ -16928,7 +17078,7 @@ function(e, t, a) {
 			i.getSchemaTpl("clearable", {
 				pipeIn: i.defaultValue(!0)
 			}), {
-				type: "text",
+				type: "input-text",
 				name: "inputFormat",
 				label: "显示格式",
 				description: '请参考 <a href="https://momentjs.com/" target="_blank">moment</a> 中的格式用法。',
@@ -16938,9 +17088,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -16959,7 +17107,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "tree-control",
+			return t.rendererName = "input-tree",
 			t.$schema = "/schemas/TreeControlSchema.json",
 			t.name = "树选择框",
 			t.icon = "fa fa-list-alt",
@@ -16967,7 +17115,7 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/tree",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "tree",
+				type: "input-tree",
 				label: "树",
 				name: "tree",
 				options: [{
@@ -16992,7 +17140,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "树选择",
@@ -17009,16 +17157,16 @@ function(e, t, a) {
 						label: "",
 						value: ""
 					},
-					controls: [{
+					items: [{
 						type: "group",
-						controls: [{
-							type: "text",
+						body: [{
+							type: "input-text",
 							name: "label",
 							placeholder: "名称",
 							required: !0
 						},
 						{
-							type: "text",
+							type: "input-text",
 							name: "value",
 							placeholder: "值",
 							unique: !0
@@ -17032,15 +17180,15 @@ function(e, t, a) {
 					}]
 				}
 			},
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
 			},
 			l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [{
+				body: [{
 					$ref: "options",
 					name: "options"
 				},
@@ -17108,13 +17256,13 @@ function(e, t, a) {
 					mode: "inline",
 					className: "w-full"
 				},
-				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue")]
+				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill")]
 			}), l.getSchemaTpl("fieldSet", {
 				title: "外观",
-				controls: [{
+				body: [{
 					label: "顶级文字",
 					name: "rootLabel",
-					type: "text",
+					type: "input-text",
 					pipeIn: l.defaultValue("顶级"),
 					visibleOn: "data.hideRoot !== true"
 				},
@@ -17139,9 +17287,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -17160,7 +17306,7 @@ function(e, t, a) {
 	r = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "tree-select-control",
+			return t.rendererName = "tree-select",
 			t.$schema = "/schemas/TreeSelectControlSchema.json",
 			t.name = "树下拉框",
 			t.icon = "fa fa-chevron-down",
@@ -17193,7 +17339,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "树下拉",
@@ -17210,16 +17356,16 @@ function(e, t, a) {
 						label: "",
 						value: ""
 					},
-					controls: [{
+					items: [{
 						type: "group",
-						controls: [{
-							type: "text",
+						body: [{
+							type: "input-text",
 							name: "label",
 							placeholder: "名称",
 							required: !0
 						},
 						{
-							type: "text",
+							type: "input-text",
 							name: "value",
 							placeholder: "值",
 							unique: !0
@@ -17233,15 +17379,15 @@ function(e, t, a) {
 					}]
 				}
 			},
-			t.panelControls = [l.getSchemaTpl("switchDefaultValue"), {
-				type: "text",
+			t.panelBody = [l.getSchemaTpl("switchDefaultValue"), {
+				type: "input-text",
 				name: "value",
 				label: "默认值",
 				visibleOn: 'typeof this.value !== "undefined"'
 			},
 			l.getSchemaTpl("clearable"), l.getSchemaTpl("fieldSet", {
 				title: "选项",
-				controls: [{
+				body: [{
 					$ref: "options",
 					name: "options"
 				},
@@ -17280,7 +17426,7 @@ function(e, t, a) {
 					pipeIn: l.defaultValue(!0)
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "unfoldedLevel",
 					label: "选项默认展开级数",
 					visibleOn: 'typeof this.initiallyOpen !== "undefined" || !this.initiallyOpen'
@@ -17325,15 +17471,22 @@ function(e, t, a) {
 					mode: "inline",
 					className: "w-full"
 				},
-				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue")]
+				l.getSchemaTpl("joinValues"), l.getSchemaTpl("delimiter"), l.getSchemaTpl("extractValue"), l.getSchemaTpl("autoFill"), l.getSchemaTpl("creatable"), l.getSchemaTpl("api", {
+					label: "新增选项接口",
+					name: "addApi"
+				}), l.getSchemaTpl("editable"), l.getSchemaTpl("api", {
+					label: "编辑选项接口",
+					name: "editApi"
+				}), l.getSchemaTpl("removable"), l.getSchemaTpl("api", {
+					label: "删除选项接口",
+					name: "deleteApi"
+				})]
 			})],
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (a(2).BasePlugin);
@@ -17351,13 +17504,13 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "url-control",
+			return t.rendererName = "input-url",
 			t.$schema = "/schemas/TextControlSchema.json",
 			t.name = "URL输入框",
 			t.icon = "fa fa-link",
 			t.description = "验证输入是否为合法的 URL",
 			t.scaffold = {
-				type: "url",
+				type: "input-url",
 				label: "链接",
 				name: "url"
 			},
@@ -17366,7 +17519,7 @@ function(e, t, a) {
 				className: "text-left",
 				mode: "horizontal",
 				wrapWithPanel: !1,
-				controls: n.__assign({},
+				body: n.__assign({},
 				t.scaffold)
 			},
 			t.panelTitle = "URL",
@@ -17374,7 +17527,7 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(20).TextControlPlugin);
+	} (a(23).TextControlPlugin);
 	t.URLControlPlugin = i,
 	l.registerEditorPlugin(i)
 },
@@ -17389,7 +17542,7 @@ function(e, t, a) {
 	i = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "year-control",
+			return t.rendererName = "input-year",
 			t.$schema = "/schemas/YearControlSchema.json",
 			t.name = "Year",
 			t.icon = "fa fa-calendar",
@@ -17397,13 +17550,13 @@ function(e, t, a) {
 			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/year",
 			t.tags = ["表单项"],
 			t.scaffold = {
-				type: "year",
+				type: "input-year",
 				name: "year"
 			},
 			t.previewSchema = {
 				type: "form",
 				wrapWithPanel: !1,
-				controls: [n.__assign({},
+				body: [n.__assign({},
 				t.scaffold)]
 			},
 			t.panelTitle = "Year",
@@ -17411,196 +17564,9 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t
-	} (a(27).DateControlPlugin);
+	} (a(22).DateControlPlugin);
 	t.YearControlPlugin = i,
 	l.registerEditorPlugin(i)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
-	t.AnchorNavControlPlugin = void 0;
-	var n = a(0),
-	l = n.__importDefault(a(4)),
-	i = a(16),
-	r = a(3),
-	o = a(15),
-	s = a(1),
-	d = a(44),
-	c = a(13),
-	u = n.__importDefault(a(11)),
-	p = a(45),
-	m = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "anchor-nav-control",
-			t.$schema = "/schemas/AnchorNavControlSchema.json",
-			t.name = "锚点导航(AnchorNav)",
-			t.icon = "fa fa-link",
-			t.description = "可以将多个表单项通过锚点导航的方式分组",
-			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/form/anchor-nav",
-			t.tags = ["表单项"],
-			t.scaffold = {
-				type: "anchor-nav",
-				links: [{
-					title: "锚点导航1",
-					controls: [{
-						label: "文本",
-						name: "text1",
-						type: "text"
-					}]
-				},
-				{
-					title: "锚点导航2",
-					controls: [{
-						label: "文本",
-						name: "text1",
-						type: "text"
-					}]
-				}]
-			},
-			t.previewSchema = {
-				type: "form",
-				className: "text-left",
-				mode: "horizontal",
-				wrapWithPanel: !1,
-				controls: n.__assign({},
-				t.scaffold)
-			},
-			t.patchContainers = ["anchor-nav.body", "anchor-nav.controls"],
-			t.vRendererConfig = {
-				regions: {
-					body: {
-						key: "body",
-						label: "内容区"
-					},
-					controls: {
-						key: "controls",
-						label: "子表单项",
-						preferTag: "表单项"
-					}
-				},
-				panelTitle: "锚点内容",
-				panelControls: [r.getSchemaTpl("fieldSet", {
-					title: "常规",
-					controls: [{
-						name: "title",
-						label: "标题",
-						type: "text",
-						required: !0
-					},
-					{
-						label: "内容形式",
-						name: "__mode",
-						type: "button-group",
-						size: "xs",
-						description: "如果选择表单，内容默认为表单项，如果选择其他则可以放其他类型渲染器",
-						pipeIn: function(e, t) {
-							return Array.isArray(t.body) ? "other": "form"
-						},
-						onChange: function(e, t, a, n) {
-							"form" === e ? (n.setValues({
-								controls: n.data.__controls || [{
-									placeholder: "文本1",
-									type: "text",
-									name: "a",
-									label: !1
-								}],
-								__body: n.data.body
-							}), n.deleteValueByName("body")) : (n.setValues({
-								body: n.data.__body || [{
-									type: "tpl",
-									tpl: "内容",
-									inline: !1
-								}],
-								__controls: n.data.controls
-							}), n.deleteValueByName("controls"))
-						},
-						options: [{
-							label: "表单",
-							value: "form"
-						},
-						{
-							label: "其他",
-							value: "other"
-						}]
-					}]
-				}), r.getSchemaTpl("fieldSet", {
-					title: "外观",
-					controls: [r.getSchemaTpl("className")]
-				})]
-			},
-			t.overrides = {
-				render: function() {
-					var e = this,
-					t = this.super();
-					if (this.renderSection && this.props.$$editor && t) {
-						var a = this.props.links;
-						return i.mapReactElement(t, (function(t) {
-							if (t.type === p.AnchorNavSection && t.props.$$id) {
-								var n = t.props.$$id,
-								i = u.
-							default(a, (function(e) {
-									return e.$$id === n
-								})),
-								r = a[i],
-								s = e.props.$$editor,
-								d = s.plugin;
-								if (~i) {
-									var m = Array.isArray(r.controls) ? d.vRendererConfig.regions.controls: d.vRendererConfig.regions.body;
-									return l.
-								default.cloneElement(t, {
-										children: l.
-									default.createElement(o.VRenderer, {
-											plugin: s.plugin,
-											renderer: s.renderer,
-											key: n,
-											$schema: "/schemas/SectionControlSchema.json",
-											hostId: s.id,
-											memberIndex: i,
-											name: "" + (t.props.title || "锚点内容" + (i + 1)),
-											id: n,
-											draggable: !1,
-											wrapperResolve: d.sectionWrapperResolve,
-											schemaPath: s.schemaPath + "/anchor-nav/" + i,
-											path: e.props.$path + "/" + i,
-											data: e.props.data
-										},
-										l.
-									default.createElement(c.RegionWrapper, {
-											key: m.key,
-											preferTag: m.preferTag,
-											name: m.key,
-											label: m.label,
-											regionConfig: m,
-											editorStore: d.manager.store,
-											manager: d.manager,
-											children: t.props.children,
-											wrapperResolve: m.wrapperResolve,
-											rendererName: s.renderer.name
-										}))
-									})
-								}
-							}
-							return t
-						}))
-					}
-					return t
-				}
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
-		},
-		t
-	} (d.AnchorNavPlugin);
-	t.AnchorNavControlPlugin = m,
-	s.registerEditorPlugin(m)
 },
 function(e, t, a) {
 	"use strict";
@@ -17618,7 +17584,7 @@ function(e, t, a) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.panelTitle = "按钮",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var a = /(?:\/|^)dialog\/.+$/.test(e.path);
 				/(?:\/|^)dropdown-button\/.+$/.test(e.path);
 				return [{
@@ -17688,13 +17654,13 @@ function(e, t, a) {
 					}]
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "content",
 					visibleOn: 'data.actionType == "copy"',
 					label: "复制内容模板"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "target",
 					visibleOn: 'data.actionType == "reload"',
 					label: "指定刷新目标",
@@ -17811,7 +17777,7 @@ function(e, t, a) {
 				{
 					name: "feedback.visibleOn",
 					label: "是否弹出表达式",
-					type: "text",
+					type: "input-text",
 					visibleOn: "this.feedback",
 					autoComplete: !1,
 					description: "请使用 JS 表达式如：`this.xxx == 1`"
@@ -17833,13 +17799,13 @@ function(e, t, a) {
 					visibleOn: "this.feedback"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					label: "目标地址",
 					name: "link",
 					visibleOn: 'data.actionType == "link"'
 				},
 				{
-					type: "text",
+					type: "input-text",
 					label: "目标地址",
 					name: "url",
 					visibleOn: 'data.actionType == "url"',
@@ -17869,14 +17835,14 @@ function(e, t, a) {
 					description: "点击后会弹出此内容，等用户确认后才进行相应的操作。"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "reload",
 					label: "刷新目标组件",
 					visibleOn: 'data.actionType != "link" && data.actionType != "url"',
 					description: "当前动作完成后，指定目标组件刷新。支持传递数据如：<code>xxx?a=\\${a}&b=\\${b}</code>，多个目标请用英文逗号隔开。"
 				},
 				{
-					type: "text",
+					type: "input-text",
 					name: "target",
 					visibleOn: 'data.actionType != "reload"',
 					label: "指定响应组件",
@@ -17887,22 +17853,22 @@ function(e, t, a) {
 		}
 		return n.__extends(t, e),
 		t.prototype.buildEditorPanel = function(t, a) {
-			if (~ ["action", "button", "submit", "reset", "button-control", "submit-control", "sparkline", "reset-control"].indexOf(t.info.renderer.name)) {
-				var n = this.panelControlsCreator(t);
+			if (~ ["action", "button", "submit", "reset", "sparkline"].indexOf(t.info.renderer.name)) {
+				var n = this.panelBodyCreator(t);
 				"sparkline" === t.info.renderer.name && (n = {
 					name: "clickAction",
 					type: "combo",
 					label: "",
 					noBorder: !0,
 					multiLine: !0,
-					controls: n
+					body: n
 				}),
 				a.push({
 					key: "action",
 					icon: "fa fa-gavel",
 					title: "动作",
 					render: this.manager.makeSchemaFormRender({
-						controls: n
+						body: n
 					}),
 					order: 100
 				})
@@ -17951,9 +17917,9 @@ function(e, t, a) {
 				label: "内容区"
 			}],
 			t.panelTitle = "提示",
-			t.panelControls = r.getSchemaTpl("tabs", [{
+			t.panelBody = r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					type: "switch",
 					name: "showCloseButton",
 					mode: "inline",
@@ -17963,7 +17929,7 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					label: "样式",
 					name: "level",
 					type: "select",
@@ -17988,7 +17954,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}]),
 			t
 		}
@@ -18025,18 +17991,18 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "音频",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [t ? {
+					body: [t ? {
 						type: "tpl",
 						inline: !1,
 						className: "text-info text-sm",
 						tpl: "<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>"
 					}: null, {
 						name: "src",
-						type: "text",
+						type: "input-text",
 						label: "音频地址",
 						description: "支持获取变量如：<code>\\${audioSrc}</code>"
 					},
@@ -18116,7 +18082,7 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("className"), {
+					body: [r.getSchemaTpl("className"), {
 						name: "inline",
 						type: "switch",
 						mode: "inline",
@@ -18127,7 +18093,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -18165,10 +18131,10 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "面包屑",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
-					type: "text",
+				body: [{
+					type: "input-text",
 					label: "文字",
 					name: "text"
 				},
@@ -18194,16 +18160,16 @@ function(e, t, a) {
 					name: "size",
 					label: "大小",
 					value: 40,
-					type: "number"
+					type: "input-number"
 				}]
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className")]
+				body: [r.getSchemaTpl("className")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -18255,7 +18221,7 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "按钮组",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "buttons",
 				type: "combo",
 				label: "按钮管理",
@@ -18266,7 +18232,7 @@ function(e, t, a) {
 				draggableTip: "",
 				editable: !1,
 				visibleOn: "this.buttons && this.buttons.length",
-				controls: [{
+				items: [{
 					type: "tpl",
 					inline: !1,
 					className: "p-t-xs",
@@ -18336,9 +18302,9 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "按钮工具栏",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "buttons",
 					type: "combo",
 					label: "按钮管理",
@@ -18348,7 +18314,7 @@ function(e, t, a) {
 					draggableTip: "可排序、可移除、如要编辑请在预览区选中编辑",
 					editable: !1,
 					visibleOn: "this.buttons && this.buttons.length",
-					controls: [{
+					items: [{
 						type: "tpl",
 						inline: !1,
 						className: "p-t-xs",
@@ -18363,11 +18329,11 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className")]
+				body: [r.getSchemaTpl("className")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -18414,11 +18380,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "面包屑",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					label: "分隔符",
-					type: "text",
+					type: "input-text",
 					name: "separator"
 				},
 				r.getSchemaTpl("api", {
@@ -18432,13 +18398,13 @@ function(e, t, a) {
 					multiLine: !0,
 					draggable: !0,
 					addButtonText: "新增",
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						placeholder: "文本",
 						name: "label"
 					},
 					{
-						type: "text",
+						type: "input-text",
 						name: "href",
 						placeholder: "链接"
 					},
@@ -18451,7 +18417,7 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+				body: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
 					name: "itemClassName",
 					label: "面包屑的 CSS 类名"
 				}), , r.getSchemaTpl("className", {
@@ -18461,7 +18427,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -18483,9 +18449,9 @@ function(e, t, a) {
 	r = a(1),
 	o = a(2),
 	s = a(3),
-	d = n.__importDefault(a(18)),
-	c = a(15),
-	u = function(e) {
+	d = n.__importDefault(a(17)),
+	u = a(14),
+	p = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "card",
@@ -18530,10 +18496,10 @@ function(e, t, a) {
 				preferTag: "按钮"
 			}],
 			t.panelTitle = "卡片",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: d.
+					body: d.
 				default([{
 						children:
 						i.
@@ -18566,19 +18532,19 @@ function(e, t, a) {
 					},
 					{
 						name: "header.title",
-						type: "text",
+						type: "input-text",
 						label: "标题",
 						description: "支持模板语法如： <code>\\${xxx}</code>"
 					},
 					{
 						name: "header.subTitle",
-						type: "text",
+						type: "input-text",
 						label: "副标题",
 						description: "支持模板语法如： <code>\\${xxx}</code>"
 					},
 					{
 						name: "header.avatar",
-						type: "text",
+						type: "input-text",
 						label: "图片地址",
 						description: "支持模板语法如： <code>\\${xxx}</code>"
 					},
@@ -18590,15 +18556,15 @@ function(e, t, a) {
 					},
 					{
 						name: "header.highlight",
-						type: "text",
+						type: "input-text",
 						label: "是否高亮表达式",
 						description: "如： <code>this.isOwner</code>"
 					}])
 				},
 				{
 					title: "外观",
-					controls: [{
-						type: "range",
+					body: [{
+						type: "input-range",
 						name: "actionsCount",
 						pipeIn: s.defaultValue(4),
 						min: 1,
@@ -18631,7 +18597,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
 				}])]
 			},
 			t.fieldWrapperResolve = function(e) {
@@ -18645,7 +18611,7 @@ function(e, t, a) {
 					var o = r.plugin,
 					s = t.$$id;
 					return i.
-				default.createElement(c.VRenderer, {
+				default.createElement(u.VRenderer, {
 						plugin: r.plugin,
 						renderer: r.renderer,
 						multifactor: !0,
@@ -18666,7 +18632,7 @@ function(e, t, a) {
 			},
 			t.vRendererConfig = {
 				panelTitle: "字段",
-				panelControlsCreator: function(e) {
+				panelBodyCreator: function(e) {
 					return [s.getSchemaTpl("label"), s.getSchemaTpl("className", {
 						name: "labelClassName",
 						label: "Label CSS 类名",
@@ -18699,8 +18665,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.CardPlugin = u,
-	r.registerEditorPlugin(u)
+	t.CardPlugin = p,
+	r.registerEditorPlugin(p)
 },
 function(e, t, a) {
 	"use strict";
@@ -18715,7 +18681,7 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "cards",
@@ -18763,11 +18729,11 @@ function(e, t, a) {
 				className: "text-left "
 			}),
 			t.panelTitle = "卡片集",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var a = "crud" === e.schema.type;
 				return [s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						children: i.
 					default.createElement("div", {
 							className: "m-b"
@@ -18786,12 +18752,12 @@ function(e, t, a) {
 					},
 					{
 						name: "title",
-						type: "text",
+						type: "input-text",
 						label: "标题"
 					},
 					a ? null: {
 						name: "source",
-						type: "text",
+						type: "input-text",
 						label: "数据源",
 						pipeIn: s.defaultValue("${items}"),
 						description: "绑定当前环境变量",
@@ -18800,13 +18766,13 @@ function(e, t, a) {
 					{
 						name: "placeholder",
 						value: "暂无数据",
-						type: "text",
+						type: "input-text",
 						label: "无数据提示"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "showHeader",
 						type: "switch",
 						mode: "inline",
@@ -18839,7 +18805,7 @@ function(e, t, a) {
 						label: "卡片 CSS 类名"
 					}), {
 						name: "columnsCount",
-						type: "range",
+						type: "input-range",
 						visibleOn: "!this.leftFixed",
 						min: 0,
 						max: 12,
@@ -18856,7 +18822,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -18869,7 +18835,10 @@ function(e, t, a) {
 			i = a.getValueOf(e);
 			l && i && this.manager.openSubEditor({
 				title: "配置成员渲染器",
-				value: i.card,
+				value: n.__assign({
+					type: "card"
+				},
+				i.card),
 				slot: {
 					type: "container",
 					body: "$$"
@@ -18925,7 +18894,12 @@ function(e, t, a) {
 					})
 				}))
 			}
-			return d.JSONPipeOut(e)
+			var i = e.$schema,
+			r = n.__rest(e, ["$schema"]);
+			return n.__assign(n.__assign({},
+			d.JSONPipeOut(r)), {
+				$schema: i
+			})
 		},
 		t.prototype.getRendererInfo = function(t) {
 			var a, l = t.renderer,
@@ -18947,8 +18921,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.CardsPlugin = c,
-	r.registerEditorPlugin(c)
+	t.CardsPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -18984,11 +18958,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "轮播图",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [t ? {
+					body: [t ? {
 						type: "tpl",
 						inline: !1,
 						className: "text-info text-sm",
@@ -18997,12 +18971,12 @@ function(e, t, a) {
 						type: "formula",
 						name: "__mode",
 						autoSet: !1,
-						formula: 'typeof this.name === "string" ? 1 : 2'
+						formula: "!this.name && !this.source && Array.isArray(this.options) ? 2 : 1"
 					},
 					{
 						label: "数据源",
 						name: "__mode",
-						type: "button-group",
+						type: "button-group-select",
 						size: "xs",
 						mode: "inline",
 						className: "w-full",
@@ -19018,7 +18992,7 @@ function(e, t, a) {
 					{
 						label: "字段名",
 						name: "name",
-						type: "text",
+						type: "input-text",
 						description: "设置字段名，关联当前数据作用域中的数据。",
 						visibleOn: "this.__mode == 1"
 					},
@@ -19031,62 +19005,53 @@ function(e, t, a) {
 						multiLine: !0,
 						addable: !0,
 						removable: !0,
-						controls: [{
-							type: "group",
-							controls: [{
-								type: "text",
-								label: "内容",
-								name: "content",
-								size: "full"
-							},
-							{
-								type: "select",
-								label: "类型",
-								name: "type",
-								options: [{
-									label: "html",
-									value: "html"
-								},
-								{
-									label: "image",
-									value: "image"
-								}],
-								value: "image"
-							}]
-						},
-						{
-							type: "group",
-							controls: [{
-								type: "text",
+						typeSwitchable: !1,
+						conditions: [{
+							label: "图片",
+							test: 'this.type === "image"',
+							items: [r.getSchemaTpl("imageUrl", {
+								name: "content"
+							}), {
+								type: "input-text",
 								label: "图片标题",
 								name: "title",
 								visibleOn: 'this.type == "image"'
 							},
-							{
-								type: "text",
+							r.getSchemaTpl("className", {
 								label: "图片标题类名",
 								name: "titleClassName",
 								visibleOn: 'this.type == "image"'
-							}]
-						},
-						{
-							type: "group",
-							controls: [{
-								type: "text",
+							}), {
+								type: "textarea",
 								label: "图片描述",
 								name: "description",
 								visibleOn: 'this.type == "image"'
 							},
-							{
-								type: "text",
+							r.getSchemaTpl("className", {
 								label: "图片描述类名",
 								name: "descriptionClassName",
 								visibleOn: 'this.type == "image"'
-							}]
+							})],
+							scaffold: {
+								type: "input-image",
+								image: ""
+							}
+						},
+						{
+							label: "HTML",
+							test: 'this.type === "html"',
+							items: [r.getSchemaTpl("richText", {
+								label: "内容",
+								name: "content"
+							})],
+							scaffold: {
+								type: "html",
+								content: "<p>html 片段</p>"
+							}
 						}],
 						pipeIn: function(e) {
 							return Array.isArray(e) && e.length ? e.map((function(e) {
-								return e.html ? {
+								return e && e.hasOwnProperty("html") ? {
 									type: "html",
 									content: e.html
 								}: {
@@ -19116,21 +19081,22 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "auto",
 						type: "switch",
 						mode: "inline",
 						className: "w-full",
-						label: "自动轮播"
+						label: "自动轮播",
+						pipeIn: r.defaultValue(!0)
 					},
 					{
 						name: "interval",
-						type: "range",
+						type: "input-range",
 						label: "动画间隔",
 						min: 1,
-						max: 10,
+						max: 100,
 						step: 1,
-						unit: "ms",
+						unit: "s",
 						pipeIn: function(e) {
 							return (null != e ? e: 3e3) / 1e3
 						},
@@ -19140,10 +19106,10 @@ function(e, t, a) {
 					},
 					{
 						name: "duration",
-						type: "range",
+						type: "input-range",
 						label: "动画时长",
 						min: 100,
-						max: 1e3,
+						max: 2e3,
 						step: 10,
 						pipeIn: r.defaultValue(500),
 						unit: "ms"
@@ -19151,7 +19117,7 @@ function(e, t, a) {
 					{
 						name: "animation",
 						label: "动画效果",
-						type: "button-group",
+						type: "button-group-select",
 						mode: "inline",
 						className: "w-full",
 						size: "sm",
@@ -19168,7 +19134,7 @@ function(e, t, a) {
 					{
 						name: "controlsTheme",
 						label: "控制按钮主题",
-						type: "button-group",
+						type: "button-group-select",
 						size: "sm",
 						pipeIn: r.defaultValue("light"),
 						mode: "inline",
@@ -19185,7 +19151,7 @@ function(e, t, a) {
 					{
 						name: "controls",
 						label: "控制显示",
-						type: "button-group",
+						type: "button-group-select",
 						size: "sm",
 						mode: "inline",
 						className: "w-full",
@@ -19202,7 +19168,7 @@ function(e, t, a) {
 					},
 					{
 						name: "width",
-						type: "text",
+						type: "input-text",
 						label: "宽度",
 						validations: "isNumeric",
 						addOn: {
@@ -19212,7 +19178,7 @@ function(e, t, a) {
 					},
 					{
 						name: "height",
-						type: "text",
+						type: "input-text",
 						label: "高度",
 						validations: "isNumeric",
 						addOn: {
@@ -19224,12 +19190,39 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
 		}
 		return n.__extends(t, e),
+		t.prototype.filterProps = function(e) {
+			return e.auto = !1,
+			e
+		},
+		t.prototype.buildEditorToolbar = function(e, t) {
+			if (e.info.plugin === this && "carousel" === e.info.renderer.name && !e.info.hostId) {
+				var a = e.node;
+				t.push({
+					level: "secondary",
+					icon: "fa fa-chevron-left",
+					tooltip: "上个卡片",
+					onClick: function() {
+						var e, t = a.getComponent();
+						null === (e = null == t ? void 0 : t.prev) || void 0 === e || e.call(t)
+					}
+				}),
+				t.push({
+					level: "secondary",
+					icon: "fa fa-chevron-right",
+					tooltip: "下个卡片",
+					onClick: function() {
+						var e, t = a.getComponent();
+						null === (e = null == t ? void 0 : t.next) || void 0 === e || e.call(t)
+					}
+				})
+			}
+		},
 		t
 	} (i.BasePlugin);
 	t.CarouselPlugin = o,
@@ -19248,8 +19241,8 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = n.__importDefault(a(24)),
-	u = function(e) {
+	u = n.__importDefault(a(28)),
+	p = function(e) {
 		var t = e.value,
 		a = e.onChange;
 		return i.
@@ -19257,13 +19250,13 @@ function(e, t, a) {
 			className: "ae-JsonEditor"
 		},
 		i.
-	default.createElement(c.
+	default.createElement(u.
 	default, {
 			value: t,
 			onChange: a
 		}))
 	},
-	p = function(e) {
+	c = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "chart",
@@ -19291,17 +19284,17 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "图表",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						type: "formula",
 						name: "_mode",
 						formula: 'typeof this.config === "undefined" ? "2" : "1"'
 					},
 					{
 						name: "_mode",
-						type: "button-group",
+						type: "button-group-select",
 						label: "数据设置方式",
 						size: "xs",
 						options: [{
@@ -19316,7 +19309,7 @@ function(e, t, a) {
 					{
 						name: "config",
 						visibleOn: "this._mode != 2",
-						component: u,
+						component: p,
 						label: "Echarts 静态配置"
 					},
 					s.getSchemaTpl("api", {
@@ -19335,7 +19328,7 @@ function(e, t, a) {
 					{
 						name: "interval",
 						label: "定时刷新间隔",
-						type: "number",
+						type: "input-number",
 						step: 500,
 						visibleOn: "this._mode == 2 && data.api",
 						description: "设置后将自动定时刷新，最小3000, 单位 ms"
@@ -19391,11 +19384,11 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [s.getSchemaTpl("className")]
+					body: [s.getSchemaTpl("className")]
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("name"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("name"), s.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -19435,8 +19428,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.ChartPlugin = p,
-	r.registerEditorPlugin(p)
+	t.ChartPlugin = c,
+	r.registerEditorPlugin(c)
 },
 function(e, t, a) {
 	"use strict";
@@ -19465,12 +19458,12 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "折叠器",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "title",
 					label: "标题",
-					type: "text",
+					type: "input-text",
 					required: !0
 				},
 				{
@@ -19491,7 +19484,7 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className", {
+				body: [r.getSchemaTpl("className", {
 					pipeIn: r.defaultValue("bg-white wrapper")
 				}), r.getSchemaTpl("className", {
 					name: "headingClassName",
@@ -19504,7 +19497,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -19544,10 +19537,10 @@ function(e, t, a) {
 				label: "内容区"
 			}],
 			t.panelTitle = "容器",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [r.getSchemaTpl("tabs", [{
 					title: "外观",
-					controls: [r.getSchemaTpl("className")]
+					body: [r.getSchemaTpl("className")]
 				}])]
 			},
 			t
@@ -19566,14 +19559,14 @@ function(e, t, a) {
 	t.CRUDPlugin = void 0;
 	var n = a(0),
 	l = a(5),
-	i = n.__importDefault(a(148)),
-	r = n.__importDefault(a(149)),
+	i = n.__importDefault(a(145)),
+	r = n.__importDefault(a(146)),
 	o = n.__importDefault(a(4)),
 	s = a(1),
 	d = a(2),
-	c = a(3),
-	u = a(6),
-	p = a(14),
+	u = a(3),
+	p = a(6),
+	c = a(9),
 	m = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
@@ -19609,7 +19602,7 @@ function(e, t, a) {
 				if (Array.isArray(e.columns)) {
 					var a = {};
 					e.columns.forEach((function(e) {
-						e.name && p.setVariable(a, e.name, "sample")
+						e.name && c.setVariable(a, e.name, "sample")
 					})),
 					t.items.push(a)
 				}
@@ -19631,10 +19624,10 @@ function(e, t, a) {
 						body: {
 							type: "form",
 							api: "xxx/create",
-							controls: [{
+							body: [{
 								label: "字段1",
 								text: "字段1",
-								type: "text"
+								type: "input-text"
 							}]
 						}
 					}
@@ -19649,10 +19642,10 @@ function(e, t, a) {
 						body: {
 							type: "form",
 							api: "xxx/update",
-							controls: [{
+							body: [{
 								label: "字段1",
 								text: "字段1",
-								type: "text"
+								type: "input-text"
 							}]
 						}
 					}
@@ -19666,10 +19659,10 @@ function(e, t, a) {
 						title: "查看详情",
 						body: {
 							type: "form",
-							controls: [{
+							body: [{
 								label: "字段1",
 								text: "字段1",
-								type: "text"
+								type: "input-text"
 							}]
 						}
 					}
@@ -19702,10 +19695,10 @@ function(e, t, a) {
 						body: {
 							type: "form",
 							api: "/xxx/bacth-edit",
-							controls: [{
+							body: [{
 								label: "字段1",
 								text: "字段1",
-								type: "text"
+								type: "input-text"
 							}]
 						}
 					}
@@ -19720,8 +19713,8 @@ function(e, t, a) {
 				},
 				filter: {
 					title: "查询条件",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						name: "keywords",
 						label: "关键字"
 					}]
@@ -19729,9 +19722,9 @@ function(e, t, a) {
 			},
 			t.scaffoldForm = {
 				title: "增删改查快速开始-CRUD",
-				controls: [{
+				body: [{
 					name: "api",
-					type: "text",
+					type: "input-text",
 					label: "请求地址",
 					placeholder: "",
 					labelRemark: t.sampleBuilder ? {
@@ -19796,7 +19789,7 @@ function(e, t, a) {
 					}]
 				},
 				{
-					name: "mock",
+					name: "autoFill",
 					visibleOn: "data.api && data.rows.length",
 					label: "自动填充",
 					type: "switch",
@@ -19818,6 +19811,28 @@ function(e, t, a) {
 						trigger: "click",
 						className: "m-l-xs",
 						rootClose: !0
+					},
+					onChange: function(e, t, a, n) {
+						var l, i = [];
+						if ((null === (l = n.data.rows) || void 0 === l ? void 0 : l.length) && Object.keys(n.data.rows[0]).forEach((function(e) {
+							i.push({
+								label: e,
+								type: "input-text",
+								name: e
+							})
+						})), e) n.setValues({
+							columns: i
+						});
+						else if (!e && t) {
+							var r = n.data.columns.filter((function(e) {
+								return ! i.some((function(t) {
+									return t.name === e.name && t.label === e.label && t.type === e.type
+								}))
+							}));
+							n.setValues({
+								columns: r
+							})
+						}
 					}
 				},
 				{
@@ -19869,13 +19884,13 @@ function(e, t, a) {
 					strictMode: !1,
 					addButtonText: "新增一列",
 					draggable: !1,
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "label",
 						placeholder: "标题"
 					},
 					{
-						type: "text",
+						type: "input-text",
 						name: "name",
 						placeholder: "绑定字段名"
 					},
@@ -19921,40 +19936,43 @@ function(e, t, a) {
 				pipeOut: function(e) {
 					var a = r.
 				default(e),
-					n = (a.api, a.rows),
 					l = a.features,
-					o = a.mock,
-					s = [],
-					d = r.
-				default(t.scaffold);
-					n && n.length && (n.forEach((function(e) {
-						for (var t in e) s.push({
-							label: t,
-							type: "text",
-							name: t
-						})
-					})), a.columns = d.columns.concat(s), delete a.rows, delete a.count);
-					var c = {
+					o = {
 						type: "operation",
 						label: "操作",
 						buttons: []
 					},
-					u = ["update", "view", "create"],
-					p = i.
+					s = ["update", "view", "create", "delete"],
+					d = i.
 				default(l, "length");
-					return p && l.forEach((function(n) {
-						var l = r.
-					default(t.btnSchemas[n]);
-						if (u.includes(n)) {
-							var i = l;
-							i.dialog.body.controls = o ? e.columns.concat(s) : e.columns,
-							c.buttons.push(i)
-						} else n.includes("bulk") && a.bulkActions.push(l),
-						"itemDelete" === n && a.itemActions.push(l),
-						"filter" === n && (a.filter = l)
-					})),
-					p && a.columns.push(c),
-					p || (a.columns = e.columns),
+					d && l.forEach((function(l) {
+						var i = r.
+					default(t.btnSchemas[l]);
+						if (s.includes(l)) {
+							var d = i;
+							"delete" !== l && (d.dialog.body.body = e.columns.filter((function(e) {
+								var t = e.type;
+								return "progress" !== t && "operation" !== t
+							})).map((function(e) {
+								var t = e.type,
+								a = n.__rest(e, ["type"]);
+								return n.__assign(n.__assign({},
+								a), {
+									type: "tpl" === t ? "input-text": "status" === t || "mapping" === t ? "select": "input-" + t
+								})
+							}))),
+							t.addItem(o.buttons, d)
+						} else {
+							l.includes("bulk") && t.addItem(a.bulkActions, i),
+							"itemDelete" === l && t.addItem(a.itemActions, i);
+							var u = Object.keys(a.filter || {});
+							"filter" !== l || u.length || (a.filter = i)
+						}
+					}));
+					var u = a.columns.find((function(e) {
+						return "operation" === e.type
+					}));
+					return d && !u && a.columns.push(o),
 					a
 				},
 				canRebuild: !0
@@ -20003,12 +20021,12 @@ function(e, t, a) {
 				}]
 			},
 			t.panelTitle = "增删改查",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				t.manager.store;
 				var a = e.id;
-				return c.getSchemaTpl("tabs", [{
+				return u.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						name: "filter",
 						type: "switch",
 						mode: "inline",
@@ -20018,10 +20036,10 @@ function(e, t, a) {
 							return !! e
 						},
 						pipeOut: function(e, a) {
-							return e ? t.oldFilter || u.JSONPipeIn({
+							return e ? t.oldFilter || p.JSONPipeIn({
 								title: "查询条件",
-								controls: [{
-									type: "text",
+								body: [{
+									type: "input-text",
 									name: "keywords",
 									label: "关键字"
 								}]
@@ -20051,7 +20069,7 @@ function(e, t, a) {
 							content: "通过此可以管理批量操作按钮，只有设置了批量操作按钮才会出现选择框，可在外观中配置批量操作按钮位置。",
 							placement: "left"
 						},
-						controls: [{
+						items: [{
 							type: "tpl",
 							tpl: '<span class="label label-success">${label}</span>',
 							columnClassName: "p-t-xs"
@@ -20096,7 +20114,7 @@ function(e, t, a) {
 							label: "按钮",
 							type: "button"
 						},
-						controls: [{
+						items: [{
 							type: "tpl",
 							tpl: '<span class="label label-success">${label}</span>',
 							columnClassName: "p-t-xs"
@@ -20135,7 +20153,7 @@ function(e, t, a) {
 						type: "switch",
 						mode: "inline",
 						className: "block",
-						pipeIn: c.defaultValue(!0),
+						pipeIn: u.defaultValue(!0),
 						labelRemark: {
 							className: "m-l-xs",
 							trigger: "click",
@@ -20157,7 +20175,7 @@ function(e, t, a) {
 							placement: "left"
 						},
 						pipeIn: function(e) {
-							if (!u.isObject(e)) return e;
+							if (!p.isObject(e)) return e;
 							var t = [];
 							return Object.keys(e).forEach((function(a) {
 								"$$id" != a && t.push({
@@ -20180,16 +20198,16 @@ function(e, t, a) {
 							})),
 							t
 						},
-						controls: [{
+						items: [{
 							placeholder: "Key",
-							type: "text",
+							type: "input-text",
 							unique: !0,
 							name: "key",
 							required: !0
 						},
 						{
 							placeholder: "Value",
-							type: "text",
+							type: "input-text",
 							name: "value"
 						}]
 					},
@@ -20213,7 +20231,7 @@ function(e, t, a) {
 					},
 					{
 						name: "labelTpl",
-						type: "text",
+						type: "input-text",
 						label: "单条描述模板",
 						visibleOn: "this.keepItemSelectionOnPageChange",
 						labelRemark: {
@@ -20227,14 +20245,14 @@ function(e, t, a) {
 					{
 						name: "primaryField",
 						label: "指定主键",
-						type: "text",
-						pipeIn: c.defaultValue("id"),
+						type: "input-text",
+						pipeIn: u.defaultValue("id"),
 						description: "默认<code>id</code>，用于批量操作获取行级数据"
 					}]
 				},
 				{
 					title: "接口",
-					controls: [c.getSchemaTpl("api", {
+					body: [u.getSchemaTpl("api", {
 						label: "数据拉取接口",
 						sampleBuilder: function(e) {
 							var t = {
@@ -20244,7 +20262,7 @@ function(e, t, a) {
 							if (Array.isArray(e.columns)) {
 								var a = {};
 								e.columns.forEach((function(e) {
-									e.name && p.setVariable(a, e.name, "sample")
+									e.name && c.setVariable(a, e.name, "sample")
 								})),
 								t.items.push(a)
 							}
@@ -20263,6 +20281,9 @@ function(e, t, a) {
 							return "boolean" == typeof e && e || "boolean" != typeof e && ""
 						},
 						inline: !0,
+						onChange: function() {
+							document.getElementsByClassName("ae-Settings-content")[0].scrollTop = 0
+						},
 						options: [{
 							label: "是",
 							value: !0
@@ -20280,7 +20301,7 @@ function(e, t, a) {
 						name: "initFetch",
 						autoComplete: !1,
 						visibleOn: 'typeof this.initFetch !== "boolean"',
-						type: "text",
+						type: "input-text",
 						placeholder: "用 JS 表达式来决定",
 						className: "m-t-n-sm"
 					},
@@ -20314,7 +20335,7 @@ function(e, t, a) {
 					},
 					{
 						name: "interval",
-						type: "number",
+						type: "input-number",
 						visibleOn: 'typeof data.interval === "number"',
 						step: 500,
 						className: "m-t-n-sm",
@@ -20331,7 +20352,7 @@ function(e, t, a) {
 					{
 						name: "stopAutoRefreshWhen",
 						label: "停止定时刷新检测表达式",
-						type: "text",
+						type: "input-text",
 						visibleOn: "!!data.interval",
 						description: "定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。"
 					},
@@ -20354,21 +20375,21 @@ function(e, t, a) {
 						mode: "inline",
 						className: "block"
 					},
-					c.getSchemaTpl("api", {
+					u.getSchemaTpl("api", {
 						label: "顺序保存接口",
 						name: "saveOrderApi",
 						visibleOn: "data.draggable"
 					}), {
 						type: "divider"
 					},
-					c.getSchemaTpl("api", {
+					u.getSchemaTpl("api", {
 						label: "快速保存接口",
 						name: "quickSaveApi",
 						description: "当 column 中设置了快速编辑后将使用此接口批量保存数据。"
 					}), {
 						type: "divider"
 					},
-					c.getSchemaTpl("api", {
+					u.getSchemaTpl("api", {
 						label: "快速保存单条接口",
 						name: "quickSaveItemApi",
 						description: "当 column 中设置了快速编辑且设置了立即保存，将使用此接口保存数据。"
@@ -20381,72 +20402,72 @@ function(e, t, a) {
 						name: "messages",
 						multiLine: !0,
 						description: "覆盖消息提示，如果不指定，将采用 api 返回的 message",
-						controls: [{
+						items: [{
 							label: "获取成功提示",
-							type: "text",
+							type: "input-text",
 							name: "fetchSuccess"
 						},
 						{
 							label: "获取失败提示",
-							type: "text",
+							type: "input-text",
 							name: "fetchFailed"
 						},
 						{
 							label: "保存顺序成功提示",
-							type: "text",
+							type: "input-text",
 							name: "saveOrderSuccess"
 						},
 						{
 							label: "保存顺序失败提示",
-							type: "text",
+							type: "input-text",
 							name: "saveOrderFailed"
 						},
 						{
 							label: "快速保存成功提示",
-							type: "text",
+							type: "input-text",
 							name: "quickSaveSuccess"
 						},
 						{
 							label: "快速保存失败提示",
-							type: "text",
+							type: "input-text",
 							name: "quickSaveFailed"
 						}]
 					}]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						label: "内容展示模式",
 						name: "mode",
-						type: "button-group",
+						type: "button-group-select",
 						size: "xs",
 						pipeIn: function(e, t) {
 							var a;
 							return null !== (a = "grid" === e ? "cards": e) && void 0 !== a ? a: "table"
 						},
 						onChange: function(e, t, a, n) {
-							var l, i, o, s, d, c, u = null === (i = null === (l = null == n ? void 0 : n.data) || void 0 === l ? void 0 : l.headerToolbar) || void 0 === i ? void 0 : i.some((function(e) {
+							var l, i, o, s, d, u, p = null === (i = null === (l = null == n ? void 0 : n.data) || void 0 === l ? void 0 : l.headerToolbar) || void 0 === i ? void 0 : i.some((function(e) {
 								return "columns-toggler" === e.type
 							})),
-							p = r.
+							c = r.
 						default(null === (o = null == n ? void 0 : n.data) || void 0 === o ? void 0 : o.headerToolbar);
-							"table" !== e && "table" === t && (c = (null == p ? void 0 : p.find((function(e) {
+							"table" !== e && "table" === t && (u = (null == c ? void 0 : c.find((function(e) {
 								return "columns-toggler" === e.type
 							}))) || {
 								type: "columns-toggler",
 								align: "right"
 							},
 							n.setValues({
-								__headerHasColumnsToggler: u
+								__headerHasColumnsToggler: p
 							})),
-							p = "table" === e ? p: null == p ? void 0 : p.filter((function(e) {
+							c = "table" === e ? c: null == c ? void 0 : c.filter((function(e) {
 								return "columns-toggler" !== e.type
 							})),
-							"table" === e ? ((null === (s = null == n ? void 0 : n.data) || void 0 === s ? void 0 : s.__headerHasColumnsToggler) && !u && (null == p || p.push((null === (d = null == n ? void 0 : n.data) || void 0 === d ? void 0 : d.__cacheColumnsToggler) || {
+							"table" === e ? ((null === (s = null == n ? void 0 : n.data) || void 0 === s ? void 0 : s.__headerHasColumnsToggler) && !p && (null == c || c.push((null === (d = null == n ? void 0 : n.data) || void 0 === d ? void 0 : d.__cacheColumnsToggler) || {
 								type: "columns-toggler",
 								align: "right"
 							})), n.setValues({
-								headerToolbar: p,
+								headerToolbar: c,
 								columns: n.data.__columns || [{
 									label: "ID",
 									name: "id"
@@ -20455,13 +20476,13 @@ function(e, t, a) {
 									label: "列信息",
 									name: "name"
 								}],
-								__headerHasColumnsToggler: u,
+								__headerHasColumnsToggler: p,
 								__card: n.data.__card || n.data.card,
 								__listItem: n.data.__listItem || n.data.listItem
 							}), n.deleteValueByName("card"), n.deleteValueByName("listItem")) : "cards" === e ? ("table" === t && n.setValues({
-								__cacheColumnsToggler: c
+								__cacheColumnsToggler: u
 							}), n.setValues({
-								headerToolbar: p,
+								headerToolbar: c,
 								card: n.data.__card || {
 									type: "card",
 									header: {
@@ -20484,9 +20505,9 @@ function(e, t, a) {
 								__columns: n.data.__columns || n.data.columns,
 								__listItem: n.data.__listItem || n.data.listItem
 							}), n.deleteValueByName("columns"), n.deleteValueByName("listItem")) : ("table" === t && n.setValues({
-								__cacheColumnsToggler: c
+								__cacheColumnsToggler: u
 							}), n.setValues({
-								headerToolbar: p,
+								headerToolbar: c,
 								listItem: n.data.__listItem || {
 									body: [{
 										type: "tpl",
@@ -20539,11 +20560,11 @@ function(e, t, a) {
 						},
 						pipeOut: function(e) {
 							return Array.isArray(e) ? e.map((function(e) {
-								return "button" === e.type ? u.JSONPipeIn(n.__assign({
+								return "button" === e.type ? p.JSONPipeIn(n.__assign({
 									label: "按钮",
 									type: "button"
 								},
-								e)) : "tpl" === e.type ? u.JSONPipeIn(n.__assign({
+								e)) : "tpl" === e.type ? p.JSONPipeIn(n.__assign({
 									type: "tpl",
 									tpl: "内容"
 								},
@@ -20555,7 +20576,7 @@ function(e, t, a) {
 							tpl: "内容"
 						},
 						multiple: !0,
-						controls: [{
+						items: [{
 							type: "select",
 							name: "type",
 							columnClassName: "w-ssm",
@@ -20654,11 +20675,11 @@ function(e, t, a) {
 						},
 						pipeOut: function(e) {
 							return Array.isArray(e) ? e.map((function(e) {
-								return "button" === e.type ? u.JSONPipeIn(n.__assign({
+								return "button" === e.type ? p.JSONPipeIn(n.__assign({
 									label: "按钮",
 									type: "button"
 								},
-								e)) : "tpl" === e.type ? u.JSONPipeIn(n.__assign({
+								e)) : "tpl" === e.type ? p.JSONPipeIn(n.__assign({
 									type: "tpl",
 									tpl: "内容"
 								},
@@ -20670,7 +20691,7 @@ function(e, t, a) {
 							tpl: "内容"
 						},
 						multiple: !0,
-						controls: [{
+						items: [{
 							type: "select",
 							name: "type",
 							columnClassName: "w-ssm",
@@ -20766,7 +20787,7 @@ function(e, t, a) {
 						name: "filterDefaultVisible",
 						type: "switch",
 						label: "查询条件默认是否可见",
-						pipeIn: c.defaultValue(!0),
+						pipeIn: u.defaultValue(!0),
 						mode: "inline",
 						className: "block",
 						visibleOn: "data.filter && data.filterTogglable"
@@ -20793,23 +20814,23 @@ function(e, t, a) {
 						className: "block",
 						visibleOn: "data.checkOnItemClick"
 					},
-					c.getSchemaTpl("className"), c.getSchemaTpl("className", {
+					u.getSchemaTpl("className"), u.getSchemaTpl("className", {
 						name: "bodyClassName",
 						label: "内容 CSS 类名"
 					})]
 				},
 				{
 					title: "其他",
-					controls: [c.getSchemaTpl("ref"), {
+					body: [u.getSchemaTpl("ref"), {
 						name: "source",
 						label: "数据源",
-						type: "text",
+						type: "input-text",
 						description: "不填写，默认读取接口返回的 items 或者 rows 属性，如果是别的，请在此设置，如： <code>\\${xxxx}</code>"
 					},
 					{
 						name: "perPage",
 						label: "每页数量",
-						type: "number"
+						type: "input-number"
 					},
 					{
 						name: "keepItemSelectionOnPageChange",
@@ -20821,26 +20842,26 @@ function(e, t, a) {
 					{
 						name: "maxKeepItemSelectionLength",
 						label: "最大选择数量",
-						type: "number",
+						type: "input-number",
 						mode: "inline",
 						className: "block"
 					},
 					{
 						name: "pageField",
 						label: "页码字段名",
-						type: "text",
-						pipeIn: c.defaultValue("page")
+						type: "input-text",
+						pipeIn: u.defaultValue("page")
 					},
 					{
 						name: "perPageField",
 						label: "分页步长字段名",
-						type: "text",
-						pipeIn: c.defaultValue("perPage")
+						type: "input-text",
+						pipeIn: u.defaultValue("perPage")
 					},
 					{
 						name: "orderField",
 						label: "排序权重字段",
-						type: "text",
+						type: "input-text",
 						labelRemark: {
 							className: "m-l-xs",
 							trigger: "click",
@@ -20852,17 +20873,17 @@ function(e, t, a) {
 					{
 						name: "perPageAvailable",
 						label: "切换每页数",
-						type: "array",
+						type: "input-array",
 						hiddenOn: "data.loadDataOnce",
 						items: {
-							type: "number",
+							type: "input-number",
 							required: !0
 						},
 						value: [10]
 					},
-					c.getSchemaTpl("name"), {
+					u.getSchemaTpl("name"), {
 						name: "itemCheckableOn",
-						type: "text",
+						type: "input-text",
 						label: "配置单条可选中的表达式",
 						description: "请使用 js 表达式，不设置的话每条都可选中。",
 						visibleOn: "data.bulkActions && data.bulkActions.length || data.pickerMode"
@@ -20899,6 +20920,11 @@ function(e, t, a) {
 			t
 		}
 		return n.__extends(t, e),
+		t.prototype.addItem = function(e, t) {
+			e.find((function(e) {
+				return e.label === t.label
+			})) || e.push(t)
+		},
 		t.prototype.handleBulkActionEdit = function(e, t) {
 			var a = this.manager.store,
 			n = a.getSchema(e),
@@ -21050,9 +21076,9 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "自定义代码",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "onMount",
-				controls: [{
+				body: [{
 					name: "onMount",
 					type: "editor",
 					size: "xxl",
@@ -21067,7 +21093,7 @@ function(e, t, a) {
 			},
 			{
 				title: "onUpdate",
-				controls: [{
+				body: [{
 					name: "onUpdate",
 					type: "editor",
 					size: "xxl",
@@ -21076,7 +21102,7 @@ function(e, t, a) {
 			},
 			{
 				title: "onUnmount",
-				controls: [{
+				body: [{
 					name: "onUnmount",
 					type: "editor",
 					size: "xxl",
@@ -21088,9 +21114,7 @@ function(e, t, a) {
 		return n.__extends(t, e),
 		t.prototype.buildSubRenderers = function(t, a) {
 			var n = e.prototype.buildSubRenderers.call(this, t, a);
-			return ("form" === t.info.renderer.name || t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) && (n.scaffold.onMount = "\n        const button = document.createElement('button');\n        button.innerText = '点击修改姓名ddd';\n        button.onclick = event => {\n          onChange('new name');\n          event.preventDefault();\n        };\n        dom.appendChild(button);"),
+			return n.scaffold.onMount = "\n        const button = document.createElement('button');\n        button.innerText = '点击修改姓名ddd';\n        button.onclick = event => {\n          onChange('new name');\n          event.preventDefault();\n        };\n        dom.appendChild(button);",
 			n
 		},
 		t
@@ -21129,99 +21153,6 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.DiffEditorPlugin = void 0;
-	var n = a(0),
-	l = a(1),
-	i = a(2),
-	r = a(3),
-	o = a(28),
-	s = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "diff-editor",
-			t.$schema = "/schemas/DiffEditorControlSchema.json",
-			t.name = "Diff查看器",
-			t.description = "可以用来展示配置或者代码的 Diff 结果。",
-			t.tags = ["功能"],
-			t.icon = "fa fa-columns",
-			t.scaffold = {
-				type: "diff-editor",
-				label: "Diff查看器"
-			},
-			t.previewSchema = n.__assign({},
-			t.scaffold),
-			t.panelTitle = "Diff框",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
-				title: "常规",
-				controls: [{
-					type: "textarea",
-					name: "diffValue",
-					label: "左侧默认值",
-					pipeOut: r.valuePipeOut,
-					description: "支持使用 <code>\\${xxx}</code> 来获取变量"
-				},
-				{
-					type: "textarea",
-					name: "value",
-					label: "右侧默认值",
-					pipeOut: r.valuePipeOut
-				},
-				{
-					label: "语言",
-					name: "language",
-					type: "select",
-					value: "javascript",
-					searchable: !0,
-					options: o.availableLanguages.concat()
-				}]
-			},
-			{
-				title: "外观",
-				controls: [{
-					name: "size",
-					type: "button-group",
-					size: "xs",
-					pipeIn: r.defaultValue(""),
-					options: [{
-						label: "默认",
-						value: ""
-					},
-					{
-						label: "中",
-						value: "md"
-					},
-					{
-						label: "大",
-						value: "lg"
-					},
-					{
-						label: "加大",
-						value: "xl"
-					},
-					{
-						label: "加加大",
-						value: "xxl"
-					}]
-				},
-				r.getSchemaTpl("className")]
-			},
-			{
-				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
-			}])],
-			t
-		}
-		return n.__extends(t, e),
-		t
-	} (i.BasePlugin);
-	t.DiffEditorPlugin = s,
-	l.registerEditorPlugin(s)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
 	t.DividerPlugin = void 0;
 	var n = a(0),
 	l = a(1),
@@ -21243,13 +21174,13 @@ function(e, t, a) {
 				className: "m-t-none m-b-none"
 			},
 			t.panelTitle = "分隔线",
-			t.panelControls = r.getSchemaTpl("tabs", [{
+			t.panelBody = r.getSchemaTpl("tabs", [{
 				title: "外观",
-				controls: [r.getSchemaTpl("className")]
+				body: [r.getSchemaTpl("className")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}]),
 			t
 		}
@@ -21270,7 +21201,7 @@ function(e, t, a) {
 	i = a(2),
 	r = a(3),
 	o = a(6),
-	s = a(46),
+	s = a(44),
 	d = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
@@ -21280,7 +21211,8 @@ function(e, t, a) {
 			t.wrapperProps = {
 				wrapperComponent: s.InlineModal,
 				onClose: o.noop,
-				resizable: !1
+				resizable: !1,
+				show: !0
 			},
 			t.regions = [{
 				key: "body",
@@ -21304,11 +21236,11 @@ function(e, t, a) {
 				}
 			}],
 			t.panelTitle = "弹框",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					label: "标题",
-					type: "text",
+					type: "input-text",
 					name: "title"
 				},
 				{
@@ -21316,7 +21248,7 @@ function(e, t, a) {
 				},
 				{
 					label: "位置",
-					type: "button-group",
+					type: "button-group-select",
 					name: "position",
 					value: "right",
 					size: "sm",
@@ -21392,15 +21324,15 @@ function(e, t, a) {
 						})),
 						t
 					},
-					controls: [{
+					items: [{
 						placeholder: "Key",
-						type: "text",
+						type: "input-text",
 						unique: !0,
 						name: "key"
 					},
 					{
 						placeholder: "Value",
-						type: "text",
+						type: "input-text",
 						name: "value"
 					}]
 				},
@@ -21421,9 +21353,9 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					label: "尺寸",
-					type: "button-group",
+					type: "button-group-select",
 					name: "size",
 					size: "sm",
 					mode: "inline",
@@ -21493,7 +21425,7 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "dropdown-button",
@@ -21528,10 +21460,10 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "下拉按钮",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						children: i.
 					default.createElement(l.Button, {
 							level: "info",
@@ -21544,7 +21476,7 @@ function(e, t, a) {
 					},
 					{
 						label: "名称",
-						type: "text",
+						type: "input-text",
 						name: "label"
 					},
 					{
@@ -21565,9 +21497,9 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [s.getSchemaTpl("size"), {
+					body: [s.getSchemaTpl("size"), {
 						label: "展示样式",
-						type: "button-group",
+						type: "button-group-select",
 						size: "xs",
 						name: "level",
 						btnActiveClassName: "active",
@@ -21612,7 +21544,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("disabled"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("disabled"), s.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -21660,8 +21592,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.DropDownButtonPlugin = c,
-	r.registerEditorPlugin(c)
+	t.DropDownButtonPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -21676,7 +21608,7 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "each",
@@ -21699,9 +21631,9 @@ function(e, t, a) {
 				value: ["a", "b", "c"]
 			}),
 			t.panelTitle = "循环",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [{
-					type: "text",
+					type: "input-text",
 					name: "name",
 					label: "关联字段",
 					placeholder: "varname",
@@ -21720,7 +21652,7 @@ function(e, t, a) {
 				},
 				{
 					name: "placeholder",
-					type: "text",
+					type: "input-text",
 					label: "占位符",
 					pipeIn: s.defaultValue("暂无内容"),
 					description: "当没有关联变量，或者目标变量不是数组或者对象时显示此占位信息"
@@ -21781,14 +21713,12 @@ function(e, t, a) {
 			})
 		},
 		t.prototype.buildSubRenderers = function(t, a) {
-			if ("form" !== t.info.renderer.name && !t.node.childRegions.some((function(e) {
-				return "controls" === e.region
-			}))) return e.prototype.buildSubRenderers.call(this, t, a)
+			return e.prototype.buildSubRenderers.call(this, t, a)
 		},
 		t
 	} (o.BasePlugin);
-	t.EachPlugin = c,
-	r.registerEditorPlugin(c)
+	t.EachPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -21827,7 +21757,7 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "Flex",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "items",
 				label: "内容集合",
 				type: "combo",
@@ -21838,7 +21768,7 @@ function(e, t, a) {
 				minLength: 2,
 				multiple: !0,
 				draggableTip: "",
-				controls: [{
+				items: [{
 					type: "tpl",
 					tpl: '<span class="label label-default">子节点${index | plus}</span>'
 				}]
@@ -21865,11 +21795,11 @@ function(e, t, a) {
 				inline: !0,
 				options: [{
 					label: "水平",
-					value: "column"
+					value: "row"
 				},
 				{
 					label: "垂直",
-					value: "row"
+					value: "column"
 				}]
 			},
 			r.getSchemaTpl("className"), r.getSchemaTpl("visible")],
@@ -21905,7 +21835,9 @@ function(e, t, a) {
 	r = a(1),
 	o = a(2),
 	s = a(3),
-	d = function(e) {
+	d = a(14),
+	u = a(15),
+	p = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "grid",
@@ -21913,24 +21845,43 @@ function(e, t, a) {
 			t.regions = [{
 				key: "columns",
 				label: "列集合",
-				renderMethod: "renderColumns"
+				renderMethod: "renderColumn"
 			}],
 			t.name = "Grid",
 			t.description = "用来做格子布局的，将一行分成12等份，可以给每一列设置占比。",
 			t.tags = ["容器"],
 			t.icon = "fa fa-th",
-			t.scaffold = {
-				type: "grid",
-				columns: [{
-					type: "tpl",
-					tpl: "第一列",
-					inline: !1
-				},
-				{
-					type: "tpl",
-					tpl: "第二列",
-					inline: !1
-				}]
+			t.scaffold = function(e) {
+				var t;
+				return "form" === (null === (t = e.activeNodeInfo) || void 0 === t ? void 0 : t.renderer.type) ? {
+					type: "grid",
+					columns: [{
+						body: [{
+							type: "tpl",
+							tpl: "第一列",
+							inline: !1
+						}]
+					},
+					{
+						body: [{
+							type: "tpl",
+							tpl: "第二列",
+							inline: !1
+						}]
+					}]
+				}: {
+					type: "grid",
+					columns: [{
+						type: "tpl",
+						tpl: "第一列",
+						inline: !1
+					},
+					{
+						type: "tpl",
+						tpl: "第二列",
+						inline: !1
+					}]
+				}
 			},
 			t.previewSchema = {
 				type: "grid",
@@ -21952,7 +21903,7 @@ function(e, t, a) {
 				}]
 			},
 			t.panelTitle = "格子布局",
-			t.panelControls = [{
+			t.panelBody = [{
 				children: i.
 			default.createElement(l.Button, {
 					level: "info",
@@ -21970,8 +21921,14 @@ function(e, t, a) {
 				body: "「格子详情」请点选成员节点，然后选择格子面板进行设置。"
 			}],
 			t.vRendererConfig = {
+				regions: {
+					body: {
+						key: "body",
+						label: "内容区"
+					}
+				},
 				panelTitle: "格子",
-				panelControlsCreator: function(e) {
+				panelBodyCreator: function(e) {
 					return [s.getSchemaTpl("className", {
 						label: "格子 CSS 类名",
 						name: "columnClassName"
@@ -21996,7 +21953,7 @@ function(e, t, a) {
 						visibleOn: "this.xs || this.sm || this.md || this.lg",
 						tabs: [{
 							title: "xs",
-							controls: [{
+							body: [{
 								type: "switch",
 								name: "xsHidden",
 								label: "是否隐藏",
@@ -22006,7 +21963,7 @@ function(e, t, a) {
 							},
 							{
 								label: "宽度占比",
-								type: "range",
+								type: "input-range",
 								name: "xs",
 								min: 1,
 								max: 12,
@@ -22016,7 +21973,7 @@ function(e, t, a) {
 						},
 						{
 							title: "sm",
-							controls: [{
+							body: [{
 								type: "switch",
 								name: "xsHidden",
 								label: "是否隐藏",
@@ -22026,7 +21983,7 @@ function(e, t, a) {
 							},
 							{
 								label: "宽度占比",
-								type: "range",
+								type: "input-range",
 								name: "sm",
 								min: 1,
 								max: 12,
@@ -22036,7 +21993,7 @@ function(e, t, a) {
 						},
 						{
 							title: "md",
-							controls: [{
+							body: [{
 								type: "switch",
 								name: "mdHidden",
 								label: "是否隐藏",
@@ -22046,7 +22003,7 @@ function(e, t, a) {
 							},
 							{
 								label: "宽度占比",
-								type: "range",
+								type: "input-range",
 								name: "md",
 								min: 1,
 								max: 12,
@@ -22056,7 +22013,7 @@ function(e, t, a) {
 						},
 						{
 							title: "lg",
-							controls: [{
+							body: [{
 								type: "switch",
 								name: "lgHidden",
 								label: "是否隐藏",
@@ -22066,7 +22023,7 @@ function(e, t, a) {
 							},
 							{
 								label: "宽度占比",
-								type: "range",
+								type: "input-range",
 								name: "lg",
 								min: 1,
 								max: 12,
@@ -22088,24 +22045,54 @@ function(e, t, a) {
 					}]
 				}
 			},
+			t.vWrapperResolve = function(e) {
+				return e
+			},
+			t.overrides = {
+				renderColumn: function(e, t, a) {
+					var n = this.super(e, t, a),
+					l = this.props.$$editor;
+					if (l && e.$$id) {
+						var r = l.plugin,
+						o = r.vRendererConfig.regions.body;
+						return i.
+					default.createElement(d.VRenderer, {
+							key: e.$$id,
+							plugin: l.plugin,
+							renderer: l.renderer,
+							$schema: "",
+							hostId: l.id,
+							memberIndex: t,
+							name: "格子" + (t + 1),
+							id: e.$$id,
+							draggable: !1,
+							schemaPath: l.schemaPath + "/grid/" + t,
+							wrapperResolve: r.vWrapperResolve,
+							path: this.props.$path + "/" + t,
+							data: this.props.data
+						},
+						o ? i.
+					default.createElement(u.RegionWrapper, {
+							key: o.key,
+							preferTag: o.preferTag,
+							name: o.key,
+							label: o.label,
+							regionConfig: o,
+							editorStore: r.manager.store,
+							manager: r.manager,
+							children: n,
+							wrapperResolve: o.wrapperResolve,
+							rendererName: l.renderer.name
+						}) : n)
+					}
+					return n
+				}
+			},
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.exchangeRenderer = function(e) {
 			this.manager.showReplacePanel(e)
-		},
-		t.prototype.buildEditorPanel = function(t, a) {
-			var n, l;
-			e.prototype.buildEditorPanel.call(this, t, a);
-			var i = null === (n = t.node.parent) || void 0 === n ? void 0 : n.host; (null === (l = null == i ? void 0 : i.info) || void 0 === l ? void 0 : l.plugin) === this && (this.vRendererConfig.panelControls || this.vRendererConfig.panelControlsCreator) && a.push({
-				key: "grid",
-				icon: this.vRendererConfig.panelIcon || "fa fa-tablet",
-				title: this.vRendererConfig.panelTitle || "格子",
-				order: 100,
-				render: this.manager.makeSchemaFormRender({
-					controls: this.vRendererConfig.panelControlsCreator ? this.vRendererConfig.panelControlsCreator(t) : this.vRendererConfig.panelControls
-				})
-			})
 		},
 		t.prototype.afterResolveJsonSchema = function(e) {
 			var t, a, n = null === (t = e.context.node.parent) || void 0 === t ? void 0 : t.host; (null === (a = null == n ? void 0 : n.info) || void 0 === a ? void 0 : a.plugin) === this && e.setData("/schemas/GridColumn.json")
@@ -22118,8 +22105,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.GridPlugin = d,
-	r.registerEditorPlugin(d)
+	t.GridPlugin = p,
+	r.registerEditorPlugin(p)
 },
 function(e, t, a) {
 	"use strict";
@@ -22133,7 +22120,9 @@ function(e, t, a) {
 	r = a(1),
 	o = a(2),
 	s = a(3),
-	d = function(e) {
+	d = a(14),
+	u = a(15),
+	p = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "hbox",
@@ -22142,18 +22131,37 @@ function(e, t, a) {
 			t.icon = "fa fa-columns",
 			t.description = "用来实现左右排版布局，默认平均分配，可以通过 columnClassName 配置某列的宽度。",
 			t.tags = ["容器"],
-			t.scaffold = {
-				type: "hbox",
-				columns: [{
-					type: "tpl",
-					tpl: "第一列",
-					inline: !1
-				},
-				{
-					type: "tpl",
-					tpl: "第二列",
-					inline: !1
-				}]
+			t.scaffold = function(e) {
+				var t;
+				return "form" === (null === (t = e.activeNodeInfo) || void 0 === t ? void 0 : t.renderer.type) ? {
+					type: "hbox",
+					columns: [{
+						body: [{
+							type: "tpl",
+							tpl: "第一列",
+							inline: !1
+						}]
+					},
+					{
+						body: [{
+							type: "tpl",
+							tpl: "第二列",
+							inline: !1
+						}]
+					}]
+				}: {
+					type: "hbox",
+					columns: [{
+						type: "tpl",
+						tpl: "第一列",
+						inline: !1
+					},
+					{
+						type: "tpl",
+						tpl: "第二列",
+						inline: !1
+					}]
+				}
 			},
 			t.previewSchema = {
 				type: "hbox",
@@ -22169,7 +22177,7 @@ function(e, t, a) {
 				}]
 			},
 			t.panelTitle = "HBox",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "columns",
 				label: "列集合",
 				type: "combo",
@@ -22181,7 +22189,7 @@ function(e, t, a) {
 				minLength: 2,
 				multiple: !0,
 				draggableTip: "",
-				controls: [{
+				items: [{
 					type: "tpl",
 					tpl: '<span class="label label-default">列${index | plus}</span>',
 					columnClassName: "no-grow v-middle"
@@ -22196,12 +22204,17 @@ function(e, t, a) {
 			t.regions = [{
 				key: "columns",
 				label: "列集合",
-				renderMethod: "renderColumns",
 				dndMode: "position-h"
 			}],
 			t.vRendererConfig = {
+				regions: {
+					body: {
+						key: "body",
+						label: "内容区"
+					}
+				},
 				panelTitle: "列",
-				panelControlsCreator: function(e) {
+				panelBodyCreator: function(e) {
 					return [s.getSchemaTpl("className", {
 						name: "columnClassName",
 						label: "列 CSS 类名",
@@ -22219,32 +22232,62 @@ function(e, t, a) {
 					}]
 				}
 			},
+			t.vWrapperResolve = function(e) {
+				return e
+			},
+			t.overrides = {
+				renderColumn: function(e, t) {
+					var a = this.super(e, t),
+					n = this.props.$$editor;
+					if (n && e.$$id) {
+						var l = n.plugin,
+						r = l.vRendererConfig.regions.body;
+						return i.
+					default.createElement(d.VRenderer, {
+							key: e.$$id,
+							plugin: n.plugin,
+							renderer: n.renderer,
+							$schema: "",
+							hostId: n.id,
+							memberIndex: t,
+							name: "列" + (t + 1),
+							id: e.$$id,
+							draggable: !1,
+							schemaPath: n.schemaPath + "/hbox/" + t,
+							wrapperResolve: l.vWrapperResolve,
+							path: this.props.$path + "/" + t,
+							data: this.props.data
+						},
+						r ? i.
+					default.createElement(u.RegionWrapper, {
+							key: r.key,
+							preferTag: r.preferTag,
+							name: r.key,
+							label: r.label,
+							regionConfig: r,
+							editorStore: l.manager.store,
+							manager: l.manager,
+							children: a,
+							wrapperResolve: r.wrapperResolve,
+							rendererName: n.renderer.name
+						}) : a)
+					}
+					return a
+				}
+			},
 			t
 		}
 		return n.__extends(t, e),
 		t.prototype.exchangeRenderer = function(e) {
 			this.manager.showReplacePanel(e)
 		},
-		t.prototype.buildEditorPanel = function(t, a) {
-			var n, l;
-			e.prototype.buildEditorPanel.call(this, t, a);
-			var i = null === (n = t.node.parent) || void 0 === n ? void 0 : n.host; (null === (l = null == i ? void 0 : i.info) || void 0 === l ? void 0 : l.plugin) === this && (this.vRendererConfig.panelControls || this.vRendererConfig.panelControlsCreator) && a.push({
-				key: "grid",
-				order: 100,
-				icon: this.vRendererConfig.panelIcon || "fa fa-tablet",
-				title: this.vRendererConfig.panelTitle || "格子",
-				render: this.manager.makeSchemaFormRender({
-					controls: this.vRendererConfig.panelControlsCreator ? this.vRendererConfig.panelControlsCreator(t) : this.vRendererConfig.panelControls
-				})
-			})
-		},
 		t.prototype.afterResolveJsonSchema = function(e) {
 			var t, a, n = null === (t = e.context.node.parent) || void 0 === t ? void 0 : t.host; (null === (a = null == n ? void 0 : n.info) || void 0 === a ? void 0 : a.plugin) === this && e.setData("/schemas/HBoxColumn.json")
 		},
 		t
 	} (o.BasePlugin);
-	t.HBoxPlugin = d,
-	r.registerEditorPlugin(d)
+	t.HBoxPlugin = p,
+	r.registerEditorPlugin(p)
 },
 function(e, t, a) {
 	"use strict";
@@ -22274,35 +22317,35 @@ function(e, t, a) {
 				tpl: "iFrame"
 			},
 			t.panelTitle = "iFrame",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "src",
 					label: "页面地址",
-					type: "text",
+					type: "input-text",
 					description: ""
 				}]
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					name: "width",
 					label: "iFrame 宽度",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("100%"),
 					pipeOut: r.valuePipeOut
 				},
 				{
 					name: "height",
 					label: "iFrame 高度",
-					type: "text",
+					type: "input-text",
 					pipeOut: r.valuePipeOut
 				},
 				r.getSchemaTpl("className")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -22343,59 +22386,55 @@ function(e, t, a) {
 				value: "https://internal-amis-res.cdn.bcebos.com/images/2020-1/1578395692722/4f3cb4202335.jpeg@s_0,w_216,l_1,f_jpg,q_80"
 			}),
 			t.panelTitle = "图片",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						name: "title",
-						type: "text",
+						type: "input-text",
 						label: "图片标题"
 					},
 					{
 						name: "imageCaption",
-						type: "text",
+						type: "input-text",
 						label: "图片描述"
 					},
-					{
+					r.getSchemaTpl("imageUrl", {
 						name: "defaultImage",
-						label: "默认图片地址",
-						type: "text"
-					},
-					{
+						label: "默认图片地址"
+					}), {
 						name: "width",
 						label: "宽度",
-						type: "number"
+						type: "input-number"
 					},
 					{
 						name: "height",
 						label: "高度",
-						type: "number"
+						type: "input-number"
 					},
-					t ? null: {
+					t ? null: r.getSchemaTpl("imageUrl", {
 						name: "src",
-						type: "text",
+						type: "input-text",
 						label: "缩略图地址",
 						description: "如果已绑定字段名，可以不用设置，支持用变量。"
-					}]
+					})]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						type: "switch",
 						name: "enlargeAble",
 						label: "开启图片放大功能",
 						mode: "inline",
 						className: "w-full"
 					},
-					{
+					r.getSchemaTpl("imageUrl", {
 						name: "originalSrc",
 						visibleOn: "this.enlargeAble",
-						type: "text",
 						label: "原图地址",
 						description: "如果不配置将默认使用缩略图地址。"
-					},
-					{
+					}), {
 						type: "switch",
 						name: "showDimensions",
 						label: "是否显示图片尺寸",
@@ -22404,7 +22443,7 @@ function(e, t, a) {
 					},
 					{
 						name: "thumbMode",
-						type: "button-group",
+						type: "button-group-select",
 						label: "缩略图展示模式",
 						size: "sm",
 						pipeIn: r.defaultValue("contain"),
@@ -22427,7 +22466,7 @@ function(e, t, a) {
 					},
 					{
 						name: "thumbRatio",
-						type: "button-group",
+						type: "button-group-select",
 						label: "缩略图比率",
 						size: "sm",
 						pipeIn: r.defaultValue("1:1"),
@@ -22456,7 +22495,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -22505,25 +22544,76 @@ function(e, t, a) {
 				}]
 			}),
 			t.panelTitle = "图片集",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [r.getSchemaTpl("imageUrl", {
 						name: "defaultImage",
-						label: "默认图片地址",
-						type: "text"
+						label: "默认图片地址"
+					})].concat(t ? [] : [{
+						type: "formula",
+						name: "__mode",
+						autoSet: !1,
+						formula: "!this.name && !this.source && Array.isArray(this.options) ? 2 : 1"
 					},
-					t ? null: {
+					{
+						label: "数据源",
+						name: "__mode",
+						type: "button-group-select",
+						size: "xs",
+						mode: "inline",
+						className: "w-full",
+						options: [{
+							label: "关联字段",
+							value: 1
+						},
+						{
+							label: "静态设置",
+							value: 2
+						}],
+						onChange: function(e, t, a, n) {
+							e !== t && 1 == e && n.deleteValueByName("options")
+						}
+					},
+					{
 						name: "source",
-						type: "text",
+						type: "input-text",
 						label: "关联数据",
-						description: "比如：\\${listVar}，用来关联作用域中的已有数据。"
-					}]
+						description: "比如：\\${listVar}，用来关联作用域中的已有数据。",
+						visibleOn: "this.__mode == 1"
+					},
+					{
+						type: "combo",
+						name: "options",
+						visibleOn: "this.__mode == 2",
+						minLength: 1,
+						label: "图片集数据",
+						multiple: !0,
+						multiLine: !0,
+						addable: !0,
+						removable: !0,
+						items: [r.getSchemaTpl("imageUrl", {
+							name: "image",
+							label: "缩略图"
+						}), r.getSchemaTpl("imageUrl", {
+							name: "src",
+							label: "原图"
+						}), {
+							type: "input-text",
+							label: "图片标题",
+							name: "title"
+						},
+						{
+							type: "textarea",
+							label: "图片描述",
+							name: "caption"
+						}]
+					}])
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						type: "switch",
 						name: "enlargeAble",
 						label: "开启图片放大功能",
@@ -22533,7 +22623,7 @@ function(e, t, a) {
 					{
 						name: "originalSrc",
 						visibleOn: "this.enlargeAble",
-						type: "text",
+						type: "input-text",
 						label: "原图地址",
 						description: "如果不配置将默认使用缩略图地址。"
 					},
@@ -22546,7 +22636,7 @@ function(e, t, a) {
 					},
 					{
 						name: "thumbMode",
-						type: "button-group",
+						type: "button-group-select",
 						label: "缩略图展示模式",
 						size: "sm",
 						pipeIn: r.defaultValue("contain"),
@@ -22569,7 +22659,7 @@ function(e, t, a) {
 					},
 					{
 						name: "thumbRatio",
-						type: "button-group",
+						type: "button-group-select",
 						label: "缩略图比率",
 						size: "sm",
 						pipeIn: r.defaultValue("1:1"),
@@ -22595,7 +22685,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -22616,7 +22706,7 @@ function(e, t, a) {
 	l = a(1),
 	i = a(2),
 	r = a(3),
-	o = a(18),
+	o = a(17),
 	s = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
@@ -22640,29 +22730,29 @@ function(e, t, a) {
 				}
 			}),
 			t.panelTitle = "JSON",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: o([t ? {
+					body: o([t ? {
 						type: "tpl",
 						inline: !1,
 						className: "text-info text-sm",
 						tpl: "<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>"
 					}: null, {
 						name: "levelExpand",
-						type: "number",
+						type: "input-number",
 						label: "默认展开级别",
 						pipeIn: r.defaultValue(1)
 					}])
 				},
 				{
 					title: "外观",
-					controls: o([r.getSchemaTpl("className")])
+					body: o([r.getSchemaTpl("className")])
 				},
 				{
 					title: "其他",
-					controls: o([r.getSchemaTpl("ref"), r.getSchemaTpl("visible")])
+					body: o([r.getSchemaTpl("ref"), r.getSchemaTpl("visible")])
 				}])]
 			},
 			t
@@ -22701,17 +22791,17 @@ function(e, t, a) {
 				label: t.name
 			}),
 			t.panelTitle = "链接",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "href",
-					type: "text",
+					type: "input-text",
 					label: "目标地址, 支持取变量。",
 					description: "如果已绑定字段名，可以不用设置"
 				},
 				{
 					name: "body",
-					type: "text",
+					type: "input-text",
 					label: "内容",
 					description: "不填写时，自动使用目标地址值"
 				},
@@ -22725,13 +22815,13 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className", {
+				body: [r.getSchemaTpl("className", {
 					autoComplete: !1
 				})]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -22754,7 +22844,7 @@ function(e, t, a) {
 	o = a(2),
 	s = a(3),
 	d = a(6),
-	c = function(e) {
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "list",
@@ -22792,11 +22882,11 @@ function(e, t, a) {
 				}]
 			}),
 			t.panelTitle = "列表",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var a = "crud" === e.schema.type;
 				return s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						children: i.
 					default.createElement(l.Button, {
 							level: "danger",
@@ -22811,12 +22901,12 @@ function(e, t, a) {
 					},
 					{
 						name: "title",
-						type: "text",
+						type: "input-text",
 						label: "标题"
 					},
 					a ? null: {
 						name: "source",
-						type: "text",
+						type: "input-text",
 						label: "数据源",
 						pipeIn: s.defaultValue("${items}"),
 						description: "绑定当前环境变量"
@@ -22824,13 +22914,13 @@ function(e, t, a) {
 					{
 						name: "placeholder",
 						pipeIn: s.defaultValue("没有数据"),
-						type: "text",
+						type: "input-text",
 						label: "无数据提示"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "showHeader",
 						type: "switch",
 						mode: "inline",
@@ -22861,7 +22951,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -22882,7 +22972,12 @@ function(e, t, a) {
 					})
 				}))
 			}
-			return d.JSONPipeOut(e)
+			var r = e.$schema,
+			o = n.__rest(e, ["$schema"]);
+			return n.__assign(n.__assign({},
+			d.JSONPipeOut(o)), {
+				$schema: r
+			})
 		},
 		t.prototype.buildMockData = function() {
 			return {
@@ -22956,8 +23051,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.ListPlugin = c,
-	r.registerEditorPlugin(c)
+	t.ListPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -22971,8 +23066,8 @@ function(e, t, a) {
 	r = a(1),
 	o = a(2),
 	s = a(3),
-	d = a(15),
-	c = function(e) {
+	d = a(14),
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "list-item",
@@ -22991,23 +23086,23 @@ function(e, t, a) {
 				insertPosition: "inner"
 			}],
 			t.panelTitle = "列表项",
-			t.panelControls = s.getSchemaTpl("tabs", [{
+			t.panelBody = s.getSchemaTpl("tabs", [{
 				title: "基本",
-				controls: [{
+				body: [{
 					name: "title",
-					type: "text",
+					type: "input-text",
 					label: "标题",
 					descrition: "支持模板语法如： ${xxx}"
 				},
 				{
 					name: "subTitle",
-					type: "text",
+					type: "input-text",
 					label: "副标题",
 					descrition: "支持模板语法如： ${xxx}"
 				},
 				{
 					name: "avatar",
-					type: "text",
+					type: "input-text",
 					label: "图片地址",
 					descrition: "支持模板语法如： ${xxx}"
 				},
@@ -23020,7 +23115,7 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [s.getSchemaTpl("className", {
+				body: [s.getSchemaTpl("className", {
 					name: "avatarClassName",
 					label: "图片 CSS 类名",
 					pipeIn: s.defaultValue("thumb-sm avatar m-r")
@@ -23061,7 +23156,7 @@ function(e, t, a) {
 			},
 			t.vRendererConfig = {
 				panelTitle: "字段",
-				panelControlsCreator: function(e) {
+				panelBodyCreator: function(e) {
 					return [s.getSchemaTpl("label"), s.getSchemaTpl("className", {
 						name: "labelClassName",
 						label: "Label CSS 类名",
@@ -23102,8 +23197,8 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.ListItemPlugin = c,
-	r.registerEditorPlugin(c)
+	t.ListItemPlugin = u,
+	r.registerEditorPlugin(u)
 },
 function(e, t, a) {
 	"use strict";
@@ -23132,21 +23227,21 @@ function(e, t, a) {
 				type: "log"
 			},
 			t.panelTitle = "日志",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [r.getSchemaTpl("api", {
+					body: [r.getSchemaTpl("api", {
 						label: "日志数据源",
 						name: "source"
 					})]
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("className")]
+					body: [r.getSchemaTpl("className")]
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -23192,11 +23287,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "映射",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [t ? {
+					body: [t ? {
 						type: "tpl",
 						inline: !1,
 						className: "text-info text-sm",
@@ -23241,9 +23336,9 @@ function(e, t, a) {
 							})),
 							t
 						},
-						controls: [{
+						items: [{
 							placeholder: "Key",
-							type: "text",
+							type: "input-text",
 							unique: !0,
 							name: "key",
 							required: !0,
@@ -23251,24 +23346,24 @@ function(e, t, a) {
 						},
 						{
 							placeholder: "内容",
-							type: "text",
+							type: "input-text",
 							name: "value"
 						}]
 					},
 					{
 						name: "placeholder",
-						type: "text",
+						type: "input-text",
 						pipeIn: r.defaultValue("-"),
 						label: "占位符"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("className")]
+					body: [r.getSchemaTpl("className")]
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -23278,6 +23373,54 @@ function(e, t, a) {
 	} (i.BasePlugin);
 	t.MappingPlugin = s,
 	l.registerEditorPlugin(s)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.MarkdownPlugin = void 0;
+	var n = a(0),
+	l = a(1),
+	i = a(2),
+	r = a(3),
+	o = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "markdown",
+			t.$schema = "/schemas/MarkdownSchema.json",
+			t.name = "Markdown",
+			t.description = "展示 markdown 内容",
+			t.tags = ["展示"],
+			t.icon = "fa fa-file-text",
+			t.scaffold = {
+				type: "markdown",
+				value: "## 这是标题"
+			},
+			t.previewSchema = n.__assign({},
+			t.scaffold),
+			t.panelTitle = "MD",
+			t.panelBodyCreator = function(e) {/\/field\/\w+$/.test(e.path);
+				return [r.getSchemaTpl("tabs", [{
+					title: "常规",
+					body: [r.getSchemaTpl("markdownBody")]
+				},
+				{
+					title: "外观",
+					body: [r.getSchemaTpl("className")]
+				},
+				{
+					title: "其他",
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				}])]
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t
+	} (i.BasePlugin);
+	t.MarkdownPlugin = o,
+	l.registerEditorPlugin(o)
 },
 function(e, t, a) {
 	"use strict";
@@ -23329,14 +23472,14 @@ function(e, t, a) {
 						label: "",
 						to: ""
 					},
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "label",
 						label: "名称",
 						required: !0
 					},
 					{
-						type: "text",
+						type: "input-text",
 						name: "to",
 						label: "跳转地址",
 						required: !0
@@ -23358,7 +23501,7 @@ function(e, t, a) {
 							content: "可以配置该菜单是否要高亮",
 							placement: "left"
 						},
-						controls: [{
+						body: [{
 							name: "active",
 							type: "radios",
 							inline: !0,
@@ -23379,7 +23522,7 @@ function(e, t, a) {
 							name: "activeOn",
 							autoComplete: !1,
 							visibleOn: 'typeof this.active !== "boolean"',
-							type: "text",
+							type: "input-text",
 							placeholder: "留空将自动分析菜单地址",
 							className: "m-t-n-sm"
 						}]
@@ -23412,9 +23555,9 @@ function(e, t, a) {
 					}]
 				}
 			},
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					$ref: "links",
 					name: "links"
 				},
@@ -23429,7 +23572,7 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					name: "stacked",
 					type: "switch",
 					mode: "inline",
@@ -23440,7 +23583,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -23491,7 +23634,7 @@ function(e, t, a) {
 				preferTag: "按钮"
 			}],
 			t.panelTitle = "操作栏",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [s.getSchemaTpl("className", {
 					name: "innerClassName"
 				}), {
@@ -23571,17 +23714,17 @@ function(e, t, a) {
 			}],
 			t.wrapper = l.ContainerWrapper,
 			t.panelTitle = "页面",
-			t.panelControls = [o.getSchemaTpl("tabs", [{
+			t.panelBody = [o.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					label: "标题",
 					name: "title",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					label: "副标题",
 					name: "subTitle",
-					type: "text"
+					type: "input-text"
 				},
 				{
 					label: "提示",
@@ -23593,7 +23736,7 @@ function(e, t, a) {
 			},
 			{
 				title: "接口",
-				controls: [o.getSchemaTpl("api", {
+				body: [o.getSchemaTpl("api", {
 					label: "数据初始化接口",
 					name: "initApi",
 					sampleBuilder: function(e) {
@@ -23614,7 +23757,7 @@ function(e, t, a) {
 				},
 				{
 					name: "interval",
-					type: "number",
+					type: "input-number",
 					visibleOn: 'typeof this.interval === "number"',
 					step: 500
 				},
@@ -23629,7 +23772,7 @@ function(e, t, a) {
 				{
 					name: "stopAutoRefreshWhen",
 					label: "停止定时刷新检测表达式",
-					type: "text",
+					type: "input-text",
 					visibleOn: "!!data.interval",
 					description: "定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。"
 				},
@@ -23639,31 +23782,31 @@ function(e, t, a) {
 					name: "messages",
 					multiLine: !0,
 					description: "设置 ajax 默认提示信息，当 ajax 没有返回 msg 信息时有用，如果 ajax 返回携带了 msg 值，则还是以 ajax 返回为主",
-					controls: [{
+					items: [{
 						label: "获取成功提示",
-						type: "text",
+						type: "input-text",
 						name: "fetchSuccess"
 					},
 					{
 						label: "获取失败提示",
-						type: "text",
+						type: "input-text",
 						name: "fetchFailed"
 					},
 					{
 						label: "保存成功提示",
-						type: "text",
+						type: "input-text",
 						name: "saveSuccess"
 					},
 					{
 						label: "保存失败提示",
-						type: "text",
+						type: "input-text",
 						name: "saveFailed"
 					}]
 				}]
 			},
 			{
 				title: "外观",
-				controls: [o.getSchemaTpl("className"), o.getSchemaTpl("className", {
+				body: [o.getSchemaTpl("className"), o.getSchemaTpl("className", {
 					name: "headerClassName",
 					label: "头部CSS类名"
 				}), o.getSchemaTpl("className", {
@@ -23679,7 +23822,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [o.getSchemaTpl("name")]
+				body: [o.getSchemaTpl("name")]
 			}])],
 			t
 		}
@@ -23750,14 +23893,14 @@ function(e, t, a) {
 				preferTag: "按钮"
 			}],
 			t.panelTitle = "面板",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var a = /(?:^|\/)form$/.test(e.path);
 				return [s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						label: "标题",
 						name: "title",
-						type: "text"
+						type: "input-text"
 					},
 					a ? null: {
 						children: i.
@@ -23775,7 +23918,7 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "affixFooter",
 						label: "固定底部",
 						type: "switch",
@@ -23788,7 +23931,7 @@ function(e, t, a) {
 					}), {
 						name: a ? "panelClassName": "className",
 						label: "样式",
-						type: "button-group",
+						type: "button-group-select",
 						size: "sm",
 						pipeIn: function(e) {
 							return "string" == typeof e && /(?:^|\s)(Panel\-\-(\w+))(?:$|\s)/.test(e) ? RegExp.$1: ""
@@ -23840,7 +23983,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -23854,7 +23997,7 @@ function(e, t, a) {
 				icon: "fa fa-list-alt",
 				title: this.panelTitle,
 				render: this.manager.makeSchemaFormRender({
-					controls: this.panelControlsCreator(t)
+					body: this.panelBodyCreator(t)
 				})
 			}) : e.prototype.buildEditorPanel.call(this, t, a)
 		},
@@ -23895,29 +24038,29 @@ function(e, t, a) {
 				inline: !1
 			},
 			t.panelTitle = "纯文本",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = "table-cell" === e.info.renderer.name;
 				return r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						label: "内容",
 						type: "textarea",
 						pipeIn: function(e, t) {
 							return e || t && t.text
 						},
 						name: "tpl",
-						description: '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/docs/renderers/Tpl">详情</a>'
+						description: '如果当前字段有值，请不要设置，否则覆盖。支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>'
 					},
 					{
 						name: "placeholder",
 						label: "占位符",
-						type: "text",
+						type: "input-text",
 						pipeIn: r.defaultValue("-")
 					}]
 				},
 				t ? null: {
 					title: "外观",
-					controls: [{
+					body: [{
 						label: "内联模式",
 						type: "switch",
 						name: "inline",
@@ -23929,7 +24072,7 @@ function(e, t, a) {
 				},
 				t ? null: {
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -23966,11 +24109,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "进度",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = /\/field\/\w+$/.test(e.path);
 				return [r.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [t ? {
+					body: [t ? {
 						type: "tpl",
 						inline: !1,
 						className: "text-info text-sm",
@@ -23997,15 +24140,15 @@ function(e, t, a) {
 					{
 						name: "map",
 						label: "等级配置",
-						type: "array",
+						type: "input-array",
 						items: {
-							type: "text"
+							type: "input-text"
 						},
 						descrition: "配置不通的值段，用不通的样式提示用户",
 						pipeIn: r.defaultValue(["bg-danger", "bg-warning", "bg-info", "bg-success", "bg-success"])
 					},
 					r.getSchemaTpl("switchDefaultValue"), {
-						type: "text",
+						type: "input-text",
 						name: "value",
 						label: "默认值",
 						validations: "isNumeric",
@@ -24013,14 +24156,14 @@ function(e, t, a) {
 					},
 					{
 						name: "placeholder",
-						type: "text",
+						type: "input-text",
 						pipeIn: r.defaultValue("-"),
 						label: "占位符"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+					body: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
 						name: "progressClassName",
 						label: "进度外层 CSS 类名",
 						pipeIn: r.defaultValue("progress-xs progress-striped active m-t-xs m-b-none")
@@ -24031,7 +24174,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+					body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 				}])]
 			},
 			t
@@ -24095,11 +24238,16 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "属性表",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
+					label: "标题",
+					type: "input-text",
+					name: "title"
+				},
+				{
 					label: "每行显示几列",
-					type: "number",
+					type: "input-number",
 					value: 3,
 					name: "column"
 				},
@@ -24113,13 +24261,13 @@ function(e, t, a) {
 				},
 				{
 					label: "分隔符",
-					type: "text",
+					type: "input-text",
 					name: "separator",
 					visibleOn: 'data.mode === "simple"'
 				},
 				{
 					label: "属性取自变量",
-					type: "text",
+					type: "input-text",
 					name: "source"
 				},
 				{
@@ -24130,22 +24278,22 @@ function(e, t, a) {
 					multiLine: !0,
 					draggable: !0,
 					addButtonText: "新增",
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						mode: "inline",
 						size: "sm",
 						label: "属性名",
 						name: "label"
 					},
 					{
-						type: "text",
+						type: "input-text",
 						mode: "inline",
 						size: "sm",
 						label: "属性值",
 						name: "content"
 					},
 					{
-						type: "number",
+						type: "input-number",
 						mode: "inline",
 						size: "sm",
 						label: "跨几列",
@@ -24156,11 +24304,11 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className")]
+				body: [r.getSchemaTpl("className")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -24196,11 +24344,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "二维码",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "value",
-					type: "text",
+					type: "input-text",
 					label: "二维码值",
 					pipeIn: r.defaultValue("https://www.baidu.com"),
 					description: "支持使用 <code>\\${xxx}</code> 来获取变量"
@@ -24230,21 +24378,21 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					name: "codeSize",
-					type: "number",
+					type: "input-number",
 					label: "宽高值",
 					pipeIn: r.defaultValue(128)
 				},
 				{
 					name: "backgroundColor",
-					type: "color",
+					type: "input-color",
 					label: "背景色",
 					pipeIn: r.defaultValue("#fff")
 				},
 				{
 					name: "foregroundColor",
-					type: "color",
+					type: "input-color",
 					label: "前景色",
 					pipeIn: r.defaultValue("#000")
 				},
@@ -24252,7 +24400,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -24331,10 +24479,10 @@ function(e, t, a) {
 				label: "内容区"
 			}],
 			t.panelTitle = "服务",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						children: i.
 					default.createElement(l.Button, {
 							level: "info",
@@ -24354,14 +24502,14 @@ function(e, t, a) {
 						label: "数据接口"
 					}), {
 						name: "ws",
-						type: "text",
+						type: "input-text",
 						label: "WebSocket 实时更新接口"
 					},
 					s.getSchemaTpl("initFetch"), {
 						name: "interval",
 						label: "定时刷新间隔",
 						visibleOn: "this.api",
-						type: "number",
+						type: "input-number",
 						step: 500,
 						description: "设置后将自动定时刷新，单位 ms"
 					},
@@ -24377,7 +24525,7 @@ function(e, t, a) {
 					{
 						name: "stopAutoRefreshWhen",
 						label: "停止定时刷新检测",
-						type: "text",
+						type: "input-text",
 						visibleOn: "!!data.interval",
 						description: "定时刷新一旦设置会一直刷新，除非给出表达式，条件满足后则不刷新了。"
 					},
@@ -24400,25 +24548,25 @@ function(e, t, a) {
 						name: "messages",
 						multiLine: !0,
 						description: "设置 service 默认提示信息，当 service 没有返回 msg 信息时有用，如果 service 返回携带了 msg 值，则还是以 service 返回为主",
-						controls: [{
+						items: [{
 							label: "获取成功",
-							type: "text",
+							type: "input-text",
 							name: "fetchSuccess"
 						},
 						{
 							label: "获取失败",
-							type: "text",
+							type: "input-text",
 							name: "fetchFailed"
 						}]
 					}]
 				},
 				{
 					title: "外观",
-					controls: [s.getSchemaTpl("className")]
+					body: [s.getSchemaTpl("className")]
 				},
 				{
 					title: "其他",
-					controls: [s.getSchemaTpl("ref"), s.getSchemaTpl("name"), s.getSchemaTpl("visible")]
+					body: [s.getSchemaTpl("ref"), s.getSchemaTpl("name"), s.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -24455,7 +24603,7 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "状态",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [/\/field\/\w+$/.test(e.path) ? {
 					type: "tpl",
 					inline: !1,
@@ -24464,16 +24612,16 @@ function(e, t, a) {
 				}: null, {
 					name: "map",
 					label: "图标配置",
-					type: "array",
+					type: "input-array",
 					items: {
-						type: "text"
+						type: "input-text"
 					},
 					descrition: "配置不通的值段，用不通的样式提示用户",
 					pipeIn: r.defaultValue(["fa fa-times text-danger", "fa fa-check text-success"])
 				},
 				{
 					name: "placeholder",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("-"),
 					label: "占位符"
 				},
@@ -24524,11 +24672,11 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "Steps",
-			t.panelControls = [{
+			t.panelBody = [{
 				type: "tabs",
 				tabs: [{
 					title: "基础",
-					controls: [{
+					body: [{
 						name: "steps",
 						label: "步骤列表",
 						type: "combo",
@@ -24539,20 +24687,20 @@ function(e, t, a) {
 						minLength: 2,
 						multiple: !0,
 						draggable: !0,
-						controls: [{
-							type: "text",
+						items: [{
+							type: "input-text",
 							name: "title",
 							label: !1,
 							placeholder: "标题"
 						},
 						{
-							type: "text",
+							type: "input-text",
 							name: "subTitle",
 							label: !1,
 							placeholder: "副标题"
 						},
 						{
-							type: "text",
+							type: "input-text",
 							name: "description",
 							label: !1,
 							placeholder: "描述"
@@ -24560,7 +24708,7 @@ function(e, t, a) {
 					},
 					{
 						name: "value",
-						type: "text",
+						type: "input-text",
 						label: "当前步骤",
 						description: "以零为起点"
 					},
@@ -24594,11 +24742,11 @@ function(e, t, a) {
 				},
 				{
 					title: "样式",
-					controls: [r.getSchemaTpl("className")]
+					body: [r.getSchemaTpl("className")]
 				},
 				{
-					title: "显影",
-					controls: [r.getSchemaTpl("visible")]
+					title: "显隐",
+					body: [r.getSchemaTpl("visible")]
 				}]
 			}],
 			t
@@ -24634,9 +24782,9 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "走势图",
-			t.panelControls = [{
+			t.panelBody = [{
 				name: "height",
-				type: "number",
+				type: "input-number",
 				label: "高度"
 			}],
 			t
@@ -24683,91 +24831,6 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
-	t.SwitchPlugin = void 0;
-	var n = a(0),
-	l = a(1),
-	i = a(2),
-	r = a(3),
-	o = function(e) {
-		function t() {
-			var t = null !== e && e.apply(this, arguments) || this;
-			return t.rendererName = "switch",
-			t.$schema = "/schemas/SwitchSchema.json",
-			t.name = "开关展示",
-			t.description = "用开关的样式来展示数据。",
-			t.tags = ["展示"],
-			t.icon = "fa fa-toggle-on",
-			t.scaffold = {
-				type: "switch",
-				name: "var1"
-			},
-			t.previewSchema = n.__assign(n.__assign({},
-			t.scaffold), {
-				value: !0,
-				disabled: !1
-			}),
-			t.panelTitle = "开关展示",
-			t.panelControlsCreator = function(e) {
-				return [/\/field\/\w+$/.test(e.path) ? {
-					type: "tpl",
-					inline: !1,
-					className: "text-info text-sm",
-					tpl: "<p>当前为字段内容节点配置，选择上层还有更多的配置。</p>"
-				}: {
-					name: "name",
-					type: "text",
-					label: "字段名"
-				},
-				{
-					name: "option",
-					type: "text",
-					label: "选项说明"
-				},
-				{
-					type: "text",
-					label: "勾选后的值",
-					name: "trueValue",
-					value: !0,
-					pipeOut: r.valuePipeOut
-				},
-				{
-					type: "text",
-					label: "未勾选的值",
-					name: "falseValue",
-					value: !1,
-					pipeOut: r.valuePipeOut
-				},
-				{
-					name: "onText",
-					type: "text",
-					label: "开启时的文本"
-				},
-				{
-					name: "offText",
-					type: "text",
-					label: "关闭时的文本"
-				},
-				{
-					name: "placeholder",
-					type: "text",
-					pipeIn: r.defaultValue("-"),
-					label: "占位符"
-				},
-				r.getSchemaTpl("className"), r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
-			},
-			t
-		}
-		return n.__extends(t, e),
-		t
-	} (i.BasePlugin);
-	t.SwitchPlugin = o,
-	l.registerEditorPlugin(o)
-},
-function(e, t, a) {
-	"use strict";
-	Object.defineProperty(t, "__esModule", {
-		value: !0
-	}),
 	t.TablePlugin = void 0;
 	var n = a(0),
 	l = a(5),
@@ -24775,9 +24838,9 @@ function(e, t, a) {
 	r = a(2),
 	o = a(3),
 	s = a(6),
-	d = a(14),
-	c = a(26),
-	u = function(e) {
+	d = a(9),
+	u = a(21),
+	p = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "table",
@@ -24827,20 +24890,20 @@ function(e, t, a) {
 			},
 			t.scaffoldForm = {
 				title: "快速构建表格",
-				controls: [{
+				body: [{
 					name: "columns",
 					type: "combo",
 					multiple: !0,
 					label: !1,
 					addButtonText: "新增一列",
 					draggable: !0,
-					controls: [{
-						type: "text",
+					items: [{
+						type: "input-text",
 						name: "label",
 						placeholder: "标题"
 					},
 					{
-						type: "text",
+						type: "input-text",
 						name: "name",
 						placeholder: "绑定字段名"
 					},
@@ -24886,18 +24949,18 @@ function(e, t, a) {
 				canRebuild: !0
 			},
 			t.panelTitle = "表格",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				var t = "crud" === e.schema.type;
 				return o.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						name: "title",
-						type: "text",
+						type: "input-text",
 						label: "标题"
 					},
 					t ? null: {
 						name: "source",
-						type: "text",
+						type: "input-text",
 						label: "数据源",
 						pipeIn: o.defaultValue("${items}"),
 						description: "绑定当前环境变量"
@@ -24905,17 +24968,17 @@ function(e, t, a) {
 					{
 						name: "combineNum",
 						label: "自动合并单元格",
-						type: "number",
+						type: "input-number",
 						placeholder: "设置列数",
 						description: "设置从左到右多少列内启用自动合并单元格，根据字段值是否相同来决定是否合并。"
 					}]
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "columnsTogglable",
 						label: "展示列显示开关",
-						type: "button-group",
+						type: "button-group-select",
 						pipeIn: o.defaultValue("auto"),
 						mode: "inline",
 						className: "w-full",
@@ -24971,7 +25034,7 @@ function(e, t, a) {
 					},
 					{
 						name: "footable.expand",
-						type: "button-group",
+						type: "button-group-select",
 						size: "xs",
 						visibleOn: "data.footable",
 						label: "底部默认展开",
@@ -24994,8 +25057,14 @@ function(e, t, a) {
 					{
 						name: "placeholder",
 						pipeIn: o.defaultValue("暂无数据"),
-						type: "text",
+						type: "input-text",
 						label: "无数据提示"
+					},
+					{
+						name: "rowClassNameExpr",
+						type: "input-text",
+						label: "行高亮规则",
+						placeholder: "支持模板语法，如 <%= data.id % 2 ? 'bg-success' : '' %>"
 					},
 					o.getSchemaTpl("className", {
 						label: "外层 CSS 类名"
@@ -25015,7 +25084,7 @@ function(e, t, a) {
 				},
 				{
 					title: "其他",
-					controls: [o.getSchemaTpl("ref"), o.getSchemaTpl("visible")]
+					body: [o.getSchemaTpl("ref"), o.getSchemaTpl("visible")]
 				}])
 			},
 			t
@@ -25027,7 +25096,7 @@ function(e, t, a) {
 			else {
 				var a = {};
 				Array.isArray(e.columns) && e.columns.forEach((function(e) {
-					e.name && d.setVariable(a, e.name, c.mockValue(e))
+					e.name && d.setVariable(a, e.name, u.mockValue(e))
 				})),
 				e.value = s.repeatArray(a, 1).map((function(e, t) {
 					return n.__assign(n.__assign({},
@@ -25065,8 +25134,8 @@ function(e, t, a) {
 		},
 		t
 	} (r.BasePlugin);
-	t.TablePlugin = u,
-	i.registerEditorPlugin(u)
+	t.TablePlugin = p,
+	i.registerEditorPlugin(p)
 },
 function(e, t, a) {
 	"use strict";
@@ -25080,15 +25149,16 @@ function(e, t, a) {
 	r = a(1),
 	o = a(2),
 	s = a(3),
-	d = function(e) {
+	d = a(9),
+	u = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.panelTitle = "列配置",
 			t.panelIcon = "fa fa-columns",
-			t.panelControlsCreator = function(e) {
+			t.panelBodyCreator = function(e) {
 				return [s.getSchemaTpl("tabs", [{
 					title: "常规",
-					controls: [{
+					body: [{
 						children: i.
 					default.createElement(l.Button, {
 							size: "sm",
@@ -25102,22 +25172,22 @@ function(e, t, a) {
 					{
 						name: "label",
 						label: "列名称",
-						type: "text"
+						type: "input-text"
 					},
 					{
 						name: "name",
-						type: "text",
+						type: "input-text",
 						label: "绑定字段名"
 					},
 					{
 						name: "remark",
 						label: "提示",
-						type: "text",
+						type: "input-text",
 						description: "显示一个提示图标，鼠标放上去会提示该内容。"
 					},
 					{
 						name: "placeholder",
-						type: "text",
+						type: "input-text",
 						label: "占位符",
 						value: "-",
 						description: "当没有值时用这个来替代展示"
@@ -25133,10 +25203,10 @@ function(e, t, a) {
 				},
 				{
 					title: "高级",
-					controls: [{
+					body: [{
 						name: "groupName",
 						label: "列分组名称",
-						type: "text",
+						type: "input-text",
 						description: '当多列的分组名称设置一致时，表格会在显示表头的上层显示超级表头，<a href="https://baidu.github.io/amis/crud/header-group" target="_blank">示例</a>'
 					},
 					{
@@ -25152,7 +25222,7 @@ function(e, t, a) {
 					{
 						visibleOn: "data.quickEdit",
 						name: "quickEdit.mode",
-						type: "button-group",
+						type: "button-group-select",
 						value: "popOver",
 						label: "快速编辑模式",
 						size: "xs",
@@ -25191,10 +25261,10 @@ function(e, t, a) {
 						children: function(e) {
 							var a = e.value,
 							r = e.onChange,
-							o = e.data; ! 0 === a && (a = {});
+							o = e.data; ! 0 === a ? a = {}: void 0 === a && (a = d.getVariable(o, "quickEdit"));
 							var s = a.mode;
 							return delete(a = n.__assign({
-								type: "text",
+								type: "input-text",
 								name: o.name
 							},
 							a)).mode,
@@ -25211,14 +25281,14 @@ function(e, t, a) {
 										slot: {
 											type: "form",
 											mode: "normal",
-											controls: ["$$"],
+											body: ["$$"],
 											wrapWithPanel: !1
 										},
 										onChange: function(e) {
 											return r(n.__assign(n.__assign({},
 											e), {
 												mode: s
-											}))
+											}), "quickEdit")
 										}
 									})
 								}
@@ -25320,7 +25390,9 @@ function(e, t, a) {
 									t.manager.openSubEditor({
 										title: "配置查看更多展示内容",
 										value: a,
-										onChange: r
+										onChange: function(e) {
+											return r(e, "popOver")
+										}
 									})
 								}
 							},
@@ -25347,9 +25419,9 @@ function(e, t, a) {
 				},
 				{
 					title: "外观",
-					controls: [{
+					body: [{
 						name: "fixed",
-						type: "button-group",
+						type: "button-group-select",
 						label: "固定位置",
 						pipeIn: s.defaultValue(""),
 						size: "xs",
@@ -25378,7 +25450,7 @@ function(e, t, a) {
 					},
 					{
 						name: "breakpoint",
-						type: "button-group",
+						type: "button-group-select",
 						label: "触发底部显示条件",
 						visibleOn: "data.tableFootableEnabled",
 						size: "xs",
@@ -25428,7 +25500,7 @@ function(e, t, a) {
 						label: "内部 CSS 类名"
 					}), {
 						name: "width",
-						type: "number",
+						type: "input-number",
 						label: "列宽",
 						description: "固定列的宽度，不推荐设置。"
 					}]
@@ -25460,8 +25532,298 @@ function(e, t, a) {
 		},
 		t
 	} (o.BasePlugin);
-	t.TableCellPlugin = d,
-	r.registerEditorPlugin(d)
+	t.TableCellPlugin = u,
+	r.registerEditorPlugin(u)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.TabsPlugin = void 0;
+	var n = a(0),
+	l = n.__importDefault(a(4)),
+	i = a(1),
+	r = a(2),
+	o = a(3),
+	s = a(16),
+	d = a(14),
+	u = n.__importDefault(a(13)),
+	p = a(15),
+	c = a(5),
+	m = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "tabs",
+			t.$schema = "/schemas/TabsSchema.json",
+			t.name = "选项卡",
+			t.description = "选项卡，可以将内容分组用选项卡的形式展示，降低用户使用成本。",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/tabs",
+			t.tags = ["容器"],
+			t.icon = "fa fa-folder-o",
+			t.scaffold = {
+				type: "tabs",
+				tabs: [{
+					title: "选项卡1",
+					body: "内容1"
+				},
+				{
+					title: "选项卡2",
+					body: "内容2"
+				}]
+			},
+			t.previewSchema = n.__assign({},
+			t.scaffold),
+			t.panelTitle = "选项卡",
+			t.panelBody = [o.getSchemaTpl("fieldSet", {
+				title: "常规",
+				body: [{
+					name: "tabs",
+					type: "combo",
+					label: "选项卡管理",
+					multiple: !0,
+					draggable: !0,
+					minLength: 1,
+					items: [{
+						type: "input-text",
+						name: "title",
+						required: !0
+					}],
+					scaffold: {
+						title: "选项卡",
+						body: {
+							type: "tpl",
+							tpl: "内容",
+							inline: !1
+						}
+					},
+					addButtonText: "新增选项卡",
+					draggableTip: ""
+				}]
+			}), o.getSchemaTpl("fieldSet", {
+				title: "外观",
+				body: [{
+					name: "tabsMode",
+					label: "样式",
+					type: "button-group-select",
+					size: "sm",
+					className: "block",
+					pipeIn: o.defaultValue(""),
+					options: [{
+						label: "默认",
+						value: ""
+					},
+					{
+						label: "线型",
+						value: "line"
+					},
+					{
+						label: "卡片",
+						value: "card"
+					},
+					{
+						label: "仿 Chrome",
+						value: "chrome"
+					},
+					{
+						label: "水平铺满",
+						value: "tiled"
+					},
+					{
+						label: "选择器",
+						value: "radio"
+					},
+					{
+						label: "垂直",
+						value: "vertical"
+					}]
+				},
+				o.getSchemaTpl("className"), o.getSchemaTpl("className", {
+					name: "contentClassName",
+					label: "选项卡成员 CSS 类名"
+				})]
+			}), o.getSchemaTpl("fieldSet", {
+				title: "其他",
+				body: [{
+					type: "switch",
+					name: "mountOnEnter",
+					label: "激活时才渲染",
+					mode: "inline",
+					className: "block",
+					description: "设置后选项卡的内容只有点开才会渲染，如果有选项卡放的可拉取接口的组件，那么这个接口只有在点开的时候才会拉取。"
+				},
+				{
+					type: "switch",
+					name: "unmountOnExit",
+					label: "隐藏即销毁",
+					mode: "inline",
+					className: "block",
+					description: "设置后，如果选项卡内容关闭则销毁，配置「激活时才渲染」选项可以做到卡片内容每次点开都重新加载的效果。"
+				},
+				o.getSchemaTpl("visible")]
+			})],
+			t.patchContainers = ["tabs.body"],
+			t.vRendererConfig = {
+				regions: {
+					body: {
+						key: "body",
+						label: "内容区"
+					}
+				},
+				panelTitle: "卡片",
+				panelBody: [o.getSchemaTpl("fieldSet", {
+					title: "常规",
+					body: [{
+						name: "title",
+						label: "标题",
+						type: "input-text",
+						required: !0
+					},
+					o.getSchemaTpl("icon"), {
+						label: "Hash",
+						name: "hash",
+						type: "input-text",
+						description: "设置后，会同步更新地址栏的 Hash。"
+					}]
+				}), o.getSchemaTpl("fieldSet", {
+					title: "外观",
+					body: [o.getSchemaTpl("className")],
+					collapsed: !0
+				}), o.getSchemaTpl("fieldSet", {
+					title: "其他",
+					body: [{
+						type: "switch",
+						name: "reload",
+						label: "内容刷新",
+						mode: "inline",
+						className: "block",
+						description: "配置后，每次点开内容都会重新刷新，如果配置了，下面两个选项就不用配置了。"
+					},
+					{
+						type: "switch",
+						name: "mountOnEnter",
+						visibleOn: "!this.reload",
+						label: "激活时才渲染",
+						mode: "inline",
+						className: "block",
+						description: "设置后选项卡的内容只有点开才会渲染，如果有选项卡放的可拉取接口的组件，那么这个接口只有在点开的时候才会拉取。"
+					},
+					{
+						visibleOn: "!this.reload",
+						type: "switch",
+						name: "unmountOnExit",
+						label: "隐藏即销毁",
+						mode: "inline",
+						className: "block",
+						description: "设置后，如果选项卡内容关闭则销毁，配置「激活时才渲染」选项可以做到卡片内容每次点开都重新加载的效果。"
+					},
+					o.getSchemaTpl("visible"), o.getSchemaTpl("disabled")]
+				})]
+			},
+			t.wrapperProps = {
+				unmountOnExit: !0,
+				mountOnEnter: !0
+			},
+			t.tabWrapperResolve = function(e) {
+				return e.parentElement
+			},
+			t.overrides = {
+				renderTabs: function() {
+					var e = this,
+					t = this.super();
+					if (!this.renderTab && this.props.$$editor && t) {
+						var a = this.props.tabs;
+						return s.mapReactElement(t, (function(t) {
+							if (t.type === c.Tab && t.props.$$id) {
+								var n = t.props.$$id,
+								i = u.
+							default(a, (function(e) {
+									return e.$$id === n
+								})),
+								r = e.props.$$editor,
+								o = r.plugin;
+								if (~i) {
+									var s = o.vRendererConfig.regions.body;
+									return l.
+								default.cloneElement(t, {
+										children: l.
+									default.createElement(d.VRenderer, {
+											key: n,
+											plugin: r.plugin,
+											renderer: r.renderer,
+											$schema: "/schemas/TabSchema.json",
+											hostId: r.id,
+											memberIndex: i,
+											name: "" + (t.props.title || "卡片" + (i + 1)),
+											id: n,
+											draggable: !1,
+											wrapperResolve: o.tabWrapperResolve,
+											schemaPath: r.schemaPath + "/tabs/" + i,
+											path: e.props.$path + "/" + i,
+											data: e.props.data
+										},
+										l.
+									default.createElement(p.RegionWrapper, {
+											key: s.key,
+											preferTag: s.preferTag,
+											name: s.key,
+											label: s.label,
+											regionConfig: s,
+											editorStore: o.manager.store,
+											manager: o.manager,
+											children: t.props.children,
+											wrapperResolve: s.wrapperResolve,
+											rendererName: r.renderer.name
+										}))
+									})
+								}
+							}
+							return t
+						}))
+					}
+					return t
+				}
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.buildEditorToolbar = function(e, t) {
+			if (e.info.plugin === this && "tabs" === e.info.renderer.name && !e.info.hostId) {
+				var a = e.node;
+				t.push({
+					level: "secondary",
+					icon: "fa fa-chevron-left",
+					tooltip: "上个卡片",
+					onClick: function() {
+						var e = a.getComponent();
+						if (null == e ? void 0 : e.switchTo) {
+							var t = e.currentIndex();
+							e.switchTo(t - 1)
+						}
+					}
+				}),
+				t.push({
+					level: "secondary",
+					icon: "fa fa-chevron-right",
+					tooltip: "下个卡片",
+					onClick: function() {
+						var e = a.getComponent();
+						if (null == e ? void 0 : e.switchTo) {
+							var t = e.currentIndex();
+							e.switchTo(t + 1)
+						}
+					}
+				})
+			}
+		},
+		t.prototype.onPreventClick = function(e) {
+			var t = e.context.data;
+			return ! t.defaultPrevented && (!t.target.closest("[role=tablist]>li") && void 0)
+		},
+		t
+	} (r.BasePlugin);
+	t.TabsPlugin = m,
+	i.registerEditorPlugin(m)
 },
 function(e, t, a) {
 	"use strict";
@@ -25505,27 +25867,27 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "异步任务",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "items",
 					label: "初始任务信息",
 					type: "combo",
 					multiple: !0,
 					multiLine: !0,
-					controls: [{
+					items: [{
 						name: "label",
-						type: "text",
+						type: "input-text",
 						label: "任务名称"
 					},
 					{
 						name: "key",
-						type: "text",
+						type: "input-text",
 						label: "任务ID"
 					},
 					{
 						name: "status",
-						type: "number",
+						type: "input-number",
 						label: "任务状态"
 					},
 					{
@@ -25547,7 +25909,7 @@ function(e, t, a) {
 					label: "状态检测接口"
 				}), {
 					name: "interval",
-					type: "number",
+					type: "input-number",
 					min: 3e3,
 					step: 500,
 					visibleOn: "data.checkApi",
@@ -25562,50 +25924,50 @@ function(e, t, a) {
 					label: "重试接口"
 				}), {
 					name: "taskNameLabel",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("任务名称"),
 					label: "任务名称栏标题"
 				},
 				{
 					name: "operationLabel",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("操作"),
 					label: "操作栏标题"
 				},
 				{
 					name: "statusLabel",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("状态"),
 					label: "状态栏标题"
 				},
 				{
 					name: "remarkLabel",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("备注说明"),
 					label: "备注栏标题"
 				},
 				{
 					name: "btnText",
 					label: "按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("上线")
 				},
 				{
 					name: "retryBtnText",
 					label: "重试按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("重试")
 				},
 				{
 					name: "statusTextMap",
 					pipeIn: r.defaultValue(["未开始", "就绪", "进行中", "出错", "已完成", "出错"]),
-					type: "array",
+					type: "input-array",
 					label: "状态标签文字配置",
 					multiple: !0,
 					addable: !1,
 					removable: !1,
 					items: {
-						type: "text",
+						type: "input-text",
 						placeholder: "名称"
 					}
 				},
@@ -25613,42 +25975,42 @@ function(e, t, a) {
 					name: "initialStatusCode",
 					label: "初始状态码",
 					pipeIn: r.defaultValue(0),
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "readyStatusCode",
 					label: "就绪状态码",
 					pipeIn: r.defaultValue(1),
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "loadingStatusCode",
 					label: "进行中状态码",
 					pipeIn: r.defaultValue(2),
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "errorStatusCode",
 					label: "错误状态码",
 					pipeIn: r.defaultValue(3),
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "finishStatusCode",
 					label: "完成状态码",
 					pipeIn: r.defaultValue(4),
-					type: "number"
+					type: "input-number"
 				},
 				{
 					name: "canRetryStatusCode",
 					label: "出错但可重试状态码",
 					pipeIn: r.defaultValue(5),
-					type: "number"
+					type: "input-number"
 				}]
 			},
 			{
 				title: "外观",
-				controls: [r.getSchemaTpl("className", {
+				body: [r.getSchemaTpl("className", {
 					pipeIn: r.defaultValue("b-a bg-white table-responsive")
 				}), r.getSchemaTpl("className", {
 					name: "tableClassName",
@@ -25665,24 +26027,24 @@ function(e, t, a) {
 				}), {
 					name: "statusLabelMap",
 					pipeIn: r.defaultValue(["label-warning", "label-info", "label-info", "label-danger", "label-success", "label-danger"]),
-					type: "array",
+					type: "input-array",
 					label: "状态标签 CSS 类名配置",
 					multiple: !0,
 					addable: !1,
 					removable: !1,
 					items: {
-						type: "text",
+						type: "input-text",
 						placeholder: "CSS 类名"
 					}
 				}]
 			},
 			{
 				title: "显隐",
-				controls: [r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("visible")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref")]
+				body: [r.getSchemaTpl("ref")]
 			}])],
 			t
 		}
@@ -25748,10 +26110,10 @@ function(e, t, a) {
 				inline: !1
 			},
 			t.panelTitle = "模板",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
-					type: "button-group",
+				body: [{
+					type: "button-group-select",
 					name: "__mode",
 					label: "编辑模式",
 					pipeIn: r.defaultValue("source"),
@@ -25762,39 +26124,34 @@ function(e, t, a) {
 					},
 					{
 						label: "富文本",
-						value: "rich-text"
+						value: "input-rich-text"
 					}]
 				},
-				{
+				r.getSchemaTpl("richText", {
 					label: "内容",
-					type: "rich-text",
-					visibleOn: 'data.__mode =="rich-text"',
+					visibleOn: 'data.__mode =="input-rich-text"',
 					required: !0,
-					buttons: ["paragraphFormat", "quote", "color", "|", "bold", "italic", "underline", "strikeThrough", "|", "formatOL", "formatUL", "align", "|", "insertLink", "insertImage", "insertTable", "|", "undo", "redo", "fullscreen"],
 					pipeIn: function(e, t) {
-						return e || t && t.html
+						return null != e ? e: t && t.html
 					},
-					name: "tpl",
-					description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>',
-					size: "lg"
-				},
-				{
+					name: "tpl"
+				}), {
 					label: "内容",
 					type: "textarea",
 					required: !0,
 					minRows: 5,
 					language: "html",
-					visibleOn: 'data.__mode !="rich-text"',
+					visibleOn: 'data.__mode !="input-rich-text"',
 					pipeIn: function(e, t) {
 						return e || t && t.html
 					},
 					name: "tpl",
-					description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="/docs/renderers/Tpl">详情</a>'
+					description: '支持使用 <code>\\${xxx}</code> 来获取变量，或者用 lodash.template 语法来写模板逻辑。<a target="_blank" href="https://baidu.gitee.io/amis/zh-CN/docs/concepts/template">详情</a>'
 				}]
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					label: "内联模式",
 					type: "switch",
 					name: "inline",
@@ -25813,7 +26170,7 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
 			}])],
 			t
 		}
@@ -25822,6 +26179,214 @@ function(e, t, a) {
 	} (i.BasePlugin);
 	t.TplPlugin = o,
 	l.registerEditorPlugin(o)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.AnchorNavPlugin = void 0;
+	var n = a(0),
+	l = n.__importDefault(a(4)),
+	i = a(1),
+	r = a(3),
+	o = a(2),
+	s = a(14),
+	d = a(16),
+	u = n.__importDefault(a(13)),
+	p = a(15),
+	c = a(187),
+	m = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "anchor-nav",
+			t.$schema = "/schemas/AnchorNavSchema.json",
+			t.name = "锚点导航",
+			t.description = "锚点导航，在多行内容展示时，可以将内容用锚点导航分组的形式展示，点击导航菜单可以定位到对应内容区域。",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/anchor-nav",
+			t.tags = ["容器"],
+			t.icon = "fa fa-link",
+			t.scaffold = {
+				type: "anchor-nav",
+				links: [{
+					title: "用户信息",
+					body: "用户信息"
+				},
+				{
+					title: "系统配置信息",
+					body: [{
+						type: "form",
+						body: [{
+							type: "fieldSet",
+							title: "系统配置信息",
+							body: [{
+								type: "input-email",
+								name: "email",
+								placeholder: "请输入邮箱地址",
+								label: "邮箱"
+							}]
+						}]
+					}]
+				},
+				{
+					title: "权限管理",
+					body: [{
+						type: "form",
+						body: [{
+							type: "fieldSet",
+							title: "权限管理",
+							body: [{
+								type: "input-email",
+								name: "email",
+								placeholder: "请输入邮箱地址",
+								label: "邮箱"
+							}]
+						}]
+					}]
+				},
+				{
+					title: "角色管理",
+					body: "角色管理"
+				},
+				{
+					title: "网络配置信息",
+					body: "网络配置信息"
+				}]
+			},
+			t.previewSchema = n.__assign({},
+			t.scaffold),
+			t.panelTitle = "锚点导航",
+			t.panelBody = [r.getSchemaTpl("fieldSet", {
+				title: "常规",
+				body: [{
+					name: "links",
+					type: "combo",
+					label: "锚点管理",
+					multiple: !0,
+					draggable: !0,
+					minLength: 1,
+					items: [{
+						type: "input-text",
+						name: "title",
+						required: !0
+					}],
+					scaffold: {
+						title: "锚点内容",
+						body: {
+							type: "tpl",
+							tpl: "内容",
+							inline: !1
+						}
+					},
+					addButtonText: "新增锚点",
+					draggableTip: ""
+				}]
+			}), r.getSchemaTpl("fieldSet", {
+				title: "外观",
+				body: [r.getSchemaTpl("className"), r.getSchemaTpl("className", {
+					name: "linkClassName",
+					label: "导航 CSS 类名"
+				}), r.getSchemaTpl("className", {
+					name: "sectionClassName",
+					label: "区域内容 CSS 类名"
+				})]
+			})],
+			t.patchContainers = ["anchor-nav.body"],
+			t.vRendererConfig = {
+				regions: {
+					body: {
+						key: "body",
+						label: "内容区"
+					}
+				},
+				panelTitle: "内容区域",
+				panelBody: [r.getSchemaTpl("fieldSet", {
+					title: "常规",
+					body: [{
+						name: "title",
+						label: "标题",
+						type: "input-text",
+						required: !0
+					}]
+				}), r.getSchemaTpl("fieldSet", {
+					title: "外观",
+					body: [r.getSchemaTpl("className")]
+				})]
+			},
+			t.wrapperProps = {
+				unmountOnExit: !0,
+				mountOnEnter: !0
+			},
+			t.sectionWrapperResolve = function(e) {
+				return e.parentElement
+			},
+			t.overrides = {
+				render: function() {
+					var e = this,
+					t = this.super();
+					if (!this.renderSection && this.props.$$editor && t) {
+						var a = this.props.links;
+						return d.mapReactElement(t, (function(t) {
+							if (t.type === c.AnchorNavSection && t.props.$$id) {
+								var n = t.props.$$id,
+								i = u.
+							default(a, (function(e) {
+									return e.$$id === n
+								})),
+								r = e.props.$$editor,
+								o = r.plugin;
+								if (~i) {
+									var d = o.vRendererConfig.regions.body;
+									return l.
+								default.cloneElement(t, {
+										children: l.
+									default.createElement(s.VRenderer, {
+											key: n,
+											plugin: r.plugin,
+											renderer: r.renderer,
+											$schema: "/schemas/SectionSchema.json",
+											hostId: r.id,
+											memberIndex: i,
+											name: "" + (t.props.title || "锚点内容" + (i + 1)),
+											id: n,
+											draggable: !1,
+											wrapperResolve: o.sectionWrapperResolve,
+											schemaPath: r.schemaPath + "/anchor-nav/" + i,
+											path: e.props.$path + "/" + i,
+											data: e.props.data
+										},
+										l.
+									default.createElement(p.RegionWrapper, {
+											key: d.key,
+											preferTag: d.preferTag,
+											name: d.key,
+											label: d.label,
+											regionConfig: d,
+											editorStore: o.manager.store,
+											manager: o.manager,
+											children: t.props.children,
+											wrapperResolve: d.wrapperResolve,
+											rendererName: r.renderer.name
+										}))
+									})
+								}
+							}
+							return t
+						}))
+					}
+					return t
+				}
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t
+	} (o.BasePlugin);
+	t.AnchorNavPlugin = m,
+	i.registerEditorPlugin(m)
+},
+function(e, t) {
+	e.exports = require("amis/lib/components/AnchorNav")
 },
 function(e, t, a) {
 	"use strict";
@@ -25852,17 +26417,17 @@ function(e, t, a) {
 			t.previewSchema = n.__assign({},
 			t.scaffold),
 			t.panelTitle = "视频",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "src",
-					type: "text",
+					type: "input-text",
 					label: "视频地址",
 					description: "可以写静态值，也可以用变量取比如：<code>\\${videoSrc}</code>"
 				},
 				{
 					name: "poster",
-					type: "text",
+					type: "input-text",
 					label: "视频封面图片地址",
 					description: "可以写静态值，也可以用变量取比如：<code>\\${videoPoster}</code>"
 				},
@@ -25891,10 +26456,10 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					name: "aspectRatio",
 					label: "视频比例",
-					type: "button-group",
+					type: "button-group-select",
 					size: "sm",
 					mode: "inline",
 					className: "block",
@@ -25923,12 +26488,12 @@ function(e, t, a) {
 			},
 			{
 				title: "显隐",
-				controls: [r.getSchemaTpl("visible")]
+				body: [r.getSchemaTpl("visible")]
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), {
-					type: "text",
+				body: [r.getSchemaTpl("ref"), {
+					type: "input-text",
 					name: "rates",
 					label: "视频速率",
 					multiple: !0,
@@ -25943,7 +26508,7 @@ function(e, t, a) {
 				},
 				{
 					name: "frames",
-					type: "text",
+					type: "input-text",
 					label: "视频帧信息",
 					description: "比如填写：<code>\\${videoFrames}</code>会在当前作用域中查找 videoFrames 变量，如果是对象，将生成视频截图列表，点击后可跳转到对应的帧。"
 				}]
@@ -25971,10 +26536,10 @@ function(e, t, a) {
 	i = a(2),
 	r = a(3),
 	o = n.__importDefault(a(4)),
-	s = a(15),
+	s = a(14),
 	d = a(16),
-	c = a(13),
-	u = function(e) {
+	u = a(15),
+	p = function(e) {
 		function t() {
 			var t = null !== e && e.apply(this, arguments) || this;
 			return t.rendererName = "wizard",
@@ -25987,16 +26552,16 @@ function(e, t, a) {
 				type: "wizard",
 				steps: [{
 					title: "第一步",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						label: "文本",
 						name: "var1"
 					}]
 				},
 				{
 					title: "第二步",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						label: "文本2",
 						name: "var2"
 					}]
@@ -26007,21 +26572,21 @@ function(e, t, a) {
 				className: "text-left m-b-none",
 				steps: [{
 					title: "第一步",
-					controls: [{
-						type: "text",
+					body: [{
+						type: "input-text",
 						label: "文本",
 						name: "var1"
 					}]
 				},
 				{
 					title: "第二步",
-					controls: []
+					body: []
 				}]
 			},
 			t.panelTitle = "向导",
-			t.panelControls = [r.getSchemaTpl("tabs", [{
+			t.panelBody = [r.getSchemaTpl("tabs", [{
 				title: "常规",
-				controls: [{
+				body: [{
 					name: "steps",
 					label: "步骤设置",
 					type: "combo",
@@ -26030,15 +26595,15 @@ function(e, t, a) {
 					addButtonText: "新增一步",
 					scaffold: {
 						title: "标题",
-						controls: [{
-							type: "text",
+						items: [{
+							type: "input-text",
 							name: "var1",
 							label: "文本"
 						}]
 					},
-					controls: [{
+					items: [{
 						name: "title",
-						type: "text",
+						type: "input-text",
 						label: "标题",
 						pipeIn: function(e, t) {
 							return e || t.label
@@ -26050,10 +26615,10 @@ function(e, t, a) {
 						collapsed: !0,
 						collapsable: !0,
 						className: "fieldset m-b-none",
-						controls: [{
+						body: [{
 							name: "mode",
 							label: "展示模式",
-							type: "button-group",
+							type: "button-group-select",
 							size: "xs",
 							mode: "inline",
 							className: "w-full",
@@ -26137,16 +26702,22 @@ function(e, t, a) {
 							description: "设置此属性后，表单请求 initApi 后，还会继续轮训请求该接口，直到返回 finished 属性为 true 才 结束"
 						}), r.getSchemaTpl("initFetch"), {
 							label: "是否可被点开",
-							type: "text",
+							type: "input-text",
 							name: "jumpableOn",
 							description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
 						}]
 					}]
+				},
+				{
+					type: "input-text",
+					name: "startStep",
+					label: "起始默认值",
+					description: "从第几步开始。可支持模版，但是只有在组件创建时渲染模版并设置当前步数，在之后组件被刷新时，当前step不会根据startStep改变"
 				}]
 			},
 			{
 				title: "接口",
-				controls: [r.getSchemaTpl("api", {
+				body: [r.getSchemaTpl("api", {
 					name: "initApi",
 					label: "初始化接口",
 					description: "用来初始化向导数据，当接口中返回 <code>step</code> 字段时，可以控制默认跳转到第几步，注意数值一定得是数字类型。当返回 <code>submiting</code> 并且当前步骤中存在异步保存接口时，可以让 wizard 初始进入异步提交状态。"
@@ -26180,6 +26751,9 @@ function(e, t, a) {
 					type: "radios",
 					label: "是否初始拉取",
 					inline: !0,
+					onChange: function() {
+						document.getElementsByClassName("ae-Settings-content")[0].scrollTop = 0
+					},
 					options: [{
 						label: "是",
 						value: !0
@@ -26197,7 +26771,7 @@ function(e, t, a) {
 					name: "initFetch",
 					autoComplete: !1,
 					visibleOn: 'typeof this.initFetch !== "boolean"',
-					type: "text",
+					type: "input-text",
 					placeholder: "",
 					className: "m-t-n-sm"
 				},
@@ -26236,10 +26810,10 @@ function(e, t, a) {
 			},
 			{
 				title: "外观",
-				controls: [{
+				body: [{
 					name: "mode",
 					label: "展示模式",
-					type: "button-group",
+					type: "button-group-select",
 					size: "sm",
 					mode: "inline",
 					className: "w-full",
@@ -26256,25 +26830,25 @@ function(e, t, a) {
 				{
 					name: "actionPrevLabel",
 					label: "上一步按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("上一步")
 				},
 				{
 					name: "actionNextLabel",
 					label: "下一步按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("下一步")
 				},
 				{
 					name: "actionNextSaveLabel",
 					label: "保存并下一步按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("保存并下一步")
 				},
 				{
 					name: "actionFinishLabel",
 					label: "完成按钮名称",
-					type: "text",
+					type: "input-text",
 					pipeIn: r.defaultValue("完成")
 				},
 				r.getSchemaTpl("className"), r.getSchemaTpl("className", {
@@ -26284,19 +26858,19 @@ function(e, t, a) {
 			},
 			{
 				title: "其他",
-				controls: [r.getSchemaTpl("ref"), r.getSchemaTpl("name"), r.getSchemaTpl("reload"), {
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("name"), r.getSchemaTpl("reload"), {
 					label: "跳转",
 					name: "redirect",
-					type: "text",
+					type: "input-text",
 					description: "当设置此值后，表单提交完后跳转到目标地址。"
 				},
 				r.getSchemaTpl("visible")]
 			}])],
-			t.patchContainers = ["steps.controls"],
+			t.patchContainers = ["steps.body"],
 			t.vRendererConfig = {
 				regions: {
-					controls: {
-						key: "controls",
+					body: {
+						key: "body",
 						label: "表单集合",
 						wrapperResolve: function(e) {
 							return e
@@ -26312,12 +26886,12 @@ function(e, t, a) {
 					}
 				},
 				panelTitle: "步骤",
-				panelControlsCreator: function(e) {
+				panelBodyCreator: function(e) {
 					return r.getSchemaTpl("tabs", [{
 						title: "常规",
-						controls: [{
+						body: [{
 							name: "title",
-							type: "text",
+							type: "input-text",
 							label: "标题",
 							pipeIn: function(e, t) {
 								return e || t.label
@@ -26389,10 +26963,10 @@ function(e, t, a) {
 					},
 					{
 						title: "外观",
-						controls: [{
+						body: [{
 							name: "mode",
 							label: "展示模式",
-							type: "button-group",
+							type: "button-group-select",
 							size: "xs",
 							mode: "inline",
 							className: "w-full",
@@ -26416,9 +26990,9 @@ function(e, t, a) {
 					},
 					{
 						title: "其他",
-						controls: [{
+						body: [{
 							label: "是否可被点开",
-							type: "text",
+							type: "input-text",
 							name: "jumpableOn",
 							description: "用表达式来决定，当前步骤是否可被点开。额外可用变量：currentStep 表示当前步骤。"
 						}]
@@ -26437,20 +27011,20 @@ function(e, t, a) {
 					i = this.super();
 					if (!t || !(null == a ? void 0 : a[l - 1])) return i;
 					var r = l - 1,
-					u = a[r],
-					p = u.$$id,
+					p = a[r],
+					c = p.$$id,
 					m = t.plugin;
 					return d.mapReactElement(i, (function(a) {
 						return /Wizard-step\b/.test(a.props.className) ? o.
 					default.createElement(s.VRenderer, {
-							key: p,
+							key: c,
 							plugin: t.plugin,
 							renderer: t.renderer,
 							$schema: "/schemas/WizardStepSchema.json",
 							hostId: t.id,
 							memberIndex: r,
-							name: u.title || "步骤" + (r + 1),
-							id: p,
+							name: p.title || "步骤" + (r + 1),
+							id: c,
 							draggable: !1,
 							wrapperResolve: m.wizardWrapperResolve,
 							schemaPath: t.schemaPath + "/steps/" + r,
@@ -26459,13 +27033,13 @@ function(e, t, a) {
 						},
 						d.mapReactElement(a, (function(e, a) {
 							var l;
-							if ((null === (l = e.props.schema) || void 0 === l ? void 0 : l.controls) && e.props.schema.$$id) {
-								var i = m.vRendererConfig.regions.controls,
+							if ((null === (l = e.props.schema) || void 0 === l ? void 0 : l.body) && e.props.schema.$$id) {
+								var i = m.vRendererConfig.regions.body,
 								r = n.__assign({},
 								e.props.schema);
 								return delete r.$$id,
 								o.
-							default.createElement(c.RegionWrapper, {
+							default.createElement(u.RegionWrapper, {
 									key: i.key,
 									preferTag: i.preferTag,
 									name: i.key,
@@ -26494,7 +27068,7 @@ function(e, t, a) {
 					var l = e.plugin,
 					i = l.vRendererConfig.regions.actions;
 					return o.
-				default.createElement(c.RegionWrapper, {
+				default.createElement(u.RegionWrapper, {
 						key: i.key,
 						preferTag: i.preferTag,
 						name: i.key,
@@ -26546,8 +27120,8 @@ function(e, t, a) {
 		},
 		t
 	} (i.BasePlugin);
-	t.WizardPlugin = u,
-	l.registerEditorPlugin(u)
+	t.WizardPlugin = p,
+	l.registerEditorPlugin(p)
 },
 function(e, t, a) {
 	"use strict";
@@ -26581,7 +27155,7 @@ function(e, t, a) {
 				label: "内容区"
 			}],
 			t.panelTitle = "包裹",
-			t.panelControls = [{
+			t.panelBody = [{
 				children: i.
 			default.createElement(l.Button, {
 					size: "sm",
@@ -26641,6 +27215,893 @@ function(e, t, a) {
 	Object.defineProperty(t, "__esModule", {
 		value: !0
 	}),
+	t.TableViewPlugin = void 0;
+	var n = a(0),
+	l = n.__importDefault(a(4)),
+	i = a(1),
+	r = a(2),
+	o = a(3),
+	s = a(14),
+	d = a(192),
+	u = a(6),
+	p = {
+		body: {
+			type: "tpl",
+			tpl: "---"
+		}
+	};
+	function c(e) {
+		if (!e) return {
+			trs: []
+		};
+		for (var t = [], a = 0, n = 0, l = e.trs || []; n < l.length; n++) {
+			for (var i = 0,
+			r = 0,
+			o = l[n].tds || []; r < o.length; r++) {
+				for (var s = o[r]; t[a] && t[a][i];) i += 1;
+				var d = s.rowspan || 1,
+				u = s.colspan || 1;
+				if (d > 1 || u > 1) for (var p = 0; p < d; p++) {
+					var c = a + p;
+					t[c] || (t[c] = []);
+					for (var m = 0; m < u; m++) {
+						var h = i + m;
+						t[c][h] = !0
+					}
+				}
+				s.$$row = a,
+				s.$$col = i,
+				i += 1
+			}
+			a += 1
+		}
+		return e
+	}
+	var m = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "table-view",
+			t.$schema = "/schemas/TableViewSchema.json",
+			t.name = "表格视图",
+			t.icon = "fa fa-columns",
+			t.description = "表格类型的展现",
+			t.tags = ["容器"],
+			t.scaffold = {
+				type: "table-view",
+				trs: [{
+					background: "#F7F7F7",
+					tds: [{
+						body: {
+							type: "tpl",
+							tpl: "地区"
+						}
+					},
+					{
+						body: {
+							type: "tpl",
+							tpl: "城市"
+						}
+					},
+					{
+						body: {
+							type: "tpl",
+							tpl: "销量"
+						}
+					}]
+				},
+				{
+					tds: [{
+						rowspan: 2,
+						body: {
+							type: "tpl",
+							tpl: "华北"
+						}
+					},
+					{
+						body: {
+							type: "tpl",
+							tpl: "北京"
+						}
+					},
+					{
+						body: {
+							type: "tpl",
+							tpl: "${beijing}"
+						}
+					}]
+				},
+				{
+					tds: [{
+						body: {
+							type: "tpl",
+							tpl: "天津"
+						}
+					},
+					{
+						body: {
+							type: "tpl",
+							tpl: "${tianjing}"
+						}
+					}]
+				}]
+			},
+			t.previewSchema = n.__assign({},
+			t.scaffold),
+			t.regions = [{
+				key: "body",
+				label: "内容区",
+				renderMethod: "renderTdBody",
+				preferTag: "展示"
+			}],
+			t.panelTitle = "表格视图",
+			t.panelBody = [{
+				type: "input-text",
+				label: "宽度",
+				name: "width",
+				clearable: !0
+			},
+			{
+				type: "input-text",
+				label: "默认内边距",
+				name: "padding",
+				clearable: !0
+			},
+			{
+				type: "switch",
+				name: "border",
+				mode: "inline",
+				className: "w-full",
+				label: "是否显示边框"
+			},
+			{
+				label: "边框颜色",
+				type: "input-color",
+				name: "borderColor"
+			},
+			o.getSchemaTpl("className"), o.getSchemaTpl("visible")],
+			t.fieldWrapperResolve = function(e) {
+				return e
+			},
+			t.overrides = {
+				renderTd: function(e, t, a) {
+					var n = this.super(e, t, a),
+					i = this.props.$$editor;
+					if (!i || !e.$$id) return n;
+					var r = i.plugin,
+					o = e.$$id;
+					return l.
+				default.createElement(s.VRenderer, {
+						plugin: i.plugin,
+						renderer: i.renderer,
+						key: o,
+						$schema: "/schemas/TdObject.json",
+						hostId: i.id,
+						memberIndex: t,
+						name: "单元格 " + (a + 1) + "," + (t + 1),
+						id: o,
+						draggable: !1,
+						wrapperResolve: r.fieldWrapperResolve,
+						schemaPath: i.schemaPath + "/td",
+						path: this.props.$path + "/tr/" + a + "/td/" + t,
+						data: this.props.data,
+						children: n
+					})
+				},
+				renderTr: function(e, t) {
+					var a = this.super(e, t),
+					n = this.props.$$editor;
+					if (!n || !e.$$id) return a;
+					var i = n.plugin,
+					r = e.$$id;
+					return l.
+				default.createElement(s.VRenderer, {
+						plugin: n.plugin,
+						renderer: n.renderer,
+						key: r,
+						$schema: "/schemas/TrObject.json",
+						hostId: n.id,
+						memberIndex: t,
+						name: "行 " + (t + 1),
+						id: r,
+						draggable: !1,
+						wrapperResolve: i.fieldWrapperResolve,
+						schemaPath: n.schemaPath + "/tr",
+						path: this.props.$path + "/tr/" + t,
+						data: this.props.data,
+						children: a
+					})
+				}
+			},
+			t.tdVRendererConfig = {
+				panelTitle: "单元格",
+				panelBodyCreator: function(e) {
+					return [{
+						label: "单元格背景色",
+						type: "input-color",
+						name: "background"
+					},
+					{
+						label: "文字颜色",
+						type: "input-color",
+						name: "color"
+					},
+					{
+						type: "switch",
+						name: "bold",
+						mode: "inline",
+						className: "w-full",
+						label: "文字加粗"
+					},
+					{
+						type: "input-number",
+						name: "padding",
+						label: "内边距"
+					},
+					{
+						type: "select",
+						name: "align",
+						label: "水平对齐",
+						options: [{
+							label: "左",
+							value: "left"
+						},
+						{
+							label: "中",
+							value: "center"
+						},
+						{
+							label: "右",
+							value: "right"
+						}]
+					},
+					{
+						type: "select",
+						name: "valign",
+						label: "垂直对齐",
+						options: [{
+							label: "顶",
+							value: "top"
+						},
+						{
+							label: "中",
+							value: "middle"
+						},
+						{
+							label: "底",
+							value: "bottom"
+						}]
+					},
+					{
+						type: "input-number",
+						name: "rowspan",
+						label: "跨几行"
+					},
+					{
+						type: "input-number",
+						name: "colspan",
+						label: "跨几列"
+					}]
+				}
+			},
+			t.trVRendererConfig = {
+				panelTitle: " 行",
+				panelBodyCreator: function(e) {
+					return [{
+						label: "行背景色",
+						type: "input-color",
+						name: "background"
+					},
+					{
+						label: "行高度",
+						type: "input-number",
+						name: "height"
+					}]
+				}
+			},
+			t
+		}
+		return n.__extends(t, e),
+		t.prototype.renderRenderer = function(e) {
+			var t = e.$$editor.renderer,
+			a = e.$schema;
+			return c(a),
+			l.
+		default.createElement(d.TableViewEditor, {
+				schema: a,
+				manager: this.manager
+			},
+			l.
+		default.createElement(t.component, n.__assign({},
+			e)))
+		},
+		t.prototype.buildEditorPanel = function(t, a) {
+			e.prototype.buildEditorPanel.call(this, t, a),
+			t.info.schemaPath.endsWith("/td") ? a.push({
+				key: "td",
+				order: 100,
+				icon: this.tdVRendererConfig.panelIcon || "fa fa-tablet",
+				title: this.tdVRendererConfig.panelTitle || "格子",
+				render: this.manager.makeSchemaFormRender({
+					controls: this.tdVRendererConfig.panelControlsCreator ? this.tdVRendererConfig.panelControlsCreator(t) : this.tdVRendererConfig.panelControls,
+					body: this.tdVRendererConfig.panelBodyCreator ? this.tdVRendererConfig.panelBodyCreator(t) : this.tdVRendererConfig.panelBody
+				})
+			}) : t.info.schemaPath.endsWith("/tr") && a.push({
+				key: "tr",
+				order: 100,
+				icon: this.trVRendererConfig.panelIcon || "fa fa-tablet",
+				title: this.trVRendererConfig.panelTitle || "格子",
+				render: this.manager.makeSchemaFormRender({
+					controls: this.trVRendererConfig.panelControlsCreator ? this.trVRendererConfig.panelControlsCreator(t) : this.trVRendererConfig.panelControls,
+					body: this.trVRendererConfig.panelBodyCreator ? this.trVRendererConfig.panelBodyCreator(t) : this.trVRendererConfig.panelBody
+				})
+			})
+		},
+		t.prototype.insertRow = function(e, t) {
+			var a = this.manager.store,
+			n = a.getNodePathById(e),
+			l = n[n.length - 3].id,
+			i = a.getSchema(l);
+			c(i);
+			var r = u.JSONGetById(i, e);
+			if (r) {
+				var o = r.$$row;
+				"below" === t && (o += 1);
+				var s = i.trs[0],
+				d = s.tds[s.tds.length - 1];
+				if (d) {
+					for (var m = d.$$col + (d.colspan || 1), h = i.trs.length, f = 0; f < i.trs.length; f++) for (var b = 0,
+					g = i.trs[f].tds || []; b < g.length; b++) {
+						var v = g[b],
+						y = v.$$row,
+						_ = v.rowspan || 1,
+						S = v.colspan || 1;
+						if (_ > 1) y + _ > o && (v.rowspan = _ + 1, m -= S);
+						if (y === o) {
+							h = f;
+							break
+						}
+					}
+					for (var x = [], C = 0; C < m; C++) x.push(p);
+					i.trs.splice(h, 0, {
+						tds: x
+					}),
+					this.manager.store.changeValueById(l, i)
+				} else console.warn("第一列没内容")
+			} else console.warn("找不到对应的 td id")
+		},
+		t.prototype.insertCol = function(e, t) {
+			var a = this.manager.store,
+			n = a.getNodePathById(e),
+			l = n[n.length - 3].id,
+			i = a.getSchema(l);
+			c(i);
+			var r = u.JSONGetById(i, e);
+			if (r) {
+				var o = r.$$col;
+				"right" === t && (o += 1);
+				for (var s = 0,
+				d = i.trs || []; s < d.length; s++) {
+					for (var m = d[s].tds || [], h = !1, f = 0; f < m.length; f++) {
+						var b = m[f],
+						g = b.colspan || 1,
+						v = b.$$col;
+						if (g > 1) if (v + g > o) {
+							b.colspan = g + 1,
+							h = !0;
+							break
+						}
+						if (o <= v) {
+							m.splice(f, 0, p),
+							h = !0;
+							break
+						}
+					}
+					h || m.push(p)
+				}
+				this.manager.store.changeValueById(l, i)
+			} else console.warn("找不到对应的 td id")
+		},
+		t.prototype.splitCell = function(e) {
+			var t = this.manager.store,
+			a = t.getNodePathById(e),
+			n = a[a.length - 3].id,
+			l = t.getSchema(n);
+			c(l);
+			var i = u.JSONGetById(l, e);
+			if (i) {
+				var r = i.rowspan || 1,
+				o = i.colspan || 1;
+				i.colspan = 1,
+				i.rowspan = 1;
+				for (var s = i.$$row,
+				d = i.$$col,
+				m = [], h = 0; h < r; h++) for (var f = 0; f < o; f++) 0 === h && 0 === f || m.push({
+					row: s + h,
+					col: d + f
+				});
+				m.sort((function(e, t) {
+					return t.col - e.col
+				}));
+				for (var b = 0,
+				g = l.trs; b < g.length; b++) for (var v = g[b], y = 0; y < v.tds.length; y++) for (var _ = v.tds[y], S = _.$$row, x = _.$$col, C = m.length; C--;) {
+					var N = m[C];
+					S === N.row && (N.col <= x ? v.tds.splice(y, 0, p) : v.tds.push(p), m.splice(C, 1))
+				}
+				if (m.length) {
+					var w = [];
+					for (h = 0; h < m.length; h++) w.push(p);
+					l.trs.push({
+						tds: w
+					})
+				}
+				this.manager.store.changeValueById(n, l)
+			} else console.warn("找不到对应的 td id")
+		},
+		t.prototype.buildEditorToolbar = function(e, t) {
+			var a = this,
+			n = e.schema;
+			if (e.info.schemaPath.endsWith("/td")) {
+				var l = n.$$id;
+				t.push({
+					icon: "fa fa-chevron-left",
+					order: 100,
+					tooltip: "左侧新增列",
+					onClick: function() {
+						a.insertCol(l, "left")
+					}
+				}),
+				t.push({
+					icon: "fa fa-chevron-down",
+					order: 100,
+					tooltip: "下方新增行",
+					onClick: function() {
+						a.insertRow(l, "below")
+					}
+				}),
+				t.push({
+					icon: "fa fa-chevron-up",
+					order: 100,
+					tooltip: "上方新增行",
+					onClick: function() {
+						a.insertRow(l, "above")
+					}
+				}),
+				t.push({
+					icon: "fa fa-chevron-right",
+					order: 100,
+					tooltip: "右侧新增列",
+					onClick: function() {
+						a.insertCol(l, "right")
+					}
+				});
+				var i = n.colspan || 1,
+				r = n.rowspan || 1; (i > 1 || r > 1) && t.push({
+					icon: "fa fa-columns",
+					order: 100,
+					tooltip: "拆分单元格",
+					onClick: function() {
+						a.splitCell(l)
+					}
+				})
+			}
+		},
+		t
+	} (r.BasePlugin);
+	t.TableViewPlugin = m,
+	i.registerEditorPlugin(m)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.TableViewEditor = void 0;
+	var n = a(0),
+	l = n.__importDefault(a(4)),
+	i = n.__importDefault(a(31)),
+	r = a(5),
+	o = a(6);
+	function s(e) {
+		for (var t = 0,
+		a = 0,
+		n = 0; n < e.length; n++) {
+			var l = (e[n].tds || []).length;
+			l > t && (a = n, t = l)
+		}
+		return a
+	}
+	var d = function(e) {
+		function t(t) {
+			var a = e.call(this, t) || this;
+			a.preventTableClick = !1,
+			a.tableViewWrapperRef = l.
+		default.createRef(),
+			a.store = a.props.manager.store;
+			var n = a.props.schema.trs || [];
+			if (n.length) {
+				var i = n.map((function(e) {
+					return e.$$id
+				})),
+				r = s(n);
+				a.maxChildTrIndex = r;
+				var o = (n[r].tds || []).map((function(e) {
+					return e.$$id
+				}));
+				a.state = {
+					trIds: i,
+					tdIds: o,
+					displayMergeCell: !1
+				}
+			} else a.state = {
+				trIds: [],
+				tdIds: [],
+				displayMergeCell: !1
+			};
+			return a.listenTdSelection(),
+			a
+		}
+		return n.__extends(t, e),
+		t.prototype.componentDidMount = function() {
+			this.syncLinePos(),
+			this.listenTdSelection()
+		},
+		t.prototype.componentWillUnmount = function() {
+			this.removeListenTdSelection()
+		},
+		t.prototype.syncLineState = function() {
+			var e = this,
+			t = this.props.schema.trs || [];
+			if (t.length) {
+				var a = t.map((function(e) {
+					return e.$$id
+				})),
+				n = s(t);
+				this.maxChildTrIndex = n;
+				var l = (t[n].tds || []).map((function(e) {
+					return e.$$id
+				}));
+				this.setState({
+					trIds: a,
+					tdIds: l
+				},
+				(function() {
+					e.syncLinePos()
+				}))
+			}
+		},
+		t.prototype.removeListenTdSelection = function() {
+			var e = this.tableViewWrapperRef.current;
+			if (e) {
+				var t = e.querySelector("tbody");
+				t.removeEventListener("mousedown", this.handleCellMouseDown),
+				t.removeEventListener("mousemove", this.handleCellMouseMove),
+				t.removeEventListener("mouseup", this.handleCellMouseUp),
+				t.removeEventListener("click", this.handleCellMouseClick)
+			}
+		},
+		t.prototype.listenTdSelection = function() {
+			var e = this.tableViewWrapperRef.current;
+			if (e) {
+				var t = e.querySelector("tbody");
+				t.addEventListener("mousedown", this.handleCellMouseDown),
+				t.addEventListener("mousemove", this.handleCellMouseMove),
+				t.addEventListener("mouseup", this.handleCellMouseUp),
+				t.addEventListener("click", this.handleCellMouseClick)
+			}
+		},
+		t.prototype.handleCellMouseDown = function(e) {
+			var t, a = e.target;
+			if (!a || "TD" === a.tagName) {
+				this.removeAllSelectionMark(),
+				this.setState({
+					displayMergeCell: !1
+				});
+				var n = a.getAttribute("data-editor-id");
+				this.isSelectionCell = !0,
+				this.selectedCell = ((t = {})[n] = o.JSONGetById(this.props.schema, n), t)
+			}
+		},
+		t.prototype.handleCellMouseMove = function(e) {
+			if (this.isSelectionCell) {
+				this.preventTableClick = !0;
+				var t = e.target;
+				if (t && "TD" !== t.tagName) return;
+				var a = t.getAttribute("data-editor-id");
+				a in this.selectedCell || (this.selectedCell[a] = o.JSONGetById(this.props.schema, a), this.markSelectingCell(), this.setState({
+					displayMergeCell: !0
+				}))
+			}
+		},
+		t.prototype.findFirstAndLastCell = function() {
+			var e = [];
+			for (var t in this.selectedCell) e.push(this.selectedCell[t]);
+			e.length || console.warn("必须有 td");
+			for (var a = e[0].$$col, n = e[0].$$row, l = 0, i = 0, r = null, o = 0, s = e; o < s.length; o++) {
+				var d = s[o],
+				u = d.$$col + (d.colspan || 1) - 1,
+				p = d.$$row + (d.rowspan || 1) - 1;
+				u >= l && (l = u),
+				p >= i && (i = p),
+				d.$$col <= a && (a = d.$$col),
+				d.$$row <= n && (n = d.$$row),
+				d.$$col === a && d.$$row === n && (r = d)
+			}
+			return {
+				minRow: n,
+				minCol: a,
+				maxRow: i,
+				maxCol: l,
+				firstCell: r,
+				lastCell: null
+			}
+		},
+		t.prototype.markSelectingCell = function() {
+			for (var e = this,
+			t = this.findFirstAndLastCell(), a = t.minRow, n = t.minCol, l = t.maxRow, i = t.maxCol, r = 0, o = this.props.schema.trs; r < o.length; r++) for (var s = 0,
+			d = o[r].tds; s < d.length; s++) {
+				var u = d[s],
+				p = u;
+				p.$$col >= n && p.$$col <= i && p.$$row >= a && p.$$row <= l && (p.$$id in this.selectedCell || (this.selectedCell[p.$$id] = u))
+			}
+			var c = this.tableViewWrapperRef.current;
+			c && c.querySelectorAll("td").forEach((function(t) {
+				t.getAttribute("data-editor-id") in e.selectedCell && t.setAttribute("data-selected", "1")
+			}))
+		},
+		t.prototype.removeAllSelectionMark = function() {
+			var e = this.tableViewWrapperRef.current;
+			e && e.querySelectorAll("td").forEach((function(e) {
+				e.removeAttribute("data-selected")
+			}))
+		},
+		t.prototype.handleCellMouseUp = function(e) {
+			this.isSelectionCell = !1
+		},
+		t.prototype.handleCellMouseClick = function(e) {
+			this.preventTableClick && (e.stopPropagation(), e.preventDefault(), this.preventTableClick = !1)
+		},
+		t.prototype.handleMergeCell = function() {
+			var e = this.findFirstAndLastCell(),
+			t = e.firstCell,
+			a = e.minRow,
+			n = e.minCol,
+			l = e.maxRow,
+			i = e.maxCol;
+			if (t) {
+				var r = t.$$id,
+				o = i - n + 1,
+				s = l - a + 1;
+				t.colspan = o,
+				t.rowspan = s;
+				var d = [];
+				for (var u in this.selectedCell) d.push(this.selectedCell[u]);
+				for (var p = d.filter((function(e) {
+					return e.$$id !== r
+				})).map((function(e) {
+					return e.$$id
+				})), c = this.props.schema.trs, m = c.length; m--;) {
+					var h = c[m];
+					h.tds = h.tds.filter((function(e) {
+						return ! p.includes(e.$$id)
+					})),
+					h.tds.length || c.splice(m, 1)
+				}
+				var f = this.props.schema.$$id;
+				this.store.changeValueById(f, this.props.schema),
+				this.setState({
+					displayMergeCell: !1
+				})
+			} else console.warn("找不到第一个 cell")
+		},
+		t.prototype.syncLinePos = function() {
+			var e = this.tableViewWrapperRef.current;
+			if (e) {
+				var t = e.querySelector("table").getBoundingClientRect(),
+				a = e.querySelectorAll("tr");
+				if (!a.length || void 0 === this.maxChildTrIndex) return;
+				for (var n = Array.from(e.querySelectorAll(".ae-TableViewEditor-rowLine")), l = 0; l < a.length; l++) if (a[l]) {
+					var i = a[l].getBoundingClientRect();
+					n[l] ? n[l].style.top = i.top + i.height - t.top - 3.5 + "px": console.warn("行线数量不对")
+				}
+				for (var r = a[this.maxChildTrIndex].querySelectorAll("td"), o = Array.from(e.querySelectorAll(".ae-TableViewEditor-colLine")), s = 0; s < r.length; s++) {
+					var d = r[s];
+					if (d) {
+						var u = d.getBoundingClientRect();
+						o[s] ? o[s].style.left = u.left + u.width - t.left - 3.5 + "px": console.warn("列线数量不对")
+					}
+				}
+			}
+		},
+		t.prototype.componentDidUpdate = function(e) {
+			var t = e.schema,
+			a = this.props.schema;
+			i.
+		default(t, a) || this.syncLineState()
+		},
+		t.prototype.lineMouseDownCommon = function(e) {
+			this.startY = e.clientY,
+			this.startX = e.clientX;
+			var t = e.currentTarget;
+			this.draggingElement = t,
+			this.draggingElementTop = parseInt(this.draggingElement.style.top, 10),
+			this.draggingElementLeft = parseInt(this.draggingElement.style.left, 10),
+			t.style.background = "#4285f4",
+			this.draggingId = t.getAttribute("data-id"),
+			t.addEventListener("click", this.handleLineClick, {
+				once: !0
+			})
+		},
+		t.prototype.handleRowMouseDown = function(e) {
+			this.lineMouseDownCommon(e),
+			document.addEventListener("mousemove", this.handleRowMouseMove),
+			document.addEventListener("mouseup", this.handleRowMouseUp)
+		},
+		t.prototype.handleRowMouseMove = function(e) {
+			var t = e.clientY - this.startY;
+			this.draggingElement.style.top = this.draggingElementTop + t + "px"
+		},
+		t.prototype.handleRowMouseUp = function(e) {
+			document.removeEventListener("mousemove", this.handleRowMouseMove),
+			document.removeEventListener("mouseup", this.handleRowMouseUp);
+			var t = e.clientY - this.startY,
+			a = this.store,
+			l = this.draggingId,
+			i = a.getValueOf(l),
+			o = this.tableViewWrapperRef.current.querySelector('tr[data-editor-id="' + l + '"]');
+			if (this.draggingElement.style.background = "none", i && o) {
+				var s = o.getBoundingClientRect().height + t;
+				a.changeValueById(l, n.__assign(n.__assign({},
+				i), {
+					height: s
+				})),
+				42 - s > 20 && r.toast.warning("由于内边距限制，太小的高度设置会不生效，可以调小默认内边距")
+			} else console.warn("找不到对应的 id", l)
+		},
+		t.prototype.handleColMouseDown = function(e) {
+			this.lineMouseDownCommon(e),
+			document.addEventListener("mousemove", this.handleColMouseMove),
+			document.addEventListener("mouseup", this.handleColMouseUp)
+		},
+		t.prototype.handleColMouseMove = function(e) {
+			var t = e.clientX - this.startX;
+			this.draggingElement.style.left = this.draggingElementLeft + t + "px"
+		},
+		t.prototype.handleColMouseUp = function(e) {
+			document.removeEventListener("mousemove", this.handleColMouseMove),
+			document.removeEventListener("mouseup", this.handleColMouseUp);
+			var t = e.clientX - this.startX,
+			a = this.store,
+			l = this.draggingId,
+			i = a.getValueOf(l),
+			r = this.tableViewWrapperRef.current.querySelector('td[data-editor-id="' + l + '"]');
+			if (this.draggingElement.style.background = "none", i && r) {
+				var o = r.getBoundingClientRect().width + t;
+				a.changeValueById(l, n.__assign(n.__assign({},
+				i), {
+					width: o
+				}))
+			} else console.warn("找不到对应的 id", l)
+		},
+		t.prototype.handleLineClick = function(e) {
+			e.stopPropagation(),
+			e.preventDefault()
+		},
+		t.prototype.renderMergeIcon = function() {
+			return this.state.displayMergeCell ? l.
+		default.createElement("div", {
+				className: "ae-TableViewEditor-mergeIcon",
+				onMouseDown: this.handleMergeCell
+			},
+			"合并单元格") : null
+		},
+		t.prototype.render = function() {
+			var e = this,
+			t = this.state.trIds.map((function(t) {
+				return l.
+			default.createElement("div", {
+					className: "ae-TableViewEditor-rowLine",
+					key: "row-" + t,
+					"data-id": t,
+					onMouseDown: e.handleRowMouseDown
+				})
+			})),
+			a = this.state.tdIds.map((function(t) {
+				return l.
+			default.createElement("div", {
+					className: "ae-TableViewEditor-colLine",
+					key: "row-" + t,
+					"data-id": t,
+					onMouseDown: e.handleColMouseDown
+				})
+			}));
+			return l.
+		default.createElement("div", {
+				className: "ae-TableViewEditor",
+				ref: this.tableViewWrapperRef
+			},
+			this.props.children, this.renderMergeIcon(), t, a)
+		},
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], t.prototype, "removeListenTdSelection", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], t.prototype, "listenTdSelection", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleCellMouseDown", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleCellMouseMove", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleCellMouseUp", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleCellMouseClick", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", []), n.__metadata("design:returntype", void 0)], t.prototype, "handleMergeCell", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleRowMouseDown", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleRowMouseMove", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleRowMouseUp", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "handleColMouseDown", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleColMouseMove", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleColMouseUp", null),
+		n.__decorate([o.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [MouseEvent]), n.__metadata("design:returntype", void 0)], t.prototype, "handleLineClick", null),
+		t
+	} (l.
+default.Component);
+	t.TableViewEditor = d
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
+	t.CodeViewPlugin = void 0;
+	var n = a(0),
+	l = a(1),
+	i = a(2),
+	r = a(3),
+	o = function(e) {
+		function t() {
+			var t = null !== e && e.apply(this, arguments) || this;
+			return t.rendererName = "code",
+			t.$schema = "/schemas/CodeSchema.json",
+			t.name = "代码高亮",
+			t.icon = "fa fa-code",
+			t.description = "代码高亮",
+			t.docLink = "https://baidu.gitee.io/amis/zh-CN/components/code",
+			t.tags = ["展示"],
+			t.scaffold = {
+				type: "code",
+				language: "html",
+				value: "<div>html</div>"
+			},
+			t.previewSchema = n.__assign({},
+			t.scaffold),
+			t.panelTitle = "代码高亮",
+			t.panelBody = [r.getSchemaTpl("tabs", [{
+				title: "常规",
+				body: [{
+					type: "input-text",
+					label: "名称",
+					name: "name"
+				},
+				{
+					type: "editor",
+					label: "固定值",
+					name: "value"
+				}]
+			},
+			{
+				title: "外观",
+				body: [r.getSchemaTpl("className")]
+			},
+			{
+				title: "其他",
+				body: [r.getSchemaTpl("ref"), r.getSchemaTpl("visible")]
+			}])],
+			t
+		}
+		return n.__extends(t, e),
+		t
+	} (i.BasePlugin);
+	t.CodeViewPlugin = o,
+	l.registerEditorPlugin(o)
+},
+function(e, t, a) {
+	"use strict";
+	Object.defineProperty(t, "__esModule", {
+		value: !0
+	}),
 	t.BasicEditor = t.RendererEditor = void 0;
 	var n = a(0),
 	l = a(1),
@@ -26657,7 +28118,7 @@ function(e, t, a) {
 						type: t.type
 					},
 					l.previewSchema = t.previewSchema || l.scaffold,
-					l.settingsSchema && (l.panelTitle = l.settingsSchema.title, l.panelControls = l.settingsSchema.controls),
+					l.settingsSchema && (l.panelTitle = l.settingsSchema.title, l.panelControls = l.settingsSchema.body),
 					l
 				}
 				return n.__extends(l, a),
@@ -26681,13 +28142,13 @@ function(e, t, a) {
 	});
 	var n = a(0),
 	l = n.__importDefault(a(4)),
-	i = n.__importDefault(a(21)),
+	i = n.__importDefault(a(24)),
 	r = n.__importDefault(a(8)),
 	o = n.__importDefault(a(30)),
 	s = a(41),
 	d = a(42),
-	c = a(6),
-	u = function(e) {
+	u = a(6),
+	p = function(e) {
 		function t(t) {
 			var a = e.call(this, t) || this;
 			return a.manager.on("build-panels", a.buildPanels),
@@ -26744,10 +28205,10 @@ function(e, t, a) {
 				theme: n
 			}))
 		},
-		n.__decorate([c.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "buildPanels", null),
+		n.__decorate([u.autobind, n.__metadata("design:type", Function), n.__metadata("design:paramtypes", [Object]), n.__metadata("design:returntype", void 0)], t.prototype, "buildPanels", null),
 		t
 	} (i.
 default);
 	t.
-default = u
+default = p
 }]));

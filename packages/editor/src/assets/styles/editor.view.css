@@ -256,7 +256,7 @@
   width: 10px
 }
 
-.ae-Settings-tabs-content>div>div:first-child:last-child ::-webkit-scrollbar-track {
+.ae-Settings-tabs-content>div>div:first-child:last-child::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -285,7 +285,7 @@
   width: 10px
 }
 
-.ae-Settings-content ::-webkit-scrollbar-track {
+.ae-Settings-content::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -339,7 +339,7 @@
   width: 10px
 }
 
-.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div ::-webkit-scrollbar-track {
+.ae-Settings-content.only-tabs>div:first-child>ul[role=tablist]+div::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -609,7 +609,7 @@
   width: 10px
 }
 
-.ae-RendererList-groupWrap ::-webkit-scrollbar-track {
+.ae-RendererList-groupWrap::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -773,7 +773,7 @@ a.ae-RendererIcon:hover {
   width: 10px
 }
 
-.ae-RenderersPicker-content ::-webkit-scrollbar-track {
+.ae-RenderersPicker-content::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -884,13 +884,56 @@ a.ae-RendererIcon:hover {
   text-align: right
 }
 
-.ae-InsertPanel-footer>button+button {
+.ae-InsertPanel-footer>button+button, .ae-InsertPanel-footer>div+button {
   margin-left: 5px
 }
 
 .ae-RendererList-tip {
   margin: 0 15px 10px;
   color: #28a745
+}
+
+.ae-TableViewEditor {
+  position: relative
+}
+
+.ae-TableViewEditor-rowLine {
+  position: absolute;
+  height: 7px;
+  left: 0;
+  right: 0;
+  cursor: row-resize;
+  user-select: none;
+  opacity: .5
+}
+
+.ae-TableViewEditor-colLine {
+  position: absolute;
+  width: 7px;
+  top: 0;
+  bottom: 0;
+  cursor: col-resize;
+  user-select: none;
+  opacity: .5
+}
+
+.ae-TableViewEditor-mergeIcon {
+  position: absolute;
+  bottom: -22px;
+  left: calc(50% - 3.5em);
+  color: #4285f4;
+  cursor: pointer
+}
+
+.ae-TableViewEditor td[data-selected] {
+  background: #cfe1fe
+}
+
+.ae-TableViewEditor .ae-AddBtn {
+  position: absolute;
+  left: calc(50% - 10px);
+  top: calc(50% - 10px);
+  margin: 0
 }
 
 @keyframes growing {
@@ -946,6 +989,10 @@ a.ae-RendererIcon:hover {
   flex-direction: row
 }
 
+.ae-Editor-common-config {
+  outline: 2px solid rgba(243, 144, 0, .2)
+}
+
 .ae-Main {
   flex-grow: 1;
   width: 0;
@@ -968,7 +1015,7 @@ a.ae-RendererIcon:hover {
   width: 10px
 }
 
-.ae-Preview ::-webkit-scrollbar-track {
+.ae-Preview::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -1037,7 +1084,7 @@ a.ae-RendererIcon:hover {
   width: 10px
 }
 
-.ae-Preview.is-mobile>.ae-Preview-inner ::-webkit-scrollbar-track {
+.ae-Preview.is-mobile>.ae-Preview-inner::-webkit-scrollbar-track {
   background-color: #fff
 }
 
@@ -1596,6 +1643,11 @@ a.ae-RendererIcon:hover {
   padding: 15px
 }
 
+.ae-Editor-rhlbox.is-dragenter[data-renderer=form][data-region=body] {
+  margin: -15px;
+  padding: 15px
+}
+
 .ae-Editor-rhlbox>.region-tip {
   cursor: pointer;
   right: 50%;
@@ -1728,7 +1780,7 @@ div.ae-DragImage>span {
   height: 100%
 }
 
-@media(min-width: 768px) {
+@media(min-width:768px) {
   .ae-BulkActions-control .col-edit {
     width: 30px;
     flex-grow: 0
@@ -1774,7 +1826,12 @@ div.ae-DragImage>span {
   overflow: auto
 }
 
-.ae-dialog>div>.ae-Editor {
+.ae-dialog>div>div {
+  height: 100%;
+  margin-bottom: 0
+}
+
+.ae-dialog>div>div>.ae-Editor {
   position: relative;
   height: 100%
 }

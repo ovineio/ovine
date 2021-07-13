@@ -215,7 +215,6 @@
   --Table-thead-bg: #f5f5f5;
   --Table-thead-borderColor: #fff;
   --Table-thead-iconColor: #999;
-  $Table-strip-bg: transparent;
   --Table-strip-bg: transparent;
   --Table-onHover-bg: #f5fbff;
   --Table-onHover-bg-rgb: 245, 251, 255;
@@ -415,9 +414,9 @@
   --Card-onChecked-borderColor: var(--primary);
   --Card-onChecked-color: var(--primary);
 
-  --Card-onModified-bg: #108cee;
+  --Card-onModified-bg: #e8f0fe;
   --Card-onModified-borderColor: var(--primary);
-  --Card-onModified-color: var(--primary);
+  --Card-onModified-color: #4285f4;
 
   --Card-actions-onHover-bg: white;
   --Card-actions-onHover-color: var(--primary);
