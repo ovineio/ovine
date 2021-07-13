@@ -67,12 +67,12 @@ export default {
     listMember: {
       url: 'GET ovapi/system/user/item',
       limits: 'listMember',
-      mock: true,
+      // mock: true,
     },
     editMember: {
       url: 'PUT ovapi/system/role/member',
       limits: 'editMember',
-      mock: true,
+      // mock: true,
       onPreRequest: (source) => {
         const { ids, newRoleId } = source.data
         source.data = {

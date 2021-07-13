@@ -68,7 +68,7 @@ export default (option: Option) => {
         return
       }
       const tipMsg = (toast as any)[msgType]
-      let msgTitle = msgType === 'error' ? '系统错误' : '提示'
+      let msgTitle = msgType === 'error' ? '系统错误' : '系统提示'
       let msgText = '系统发生未知异常'
       if (msg && typeof msg === 'string') {
         msgText = msg
@@ -86,7 +86,7 @@ export default (option: Option) => {
 
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
-      let confirmTitle = title || '提示'
+      let confirmTitle = title || '系统提示'
       let confirmText = msg || ''
       if (!title && msg.indexOf('[') === 0 && msg.indexOf('] ') > 0) {
         const end = msg.indexOf('] ')
