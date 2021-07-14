@@ -71,7 +71,7 @@ export const StyledLayout = styled.div`
 
   .app-layout-body {
     position: relative;
-    min-height: 300px;
+    height: 100%;
   }
 `
 
