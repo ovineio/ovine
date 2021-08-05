@@ -631,7 +631,7 @@ function getThemeTpl(options: any) {
           $app.style.display = 'block';
         }
       };
-      setTimeout(hideApp,0);
+      setTimeout(hideApp,50);
       link.onload = showApp;
       link.onerror = showApp;
     })();

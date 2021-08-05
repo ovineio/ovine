@@ -17,6 +17,7 @@ type Env = {
   isRelease?: boolean // 是否 release 环境
   isProd?: boolean // 是否是 production 环境
   logger?: LoggerConfig // 日志打印配置
+  [key: string]: any
 }
 
 export type EnvConfig = {

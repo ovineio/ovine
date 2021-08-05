@@ -199,7 +199,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
 async function fakeSourceCtrl(this: Request, option: Types.ReqOption) {
   const fakeReq: any = option.onFakeRequest
   const fakeRes = await fakeReq(option)
-  const fakeResponse = wrapResponse(fakeRes)
+  const fakeResponse = option.withoutWrapRes ? fakeRes : wrapResponse(fakeRes)
   return {
     data: fakeResponse,
   }
