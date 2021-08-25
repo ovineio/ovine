@@ -4,8 +4,8 @@
 
 import { Tab, Tabs, Tree, toast } from 'amis'
 import { RendererProps } from 'amis/lib/factory'
-import { eachTree, mapTree } from 'amis/lib/utils/helper'
-import { map } from 'lodash'
+import { eachTree, mapTree, flattenTree } from 'amis/lib/utils/helper'
+import { map, omitBy } from 'lodash'
 import React, { useEffect, useRef, useMemo } from 'react'
 
 import { routeLimitKey } from '@/constants'
@@ -115,6 +115,25 @@ const LimitSetting = (props: LimitSettingProps) => {
     }
   }
 
+  const controlCurrTabAll = (type: 'checkAll' | 'removeAl') => {
+    setState((d) => {
+      const actTabLimit = convertLimitStr(
+        flattenTree(menuConfig[activeTab].children || [])
+          .map((i) => i.nodePath)
+          .toString()
+      )
+      const currLimit = convertLimitStr(d.selectedVal)
+      let resultLimit = ''
+      if (type === 'checkAll') {
+        resultLimit = Object.keys({ ...currLimit, ...actTabLimit }).toString()
+      } else {
+        resultLimit = Object.keys(omitBy(currLimit, (__, key) => !!actTabLimit[key])).toString()
+      }
+      storeRef.current[activeTab] = resultLimit
+      d.selectedVal = resultLimit
+    })
+  }
+
   const buttonsSchema = {
     type: 'button-toolbar',
     buttons: [
@@ -136,11 +155,31 @@ const LimitSetting = (props: LimitSettingProps) => {
           {
             type: 'button',
             label: '重置',
-            tooltip: '只能重置未提交的部分',
+            tooltip: '重置所有Tab权限中未提交的部分',
             tooltipPlacement: 'top',
             onClick: () => {
               initData()
               toast.success('重置成功', '提示')
+            },
+          },
+          {
+            type: 'button',
+            label: '全选',
+            tooltip: '全部选择当前的Tab权限',
+            tooltipPlacement: 'top',
+            onClick: () => {
+              controlCurrTabAll('checkAll')
+              toast.success('当前Tab全部选择成功', '提示')
+            },
+          },
+          {
+            type: 'button',
+            label: '全取消',
+            tooltip: '全部取消当前的tab权限',
+            tooltipPlacement: 'top',
+            onClick: () => {
+              controlCurrTabAll('removeAl')
+              toast.success('当前Tab全部取消成功', '提示')
             },
           },
         ],
@@ -185,6 +224,7 @@ const LimitSetting = (props: LimitSettingProps) => {
                 eventKey={index}
               >
                 <Tree
+                  key={`${isUnfolded}`}
                   hideRoot
                   multiple
                   joinValues
