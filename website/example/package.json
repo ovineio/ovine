@@ -40,7 +40,7 @@
     "@ovine/editor": "file:../../packages/editor",
     "@toast-ui/editor": "^2.5.1",
     "butterfly-dag": "^3.1.8",
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "lodash": "^4.17.15",
     "overlayscrollbars": "^1.13.1",
     "react": "^16.8.6",
