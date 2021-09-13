@@ -6,7 +6,7 @@
  */
 
 import { Spinner } from 'amis'
-import { eachTree } from 'amis/lib/utils/helper'
+import { eachTree, flattenTree } from 'amis/lib/utils/helper'
 import { isFunction, map, get, cloneDeep, omit, pick } from 'lodash'
 import React, {
   createContext,
@@ -28,6 +28,7 @@ import { useDebounceRender } from '@/components/debounce_render'
 import ErrorBoundary from '@/components/error_boundary'
 import { isSubStr } from '@/utils/tool'
 
+import { setRoutesConfig } from './config'
 import {
   getNodePath,
   getPageMockSource,
@@ -36,6 +37,7 @@ import {
   currPath,
   getPageFileAsync,
 } from './exports'
+import { clearRouteStore, getAsideMenus, getAuthRoutes } from './limit'
 import { checkLimitByKeys } from './limit/exports'
 import {
   CheckLimitFunc,
@@ -322,4 +324,41 @@ export const AppMenuRoutes = (props: AppMenuRoutesProps) => {
       <NotFoundRoute />
     </Switch>
   )
+}
+
+type UseRoutesConfigOpts = {
+  routes: any[] // 路由配置
+  pathPrefix?: string // 必须使用 / 开头的路径字符串
+}
+/**
+ * 将routes配置转为路由的hooks,可用于更加方便创建自定义 layout
+ */
+export function useRoutesConfig(options: UseRoutesConfigOpts) {
+  const { routes, pathPrefix } = options
+
+  const { AuthRoutes, asideMenus = [], authRoutes = [] } = useMemo(() => {
+    clearRouteStore()
+    setRoutesConfig(routes)
+    const configs = {
+      authRoutes: getAuthRoutes(),
+      asideMenus: flattenTree(getAsideMenus())
+        .filter((i) => !!i.path)
+        .map((i) => {
+          i.path = `${pathPrefix || ''}${i.path}`
+          return i
+        }),
+    }
+    return {
+      ...configs,
+      AuthRoutes: (
+        <AppMenuRoutes
+          pathPrefix={pathPrefix}
+          fallback="loading..."
+          authRoutes={configs.authRoutes}
+        />
+      ),
+    }
+  }, [routes])
+
+  return { AuthRoutes, asideMenus, authRoutes }
 }

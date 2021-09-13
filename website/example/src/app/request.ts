@@ -34,7 +34,7 @@ request.onRequest = (option) => {
   const { actionAddr } = option
 
   // 开启携带 cookies 信息
-  option.fetchOptions.credentials = 'include'
+  option.credentials = 'include'
 
   // demo api 携带用户鉴权信息，具体鉴权需自行实现
   if (key) {

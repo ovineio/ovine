@@ -607,12 +607,13 @@ function getThemeTpl(options: any) {
     return tpl
   }
 
+  // TODO: 优化主题处理逻辑
   tpl.script = `
     (function() {
       var isLoad = false;
       var themes = "${themes}".split(',');
       var themeName = (localStorage.getItem('${themeKey}') || '').replace(/"/g, '') || '${presetTheme}';
-      var linkHref = themes.find((t) => t.indexOf(themeName) > -1);
+      var linkHref = themes.find(function(t){ return t.indexOf(themeName) > -1 });
       var head = document.head || document.getElementsByTagName('head')[0];
       var link = document.createElement('link');
       head.appendChild(link);
@@ -627,7 +628,7 @@ function getThemeTpl(options: any) {
         }
       };
       var showApp = function() {
-        isLoad = true
+        isLoad = true;
         var $app = document.getElementById('app-root');
         if ($app) {
           $app.style.display = 'block';
