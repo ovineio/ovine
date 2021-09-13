@@ -609,6 +609,7 @@ function getThemeTpl(options: any) {
 
   tpl.script = `
     (function() {
+      var isLoad = false;
       var themes = "${themes}".split(',');
       var themeName = (localStorage.getItem('${themeKey}') || '').replace(/"/g, '') || '${presetTheme}';
       var linkHref = themes.find((t) => t.indexOf(themeName) > -1);
@@ -626,12 +627,17 @@ function getThemeTpl(options: any) {
         }
       };
       var showApp = function() {
+        isLoad = true
         var $app = document.getElementById('app-root');
         if ($app) {
           $app.style.display = 'block';
         }
       };
-      setTimeout(hideApp,50);
+      setTimeout(function(){
+        if(!isLoad){
+          hideApp()
+        }
+      },50);
       link.onload = showApp;
       link.onerror = showApp;
     })();
