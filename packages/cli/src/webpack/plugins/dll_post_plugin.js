@@ -143,7 +143,7 @@ class DllManifestPlugin {
         return
       }
 
-      fse.readFile(vendor, 'utf8', function(readErr, content) {
+      fse.readFile(vendor, 'utf8', function (readErr, content) {
         if (readErr) {
           console.log(`Unable to read: ${vendorName}`, readErr)
           return
@@ -156,14 +156,10 @@ class DllManifestPlugin {
               `window\\.${withHash ? `${vendorName}_(\\w{6})` : vendorName}=function\\(e\\)\\{`,
               'm'
             ),
-            `window.${
-              withHash ? `${vendorName}_$1` : vendorName
-            }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/\\((?:https?|file):.*\\)/);if(info) { var temp = info[0]; _path = temp.slice(1, temp.lastIndexOf("/"));}} return _path + "/"; } window.${
-              winConst.dllPath
-            } = getPath(); window.${winConst.dllVersion}="${dllVer}";  if (window.${
-              winConst.dllRequireVer
-            } !== "${dllVer}") { console.error('current dll version is not match ovine lib require. Please replace the dll version to "'+ window.${
-              winConst.dllRequireVer
+            `window.${withHash ? `${vendorName}_$1` : vendorName
+            }=function(e){function getPath(){ var _path = ""; try {throw new Error()} catch (e) {var info = e.stack.match(/((?:https?|file):.*)/);if(info) { var temp = info[0]; _path = temp.slice(0, temp.lastIndexOf("/"));}} return _path + "/"; } window.${winConst.dllPath
+            } = getPath(); window.${winConst.dllVersion}="${dllVer}";  if (window.${winConst.dllRequireVer
+            } !== "${dllVer}") { console.error('current dll version is not match ovine lib require. Please replace the dll version to "'+ window.${winConst.dllRequireVer
             } +'".'); }`
           )
           .replace(/\+"\.css",(\w{1})=.{3}\+/m, `+".css",$1=window.${winConst.dllPath}+`)
