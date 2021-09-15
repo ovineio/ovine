@@ -31,7 +31,6 @@ export default (props) => {
           return i
         }),
     }
-
     return {
       ...configs,
       AuthRoutes: (
@@ -73,7 +72,7 @@ export default (props) => {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
           <Nav menus={asideMenus} />
           <div className="user-item nav-item m-r-sm">
-            <Amis schema={itemUserSchema} />
+            <Amis schema={itemUserSchema.body} />
           </div>
         </div>
       </nav>

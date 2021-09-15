@@ -9,15 +9,13 @@ export const LoginPage = styled.div`
   }
   a {
     transition: 0.3s all ease;
+    color: #888;
+    text-decoration: underline;
     &:hover {
       text-decoration: none !important;
     }
   }
 
-  a {
-    color: #888;
-    text-decoration: underline;
-  }
   h2 {
     font-size: 20px;
   }
@@ -44,6 +42,7 @@ export const LoginPage = styled.div`
     position: relative;
     label {
       position: absolute;
+      z-index: 3;
       top: 50%;
       transform: translateY(-50%);
       transition: 0.3s all ease;
@@ -51,11 +50,19 @@ export const LoginPage = styled.div`
       display: block;
       margin-bottom: 0;
       color: darken(#ccc, 10%);
+      user-select: none;
     }
 
     input {
+      position: relative;
+      z-index: 2;
+      text-indent: 28px;
       background: transparent;
       border-bottom: 1px solid #ccc;
+
+      &:-webkit-autofill {
+        box-shadow: inset 0 0 0 1000px #fff;
+      }
     }
 
     &.first {

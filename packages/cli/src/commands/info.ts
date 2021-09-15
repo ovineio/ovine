@@ -1,9 +1,9 @@
 import chalk from 'chalk'
 import fse from 'fs-extra'
-import { execSync } from 'child_process'
 import semver from 'semver'
 
-import { dllVer, libName, libVer, ovDocDomain } from '../constants'
+import { dllVer, domain, libVer, amisEditorVer } from '../constants'
+import { getPkgLatestVer, getPkgName } from '../utils'
 
 type InfoType = 'version'
 type InfoOptions = {
@@ -25,30 +25,41 @@ export async function info(type: InfoType, options: InfoOptions): Promise<void> 
 function printVersionInfo(options: InfoOptions) {
   const { siteDir } = options
   const verInfo: any = {}
-  const libModuleDir = `${siteDir}/node_modules/@${libName}`
+  const modulesDir = `${siteDir}/node_modules/`
 
   console.log(`\n${chalk.grey('loading version info...')}`)
 
-  const getPkgName = (pkg: string) => `@${libName}/${pkg}`
+  const latestVer = getPkgLatestVer()
+  const amisVer = require('amis/package.json').version
 
-  const latestVer = execSync(`npm view @${libName}/cli version`)
-    .toString()
-    .replace('\n', '')
+  const remarks: any = {
+    core: `amis: ${amisVer}`,
+    editor: `amis-editor: ${amisEditorVer}`,
+  }
 
-  fse.readdir(libModuleDir).then((dirs) => {
+  const requiredSameAsCliVerPkgs = ['core']
+
+  fse.readdir(`${modulesDir}${getPkgName()}`).then((dirs) => {
     dirs.forEach((pkg) => {
-      const pkgPath = `${libModuleDir}/${pkg}/package.json`
-      const version = require(pkgPath).version
-      const info = {
+      const pkgName = getPkgName(pkg as any)
+      const pkgPath = `${modulesDir}${pkgName}/package.json`
+      const { version } = require(pkgPath)
+
+      const remark = semver.eq(libVer, version)
+        ? remarks[pkg] || '--'
+        : requiredSameAsCliVerPkgs.includes(pkg)
+        ? `"${pkg}" ver should same as "cli".`
+        : '--'
+
+      verInfo[pkgName] = {
         version,
-        remark: semver.eq(libVer, version) ? '--' : `"${pkg}" ver should same as "cli".`,
+        remark,
       }
-      verInfo[getPkgName(pkg)] = info
     })
 
     verInfo[getPkgName('cli')] = {
       version: libVer,
-      remark: `required dll version: ${dllVer}`,
+      remark: `required dll: ${dllVer}`,
     }
 
     console.log(`\n${chalk.cyan('Ovine verion info:')}\n`)
@@ -68,8 +79,6 @@ function printVersionInfo(options: InfoOptions) {
       )
     }
 
-    console.log(
-      `Ovine version changelog doc: ${chalk.blueBright(`${ovDocDomain}org/blog/changelog/`)}\n`
-    )
+    console.log(`Ovine changelog doc: ${chalk.blueBright(`${domain.libDoc}org/blog/changelog/`)}\n`)
   })
 }

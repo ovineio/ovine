@@ -23,51 +23,63 @@ Ovine Cli 工具由 `@ovine/cli` 包提供，二次封装了 webpack 一系列�
 }
 ```
 
+### Ovine 命令
+
+<iframe style={{border: "1px solid #dfdfdf"}} src="/org/htmls/cli.html" border="0" frameBorder="0" width="100%" height="550px" />
+
 ### `yarn ovine -h` 查看帮助
 
 列出 ovine 命令的所有帮助项，或者查看具体的命令的帮助。 `yarn ovine dev -h` 查看 `dev` 命令的帮助信息。不必记忆所有的文档所有内容，需要时查看帮助即即可。
 
-### `yarn ovine dev`
+### `yarn ovine dev` 开发 app
 
-#### -p 启动端口
+#### `-p` 启动端口
 
 默认 7050
 
-#### --host 启动的 host
+#### `--env` 当前应用环境
 
 默认 localhost
 
-#### --mock 是否开启 mock 数据功能
+#### `--host` 启动的 host
+
+默认 localhost
+
+#### `--mock` 是否开启 mock 数据功能
 
 默认 false
 
-#### --env 当前应用环境
-
-默认 localhost
-
-#### --scss 开启 scss 更新
+#### `--scss` 开启 scss 更新
 
 默认 false。此选项需要与 `ovine scss -w` 命令配合使用，可以实时预览主题文件修改后的效果。
 
-#### --no-dll 不启用 dll
-
-默认 false。不启用 dll 编译会非常慢。但是可以看到更多 `react` 的报错信息。
-
-#### --no-open 不默认打开浏览器
+#### `--local-ip` 使用 本机 IP 地址启动
 
 默认 false
 
-### `yarn ovine build`
+#### `--no-hot` 关闭热更新
 
-#### --mock 是否开启 mock 数据功能
+默认 false
+
+#### `--no-open` 不默认打开浏览器
+
+默认 false
+
+#### `--no-dll` 不启用 dll
+
+默认 false。不启用 dll 编译会非常慢。但是可以看到更多 `react` 的报错信息。
+
+### `yarn ovine build` 打包 app
+
+#### `--mock` 是否开启 mock 数据功能
 
 默认 false。开启 mock 后，可以使用 `mock.js` 数据。否则 `mock.js` 数据无效。
 
-#### --env 当前应用环境
+#### `--env` 当前应用环境
 
 默认 production，如果非 `production` 环境可以自行设置，其他环境。
 
-#### --bundle-analyzer 开启打包分析
+#### `--bundle-analyzer` 开启打包分析
 
 是否开启 build 构建的依赖分析，默认 false。当有需要的时候可以使用此参数，更加详细的了解 build 包的大小。
 
@@ -77,17 +89,31 @@ Ovine Cli 工具由 `@ovine/cli` 包提供，二次封装了 webpack 一系列�
 
 > Amis 的依赖包还比较多的，构建 DLL 比较缓慢，此命令时间较长，大约 1-2 分钟左右，请耐心等待。
 
-#### --bundle-analyzer 开启打包分析
+#### `--bundle-analyzer` 开启打包分析
 
 是否开启 dll 构建的依赖分析，默认 false。当有需要的时候可以使用此参数，更加详细的了解 dll 包的大小。
+
+#### `--embed-assets` 内嵌静态资源
+
+比如 css 中内嵌 font 字体文件
+
+#### `--no-hash` 打包后文件不加 hash 信息
+
+将 dll 文件部署 cdn 服务中时，可能会用到
 
 ### `yarn ovine scss` 编译 scss
 
 Ovine 默认采用 `css in js` 方式写样式。但是 `amis` 使用的 `scss` 写样式。因此每当 `amis` 更新时，或者当更改 `scss` 主题变量时，都需要重新编译一下 amis 的样式。
 
-#### -w 监听 scss 文件改动，实时编译
+#### `-w` 监听 scss 文件改动，实时编译
 
-#### --verbose 打印详细日志
+#### `--verbose` 打印详细日志
+
+### `yarn ovine info <infoType>` 查看信息
+
+可以查看 Ovine 应用相关信息。 比如： `yarn ovine info version` 查看信息
+
+- `yarn ovine info version` 查看 ovine 库版本信息。
 
 ### Ovine 版本升级
 

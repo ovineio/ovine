@@ -5,28 +5,27 @@
   <% var opts=htmlWebpackPlugin.options; %>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta app-version="<%=opts.version%>" />
-    <title>
-      <%=opts.title || 'Ovine' %>
-    </title>
-    <link type="image/x-icon" rel="shortcut icon"
-      href="<%= (opts.favIcon || '').replace(/^\/static\//, `${opts.publicPath}static/`) || `${opts.staticLibPath}core/favicon.ico`%>" />
-    <% if(!opts.withIconfont) { %>
-      <link rel="stylesheet" href="<%=opts.staticLibPath%>styles/bd_iconfont.css?v=<%= opts.libVer %>" />
+    <% if (opts.version) { %>
+      <meta app-version="<%=opts.version%>" />
       <% } %>
-        <% if(!opts.withoutPace) { %>
-          <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css?v=<%= opts.libVer %>" />
-          <script data-pace-options='{"elements": false, "ajax": false, "restartOnPushState": false }'
-            src="<%=opts.staticLibPath%>core/pace.min.js?v=<%= opts.libVer %>"></script>
+        <title>
+          <%=opts.title || 'Ovine' %>
+        </title>
+        <link type="image/x-icon" rel="shortcut icon"
+          href="<%= (opts.favIcon || '').replace(/^\/static\//, `${opts.publicPath}static/`) || `${opts.staticLibPath}core/favicon.ico`%>" />
+        <% if(!opts.withIconfont) { %>
+          <link rel="stylesheet" href="<%=opts.staticLibPath%>styles/bd_iconfont.css?v=<%= opts.libVer %>" />
           <% } %>
-
-            <% if(opts.dllVendorCss) { %>
-              <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
+            <% if(!opts.withoutPace) { %>
+              <link rel="stylesheet" href="<%=opts.staticLibPath%>core/pace.css?v=<%= opts.libVer %>" />
+              <script data-pace-options='{"elements": false, "ajax": false, "restartOnPushState": false }'
+                src="<%=opts.staticLibPath%>core/pace.min.js?v=<%= opts.libVer %>"></script>
               <% } %>
-                <% if(!opts.isProd) { %>
-                  <script> var IS_WEBPACK_DEV_SERVER = true; var IS_SCSS_UPDATE = <%= opts.scssUpdate %>;</script>
+
+                <% if(opts.dllVendorCss) { %>
+                  <link rel="stylesheet" href="<%=opts.dllVendorCss%>" />
                   <% } %>
-                    <script id="themeScript"></script>
+                    <script id="injectScriptHolder"></script>
                     <%= opts.head %>
 </head>
 

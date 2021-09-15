@@ -4,6 +4,7 @@
 
 import AssetsPlugin from 'assets-webpack-plugin'
 import { version as cacheLoaderVersion } from 'cache-loader/package.json'
+import chalk from 'chalk'
 import CleanPlugin from 'clean-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
 import TsCheckerPlugin from 'fork-ts-checker-webpack-plugin'
@@ -16,7 +17,14 @@ import { Configuration, DllReferencePlugin, EnvironmentPlugin, ProvidePlugin } f
 
 import * as constants from '../constants'
 import { BuildCliOptions, DevCliOptions, Props } from '../types'
-import { mergeWebpackConfig, globalStore, getModulePath, loadDllManifest } from '../utils'
+import {
+  mergeWebpackConfig,
+  globalStore,
+  getModulePath,
+  fetchFile,
+  getDllHostDir,
+  getDllManifestFile,
+} from '../utils'
 
 import * as amis from './amis'
 import { getBabelConfig } from './babel'
@@ -32,7 +40,6 @@ const {
   tsConfFileName,
   tsLintConfFileName,
   webpackConfFileName,
-  dllVendorDirPath,
   dllVendorFileName,
   staticLibDirPath,
   esLintFileName,
@@ -40,6 +47,8 @@ const {
   dllFileKeys,
   srcDirName,
   stylesDirName,
+  winConst,
+  dllVer,
 } = constants
 
 type BaseConfigOptions = Props & Partial<DevCliOptions> & Partial<BuildCliOptions>
@@ -58,11 +67,14 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
     scssUpdate = false,
   } = options
 
-  const { envModes, ui, styledConfig, dllPublicPath, dllHostDir: confDllHostDir } = siteConfig
+  const { envModes, ui, styledConfig, appKey } = siteConfig
 
-  const { assetsFile, manifestFile } = await loadDllManifest(options)
-
-  const dllFilesHostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
+  const {
+    assetJson,
+    manifestFile,
+    hostDir: dllFilesHostDir,
+    withCdnDll = false,
+  } = await loadDllManifest(options)
 
   // "envModes" must contains "env"
   if (envModes && env && !envModes.includes(env)) {
@@ -314,11 +326,12 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         new MonacoWebpackPlugin({
           publicPath,
         }),
-      getCopyPlugin(siteDir, outDir),
+      getCopyPlugin(siteDir, outDir, { withCdnDll }),
       new EnvironmentPlugin({
         PUBLIC_PATH: publicPath,
         NODE_ENV: process.env.NODE_ENV,
-        INIT_THEME: ui.defaultTheme,
+        APP_KEY: appKey,
+        INIT_THEME: ui.appTheme || ui.defaultTheme,
         HOT: options.hot || false,
         MOCK: mock,
         ENV: env,
@@ -364,16 +377,25 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         }),
       !scssUpdate &&
         new HtmlHooksPlugin({
-          keepInMemory: !isProd,
+          scssUpdate,
+          isProd,
           indexHtml: `${outDir}/index.html`,
-          getThemeScript: (opts: any) =>
-            getThemeScript({ publicPath, siteDir, defaultTheme: ui.defaultTheme, ...opts }),
+          getThemeTpl: (opts: any) => {
+            const themeOpts = {
+              publicPath,
+              siteDir,
+              appKey,
+              defaultTheme: ui.defaultTheme,
+              appTheme: ui.appTheme,
+              ...opts,
+            }
+            return getThemeTpl(themeOpts)
+          },
         }),
       new HtmlWebpackPlugin({
         ..._.pick(siteConfig.template, ['head', 'preBody', 'postBody']),
         isProd,
         libVer,
-        scssUpdate,
         publicPath,
         title: siteConfig.title,
         favIcon: siteConfig.favicon, // TODO: 将图标图片 拷贝到项目根目录！
@@ -382,11 +404,11 @@ export async function createBaseConfig(options: BaseConfigOptions): Promise<Conf
         staticLibPath: `${publicPath}${staticLibDirPath}/`,
         template: siteConfig.template?.path || path.resolve(__dirname, './template.ejs'),
         filename: `${outDir}/index.html`,
-        dllVendorCss: getDllDistFile(dllFilesHostDir, assetsFile, dllVendorFileName, 'css'),
+        dllVendorCss: getDllDistFile(dllFilesHostDir, assetJson, dllVendorFileName, 'css'),
         dllVendorJs:
           dll &&
           dllFileKeys
-            .map((fileKey) => getDllDistFile(dllFilesHostDir, assetsFile, fileKey, 'js'))
+            .map((fileKey) => getDllDistFile(dllFilesHostDir, assetJson, fileKey, 'js'))
             .join(','),
       }),
     ].filter(Boolean) as any[],
@@ -494,21 +516,15 @@ function getFixLibLoaders(option: any) {
 
 function getDllDistFile(
   dllFilesHostDir: string,
-  assetsFile: string,
+  assetJson: any,
   fileKey: string = dllVendorFileName,
   type: string = 'js'
 ) {
-  const assetJson = fse.existsSync(assetsFile) && require(assetsFile)
-
-  if (!assetJson) {
-    console.log(`assetsFile: ${assetsFile} not exists.`)
-    return ''
-  }
-
   return `${dllFilesHostDir}${_.get(assetJson, `${fileKey}.${type}`)}`
 }
 
-function getCopyPlugin(siteDir: string, outDir: string) {
+function getCopyPlugin(siteDir: string, outDir: string, option: { withCdnDll: boolean }) {
+  const { withCdnDll } = option
   const generatedStaticDir = `${siteDir}/${generatedDirName}/${staticDirName}`
   const generatedStylesDir = `${siteDir}/${generatedDirName}/${stylesDirName}`
   const siteStaticDir = `${siteDir}/${staticDirName}`
@@ -519,6 +535,7 @@ function getCopyPlugin(siteDir: string, outDir: string) {
     {
       from: generatedStaticDir,
       to: outLibDir,
+      ignore: withCdnDll ? ['dll/**/*'] : undefined,
     },
   ]
 
@@ -548,51 +565,188 @@ function getCopyPlugin(siteDir: string, outDir: string) {
   return new CopyPlugin(copyFiles)
 }
 
-function getThemeScript(options: any) {
-  const { siteDir, localFs, defaultTheme, publicPath } = options
+function getThemeTpl(options: any) {
+  const { siteDir, localFs, defaultTheme, publicPath, appTheme, appKey } = options
 
-  const assetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
-  const cssAssets = _.get(assetsJson, '.css') || []
+  const cssAssetsJson = JSON.parse(localFs.readFileSync(`${siteDir}/${cssAssetsFile}`, 'utf8'))
+  const cssAssets = _.get(cssAssetsJson, '.css') || []
 
-  if (!cssAssets || !cssAssets.map) {
-    return ''
+  const tpl = {
+    link: '',
+    script: '',
   }
 
-  const themes = cssAssets
-    .filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
-    .map((i) => `${publicPath}${i}`)
+  if (!cssAssets || !cssAssets.map) {
+    return tpl
+  }
 
-  let presetTheme = ''
-  if (defaultTheme) {
-    if (themes.some((theme) => theme.indexOf(`${defaultTheme}_`) > -1)) {
-      presetTheme = defaultTheme
+  const themesArr = cssAssets.filter((i) => /themes\/[a-z]*_\w{6}\.css/.test(i))
+  const themes = (themesArr.length
+    ? themesArr
+    : cssAssets.filter((i) => /themes\/.*\.css$/.test(i))
+  ).map((i) => `${publicPath}${i}`)
+
+  if (!themes.length) {
+    return tpl
+  }
+
+  const checkTheme = (t: string) => t && themes.some((theme) => theme.indexOf(t) > -1)
+
+  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'default'
+
+  if (appTheme === 'false') {
+    return tpl
+  }
+
+  const themeKey = `${appKey ? `${appKey}_` : ''}libAppThemeStore`
+
+  if (checkTheme(appTheme)) {
+    const link = themes.find((t) => t.indexOf(appTheme) > -1)
+    tpl.link = `<link rel="stylesheet" href="${link}" />`
+    tpl.script = `localStorage.setItem('${themeKey}', '"${appTheme}"');`
+    return tpl
+  }
+
+  // TODO: 优化主题处理逻辑
+  tpl.script = `
+    (function() {
+      var isLoad = false;
+      var themes = "${themes}".split(',');
+      var themeName = (localStorage.getItem('${themeKey}') || '').replace(/"/g, '') || '${presetTheme}';
+      var linkHref = themes.find(function(t){ return t.indexOf(themeName) > -1 });
+      var head = document.head || document.getElementsByTagName('head')[0];
+      var link = document.createElement('link');
+      head.appendChild(link);
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.dataset.theme = themeName;
+      link.href= linkHref;
+      var hideApp = function() {
+        var $app = document.getElementById('app-root');
+        if ($app) {
+          $app.style.display = 'none';
+        }
+      };
+      var showApp = function() {
+        isLoad = true;
+        var $app = document.getElementById('app-root');
+        if ($app) {
+          $app.style.display = 'block';
+        }
+      };
+      setTimeout(function(){
+        if(!isLoad){
+          hideApp()
+        }
+      },50);
+      link.onload = showApp;
+      link.onerror = showApp;
+    })();
+  `
+
+  return tpl
+}
+
+type ManifestInfo = {
+  hostDir: string
+  assetsFile: string
+  manifestFile: string
+  assetJson: any
+  withCdnDll?: boolean
+}
+export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
+  const { siteDir } = options
+  const [hostDir, backHostDir] = getDllHostDir(options.siteConfig)
+  const files = getDllManifestFile(siteDir)
+
+  const { assetsFile, manifestFile } = files
+
+  const backFiles = {
+    ...files,
+    hostDir: backHostDir,
+  }
+
+  const cacheDir = `${siteDir}/${generatedDirName}/cache`
+
+  const dllHostDirKey = 'DLL_HOST_DIR'
+  const assetsFileName = path.basename(assetsFile)
+  const manifestFileName = path.basename(manifestFile)
+  const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
+  const cacheManifestFile = `${cacheDir}/${manifestFileName}`
+
+  const cachedFiles = {
+    hostDir,
+    withCdnDll: true,
+    assetsFile: cacheAssetsFile,
+    manifestFile: cacheManifestFile,
+  }
+
+  function getManifest(filesData: any) {
+    try {
+      const assetJson = require(filesData.assetsFile)
+      return {
+        assetJson,
+        hostDir,
+        ...filesData,
+      }
+    } catch (err) {
+      console.log(chalk.red(`\nload assetsFile: ${filesData.assetsFile} with error. \n`, err))
+      throw err
     }
   }
 
-  if (!themes.length) {
-    return ''
+  const fetchManifest = async () => {
+    // check cache files if exits
+    if ([cacheAssetsFile, cacheManifestFile].every((filePath) => fse.existsSync(filePath))) {
+      const assetJson = await fse.readJSON(cacheAssetsFile)
+      // check the cache if valid
+      if (assetJson[winConst.dllVersion] === dllVer && assetJson[dllHostDirKey] === hostDir) {
+        // already cached
+        return getManifest(cachedFiles)
+      }
+    }
+
+    const httpAssetFile = `${hostDir}${assetsFileName}`
+    const httpManifestFile = `${hostDir}${manifestFileName}`
+
+    // download manifest files to cache
+    await Promise.all(
+      [httpAssetFile, httpManifestFile].map((httpFile) => {
+        return fetchFile(httpFile).then((fileRes) => {
+          if (fileRes.headers['content-type'].indexOf('application/json') === -1) {
+            throw new Error(`apply ${httpFile} with error.`)
+          }
+          const cachePath = `${cacheDir}/${path.basename(httpFile)}`
+          let jsonBody = fileRes.body
+
+          if (httpFile === httpAssetFile) {
+            const assetJson = JSON.parse(jsonBody)
+            assetJson[dllHostDirKey] = hostDir
+            jsonBody = JSON.stringify(assetJson)
+          }
+
+          fse.ensureFileSync(cachePath)
+          fse.writeFileSync(cachePath, jsonBody, {
+            encoding: 'utf-8',
+          })
+        })
+      })
+    )
+    return getManifest(cachedFiles)
   }
 
-  return `
-    <script>
-      (function() {
-        var themes = "${themes}".split(',');
-        var theme = (localStorage.getItem('libAppThemeStore') || '').replace(/"/g, '') || '${presetTheme}' || 'default';
-        var currThemeLink = '';
-        for (var i = 0; i < themes.length; i++) {
-          if (themes[i].indexOf(theme + '_') > -1) {
-            currThemeLink = themes[i];
-            break;
-          }
-        }
-        var head = document.head || document.getElementsByTagName('head')[0];
-        var link = document.createElement('link');
-        head.appendChild(link);
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.dataset.theme = theme;
-        link.href= currThemeLink;
-      })();
-    </script>
-  `.replace(/\n\s{2,}/g, '')
+  let manifestInfo: any = {}
+
+  if (hostDir.startsWith('http') && hostDir !== backHostDir) {
+    try {
+      manifestInfo = await fetchManifest()
+    } catch (err) {
+      manifestInfo = getManifest(backFiles)
+      // console.log(`load host dll manifest files.`, err) // print log when needed
+    }
+  } else {
+    manifestInfo = getManifest(backFiles)
+  }
+
+  return manifestInfo as ManifestInfo
 }

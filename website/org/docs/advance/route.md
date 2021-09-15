@@ -99,7 +99,7 @@ app.routerHistory.goBack() // 回退到上个页面
 // 如果是想跳转到非本站页面，请使用 window.open(xxx) 或者 location.href=xxx
 ```
 
-- #### 使用 Action 渲染器， 在 JSON 中实现页面跳转。[Amis 文档地址](https://baidu.github.io/amis/docs/components/action#%E5%8D%95%E9%A1%B5%E8%B7%B3%E8%BD%AC)
+- #### 使用 Action 渲染器， 在 JSON 中实现页面跳转。[Amis 文档地址](https://baidu.gitee.io/amis/zh-CN/docs/components/action#%E5%8D%95%E9%A1%B5%E8%B7%B3%E8%BD%AC)
 
 ```js
 // 单页跳转, 就是本站内跳转，不会再次重新渲染

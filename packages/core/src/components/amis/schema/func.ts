@@ -2,7 +2,7 @@ import { resolveRenderer } from 'amis'
 import { RendererConfig } from 'amis/lib/factory'
 import { Schema } from 'amis/lib/types'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, isArray, isEmpty, isObject, map, isFunction } from 'lodash'
+import { get, isArray, isEmpty, isObject, map, omit, isFunction } from 'lodash'
 
 import { checkLimitByKeys } from '@/routes/limit/exports'
 import logger from '@/utils/logger'
@@ -38,7 +38,6 @@ export const filterSchemaLimit = (
   }
 ) => {
   const { nodePath, isDefinitions } = option || {}
-
   if (!isObject(schema)) {
     return
   }
@@ -172,16 +171,18 @@ export const convertToAmisSchema = (
 // 处理自定义格式
 export const resolveLibSchema = (schema: LibSchema) => {
   const { preset = {}, definitions, constants, ...rest } = schema
-  const reformSchema = { definitions, preset, ...rest }
 
   if (isEmpty(preset) && isEmpty(definitions) && !constants) {
-    return reformSchema
+    return { ...rest, definitions }
   }
 
-  convertToAmisSchema(reformSchema, { definitions, preset, constants })
-  filterSchemaLimit(rest, preset)
+  const reformSchema = { definitions, preset, ...rest }
+  const amisSchema = convertToAmisSchema(reformSchema, { definitions, preset, constants })
+  const authSchema: any = omit(amisSchema, ['preset'])
 
-  return reformSchema
+  filterSchemaLimit(authSchema, preset)
+
+  return authSchema
 }
 
 // 自定义解析器

@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 import * as reqHooks from './req'
 import dashboardCss from './styled'
 
@@ -123,7 +125,7 @@ export const schema = {
         type: 'form',
         title: '过滤条件',
         className: 'tab-filter',
-        submitOnInit: false,
+        submitOnInit: true,
         wrapWithPanel: false,
         mode: 'inline',
         target: 'tab-rain',
@@ -135,6 +137,7 @@ export const schema = {
             name: 'dateRange',
             format: 'YYYY-MM-DD',
             joinValues: false,
+            value: [moment().subtract(30, 'days'), moment()],
           },
           { type: 'submit', label: '搜索' },
         ],

@@ -100,7 +100,7 @@ function addEditorFilesToDll(options: ConfigOptions) {
   const editorPath = getEditorFile('scripts/editor.view.js')
   if (editorPath) {
     dllModules.push(editorPath)
-    dllModules.push(getEditorFile('styles/editor.min.css'))
+    dllModules.push(getEditorFile('styles/editor.view.css'))
   }
 }
 
@@ -199,16 +199,20 @@ export function createDllConfig(options: ConfigOptions) {
         },
         {
           test: /\.css$/,
-          exclude: embedAssets ? [amis.bootStropCss, amis.fontAwesomeCss] : [amis.bootStropCss],
+          exclude: !withHash ? [amis.bootStropCss, amis.fontAwesomeCss] : [amis.bootStropCss],
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: amis.bootStropCss,
           use: [MiniCssExtractPlugin.loader, 'css-loader', amis.fixBootStropCss()],
         },
-        embedAssets && {
+        !withHash && {
           test: amis.fontAwesomeCss,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', amis.fixFontAwesomeCss({ siteDir })],
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            amis.fixFontAwesomeCss({ siteDir, embedAssets }),
+          ],
         },
         {
           test: new RegExp(

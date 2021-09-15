@@ -42,9 +42,9 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   globalStore('set', 'isProd', false)
 
   if (options.isReload) {
-    console.log(chalk.blue('\nConfig changed restart the development server...'))
+    console.log(chalk.blue('\nConfig changed restart the development server... \n'))
   } else {
-    console.log(chalk.blue('\nStarting the development server...'))
+    console.log(chalk.blue('\nStarting the development server... \n'))
   }
 
   // get all config context.
@@ -61,9 +61,9 @@ export async function dev(siteDir: string, options: Options = {}): Promise<void>
   const urls = prepareUrls(protocol, host, port)
   const openUrl = normalizeUrl([urls.localUrlForBrowser, openPage || publicPath || '/'])
 
-  const baseConfig = await createBaseConfig({ ...context, ...options })
+  const baseConfig: any = await createBaseConfig({ ...context, ...options })
 
-  const config: webpack.Configuration = merge(baseConfig, {
+  const config: any = merge(baseConfig, {
     plugins: [
       // This is necessary to emit hot updates for webpack-dev-server.
       new HotModuleReplacementPlugin(),

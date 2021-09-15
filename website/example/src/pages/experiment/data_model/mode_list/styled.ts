@@ -125,7 +125,7 @@ export const ModelDetail = styled.div`
     .${ns}Table-table {
       td > span {
         display: inline-block;
-        max-width: 150px;
+        max-width: 200px;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -163,5 +163,18 @@ export const QueryItem = styled.div`
       font-size: 14px;
       cursor: pointer;
     }
+  }
+`
+
+export const FileItem = styled.div`
+  i {
+    display: inline-block;
+    cursor: pointer;
+    &:hover {
+      color: var(--primary);
+    }
+  }
+  .file-actions {
+    white-space: nowrap;
   }
 `

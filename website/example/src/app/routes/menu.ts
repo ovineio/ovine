@@ -156,6 +156,10 @@ export const menuRoutes: LimitMenuItem = {
               label: 'server渲染器',
               nodePath: 'check1',
             },
+            {
+              label: '动态隐藏组件',
+              nodePath: 'show_crud',
+            },
           ],
         },
       ],

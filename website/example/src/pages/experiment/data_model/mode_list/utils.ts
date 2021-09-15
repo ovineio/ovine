@@ -100,7 +100,7 @@ export const getFieldFormData = (apiSource) => {
     beanType,
     extra: [],
   }
-  const fiedKeys = ['name', 'desc', 'isNull']
+  const fiedKeys = ['name', 'desc', 'required']
   map(attributes, (item, key) => {
     if (fiedKeys.includes(key)) {
       fieldData[key] = item.value
@@ -194,7 +194,7 @@ export const onTableFieldSchemaSuc = (source) => {
 
   const fieldItem = fieldModel.find((i) => i.beanType === beanType) || {}
 
-  const attrs = omit(fieldItem.attributes, ['name', 'desc', 'isNull']) || {}
+  const attrs = omit(fieldItem.attributes, ['name', 'desc', 'required']) || {}
   const schema = transAttrsToSchema(attrs)
 
   return !attrs ? null : schema

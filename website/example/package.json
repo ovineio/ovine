@@ -1,6 +1,6 @@
 {
   "name": "@ovine/example",
-  "version": "0.1.2-alpha.0",
+  "version": "0.1.5",
   "description": "your awesome project.",
   "private": true,
   "workspaces": {
@@ -11,7 +11,6 @@
   "scripts": {
     "gen:static": "node-sass -v && yarn scss && yarn dll",
     "start": "ovine dev --mock",
-    "dev": "ovine dev --no-dll --mock",
     "dev:lib": "yarn rm:lib && export DEV_LIB=true && ovine dev --no-dll --mock --host=0.0.0.0",
     "build:test": "yarn run eslint && ovine build --mock",
     "build:staging": "yarn run eslint && ovine build --env=staging",
@@ -19,7 +18,7 @@
     "open:dist": "http-server ./dist -i -g -c5 -o / -p 7051 -P http://0.0.0.0:7051?",
     "ovine": "ovine",
     "scss": "ovine scss",
-    "dll": "ovine dll",
+    "dll": "ovine dll --no-hash",
     "clean": "rimraf ./node_modules/.cache",
     "pretty": "prettier --loglevel warn --write --config .prettierrc \"**/*.{md,yml,json,yaml,css}\"",
     "eslint": "eslint --cache \"**/*.{js,jsx,ts,tsx}\" --fix",

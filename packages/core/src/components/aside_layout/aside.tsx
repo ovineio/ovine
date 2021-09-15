@@ -75,7 +75,7 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
     return null
   }
 
-  if (routeChildren) {
+  if (routeChildren && routeChildren.some((i: any) => i.asideVisible !== false)) {
     children.push(
       <span key="expand-toggle" className={cx('AsideNav-itemArrow')} onClick={onToggleExpand} />
     )

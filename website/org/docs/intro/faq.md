@@ -5,7 +5,7 @@ title: 常见问题
 
 ### Ovine 与其他 Admin 框架的区别是什么？
 
-Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框架（或者 UI 框架）的区别就是 Ovine 与他们的区别。 请阅读 [Amis 是什么?](https://baidu.github.io/amis/docs/index)
+Ovine 只是一种 Amis 框架的上层封装。 Amis 与其他各大 Admin 框架（或者 UI 框架）的区别就是 Ovine 与他们的区别。 请阅读 [Amis 是什么?](https://baidu.gitee.io/amis/zh-CN/docs/index)
 
 ### Ovine 与 Amis 的区别是什么？
 
@@ -68,15 +68,15 @@ Ovine 在 Amis 的基础上做了一些封装，使得 Amis 更加容易上手�
 
 ### 是否考虑像 Amis 一样，提供 JsSdk 支持？
 
-Ovine 将不会支持 JsSdk，总归现在写前端项目一般都用主流的开发框架模块化开发，因此，JsSdk 的形式，受限太多了。如果你确实有类似的需求，可以参考 Amis 官方在持续维护 [Amis JsSdk](https://baidu.github.io/amis/docs/start/getting-started#sdk) 。
+Ovine 将不会支持 JsSdk，总归现在写前端项目一般都用主流的开发框架模块化开发，因此，JsSdk 的形式，受限太多了。如果你确实有类似的需求，可以参考 Amis 官方在持续维护 [Amis JsSdk](https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started#sdk) 。
 
 ### 能否在已经存在 Admin 项目中内嵌 Ovine？
 
 不行。Ovine 是一套完整的集成的应用框架，因此只能，使用官方的开发工具。不能嵌入现存的 Admin 系统中。不过你可以采取以下方案解决这个问题。
 
 - 总归项目是要是要重构或者升级的，如果原始项目架构特别老旧，导致需求难以快速实现，早就有重构的打算。那么干脆抽几个周末，将原始项目升级为 Ovine 项目。配合后端修改一下权限实现，还能增强原始项目权限模块。
-- 使用 [Amis 官方 npm 包](https://baidu.github.io/amis/docs/start/getting-started)， Amis 包支持 Json 渲染组件，可快速接入已有项目中。
-- 使用 [Amis 官方 JsSdk](https://baidu.github.io/amis/docs/start/getting-started#sdk)，引入对应的 Js,Css 文件，可以在任何前端项目中直接使用 Json 渲染组件。
+- 使用 [Amis 官方 npm 包](https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started)， Amis 包支持 Json 渲染组件，可快速接入已有项目中。
+- 使用 [Amis 官方 JsSdk](https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started#sdk)，引入对应的 Js,Css 文件，可以在任何前端项目中直接使用 Json 渲染组件。
 
 ### 是否支持多语言化？
 

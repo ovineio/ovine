@@ -3,5 +3,6 @@ __tests__
 dist
 node_modules
 .ovine
+/assets/
 
 /static/

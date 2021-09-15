@@ -13,7 +13,7 @@
     "typescript",
     "admin-template"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "prepare:dev": "node-sass -v && yarn tsc && cd ./website/example && yarn scss && yarn dev:lib",
     "dev:demo": "cd ./website/example && yarn dev:lib",

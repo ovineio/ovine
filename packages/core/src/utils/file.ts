@@ -1,4 +1,26 @@
-export function saveToFile(value: string, type: string, name: string) {
+import saveAs from '@/assets/scripts/savefile'
+
+export function saveLink(url: string, filename?: string) {
+  const a: any = document.createElement('a')
+  a.href = url
+  a.target = '_blank'
+  if (filename) {
+    a.download = filename
+  }
+  a.click()
+}
+
+export function saveFile(
+  data: Blob | string,
+  filename?: string,
+  options?: { autoBom: boolean }
+): void
+export function saveFile(data: Blob | string, filename?: string, disableAutoBOM?: boolean): void
+export function saveFile(...args: any[]) {
+  return saveAs(...args)
+}
+
+export function saveToFile(value: string, type: string, name?: string) {
   const win: any = window
   let blob
 
@@ -12,22 +34,5 @@ export function saveToFile(value: string, type: string, name: string) {
     blob = bb.getBlob(type)
   }
 
-  const URL = win.URL || win.webkitURL
-  const bloburl = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-
-  if ('download' in anchor) {
-    anchor.style.visibility = 'hidden'
-    anchor.href = bloburl
-    anchor.download = name
-    document.body.appendChild(anchor)
-    const evt = document.createEvent('MouseEvents')
-    evt.initEvent('click', true, true)
-    anchor.dispatchEvent(evt)
-    document.body.removeChild(anchor)
-  } else if (navigator.msSaveBlob) {
-    navigator.msSaveBlob(blob, name)
-  } else {
-    win.location.href = bloburl
-  }
+  saveFile(blob, name)
 }

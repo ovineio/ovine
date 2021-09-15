@@ -51,7 +51,7 @@
 
 - 适合`企业内部`运营管理后台
 - 适合需要`强大权限`管理的后台
-- 适合成`百上千个`crud 操作的后台
+- 适合`成百上千`个 crud 操作的后台
 - 适合对自定义 UI 要求`不是极其高`的后台
 - 适合喜欢偷懒的前端开发
 - 适合喜欢钻研的后端开发
@@ -81,7 +81,7 @@
 
 ### 资源
 
-- [amis](https://baidu.github.io/amis/docs/start/getting-started) 非常感谢百度团队的开源贡献
+- [amis](https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started) 非常感谢百度团队的开源贡献
 - [font-awesome](http://fontawesome.dashgame.com)
 - [bootstrap](https://v3.bootcss.com/components)
 - [styled-components](https://styled-components.com)

@@ -11,12 +11,20 @@ title: 配置一览表
 export type SiteConfig = {
   favicon: string // 项目 icon，必须配置
   title: string // 项目 title，必须配置
-  publicPath: string // 项目的静态资源前缀路径，可用于CDN部署，修改后需要重新执行 `yarn dll`
+  publicPath: string // 项目静态资源文件 前缀--(dist目录位置，主要用于CDN)，支持 '/abc/d/xx/' 或者 'https://abc.com/d/'
+  appKey: string // 用于标示当前应用，主要用于，在同一个域名，多个ovine项目时，作区分
   devServer: Partial<DevServerConfig> // webpack devServer配置
+  // dll 相关的配置
+  dll: {
+    useJsdelivr?: boolean // 使用 jsdelivr cdn
+    hostDir?: string // 托管 dll 路径文件夹地址 (推荐)， 支持 [libVer] [dllVer] 的模版变量替换
+    publicPath?: string // dll文件前缀，适合直接将 dist放入cdn的情况 ，会拼接 publicPath + 'static/ovine/dll/'
+  }
   // UI 相关配套
   ui: {
     defaultTheme?: string // 初始化主题
     withoutPace?: boolean // 是否使用 默认的 顶部 loadingBar
+    appTheme?: string // 应用主题
   }
   envModes?: string[] // 应用环境列表
   staticFileExts?: string[] // 需要处理的静态资源类型
@@ -32,7 +40,7 @@ export type SiteConfig = {
     [key: string]: object // webpack cacheGroups 配置
   }
   splitRoutes?: Array<{
-    // witch route page should be split
+    // which route page should be split
     test: RegExp // 路由正则匹配
     name: string // 被匹配的路由，将分割为一个文件
   }>
@@ -231,5 +239,5 @@ export type SchemaPreset = {
 **查看关联资源**
 
 - [ReqOption 类型](/org/docs/modules/request#reqoption-%E9%80%89%E9%A1%B9)
-- [Amis Action 渲染器](https://baidu.github.io/amis/docs/components/action)
-- [Amis from 渲染器](https://baidu.github.io/amis/docs/components/form/index)
+- [Amis Action 渲染器](https://baidu.gitee.io/amis/zh-CN/docs/components/action)
+- [Amis from 渲染器](https://baidu.gitee.io/amis/zh-CN/docs/components/form/index)

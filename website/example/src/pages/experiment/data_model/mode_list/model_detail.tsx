@@ -4,6 +4,7 @@
  * 1. 可自定义 展示/编辑 内容
  */
 import { Button } from 'amis'
+import { uuid } from 'amis/lib/utils/helper'
 import { get, map, omit, find } from 'lodash'
 import React, { useEffect, useRef } from 'react'
 
@@ -12,6 +13,7 @@ import { Amis } from '@core/components/amis/schema'
 import { useImmer } from '@core/utils/hooks'
 
 import { emptyListHolder } from '~/app/constants'
+import saveFile from '~/assets/savefile'
 import PopOver from '~/components/popover'
 import ScrollBar from '~/components/scroll_bar'
 
@@ -19,34 +21,20 @@ import apis from './apis'
 import * as S from './styled'
 import * as utils from './utils'
 
-const getViewTypeByInputType = (type: string) => {
-  let viewType = 'static'
-  switch (type) {
-    case 'image':
-      viewType = 'static-image'
-      break
-    case 'json':
-      viewType = 'static-json'
-      break
-    default:
-  }
-  return viewType
-}
-
 const getColumns = (tableInfo: any) => {
-  const { fields = {}, isSearchItem = false } = tableInfo
+  const { fields = [], isSearchMode = false, isViewMode = false } = tableInfo
 
-  let items = omit(fields, ['id', 'addTime', 'updateTime'])
+  let items = fields
 
-  if (isSearchItem) {
-    items = items.filter((item) => get(item, 'meta.sortable'))
+  if (isSearchMode) {
+    items = items.filter((item) => get(item, 'meta.searchable'))
   }
 
   const columns = map(items, (field: any) => {
     const { id: name, type = 'text', name: label, ...rest } = field
-    // console.log('@==>rest', field)
     const editType = get(rest, 'editStyle.type') || 'text'
     let column: any = {}
+    let searchInfo: any = {}
 
     switch (editType) {
       case 'url':
@@ -55,10 +43,42 @@ const getColumns = (tableInfo: any) => {
           tpl: `
           <% if (data[${name}]) {%>
               <a class="text-truncate d-inline-block" title="<%= data[${name}] %>" 
-                style="width:150px;" target="_blank" href="<%= data[${name}] %>"><%= data[${name}] %></a>
+                style="${
+                  isViewMode ? '' : 'width:150px;'
+                }" target="_blank" href="<%= data[${name}] %>"><%= data[${name}] %></a>
           <%} else {%>
             -
           <%}%>`,
+        }
+        break
+      case 'file':
+        column = {
+          isViewMode,
+          type: 'container',
+          body: {
+            component: (props) => {
+              const fileUrl = props.data[name] || ''
+              return !fileUrl ? (
+                '-'
+              ) : (
+                <S.FileItem>
+                  {isViewMode && <span className="m-r-md">{fileUrl}</span>}
+                  <span className="file-actions">
+                    <i
+                      className="fa fa-copy"
+                      data-tooltip="复制链接"
+                      onClick={() => props.env.copy(fileUrl)}
+                    />
+                    <i
+                      className="fa fa-download m-l-sm"
+                      data-tooltip="下载文件"
+                      onClick={() => saveFile(fileUrl, `${label}-${uuid()}`)}
+                    />
+                  </span>
+                </S.FileItem>
+              )
+            },
+          },
         }
         break
       case 'image':
@@ -72,11 +92,41 @@ const getColumns = (tableInfo: any) => {
       case 'switch':
         column = {
           type: 'mapping',
+          isViewMode,
           map: {
             '0': '<span class=\'label bg-secondary\'>否</span>',
             '1': '<span class=\'label label-info\'>是</span>',
           },
         }
+        searchInfo.type = 'boolean'
+        break
+      case 'checkboxes':
+        column = {
+          name,
+          type: 'each',
+          isViewMode,
+          items: {
+            type: 'tpl',
+            tpl: '<span class=\'label label-default m-l-sm\'><%= data.item %></span> ',
+          },
+        }
+        searchInfo = {
+          type: 'select',
+          searchable: true,
+          options: rest.editStyle.options,
+        }
+        break
+      case 'date':
+      case 'datetime':
+      case 'time':
+        searchInfo.type = editType
+        break
+      case 'month':
+      case 'year':
+        searchInfo.type = 'date'
+        break
+      case 'number':
+        searchInfo.type = 'number'
         break
       default:
     }
@@ -85,7 +135,10 @@ const getColumns = (tableInfo: any) => {
       name,
       label,
       type,
-      fieldExtra: rest,
+      fieldExtra: {
+        ...rest,
+        searchInfo,
+      },
       toggled: true,
       sortable: get(rest, 'meta.sortable'),
       ...column,
@@ -136,32 +189,22 @@ const getColumns = (tableInfo: any) => {
 }
 
 const getAdvanceQueryForm = (info) => {
-  const columns = getColumns(info)
+  const columns = getColumns({
+    ...info,
+    isSearchMode: true,
+  })
 
   const fields = columns.map((field) => {
     const { name, label, fieldExtra = {} } = field
-    const item: any = { name, label, type: 'text' }
 
-    const { editStyle = {} } = fieldExtra
-
-    switch (editStyle.type) {
-      case 'number':
-        item.type = 'number'
-        break
-      case 'time':
-        item.type = 'time'
-        break
-      case 'month':
-      case 'year':
-        item.type = 'date'
-        break
-      case 'datetime':
-        item.type = 'datetime'
-        break
-      default:
+    const filedInfo: any = {
+      name,
+      label,
+      type: 'text',
+      ...fieldExtra.searchInfo,
     }
 
-    return item
+    return filedInfo
   })
   // let formRef: any = {}
   const advanceQueryForm = {
@@ -245,10 +288,16 @@ const getAdvanceQueryForm = (info) => {
 }
 
 const onPreReqModelData = (reqOpts) => {
-  const { page, size, orderDir, orderBy, ...rest } = reqOpts.data
+  const { page = 1, size = 50, orderDir, orderBy, op, ...rest } = reqOpts.data
 
   reqOpts.data = {
-    paging: { page, size },
+    paging:
+      op === 'export-csv'
+        ? {
+            page: 1,
+            size: 10000,
+          }
+        : { page, size },
     ...rest,
   }
 
@@ -304,6 +353,7 @@ const getUpdateForm = (type, tableInfo: any) => {
       label,
       type: 'text',
       ...editStyle,
+      required: type === 'batchEdit' ? false : editStyle.required,
     }
 
     return column
@@ -328,12 +378,31 @@ const getUpdateForm = (type, tableInfo: any) => {
 }
 
 const getViewModel = (info) => {
-  const columns = getColumns(info)
+  const columns = getColumns({
+    ...info,
+    isViewMode: true,
+  })
 
   const controls = columns.map((item) => {
-    const { type } = item
-    item.type = getViewTypeByInputType(type)
-    return item
+    const { type, isViewMode } = item
+    let viewType = 'static'
+    switch (type) {
+      case 'image':
+        viewType = 'static-image'
+        break
+      case 'json':
+        viewType = 'static-json'
+        break
+      default:
+    }
+
+    const staticTypes = ['container']
+
+    return {
+      ...item,
+      type: isViewMode ? type : viewType,
+      inputClassName: staticTypes.includes(type) ? `${app.theme.getName()}-Form-static` : '',
+    }
   })
 
   const schema = {
@@ -569,7 +638,7 @@ const getModelDataTable = (info) => {
     defaultParams: {
       size: 50,
     },
-    checkOnItemClick: true,
+    // checkOnItemClick: true,
     perPageField: 'size',
     pageField: 'page',
     headerToolbar: [
@@ -678,7 +747,7 @@ const getModelDataTable = (info) => {
         align: 'left',
       },
       {
-        type: 'export-excel',
+        type: 'export-csv',
         align: 'left',
       },
       {

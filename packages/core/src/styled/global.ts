@@ -66,6 +66,32 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .${ns}Button {
+      &--blank {
+        color: var(--text-color);
+        height: auto;
+        &:hover {
+          background-color: var(--Button--light-bg);
+        }
+        &.${ns}Button--iconOnly>i.fa {
+          font-size: var(--fontSizeBased);
+        }
+      }
+    }
+
+    .cxd-Button--blank {
+      &:hover {
+        background-color: #d9d9d9;
+      }
+      &.cxd-Button--iconOnly {
+        line-height: 1.4rem;
+        & > i.fa {
+          font-size: 0.9rem;
+          line-height: 0.9rem;
+        }
+      }
+    }
+
     .cxd-Page-title {
       .cxd-Remark-icon {
         vertical-align: baseline;
@@ -73,7 +99,9 @@ const GlobalStyle = createGlobalStyle`
     }
 
     .${ns}CBGroupOrItem {
-      &:before,&:after,&:last-child:before {
+      &:before,
+      &:after,
+      &:last-child:before {
         border-color: var(--Button--info-onActive-bg);
       }
     }
@@ -110,11 +138,6 @@ const GlobalStyle = createGlobalStyle`
     }
 
     /** 调整默认菜单UI */
-    /* .modal-root {
-      .${ns}Modal {
-        z-index: 1401; // 编辑器层级有问题
-      }
-    } */
     .app-root {
       .${ns}ContextMenu {
         &-list {

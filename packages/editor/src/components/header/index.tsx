@@ -129,9 +129,9 @@ export default inject('store')(
           const { status, msg } = source.data
           if (!mounted) {
             if (status === 0) {
-              toast.success(msg || '保存成功')
+              toast.success(msg || '保存成功', '系统提示')
             } else {
-              toast.error(msg || '保存失败')
+              toast.error(msg || '保存失败', '系统提示')
             }
           }
           if (onSave) {
@@ -141,7 +141,7 @@ export default inject('store')(
           return source
         })
         .catch((source) => {
-          toast.error(source?.msg || '保存失败')
+          toast.error(source?.msg || '保存失败', '系统提示')
         })
     }
 
@@ -155,7 +155,7 @@ export default inject('store')(
         onSave(value)
       }
       setLastSavedSchema(value)
-      toast.success('保存成功')
+      toast.success('当前编辑数据已经保存', '系统提示')
     }
 
     useEffect(() => {

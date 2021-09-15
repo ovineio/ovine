@@ -3,7 +3,7 @@ id: overview
 title: Ovine
 ---
 
-#### 一个支持使用 `Json` 构建完整管理系统 UI 的框架，基于 [Amis](https://baidu.github.io/amis/docs/index) 二次开发。
+#### 一个支持使用 `Json` 构建完整管理系统 UI 的框架，基于 [Amis](https://baidu.gitee.io/amis/zh-CN/docs/index) 二次开发。
 
 ![download](https://img.shields.io/npm/dt/@ovine/core?color=%23349c92b) ![version](https://img.shields.io/npm/v/@ovine/core?color=%2349c92b) ![license](https://img.shields.io/npm/l/@ovine/core?color=%23349c92b)
 

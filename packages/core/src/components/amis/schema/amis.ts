@@ -1,6 +1,6 @@
 import { confirm, render, toast, alert } from 'amis'
-import { RenderOptions } from 'amis/lib/factory'
 import { RootRenderProps } from 'amis/lib/Root'
+import { RenderOptions } from 'amis/lib/factory'
 import { Action } from 'amis/lib/types'
 import { tokenize } from 'amis/lib/utils/tpl-builtin'
 import copy from 'copy-to-clipboard'
@@ -64,11 +64,11 @@ export default (option: Option) => {
     notify: (msgType: string = 'error', msg: string = '') => {
       log.log('notify', { msgType, msg })
       // 默认跳过表单错误 提示
-      if (/表单验证失败/.test(msg)) {
+      if (/依赖的部分字段没有通过验证/.test(msg)) {
         return
       }
       const tipMsg = (toast as any)[msgType]
-      let msgTitle = msgType === 'error' ? '系统错误' : '提示'
+      let msgTitle = msgType === 'error' ? '系统错误' : '系统提示'
       let msgText = '系统发生未知异常'
       if (msg && typeof msg === 'string') {
         msgText = msg
@@ -86,7 +86,7 @@ export default (option: Option) => {
 
     // 实现确认框。 boolean | Promise<boolean>
     confirm: (msg: string, title?: string) => {
-      let confirmTitle = title || '提示'
+      let confirmTitle = title || '系统提示'
       let confirmText = msg || ''
       if (!title && msg.indexOf('[') === 0 && msg.indexOf('] ') > 0) {
         const end = msg.indexOf('] ')

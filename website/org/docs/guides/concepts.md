@@ -171,7 +171,7 @@ export default {
 
 - #### `definitions` 引用配置
 
-definitions 是 Amis 官方的一种使用方式。可以定义公用配置，或者做嵌套渲染，使用 `$ref`引用，Ovine 没有做任何修改。[查看 Amis definitions 文档](https://baidu.github.io/amis/docs/components/Definitions)
+definitions 是 Amis 官方的一种使用方式。可以定义公用配置，或者做嵌套渲染，使用 `$ref`引用，Ovine 没有做任何修改。[查看 Amis definitions 文档](https://baidu.gitee.io/amis/zh-CN/docs/components/Definitions)
 
 - #### `preset` 预设配置
 

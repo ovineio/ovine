@@ -1,6 +1,6 @@
 {
   "name": "@ovine/craft",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "description": "Ovine json editor.",
   "private": false,
   "publishConfig": {
@@ -20,7 +20,7 @@
     "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "author": "carey toboos",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "aims",
     "ovine",
@@ -53,5 +53,5 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
+  "gitHead": "1f1dfc4cd240e7515129ab9595092cc8825f6ad9"
 }

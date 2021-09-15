@@ -4,9 +4,9 @@
 
 import { defaultsDeep } from 'lodash'
 
+import { antdTheme } from './antd'
 import { cxdTheme } from './cxd'
 import { darkTheme } from './dark'
-import { antdTheme } from './antd'
 import { defaultTheme } from './def'
 
 // TODO: 制作自定主题 清新

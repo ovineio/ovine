@@ -8,23 +8,28 @@
 // const path = require('path')
 
 module.exports = (option) => {
-  const { env, port } = option
+  const { env } = option
 
   const publicPathMap = {
-    localhost: `http://localhost:${port}/demo/`,
+    localhost: '/demo/',
     staging: 'https://ovine.igroupes.com/demo/',
     production: 'https://cdn-igroupes.com/ovine/',
   }
 
   const config = {
+    appKey: 'ovineDemo',
     publicPath: publicPathMap[env], // 静态资源公共路径
-    // dllPublicPath: 'https://ovine.igroupes.com/demo/',
+    dll: {
+      // useJsdelivr: true,
+      // hostDir: 'https://ovine.igroupes.com/demo/static/ovine/dll/[dllVer]/',
+    },
     favicon: '/static/images/favicon.ico',
     title: 'Ovine管理系统', // 页面标题
     envModes: ['localhost', 'staging', 'production'], // 环境列表
     staticFileExts: ['cur'],
     ui: {
       defaultTheme: 'antd',
+      // appTheme: 'dark',
     },
     devServer: {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀

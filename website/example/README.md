@@ -24,7 +24,7 @@ yarn rm:lib # 将 node_modules 本地包移除，用于 事实开发 本地包�
 ## Projects Are Mainly Dependent On
 
 - [ovine](https://github.com/CareyToboo/ovine) the main core lib.
-- [amis](https://baidu.github.io/amis/docs/start/getting-started) extend the amis lib.
+- [amis](https://baidu.gitee.io/amis/zh-CN/docs/start/getting-started) extend the amis lib.
 - [styled-components](https://styled-components.com) css styles in js.
 - [font-awesome](http://fontawesome.dashgame.com) all icons out of box.
 - [bootstrap](https://getbootstrap.com/docs/4.4/getting-started/introduction) full bootstrap features.

@@ -1,6 +1,6 @@
 {
   "name": "@ovine/core",
-  "version": "0.1.2-alpha.0",
+  "version": "0.1.5",
   "description": "Build flexible admin system with json.",
   "private": false,
   "publishConfig": {
@@ -21,7 +21,7 @@
     "admin-template"
   ],
   "author": "carey toboos",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "scripts": {
     "tsc": "rimraf ./lib && ttsc",
     "dev": "ttsc -w",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",
-    "amis": "1.1.4",
+    "amis": "1.2.1",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "copy-to-clipboard": "^3.3.1",
@@ -57,5 +57,5 @@
     "last 2 versions",
     "not ie <= 10"
   ],
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c"
+  "gitHead": "1f1dfc4cd240e7515129ab9595092cc8825f6ad9"
 }

@@ -69,10 +69,12 @@ export default ({ colors, ns }: DefaultTheme) => css`
       line-height: 1.5;
     }
   }
+
   .${ns}Chart {
     min-width: 100px !important;
     min-height: 100px !important;
   }
+
   .${ns}Form {
     &-item button {
       background-color: transparent;
@@ -83,29 +85,18 @@ export default ({ colors, ns }: DefaultTheme) => css`
       }
     }
   }
+
   .bar-table {
     border-color: ${colors.border};
     .${ns}Table-contentWrap {
       background-color: transparent;
     }
-    .${ns}Table-table {
+    .${ns}Table-content {
       height: 380px;
+    }
+    .${ns}Table-table {
       min-width: 300px;
-      thead,
-      tbody {
-        tr {
-          table-layout: fixed;
-          display: table;
-          width: 100%;
-          box-sizing: content-box;
-        }
-      }
-      tbody {
-        /* background-color: ${colors.layoutHeaderBg}; */
-        display: block;
-        overflow-y: auto;
-        height: 100%;
-      }
+
       th {
         border-right: 0 !important;
       }

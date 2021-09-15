@@ -4,7 +4,7 @@ import { uniqueId } from 'lodash'
 
 import { types, flow } from 'mobx-state-tree'
 
-import { fetchTableById, fetchTables } from '../helper/api'
+import { fetchTableById, fetchModelMap } from '../helper/api'
 
 const FiledModel = types
   .model('ErdFieldModel', {
@@ -152,12 +152,22 @@ const TableModel = types
     }
   })
 
+const Relation = types.model('relation', {
+  sourceTableId: 0,
+  sourceFiledId: 0,
+  targetTableId: 0,
+  targetFiledId: 0,
+  sourceType: 0,
+  targetType: 0,
+})
+
 export const DataModel = types
   .model('ErdDataModel', {
     loading: true,
     refreshKey: 0,
     orderIds: types.array(types.string),
     tables: types.array(TableModel),
+    relation: types.array(Relation),
     // edges: types.array(EdgeModel),
   })
   .views((self) => {
@@ -181,7 +191,8 @@ export const DataModel = types
     const fetchTablesData = flow(function*() {
       self.loading = true
       try {
-        self.tables = yield fetchTables()
+        const { tables } = yield fetchModelMap()
+        self.tables = tables || []
         self.loading = false
       } catch (error) {
         toast.error('加载模型列表数据出错')

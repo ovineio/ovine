@@ -22,7 +22,6 @@ export type AmisProps = {
   option?: RenderOptions
 }
 
-// 文档 https://baidu.github.io/amis/docs/start/getting-started
 // 源码 https://github.com/baidu/amis/blob/master/examples/components/App.jsx
 
 export const Amis = (props: AmisProps) => {

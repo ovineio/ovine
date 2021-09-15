@@ -26,8 +26,9 @@ export type ReqOption<S = any, P = any> = {
   domain?: string // 当前域名的 key 数值简写
   data?: Partial<P> // 请求数据
   headers?: any // 请求头
-  body?: any // 请求体
   dataType?: 'json' | 'form-data' | 'form' // 提交类型
+  responseType?: 'blob' // 返回 blob
+  responseData?: any // amis 配置中，可以使用该参数，用于修改返回值
   expired?: number // 请求超时时间毫秒数 0
   cache?: number // 前置缓存适用于并发请求
   fetchOptions?: Omit<RequestInit, 'header' | 'body' | 'signal' | 'url' | 'method'> // fetch 参数
@@ -38,6 +39,7 @@ export type ReqOption<S = any, P = any> = {
   actionAddr?: string // 操作地址，不存在时默认为 api
   actionDesc?: string // 操作描述文案 与操作地址对应
   isEnvFetcher?: boolean // 是否是 amis env 发出的请求
+  withoutWrapRes?: boolean // 是否不包裹默认的data false
   onFakeRequest?: (option: ReqOption) => S | Promise<S> // 伪装请求，不会真请求，返回的内容将直接返回
   onPreRequest?: (option: ReqOption) => ReqOption | Promise<ReqOption> // 请求前回调
   onRequest?: (option: ReqOption) => ReqOption // 请求时回调

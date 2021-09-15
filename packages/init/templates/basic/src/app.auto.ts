@@ -51,7 +51,7 @@ const config = {
           showDevItem: false,
           brand: {
             // 公司品牌
-            logo: '/static/logo.png',
+            logo: '/static/images/logo.png',
             title: 'Ovine',
             link: {
               title: 'dashboard',

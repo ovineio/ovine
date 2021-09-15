@@ -1,18 +1,21 @@
 /**
  * 封装 fetch 请求
+ * TODO: 请求模块需要 编写测试用例
  */
 
 /* eslint-disable consistent-return */
 import { getApiCache, setApiCache } from 'amis/lib/utils/api'
-import { object2formData, qsstringify, hasFile, isEmpty } from 'amis/lib/utils/helper'
+import { object2formData, qsstringify, hasFile } from 'amis/lib/utils/helper'
 import { filter } from 'amis/lib/utils/tpl'
-import { get, map, isPlainObject, isFunction, toUpper, pick } from 'lodash'
+import { get, map, isPlainObject, isFunction, toUpper, pick, assign } from 'lodash'
 import { parse } from 'qs'
 import { fetch } from 'whatwg-fetch'
 
 import logger from '@/utils/logger'
 import { getSessionStore, setSessionStore } from '@/utils/store'
 import { isExpired, promisedTimeout, rmUrlRepeatSlant } from '@/utils/tool'
+
+import { saveFile } from '../file'
 
 import * as Types from './types'
 
@@ -61,7 +64,6 @@ async function requestSuccessCtrl(this: Request, response: any, option: Types.Re
 // 模拟数据
 async function mockSourceCtrl(this: Request, option: Types.ReqOption) {
   const { mockSource, api, method, url, mock = true, mockDelay = 200 } = option
-
   if (!this.isMock || !mock || !mockSource) {
     return 'none'
   }
@@ -133,9 +135,16 @@ async function readJsonResponse(response: any) {
   }
 }
 
+function saveFileFromRes(options: { blob: any; disposition: string }) {
+  const { blob, disposition } = options
+  const fileName = get(/filename="(.*)"$/.exec(disposition), '1')
+
+  saveFile(blob, fileName ? decodeURIComponent(fileName) : undefined)
+}
+
 // 发出 fetch 请求
 async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
-  const { url, body, config } = option
+  const { url, body, config, responseType } = option
 
   if (config.onUploadProgress && body && typeof XMLHttpRequest !== 'undefined') {
     const result = await uploadWithProgress.call(this, option)
@@ -170,7 +179,13 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
       }
 
       try {
-        response.data = await readJsonResponse(response)
+        if (responseType === 'blob' || config.responseType === 'blob') {
+          const blob = await response.blob()
+          response.data = { blob }
+          saveFileFromRes({ blob, disposition: response.headers.get('Content-Disposition') || '' })
+        } else {
+          response.data = await readJsonResponse(response)
+        }
         await requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {
@@ -184,7 +199,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
 async function fakeSourceCtrl(this: Request, option: Types.ReqOption) {
   const fakeReq: any = option.onFakeRequest
   const fakeRes = await fakeReq(option)
-  const fakeResponse = wrapResponse(fakeRes)
+  const fakeResponse = option.withoutWrapRes ? fakeRes : wrapResponse(fakeRes)
   return {
     data: fakeResponse,
   }
@@ -273,7 +288,7 @@ function uploadWithProgress(this: Request, option: Types.ReqOption) {
 
 // 获取 fetch 参数
 function getFetchOption(this: Request, option: Types.ReqOption): any {
-  const { headers, data, body, fetchOptions, dataType = 'json', qsOptions } = option
+  const { headers, data = {}, fetchOptions, body, dataType = 'json', qsOptions } = option
 
   const { url, method } = getUrlByOption.call(this, option) as any
 
@@ -294,18 +309,18 @@ function getFetchOption(this: Request, option: Types.ReqOption): any {
    */
 
   // fetch 请求参数封装
-  let fetchBody = body
+  let fetchBody
   const fetchHeaders = headers
-  if (isEmpty(fetchBody) && data && !/GET|HEAD|OPTIONS/.test(method)) {
+  if (!/GET|HEAD|OPTIONS/i.test(method)) {
     if (data instanceof FormData || data instanceof Blob || data instanceof ArrayBuffer) {
       fetchBody = data
     } else if (hasFile(data) || dataType === 'form-data') {
       fetchBody = object2formData(data, qsOptions)
     } else if (dataType === 'form') {
-      fetchBody = typeof data === 'string' ? data : qsstringify(data, qsOptions)
+      fetchBody = qsstringify(data, qsOptions)
       fetchHeaders['Content-Type'] = 'application/x-www-form-urlencoded'
     } else if (dataType === 'json') {
-      fetchBody = typeof data === 'string' ? data : JSON.stringify(data)
+      fetchBody = JSON.stringify(assign({}, body, data))
       fetchHeaders['Content-Type'] = 'application/json'
     }
   }
@@ -512,6 +527,21 @@ export class Request<IS = {}, IP = {}> {
     const reqOption = await getReqOption.call(that, option)
     const { onFakeRequest } = option
 
+    // 命中缓存 直接返回
+    const cachedResponse = cacheSourceCtrl('get', reqOption)
+    if (cachedResponse) {
+      return {
+        data: cachedResponse,
+      }
+    }
+
+    // mock 数据拦截
+    const mockSource = await mockSourceCtrl.call(that, reqOption)
+    if (mockSource !== 'none') {
+      cacheSourceCtrl('set', reqOption, mockSource.data)
+      return mockSource
+    }
+
     // 兼容 cache 参数, 用于多请求并发情况
     if (reqOption.method === 'GET' && reqOption.cache && reqOption.cache > 0) {
       const apiObj: any = pick(reqOption, ['url', 'cache', 'method', 'data'])
@@ -540,21 +570,6 @@ export class Request<IS = {}, IP = {}> {
       const fakeResponse = await fakeSourceCtrl.call(that, reqOption)
       log.log('[fakeSource]', option.url, fakeResponse.data, reqOption)
       return fakeResponse
-    }
-
-    // 命中缓存 直接返回
-    const cachedResponse = cacheSourceCtrl('get', reqOption)
-    if (cachedResponse) {
-      return {
-        data: cachedResponse,
-      }
-    }
-
-    // mock 数据拦截
-    const mockSource = await mockSourceCtrl.call(that, reqOption)
-    if (mockSource !== 'none') {
-      cacheSourceCtrl('set', reqOption, mockSource.data)
-      return mockSource
     }
 
     const response = await fetchSourceCtrl.call(that, reqOption)

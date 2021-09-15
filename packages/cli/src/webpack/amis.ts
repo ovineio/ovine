@@ -2,6 +2,7 @@
  * fix amis lib code by "string-replace-loader" of webpack
  */
 
+import { dllJsdelivrHostDir } from '../constants'
 import { getModulePath } from '../utils'
 
 const fs = require('fs')
@@ -150,31 +151,41 @@ export const fixBootStropCss = () => ({
   },
 })
 
-// TODO: add cdn path from other font files.
-export const fixFontAwesomeCss = ({ siteDir }: any) => ({
-  loader: 'string-replace-loader',
-  options: {
-    multiple: [
-      {
-        search: 'src: url\\(.*\\);',
-        flags: 'gm',
-        replace: '',
-      },
-      {
-        search: '@font-face \\{',
-        flags: 'gm',
-        replace: `
-          @font-face {
+export const fixFontAwesomeCss = ({ siteDir, embedAssets }: any) => {
+  const cdnFaPath = `${dllJsdelivrHostDir}dll_fontawesome-webfont`
+
+  const base64FaStr = `url('data:application/x-font-woff2;charset=utf-8;base64,${base64Encode(
+    getModulePath(siteDir, 'font-awesome/fonts/fontawesome-webfont.woff2', true)
+  )}') format('woff2')`
+
+  const config = {
+    loader: 'string-replace-loader',
+    options: {
+      multiple: [
+        {
+          search: 'src: url\\(.*\\);',
+          flags: 'gm',
+          replace: '',
+        },
+        {
+          search: '@font-face \\{',
+          flags: 'gm',
+          replace: `@font-face {src: url(../fonts/fontawesome-webfont.eot), url(${cdnFaPath}.eot);
+            src: url(../fonts/fontawesome-webfont.eot?#iefix) format('embedded-opentype'), url(${cdnFaPath}.eot?#iefix) format('embedded-opentype'), ${
+            embedAssets
+              ? `${base64FaStr}, `
+              : `url(../fonts/fontawesome-webfont.woff2) format('woff2'), url(${cdnFaPath}.woff2) format('woff2'), `
+          }url(../fonts/fontawesome-webfont.woff) format('woff'), url(${cdnFaPath}.woff) format('woff'), url(../fonts/fontawesome-webfont.ttf) format('truetype'), url(${cdnFaPath}.ttf) format('truetype'), url(../fonts/fontawesome-webfont.svg#fontawesomeregular) format('svg'), url(${cdnFaPath}.svg#fontawesomeregular) format('svg');
             font-family: 'FontAwesome';
-            src: url('data:application/x-font-woff2;charset=utf-8;base64,${base64Encode(
-              getModulePath(siteDir, 'font-awesome/fonts/fontawesome-webfont.woff2', true)
-            )}') format('woff2');
             font-weight: normal;
             font-style: normal;
           }
           .ignore-font-face {
-        `,
-      },
-    ],
-  },
-})
+          `,
+        },
+      ],
+    },
+  }
+
+  return config
+}

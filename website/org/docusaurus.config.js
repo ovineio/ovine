@@ -10,11 +10,11 @@ module.exports = {
   baseUrl: '/org/',
   onBrokenLinks: 'ignore',
   themeConfig: {
+    hideableSidebar: true,
     algolia: {
       apiKey: 'b29013cc1a8ece1096c76faf3ed1e297',
       indexName: 'igroupes_ovine',
-      algoliaOptions: {}, // Optional, if provided by Algolia
-      contextualSearch: true,
+      // contextualSearch: true,
     },
     prism: {
       // eslint-disable-next-line
@@ -29,14 +29,22 @@ module.exports = {
       },
       items: [
         { label: '文档', position: 'left', to: 'docs/intro/overview' },
+        {
+          label: '创建应用',
+          position: 'left',
+          to: 'http://ovine.igroupes.com/apps/factory/',
+        },
         { label: '更新日志', position: 'left', href: '/org/blog/changelog/', target: '_self' },
         {
-          label: '迭代进度',
-          position: 'left',
-          to: 'https://github.com/users/CareyToboo/projects/2',
+          label: '案例项目',
+          to: '/org/showcase',
         },
-        { label: '演示项目', position: 'left', href: 'https://ovine.igroupes.com/demo/login' },
-        { label: '编辑器', position: 'left', href: 'https://ovine.igroupes.com/demo/editor' },
+        {
+          href: 'https://github.com/CareyToboo/ovine',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
       ],
     },
     footer: {
@@ -44,6 +52,7 @@ module.exports = {
       copyright: `Copyright © ${new Date().getFullYear()} CareyToboo Ovine.`,
     },
   },
+  themes: ['@docusaurus/plugin-ideal-image'],
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -57,5 +66,9 @@ module.exports = {
       },
     ],
   ],
-  scripts: ['/org/scripts/jquery.min.js', '/org/scripts/jquery.localscroll.js'],
+  scripts: [
+    '/org/scripts/bdstat.js',
+    '/org/scripts/jquery.min.js',
+    '/org/scripts/jquery.localscroll.js',
+  ],
 }

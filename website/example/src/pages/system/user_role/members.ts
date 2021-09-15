@@ -18,6 +18,7 @@ const members = {
       page: 1,
       size: 10,
     },
+    labelTpl: '${nickname}',
     headerToolbar: ['bulkActions'],
     footerToolbar: [
       {

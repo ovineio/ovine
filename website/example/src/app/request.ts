@@ -22,7 +22,9 @@ export const request = new Request()
 
 // 请求准备阶段 回调
 request.onPreRequest = (option) => {
-  option.mock = false // 全局控制是否开启 mock， 必须在 ovine cli --mock 选项开启的情况下，才有效
+  if (option.mock !== true) {
+    option.mock = false // 全局控制是否开启 mock， 必须在 ovine cli --mock 选项开启的情况下，才有效
+  }
   return option
 }
 
@@ -32,7 +34,7 @@ request.onRequest = (option) => {
   const { actionAddr } = option
 
   // 开启携带 cookies 信息
-  option.fetchOptions.credentials = 'include'
+  option.credentials = 'include'
 
   // demo api 携带用户鉴权信息，具体鉴权需自行实现
   if (key) {

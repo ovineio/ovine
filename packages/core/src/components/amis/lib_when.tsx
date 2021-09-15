@@ -28,7 +28,7 @@ interface Props extends RendererProps {
 })
 export class LibWhen extends React.Component<Props> {
   render() {
-    const { condition = '', cases, render, defaultCase, data, ifTrue, ifFalse } = this.props
+    const { render, data, condition = '', cases, defaultCase, ifTrue, ifFalse } = this.props
 
     let schema: any = null
 

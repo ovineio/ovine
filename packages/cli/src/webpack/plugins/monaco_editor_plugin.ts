@@ -1,15 +1,15 @@
-import * as path from 'path'
-import * as webpack from 'webpack'
-import * as loaderUtils from 'loader-utils'
 import * as fs from 'fs'
-import { AddWorkerEntryPointPlugin } from 'monaco-editor-webpack-plugin/out/plugins/AddWorkerEntryPointPlugin'
-import { languagesArr, EditorLanguage } from 'monaco-editor-webpack-plugin/out/languages'
+import * as loaderUtils from 'loader-utils'
 import {
   featuresArr,
   EditorFeature,
   NegatedEditorFeature,
 } from 'monaco-editor-webpack-plugin/out/features'
+import { languagesArr, EditorLanguage } from 'monaco-editor-webpack-plugin/out/languages'
+import { AddWorkerEntryPointPlugin } from 'monaco-editor-webpack-plugin/out/plugins/AddWorkerEntryPointPlugin'
 import { IFeatureDefinition } from 'monaco-editor-webpack-plugin/out/types'
+import * as path from 'path'
+import * as webpack from 'webpack'
 
 import { winConst } from '../../constants'
 
@@ -25,10 +25,14 @@ const EDITOR_MODULE: IFeatureDefinition = {
 }
 
 const languagesById: { [language: string]: IFeatureDefinition } = {}
-languagesArr.forEach((language) => (languagesById[language.label] = language))
+languagesArr.forEach((language) => {
+  languagesById[language.label] = language
+})
 
 const featuresById: { [feature: string]: IFeatureDefinition } = {}
-featuresArr.forEach((feature) => (featuresById[feature.label] = feature))
+featuresArr.forEach((feature) => {
+  featuresById[feature.label] = feature
+})
 
 /**
  * Return a resolved path for a given Monaco file.
@@ -39,7 +43,7 @@ function resolveMonacoPath(filePath: string): string {
   } catch (err) {
     try {
       return require.resolve(path.join(process.cwd(), 'node_modules/monaco-editor/esm', filePath))
-    } catch (err) {
+    } catch (error) {
       return require.resolve(filePath)
     }
   }
@@ -166,7 +170,7 @@ interface ILabeledWorkerDefinition {
 function addCompilerRules(compiler: webpack.Compiler, rules: webpack.RuleSetRule[]): void {
   const compilerOptions = compiler.options
   if (!compilerOptions.module) {
-    compilerOptions.module = { rules: rules }
+    compilerOptions.module = <any>{ rules }
   } else {
     const moduleOptions = compilerOptions.module
     moduleOptions.rules = (moduleOptions.rules || []).concat(rules)
@@ -204,20 +208,20 @@ function createLoaderRules(
   const workerPaths = fromPairs(
     workers.map(({ label, entry }) => [label, getWorkerFilename(filename, entry)])
   )
-  if (workerPaths['typescript']) {
+  if (workerPaths.typescript) {
     // javascript shares the same worker
-    workerPaths['javascript'] = workerPaths['typescript']
+    workerPaths.javascript = workerPaths.typescript
   }
-  if (workerPaths['css']) {
+  if (workerPaths.css) {
     // scss and less share the same worker
-    workerPaths['less'] = workerPaths['css']
-    workerPaths['scss'] = workerPaths['css']
+    workerPaths.less = workerPaths.css
+    workerPaths.scss = workerPaths.css
   }
 
-  if (workerPaths['html']) {
+  if (workerPaths.html) {
     // handlebars, razor and html share the same worker
-    workerPaths['handlebars'] = workerPaths['html']
-    workerPaths['razor'] = workerPaths['html']
+    workerPaths.handlebars = workerPaths.html
+    workerPaths.razor = workerPaths.html
   }
 
   // Determine the public path from which to load worker JS files. In order of precedence:
@@ -229,6 +233,7 @@ function createLoaderRules(
   //   : `typeof __webpack_public_path__ === 'string' ` +
   //     `? __webpack_public_path__ ` +
   //     `: ${JSON.stringify(compilationPublicPath)}`
+
   // Fix dll path
   const pathPrefix = `window.${winConst.dllPath} || ${JSON.stringify(pluginPublicPath)}`
 

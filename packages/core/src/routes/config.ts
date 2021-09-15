@@ -74,7 +74,7 @@ const resolePreset = (config: RouteItem[]) => {
 
       // 设置API默认选项
       apiItem.actionAddr = actionAddr || `${nodePath}${strDelimiter}${presetApiNeeds?.join(',')}`
-      apiItem.api = apiItem.url || ''
+      apiItem.api = apiItem.api || apiItem.url || ''
 
       store.actionAddrMap[apiItem.actionAddr] = {
         actionDesc,

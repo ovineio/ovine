@@ -6,14 +6,45 @@ title: 版本更新日志
 - [如何升级 Ovine？](/org/docs/advance/cli#ovine-版本升级)
 - [Ovine 计划表](/org/blog/plan)
 
-### 0.1.2 ---- 2021.3.23
+### 0.1.4 ---- 2021.5.5
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
+- 主要功能
+  - `ovine.config.js` 添加 `appKey`标识符，用于区分同域名下,不同`ovineApp`的 `localStorage`
+  - 默认设置为 `dll: { useJsdelivr: true }`, 并当 `dll cdn` 配置生效时，不将 `dll` 目录下的文件复制到 `dist` 目录中
+- 主要优化
+  - 升级 `amis` 到 `1.1.5` 版本
+  - 修复 权限面板的展示问题
+  - 修复 初始化加载 主题 css 文件，可能会出现，界面抖动的情况
+  - 修复 上传文件时 `receiver` 参数传入 `data: {}` 参数无效
+  - 修复 文件下载时中文名称乱码
+
+### 0.1.3 ---- 2021.4.13
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
 
 - 主要功能
 
-  - dll 文件支持 CDN 文件配置，多么项目同时使用“ovine”开发时，可共用 DLL CDN 文件
-  - 升级 @ovine/editor 添加 PC/移动端 预览，并将升级依赖 `amis-editor@2.0.11` 最新版
+  - 支持 `request`配置 `responseType: "blob"` 下载文件
 
 - 主要优化
+  - 升级 `amis` 到 `1.1.5` 版本
+  - 升级 `amis-editor` 到 `2.0.14` 版本
+  - 修复 字体文件 可能加载不到的情况
+  - 修复 `init` 初始化模版的部分 BUG
+  - 修复 `request` 模块部分小 BUG
+
+### 0.1.2 ---- 2021.3.23
+
+> 更新此版本后需要执行 `yarn dll` 与 `yarn scss`
+
+- 主要功能
+  - dll 文件支持 CDN 文件配置，多个项目同时使用 `ovine` 开发时，可共用 `DLL CDN` 文件，可减小 `dist` 目录 20M 大小。
+  - 升级 @ovine/editor 添加 PC/移动端 预览，并将升级依赖 `amis-editor@2.0.11` 最新版
+  - cli 添加了 `info` 命令，可通过 `yarn ovine info version` 查看版本信息。
+
+* 主要优化
   - 添加 侧边栏 外链跳转支持
   - 修复 路由标切换时，标签未增加 BUG
   - 修复 请求模块相关的 BUG
@@ -79,7 +110,7 @@ title: 版本更新日志
 
 ### 0.0.6 ---- 2020.7.14
 
-- 支持 [Amis Definitions](https://baidu.github.io/amis/docs/components/Definitions#definitions) 功能使用 `Function` 做 Json 转换
+- 支持 [Amis Definitions](https://baidu.gitee.io/amis/zh-CN/docs/components/Definitions#definitions) 功能使用 `Function` 做 Json 转换
 - `aside-layout` 中 `header,footer` 配置支持权限过滤
 - 将 `demo` 模版变为初始化项目默认选项
 - 修复项目在 `Safari 浏览器` 白屏 BUG

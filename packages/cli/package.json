@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.1.2-alpha.0",
+  "version": "0.1.5",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
@@ -20,7 +20,7 @@
     "url": "https://github.com/CareyToboo/ovine/issues"
   },
   "author": "carey toboos",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bin": {
     "ovine": "bin/index.js"
   },
@@ -60,7 +60,7 @@
     "import-fresh": "^3.2.1",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.8.0",
-    "monaco-editor-webpack-plugin": "2.1.0",
+    "monaco-editor-webpack-plugin": "3.0.1",
     "null-loader": "^3.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "portfinder": "^1.0.25",
@@ -85,7 +85,7 @@
   "engines": {
     "node": ">=10.9.0"
   },
-  "gitHead": "d4da00f7ac80fcf42b73d9e0fbda3411ec1dc97c",
+  "gitHead": "1f1dfc4cd240e7515129ab9595092cc8825f6ad9",
   "devDependencies": {
     "typescript": "~4.1.2"
   }

@@ -13,9 +13,9 @@ import { BuildCliOptions, LoadContext, SiteConfig } from './types'
 const requiredFields = ['favicon', 'title']
 
 const optionalFields = [
+  'appKey',
   'publicPath',
-  'dllPublicPath',
-  'dllHostDir',
+  'dll',
   'envModes',
   'devServer',
   'ui',
@@ -27,9 +27,11 @@ const optionalFields = [
 ]
 
 const defaultConfig = {
+  appKey: '',
   publicPath: '/',
   template: {},
   devServer: {},
+  dll: {},
   ui: {
     defaultTheme: 'default',
     withoutPace: false,
@@ -40,8 +42,8 @@ function formatFields(fields: string[]): string {
   return fields.map((field) => `'${field}'`).join(', ')
 }
 
-function checkPath(pathStr: string, value?: string, egText?: string) {
-  if (typeof value !== 'string' || value.substr(-1) !== '/') {
+function checkPath(pathStr: string, value: string = '', egText?: string) {
+  if (value && !(typeof value === 'string' && value.substr(-1) === '/')) {
     throw new Error(
       `${pathStr}: "${value}" is not allowed. The "${pathStr}" must be string end with "/". eg: "${egText ||
         'https://abc.com/'}"`
@@ -73,20 +75,29 @@ export function loadConfig(siteDir: string, options: Partial<BuildCliOptions>): 
   }
 
   // Merge default config with loaded config.
-  const config = {
-    ...defaultConfig,
-    ...loadedConfig,
-  }
+  const config = _.defaultsDeep(
+    loadedConfig,
+    {
+      // defaultDevConfig
+      devServer: loadedConfig.publicPath?.startsWith('/')
+        ? {
+            publicPath: loadedConfig.publicPath,
+            openPage: loadedConfig.publicPath,
+          }
+        : {},
+    },
+    defaultConfig
+  )
 
   // Don't allow unrecognized fields.
   const allowedFields = [...requiredFields, ...optionalFields]
   const unrecognizedFields = Object.keys(config).filter((field) => !allowedFields.includes(field))
 
-  const { publicPath = '/', dllPublicPath, dllHostDir, envModes } = config
+  const { publicPath = '/', dll, envModes } = config
 
   checkPath('publicPath', publicPath)
-  checkPath('dllPublicPath', dllPublicPath)
-  checkPath('dllHostDir', dllHostDir)
+  checkPath('dll.publicPath', dll.publicPath)
+  checkPath('dll.hostDir', dll.hostDir)
 
   // TODO: use json schema for Configuration verification!
   if (unrecognizedFields.length) {

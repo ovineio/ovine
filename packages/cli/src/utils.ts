@@ -1,24 +1,25 @@
+import { execSync } from 'child_process'
 import fse from 'fs-extra'
+import http from 'http'
+import https from 'https'
 import importFresh from 'import-fresh'
 import _ from 'lodash'
 import path from 'path'
 import webpack, { Configuration } from 'webpack'
 import merge from 'webpack-merge'
-import request from 'request'
-import util from 'util'
 
 import {
   libRootPath,
   libName,
+  dllVer,
+  libVer,
   dllVendorDirPath,
   dllAssetsFile,
   dllVendorFileName,
   dllManifestFile,
-  generatedDirName,
-  winConst,
-  dllVer,
+  dllJsdelivrHostDir,
 } from './constants'
-import { BuildCliOptions, Props, SiteConfig } from './types'
+import { PkgName, SiteConfig } from './types'
 
 export function normalizeUrl(rawUrls: string[]): string {
   const urls = rawUrls
@@ -122,7 +123,7 @@ export function globalStore<T = any>(type: 'get' | 'set', key: string, value?: T
 }
 
 export function isCliDev() {
-  return __dirname.indexOf(`@${libName}`) === -1 && __dirname.indexOf(libRootPath) > -1
+  return __dirname.indexOf(`@${libName}`) === -1 && __dirname.indexOf(`${libRootPath}/`) > -1
 }
 
 export function getCliDevRootDir() {
@@ -160,12 +161,17 @@ export function getModulePath(siteDir: string, lib: string, required: boolean = 
   return modulePath
 }
 
-export function getDllHostDir(
-  options: Pick<SiteConfig, 'dllPublicPath' | 'dllHostDir' | 'publicPath'>
-) {
-  const { publicPath, dllPublicPath, dllHostDir: confDllHostDir } = options
-  const hostDir = confDllHostDir || `${dllPublicPath || publicPath}${dllVendorDirPath}/`
-  return hostDir
+export function getDllHostDir(options: Partial<SiteConfig>) {
+  const { publicPath, dll = {} } = options
+  const confHostDir = dll.hostDir || `${dll.publicPath || publicPath}${dllVendorDirPath}/`
+
+  const hostDir = (dll.useJsdelivr ? dllJsdelivrHostDir : confHostDir)
+    .replace('[libVer]', libVer)
+    .replace('[dllVer]', dllVer)
+
+  const backHostDir = `${publicPath}${dllVendorDirPath}/`
+
+  return [hostDir, backHostDir]
 }
 
 export function getDllManifestFile(siteDir: string) {
@@ -178,55 +184,57 @@ export function getDllManifestFile(siteDir: string) {
   }
 }
 
-export async function loadDllManifest(options: Props & Partial<BuildCliOptions>) {
-  const { siteDir } = options
-  const hostDir = getDllHostDir(options.siteConfig)
-  const files = getDllManifestFile(siteDir)
+export function getPkgName(pkg?: PkgName) {
+  return `@${libName}/${pkg || ''}`
+}
 
-  const { assetsFile, manifestFile } = files
-
-  const cacheDir = `${siteDir}/${generatedDirName}/cache`
-
-  const assetsFileName = path.basename(assetsFile)
-  const manifestFileName = path.basename(manifestFile)
-  const cacheAssetsFile = `${cacheDir}/${assetsFileName}`
-  const cacheManifestFile = `${cacheDir}/${manifestFileName}`
-
-  const cachedFiles = {
-    assetsFile: cacheAssetsFile,
-    manifestFile: cacheManifestFile,
-  }
-
-  if (!hostDir.startsWith('http')) {
-    return files
-  }
+export function getPkgLatestVer(): string {
+  let latestVer = libVer
 
   try {
-    if (fse.existsSync(cacheAssetsFile)) {
-      const assetJson = await fse.readJSON(cacheAssetsFile)
-      // already cached
-      if (assetJson[winConst.dllVersion] === dllVer) {
-        return cachedFiles
-      }
+    latestVer = execSync(`npm view ${getPkgName('cli')} version`)
+      .toString()
+      .replace('\n', '')
+  } catch (err) {
+    //
+  }
+
+  return latestVer
+}
+
+export async function fetchFile(url: string): Promise<any> {
+  const proto = url.startsWith('https') ? https : http
+
+  return new Promise((resolve, reject) => {
+    const onError = (tip: string = '') => {
+      reject(new Error(`Failed to get '${url}'. ${tip}`))
     }
 
-    const httpAssetFile = `${hostDir}${assetsFileName}`
-    const httpManifestFile = `${hostDir}${manifestFileName}`
+    const request = proto.get(url, (response) => {
+      if (response.statusCode !== 200) {
+        onError(`StatusCode: ${response.statusCode}`)
+        return
+      }
 
-    const getFileAsync = util.promisify(request.get)
+      let body = ''
+      response.on('data', (chunk) => {
+        body += chunk
+      })
 
-    // download manifest files to cache
-    await Promise.all(
-      [httpAssetFile, httpManifestFile].map((httpFile) => {
-        getFileAsync(httpFile).then((fileContent) => {
-          return fse.writeFile(fileContent, `${cacheDir}/${path.basename(httpFile)}`, 'utf-8')
+      response.on('error', () => {
+        onError('Response an error occurred.')
+      })
+
+      response.on('end', () => {
+        resolve({
+          ...response,
+          body,
         })
       })
-    )
+    })
 
-    return cachedFiles
-  } catch (err) {
-    console.log('load dll manifest files error.')
-    return files
-  }
+    request.on('error', () => {
+      onError('Request an error occurred.')
+    })
+  })
 }

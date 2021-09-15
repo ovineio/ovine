@@ -9,28 +9,38 @@ title: 迭代计划表
 影响使用的紧急 BUG，是 Ovine 所有开发中的最高优先级，一般在 3-5 天内，第一时间修复。
 :::
 
-### 建立前端低代码平台
+### TODO 列表
 
-- 完成前端低代码平台基本需求
-  - 可在线建立多个应用
-  - 可建立企业组织架构与权限
-  - 可在线编辑页面，并发布前端更改
-- 将项目中 `菜单/路由/权限` 均支持接口动态获取
-- 暂时先接入在 Ovine 中接入 [amis-editor](https://fex-team.github.io/amis-editor/)，实现可以在线编辑页面需求。(`Ovine Editor` 短时间难以上线，但是大量开发者对在线编页面需求很强烈)
+#### `0.1.x` 处理使用上的问题
 
-### Core 计划表
+- 0.1.4
+  - 修复 `request` 上传图片/文件 存在的 BUG
+  - `ovine.config.js` 相关
+    - 添加 `appKey`标识符，用于区分同域名下,不同`ovineApp`的 `store`
+    - 默认设置为 `dll: { useJsdelivr: true }`, 并当 `dll cdn` 配置生效时，不将 `dll` 目录下的文件复制到 `dist` 目录中
+    - 将 `routePrefix` 默认设置为 `config.js`中的 `publicPath`
+    - 修复初始化加载 主题 css 文件，可能会出现，界面抖动的情况
+    - 修复 下载文件中文名称的问题
+- 0.1.5
+  - 添加 `yarn ovine upgrade`
 
-- 新功能
-  - 编写 `ovine version` 命令，提供更简单方式升级，以及版本不兼容提示
-  - 兼容多语言
-- 文档相关
-  - 将 `typescript` 类型格式文档，转换为 `Table` 格式，对搜索更友好。
-  - 添加适当入门视频介绍，降低使用门槛
-- 优化相关
-  - 体验优化
-  - 主题优化
-  - 性能优化
-    - `workbox` 缓存优化
+#### `0.2.x` 着重处理编辑器相关的需求
+
+- 编辑器 添加 `icon` 选择 picker
+  - 支持搜索
+  - baidu/fontAwesome 自带图标
+  - 支持 阿里 iconfont svg 图标
+
+#### `0.3.x` 着重 处理编译升级/性能/优化 相关的需求
+
+- 添加 `serviceWork` 缓存支持
+- 升级 `webpack5.x`
+
+#### `0.4.x` 添加插件体系
+
+- 插件需要完备体系
+  - 可以注入 webpack/babel 配置
+  - 可以支持 vue/react/jq 作为基础库
 
 ### 版本发布时间节点
 

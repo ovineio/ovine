@@ -7,12 +7,12 @@ export const getTableFieldColumn = (type?: string) => {
       label: '字段名称',
     },
     {
-      name: 'isNull',
+      name: 'required',
       label: '是否必填',
       type: 'mapping',
       map: {
-        '1': '<span class=\'label label-info\'>否</span>',
-        '0': '<span class=\'label label-info\'>是</span>',
+        '0': '<span class=\'label label-info\'>否</span>',
+        '1': '<span class=\'label label-info\'>是</span>',
       },
     },
     {
@@ -28,7 +28,7 @@ export const getTableFieldColumn = (type?: string) => {
     type !== 'subList' && {
       name: 'order',
       label: '字段排序',
-      remark: '从小大到大排序',
+      remark: '从大到小排序',
     },
     {
       name: 'desc',

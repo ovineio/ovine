@@ -4,7 +4,7 @@ import { defaultsDeep, get, isFunction, merge, set } from 'lodash'
 
 import { AppInstance } from '@core/app/instance/type'
 
-import { defaultEnvMode, rootRoute, storage } from '@/constants'
+import { defaultEnvMode, rootRoute, storage, publicUrl } from '@/constants'
 import { Request } from '@/utils/request'
 import { setGlobal } from '@/utils/store'
 import * as Types from '@/utils/types'
@@ -30,8 +30,7 @@ const initConfig: AppConfig = {
     },
   },
   constants: {
-    // TODO 兼容动态 routePrefix
-    routePrefix: process.env.ROUTE_PREFIX || rootRoute,
+    routePrefix: publicUrl.startsWith('/') ? publicUrl : rootRoute,
     toastDuration: 1200,
     rootLimitFlag: '*',
     enableBackTop: false,

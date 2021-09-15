@@ -58,4 +58,34 @@ export default {
     limits: 'add',
     domain: 'modelApi',
   },
+  modelMap: {
+    url: 'GET ovhapi/model/v2/table/relation',
+    limits: 'add',
+    domain: 'modelApi',
+  },
+  modelRelation: {
+    url: 'GET ovhapi/model/v2/relation',
+    limits: 'add',
+    domain: 'modelApi',
+  },
+  publishRelation: {
+    url: 'POST model/v2/relation',
+    limits: 'add',
+    domain: 'modelApi',
+  },
+  modelVers: {
+    url: 'GET ovhapi/model/v2/version',
+    limits: 'add',
+    domain: 'modelApi',
+  },
+  publishVer: {
+    url: 'POST ovhapi/model/v2/version',
+    limits: 'add',
+    domain: 'modelApi',
+  },
+  rollbackVer: {
+    url: 'POST ovhapi/model/v2/version/rollback/$id',
+    limits: 'add',
+    domain: 'modelApi',
+  },
 }
