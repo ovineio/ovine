@@ -11,15 +11,22 @@ type Props = {
   theme: string
   asideMenus: any[]
 }
+
+const toggleAsideOff = () => {
+  publish(message.asideLayoutCtrl.msg, {
+    key: message.asideLayoutCtrl.toggleScreen,
+    toggle: false,
+  })
+}
+
 export default (props: Props) => {
   const { theme, asideMenus } = props
   const location = useLocation()
 
+
   useEffect(() => {
     if (window.innerWidth <= breakpoints.sm) {
-      publish(message.asideLayoutCtrl.msg, {
-        key: message.asideLayoutCtrl.toggleScreen,
-      })
+      toggleAsideOff()
     }
   }, [location.pathname])
 
@@ -110,7 +117,7 @@ function renderNav({ link, toggleExpand, classnames: cx }: any) {
 
   if (active) {
     // eslint-disable-next-line
-    return <a> {children} </a>
+    return <a onClick={toggleAsideOff}> {children} </a>
   }
 
   if (href) {
