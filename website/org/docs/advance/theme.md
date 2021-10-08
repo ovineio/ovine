@@ -198,10 +198,6 @@ export default {
   - `_cxd.scss` 淡雅样式
 - 修改对应文件后，需要手动执行 `ovine scss` 进行编译为对应的主题文件。
 
-:::info 提示
-执行前 `ovine scss` 命令必须要存在 `node-sass` 依赖包，如有没有需要手动下载，可以全局下载或者下载到当前项目中。
-:::
-
 ## 添加 `styled` 主题变量
 
 添加 `styled` 主题变量主要是通过入口配置的 `theme` 配置

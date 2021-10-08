@@ -48,7 +48,6 @@ const alias = {
 }
 
 function importer(this: any, url: string, prev: string) {
-  console.log('@===>', { that: this, url, prev })
   const { includePaths, file } = this.options
   const contextPaths = getIncludePaths(includePaths, prev)
 
