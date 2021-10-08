@@ -80,44 +80,44 @@ export const fixFactoryLoader = () => ({
         flags: 'm',
         replace: '? options.fetcher ',
       },
-      {
-        // var react_1 = tslib_1.__importDefault(require("react"));
-        search: 'var\\sreact_1\\s=\\stslib_1\\.__importDefault\\(require\\("react"\\)\\);',
-        flags: 'm',
-        replace: `
-          var react_1 = tslib_1.__importDefault(require("react"));
-          var react_dom_1 = require("react-dom");`,
-      },
-      {
-        // SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
-        search:
-          'SchemaRenderer\\.prototype\\.componentWillReceiveProps\\s=\\sfunction\\s\\(nextProps\\)\\s{',
-        flags: 'm',
-        replace: `
-          SchemaRenderer.prototype.componentDidMount = function () {
-            var dataId = this.props.schema.$dataId;
-            if (dataId && this.ref) {
-              var $dom = react_dom_1.findDOMNode(this.ref);
-              if ($dom) {
-                $dom.dataset.id = dataId;
-              }
-            }
-          };
-          SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
-            var props = this.props;
-            if (props.schema.$dataId !== nextProps.schema.$dataId && this.ref) {
-              var $dom = react_dom_1.findDOMNode(this.ref);
-              if (!$dom) {
-                return
-              }
-              if (nextProps.schema.$dataId) {
-                $dom.dataset.id = nextProps.schema.$dataId;
-              } else {
-                  delete $dom.dataset.id;
-              }
-            }
-        `,
-      },
+      // {
+      //   // var react_1 = tslib_1.__importDefault(require("react"));
+      //   search: 'var\\sreact_1\\s=\\stslib_1\\.__importDefault\\(require\\("react"\\)\\);',
+      //   flags: 'm',
+      //   replace: `
+      //     var react_1 = tslib_1.__importDefault(require("react"));
+      //     var react_dom_1 = require("react-dom");`,
+      // },
+      // {
+      //   // SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
+      //   search:
+      //     'SchemaRenderer\\.prototype\\.componentWillReceiveProps\\s=\\sfunction\\s\\(nextProps\\)\\s{',
+      //   flags: 'm',
+      //   replace: `
+      //     SchemaRenderer.prototype.componentDidMount = function () {
+      //       var dataId = this.props.schema.$dataId;
+      //       if (dataId && this.ref) {
+      //         var $dom = react_dom_1.findDOMNode(this.ref);
+      //         if ($dom) {
+      //           $dom.dataset.id = dataId;
+      //         }
+      //       }
+      //     };
+      //     SchemaRenderer.prototype.componentWillReceiveProps = function (nextProps) {
+      //       var props = this.props;
+      //       if (props.schema.$dataId !== nextProps.schema.$dataId && this.ref) {
+      //         var $dom = react_dom_1.findDOMNode(this.ref);
+      //         if (!$dom) {
+      //           return
+      //         }
+      //         if (nextProps.schema.$dataId) {
+      //           $dom.dataset.id = nextProps.schema.$dataId;
+      //         } else {
+      //             delete $dom.dataset.id;
+      //         }
+      //       }
+      //   `,
+      // },
     ],
   },
 })

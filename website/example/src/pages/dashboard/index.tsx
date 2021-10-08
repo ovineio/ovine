@@ -132,7 +132,7 @@ export const schema = {
         actions: [],
         controls: [
           {
-            type: 'date-range',
+            type: 'input-date-range',
             label: '时间范围',
             name: 'dateRange',
             format: 'YYYY-MM-DD',

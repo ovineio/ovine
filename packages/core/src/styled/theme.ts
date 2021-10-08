@@ -47,7 +47,7 @@ export const initAppTheme = () => {
   }
   // 非amis主题 都需要注册
   Object.values(app.theme.getAllThemes())
-    .filter((item: DefaultTheme) => !/cxd|default|dark/.test(item.name))
+    .filter((item: DefaultTheme) => !/ang|cxd|default|dark/.test(item.name))
     .forEach((item: DefaultTheme) => {
       setAmisTheme(item.name, {
         classPrefix: item.ns,

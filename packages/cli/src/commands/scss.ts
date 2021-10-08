@@ -1,16 +1,18 @@
 /**
  * for build css files from amis src scss dir.
+ * TODO: 暂时先移除 编译 项目文件夹下的scss文件功能，后期稳定了之后，考虑补回来。
  */
 
-import { execSync } from 'child_process'
+// import { execSync } from 'child_process'
 import fs from 'fs-extra'
+import glob from 'glob'
 import path from 'path'
-
-import shell from 'shelljs'
+import sass  from 'sass'
 
 import { generatedDirName, stylesDirName, scssDirName } from '../constants'
-import { getModulePath } from '../utils'
 
+import { getModulePath } from '../utils'
+ 
 // eslint-disable-next-line import/order
 import chalk = require('chalk')
 
@@ -19,15 +21,7 @@ type Options = {
   watch?: boolean
 }
 export async function scss(siteDir: string, options: Options = {}): Promise<void> {
-  const { verbose = false, watch = false } = options
-
-  const nodeScssCmd = getNodeScssCmd()
-  const scssCmdOpts = { async: true, silent: watch ? false : !verbose }
-  if (!nodeScssCmd) {
-    throw new Error(
-      'You need install `node-sass` module as devDependencies or globally...\nYou can run "yarn add global node-sass" or "npm install -g node-sass".\nThen retry "yarn scss".'
-    )
-  }
+  const {  watch = false } = options // verbose = false,
 
   if (watch) {
     console.log(chalk.blue('watch scss files changes...'))
@@ -38,92 +32,34 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
   const amisScss = getModulePath(siteDir, 'amis/scss/themes', true)
   const libScss = getModulePath(siteDir, `lib/core/${scssDirName}`, true)
   const destStyles = `${siteDir}/${generatedDirName}/${stylesDirName}`
-  const siteScss = `${siteDir}/${scssDirName}`
-  const hasSiteScss = fs.existsSync(siteScss)
-
   const relativeDir = path.relative(process.cwd(), destStyles)
 
-  const importer = `--importer ${path.resolve(__dirname, '../scss_importer.js')}`
-  const useWatch = !watch ? '' : '--watch --recursive'
-
-  const includePaths = (pathAr) => pathAr.map((i) => ` --include-path ${i}`).join(' ')
-
-  const resultFlag: string[] = []
-  const logSuccess = (type: 'lib' | 'site') => {
-    const logStr = `\n${chalk.green('Success!')} Generated css files in ${chalk.cyan(
-      relativeDir
-    )}.\n`
-
-    if (!hasSiteScss) {
-      console.log(logStr)
-      return
-    }
-
-    resultFlag.push(type)
-    if (resultFlag.length === 2) {
-      console.log(logStr)
-    }
-  }
-
-  // build libScss
-  const libCmd = `${nodeScssCmd} ${libScss} ${useWatch} -o ${destStyles} ${importer} ${includePaths(
-    !hasSiteScss ? [amisScss] : [amisScss, siteScss]
-  )}`
-  // console.log('libCmd===>\n', libCmd, '\n')
-  shell.exec(libCmd, scssCmdOpts, (_, stdout, stderr) => {
-    if (stderr && !/No input file/.test(stderr)) {
-      console.error(chalk.red(stderr))
-      return
-    }
-    copyFiles(libScss, destStyles)
-    if (watch) {
-      console.log(stdout)
-    } else {
-      logSuccess('lib')
-    }
-  })
-
-  // build siteScss
-  if (hasSiteScss) {
-    const siteCmd = `${nodeScssCmd} ${siteScss} ${useWatch} -o ${destStyles} ${importer}  ${includePaths(
-      [amisScss, libScss]
-    )}`
-    // console.log('siteCmd===>\n', siteCmd, '\n')s
-    shell.exec(siteCmd, scssCmdOpts, (_, stdout, stderr) => {
-      if (stderr && !/No input file/.test(stderr)) {
-        console.error(chalk.red(stderr))
-        return
-      }
-
-      copyFiles(siteScss, destStyles)
-      if (watch) {
-        console.log(stdout)
+  const themesDir = 'themes'
+  try {
+    glob(`${libScss}/${themesDir}/!(_)*.scss`, (err: any, files: string[]) => {
+      if (err) {
+        console.error(err)
       } else {
-        logSuccess('site')
+        files.forEach((file) => {
+          const outFile = `${destStyles}/${themesDir}/${path.basename(file, '.scss')}.css`
+          const res = sass.renderSync({
+            file,
+            outFile,
+            includePaths: [amisScss],
+          })
+          fs.writeFileSync(outFile, res.css.toString())
+          console.log(chalk.grey(`Generated ${outFile}`))
+        })
+        copyFiles(libScss, destStyles)
+        const logStr = `\n${chalk.green('Success!')} Generated css files in ${chalk.cyan(
+          relativeDir
+        )}.\n`
+        console.log(logStr)
       }
     })
+  }catch(err) {
+    console.error(err)
   }
-}
-
-// check node-sass cli commander
-function getNodeScssCmd(): string {
-  let cmd = 'node-sass'
-  try {
-    execSync('node-sass -v', { stdio: 'ignore' })
-    return cmd
-  } catch (_) {
-    //
-  }
-
-  cmd = './node_modules/.bin/node-sass'
-  try {
-    execSync(`${cmd} -v`, { stdio: 'ignore' })
-    return cmd
-  } catch (_) {
-    //
-  }
-
-  return ''
 }
 
 function copyFiles(src, dest) {
