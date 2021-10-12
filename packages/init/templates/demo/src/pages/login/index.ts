@@ -53,7 +53,7 @@ export const schema = {
             clearStore(storeKeys.auth)
             source.msg = msg || '登录异常'
           }
-          return source
+          return { data: source }
         },
       },
     },

@@ -34,6 +34,7 @@ export const appConstants = {
   routePrefix: '/demo/',
   loginRoute: '/login',
   enableBackTop: true,
+  // toastDuration: 10000000,
 }
 
 export const amisConstants = {

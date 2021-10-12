@@ -125,6 +125,10 @@ const GlobalStyle = createGlobalStyle`
     }
 
     /** 1.0.14 Tree BUG */
+    .${ns}Toast-wrap--topCenter, .${ns}Toast-wrap--bottomCenter {
+      transform: translateX(-50%);
+      margin-left: 0;
+    }
     .${ns}Tree-itemIcon {
       line-height: 30px;
       &.${ns}Tree-leafIcon {

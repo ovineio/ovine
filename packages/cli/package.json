@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.1.5",
+  "version": "0.1.6-alpha.0",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
@@ -66,6 +66,7 @@
     "portfinder": "^1.0.25",
     "react-dev-utils": "^9.1.0",
     "react-hot-loader": "^4.12.21",
+    "sass": "^1.42.1",
     "semver": "^6.3.0",
     "shelljs": "^0.8.3",
     "std-env": "^2.2.1",
@@ -80,8 +81,7 @@
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
-    "webpackbar": "^4.0.0",
-    "sass": "^1.42.1"
+    "webpackbar": "^4.0.0"
   },
   "engines": {
     "node": ">=10.9.0"

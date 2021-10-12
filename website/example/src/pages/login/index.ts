@@ -49,7 +49,6 @@ export const schema = {
         },
         onSuccess: (source) => {
           const { code, msg, data } = source
-
           if (code === 0) {
             setStore(storeKeys.auth, data)
             source.msg = '您已登录登录本系统'
@@ -57,7 +56,7 @@ export const schema = {
             clearStore(storeKeys.auth)
             source.msg = msg || '登录异常'
           }
-          return source
+          return { data: source }
         },
       },
     },
