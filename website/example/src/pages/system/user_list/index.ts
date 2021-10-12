@@ -53,6 +53,8 @@ export const schema = {
       {
         name: 'avatar',
         label: '头像',
+        // 'type': 'image',
+        // 'enlargeAble': true
         type: 'tpl',
         tpl: '<img style="width:30px;" src="${avatar}" />',
         popOver: {

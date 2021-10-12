@@ -15,8 +15,8 @@
   ],
   "license": "Apache-2.0",
   "scripts": {
-    "prepare:dev": "node-sass -v && yarn tsc && cd ./website/example && yarn scss && yarn dev:lib",
-    "dev:demo": "cd ./website/example && yarn dev:lib",
+    "prepare:dev": "yarn tsc && cd ./website/example && yarn cp:lib && yarn gen:static && yarn start",
+    "start:demo": "cd ./website/example && yarn start",
     "dev:org": "cd ./website/org && yarn start",
     "dev:cli": "cd ./packages/cli && yarn dev",
     "dev:core": "cd ./packages/core && yarn dev",

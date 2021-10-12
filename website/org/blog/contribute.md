@@ -11,13 +11,12 @@ title: 贡献指南
 
    - 如果未使用过 `yarn`, 需要全局安装一下 `yarn`, 防止无法正常启动项目
    - 执行 `yarn install` 安装依赖包，或者使用 `npm v7+`, 并执行 `npm install --legacy-peer-deps`，也可正常安装依赖
-   - 如果没有安装 `node-sass` 需要安装一下（全局/项目内安装均可,node-sass 安装比较繁琐,建议全局安装）
    - 执行 `yarn prepare:dev` 编译项目代码，并将自动启动 `demo` 项目
 
 2. 正常开发 `example` 项目
-   - 直接 在 `ovine/` 目录中，执行 `yarn dev:demo`
+   - 直接 在 `ovine/` 目录中，执行 `yarn start:demo`
    - 或者，进入 `ovine/website/example/` 目录下
-     - 执行 `yarn dev:lib` 正常开启本地服务器，进行开发
+     - 执行 `yarn start` 正常开启本地服务器，进行开发
 
 ## Ovine 简单介绍
 

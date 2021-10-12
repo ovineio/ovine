@@ -7,6 +7,9 @@ export const StyledLimit = styled.div`
         padding-left: 0 !important;
         &:hover {
           background: transparent;
+          &:after {
+            background: transparent;
+          }
         }
       }
       &-item--isLeaf {
