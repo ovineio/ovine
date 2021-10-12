@@ -47,6 +47,7 @@ export async function scss(siteDir: string, options: Options = {}): Promise<void
             outFile,
             includePaths: [amisScss],
           })
+          fs.ensureDirSync(path.dirname(outFile))
           fs.writeFileSync(outFile, res.css.toString())
           console.log(chalk.grey(`Generated ${outFile}`))
         })
