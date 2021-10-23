@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 
 export const defaultTheme: DefaultTheme = {
   ns: 'a-',
-  name: 'default',
+  name: 'ang',
   text: '基础主题',
   colors: {
     bodyBg: '#f0f3f4',

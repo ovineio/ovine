@@ -520,8 +520,15 @@ export class Request<IS = {}, IP = {}> {
   ): Promise<Types.ReqResponse<S | IS> | undefined>
 
   // eslint-disable-next-line no-dupe-class-members
-  public async request(option: any): Promise<any> {
+  public async request(option: any, params?: any): Promise<any> {
     const that: any = this
+
+    if (params) {
+      option.data = {
+        ...option.data,
+        ...params,
+      }
+    }
 
     // 获取请求参数
     const reqOption = await getReqOption.call(that, option)
