@@ -207,7 +207,7 @@ const LimitSetting = (props: LimitSettingProps) => {
 
   return (
     <StyledLimit className={className}>
-      <div className="action-btns">
+      <div className="action-btns m-b-md">
         {render ? render('body', buttonsSchema) : <Amis schema={buttonsSchema} />}
       </div>
       <Tabs activeKey={activeTab} mode="line" onSelect={onTabSelect}>

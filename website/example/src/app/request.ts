@@ -80,7 +80,6 @@ request.onSuccess = (source, option) => {
       items: list,
     }
   }
-
   return apiSource
 }
 

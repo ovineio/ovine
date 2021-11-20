@@ -1,9 +1,9 @@
 :root {
   --borderColor: #eceff8;
   --body-bg: #ffffff;
-  --text-color: #666;
+  --text-color: #151a26;
 
-  --text--muted-color: #999;
+  --text--muted-color: #b4b6ba;
   --text--loud-color: #333;
   --link-onHover-decoration: none;
 
@@ -19,10 +19,10 @@
   --Layout-brand-color: #fff;
   --Layout-asideLink-iconColor: rgba(255, 255, 255, 0.6);
   --Layout-asideLink-color: #fff;
-  --Layout-asideLink-onHover-color: #108cee;
-  --Layout-asideLink-onActive-color: #108cee;
+  --Layout-asideLink-onHover-color: var(--primary);
+  --Layout-asideLink-onActive-color: var(--primary);
   --Layout-asideLink-onHover-iconSize: #{px2rem(16px)};
-  --Layout-asideLink-onHover-iconColor: #108cee;
+  --Layout-asideLink-onHover-iconColor: var(--primary);
   --Layout-asideLink-fontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowFontSize: #{px2rem(12px)};
   --Layout-asideLink-arrowColor: #8d99b0;
@@ -160,7 +160,7 @@
   --Button-borderWidth: #{px2rem(1px)};
   --Button-boxShadow: none;
   --Button-onActive-boxShadow: none;
-  --Button-borderRadius: 0;
+  // --Button-borderRadius: 0;
   --Button--lg-borderRadius: 0;
   --Button--sm-borderRadius: 0;
 
@@ -171,21 +171,21 @@
 
   --Button--default-bg: var(--white);
   --Button--default-border: #cccccc;
-  --Button--default-color: #000;
-  --Button--default-onHover-bg: var(--white);
-  --Button--default-onHover-border: var(--primary);
-  --Button--default-onHover-color: var(--primary);
-  --Button--default-onActive-bg: #f6fbff;
-  --Button--default-onActive-border: var(--primary);
-  --Button--default-onActive-color: var(--primary);
+  // --Button--default-color: #000;
+  // --Button--default-onHover-bg: var(--white);
+  // --Button--default-onHover-border: var(--primary);
+  // --Button--default-onHover-color: var(--primary);
+  // --Button--default-onActive-bg: var(--white);
+  // --Button--default-onActive-border: var(--primary);
+  // --Button--default-onActive-color: var(--primary);
 
   --Button--primary-bg: var(--primary);
   --Button--primary-border: var(--primary);
-  --Button--primary-onHover-bg: #209bfd;
-  --Button--primary-onHover-border: var(--primary);
+  // --Button--primary-onHover-bg: #4F86F4;
+  // --Button--primary-onHover-border: #4F86F4;
   --Button--primary-onHover-color: var(--white);
-  --Button--primary-onActive-bg: #047bdb;
-  --Button--primary-onActive-border: var(--primary);
+  // --Button--primary-onActive-bg: #1C53C1;
+  // --Button--primary-onActive-border: #1C53C1;
   --Button--primary-onActive-color: var(--white);
 
   --Button--danger-bg: #ea2e2e;
@@ -311,6 +311,7 @@
   --Wizard-badge-size: #{px2rem(26px)};
   --Wizard-badge-color: #999999;
   --Wizard-badge-onActive-backgroundColor: #333333;
+  --Wizard-badge-onComplete-backgroundColor: #333333;
   --Wizard-badge-fontSize: #{px2rem(14px)};
   --Wizard-badge-border: #{px2rem(1px)} solid #999999;
   --Wizard-badge-borderRadius: 50%;

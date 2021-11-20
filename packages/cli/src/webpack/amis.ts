@@ -75,8 +75,8 @@ export const fixFactoryLoader = () => ({
         `,
       },
       {
-        // 去掉多余的请求封装
-        search: '\\? [a-zA-Z1-9_]*\\.wrapFetcher\\(options\\.fetcher\\)',
+        // 去掉多余的请求封装===>!!amis源码修改后，很有可能出错的地方
+        search: '\\? .*\\.wrapFetcher\\)\\(options\\.fetcher\\)',
         flags: 'm',
         replace: '? options.fetcher ',
       },

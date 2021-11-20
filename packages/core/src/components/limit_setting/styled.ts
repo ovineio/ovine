@@ -54,8 +54,4 @@ export const StyledLimit = styled.div`
       }
     }
   `}
-
-  .action-btns {
-    margin-bottom: 5px;
-  }
 `

@@ -42,7 +42,8 @@
   },
   "dependencies": {
     "deep-diff": "1.0.2",
-    "json-ast-comments": "^1.0.4"
+    "json-ast-comments": "^1.0.4",
+    "@webcomponents/webcomponentsjs": "2.6.0"
   },
   "resolutions": {
     "react": "^16.8.6",

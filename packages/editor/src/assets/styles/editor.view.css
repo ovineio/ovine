@@ -1,17 +1,17 @@
 @keyframes shake {
-	10%,90% {
+	10%, 90% {
 		transform: translate3d(-1px, 0, 0)
 	}
 
-	20%,80% {
+	20%, 80% {
 		transform: translate3d(2px, 0, 0)
 	}
 
-	30%,50%,70% {
+	30%, 50%, 70% {
 		transform: translate3d(-4px, 0, 0)
 	}
 
-	40%,60% {
+	40%, 60% {
 		transform: translate3d(4px, 0, 0)
 	}
 }
@@ -28,7 +28,7 @@
 	font-size: 12px
 }
 
-.ae-Outline-list,.ae-Outline-sublist {
+.ae-Outline-list, .ae-Outline-sublist {
 	list-style: none;
 	padding: 0;
 	margin: 0
@@ -42,7 +42,7 @@
 	margin-left: .9375rem
 }
 
-.ae-Outline-sublist>.ae-Outline-node::before,.ae-Outline-sublist>.ae-Outline-node::after {
+.ae-Outline-sublist>.ae-Outline-node::before, .ae-Outline-sublist>.ae-Outline-node::after {
 	position: absolute;
 	content: "";
 	background: #d1d5db;
@@ -90,7 +90,7 @@
 }
 
 .ae-Outline-node.is-region>a {
-	border: dashed 1px rgba(17,180,166,.5);
+	border: dashed 1px rgba(17, 180, 166, .5);
 	font-size: 12px;
 	padding: 2px 5px
 }
@@ -140,7 +140,7 @@
 	display: block;
 	position: relative;
 	background: #fff;
-	box-shadow: -2px 0 20px 0 rgba(0,0,0,.1);
+	box-shadow: -2px 0 20px 0 rgba(0, 0, 0, .1);
 	z-index: 5;
 	transition: width ease-in-out .2s;
 	transform: translateZ(0);
@@ -148,7 +148,7 @@
 }
 
 .ae-Settings.is-left {
-	box-shadow: 2px 0 20px 0 rgba(0,0,0,.1);
+	box-shadow: 2px 0 20px 0 rgba(0, 0, 0, .1);
 	text-align: left
 }
 
@@ -321,52 +321,52 @@
 	overflow: hidden !important
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1) {
+.ae-Settings-content.only-tabs>div:first-of-type {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist] {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist] {
 	margin: 10px 0;
 	padding: 0 15px
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]>li>a {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]>li>a {
 	margin-right: 30px !important
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div {
 	padding: 0;
 	height: 0;
 	flex-grow: 1;
 	overflow: auto
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div::-webkit-scrollbar {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div::-webkit-scrollbar {
 	background-color: #fff;
 	width: 10px
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div ::-webkit-scrollbar-track {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div ::-webkit-scrollbar-track {
 	background-color: #fff
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div::-webkit-scrollbar-thumb {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div::-webkit-scrollbar-thumb {
 	background-color: #babac0;
 	border-radius: 8px;
 	border: 2px solid #fff
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div::-webkit-scrollbar-thumb:hover {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div::-webkit-scrollbar-thumb:hover {
 	background-color: #7d7d7d
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div::-webkit-scrollbar-button {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div::-webkit-scrollbar-button {
 	display: none
 }
 
-.ae-Settings-content.only-tabs>div:nth-of-type(1)>ul[role=tablist]+div>div {
+.ae-Settings-content.only-tabs>div:first-of-type>ul[role=tablist]+div>div {
 	padding: 0 15px
 }
 
@@ -443,7 +443,7 @@
 
 .ae-Editor-codeResizor:hover {
 	color: #000;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,.12),0 2px 4px 0 rgba(0,0,0,.08)
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08)
 }
 
 .ae-Editor-codeResizor:after {
@@ -458,7 +458,7 @@
 	padding: 0 5px;
 	background: #fff;
 	color: #666;
-	box-shadow: 0 2px 20px 0 rgba(0,0,0,.1);
+	box-shadow: 0 2px 20px 0 rgba(0, 0, 0, .1);
 	position: relative;
 	z-index: 1
 }
@@ -506,7 +506,7 @@
 	top: 100%;
 	left: 0;
 	background: #fff;
-	box-shadow: .125rem .25rem .5rem rgba(0,0,0,.2);
+	box-shadow: .125rem .25rem .5rem rgba(0, 0, 0, .2);
 	list-style: none
 }
 
@@ -666,7 +666,7 @@
 	white-space: nowrap
 }
 
-.ae-RendererList-item>i,.ae-RendererList-item>svg {
+.ae-RendererList-item>i, .ae-RendererList-item>svg {
 	margin-right: 5px;
 	font-size: 14px
 }
@@ -767,10 +767,10 @@ a.ae-RendererIcon:hover {
 	border-radius: 5px
 }
 
-.ae-RenderersPicker-list>ul>li.is-active>a,.ae-RenderersPicker-list>ul>li>a:hover {
+.ae-RenderersPicker-list>ul>li.is-active>a, .ae-RenderersPicker-list>ul>li>a:hover {
 	text-decoration: none;
 	color: #333;
-	background: rgba(66,133,244,.1)
+	background: rgba(66, 133, 244, .1)
 }
 
 .ae-RenderersPicker-content {
@@ -827,8 +827,8 @@ a.ae-RendererIcon:hover {
 	margin-bottom: 10px
 }
 
-.ae-RenderersPicker-content>ul>li:hover,.ae-RenderersPicker-content>ul>li.is-active {
-	background: rgba(66,133,244,.1)
+.ae-RenderersPicker-content>ul>li:hover, .ae-RenderersPicker-content>ul>li.is-active {
+	background: rgba(66, 133, 244, .1)
 }
 
 .ae-RenderersPicker-content>ul>li.is-active {
@@ -873,9 +873,9 @@ a.ae-RendererIcon:hover {
 	border-radius: 5px
 }
 
-.ae-RegionFilter>div:hover,.ae-RegionFilter>div.is-active {
+.ae-RegionFilter>div:hover, .ae-RegionFilter>div.is-active {
 	color: #333;
-	background: rgba(66,133,244,.1)
+	background: rgba(66, 133, 244, .1)
 }
 
 .ae-InsertPanel {
@@ -895,7 +895,7 @@ a.ae-RendererIcon:hover {
 	text-align: right
 }
 
-.ae-InsertPanel-footer>button+button,.ae-InsertPanel-footer>div+button {
+.ae-InsertPanel-footer>button+button, .ae-InsertPanel-footer>div+button {
 	margin-left: 5px
 }
 
@@ -979,7 +979,7 @@ a.ae-RendererIcon:hover {
 
 .ae-Editor-selectionCursor {
 	position: absolute;
-	background: rgba(35,183,229,.2);
+	background: rgba(35, 183, 229, .2);
 	border: 1px solid #23b7e5;
 	z-index: 999999
 }
@@ -1026,18 +1026,18 @@ a.ae-RendererIcon:hover {
 
 @keyframes growing {
 	0% {
-		box-shadow: 0 0 10px rgba(35,183,229,0) inset;
-		border: 1px solid rgba(66,133,244,0)
+		box-shadow: 0 0 10px rgba(35, 183, 229, 0) inset;
+		border: 1px solid rgba(66, 133, 244, 0)
 	}
 
 	50% {
-		box-shadow: 0 0 10px rgba(35,183,229,.6) inset;
-		border: 1px solid rgba(66,133,244,.75)
+		box-shadow: 0 0 10px rgba(35, 183, 229, .6) inset;
+		border: 1px solid rgba(66, 133, 244, .75)
 	}
 
 	100% {
-		box-shadow: 0 0 10px rgba(35,183,229,.2) inset;
-		border: 1px solid rgba(66,133,244,.1)
+		box-shadow: 0 0 10px rgba(35, 183, 229, .2) inset;
+		border: 1px solid rgba(66, 133, 244, .1)
 	}
 }
 
@@ -1080,7 +1080,7 @@ a.ae-RendererIcon:hover {
 }
 
 .ae-Editor-common-config {
-	outline: 2px solid rgba(243,144,0,.2)
+	outline: 2px solid rgba(243, 144, 0, .2)
 }
 
 .ae-Main {
@@ -1135,14 +1135,14 @@ a.ae-RendererIcon:hover {
 	min-height: 100%;
 	height: auto;
 	background: #fff;
-	box-shadow: 0 10px 10px -10px rgba(0,0,0,.2)
+	box-shadow: 0 10px 10px -10px rgba(0, 0, 0, .2)
 }
 
 .ae-Preview:focus {
 	outline: none
 }
 
-.ae-Preview.is-edting input,.ae-Preview.is-edting textarea,.ae-Preview.is-edting select,.ae-Preview.is-edting iframe {
+.ae-Preview.is-edting input, .ae-Preview.is-edting textarea, .ae-Preview.is-edting select, .ae-Preview.is-edting iframe {
 	pointer-events: none
 }
 
@@ -1214,12 +1214,12 @@ a.ae-RendererIcon:hover {
 	background: #fff
 }
 
-.ae-IFramePreview.is-edting input,.ae-IFramePreview.is-edting textarea,.ae-IFramePreview.is-edting select,.ae-IFramePreview.is-edting iframe {
+.ae-IFramePreview.is-edting input, .ae-IFramePreview.is-edting textarea, .ae-IFramePreview.is-edting select, .ae-IFramePreview.is-edting iframe {
 	pointer-events: none
 }
 
 .ae-Editor-toolbarPopover {
-	box-shadow: 0 -2px 5px rgba(255,255,255,.5);
+	box-shadow: 0 -2px 5px rgba(255, 255, 255, .5);
 	border: 0;
 	white-space: nowrap;
 	background: #4285f4;
@@ -1271,7 +1271,7 @@ a.ae-RendererIcon:hover {
 	cursor: move
 }
 
-.ae-WResizer,.ae-HResizer,.ae-Resizer {
+.ae-WResizer, .ae-HResizer, .ae-Resizer {
 	width: 10px;
 	height: 10px;
 	border: 2px solid #4285f4;
@@ -1336,7 +1336,7 @@ a.ae-RendererIcon:hover {
 .ae-Editor-hlbox {
 	position: absolute;
 	z-index: 1;
-	border: 1px dashed rgba(66,133,244,.75);
+	border: 1px dashed rgba(66, 133, 244, .75);
 	pointer-events: none;
 	transition: all ease-out .15s
 }
@@ -1346,7 +1346,7 @@ a.ae-RendererIcon:hover {
 }
 
 .ae-Editor-hlbox.selected {
-	background: rgba(66,133,244,.05);
+	background: rgba(66, 133, 244, .05);
 	border: 1px solid #4285f4
 }
 
@@ -1354,11 +1354,11 @@ a.ae-RendererIcon:hover {
 	background: #4285f4
 }
 
-.ae-Editor-hlbox.selected .ae-Editor-toolbar button.ae-InsertBefore,.ae-Editor-hlbox.selected .ae-Editor-toolbar button.ae-InsertAfter {
+.ae-Editor-hlbox.selected .ae-Editor-toolbar button.ae-InsertBefore, .ae-Editor-hlbox.selected .ae-Editor-toolbar button.ae-InsertAfter {
 	background: #4285f4
 }
 
-.ae-Editor-hlbox.selected .ae-WResizer,.ae-Editor-hlbox.selected .ae-HResizer,.ae-Editor-hlbox.selected .ae-Resizer {
+.ae-Editor-hlbox.selected .ae-WResizer, .ae-Editor-hlbox.selected .ae-HResizer, .ae-Editor-hlbox.selected .ae-Resizer {
 	display: block
 }
 
@@ -1369,7 +1369,7 @@ a.ae-RendererIcon:hover {
 
 .ae-Editor-hlbox .ae-Editor-toolbar {
 	display: none;
-	background: rgba(66,133,244,.75)
+	background: rgba(66, 133, 244, .75)
 }
 
 .ae-Editor-hlbox .ae-Editor-toolbar.sencondary {
@@ -1398,10 +1398,10 @@ a.ae-RendererIcon:hover {
 	pointer-events: none
 }
 
-.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore,.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter {
+.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore, .ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter {
 	pointer-events: all;
 	position: absolute;
-	background: rgba(66,133,244,.75);
+	background: rgba(66, 133, 244, .75);
 	width: 20px;
 	height: 20px;
 	line-height: 20px;
@@ -1409,7 +1409,7 @@ a.ae-RendererIcon:hover {
 	top: 20%
 }
 
-.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore>span>svg,.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter>span>svg {
+.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore>span>svg, .ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter>span>svg {
 	width: 12px;
 	height: 12px;
 	position: absolute;
@@ -1419,16 +1419,16 @@ a.ae-RendererIcon:hover {
 	transition: transform ease-out .3s
 }
 
-.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore.is-vertical,.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter.is-vertical {
+.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore.is-vertical, .ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter.is-vertical {
 	left: 50%;
 	transform: translate(-50%, 0)
 }
 
-.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore:hover,.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter:hover {
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,.12),0 2px 4px 0 rgba(0,0,0,.08)
+.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore:hover, .ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter:hover {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08)
 }
 
-.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore:hover>span>svg,.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter:hover>span>svg {
+.ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertBefore:hover>span>svg, .ae-Editor-hlbox .ae-Editor-toolbar button.ae-InsertAfter:hover>span>svg {
 	transform: translate(-50%, -50%) rotate(90deg)
 }
 
@@ -1473,7 +1473,7 @@ a.ae-RendererIcon:hover {
 	z-index: 2
 }
 
-.ae-Editor-tip.parent,.ae-Editor-tip.child {
+.ae-Editor-tip.parent, .ae-Editor-tip.child {
 	background: #4285f4;
 	border-radius: 3px;
 	position: absolute;
@@ -1496,7 +1496,7 @@ a.ae-RendererIcon:hover {
 .ae-Editor-nav .ae-Editor-tip {
 	opacity: 0;
 	display: block;
-	background: rgba(66,133,244,.8)
+	background: rgba(66, 133, 244, .8)
 }
 
 .ae-Editor-nav .ae-Editor-tip.current {
@@ -1515,7 +1515,7 @@ a.ae-RendererIcon:hover {
 	transform: translate(0, 18px)
 }
 
-.ae-Editor-nav:hover .ae-Editor-tip:hover,.ae-Editor-nav:hover .ae-Editor-tip.current {
+.ae-Editor-nav:hover .ae-Editor-tip:hover, .ae-Editor-nav:hover .ae-Editor-tip.current {
 	background: #4285f4
 }
 
@@ -1640,7 +1640,7 @@ a.ae-RendererIcon:hover {
 	top: 50%;
 	left: 50%;
 	z-index: 110;
-	background: rgba(0,0,0,.6);
+	background: rgba(0, 0, 0, .6);
 	border-radius: 5px;
 	width: 30px;
 	height: 30px;
@@ -1738,19 +1738,27 @@ a.ae-RendererIcon:hover {
 .dropdown-menu.preview {
 	display: block;
 	position: static
-}[data-editor-id][draggable] {
+}
+
+[data-editor-id][draggable] {
 	cursor: move
-}[data-editor-id].ae-is-draging,.ae-is-draging {
+}
+
+[data-editor-id].ae-is-draging, .ae-is-draging {
 	display: none !important
-}[data-editor-id][data-visible=false] {
+}
+
+[data-editor-id][data-visible=false] {
 	opacity: .6;
 	position: relative
-}[data-editor-id][data-visible=false]:before {
+}
+
+[data-editor-id][data-visible=false]:before {
 	content: "<隐藏状态>";
 	z-index: 10;
 	color: #6c717c;
 	border: 1px dashed #ced0d3;
-	background: rgba(10,19,37,.05);
+	background: rgba(10, 19, 37, .05);
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1763,12 +1771,18 @@ a.ae-RendererIcon:hover {
 
 .ae-Region-placeholder {
 	display: none
-}[data-region] {
+}
+
+[data-region] {
 	position: relative;
 	min-height: 34px
-}[data-region]:empty {
+}
+
+[data-region]:empty {
 	min-width: 20px
-}[data-region]:empty:before {
+}
+
+[data-region]:empty:before {
 	height: 100%;
 	content: attr(data-region-placeholder);
 	position: relative;
@@ -1783,14 +1797,22 @@ a.ae-RendererIcon:hover {
 	text-transform: uppercase;
 	color: #6c717c;
 	border: 1px dashed #ced0d3;
-	background: rgba(10,19,37,.05)
-}[data-region].is-dragenter {
+	background: rgba(10, 19, 37, .05)
+}
+
+[data-region].is-dragenter {
 	background-color: #fff
-}[data-region].is-dragenter .ae-AddBtn {
+}
+
+[data-region].is-dragenter .ae-AddBtn {
 	display: none
-}[data-region].is-dragenter>[data-editor-id],[data-region].is-dragenter>*:not([data-editor-id])>[data-editor-id] {
+}
+
+[data-region].is-dragenter>[data-editor-id], [data-region].is-dragenter>*:not([data-editor-id])>[data-editor-id] {
 	position: relative
-}[data-region].is-dragenter>[data-editor-id]::before,[data-region].is-dragenter>*:not([data-editor-id])>[data-editor-id]::before {
+}
+
+[data-region].is-dragenter>[data-editor-id]::before, [data-region].is-dragenter>*:not([data-editor-id])>[data-editor-id]::before {
 	z-index: 10;
 	content: "";
 	position: absolute;
@@ -1799,13 +1821,19 @@ a.ae-RendererIcon:hover {
 	top: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(0,0,0,.05);
+	background: rgba(0, 0, 0, .05);
 	border: 1px solid #999
-}[data-region].is-dragenter>span[data-editor-id] {
+}
+
+[data-region].is-dragenter>span[data-editor-id] {
 	display: inline-block
-}[data-region].is-entering:not(.is-dragenter) {
+}
+
+[data-region].is-entering:not(.is-dragenter) {
 	position: relative
-}[data-region].is-entering:not(.is-dragenter)::before {
+}
+
+[data-region].is-entering:not(.is-dragenter)::before {
 	z-index: 10;
 	content: "";
 	position: absolute;
@@ -1816,7 +1844,9 @@ a.ae-RendererIcon:hover {
 	bottom: 0;
 	animation: growing 1s infinite linear;
 	transform: translate3d(0, 0, 0)
-}[data-region].is-entering:not(.is-dragenter)::after {
+}
+
+[data-region].is-entering:not(.is-dragenter)::after {
 	z-index: 20;
 	content: "保持3s不动切换";
 	pointer-events: none;
@@ -1856,12 +1886,12 @@ a.ae-RendererIcon:hover {
 }
 
 .ae-Editor-rhlbox.is-highlight {
-	border-color: rgba(66,133,244,.05);
+	border-color: rgba(66, 133, 244, .05);
 	background: transparent
 }
 
 .ae-Editor-rhlbox.is-highlight:before {
-	box-shadow: 0 1px 7px rgba(0,0,0,.2);
+	box-shadow: 0 1px 7px rgba(0, 0, 0, .2);
 	border: 1px solid #3abee8
 }
 
@@ -1888,7 +1918,7 @@ a.ae-RendererIcon:hover {
 	border-radius: 3px 3px 0 0;
 	line-height: 1.2;
 	white-space: nowrap;
-	box-shadow: 0 2px 5px rgba(255,255,255,.5);
+	box-shadow: 0 2px 5px rgba(255, 255, 255, .5);
 	pointer-events: all
 }
 
@@ -1921,12 +1951,14 @@ a.ae-AddBtn>svg {
 
 a.ae-AddBtn:hover {
 	color: #fff;
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,.12),0 2px 4px 0 rgba(0,0,0,.08)
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08)
 }
 
 a.ae-AddBtn:hover>svg {
 	transform: translate(-50%, -50%) rotate(90deg)
-}[data-region=columns]>.ae-AddBtn,[data-renderer=card][data-region=actions]>.ae-AddBtn {
+}
+
+[data-region=columns]>.ae-AddBtn, [data-renderer=card][data-region=actions]>.ae-AddBtn {
 	position: absolute;
 	left: -30px;
 	top: 5px
@@ -1937,8 +1969,8 @@ div.ae-DragImage {
 	position: absolute;
 	top: -99999px;
 	left: 0;
-	background: rgba(66,133,244,.1);
-	border: 1px solid rgba(66,133,244,.75);
+	background: rgba(66, 133, 244, .1);
+	border: 1px solid rgba(66, 133, 244, .75);
 	white-space: nowrap;
 	max-width: 50px;
 	max-height: 30px
@@ -1948,7 +1980,7 @@ div.ae-DragImage>span {
 	left: -1px;
 	top: -15px;
 	position: absolute;
-	background: rgba(66,133,244,.75);
+	background: rgba(66, 133, 244, .75);
 	color: #fff;
 	padding: 2px 5px;
 	font-size: 11px;
@@ -1957,7 +1989,7 @@ div.ae-DragImage>span {
 	z-index: 1204;
 	display: block;
 	white-space: nowrap;
-	box-shadow: 0 -2px 5px rgba(255,255,255,.5)
+	box-shadow: 0 -2px 5px rgba(255, 255, 255, .5)
 }
 
 .ae-DragGhost {
@@ -1979,7 +2011,7 @@ div.ae-DragImage>span {
 	bottom: -1px;
 	min-width: 100%;
 	min-height: 100%;
-	background: rgba(35,183,229,.2);
+	background: rgba(35, 183, 229, .2);
 	border: 1px solid #23b7e5
 }
 
@@ -2021,17 +2053,17 @@ div.ae-DragImage>span {
 }
 
 .ae-Editor-rendererItem:hover {
-	background: rgba(66,133,244,.1);
+	background: rgba(66, 133, 244, .1);
 	color: #58666e
 }
 
-.ae-Editor-rendererItem.is-active,.ae-Editor-rendererItem:hover:active {
-	background: rgba(66,133,244,.1);
+.ae-Editor-rendererItem.is-active, .ae-Editor-rendererItem:hover:active {
+	background: rgba(66, 133, 244, .1);
 	border: 1px solid #4285f4;
 	color: #58666e
 }
 
-.ae-Editor-rendererItem.is-active:after,.ae-Editor-rendererItem:hover:active:after {
+.ae-Editor-rendererItem.is-active:after, .ae-Editor-rendererItem:hover:active:after {
 	border-color: #4285f4
 }
 
@@ -2072,8 +2104,8 @@ div.ae-DragImage>span {
 
 .ae-EditableRenderers {
 	padding: 5px 10px;
-	background: rgba(39,194,76,.2);
-	border: 1px solid rgba(22,109,43,.2);
+	background: rgba(39, 194, 76, .2);
+	border: 1px solid rgba(22, 109, 43, .2);
 	margin-bottom: 10px
 }
 

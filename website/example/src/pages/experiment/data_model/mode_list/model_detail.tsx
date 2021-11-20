@@ -707,7 +707,7 @@ const getModelDataTable = (info) => {
               >
                 <Button
                   iconOnly
-                  placement="top"
+                  tooltipPlacement="top"
                   tooltip="选择查询条件"
                   theme={btnProps.theme}
                   size="sm"
