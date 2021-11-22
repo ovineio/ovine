@@ -124,6 +124,12 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
+    .${ns}ExcelControl-dropzone {
+      & > p {
+        margin: 1rem auto;
+      }
+    }
+
     /** 1.0.14 Tree BUG */
     .${ns}Toast-wrap--topCenter, .${ns}Toast-wrap--bottomCenter {
       transform: translateX(-50%);
