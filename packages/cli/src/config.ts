@@ -33,7 +33,7 @@ const defaultConfig = {
   devServer: {},
   dll: {},
   ui: {
-    defaultTheme: 'default',
+    defaultTheme: 'cxd',
     withoutPace: false,
   },
 }

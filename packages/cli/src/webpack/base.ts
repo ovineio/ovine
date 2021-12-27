@@ -547,7 +547,7 @@ function getCopyPlugin(siteDir: string, outDir: string, option: { withCdnDll: bo
   }
 
   // copy static theme files
-  if (fse.pathExistsSync(`${generatedStylesDir}/themes/default.css`)) {
+  if (fse.pathExistsSync(`${generatedStylesDir}/themes/cxd.css`)) {
     copyFiles.unshift({
       from: generatedStylesDir,
       to: `${outLibDir}/${stylesDirName}`,
@@ -592,7 +592,7 @@ function getThemeTpl(options: any) {
 
   const checkTheme = (t: string) => t && themes.some((theme) => theme.indexOf(t) > -1)
 
-  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'default'
+  const presetTheme = checkTheme(defaultTheme) ? defaultTheme : 'cxd'
 
   if (appTheme === 'false') {
     return tpl

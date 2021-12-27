@@ -1,6 +1,6 @@
 {
   "name": "@ovine/core",
-  "version": "0.1.7-alpha.0",
+  "version": "0.1.7-alpha.1",
   "description": "Build flexible admin system with json.",
   "private": false,
   "publishConfig": {
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "abortcontroller-polyfill": "^1.4.0",
-    "amis": "1.4.1",
+    "amis": "1.5.7",
     "animate.css": "^3.7.2",
     "bootstrap": "^4.4.1",
     "copy-to-clipboard": "^3.3.1",

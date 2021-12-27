@@ -46,7 +46,6 @@ const defaultHeader = {
 // TODO: 获取APi路由时有 短暂的 404 页面，需要改成loading 状态
 export default withAppTheme<RouteChildrenProps & LayoutProps>((props) => {
   const { enableRouteTabs } = useAppContext()
-
   const { children, theme, api, debounceRoute } = props
 
   const [state, setState] = useImmer<AsideLayoutState>({

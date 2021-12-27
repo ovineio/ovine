@@ -26,7 +26,7 @@ export class AppTheme {
   }
 
   getName() {
-    const currTheme = getStore<string>(storage.appTheme) || process.env.INIT_THEME || 'default'
+    const currTheme = getStore<string>(storage.appTheme) || process.env.INIT_THEME || 'cxd'
     return currTheme
   }
 
@@ -38,7 +38,7 @@ export class AppTheme {
     const currTheme = this.getName()
     return (
       this.themes[currTheme] || {
-        name: 'default',
+        name: 'cxd',
       }
     )
   }

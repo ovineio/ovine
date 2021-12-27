@@ -1,6 +1,6 @@
 {
   "name": "@ovine/cli",
-  "version": "0.1.7-alpha.0",
+  "version": "0.1.7-alpha.1",
   "description": "Easy to build admin system with json schema.",
   "private": false,
   "publishConfig": {
@@ -60,7 +60,7 @@
     "import-fresh": "^3.2.1",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.8.0",
-    "monaco-editor-webpack-plugin": "4.2.0",
+    "monaco-editor-webpack-plugin": "6.0.0",
     "null-loader": "^3.0.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "portfinder": "^1.0.25",

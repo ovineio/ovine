@@ -88,9 +88,11 @@ const AppComponent = () => {
     const themes = app.theme.getAllThemes()
     const appTheme = themes[theme]
     if (!appTheme) {
-      log.warn(`appTheme 不在 主题列表中: ${Object.keys(themes)}, 已经自动设置为 default 主题`)
+      log.warn(
+        `appTheme: ${theme} 不在 主题列表中: ${Object.keys(themes)}, 已经自动设置为 cxd 主题`
+      )
     }
-    return appTheme || get(themes, 'default', {})
+    return appTheme || get(themes, 'cxd', {})
   }
 
   return (

@@ -27,10 +27,10 @@ module.exports = (option) => {
     title: 'Ovine管理系统', // 页面标题
     envModes: ['localhost', 'staging', 'production'], // 环境列表
     staticFileExts: ['cur'],
-    ui: {
-      defaultTheme: 'antd',
-      // appTheme: 'dark',
-    },
+    // ui: {
+    //   defaultTheme: 'antd',
+    //   // appTheme: 'dark',
+    // },
     devServer: {
       publicPath: '/demo/', // 路由访问相对于根目录的前缀
       openPage: '/demo/',

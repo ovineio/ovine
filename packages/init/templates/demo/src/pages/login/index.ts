@@ -21,7 +21,7 @@ export const schema = {
     },
   },{
     type: 'wrapper',
-    className: 'login-wrapper b',
+    className: 'login-wrapper b r',
     body: [
       {
         type: 'html',
@@ -140,6 +140,7 @@ export const schema = {
           },
           {
             type: 'submit',
+            size: 'lg',
             level: 'primary',
             label: '登录',
             inputClassName: 'w-full',

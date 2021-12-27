@@ -54,6 +54,7 @@ const dllModules = [
   'tinymce/skins/ui/oxide/skin.css',
   'froala-editor/css/froala_style.min.css',
   'froala-editor/css/froala_editor.pkgd.min.css',
+  'codemirror/lib/codemirror.css',
 ]
 
 function setDllVendorModules(config) {

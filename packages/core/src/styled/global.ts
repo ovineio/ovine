@@ -45,6 +45,10 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  svg.icon.icon-clock {
+    top: 0;
+  }
+
   /** lib 主题相关的全局样式 */
   .antd-Crud-pageSwitch {
     .antd-Select {
