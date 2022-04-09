@@ -2926,7 +2926,7 @@
     "@octokit/openapi-types" "^6.0.0"
 
 "@ovine/cli@file:packages/cli":
-  version "0.1.7-alpha.0"
+  version "0.1.7-alpha.1"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2982,7 +2982,7 @@
     webpackbar "^4.0.0"
 
 "@ovine/core@file:packages/core":
-  version "0.1.7-alpha.0"
+  version "0.1.7-alpha.1"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
     amis "1.5.7"
@@ -2995,7 +2995,7 @@
     proxy-polyfill "^0.3.0"
 
 "@ovine/editor@file:packages/editor":
-  version "0.1.7-alpha.0"
+  version "0.1.7-alpha.1"
   dependencies:
     "@webcomponents/webcomponentsjs" "2.6.0"
     deep-diff "1.0.2"
@@ -13527,9 +13527,9 @@ module-alias@^2.2.2:
   integrity sha1-FRzc7MJOJXOf8KpuUeHFcWl0wOA=
 
 moment@^2.19.3, moment@^2.29.1:
-  version "2.29.1"
-  resolved "https://registry.npm.taobao.org/moment/download/moment-2.29.1.tgz?cache=0&sync_timestamp=1601983320283&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmoment%2Fdownload%2Fmoment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
-  integrity sha1-sr52n6MZQL6e7qZGnAdeNQBvo9M=
+  version "2.29.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 monaco-editor-webpack-plugin@6.0.0:
   version "6.0.0"
