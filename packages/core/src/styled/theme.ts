@@ -25,6 +25,7 @@ export const dispatchLink = (theme: string, callback?: () => void) => {
     onLoad: callback,
     href: require(`@generated/styles/themes/${theme}.css`),
   }
+
   $('<link/>', linkAttr).appendTo('head')
 }
 

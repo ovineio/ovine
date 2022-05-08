@@ -26,7 +26,7 @@ export const layout = {
     brand: {
       // 公司品牌
       logo: '/demo/static/images/logo_line_white.png',
-      title: 'Ovine',
+      title: 'Ovine 演示后台系统',
       link: {
         title: 'dashboard',
         href: '/',

@@ -48,7 +48,7 @@ const dllModules = [
   'bootstrap/dist/css/bootstrap.css',
   'animate.css/animate.css',
   'font-awesome/css/font-awesome.css',
-  'react-datetime/css/react-datetime.css',
+  // 'react-datetime/css/react-datetime.css',
   'video-react/dist/video-react.css',
   'cropperjs/dist/cropper.css',
   'tinymce/skins/ui/oxide/skin.css',

@@ -43,7 +43,7 @@ export const schema = {
     {
       type: 'tabs',
       mode: 'line',
-      className: 'tabs-card',
+      className: 'tabs-card r',
       tabs: [
         {
           title: '访问量',
@@ -155,7 +155,7 @@ function renderTargetCards(cardInfos) {
     }
     return {
       type: 'wrapper',
-      className: 'target-card',
+      className: 'target-card r',
       ...gridProps,
       body: [
         {

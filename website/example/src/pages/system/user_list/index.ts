@@ -1,5 +1,7 @@
 import { mapTree } from 'amis/lib/utils/helper'
 
+import { emptyListHolder } from '~/app/constants'
+
 export const schema = {
   type: 'page',
   body: {
@@ -10,6 +12,8 @@ export const schema = {
     perPageField: 'size',
     pageField: 'page',
     perPageAvailable: [50, 100, 200],
+    placeholder: emptyListHolder,
+    autoFillHeight: true,
     defaultParams: {
       size: 50,
     },
@@ -103,7 +107,7 @@ export const schema = {
   },
   definitions: {
     updateControls: {
-      body: [
+      controls: [
         {
           type: 'text',
           name: 'username',
@@ -200,7 +204,7 @@ export const schema = {
             name: 'filter',
             label: '关键字',
             clearable: true,
-            placeholder: 'ID/登录账号/名称',
+            placeholder: '请输入',
           },
           {
             $ref: 'sysRoleIdPicker',

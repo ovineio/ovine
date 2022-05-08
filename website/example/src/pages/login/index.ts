@@ -118,7 +118,7 @@ export const schema = {
             type: 'group',
             label: ' ',
             gap: 'sm',
-            inputClassName: 'justify-content-between',
+            inputClassName: 'justify-content-between align-items-center',
             controls: [
               {
                 type: 'checkbox',
@@ -127,7 +127,6 @@ export const schema = {
                 value: true,
                 mode: 'inline',
                 className: 'inline',
-                inputClassName: 'p-t-none',
               },
               {
                 type: 'button',

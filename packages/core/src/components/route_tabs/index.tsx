@@ -56,7 +56,8 @@ type RefType = {
   routeQuery: any
   routes: RouteItem[]
 }
-export default withRouter<any, any>((props: Props) => {
+
+const RouteTabs = (props: Props) => {
   const {
     routes: routesProp,
     themeNs,
@@ -438,4 +439,6 @@ export default withRouter<any, any>((props: Props) => {
   return (
     <StyledRouteTabs className={`${themeNs}RouteTabs chrome-route-tabs`}>{Tabs}</StyledRouteTabs>
   )
-})
+}
+
+export default withRouter<any, any>(RouteTabs) as any

@@ -1,4 +1,4 @@
-import { limitKeys } from '~/app/constants'
+import { limitKeys, emptyListHolder } from '~/app/constants'
 
 import members from './members'
 
@@ -13,6 +13,8 @@ export const schema = {
     },
     filterTogglable: true,
     perPageAvailable: [50, 100, 200],
+    placeholder: emptyListHolder,
+    autoFillHeight: true,
     defaultParams: {
       size: 50,
     },

@@ -189,7 +189,7 @@ async function fetchSourceCtrl(this: Request, option: Types.ReqOption) {
         await requestSuccessCtrl.call(this, response, option)
         return response
       } catch (error) {
-        requestErrorCtrl.call(this, error, option, wrapResponse(response))
+        requestErrorCtrl.call(this, error as Error, option, wrapResponse(response))
       }
     })
 

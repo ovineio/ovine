@@ -133,7 +133,21 @@ const GlobalStyle = createGlobalStyle`
         margin: 1rem auto;
       }
     }
+    /** 1.9.0 */
+    label.${ns}Checkbox span {
+      pointer-events: none;
+    }
+    .${ns}DateRangePicker {
+      .${ns}DateRangePicker-input {
+        &.isActive {
+          border-bottom: 0px;
+        }
+      }
+    }
 
+    .rdtPicker .rdtHeader {
+      border-bottom: 0px;
+    }
     /** 1.0.14 Tree BUG */
     .${ns}Toast-wrap--topCenter, .${ns}Toast-wrap--bottomCenter {
       transform: translateX(-50%);
@@ -154,40 +168,34 @@ const GlobalStyle = createGlobalStyle`
     /** 调整默认菜单UI */
     .app-root {
       .${ns}ContextMenu {
-        &-list {
-          width: auto;
-        }
-
         &-menu {
-          box-shadow: none;
-          &::before {
-            border-radius: 0px;
-          }
-          &.in {
-            animation-name: contextMenuIn;
-            animation-duration: 100ms;
-          }
+          border-radius: var(--DropDown-menu-borderRadius);
+          box-shadow: var(--DropDown-menu-boxShadow);
         }
-
+        &-list {
+          min-width: 100px;
+        }
         &-item {
-          position: relative;
-          height: 20px;
-          line-height: 20px;
-
-          & > a {
-            border: 0px !important;
+          padding: var(--DropDown-menuItem-paddingY) var(--DropDown-menuItem-paddingX);
+          box-sizing: border-box;
+          height: var(--DropDown-menu-height);
+          color: var(--DropDown-menuItem-color);
+          text-decoration: var(--link-decoration);
+          white-space: nowrap;
+          vertical-align: middle;
+          height: auto;
+          line-height: inherit;
+          user-select: none;
+          line-height: 1;
+          cursor: pointer;
+          a {
+            background: transparent !important;
+            padding: 0;
           }
-          &:not(.is-disabled):hover > a {
-            background: #888888;
-          }
-        }
-        &-item:hover {
-          .${ns}ContextMenu-subList {
-            box-shadow: none;
-            border-radius: 0px;
-            &::before {
-              border-radius: 0px;
-            }
+          &:hover,
+          &.active {
+            background: var(--DropDown-menuItem-onHover-bg);
+            color: var(--DropDown-menuItem-onHover-color);
           }
         }
       }

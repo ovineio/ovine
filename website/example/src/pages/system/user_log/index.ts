@@ -1,3 +1,5 @@
+import { emptyListHolder } from '~/app/constants'
+
 import { ActionAddrCell, getActionAddrData } from './custom'
 
 export const schema = {
@@ -8,11 +10,14 @@ export const schema = {
     filter: '$preset.forms.filter',
     filterTogglable: true,
     perPageAvailable: [50, 100, 200],
+    perPage: 50,
     defaultParams: {
       size: 50,
     },
     perPageField: 'size',
     pageField: 'page',
+    placeholder: emptyListHolder,
+    // autoFillHeight: true,
     headerToolbar: [
       'filter-toggler',
       {
@@ -108,13 +113,13 @@ export const schema = {
           {
             type: 'datetime',
             name: 'startTime',
-            label: '开始时间',
+            label: '起止时间',
             format: 'YYYY-MM-DD HH:mm:ss',
           },
           {
             type: 'datetime',
             name: 'endTime',
-            label: '结束时间',
+            label: '-',
             format: 'YYYY-MM-DD HH:mm:ss',
           },
           {
@@ -130,7 +135,7 @@ export const schema = {
             name: 'handlerFilter',
             label: '操作人',
             clearable: true,
-            placeholder: '输入操作人ID/名称',
+            placeholder: '请输入',
           },
           {
             type: 'select',

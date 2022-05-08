@@ -61,6 +61,11 @@ export default ({ colors, ns }: DefaultTheme) => css`
         border-radius: 2px;
       }
     }
+
+    .cxd-Tabs-pane {
+      background: #fff;
+      border-radius: 4px;
+    }
   }
 
   /** 调整主题 */
@@ -96,7 +101,7 @@ export default ({ colors, ns }: DefaultTheme) => css`
     }
     .${ns}Table-table {
       min-width: 300px;
-
+      border: 1px solid var(--Table-thead-bg);
       th {
         border-right: 0 !important;
       }

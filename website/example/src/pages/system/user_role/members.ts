@@ -34,7 +34,7 @@ const members = {
           type: 'text',
           name: 'filter',
           label: '关键字',
-          placeholder: 'ID/登录账号/名称',
+          placeholder: '请输入',
         },
         {
           $ref: 'sysRoleIdPicker',

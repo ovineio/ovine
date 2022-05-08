@@ -1,4 +1,5 @@
 import { apis } from '~/app/common/apis'
+import { emptyListHolder } from '~/app/constants'
 
 export const schema = {
   type: 'page',
@@ -13,6 +14,8 @@ export const schema = {
     },
     perPageField: 'size',
     pageField: 'page',
+    placeholder: emptyListHolder,
+    autoFillHeight: true,
     headerToolbar: [
       'filter-toggler',
       {

@@ -1,3 +1,5 @@
+import { emptyListHolder } from '~/app/constants'
+
 export const schema = {
   type: 'page',
   body: {
@@ -11,6 +13,8 @@ export const schema = {
     },
     perPageField: 'size',
     pageField: 'page',
+    placeholder: emptyListHolder,
+    autoFillHeight: true,
     headerToolbar: [
       'filter-toggler',
       {

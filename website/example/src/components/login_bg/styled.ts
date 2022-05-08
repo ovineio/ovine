@@ -15,7 +15,7 @@ const bgSquare = keyframes`
 
 const backgrounds = {
   default: 'https://static.igroupes.com/ovine_bg_default.jpeg',
-  cxd: 'https://static.igroupes.com/ovine_bg_cxd.jpeg',
+  cxd: 'https://static.igroupes.com/ovine_bg_cxd_mac.jpg',
   dark: 'https://static.igroupes.com/ovine_bg_black.jpeg',
   antd: 'https://static.igroupes.com/ovine_bg_cxd.jpeg',
 }

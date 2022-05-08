@@ -41,8 +41,19 @@
     }
   }
 }
+
 .#{$ns}Layout {
   &-brand {
     height: var(--Layout-header-height);
   }
+}
+
+
+.#{$ns}Table-table > tbody > tr + tr {
+  background: var(--Table-even-bg);
+}
+
+
+.#{$ns}Table--autoFillHeight>.#{$ns}Table-contentWrap>.#{$ns}Table-content table {
+  border-top: var(--Table-borderWidth) solid var(--Table-borderColor);
 }

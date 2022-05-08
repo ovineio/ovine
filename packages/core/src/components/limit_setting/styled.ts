@@ -4,7 +4,8 @@ export const StyledLimit = styled.div`
   ${({ theme: { ns } }) => css`
     .${ns}Tree {
       &-itemLabel {
-        padding-left: 0 !important;
+        padding-left: 0;
+
         &:hover {
           background: transparent;
           &:after {
@@ -12,10 +13,19 @@ export const StyledLimit = styled.div`
           }
         }
       }
-      &-item--isLeaf {
-        display: inline-block;
-        & > .${ns}Tree-itemLabel {
-          margin-right: 10px;
+
+      &-item {
+        .is-checked {
+          background-color: transparent;
+        }
+        &--isLeaf {
+          display: inline-block;
+          & > .${ns}Tree-itemLabel {
+            margin-right: 10px;
+          }
+          .${ns}Tree-itemArrowPlaceholder {
+            display: none;
+          }
         }
       }
       &-list {

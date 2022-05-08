@@ -64,7 +64,7 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
           type: 'form',
           wrapWithPanel: false,
           mode: 'horizontal',
-          controls: [
+          body: [
             {
               type: 'static-image',
               label: '头像',
@@ -76,10 +76,10 @@ addLibRenderer('sysUserInfoModal', ({ userIdKey = 'id', data = {} }) => {
               label: '登录账号',
             },
             {
+              type: 'static',
               name: 'nickname',
               label: '名称',
-              type: 'html',
-              html: '<span>${nickname} (${id})</span>',
+              tpl: '<span>${nickname} (${id})</span>',
             },
             {
               type: 'static',

@@ -1,5 +1,7 @@
 // https://github.com/baidu/amis/blob/master/scss/themes/_commmon.scss
 
+@import '../components/react-datetime'; // amis
+
 // --- start
 @import '../base/reset';
 @import '../base/normalize';
@@ -49,10 +51,12 @@
 @import '../components/wizard';
 @import '../components/crud';
 @import '../components/table';
+@import '../components/table-v2';
 @import '../components/column-toggler';
 @import '../components/list';
 @import '../components/cards';
 @import '../components/card';
+@import '../components/card2';
 @import '../components/quick-edit';
 @import '../components/popoverable';
 @import '../components/progress';
@@ -66,6 +70,7 @@
 @import '../components/image-gallery';
 @import '../components/images';
 @import '../components/input-box';
+@import '../components/json-schema-editor';
 @import '../components/result-box';
 @import '../components/search-box';
 @import '../components/list-menu';
@@ -84,6 +89,7 @@
 @import '../components/form/checks';
 @import '../components/form/selection';
 @import '../components/form/city';
+@import '../components/city-area';
 @import '../components/form/switch';
 @import '../components/form/number';
 @import '../components/form/select';
@@ -114,6 +120,7 @@
 @import '../components/form/rating';
 @import '../components/form/transfer';
 @import '../components/form/nested-select';
+@import '../components/cascader';
 @import '../components/form/icon-picker';
 @import '../components/form/form';
 @import '../components/anchor-nav';
@@ -121,6 +128,12 @@
 @import '../components/link';
 @import '../components/mapping';
 @import '../components/formula';
+@import '../components/timeline';
+@import '../components/barcode';
+@import '../components/tag';
+@import '../components/pull-refresh';
+
+@import '../components/debug';
 // --- end
 
 // lib core -- start

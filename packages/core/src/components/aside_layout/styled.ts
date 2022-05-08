@@ -34,6 +34,7 @@ export const StyledLayout = styled.div`
       &-headerBar {
         padding: 0;
         .${ns}Page {
+          background: transparent;
           width: 100%;
           padding: 0 10px;
           &-main {

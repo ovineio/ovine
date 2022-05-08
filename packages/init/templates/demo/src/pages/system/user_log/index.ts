@@ -130,7 +130,7 @@ export const schema = {
             name: 'handlerFilter',
             label: '操作人',
             clearable: true,
-            placeholder: '输入操作人ID/名称',
+            placeholder: '请输入',
           },
           {
             type: 'select',
