@@ -50,15 +50,40 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /** lib 主题相关的全局样式 */
-  .antd-Crud-pageSwitch {
-    .antd-Select {
-      min-height: 20px;
-      padding: 4px 0 4px 10px;
+  /** fix antd table header */
+  .antd-Table-table {
+    & > thead > tr {
+      border-bottom: 0;
+      & > th {
+        border: 0px;
+        padding: 12px var(--TableCell-paddingX);
+        box-shadow: inset -1px -1px 0px var(--Table-thead-borderColor),
+          inset 0px 1px 0px var(--Table-thead-borderColor);
+        &:not(:last-child) {
+          box-shadow: inset -1px -1px 0px var(--Table-thead-borderColor),
+            inset 0px 1px 0px var(--Table-thead-borderColor);
+          border-right: 0px;
+        }
+        &.antd-Table-checkCell,
+        &.antd-Table-expandCell {
+          box-shadow: inset 0px -1px 0px var(--Table-thead-borderColor),
+            inset 0px 1px 0px var(--Table-thead-borderColor);
+        }
+      }
+      & + tr {
+        border-top: 0;
+        & > th {
+          box-shadow: inset -1px -1px 0px var(--Table-thead-borderColor),
+            inset 0px 0px 0px var(--Table-thead-borderColor);
+          &:not(:last-child) {
+            box-shadow: inset -1px -1px 0px var(--Table-thead-borderColor),
+              inset 0px 0px 0px var(--Table-thead-borderColor);
+          }
+        }
+      }
     }
   }
-
   /** amis 兼容  */
-
   ${({ theme: { ns } }) => css`
     .line-break-json {
       .${ns}JsonField {
@@ -134,9 +159,6 @@ const GlobalStyle = createGlobalStyle`
       }
     }
     /** 1.9.0 */
-    label.${ns}Checkbox span {
-      pointer-events: none;
-    }
     .${ns}DateRangePicker {
       .${ns}DateRangePicker-input {
         &.isActive {
@@ -145,24 +167,21 @@ const GlobalStyle = createGlobalStyle`
       }
     }
 
-    .rdtPicker .rdtHeader {
-      border-bottom: 0px;
+    /** 1.9.1 BUG  */
+    .rdtPicker {
+      .rdtHeader {
+        border-bottom: 0px;
+      }
+      td > span {
+        width: 24px;
+        height: 24px;
+      }
     }
+
     /** 1.0.14 Tree BUG */
     .${ns}Toast-wrap--topCenter, .${ns}Toast-wrap--bottomCenter {
       transform: translateX(-50%);
       margin-left: 0;
-    }
-    .${ns}Tree-itemIcon {
-      line-height: 30px;
-      &.${ns}Tree-leafIcon {
-        svg {
-          display: block;
-        }
-      }
-      svg {
-        display: none;
-      }
     }
 
     /** 调整默认菜单UI */

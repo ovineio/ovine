@@ -17,17 +17,17 @@ export const schema = {
     perPageField: 'size',
     pageField: 'page',
     placeholder: emptyListHolder,
-    // autoFillHeight: true,
+    autoFillHeight: true,
     headerToolbar: [
       'filter-toggler',
       {
         type: 'columns-toggler',
         align: 'left',
       },
-      {
-        type: 'pagination',
-        align: 'left',
-      },
+      // {
+      //   type: 'pagination',
+      //   align: 'left',
+      // },
     ],
     footerToolbar: ['statistics', 'switch-per-page', 'pagination'],
     columns: [
@@ -35,18 +35,21 @@ export const schema = {
         name: 'id',
         label: 'ID',
         type: 'text',
+        // groupName: '测试组1',
       },
       {
         name: 'createTime',
         label: '操作时间',
         type: 'datetime',
         width: 150,
+        // groupName: '测试组1',
       },
       {
         name: 'actionAddr',
         label: '操作路径',
         type: 'wrapper',
         component: ActionAddrCell,
+        // groupName: '测试组2',
       },
       {
         name: 'handlerId',
@@ -54,15 +57,18 @@ export const schema = {
         type: 'lib-renderer',
         renderer: 'sysUserInfoModal',
         userIdKey: 'handlerId',
+        // groupName: '测试组2',
       },
       {
         name: 'handlerName',
         label: '操作人名称',
         type: 'text',
+        // groupName: '测试组3',
       },
       {
         name: 'result',
         label: '操作结果',
+        // groupName: '测试组3',
         type: 'tpl',
         tpl: `
         <span>
@@ -76,6 +82,7 @@ export const schema = {
       {
         type: 'lib-blank',
         label: '操作内容',
+        // groupName: '测试组3',
         body: {
           $preset: 'actions.seeDetail',
         },

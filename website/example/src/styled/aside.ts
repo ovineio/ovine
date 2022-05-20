@@ -4,7 +4,11 @@ export const asideCss = css`
   :root {
     --Layout-aside-width: 14.25rem;
   }
-
+  .with-route-tabs .cxd-Layout {
+    .navbar-brand-holder {
+      background: transparent;
+    }
+  }
   .cxd-Layout {
     .cxd-Layout {
       &-header {
@@ -15,9 +19,7 @@ export const asideCss = css`
       .brand-logo {
         display: none;
       }
-      .navbar-brand-holder {
-        background: transparent;
-      }
+
       &-headerBar {
         background: #fff;
       }

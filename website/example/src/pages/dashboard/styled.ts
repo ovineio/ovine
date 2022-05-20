@@ -48,7 +48,7 @@ export default ({ colors, ns }: DefaultTheme) => css`
 
   .tabs-card {
     margin-bottom: 15px;
-    padding: 5px 15px 0px;
+    padding: 5px 15px 15px;
     background-color: ${colors.layoutHeaderBg};
 
     .tab-filter {

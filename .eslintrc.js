@@ -58,6 +58,7 @@ module.exports = {
     'react/jsx-no-target-blank': OFF,
     'react/jsx-one-expression-per-line': OFF,
     'react/no-array-index-key': OFF, // Sometimes its ok, e.g. non-changing data.
+    'react/sort-comp': OFF,
     'react/prop-types': OFF,
     'react/destructuring-assignment': OFF, // Too many lines.
     'react/prefer-stateless-function': WARNING,

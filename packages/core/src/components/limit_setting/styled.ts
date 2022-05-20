@@ -4,7 +4,7 @@ export const StyledLimit = styled.div`
   ${({ theme: { ns } }) => css`
     .${ns}Tree {
       &-itemLabel {
-        padding-left: 0;
+        margin-bottom: 10px;
 
         &:hover {
           background: transparent;
@@ -34,7 +34,7 @@ export const StyledLimit = styled.div`
         }
       }
       &-sublist {
-        margin-left: 20px;
+        margin-left: 26px;
       }
       &-item-icons {
         display: none;
