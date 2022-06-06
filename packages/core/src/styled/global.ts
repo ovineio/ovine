@@ -45,6 +45,10 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  .hidden {
+    display: none;
+  }
+
   svg.icon.icon-clock {
     top: 0;
   }
@@ -83,6 +87,10 @@ const GlobalStyle = createGlobalStyle`
       }
     }
   }
+  .antd-Select .antd-PopOver.antd-Select-popover .antd-Select-menu .antd-Select-option {
+    line-height: 2rem;
+  }
+
   /** amis 兼容  */
   ${({ theme: { ns } }) => css`
     .line-break-json {
@@ -92,6 +100,16 @@ const GlobalStyle = createGlobalStyle`
           white-space: normal;
           word-break: all;
         }
+      }
+    }
+
+    .${ns}Select {
+      &-option > label {
+        white-space: nowrap;
+      }
+      &-popover {
+        width: auto !important;
+        min-width: 8rem;
       }
     }
 
