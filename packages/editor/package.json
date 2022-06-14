@@ -1,6 +1,6 @@
 {
   "name": "@ovine/editor",
-  "version": "0.1.7-alpha.3",
+  "version": "0.1.7",
   "description": "Ovine json editor.",
   "private": false,
   "publishConfig": {
