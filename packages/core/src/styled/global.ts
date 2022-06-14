@@ -88,7 +88,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   .antd-Select .antd-PopOver.antd-Select-popover .antd-Select-menu .antd-Select-option {
-    line-height: 2rem;
+    padding: 6px;
   }
 
   /** amis 兼容  */
@@ -174,14 +174,6 @@ const GlobalStyle = createGlobalStyle`
     .${ns}ExcelControl-dropzone {
       & > p {
         margin: 1rem auto;
-      }
-    }
-    /** 1.9.0 */
-    .${ns}DateRangePicker {
-      .${ns}DateRangePicker-input {
-        &.isActive {
-          border-bottom: 0px;
-        }
       }
     }
 
