@@ -2933,7 +2933,7 @@
     "@octokit/openapi-types" "^6.0.0"
 
 "@ovine/cli@file:packages/cli":
-  version "0.1.7-alpha.3"
+  version "0.1.7"
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/plugin-syntax-dynamic-import" "^7.7.4"
@@ -2989,7 +2989,7 @@
     webpackbar "^4.0.0"
 
 "@ovine/core@file:packages/core":
-  version "0.1.7-alpha.3"
+  version "0.1.7"
   dependencies:
     abortcontroller-polyfill "^1.4.0"
     amis "1.10.2"
@@ -3002,7 +3002,7 @@
     proxy-polyfill "^0.3.0"
 
 "@ovine/editor@file:packages/editor":
-  version "0.1.7-alpha.3"
+  version "0.1.7"
   dependencies:
     "@webcomponents/webcomponentsjs" "2.6.0"
     deep-diff "1.0.2"
@@ -13413,7 +13413,6 @@ minipass-fetch@^1.1.2:
   resolved "https://registry.npm.taobao.org/minipass-fetch/download/minipass-fetch-1.3.3.tgz#34c7cea038c817a8658461bf35174551dce17a0a"
   integrity sha1-NMfOoDjIF6hlhGG/NRdFUdzhego=
   dependencies:
-    encoding "^0.1.12"
     minipass "^3.1.0"
     minipass-sized "^1.0.3"
     minizlib "^2.0.0"
@@ -19010,9 +19009,9 @@ typescript@~4.5.5:
   integrity sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==
 
 ua-parser-js@^0.7.18:
-  version "0.7.25"
-  resolved "https://registry.npm.taobao.org/ua-parser-js/download/ua-parser-js-0.7.25.tgz?cache=0&sync_timestamp=1616576781413&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fua-parser-js%2Fdownload%2Fua-parser-js-0.7.25.tgz#67689fa263a87a52dabbc251ede89891f59156ce"
-  integrity sha1-Z2ifomOoelLau8JR7eiYkfWRVs4=
+  version "0.7.33"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.33.tgz#1d04acb4ccef9293df6f70f2c3d22f3030d8b532"
+  integrity sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==
 
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.6"
