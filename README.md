@@ -1,12 +1,11 @@
+
+> **ovine由于存在设计缺陷不再更新了。 新版会在 [ovine-next](https://github.com/ovineio/ovine-next) 中重写，感谢大家支持。**
+
 # Ovine
 
 ![download](https://img.shields.io/npm/dt/@ovine/core?color=%23349c92b) ![version](https://img.shields.io/npm/v/@ovine/core?color=%2349c92b) ![node](https://img.shields.io/node/v/@ovine/cli?color=%23349c92b) ![license](https://img.shields.io/npm/l/@ovine/core?color=%23349c92b)
 
 ##### Ovine 支持使用 Json 构建完整的管理系统界面。
-
-`QQ交流群: 1037291990`
-
-> 在本项目使用中，有任何问题、需求、建议，请提交 issue 或者加入 Q 群讨论。我看到后将第一时间处理。如果本项目对你有帮助，请点 `star` 支持，非常感谢 ^\_^
 
 ### 功能
 
